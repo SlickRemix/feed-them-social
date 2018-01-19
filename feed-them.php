@@ -36,11 +36,12 @@ $fts_plugin_rel_url = plugin_dir_path(__FILE__);
 function fts_plugin_activation() {
     // we add an db option to check then delete the db option after activation and the cache has emptied.
     // the delete_option is on the feed-them-functions.php file at the bottom of the function fts_clear_cache_script
-    add_option( 'Feed_Them_Social_Activated_Plugin', 'feed-them-social' );
+    add_option('Feed_Them_Social_Activated_Plugin', 'feed-them-social');
 
 }
+
 //FTS Activation Function
-register_activation_hook( __FILE__,'fts_plugin_activation');
+register_activation_hook(__FILE__, 'fts_plugin_activation');
 
 /**
  * FTS Load Plugin options on activation check
@@ -49,7 +50,7 @@ register_activation_hook( __FILE__,'fts_plugin_activation');
  */
 function feed_them_social_load_plugin() {
 
-    if ( is_admin() && get_option( 'Feed_Them_Social_Activated_Plugin' ) == 'feed-them-social' ) {
+    if (is_admin() && get_option('Feed_Them_Social_Activated_Plugin') == 'feed-them-social') {
 
         //Options List
         $activation_options = array(
@@ -58,13 +59,14 @@ function feed_them_social_load_plugin() {
             'fts_clear_cache_developer_mode' => '86400',
         );
 
-        foreach($activation_options as $option_key => $option_value){
+        foreach ($activation_options as $option_key => $option_value) {
             // We don't use update_option because we only want this to run for options that have not already been set by the user
             add_option($option_key, $option_value);
         }
     }
 }
-add_action( 'admin_init', 'feed_them_social_load_plugin' );
+
+add_action('admin_init', 'feed_them_social_load_plugin');
 
 /**
  * FTS Delete Cache Main
@@ -72,12 +74,13 @@ add_action( 'admin_init', 'feed_them_social_load_plugin' );
  *
  * @since 2.3.0
  */
-function fts_delete_cache_main(){
+function fts_delete_cache_main() {
     global $wpdb;
     $not_expired = $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_%'));
     $expired = $wpdb->query($wpdb->prepare("DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_%'));
     wp_reset_query();
 }
+
 /**
  * This function runs when WordPress completes its upgrade process
  * It iterates through each plugin updated to see if ours is included
@@ -86,21 +89,22 @@ function fts_delete_cache_main(){
  * @param $options Array
  * @since 2.3.0
  */
-function ftsocial_upe_upgrade_completed( $upgrader_object, $options ) {
+function ftsocial_upe_upgrade_completed($upgrader_object, $options) {
     // The path to our plugin's main file
-    $our_plugin = plugin_basename( __FILE__ );
+    $our_plugin = plugin_basename(__FILE__);
     // If an update has taken place and the updated type is plugins and the plugins element exists
-    if( $options['action'] == 'update' && $options['type'] == 'plugin' && isset( $options['plugins'] ) ) {
+    if ($options['action'] == 'update' && $options['type'] == 'plugin' && isset($options['plugins'])) {
         // Iterate through the plugins being updated and check if ours is there
-        foreach( $options['plugins'] as $plugin ) {
-            if( $plugin == $our_plugin ) {
+        foreach ($options['plugins'] as $plugin) {
+            if ($plugin == $our_plugin) {
                 // Set a transient to record that our plugin has just been updated
-                set_transient( 'ftsocial_updated', 1 );
+                set_transient('ftsocial_updated', 1);
             }
         }
     }
 }
-add_action( 'upgrader_process_complete', 'ftsocial_upe_upgrade_completed', 10, 2 );
+
+add_action('upgrader_process_complete', 'ftsocial_upe_upgrade_completed', 10, 2);
 
 /**
  * Show a notice to anyone who has just updated this plugin
@@ -110,12 +114,13 @@ add_action( 'upgrader_process_complete', 'ftsocial_upe_upgrade_completed', 10, 2
 function ftsocial_upe_display_update_notice() {
     // Check the transient to see if we've just updated the plugin
     fts_delete_cache_main();
-    if( get_transient( 'ftsocial_updated' ) ) {
-        echo '<div class="notice notice-success updated is-dismissible"><p>' . __( 'Thanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.', 'feed-them-social' ) . '</p></div>';
-        delete_transient( 'ftsocial_updated' );
+    if (get_transient('ftsocial_updated')) {
+        echo '<div class="notice notice-success updated is-dismissible"><p>' . __('Thanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.', 'feed-them-social') . '</p></div>';
+        delete_transient('ftsocial_updated');
     }
 }
-add_action( 'admin_notices', 'ftsocial_upe_display_update_notice' );
+
+add_action('admin_notices', 'ftsocial_upe_display_update_notice');
 
 /**
  * Show a notice to anyone who has just installed the plugin for the first time
@@ -124,14 +129,15 @@ add_action( 'admin_notices', 'ftsocial_upe_display_update_notice' );
  */
 function ftsocial_upe_display_install_notice() {
     // Check the transient to see if we've just activated the plugin
-    if( get_transient( 'ftsocial_activated' ) ) {
+    if (get_transient('ftsocial_activated')) {
         fts_delete_cache_main();
-        echo '<div class="notice notice-success updated is-dismissible"><p>' . __( 'Thanks for installing Feed Them Social. To get started please view our <a href="admin.php?page=feed-them-settings-page">Settings</a> page.', 'feed-them-social' ) . '</p></div>';
+        echo '<div class="notice notice-success updated is-dismissible"><p>' . __('Thanks for installing Feed Them Social. To get started please view our <a href="admin.php?page=feed-them-settings-page">Settings</a> page.', 'feed-them-social') . '</p></div>';
         // Delete the transient so we don't keep displaying the activation message
-        delete_transient( 'ftsocial_activated' );
+        delete_transient('ftsocial_activated');
     }
 }
-add_action( 'admin_notices', 'ftsocial_upe_display_install_notice' );
+
+add_action('admin_notices', 'ftsocial_upe_display_install_notice');
 
 /**
  * Run this on activation
@@ -140,9 +146,10 @@ add_action( 'admin_notices', 'ftsocial_upe_display_install_notice' );
  * @since 2.3.0
  */
 function ftsocial_activate() {
-    set_transient( 'ftsocial_activated', 1 );
+    set_transient('ftsocial_activated', 1);
 }
-register_activation_hook( __FILE__, 'ftsocial_activate' );
+
+register_activation_hook(__FILE__, 'ftsocial_activate');
 
 /**
  * FTS System Version
@@ -157,6 +164,7 @@ function ftsystem_version() {
     $plugin_version = $plugin_data['Version'];
     return $plugin_version;
 }
+
 /**
  * FTS Versions Needed
  *
@@ -174,6 +182,7 @@ function fts_versions_needed() {
     );
     return $fts_versions_needed;
 }
+
 // Make sure php version is greater than 5.3
 if (function_exists('phpversion'))
     $phpversion = phpversion();
@@ -191,6 +200,7 @@ if ($phpversion > $phpcheck) {
 // Localization
         load_plugin_textdomain('feed-them-social', false, basename(dirname(__FILE__)) . '/languages');
     }
+
 // Add actions
     add_action('init', 'fts_action_init');
 // Include admin
@@ -207,8 +217,8 @@ if ($phpversion > $phpcheck) {
     $load_fts->init();
 
 //Free Plugin License page.
-include($fts_plugin_rel_url . 'admin/free-plugin-license-page.php');
-    
+    include($fts_plugin_rel_url . 'admin/free-plugin-license-page.php');
+
 // Include feeds
     include($fts_plugin_rel_url . 'admin/feed-them-system-info.php');
     include($fts_plugin_rel_url . 'feeds/facebook/facebook-feed.php');
@@ -221,9 +231,14 @@ include($fts_plugin_rel_url . 'admin/free-plugin-license-page.php');
     include_once($fts_plugin_rel_url . 'feeds/instagram/instagram-feed.php');
     include_once($fts_plugin_rel_url . 'feeds/pinterest/pinterest-feed.php');
     include_once($fts_plugin_rel_url . 'feeds/youtube/youtube-feed.php');
-     //   include_once($fts_plugin_rel_url . 'feeds/twitter/vine-feed.php');
-     //   $load_vn_fts = 'feedthemsocial\FTS_Vine_Feed';
-     //   new $load_vn_fts;
+
+    //Steemit API
+    include_once($fts_plugin_rel_url . 'feeds/steemit/slickremix-steem-php/SteemLayer.php');
+    include_once($fts_plugin_rel_url . 'feeds/steemit/slickremix-steem-php/SteemApi.php');
+
+    //Steemit Feed
+    include_once($fts_plugin_rel_url . 'feeds/steemit/steemit-feed.php');
+
 
 } // end if php version check
 else {
@@ -294,4 +309,4 @@ class feed_them_social_functions {
      */
     function register_settings() {
     }
-}?>
+} ?>

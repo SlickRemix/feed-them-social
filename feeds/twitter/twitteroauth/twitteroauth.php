@@ -70,7 +70,7 @@ require_once('OAuth.php');
 	
 	  /**
 	   * Get a request_token from Twitter
-	   *
+	   *2
 	   * @returns a key/value array containing oauth_token and oauth_token_secret
 	   */
 	  function getRequestToken($oauth_callback = NULL) {

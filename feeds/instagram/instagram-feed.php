@@ -703,5 +703,5 @@ class FTS_Instagram_Feed extends feed_them_social_functions
     }
 
 }//fts_instagram_func END CLASS
-new FTS_Instagram_Feed();
+
 ?>

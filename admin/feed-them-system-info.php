@@ -253,4 +253,3 @@ Facebook Reviews Active:    <?php echo isset($fb_reviews_token) && $fb_reviews_t
 	}
 
 }//End Class
-new FTS_system_info_page();

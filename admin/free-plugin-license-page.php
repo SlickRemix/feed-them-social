@@ -355,5 +355,5 @@ class fts_Free_Plugin_License_Page {
     }
 
 }//End CLASS
-new fts_Free_Plugin_License_Page();
+
 ?>

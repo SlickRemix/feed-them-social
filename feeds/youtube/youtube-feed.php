@@ -949,5 +949,4 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions
         return $output;
     }
 }
-new FTS_Youtube_Feed_Free();
 ?>

@@ -1,7 +1,7 @@
 Getting help with Feed Them Social or FTS extensions
 ========================
 
-We look forward to helping resolve any issues or relaying any feedback or ideas you have about Easy Digital Downloads. To report an issue, receive support, give us feedback, or send us an idea please open a support ticket.
+We look forward to helping resolve any issues or relaying any feedback or ideas you have about Feed Them Social. To report an issue, receive support, give us feedback, or send us an idea please open a support ticket.
 
 Support Ticket
 ------

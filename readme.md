@@ -15,7 +15,7 @@ For detailed setup instructions, visit the official [Documentation](http://www.s
 1. You can clone the GitHub repository: `https://github.com/SlickRemix/feed-them-social.git`
 2. Or download it directly as a ZIP file: `https://github.com/SlickRemix/feed-them-social/archive/master.zip`
 
-This will download the latest developer copy of Easy Digital Downloads.
+This will download the latest developer copy of Feed Them Social .
 
 ## Bugs ##
 If you find an issue, let us know [here](https://github.com/SlickRemix/feed-them-social/issues?state=open)!

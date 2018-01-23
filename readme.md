@@ -32,3 +32,7 @@ There are various ways you can contribute:
 2. Send us a Pull Request with your bug fixes and/or new features
 3. Translate Feed Them Social into [different languages](https://translate.wordpress.org/projects/wp-plugins/feed-them-social)
 4. Provide feedback and suggestions on [enhancements](https://github.com/SlickRemix/feed-them-social/issues?direction=desc&labels=Enhancement&page=1&sort=created&state=open)
+
+## Previous Years ##
+To see the past 5 years of commits prior to Feed Them Social (version 2.3.6) getting added to GitHub for development see link below:
+https://plugins.trac.wordpress.org/log/feed-them-social

@@ -54,7 +54,7 @@ class FTS_system_info_page extends feed_them_social_functions {
 			$theme      = $theme_data->Name . ' ' . $theme_data->Version; ?>
 
 SITE_URL:                 <?php echo site_url() . "\n"; ?>
-Feed Them Social Version: <?php echo ftsystem_version(). "\n"; ?>
+Feed Them Social Version: <?php echo FEED_THEM_SOCIAL_VERSION. "\n"; ?>
 
 -- Wordpress Configuration:
 	
@@ -93,7 +93,7 @@ Cache time:               <?php echo $this->fts_cachetime_amount($fts_cachetime)
 
 -- Active Plugins:
 
-<?php $plugins = get_plugins();
+<?php $plugins = \get_plugins();
 $active_plugins = get_option( 'active_plugins', array() );
 foreach ( $plugins as $plugin_path => $plugin ) {
 // If the plugin isn't active, don't show it.
@@ -107,7 +107,7 @@ if ( is_multisite() ) :
 -- Network Active Plugins:
 
 		<?php
-				$plugins = wp_get_active_network_plugins();
+				$plugins = \wp_get_active_network_plugins();
 			$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
 
 			foreach ( $plugins as $plugin_path ) {

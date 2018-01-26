@@ -8,18 +8,18 @@
  * Plugin Name: Feed Them Social (Facebook, Instagram, Twitter, etc)
  * Plugin URI: http://feedthemsocial.com/
  * Description: Create and display custom feeds for Facebook Groups, Facebook Pages, Facebook Events, Facebook Photos, Facebook Album Covers, Twitter, Instagram, Pinterest and more.
- * Version: 2.3.6
+ * Version: 2.3.7
  * Author: SlickRemix
  * Author URI: http://slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: wordpress 4.0.0
  * Tested up to: WordPress 4.9.2
- * Stable tag: 2.3.6
+ * Stable tag: 2.3.7
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.3.6
+ * @version    2.3.7
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2018 SlickRemix
  *
@@ -83,7 +83,7 @@ final class Feed_Them_Social {
             self::$instance->includes();
 
             //FTS Custom Post Type
-            self::$instance->fts_custom_post_type = new feedthemsocial\FTS_Custom_Post_Type();
+            //self::$instance->fts_custom_post_type = new feedthemsocial\FTS_Custom_Post_Type();
 
             //Core (and load init)
             self::$instance->core_functions = new feedthemsocial\feed_them_social_functions();
@@ -221,10 +221,16 @@ final class Feed_Them_Social {
      */
     private function includes() {
 
-        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-metabox-options.php');
+        //include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-metabox-options.php');
 
         //Custom Post Type
-        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/fts-cpt-class.php');
+        //include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/fts-cpt-class.php');
+
+        // Core Class
+        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php');
+        $load_fts = 'feedthemsocial\feed_them_social_functions';
+        $load_fts = new $load_fts;
+        $load_fts->init();
 
         //Admin Pages
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/feed-them-system-info.php');
@@ -237,11 +243,7 @@ final class Feed_Them_Social {
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/feed-them-pinterest-style-options-page.php');
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/feed-them-youtube-style-options-page.php');
 
-        // Core Class
-        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php');
-        $load_fts = 'feedthemsocial\feed_them_social_functions';
-        $load_fts = new $load_fts;
-        $load_fts->init();
+
 
         //Free Plugin License page.
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/free-plugin-license-page.php');

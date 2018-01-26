@@ -24,6 +24,7 @@ __Please Note:__ GitHub is for bug reports and contributions only - if you have 
 * Push the changes to your fork and submit a pull request to the 'master' branch of the Feed Them Social repository
 
 ## Code Documentation
+
 * We are working on ensuring that every Feed Them Social function is documented well and follows the standards set by phpDoc
 * Please make sure that every function is documented so that when we update our API Documentation things don't go awry!
 	* If you're adding/editing a function in a class, make sure to add `@access {private|public|protected}`
@@ -32,5 +33,7 @@ __Please Note:__ GitHub is for bug reports and contributions only - if you have 
 At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary.
 
 # Additional Resources
+
+* [Feed Them Social Documentation](https://www.slickremix.com/feed-them-social/)
 * [General GitHub Documentation](https://help.github.com/)
 * [GitHub Pull Request documentation](https://help.github.com/send-pull-requests/)

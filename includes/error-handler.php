@@ -47,7 +47,7 @@ class fts_error_handler
             foreach ($list_old_plugins as $single_plugin) {
                 require_once(ABSPATH . '/wp-admin/includes/plugin.php');
                 if (isset($plugins[$single_plugin])) {
-                    $fts_versions_needed = \fts_versions_needed();
+                    $fts_versions_needed = FEED_THEM_SOCIAL_VERSION;
                     if ($plugins[$single_plugin]['Version'] < $fts_versions_needed[$single_plugin] && is_plugin_active($single_plugin)) {
                         //Don't Let Old Plugins Activate
                         throw new \Exception('<div class="fts-update-message fts_old_plugins_message">' . $update_msg . '</div>');

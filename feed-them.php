@@ -226,6 +226,8 @@ final class Feed_Them_Social {
         //Custom Post Type
         //include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/fts-cpt-class.php');
 
+        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/error-handler.php');
+
         // Core Class
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php');
         $load_fts = 'feedthemsocial\feed_them_social_functions';

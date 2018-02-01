@@ -3192,5 +3192,4 @@ class feed_them_social_functions
         return $authObj['access_token'];
     }
 }//END Class
-new feed_them_social_functions();
 ?>

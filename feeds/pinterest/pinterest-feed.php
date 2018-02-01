@@ -382,5 +382,4 @@ class FTS_Pinterest_Feed extends feed_them_social_functions
 
     }
 }//END FTS_Pinterest_Feed
-new FTS_Pinterest_Feed();
 ?>

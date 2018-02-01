@@ -19,9 +19,42 @@ class fts_error_handler
      *
      * @since 1.9.6
      */
-    function __construct()
-    {
-        $this->fts_plugin_version_check();
+    function __construct() {
+        add_action( 'admin_init', array($this, 'fts_plugin_version_check'));
+    }
+
+    /**
+     * FTS Versions Needed
+     *
+     * Define minimum premium version allowed to be active with Free Version.
+     *
+     * @return array
+     * @since 1.9.6
+     */
+    function fts_versions_needed() {
+        $fts_versions_needed = array(
+            'feed-them-premium/feed-them-premium.php' => array(
+                'clean_name' => __('Feed Them Premium', 'feed-them-social'),
+                'version_needed' =>'1.5.3'
+            ),
+            'fts-bar/fts-bar.php' => array(
+                'clean_name' => __('FTS Bar', 'feed-them-social'),
+                'version_needed' =>'1.0.8'
+            ),
+            'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' => array(
+                'clean_name' => __('Feed Them Social Facebook Reviews', 'feed-them-social'),
+                'version_needed' =>'1.0.0'
+            ),
+            'feed-them-carousel-premium/feed-them-carousel-premium.php' => array(
+                'clean_name' => __('Feed Them Carousel Premium', 'feed-them-social'),
+                'version_needed' =>'1.0.0'
+            ),
+            'feed-them-social-combined-streams/feed-them-social-combined-streams.php' => array(
+                'clean_name' => __('Feed Them Social Combined Streams', 'feed-them-social'),
+                'version_needed' =>'1.1.1'
+            ),
+        );
+        return $fts_versions_needed;
     }
 
     /**
@@ -32,26 +65,28 @@ class fts_error_handler
      * @return bool
      * @since 1.9.6
      */
-    function fts_plugin_version_check()
-    {
+    function fts_plugin_version_check() {
         // return error if no data retreived
         try {
-            $update_msg = 'Please update ALL Premium Extensions for Feed Them Social because they will no longer work with this version of Feed Them Social. We have made some Major Changes to the Core of the plugin to help with plugin conflicts. Please update your extensions from your <a href="http://www.slickremix.com/my-account" target="_blank">My Account</a> page on our website if you are not receiving notifications for updates on the premium extensions. Thanks again for using our plugin!';
+            $update_msg = __('Please update ALL Premium Extensions for Feed Them Social because they will no longer work with this version of Feed Them Social. We have made some Major Changes to the Core of the plugin to help with plugin conflicts. Please update your extensions from your <a href="http://www.slickremix.com/my-account" target="_blank">My Account</a> page on our website if you are not receiving notifications for updates on the premium extensions. Thanks again for using our plugin!', 'feed-them-social');
 
-            $list_old_plugins = array(
-                'feed-them-premium/feed-them-premium.php',
-                'fts-bar/fts-bar.php',
-                'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php'
-            );
             $plugins = get_plugins();
-            foreach ($list_old_plugins as $single_plugin) {
-                require_once(ABSPATH . '/wp-admin/includes/plugin.php');
+
+            if (!function_exists('is_plugin_active') || !function_exists('deactivate_plugins')){
+                require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+            }
+
+            $fts_versions_needed = $this->fts_versions_needed();
+
+            foreach ($fts_versions_needed as $single_plugin => $plugin_info) {
+
                 if (isset($plugins[$single_plugin])) {
-                    $fts_versions_needed = \fts_versions_needed();
-                    if ($plugins[$single_plugin]['Version'] < $fts_versions_needed[$single_plugin] && is_plugin_active($single_plugin)) {
-                        //Don't Let Old Plugins Activate
-                        throw new \Exception('<div class="fts-update-message fts_old_plugins_message">' . $update_msg . '</div>');
+                    //Check Version Compatibility if Extensions are not a new enough version deactivate them and throw errors!
+                    if ($plugins[$single_plugin]['Version'] < $fts_versions_needed[$single_plugin]['version_needed'] && is_plugin_active($single_plugin)) {
                         deactivate_plugins($single_plugin);
+
+                        //Don't Let Old Plugins Activate
+                        throw new \Exception('<div class="fts-update-message fts_old_plugins_message">' . $update_msg .'</div>');
                     }
                 }
             }
@@ -61,6 +96,7 @@ class fts_error_handler
             });
             return true;
         }
+        return;
     }
 
     /**

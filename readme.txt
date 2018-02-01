@@ -2,8 +2,8 @@
 Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 4.9.1
-Stable tag: 2.3.6
+Tested up to: 4.9.2
+Stable tag: 2.3.7
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Groups, Events, Album Photos, Videos & Covers, Instagram, Twitter, Vine, Pinterest & YouTube on pages, posts or widgets.
@@ -82,6 +82,14 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.3.7 Friday, January 26th, 2018 =
+   * CLEANUP: Cleaning up and classifying Feed Them Socials main files (core).
+   * NEW: All Development for Feed Them Social will now be done through our [GitHub](https://github.com/SlickRemix/feed-them-social). This will open up the ability for anyone to help contribute to the project.
+   * NEW: You will now be able to track or submit any issues using the [issues page of our Github](https://github.com/SlickRemix/feed-them-social/issues).
+   * NEW: You can now see what new [Projects](https://github.com/SlickRemix/feed-them-social/projects) and [Branches](https://github.com/SlickRemix/feed-them-social/branches) we are currently working on.
+   * CONTRIBUTE: If you would like to improve Feed Them Social and want to contribute to it please do so by following our [Contribution Instructions]().
+
+
 = Version 2.3.6 Wednesday, January 10th, 2018 =
    * NEW: All Feeds: Now #hastag and @mention links in different languages will convert to a link properly.
    * FIX: Facebook Feed: Extra photo not aligning proper if more than 4.

@@ -65,6 +65,8 @@ final class Feed_Them_Social {
             } // end ftg_required_php_check
 
             register_activation_hook(__FILE__, array(self::$instance, 'fts_activate'));
+
+            add_action('admin_init', array(self::$instance, 'feed_them_social_load_plugin'));
             add_action('admin_notices', array(self::$instance, 'fts_install_notice'));
             add_action('admin_notices', array(self::$instance, 'fts_update_notice'));
             add_action('upgrader_process_complete', array(self::$instance, 'fts_upgrade_completed', 10, 2));
@@ -81,6 +83,9 @@ final class Feed_Them_Social {
 
             //Include the files
             self::$instance->includes();
+
+            //Error Handler
+            self::$instance->error_handler = new feedthemsocial\fts_error_handler();
 
             //FTS Custom Post Type
             //self::$instance->fts_custom_post_type = new feedthemsocial\FTS_Custom_Post_Type();
@@ -168,6 +173,10 @@ final class Feed_Them_Social {
      */
     function fts_activate() {
         set_transient('fts_activated', 1);
+
+        // we add an db option to check then delete the db option after activation and the cache has emptied.
+        // the delete_option is on the feed-them-functions.php file at the bottom of the function ftg_clear_cache_script
+        add_option('Feed_Them_Social_Activated_Plugin', 'feed-them-social');
     }
 
     /**
@@ -184,10 +193,11 @@ final class Feed_Them_Social {
 
         $plugin_data = get_plugin_data(__FILE__);
         $plugin_version = $plugin_data['Version'];
-        // Plugin version
+        // Free Version Plugin version
         if (!defined('FEED_THEM_SOCIAL_VERSION')) {
             define('FEED_THEM_SOCIAL_VERSION', $plugin_version);
         }
+
         // Plugin Folder Path
         if (!defined('FEED_THEM_SOCIAL_PLUGIN_PATH')) {
             define('FEED_THEM_SOCIAL_PLUGIN_PATH', plugins_url());
@@ -330,64 +340,31 @@ final class Feed_Them_Social {
         return $links;
     }
 
-}
+    /**
+     * FTS Load Plugin
+     *
+     * Load plugin options on activation check
+     *
+     * @since 1.0.0
+     */
+    function feed_them_social_load_plugin() {
 
-/**
- * FTS System Version
- *
- * Returns current plugin version (Must be outside the final class to work)
- *
- * @return mixed
- * @since 1.0.0
- */
-function fts_check_version() {
-    $plugin_data = get_plugin_data(__FILE__);
-    $plugin_version = $plugin_data['Version'];
-    return $plugin_version;
-}
+        if (is_admin() && get_option('Feed_Them_Social_Activated_Plugin') == 'feed-them-social') {
 
-/**
- * FTS Plugin Activation
- *
- * Loads options upon FTS Activation
- *
- * @since 1.0.0
- */
-function fts_plugin_activation() {
-    // we add an db option to check then delete the db option after activation and the cache has emptied.
-    // the delete_option is on the feed-them-functions.php file at the bottom of the function ftg_clear_cache_script
-    add_option('Feed_Them_Social_Activated_Plugin', 'feed-them-social');
+            //Options List
+            $activation_options = array(
+                'fts-date-and-time-format' => 'one-day-ago',
+                'fts_clear_cache_developer_mode' => '86400',
+            );
 
-}
-
-//FTS Activation Function
-register_activation_hook(__FILE__, 'fts_plugin_activation');
-
-/**
- * FTS Load Plugin
- *
- * Load plugin options on activation check
- *
- * @since 1.0.0
- */
-function feed_them_social_load_plugin() {
-
-    if (is_admin() && get_option('Feed_Them_Social_Activated_Plugin') == 'feed-them-social') {
-
-        //Options List
-        $activation_options = array(
-            'fts-date-and-time-format' => 'one-day-ago',
-            'fts_clear_cache_developer_mode' => '86400',
-        );
-
-        foreach ($activation_options as $option_key => $option_value) {
-            // We don't use update_option because we only want this to run for options that have not already been set by the user
-            add_option($option_key, $option_value);
+            foreach ($activation_options as $option_key => $option_value) {
+                // We don't use update_option because we only want this to run for options that have not already been set by the user
+                add_option($option_key, $option_value);
+            }
         }
     }
-}
 
-add_action('admin_init', 'feed_them_social_load_plugin');
+}
 
 /**
  * Feed Them Social

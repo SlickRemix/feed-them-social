@@ -10,7 +10,7 @@
  * Description: Create and display custom feeds for Facebook Groups, Facebook Pages, Facebook Events, Facebook Photos, Facebook Album Covers, Twitter, Instagram, Pinterest and more.
  * Version: 2.3.9
  * Author: SlickRemix
- * Author URI: http://slickremix.com/
+ * Author URI: https://slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: wordpress 4.0.0

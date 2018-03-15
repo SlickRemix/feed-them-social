@@ -87,7 +87,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Twitter Feed: Some images and videos not appearing for some tweets
    * FIX: Twitter Feed: Links not working properly for hashtags and @ links
    * FIX: Twitter Feed: Reply or retweeted tweets did not have a cirlce profile image instead they were still square
-   * FIX: Twitter Feed: Extra closing div causing layout problems
+   * FIX: Twitter Feed: Extra closing div causing layout problems.
    * FYI: Facebook Event Feed: Default and or custom text if no current events available.
 
 = Version 2.3.7 Friday, January 26th, 2018 =

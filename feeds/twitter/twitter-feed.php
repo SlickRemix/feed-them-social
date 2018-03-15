@@ -764,10 +764,8 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                                     </div>
                                     <div class="fts-twitter-reply-wrap <?php if ($fts_twitter_full_width == 'yes') { ?>fts-twitter-full-width<?php } else { ?>fts-twitter-no-margin-left<?php } ?>"><?php
                                         // twitter permalink per post
-
                                         $permalink = 'https://twitter.com/' . $post_data->user->screen_name . '/status/' . $post_data->id;
                                         print $this->fts_share_option($permalink, $description);
-
                                         ?>
                                     </div>
                                     <div class="fts-twitter-reply-wrap-left"><?php

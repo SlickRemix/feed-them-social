@@ -776,7 +776,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                                         <div class="fts-tweet-others-right"><?php print $this->fts_twitter_retweet($post_data) ?><?php print $this->fts_twitter_favorite($post_data) ?></div>
                                     </div>
                                     <div class="fts-clear"></div>
-                                </div>
+                                </div><?php // <!--tweeter-info--> ?>
                             </div>
                             <?php $i++;
                             if ($i == $numTweets) break;
@@ -787,8 +787,6 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
                             $fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
                             // this div returns outputs our ajax request via jquery append html from above
-
-                            //   print '<div class="fts-clear"></div>';
                             print '<div id="output_' . $fts_dynamic_name . '"></div>';
                             if (is_plugin_active('feed-them-premium/feed-them-premium.php') && $scrollMore == 'autoscroll') {
                                 print '<div class="fts-twitter-load-more-wrapper">';
@@ -796,7 +794,6 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                                 print'</div>';
                             }
                         } ?>
-                    </div>
                 </div><?php // #twitter-feed-
 
                 // this makes it so the page does not scroll if you reach the end of scroll bar or go back to top
@@ -933,9 +930,8 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
         //Make sure it's not ajaxing
         if (!isset($_GET['load_more_ajaxing'])) {
-            print '<div class="fts-clear"></div>';
             if (is_plugin_active('feed-them-premium/feed-them-premium.php') && isset($scrollMore) && $scrollMore == 'button') {
-
+                print '<div class="fts-clear"></div>';
                 print '<div class="fts-twitter-load-more-wrapper">';
                 print'<div id="loadMore_' . $fts_dynamic_name . '"" style="';
                 if (isset($loadmore_btn_maxwidth) && $loadmore_btn_maxwidth !== '') {

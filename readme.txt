@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.5
-Stable tag: 2.3.8
+Stable tag: 2.3.9
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Groups, Events, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -80,14 +80,15 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
-
 == Changelog ==
-= Version 2.3.8 Wednesday, March 14th, 2018 =
+= Version 2.3.8 - 2.3.9 Wednesday, March 15th, 2018 =
    * FIX: Facebook Feed: Extra Images not appearing. We will work on the image slideshow post types in the next update.
    * FIX: Facebook Feed: https:// missing on some outgoing facebook links.
    * FIX: Twitter Feed: Some images and videos not appearing for some tweets
    * FIX: Twitter Feed: Links not working properly for hashtags and @ links
    * FIX: Twitter Feed: Reply or retweeted tweets did not have a cirlce profile image instead they were still square
+   * FIX: Twitter Feed: Extra closing div causing layout problems
+   * FYI: Facebook Event Feed: Default and or custom text if no current events available.
 
 = Version 2.3.7 Friday, January 26th, 2018 =
    * CLEANUP: Cleaning up and classifying Feed Them Socials main files (core).

@@ -1832,9 +1832,9 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             }
         }
         // Mentions
-        $returnValue = preg_replace('/[@]+([0-9\p{L}]+)/u', '<a target="_blank" href="http://facebook.com/$1">@$1</a>', $returnValue);
+        $returnValue = preg_replace('/[@]+([0-9\p{L}]+)/u', '<a target="_blank" href="https://facebook.com/$1">@$1</a>', $returnValue);
         //Hash tags
-        $returnValue = preg_replace('/[#]+([0-9\p{L}]+)/u', '<a target="_blank" href="http://facebook.com/hashtag/$1">#$1</a>', $returnValue);
+        $returnValue = preg_replace('/[#]+([0-9\p{L}]+)/u', '<a target="_blank" href="https://facebook.com/hashtag/$1">#$1</a>', $returnValue);
 
         return $returnValue;
     }
@@ -2015,7 +2015,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                  $LOADMORE_OUPUT .= 'jQuery.fn.slickFacebookPopUpFunction();';
                 }
                 //Reload the share each funcion otherwise you can't open share option.
-                $LOADMORE_OUPUT .= 'jQuery.fn.ftsShare();';
+                $LOADMORE_OUPUT .= 'jQuery.fn.ftsShare();slickremixImageResizingFacebook2();slickremixImageResizingFacebook3();';
 
                 $LOADMORE_OUPUT .= '}';
                 $LOADMORE_OUPUT .= '});';// end of ajax()

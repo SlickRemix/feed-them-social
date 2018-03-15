@@ -1,12 +1,12 @@
-=== Feed Them Social - Facebook, Instagram, Twitter, Vine, Pinterest, etc ===
+=== Feed Them Social - Facebook, Instagram, Twitter, YouTube, Pinterest ===
 Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 4.9.2
-Stable tag: 2.3.7
+Tested up to: 4.9.5
+Stable tag: 2.3.8
 License: GPLv2 or later
 
-Custom feeds for Facebook Pages, Groups, Events, Album Photos, Videos & Covers, Instagram, Twitter, Vine, Pinterest & YouTube on pages, posts or widgets.
+Custom feeds for Facebook Pages, Groups, Events, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
 
 == Description ==
 Create Social Feeds of any or all your celebrities, family, friends, yourself, or businesses. Looks great on Desktops, Tablets, and Mobile Devices.
@@ -45,7 +45,6 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
  * [Facebook Events Feed Demo](http://feedthemsocial.com/facebook-page-events-list/)
  * [Instagram Feed Demo](http://feedthemsocial.com/instagram-feed-demo/)
  * [Twitter Feed Demo](http://feedthemsocial.com/twitter-feed-demo/)
- * [Vine Gallery Feed Demo](http://feedthemsocial.com/vine-demo/)
  * [Pinterest Boards Demo](http://feedthemsocial.com/pinterest/)
  * [Pinterest Pins from a single Board](http://feedthemsocial.com/pinterest-pins-from-a-single-board/)
  * [Pinterest Latest Pins from a User](http://feedthemsocial.com/instagram-feed-demo/)
@@ -71,7 +70,7 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
 = All Access Pass =
  ✭ [NEW! See Details](https://www.slickremix.com/downloads/all-access-pass/)
 
-All SlickRemix plugins come with FREE Basic Support! If you need help or have questions we're here to help, just post on our [Support Forum](https://www.slickremix.com/support-forum/) and we’ll get to you as quickly as we can! (usually within 48hrs)
+All SlickRemix plugins come with FREE Basic Support! If you need help or have questions we're here to help, just post on our [Support Forum](https://wordpress.org/support/plugin/feed-them-social#new-topic-0) and we’ll get to you as quickly as we can! (usually within 48hrs)
 
 If you enjoy using our plugin please tell others. [Click here to share](http://www.facebook.com/sharer.php?u=http://wordpress.org/plugins/feed-them-social/&t=FeedThemSocial).
 
@@ -81,14 +80,21 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
+
 == Changelog ==
+= Version 2.3.8 Wednesday, March 14th, 2018 =
+   * FIX: Facebook Feed: Extra Images not appearing. We will work on the image slideshow post types in the next update.
+   * FIX: Facebook Feed: https:// missing on some outgoing facebook links.
+   * FIX: Twitter Feed: Some images and videos not appearing for some tweets
+   * FIX: Twitter Feed: Links not working properly for hashtags and @ links
+   * FIX: Twitter Feed: Reply or retweeted tweets did not have a cirlce profile image instead they were still square
+
 = Version 2.3.7 Friday, January 26th, 2018 =
    * CLEANUP: Cleaning up and classifying Feed Them Socials main files (core).
    * NEW: All Development for Feed Them Social will now be done through our [GitHub](https://github.com/SlickRemix/feed-them-social). This will open up the ability for anyone to help contribute to the project.
    * NEW: You will now be able to track or submit any issues using the [issues page of our Github](https://github.com/SlickRemix/feed-them-social/issues).
    * NEW: You can now see what new [Projects](https://github.com/SlickRemix/feed-them-social/projects) and [Branches](https://github.com/SlickRemix/feed-them-social/branches) we are currently working on.
    * CONTRIBUTE: If you would like to improve Feed Them Social and want to contribute to it please do so by following our [Contribution Instructions]().
-
 
 = Version 2.3.6 Wednesday, January 10th, 2018 =
    * NEW: All Feeds: Now #hastag and @mention links in different languages will convert to a link properly.
@@ -269,7 +275,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Twitter: Search type feeds (@, #, etc) not showing the full text.
 
 = Version 2.0.8 Wednesday, September 29th, 2016 =
-   * NEW: Twitter: Added new way of getting media url. Restyled and added retweet icon, favorite icon and counts. Plus all new Background cover photo and stats bar you can display above your feed like Twitter. Add cover_photo=yes stats_bar=yes to your Twitter shortcode to see the new additions. Premium users will need to upgrade to version 1.6.4 to use the new additions. [Updated Example](http://feedthemsocial.com/twitter-feed-demo/).
+   * NEW: Twitter: Added new way of getting media url. Restyled and added retweet icon, favorite icon and counts. Plus all new Background cover photo and stats bar you can display above your feed like Twitter. Add cover_photo=yes stats_bar=yes to your Twitter shortcode to see the new additions. Premium users will need to upgrade to version 1.6.4 to use the new additions. [Updated Example](http://feedthemsocial.com/twitter-feed-demo/).
 
 = Version 2.0.7 Monday, September 19th, 2016 =
    * NEW: Facebook Options: Now all you have to do is click a button to get an Access Token, no more having to create an APP in facebook! Same goes for our Premium Review Plugin too.

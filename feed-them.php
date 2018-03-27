@@ -255,8 +255,6 @@ final class Feed_Them_Social {
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/feed-them-pinterest-style-options-page.php');
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/feed-them-youtube-style-options-page.php');
 
-
-
         //Free Plugin License page.
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/free-plugin-license-page.php');
 
@@ -363,7 +361,6 @@ final class Feed_Them_Social {
             }
         }
     }
-
 }
 
 /**

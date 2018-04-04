@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.5
-Stable tag: 2.3.9
+Stable tag: 2.4.0
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Groups, Events, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.

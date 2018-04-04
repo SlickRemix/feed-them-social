@@ -6,22 +6,12 @@ namespace feedthemsocial;
 if (!defined('ABSPATH')) exit;
 
 /**
- * Class FTS Settings Page
+ * Class Updater License Page
  *
  * @package feedthemsocial
  * @since 2.1.6
  */
-class fts_Free_Plugin_License_Page {
-
-    public $prem_plugins = '';
-    public $main_menu_slug = 'feed-them-settings-page';
-    public $license_page_slug = 'fts-license-page';
-    //used for settings section creation and actions
-    public $setting_section_name = 'fts_license_options';
-    //Used to save options array
-    public $setting_option_name = 'feed_them_social_license_keys';
-    public $plugin_identifier = '';
-    public $store_url = '';
+class updater_license_page {
 
     // static variables
     private static $instance = false;
@@ -33,56 +23,27 @@ class fts_Free_Plugin_License_Page {
      *
      * @since 2.1.6
      */
-    function __construct() {
-        // this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
-        if (!defined('SLICKREMIX_STORE_URL')) {
-            define('SLICKREMIX_STORE_URL', 'http://www.slickremix.com/'); // you should use your own CONSTANT name, and be sure to replace it throughout this file.
-        }
+    function __construct($updater_options_info, $prem_plugins_list) {
 
-        $this->store_url = SLICKREMIX_STORE_URL;
+        //Set License Page Variables
+        $this->store_url = $updater_options_info['store_url'];
+        $this->main_menu_slug = $updater_options_info['main_menu_slug'];
+        $this->license_page_slug = $updater_options_info['license_page_slug'];
+        $this->setting_section_name = $updater_options_info['setting_section_name'];
+        $this->setting_option_name = $updater_options_info['setting_option_name'];
 
-        //List of Plugins! Keep this up to date in order for showing what is available for FTS on Plugin License page.
-        $this->prem_plugins = array(
-            'feed_them_social_premium' => array(
-                'title' => 'Feed Them Social Premium',
-                'plugin_url' => 'feed-them-premium/feed-them-premium.php',
-                'demo_url' => 'http://feedthemsocial.com/facebook-page-feed-demo/',
-                'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/',
-            ),
-            'feed_them_social_combined_streams' => array(
-                'title' => 'Feed Them Social Combined Streams',
-                'plugin_url' => 'feed-them-social-combined-streams/feed-them-social-combined-streams.php',
-                'demo_url' => 'http://feedthemsocial.com/feed-them-social-combined-streams/',
-                'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-combined-streams/',
-            ),
-            'feed-them-social-facebook-reviews' => array(
-                'title' => 'Feed Them Social Facebook Reviews',
-                'plugin_url' => 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php',
-                'demo_url' => 'http://feedthemsocial.com/facebook-page-reviews-demo/',
-                'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-facebook-reviews/',
-            ),
-            'feed_them_carousel_premium' => array(
-                'title' => 'Feed Them Carousel Premium',
-                'plugin_url' => 'feed-them-carousel-premium/feed-them-carousel-premium.php',
-                'demo_url' => 'http://feedthemsocial.com/facebook-carousels-or-sliders/',
-                'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-carousel-premium/',
-            ),
-            'fts_bar' => array(
-                'title' => 'FTS Bar',
-                'plugin_url' => 'fts-bar/fts-bar.php',
-                'demo_url' => 'http://feedthemsocial.com/fts-bar/',
-                'purchase_url' => 'https://www.slickremix.com/downloads/fts-bar/',
-            ),
-        );
-        $this->install();
+        $this->prem_plugins = $prem_plugins_list;
+
+        //Add the License Page
+        $this->add_license_page();
     }
 
     /**
-     * Install Updater
+     * Add the License Page
      *
      * @since 2.1.6
      */
-    function install() {
+    function add_license_page() {
         if (!function_exists('is_plugin_active'))
             require_once(ABSPATH . '/wp-admin/includes/plugin.php');
 
@@ -117,7 +78,7 @@ class fts_Free_Plugin_License_Page {
                         'plugin_name' => $plugin['title'],
                     );
 
-                    add_settings_field('feed_them_social_license_keys[' . $key . '][license_key]', '', array($this, 'add_option_setting'), $this->license_page_slug, $this->setting_section_name, $args);
+                    add_settings_field($this->setting_option_name.'[' . $key . '][license_key]', '', array($this, 'add_option_setting'), $this->license_page_slug, $this->setting_section_name, $args);
                 } //Show Special Box for non actives plugins/extensions!
                 else {
                     //Set Variables
@@ -127,7 +88,7 @@ class fts_Free_Plugin_License_Page {
                         'purchase_url' => $plugin['purchase_url'],
                     );
                     //show Premium needed box
-                    add_settings_field('feed_them_social_license_keys[' . $key . '][license_key]', '', array($this, 'display_premium_needed_license'), $this->license_page_slug, $this->setting_section_name, $args);
+                    add_settings_field($this->setting_option_name.'[' . $key . '][license_key]', '', array($this, 'display_premium_needed_license'), $this->license_page_slug, $this->setting_section_name, $args);
                 }
             }
         }
@@ -203,12 +164,6 @@ class fts_Free_Plugin_License_Page {
          * @since 2.1.6
          */
         function license_page() {
-
-            $options = get_option($this->setting_option_name);
-
-            echo '<pre>';
-            print_r($options);
-            echo '</pre>';
 
             ?>
             <div class="wrap">

@@ -8,7 +8,7 @@
  * Plugin Name: Feed Them Social (Facebook, Instagram, Twitter, etc)
  * Plugin URI: http://feedthemsocial.com/
  * Description: Create and display custom feeds for Facebook Groups, Facebook Pages, Facebook Events, Facebook Photos, Facebook Album Covers, Twitter, Instagram, Pinterest and more.
- * Version: 2.3.9
+ * Version: 2.4.0
  * Author: SlickRemix
  * Author URI: https://slickremix.com/
  * Text Domain: feed-them-social
@@ -19,7 +19,7 @@
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.3.9
+ * @version    2.4.0
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2018 SlickRemix
  *
@@ -94,7 +94,7 @@ final class Feed_Them_Social {
             self::$instance->core_functions = new feedthemsocial\feed_them_social_functions();
 
             //Free Plugin License page.
-            self::$instance->plugin_license_page = new feedthemsocial\fts_Free_Plugin_License_Page();
+            self::$instance->updater = new feedthemsocial\updater_init();
 
             //Facebook Class
             self::$instance->facebook_feed = new feedthemsocial\FTS_Facebook_Feed();
@@ -208,14 +208,11 @@ final class Feed_Them_Social {
         }
 
         if (is_plugin_active('feed-them-premium/feed-them-premium.php')) {
-
             // Plugin Directoy Path
             if (!defined('FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR')) {
                 define('FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR', WP_PLUGIN_DIR . '/feed-them-premium/feed-them-premium.php');
             }
-
         }
-
         // Define constants:
         if (!defined('MY_TEXTDOMAIN')) {
             define('MY_TEXTDOMAIN', 'feed-them-gallery');
@@ -255,8 +252,10 @@ final class Feed_Them_Social {
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/feed-them-pinterest-style-options-page.php');
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/feed-them-youtube-style-options-page.php');
 
-        //Free Plugin License page.
-        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/free-plugin-license-page.php');
+        //Updater Classes
+        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php');
+        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php');
+        include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php');
 
         //Feed Classes
         include(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'feeds/facebook/facebook-feed.php');

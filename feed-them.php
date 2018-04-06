@@ -15,7 +15,7 @@
  * Domain Path: /languages
  * Requires at least: wordpress 4.0.0
  * Tested up to: WordPress 4.9.5
- * Stable tag: 2.3.9
+ * Stable tag: 2.4.0
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
@@ -146,7 +146,7 @@ final class Feed_Them_Social {
     function fts_update_notice() {
         // Check the transient to see if we've just updated the plugin
         if (get_transient('fts_updated')) {
-            echo '<div class="notice notice-success updated is-dismissible"><p>' . __('Thanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.', 'feed-them-sociall') . '</p></div>';
+            echo '<div class="notice notice-success updated is-dismissible"><p>' . __('Thanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.', 'feed-them-social') . '</p></div>';
             delete_transient('fts_updated');
         }
     }
@@ -159,7 +159,7 @@ final class Feed_Them_Social {
     function fts_install_notice() {
         // Check the transient to see if we've just activated the plugin
         if (get_transient('fts_activated')) {
-            echo '<div class="notice notice-success updated is-dismissible"><p>' . __('Thanks for installing Feed Them Social. To get started please view our <a href="edit.php?post_type=ft_gallery&page=ft-gallery-settings-page">Settings</a> page.', 'feed-them-sociall') . '</p></div>';
+            echo '<div class="notice notice-success updated is-dismissible"><p>' . __('Thanks for installing Feed Them Social. To get started please view our <a href="admin.php?page=feed-them-settings-page">Settings</a> page.', 'feed-them-social') . '</p></div>';
             // Delete the transient so we don't keep displaying the activation message
             delete_transient('fts_activated');
         }
@@ -215,7 +215,7 @@ final class Feed_Them_Social {
         }
         // Define constants:
         if (!defined('MY_TEXTDOMAIN')) {
-            define('MY_TEXTDOMAIN', 'feed-them-gallery');
+            define('MY_TEXTDOMAIN', 'feed-them-social');
         }
     }
 
@@ -330,7 +330,7 @@ final class Feed_Them_Social {
      */
     function fts_leave_feedback_link($links, $file) {
         if ($file === plugin_basename(__FILE__)) {
-            $links['feedback'] = '<a href="http://wordpress.org/support/view/plugin-reviews/feed-them-social" target="_blank">' . __('Rate Plugin', 'feed-me-info') . '</a>';
+            $links['feedback'] = '<a href="http://wordpress.org/support/view/plugin-reviews/feed-them-social" target="_blank">' . __('Rate Plugin', 'feed-them-social') . '</a>';
             // $links['support'] = '<a href="http://www.slickremix.com/support-forum/forum/feed-them-social-2/" target="_blank">' . __('Get support', 'feed-them-premium') . '</a>';
             //  $links['plugininfo']  = '<a href="plugin-install.php?tab=plugin-information&plugin=feed-them-premium&section=changelog&TB_iframe=true&width=640&height=423" class="thickbox">' . __( 'Plugin info', 'gd_quicksetup' ) . '</a>';
         }

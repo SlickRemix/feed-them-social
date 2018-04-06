@@ -5,9 +5,8 @@ namespace feedthemsocial;
  * Class FTS Settings Page
  *
  * @package feedthemsocial
- * @since 1.9.6
+ * @since 1.9.7
  */
-
 class FTS_settings_page
 {
     /**

@@ -1,4 +1,5 @@
 <?php
+
 namespace feedthemsocial;
 
 // Exit if accessed directly
@@ -56,6 +57,7 @@ class updater_check_class {
         $this->init();
         // display custom admin notice
     }
+
     /**
      * License Key field Empty on Plugin License Page
      *
@@ -65,7 +67,7 @@ class updater_check_class {
         ?>
 
         <div class="error notice">
-            <p><?php _e($this->plugin_name. ' needs a valid License Key! <a href="admin.php?page=fts-license-page">Click here to add one</a> or you won\'t recieve updates. - <a href="http://www.slickremix.com/my-account/" target="_blank">You can get License Key Here.</a>', 'feed-them-social'); ?></p>
+            <p><?php _e($this->plugin_name . ' needs a valid License Key! <a href="admin.php?page=fts-license-page">Click here to add one</a> or you won\'t recieve updates. - <a href="http://www.slickremix.com/my-account/" target="_blank">You can get License Key Here.</a>', 'feed-them-social'); ?></p>
         </div>
 
         <?php
@@ -80,7 +82,7 @@ class updater_check_class {
         ?>
 
         <div class="error notice">
-            <p><?php _e($this->plugin_name. ' - Your License Key is not active, expired, or is invalid. <a href="admin.php?page=fts-license-page">Click here to add one</a> or you won\'t recieve updates. - <a href="http://www.slickremix.com/my-account/" target="_blank">You can get License Key Here.</a>', 'feed-them-social'); ?></p>
+            <p><?php _e($this->plugin_name . ' - Your License Key is not active, expired, or is invalid. <a href="admin.php?page=fts-license-page">Click here to add one</a> or you won\'t recieve updates. - <a href="http://www.slickremix.com/my-account/" target="_blank">You can get License Key Here.</a>', 'feed-them-social'); ?></p>
         </div>
 
         <?php
@@ -237,7 +239,7 @@ class updater_check_class {
         if (!empty($update_cache->response[$this->name]) && version_compare($this->version, $version_info->new_version, '<')) {
 
             // build a plugin list row, with update notification
-            $wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
+            $wp_list_table = _get_list_table('WP_Plugins_List_Table');
             # <tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange">
             echo '<tr class="plugin-update-tr" id="' . $this->slug . '-update" data-slug="' . $this->slug . '" data-plugin="' . $this->slug . '/' . $file . '">';
             echo '<td colspan="3" class="plugin-update colspanchange">';
@@ -245,22 +247,22 @@ class updater_check_class {
 
             $changelog_link = self_admin_url('index.php?edd_sl_action=view_plugin_changelog&plugin=' . $this->name . '&slug=' . $this->slug . '&TB_iframe=true&width=772&height=911');
 
-            if ( empty( $version_info->download_link ) ) {
+            if (empty($version_info->download_link)) {
                 printf(
-                    __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'feed-them-social' ),
-                    esc_html( $version_info->name ),
-                    '<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
-                    esc_html( $version_info->new_version ),
+                    __('There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'feed-them-social'),
+                    esc_html($version_info->name),
+                    '<a target="_blank" class="thickbox" href="' . esc_url($changelog_link) . '">',
+                    esc_html($version_info->new_version),
                     '</a>'
                 );
             } else {
                 printf(
-                    __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'feed-them-social' ),
-                    esc_html( $version_info->name ),
-                    '<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
-                    esc_html( $version_info->new_version ),
+                    __('There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'feed-them-social'),
+                    esc_html($version_info->name),
+                    '<a target="_blank" class="thickbox" href="' . esc_url($changelog_link) . '">',
+                    esc_html($version_info->new_version),
                     '</a>',
-                    '<a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->name, 'upgrade-plugin_' . $this->name ) ) .'">',
+                    '<a href="' . esc_url(wp_nonce_url(self_admin_url('update.php?action=upgrade-plugin&plugin=') . $this->name, 'upgrade-plugin_' . $this->name)) . '">',
                     '</a>'
                 );
             }
@@ -296,7 +298,7 @@ class updater_check_class {
         }
 
         $to_send = array(
-            'slug'   => $this->slug,
+            'slug' => $this->slug,
             'is_ssl' => is_ssl(),
             'fields' => array(
                 'banners' => false, // These will be supported soon hopefully
@@ -304,20 +306,20 @@ class updater_check_class {
             )
         );
 
-        $cache_key = 'edd_api_request_' . substr( md5( serialize( $this->slug ) ), 0, 15 );
+        $cache_key = 'edd_api_request_' . substr(md5(serialize($this->slug)), 0, 15);
 
         //Get the transient where we store the api request for this plugin for 24 hours
-        $edd_api_request_transient = get_site_transient( $cache_key );
+        $edd_api_request_transient = get_site_transient($cache_key);
 
         //If we have no transient-saved value, run the API, set a fresh transient with the API value, and return that value too right now.
-        if ( empty( $edd_api_request_transient ) ){
+        if (empty($edd_api_request_transient)) {
 
-            $api_response = $this->api_request( 'plugin_information', $to_send );
+            $api_response = $this->api_request('plugin_information', $to_send);
 
             //Expires in 1 day
-            set_site_transient( $cache_key, $api_response, DAY_IN_SECONDS );
+            set_site_transient($cache_key, $api_response, DAY_IN_SECONDS);
 
-            if ( false !== $api_response ) {
+            if (false !== $api_response) {
                 $_data = $api_response;
             }
 
@@ -329,13 +331,13 @@ class updater_check_class {
     /**
      * Disable SSL verification in order to prevent download update failures
      *
-     * @param array   $args
-     * @param string  $url
+     * @param array $args
+     * @param string $url
      * @return object $array
      */
-    public function http_request_args( $args, $url ) {
+    public function http_request_args($args, $url) {
         // If it is an https request and we are performing a package download, disable ssl verification
-        if ( strpos( $url, 'https://' ) !== false && strpos( $url, 'edd_action=package_download' ) ) {
+        if (strpos($url, 'https://') !== false && strpos($url, 'edd_action=package_download')) {
             $args['sslverify'] = false;
         }
         return $args;
@@ -368,12 +370,12 @@ class updater_check_class {
 
         $api_params = array(
             'edd_action' => 'get_version',
-            'license'    => ! empty( $data['license'] ) ? $data['license'] : '',
-            'item_name'  => isset( $data['item_name'] ) ? $data['item_name'] : false,
-            'item_id'    => isset( $data['item_id'] ) ? $data['item_id'] : false,
-            'slug'       => $data['slug'],
-            'author'     => $data['author'],
-            'url'        => home_url()
+            'license' => !empty($data['license']) ? $data['license'] : '',
+            'item_name' => isset($data['item_name']) ? $data['item_name'] : false,
+            'item_id' => isset($data['item_id']) ? $data['item_id'] : false,
+            'slug' => $data['slug'],
+            'author' => $data['author'],
+            'url' => home_url()
         );
 
         $request = wp_remote_post($this->api_url, array('timeout' => 15, 'sslverify' => false, 'body' => $api_params));
@@ -454,4 +456,5 @@ class updater_check_class {
         exit;
     }
 }
+
 ?>

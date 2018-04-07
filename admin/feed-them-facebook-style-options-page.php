@@ -792,8 +792,8 @@ class FTS_facebook_options_page
                     <!--/fts-facebook-feed-styles-input-wrap-->
                 <?php } ?>
 
-
-
+            <!-- removing this until further notice about events being able to be pulled from Facebooks API -->
+            <div style="display: none">
                 <div class="feed-them-social-admin-input-wrap">
                     <div class="fts-title-description-settings-page">
                         <h3>
@@ -826,6 +826,7 @@ class FTS_facebook_options_page
                     <div class="clear"></div>
                 </div>
                 <!--/fts-facebook-feed-styles-input-wrap-->
+            </div>
 
                 <div class="clear"></div>
                 <input type="submit" class="feed-them-social-admin-submit-btn" value="<?php _e('Save All Changes') ?>"/>

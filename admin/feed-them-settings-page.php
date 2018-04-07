@@ -5,7 +5,7 @@ namespace feedthemsocial;
  * Class FTS Settings Page
  *
  * @package feedthemsocial
- * @since 1.9.7
+ * @since 1.9.6
  */
 class FTS_settings_page
 {
@@ -1164,20 +1164,20 @@ class FTS_settings_page
                                             'title' => __('Facebook Page', 'feed-them-social'),
                                         ),
                                         //Facebook Page List of Events
-                                        array(
-                                            'value' => 'events',
-                                            'title' => __('Facebook Page List of Events', 'feed-them-social'),
-                                        ),
-                                        //Facebook Page Single Event Posts
-                                        array(
-                                            'value' => 'event',
-                                            'title' => __('Facebook Page Single Event Posts', 'feed-them-social'),
-                                        ),
-                                        //Facebook Group
-                                        array(
-                                            'value' => 'group',
-                                            'title' => __('Facebook Group', 'feed-them-social'),
-                                        ),
+                                 //       array(
+                                 //           'value' => 'events',
+                                 //           'title' => __('Facebook Page List of Events', 'feed-them-social'),
+                                 //       ),
+                                 //       //Facebook Page Single Event Posts
+                                 //       array(
+                                 //           'value' => 'event',
+                                 //           'title' => __('Facebook Page Single Event Posts', 'feed-them-social'),
+                                 //       ),
+                                 //       //Facebook Group
+                                 //       array(
+                                 //           'value' => 'group',
+                                 //           'title' => __('Facebook Group', 'feed-them-social'),
+                                 //       ),
                                         //Facebook Album Photos
                                         array(
                                             'value' => 'album_photos',
@@ -4238,19 +4238,19 @@ class FTS_settings_page
                                         ),
                                     ),
                                     //Feed Type Selection
-                                    'conversion_input' => array(
-                                        'main_wrap_class' => 'instagram-id-option-wrap',
-                                        'conv_section_title' => __('Convert Instagram Name to ID', 'feed-them-social'),
-                                        'instructional-text' => 'You must copy your <a href="https://www.slickremix.com/how-to-get-your-instagram-name-and-convert-to-id/" target="_blank">Instagram Name</a> and paste it in the first input below',
-                                        'input_wrap_class' => 'instagram_name',
-                                        'label' => __('Instagram Name (required)', 'feed-them-social'),
-                                        'id' => 'convert_instagram_username',
-                                        'name' => 'convert_instagram_username',
-                                        //Button
-                                        'btn-value' => __('Convert Instagram Username', 'feed-them-social'),
-                                        'onclick' => 'converter_instagram_username();',
-                                    ),
-                                    'short_attr_final' => 'yes',
+                               //     'conversion_input' => array(
+                               //         'main_wrap_class' => 'instagram-id-option-wrap',
+                               //         'conv_section_title' => __('Convert Instagram Name to ID', 'feed-them-social'),
+                               //         'instructional-text' => 'You must copy your <a href="https://www.slickremix.com/how-to-get-your-instagram-name-and-convert-to-id/" target="_blank">Instagram Name</a> and paste it in the first input below',
+                               //         'input_wrap_class' => 'instagram_name',
+                               //         'label' => __('Instagram Name (required)', 'feed-them-social'),
+                               //         'id' => 'convert_instagram_username',
+                               //         'name' => 'convert_instagram_username',
+                               //         //Button
+                               //         'btn-value' => __('Convert Instagram Username', 'feed-them-social'),
+                               //         'onclick' => 'converter_instagram_username();',
+                               //     ),
+                               //     'short_attr_final' => 'yes',
                                     //Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
                                     'main_options' => array(
                                         //Instagram ID
@@ -4277,7 +4277,7 @@ class FTS_settings_page
                                             'required' => 'yes',
                                             'instructional-text' => array(
                                                 1 => array(
-                                                    'text' => __('<div class="fts-insta-info-plus-wrapper">Choose a different ID if yours is not the first name below after clicking Convert Instagram Username button.</div><!-- the li list comes from an ajax call after looking up the user ID --><ul id="fts-instagram-username-picker-wrap" class="fts-instagram-username-picker-wrap"></ul>', 'feed-them-social'),
+                                                    'text' => __('<div class="fts-insta-info-plus-wrapper">If your Access Token is set on the Instagram Options page of our plugin your ID and Access Token should appear below.<br/><strong>To create an additional feed</strong> go back the ', 'feed-them-social') . ' <a href="admin.php?page=fts-instagram-feed-styles-submenu-page" target="">' . __('Instagram Options', 'feed-them-social') . '</a>' . __(' and make sure you are logged into that specific Instagram account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.</div>', 'feed-them-social') ,
                                                     'class' => 'instagram-user-option-text',
                                                 ),
                                                 2 => array(
@@ -4294,6 +4294,24 @@ class FTS_settings_page
                                                 'attr_name' => 'instagram_id',
                                                 'var_final_if' => 'no',
                                                 'empty_error' => 'yes',
+                                            ),
+                                        ),
+                                        //Access Token
+                                        array(
+                                            'option_type' => 'input',
+                                            'label' => __('Access Token (required) ', 'feed-them-social') . '<br/><small>' . __('', 'feed-them-gallery') . '</small>',
+                                            'type' => 'text',
+                                            'id' => 'insta_access_token',
+                                            'name' => 'insta_access_token',
+                                            // Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
+                                            // 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
+                                            'placeholder' => __('', 'feed-them-social'),
+                                            //Relative to JS.
+                                            'short_attr' => array(
+                                                'attr_name' => 'access_token',
+                                                'var_final_if' => 'yes',
+                                                'empty_error' => 'set',
+                                                'empty_error_value' => '',
                                             ),
                                         ),
                                         //Pic Count
@@ -5533,6 +5551,33 @@ class FTS_settings_page
                         jQuery(".combine-instagram-id-option-wrap,.combine-instagram-user-option-text").show();
                         jQuery(".combine-instagram-hashtag-option-text,.combine-instagram-location-option-text").hide();
                     }
+                });
+
+
+                    function getQueryString(Param) {
+                        return decodeURI(
+                            (RegExp('[#|&]' + Param + '=' + '(.+?)(&|$)').exec(location.hash) || [, null])[1]
+                        );
+                    }
+
+                    if (window.location.hash && getQueryString('feed_type') == 'instagram') {
+                        jQuery('#feed-selector-form').find('option[value=instagram-shortcode-form]').attr('selected','selected');
+                        jQuery('.shortcode-generator-form.instagram-shortcode-form').show();
+                        jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo get_option('fts_instagram_custom_id') ?>');
+                        jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo get_option('fts_instagram_custom_api_token') ?>');
+                    }
+
+                jQuery('#shortcode-form-selector, #instagram-messages-selector').bind('change', function (e) {
+
+                    if (jQuery('#instagram-messages-selector').val() == 'user') {
+                        jQuery('#instagram_id, #access_token').val('');
+                        jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo get_option('fts_instagram_custom_id') ?>');
+                        jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo get_option('fts_instagram_custom_api_token') ?>');
+                    }
+                    else {
+                        jQuery('#instagram_id').val('');
+                    }
+
                 });
 
                 <?php if (!is_plugin_active('feed-them-premium/feed-them-premium.php')) { ?>

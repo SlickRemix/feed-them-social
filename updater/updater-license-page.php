@@ -361,7 +361,7 @@ class updater_license_page {
 
                         $message = sprintf(
                             __('Your license key expired on %s.'),
-                            date_i18n(get_option('date_format'), strtotime($license_data->expires, current_time('timestamp')))
+                            date_i18n(get_option('date_format'), strtotime($license_data->expires, time()))
                         );
                         break;
 

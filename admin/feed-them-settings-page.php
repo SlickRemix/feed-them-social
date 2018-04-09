@@ -45,10 +45,7 @@ class FTS_settings_page
                     <a href="javascript:;" class="instagram-icon"></a>
                     <a href="javascript:;" class="pinterest-icon"></a>
 
-                        <div id="discount-for-review"><a href="https://www.slickremix.com/betablog/wp-admin/admin.php?page=fts-license-page"><?php _e('View Extensions & Demos', 'feed-them-social'); ?></a></div>
-                        <div class="discount-review-text">
-                            <a href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/" target="_blank"><?php _e('Share here', 'feed-them-social'); ?></a> <?php _e('and receive 10% OFF your total order.', 'feed-them-social'); ?>
-                        </div>
+                        <div id="discount-for-review"><a href="admin.php?page=fts-license-page"><?php _e('View Extensions & Demos', 'feed-them-social'); ?></a></div>
                 </div>
 
                 <div class="fts-tabs" id="fts-tabs">
@@ -76,7 +73,7 @@ class FTS_settings_page
                         <section>
 
                             <h2 class="fts-logo-subheader"><?php _e('Create Shortcode for Social Network', 'feed-them-social'); ?></h2>
-                            <div class="use-of-plugin"><?php _e('Please select what type of feed you would like to see using the select option below. After setting your options click the green Generate Shortcode button, then copy and paste the shortcode to a page, post or widget.', 'feed-them-social'); ?></div>
+                            <div class="use-of-plugin"><?php _e('Please select what type of feed you would like using the select option below. After setting your options click the green Generate Shortcode button, then copy and paste the shortcode to a page, post or widget.', 'feed-them-social'); ?></div>
 
                             <form class="feed-them-social-admin-form" id="feed-selector-form">
                                 <select id="shortcode-form-selector">
@@ -462,7 +459,7 @@ class FTS_settings_page
                                         array(
                                             'option_type' => 'input',
                                             'input_wrap_class' => 'combine_facebook_name',
-                                            'label' => __('Facebook ID', 'feed-them-social'),
+                                            'label' => __('Facebook Name', 'feed-them-social'),
                                             'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">Facebook Options</a> page then copy your <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-id-and-video-gallery-id" target="_blank">Facebook Name</a> and paste it in the first input below.',
                                             'type' => 'text',
                                             'id' => 'combine_facebook_name',
@@ -678,22 +675,22 @@ class FTS_settings_page
 
 
                                         //Combine Convert Instagram Name
-                                        array(
-                                            'option_type' => 'input',
-                                            'input_wrap_class' => 'combine-instagram-id-option-wrap',
-                                            'label' => __('Convert Instagram Name to ID', 'feed-them-social'),
-                                            'type' => 'text',
-                                            'id' => 'combine_convert_instagram_username',
-                                            'name' => 'combine_convert_instagram_username',
-                                            'instructional-text' => __('You must copy your <a href="https://www.slickremix.com/how-to-get-your-instagram-name-and-convert-to-id/" target="_blank">Instagram Name</a> and paste it in the first input below', 'feed-them-social'),
-                                            'req_plugin' => 'combine_streams',
-                                            //Relative to JS.
-                                            'short_attr' => array(
-                                                'attr_name' => '',
-                                                'ifs' => 'combine_instagram',
-                                                'no_attribute' => 'yes'
-                                            ),
-                                        ),
+                                     //   array(
+                                     //       'option_type' => 'input',
+                                     //       'input_wrap_class' => 'combine-instagram-id-option-wrap',
+                                     //       'label' => __('Convert Instagram Name to ID', 'feed-them-social'),
+                                     //       'type' => 'text',
+                                     //       'id' => 'combine_convert_instagram_username',
+                                     //       'name' => 'combine_convert_instagram_username',
+                                     //       'instructional-text' => __('You must copy your <a href="https://www.slickremix.com/how-to-get-your-instagram-name-and-convert-to-id/" target="_blank">Instagram Name</a> and paste it in the first input below', 'feed-them-social'),
+                                     //       'req_plugin' => 'combine_streams',
+                                     //       //Relative to JS.
+                                     //       'short_attr' => array(
+                                     //           'attr_name' => '',
+                                     //           'ifs' => 'combine_instagram',
+                                     //           'no_attribute' => 'yes'
+                                     //       ),
+                                     //   ),
 
                                         //Instagram ID
                                         array(
@@ -719,7 +716,7 @@ class FTS_settings_page
                                             'required' => 'combine_streams',
                                             'instructional-text' => array(
                                                 1 => array(
-                                                    'text' => __('<div class="fts-insta-info-plus-wrapper">Choose a different ID if yours is not the first name below after clicking Convert Instagram Username button.</div><!-- the li list comes from an ajax call after looking up the user ID --><ul id="fts-instagram-username-picker-wrap-combined" class="fts-instagram-username-picker-wrap"></ul>', 'feed-them-social'),
+                                                    'text' => __('<div class="fts-insta-info-plus-wrapper">If your Access Token is set on the Instagram Options page of our plugin your ID should appear below.</div>', 'feed-them-social') ,
                                                     'class' => 'combine-instagram-user-option-text',
                                                 ),
                                                 2 => array(
@@ -1164,10 +1161,10 @@ class FTS_settings_page
                                             'title' => __('Facebook Page', 'feed-them-social'),
                                         ),
                                         //Facebook Page List of Events
-                                 //       array(
-                                 //           'value' => 'events',
-                                 //           'title' => __('Facebook Page List of Events', 'feed-them-social'),
-                                 //       ),
+                                        array(
+                                            'value' => 'events',
+                                            'title' => __('Facebook Page List of Events', 'feed-them-social'),
+                                        ),
                                  //       //Facebook Page Single Event Posts
                                  //       array(
                                  //           'value' => 'event',
@@ -4277,7 +4274,7 @@ class FTS_settings_page
                                             'required' => 'yes',
                                             'instructional-text' => array(
                                                 1 => array(
-                                                    'text' => __('<div class="fts-insta-info-plus-wrapper">If your Access Token is set on the Instagram Options page of our plugin your ID and Access Token should appear below.<br/><strong>To create an additional feed</strong> go back the ', 'feed-them-social') . ' <a href="admin.php?page=fts-instagram-feed-styles-submenu-page" target="">' . __('Instagram Options', 'feed-them-social') . '</a>' . __(' and make sure you are logged into that specific Instagram account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.</div>', 'feed-them-social') ,
+                                                    'text' => __('<div class="fts-insta-info-plus-wrapper">If your Access Token is set on the Instagram Options page of our plugin your ID should appear below.<br/><strong>To create an additional feed</strong> go back the ', 'feed-them-social') . ' <a href="admin.php?page=fts-instagram-feed-styles-submenu-page" target="">' . __('Instagram Options', 'feed-them-social') . '</a>' . __(' and make sure you are logged into that specific Instagram account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.</div>', 'feed-them-social') ,
                                                     'class' => 'instagram-user-option-text',
                                                 ),
                                                 2 => array(
@@ -5580,6 +5577,18 @@ class FTS_settings_page
 
                 });
 
+                jQuery('#combine_instagram, #combine_instagram_type').bind('change', function (e) {
+
+                    if (jQuery('#combine_instagram_type').val() == 'user') {
+                        jQuery('#combine_instagram_name').val('');
+                        jQuery('#combine_instagram_name').val(jQuery('#combine_instagram_name').val() + '<?php echo get_option('fts_instagram_custom_id') ?>');
+                    }
+                    else {
+                        jQuery('#combine_instagram_name').val('');
+                    }
+
+                });
+
                 <?php if (!is_plugin_active('feed-them-premium/feed-them-premium.php')) { ?>
                 jQuery('#instagram-messages-selector').bind('change', function (e) {
                     if (jQuery('#instagram-messages-selector').val() == 'location') {
@@ -6184,7 +6193,7 @@ class FTS_settings_page
             }
 
             //Append button to instagram converter input
-            jQuery(".combine-instagram-id-option-wrap").append('<input type="button" class="feed-them-social-admin-submit-btn" value="Convert Instagram Username" onclick="converter_instagram_username();" tabindex="4" style="margin-right:1em;" />');
+          //  jQuery('.combine-instagram-id-option-wrap').append('<input type="button" class="feed-them-social-admin-submit-btn" value="Convert Instagram Username" onclick="converter_instagram_username();" tabindex="4" style="margin-right:1em;" />');
 
             jQuery(document).ready(function () {
 

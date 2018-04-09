@@ -115,8 +115,15 @@ class FTS_instagram_options_page
                     </div>
                     <?php
                     // Error Check
+                    // if the combined streams plugin is active we won't allow the settings page link to open up the Instagram Feed, instead we'll remove the #feed_type=instagram and just let the user manually select the combined streams or single instagram feed.
+                    if (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php')) {
+                        $custom_instagram_link_hash = '';
+                    }
+                    else {
+                        $custom_instagram_link_hash = '#feed_type=instagram';
+                    }
                     if (!isset($test_app_token_response->meta->error_message) && !empty($fts_instagram_access_token) || isset($test_app_token_response->meta->error_message) && $test_app_token_response->meta->error_message == 'This client has not been approved to access this resource.') {
-                        echo '<div class="fts-successful-api-token">' . __('Your access token is working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page#feed_type=instagram">settings page</a>.', 'feed-them-social') . '</div>';
+                        echo '<div class="fts-successful-api-token">' . __('Your access token is working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page'.$custom_instagram_link_hash .'">settings page</a>.', 'feed-them-social') . '</div>';
                     } elseif (isset($test_app_token_response->meta->error_message) && !empty($fts_instagram_access_token)) {
                         echo '<div class="fts-failed-api-token">' . __('Oh No something\'s wrong.', 'feed-them-social') . ' ' . $test_app_token_response->meta->error_message . '</div>';
                     }

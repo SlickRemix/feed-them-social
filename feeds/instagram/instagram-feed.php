@@ -441,10 +441,15 @@ class FTS_Instagram_Feed extends feed_them_social_functions
               <?php
 
                 if(is_plugin_active('feed-them-premium/feed-them-premium.php') && isset($popup) && $popup == "yes"){ ?>
-                <div class="fts-instagram-popup-profile-wrap"><div class="fts-profile-pic"><a href="https://www.instagram.com/<?php print $username; ?>"><img src="<?php print $profile_picture; ?>" title="<?php print $username; ?>"/></a></div>
+                <div class="fts-instagram-popup-profile-wrap">
+                    <div class="fts-profile-pic">
+                        <a href="https://www.instagram.com/<?php print $username; ?>"><?php if($type == 'user') {?><img src="<?php print $profile_picture; ?>" title="<?php print $username; ?>"/><?php } else { ?><span class="fts-instagram-icon" style="height:40px; width:40px; line-height:40px; font-size:40px;"></span><?php } ?></a>
+                    </div>
                                 <div class="fts-profile-name-wrap">
 
-                                        <div class="fts-isnta-full-name"><?php print $full_name; ?></div>
+                                        <div class="fts-isnta-full-name">
+                                            <a href="https://www.instagram.com/<?php print $username; ?>" style="color: #000;"><?php if($type == 'user') { print $full_name; } else { print $username; } ?></a>
+                                        </div>
                                             <?php
                                             if (isset($fts_instagram_show_follow_btn) && $fts_instagram_show_follow_btn == 'yes' && $fts_instagram_show_follow_btn_where == 'instagram-follow-above' && isset($instagram_username)) {
                                                  echo '<div class="fts-follow-header-wrap">';

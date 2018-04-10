@@ -312,7 +312,7 @@ final class Feed_Them_Social {
      */
     function fts_free_plugin_actions($actions, $plugin_file, $plugin_data, $context) {
         array_unshift(
-            $actions, "<a href=\"" . menu_page_url('fts-settings-page', false) . "\">" . __("Settings") . "</a> | <a href=\"" . __('https://www.slickremix.com/support/') . "\">" . __("Support") . "</a> "
+            $actions, '<a href="admin.php?page=feed-them-settings-page">' . __('Settings') .'</a> | <a href="' . __('https://www.slickremix.com/support/') . '">' . __('Support') . '</a>'
 
         );
         return $actions;

@@ -5550,7 +5550,6 @@ class FTS_settings_page
                     }
                 });
 
-
                     function getQueryString(Param) {
                         return decodeURI(
                             (RegExp('[#|&]' + Param + '=' + '(.+?)(&|$)').exec(location.hash) || [, null])[1]

@@ -27,6 +27,7 @@ class FTS_instagram_options_page
     function feed_them_instagram_options_page() {
         $fts_functions = new feed_them_social_functions();
         $fts_instagram_access_token = get_option('fts_instagram_custom_api_token');
+        $fts_instagram_custom_id = get_option('fts_instagram_custom_id');
         $fts_instagram_show_follow_btn = get_option('instagram_show_follow_btn');
         $fts_instagram_show_follow_btn_where = get_option('instagram_show_follow_btn_where');
 
@@ -71,7 +72,18 @@ class FTS_instagram_options_page
                     </div>
 
                     <div class="fts-clear"></div>
+
+
                     <div class="feed-them-social-admin-input-wrap" style="margin-bottom: 0px">
+                        <div class="feed-them-social-admin-input-label fts-instagram-border-bottom-color-label">
+                            <?php _e('Instagram ID', 'feed-them-social'); ?>
+                        </div>
+                        <input type="text" name="fts_instagram_custom_id" class="feed-them-social-admin-input" id="fts_instagram_custom_id" value="<?php echo $fts_instagram_custom_id ?>"/>
+                        <div class="fts-clear"></div>
+                    </div>
+
+
+                    <div class="feed-them-social-admin-input-wrap">
                         <div class="feed-them-social-admin-input-label fts-instagram-border-bottom-color-label">
                             <?php _e('Access Token Required', 'feed-them-social'); ?>
                         </div>
@@ -84,18 +96,34 @@ class FTS_instagram_options_page
                                 }
 
                                 if (window.location.hash) {
+
+                                    $('select').find('option[value=5]').attr('selected','selected');
+
                                     $('#fts_instagram_custom_api_token').val('');
                                     $('#fts_instagram_custom_api_token').val($('#fts_instagram_custom_api_token').val() + getQueryString('access_token'));
+
+
+                                    $('#fts_instagram_custom_id').val('');
+                                    var str =  getQueryString('access_token');
+                                    $('#fts_instagram_custom_id').val($('#fts_instagram_custom_id').val() + str.split('.', 1));
+
                                 }
                             });
                         </script>
-                        <input type="text" name="fts_instagram_custom_api_token" class="feed-them-social-admin-input" id="fts_instagram_custom_api_token" value="<?php echo get_option('fts_instagram_custom_api_token'); ?>"/>
+                        <input type="text" name="fts_instagram_custom_api_token" class="feed-them-social-admin-input" id="fts_instagram_custom_api_token" value="<?php echo $fts_instagram_access_token ?>"/>
                         <div class="fts-clear"></div>
                     </div>
                     <?php
                     // Error Check
+                    // if the combined streams plugin is active we won't allow the settings page link to open up the Instagram Feed, instead we'll remove the #feed_type=instagram and just let the user manually select the combined streams or single instagram feed.
+                    if (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php')) {
+                        $custom_instagram_link_hash = '';
+                    }
+                    else {
+                        $custom_instagram_link_hash = '#feed_type=instagram';
+                    }
                     if (!isset($test_app_token_response->meta->error_message) && !empty($fts_instagram_access_token) || isset($test_app_token_response->meta->error_message) && $test_app_token_response->meta->error_message == 'This client has not been approved to access this resource.') {
-                        echo '<div class="fts-successful-api-token">' . __('Your access token is working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page">settings page</a>.', 'feed-them-social') . '</div>';
+                        echo '<div class="fts-successful-api-token">' . __('Your access token is working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page'.$custom_instagram_link_hash .'">settings page</a>.', 'feed-them-social') . '</div>';
                     } elseif (isset($test_app_token_response->meta->error_message) && !empty($fts_instagram_access_token)) {
                         echo '<div class="fts-failed-api-token">' . __('Oh No something\'s wrong.', 'feed-them-social') . ' ' . $test_app_token_response->meta->error_message . '</div>';
                     }

@@ -877,6 +877,7 @@ class feed_them_social_functions
     function fts_instagram_style_options_page() {
         $instagram_style_options = array(
             'fts_instagram_custom_api_token',
+            'fts_instagram_custom_id',
             'instagram_show_follow_btn',
             'instagram_show_follow_btn_where',
             'instagram_loadmore_background_color',

@@ -792,8 +792,6 @@ class FTS_facebook_options_page
                     <!--/fts-facebook-feed-styles-input-wrap-->
                 <?php } ?>
 
-
-
                 <div class="feed-them-social-admin-input-wrap">
                     <div class="fts-title-description-settings-page">
                         <h3>

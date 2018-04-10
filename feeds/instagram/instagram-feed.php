@@ -158,6 +158,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions
                 'profile_description' => '',
                 'columns' => '',
                 'force_columns' => '',
+                'access_token' => '',
             ), $atts));
             if ($pics_count == NULL)
                 $pics_count = '6';
@@ -171,11 +172,10 @@ class FTS_Instagram_Feed extends feed_them_social_functions
             $pics_count = $pics_count;
         }
         else {
-
             $pics_count = '10';
         }
 
-            wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
+        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
         $instagram_data_array = array();
 
         $fts_instagram_access_token = get_option('fts_instagram_custom_api_token');
@@ -197,11 +197,20 @@ class FTS_Instagram_Feed extends feed_them_social_functions
         }
 
         ob_start();
-        if (empty($fts_instagram_access_token)) {
-            $fts_instagram_tokens_array = array('267791236.df31d88.30e266dda9f84e9f97d9e603f41aaf9e', '267791236.14c1243.a5268d6ed4cf4d2187b0e98b365443af', '267791236.f78cc02.bea846f3144a40acbf0e56b002c112f8', '258559306.502d2c4.c5ff817f173547d89477a2bd2e6047f9');
-            $fts_instagram_access_token = $fts_instagram_tokens_array[array_rand($fts_instagram_tokens_array, 1)];
-        } else {
+          // Omitting for Time Being since Instagram API changes as of April 4th, 2018
+          //  if (empty($fts_instagram_access_token)) {
+          //      $fts_instagram_tokens_array = array('267791236.df31d88.30e266dda9f84e9f97d9e603f41aaf9e', '267791236.14c1243.a5268d6ed4cf4d2187b0e98b365443af', '267791236.f78cc02.bea846f3144a40acbf0e56b002c112f8', '258559306.502d2c4.c5ff817f173547d89477a2bd2e6047f9');
+          //      $fts_instagram_access_token = $fts_instagram_tokens_array[array_rand($fts_instagram_tokens_array, 1)];
+          //  } else {
+          //      $fts_instagram_access_token = $fts_instagram_access_token;
+          //  }
+
+        // New method since Instagram API changes as of April 4th, 2018
+        if($access_token == '') {
             $fts_instagram_access_token = $fts_instagram_access_token;
+        }
+        else {
+            $fts_instagram_access_token = $access_token;
         }
 
         //URL to get Feeds
@@ -432,10 +441,15 @@ class FTS_Instagram_Feed extends feed_them_social_functions
               <?php
 
                 if(is_plugin_active('feed-them-premium/feed-them-premium.php') && isset($popup) && $popup == "yes"){ ?>
-                <div class="fts-instagram-popup-profile-wrap"><div class="fts-profile-pic"><a href="https://www.instagram.com/<?php print $username; ?>"><img src="<?php print $profile_picture; ?>" title="<?php print $username; ?>"/></a></div>
+                <div class="fts-instagram-popup-profile-wrap">
+                    <div class="fts-profile-pic">
+                        <a href="https://www.instagram.com/<?php print $username; ?>"><?php if($type == 'user') {?><img src="<?php print $profile_picture; ?>" title="<?php print $username; ?>"/><?php } else { ?><span class="fts-instagram-icon" style="height:40px; width:40px; line-height:40px; font-size:40px;"></span><?php } ?></a>
+                    </div>
                                 <div class="fts-profile-name-wrap">
 
-                                        <div class="fts-isnta-full-name"><?php print $full_name; ?></div>
+                                        <div class="fts-isnta-full-name">
+                                            <a href="https://www.instagram.com/<?php print $username; ?>" style="color: #000;"><?php if($type == 'user') { print $full_name; } else { print $username; } ?></a>
+                                        </div>
                                             <?php
                                             if (isset($fts_instagram_show_follow_btn) && $fts_instagram_show_follow_btn == 'yes' && $fts_instagram_show_follow_btn_where == 'instagram-follow-above' && isset($instagram_username)) {
                                                  echo '<div class="fts-follow-header-wrap">';

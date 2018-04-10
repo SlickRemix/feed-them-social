@@ -33,9 +33,6 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
  * Facebook and Instagram feeds now have Load More Button and Infinite Scroll features available in Premium Version and they are mobile friendly.
  * Awesome Support!
 
-= COMING SOON =
- * For those of you who are interested in [Steamit](https://steemit.com/) we are working on creating a feed for that too. What better way to gain even more attention and get that crypto :)
-
 = Demos =
  * All Demos can be found on [www.FeedThemSocial.com](http://feedthemsocial.com/)
  * [Facebook Page Feed Demo](http://feedthemsocial.com/)
@@ -72,7 +69,7 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
 
 All SlickRemix plugins come with FREE Basic Support! If you need help or have questions we're here to help, just post on our [Support Forum](https://wordpress.org/support/plugin/feed-them-social#new-topic-0) and we’ll get to you as quickly as we can! (usually within 48hrs)
 
-If you enjoy using our plugin please tell others. [Click here to share](http://www.facebook.com/sharer.php?u=http://wordpress.org/plugins/feed-them-social/&t=FeedThemSocial).
+If you enjoy using our plugin please tell others. [Click here to share](https://www.facebook.com/sharer.php?u=http://wordpress.org/plugins/feed-them-social/&t=FeedThemSocial).
 
 Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](https://www.slickremix.com/)
 
@@ -81,6 +78,17 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.4.0 Tuesday, April 10th, 2018 =
+   * REMOVE: Facebook Group Feed and Specific Events Posts: These feed types have been disabled by Facebook at this time. We'll post changes as we receive them from Facebook. [Read More](https://www.slickremix.com/facebook-api-changes-on-april-4th-2018/).
+   * NOTE: Facebook Event Feed: Facebook now requires you use a page access token to view this feed type. The page access token must be for that facebook page for it to work. An APP ID will not work anymore.
+   * FIX: Instagram Feed: The convert Instagram name option has been removed now that Instgram as removed access for this option. Set your Access Token from the Instagram Options page to get your Instagram ID now. [Read More](https://www.slickremix.com/instagram-api-change-on-april-4th-2018/).
+   * POPUP FIX: Instagram Hashtag or Location Feed: Because of the resent privacy change by Instagram we replaced the missing profile photo with an Instagram Icon and the persons Actual Name replaced with Handle name.
+   * FIX: Instagram Feed: To create additional Instragram Feeds we have now added access_token= to the shortcode generator on the Settings page of our plugin.
+   * FIX: Settings Page: View Extensions and Demo link not working properly.
+   * FIX: Plugins Page: Settings link not working properly.
+   * IMPROVED: Plugin License Page is now only takes 1 click to save ALL license keys and activate them. (Backwards Compatible)
+   * IMPROVED: Convert old License key fields in database to single option array on license key. (Backwards Compatible)
+
 = Version 2.3.8 - 2.3.9 Wednesday, March 15th, 2018 =
    * FIX: Facebook Feed: Extra Images not appearing. We will work on the image slideshow post types in the next update.
    * FIX: Facebook Feed: https:// missing on some outgoing facebook links.

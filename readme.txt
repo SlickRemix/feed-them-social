@@ -86,8 +86,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Instagram Feed: To create additional Instragram Feeds we have now added access_token= to the shortcode generator on the Settings page of our plugin.
    * FIX: Settings Page: View Extensions and Demo link not working properly.
    * FIX: Plugins Page: Settings link not working properly.
-   * IMPROVED: Plugin License Page is now only takes 1 click to save ALL license keys and activate them. (Backwards Compatible)
-   * IMPROVED: Convert old License key fields in database to single option array on license key. (Backwards Compatible)
+   * IMPROVE: Plugin License Page is now only takes 1 click to save ALL license keys and activate them. (Backwards Compatible)
+   * IMPROVE: Convert old License key fields in database to single option array on license key. (Backwards Compatible)
+   * REMOVE: Screenshots for Feed Them Social are no longer in Plugin but moved to the assets folder on wordpress.org repository.
 
 = Version 2.3.8 - 2.3.9 Wednesday, March 15th, 2018 =
    * FIX: Facebook Feed: Extra Images not appearing. We will work on the image slideshow post types in the next update.

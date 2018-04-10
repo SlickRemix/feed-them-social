@@ -57,6 +57,7 @@ class updater_license_page {
         add_action('admin_menu', array($this, 'license_menu'));
         add_action('admin_init', array($this, 'register_options'));
     }
+
     /**
      * Register Plugin License Page Options (overrides options from prem extensions updater files
      *
@@ -78,7 +79,7 @@ class updater_license_page {
                     'plugin_name' => $plugin['title'],
                 );
 
-                add_settings_field($this->setting_option_name.'[' . $key . '][license_key]', '', array($this, 'add_option_setting'), $this->license_page_slug, $this->setting_section_name, $args);
+                add_settings_field($this->setting_option_name . '[' . $key . '][license_key]', '', array($this, 'add_option_setting'), $this->license_page_slug, $this->setting_section_name, $args);
             } //Show Special Box for non actives plugins/extensions!
             else {
                 //Set Variables
@@ -88,7 +89,7 @@ class updater_license_page {
                     'purchase_url' => $plugin['purchase_url'],
                 );
                 //show Premium needed box
-                add_settings_field($this->setting_option_name.'[' . $key . '][license_key]', '', array($this, 'display_premium_needed_license'), $this->license_page_slug, $this->setting_section_name, $args);
+                add_settings_field($this->setting_option_name . '[' . $key . '][license_key]', '', array($this, 'display_premium_needed_license'), $this->license_page_slug, $this->setting_section_name, $args);
             }
         }
     }
@@ -119,14 +120,14 @@ class updater_license_page {
                 <input id="<?php echo $this->setting_option_name ?>[<?php echo $key ?>][license_key]" name="<?php echo $this->setting_option_name ?>[<?php echo $key ?>][license_key]" type="text" placeholder="<?php _e('Enter your license key'); ?>" class="regular-text" value="<?php esc_attr_e($license); ?>"/>
                 <label class="description" for="<?php echo $this->setting_option_name ?>[<?php echo $key ?>][license_key]"><?php if ($status !== false && $status == 'valid') { ?>
 
-                        <?php wp_nonce_field('license_page_nonce','license_page_nonce'); ?>
+                        <?php wp_nonce_field('license_page_nonce', 'license_page_nonce'); ?>
                         <input type="submit" class="button-secondary" name="<?php echo $key ?>_license_deactivate" value="<?php _e('Deactivate License'); ?>"/>
 
                         <div class="edd-license-data"><p><?php _e('License Key Active.'); ?></p></div>
 
                         <?php
                     } else {
-                        wp_nonce_field('license_page_nonce','license_page_nonce'); ?>
+                        wp_nonce_field('license_page_nonce', 'license_page_nonce'); ?>
                         <div class="edd-license-data edd-license-msg-error">
                             <p><?php echo $license_error ?><?php $this->update_admin_notices();
                                 _e('To receive updates notifications, please enter your valid license key.'); ?></p>
@@ -301,8 +302,7 @@ class updater_license_page {
                 // listen for our activate button to be clicked
                 if (isset($_POST[$key . '_license_deactivate'])) {
                     $settings_array = $this->deactivate_license($key, $settings_array[$key]['license_key'], $settings_array);
-                }
-                else{
+                } else {
                     //Clean Up old options if they exist
                     $old_license = get_option($key . '_license_key');
                     $old_status = get_option($key . '_license_status');
@@ -361,7 +361,7 @@ class updater_license_page {
 
                         $message = sprintf(
                             __('Your license key expired on %s.'),
-                            date_i18n(get_option('date_format'), strtotime($license_data->expires, current_time('timestamp')))
+                            date_i18n(get_option('date_format'), strtotime($license_data->expires, time()))
                         );
                         break;
 
@@ -400,7 +400,7 @@ class updater_license_page {
         }
 
         //There is an error so set it in array
-        if ( ! empty( $message ) ) {
+        if (!empty($message)) {
             unset($settings_array[$key]['license_status']);
             $settings_array[$key]['license_error'] = $message;
 
@@ -447,7 +447,7 @@ class updater_license_page {
         $license_data = json_decode(wp_remote_retrieve_body($response));
 
         //There is an error so set it in array
-        if ( ! empty( $message ) ) {
+        if (!empty($message)) {
             unset($settings_array[$key]['license_status']);
             $settings_array[$key]['license_error'] = $message;
 

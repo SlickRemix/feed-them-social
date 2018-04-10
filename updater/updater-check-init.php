@@ -31,7 +31,7 @@ class updater_init {
         //New Updater
         //include(dirname(__FILE__) . '/namespaced_updater_overrides.php');
 
-        if (!function_exists('is_plugin_active')){
+        if (!function_exists('is_plugin_active')) {
             require_once(ABSPATH . '/wp-admin/includes/plugin.php');
         }
 
@@ -88,10 +88,10 @@ class updater_init {
         //Create License Page for main plugin.
         new updater_license_page($this->updater_options_info, $this->prem_plugins_list);
 
-        add_action('plugins_loaded', array($this,'remove_old_updater_actions'),0);
+        add_action('plugins_loaded', array($this, 'remove_old_updater_actions'), 0);
 
         //Run Update Check Class
-        add_action('plugins_loaded', array($this,'plugin_updater_check_init'), 11, 1);
+        add_action('plugins_loaded', array($this, 'plugin_updater_check_init'), 11, 1);
 
     }
 
@@ -103,16 +103,16 @@ class updater_init {
      * @param $settings_array
      * @since 1.6.5
      */
-    function update_old_license_keys_check($settings_array){
+    function update_old_license_keys_check($settings_array) {
         $option_update_needed = false;
 
         //If Setting array is not set then set to array
-        if(!$settings_array){
+        if (!$settings_array) {
             $settings_array = array();
         }
 
         //Remove Old Updater Actions
-        foreach($this->prem_plugins_list as $plugin_key => $prem_plugin) {
+        foreach ($this->prem_plugins_list as $plugin_key => $prem_plugin) {
             //Set Old Key (for EDD sample remove this code. This is only here because we messed up originally)
             $old_plugin_key = ($plugin_key == 'feed_them_social_facebook_reviews') ? 'feed-them-social-facebook-reviews' : $plugin_key;
 
@@ -121,7 +121,7 @@ class updater_init {
             $old_status = get_option($old_plugin_key . '_license_status');
 
             //Is old License Key set?
-            if($old_license){
+            if ($old_license) {
                 //Set New Key
                 $settings_array[$plugin_key]['license_key'] = $old_license;
 
@@ -130,7 +130,7 @@ class updater_init {
                 $option_update_needed = true;
             }
             //Is old Status set?
-            if($old_status){
+            if ($old_status) {
                 $settings_array[$plugin_key]['license_status'] = $old_status;
 
                 delete_option($old_plugin_key . '_license_status');
@@ -140,8 +140,8 @@ class updater_init {
         }
 
         //Re-save Settings array with new options
-        if($option_update_needed == true){
-            update_option( $this->updater_options_info['setting_option_name'], $settings_array);
+        if ($option_update_needed == true) {
+            update_option($this->updater_options_info['setting_option_name'], $settings_array);
         }
     }
 
@@ -152,11 +152,11 @@ class updater_init {
      *
      * @since 1.5.6
      */
-    function remove_old_updater_actions(){
+    function remove_old_updater_actions() {
         //Remove Old Updater Actions
-        foreach($this->prem_plugins_list as $plugin_key => $prem_plugin) {
-            if(has_action('plugins_loaded', $plugin_key.'_plugin_updater')){
-                remove_action('plugins_loaded', $plugin_key.'_plugin_updater', 10);
+        foreach ($this->prem_plugins_list as $plugin_key => $prem_plugin) {
+            if (has_action('plugins_loaded', $plugin_key . '_plugin_updater')) {
+                remove_action('plugins_loaded', $plugin_key . '_plugin_updater', 10);
             }
         }
 
@@ -164,7 +164,7 @@ class updater_init {
         $settings_array = get_option($this->updater_options_info['setting_option_name']);
 
         //If Settings array isn't set see if old licence keys exist
-        if(!$settings_array){
+        if (!$settings_array) {
             //Backwards Compatibility with old 'Sample Plugin' (only Use if Necessary)
             $this->update_old_license_keys_check($settings_array);
         }

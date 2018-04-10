@@ -5550,7 +5550,6 @@ class FTS_settings_page
                     }
                 });
 
-
                     function getQueryString(Param) {
                         return decodeURI(
                             (RegExp('[#|&]' + Param + '=' + '(.+?)(&|$)').exec(location.hash) || [, null])[1]
@@ -5565,9 +5564,8 @@ class FTS_settings_page
                     }
 
                 jQuery('#shortcode-form-selector, #instagram-messages-selector').bind('change', function (e) {
-
                     if (jQuery('#instagram-messages-selector').val() == 'user') {
-                        jQuery('#instagram_id, #access_token').val('');
+                        jQuery('#instagram_id, #insta_access_token').val('');
                         jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo get_option('fts_instagram_custom_id') ?>');
                         jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo get_option('fts_instagram_custom_api_token') ?>');
                     }
@@ -5578,9 +5576,8 @@ class FTS_settings_page
                 });
 
                 jQuery('#combine_instagram, #combine_instagram_type').bind('change', function (e) {
-
+                    jQuery('#combine_instagram_name').val('');
                     if (jQuery('#combine_instagram_type').val() == 'user') {
-                        jQuery('#combine_instagram_name').val('');
                         jQuery('#combine_instagram_name').val(jQuery('#combine_instagram_name').val() + '<?php echo get_option('fts_instagram_custom_id') ?>');
                     }
                     else {

@@ -40,13 +40,15 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
         if (isset($post_data->quoted_status->entities->media[0]->type)) {
             $tFinal = isset($post_data->quoted_status->entities->media[0]->expanded_url) ? $post_data->quoted_status->entities->media[0]->expanded_url : "";
-            $post_data->id = isset($post_data->quoted_status->id) ? $post_data->quoted_status->id : "";
         } else {
             $tFinal = isset($post_data->entities->urls[0]->expanded_url) ? $post_data->entities->urls[0]->expanded_url : "";
         }
+      //  echo '<pre>';
+      //  print_r($post_data);
+      //  echo '</pre>';
 
 
-        $tFinal_retweet_video = isset($post_data->retweeted_status->entities->media[0]->expanded_url) ? $post_data->retweeted_status->entities->media[0]->expanded_url : "";
+      //  $tFinal_retweet_video = isset($post_data->retweeted_status->entities->media[0]->expanded_url) ? $post_data->retweeted_status->entities->media[0]->expanded_url : "";
 
 
         //strip Vimeo URL then ouput Iframe
@@ -62,16 +64,18 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                 // echo $vimeoURLfinal;
             }
 
+
             // echo $vimeoURLfinal;
             return '<div class="fts-fluid-videoWrapper"><iframe src="http://player.vimeo.com/video/' . $vimeoURLfinal . '?autoplay=0" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';
         } //strip Vimeo Staffpics URL then ouput Iframe
 
 
-        elseif (strpos($tFinal, 'vine') > 0 && !strpos($tFinal, '-vine') > 0) {
+     //   elseif (strpos($tFinal, 'vine') > 0 && !strpos($tFinal, '-vine') > 0) {
             // $pattern = str_replace( array( 'https://vine.co/v/', '/', 'http://vine.co/v/'), '', $tFinal);
             // $vineURLfinal = $pattern;
-            return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="fts-vine-embed" src="' . $tFinal . '/embed/simple" frameborder="0"></iframe></div>';
-        } //strip Youtube URL then ouput Iframe and script
+    //        return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="fts-vine-embed" src="' . $tFinal . '/embed/simple" frameborder="0"></iframe></div>';
+    //    } //strip Youtube URL then ouput Iframe and script
+
         elseif (strpos($tFinal, 'youtube') > 0 && !strpos($tFinal, '-youtube') > 0) {
             $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
             preg_match($pattern, $tFinal, $matches);
@@ -95,75 +99,90 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
             $jsonObj = json_decode($decodeiFrame);
 
             return '<div class="fts-fluid-videoWrapper">' . $jsonObj->html . '</div>';
-        } else {
-            include_once(WP_CONTENT_DIR . '/plugins/feed-them-social/feeds/twitter/twitteroauth/twitteroauth.php');
+        }
 
-            $fts_twitter_custom_consumer_key = get_option('fts_twitter_custom_consumer_key');
-            $fts_twitter_custom_consumer_secret = get_option('fts_twitter_custom_consumer_secret');
+        // if(strpos($tFinal, 'pbs.twimg.com') > 0)
 
-            $test_fts_twitter_custom_consumer_key = '35mom6axGlf60ppHJYz1dsShc';
-            $test_fts_twitter_custom_consumer_secret = '7c2TJvUT7lS2EkCULpK6RGHrgXN1BA4oUi396pQEdRj3OEq5QQ';
+        else{
+            //**************************************************
+            // START VIDEO POST
+            //**************************************************
 
-            $fts_twitter_custom_consumer_key = isset($fts_twitter_custom_consumer_key) && $fts_twitter_custom_consumer_key !== '' ? $fts_twitter_custom_consumer_key : $test_fts_twitter_custom_consumer_key;
-            $fts_twitter_custom_consumer_secret = isset($fts_twitter_custom_consumer_secret) && $fts_twitter_custom_consumer_secret !== '' ? $fts_twitter_custom_consumer_secret : $test_fts_twitter_custom_consumer_secret;
+          // Check through the different video options availalbe. For some reson the varaints which are the atcual video urls vary at times in quality so we are going to shoot for 4 first then 2, 3 and 1
+        if(isset($post_data->extended_entities->media[0]->video_info->variants[4]->content_type) && $post_data->extended_entities->media[0]->video_info->variants[4]->content_type == 'video/mp4' ) {
+            $tFinal = isset($post_data->extended_entities->media[0]->video_info->variants[4]->url) ? $post_data->extended_entities->media[0]->video_info->variants[4]->url : "";
+          }
+          elseif(isset($post_data->extended_entities->media[0]->video_info->variants[2]->content_type) && $post_data->extended_entities->media[0]->video_info->variants[2]->content_type == 'video/mp4' ) {
+            $tFinal = isset($post_data->extended_entities->media[0]->video_info->variants[2]->url) ? $post_data->extended_entities->media[0]->video_info->variants[2]->url : "";
+          }
+         elseif(isset($post_data->extended_entities->media[0]->video_info->variants[3]->content_type) && $post_data->extended_entities->media[0]->video_info->variants[3]->content_type == 'video/mp4' ) {
+            $tFinal = isset($post_data->extended_entities->media[0]->video_info->variants[3]->url) ? $post_data->extended_entities->media[0]->video_info->variants[3]->url : "";
+          }
+          elseif(isset($post_data->extended_entities->media[0]->video_info->variants[1]->content_type) && $post_data->extended_entities->media[0]->video_info->variants[1]->content_type == 'video/mp4' ) {
+            $tFinal = isset($post_data->extended_entities->media[0]->video_info->variants[1]->url) ? $post_data->extended_entities->media[0]->video_info->variants[1]->url : "";
+          }
 
-            $fts_twitter_custom_access_token = get_option('fts_twitter_custom_access_token');
-            $fts_twitter_custom_access_token_secret = get_option('fts_twitter_custom_access_token_secret');
+          // The only difference in these lines is the "quoted_status" These are twitter videos from Tweet link people post, the ones above are direct videos users post to there timeline
+          elseif (isset($post_data->quoted_status->extended_entities->media[0]->video_info->variants[4]->content_type) && $post_data->quoted_status->extended_entities->media[0]->video_info->variants[4]->content_type == 'video/mp4' ) {
+            $tFinal = isset($post_data->quoted_status->extended_entities->media[0]->video_info->variants[4]->url) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[4]->url : "";
+          }
+          elseif (isset($post_data->quoted_status->extended_entities->media[0]->video_info->variants[2]->content_type) && $post_data->quoted_status->extended_entities->media[0]->video_info->variants[2]->content_type == 'video/mp4' ) {
+            $tFinal = isset($post_data->quoted_status->extended_entities->media[0]->video_info->variants[2]->url) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[2]->url : "";
+          }
+          elseif (isset($post_data->quoted_status->extended_entities->media[0]->video_info->variants[3]->content_type) && $post_data->quoted_status->extended_entities->media[0]->video_info->variants[3]->content_type == 'video/mp4' ) {
+            $tFinal = isset($post_data->quoted_status->extended_entities->media[0]->video_info->variants[3]->url) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[3]->url : "";
+          }
+          elseif (isset($post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->content_type) && $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->content_type == 'video/mp4' ) {
+            $tFinal = isset($post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->url) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->url : "";
+          }
+          // Check to see if there is a poster image available
+          if(isset($post_data->extended_entities->media[0]->media_url_https)) {
 
-            //Use custom api info
-            if (!empty($fts_twitter_custom_access_token) && !empty($fts_twitter_custom_access_token_secret)) {
-                $connection = new TwitterOAuthFTS(
-                //Consumer Key
-                    $fts_twitter_custom_consumer_key,
-                    //Consumer Secret
-                    $fts_twitter_custom_consumer_secret,
-                    //Access Token
-                    $fts_twitter_custom_access_token,
-                    //Access Token Secret
-                    $fts_twitter_custom_access_token_secret
-                );
-            } //else use default info
-            else {
-                $connection = new TwitterOAuthFTS(
-                //Consumer Key
-                    '4UUpTLglrsvQMjmrfdgdtHEEJ',
-                    //Consumer Secret
-                    'ngtRtVKRvcY4e2lZHHkKNc63JPMn8SnOw1bM0jd6Fv8H5C3phP',
-                    //Access Token
-                    '1561334624-CSmnb3JqhKctSGzYfB5ouf3GmR9Pne1fR2q9PzY',
-                    //Access Token Secret
-                    'CH2Ojl5G4sgn8kUaBIEhy6M0UUvBWs1CrYW8sh1fpCQXT'
-                );
-            }
-            //  if (strpos($tFinal, 'amp.twimg.com') > 0) {
+            $tFinalPoster = isset($post_data->extended_entities->media[0]->media_url_https) ? $post_data->extended_entities->media[0]->media_url_https : "";
+          }
+          elseif(isset($post_data->quoted_status->extended_entities->media[0]->media_url_https)) {
 
-            $reg_video = $post_data->id;
-            // bug about mixed content made by srl
-            // https://twittercommunity.com/t/bug-with-mixed-content-in-embedded-tweet-with-video/77507
-            $videosDecode = $reg_video;
-            $fetchedTweets2 = $connection->get(
-                'statuses/oembed',
-                array(
-                    'id' => $videosDecode,
-                    'widget_type' => 'video',
-                    'hide_tweet' => true,
-                    'hide_thread' => true,
-                    'hide_media' => false,
-                    'omit_script' => false,
-                )
-            );
+            $tFinalPoster = isset($post_data->quoted_status->extended_entities->media[0]->media_url_https) ? $post_data->quoted_status->extended_entities->media[0]->media_url_https : "";
+          }
 
+    //   }
+
+                $FTS_FB_OUTPUT = '<div class="fts-jal-fb-vid-wrap">';
+                                    //This line is here so we can fetch the source to feed into the popup since some html 5 videos can be displayed without the need for a button.
+                                    $FTS_FB_OUTPUT .= '<a href="' . $tFinal . '" style="display:none !important" class="fts-facebook-link-target fts-jal-fb-vid-image fts-video-type"></a>';
+                                    $FTS_FB_OUTPUT .= '<div class="fts-fluid-videoWrapper-html5">';
+                                    $FTS_FB_OUTPUT .= '<video controls poster="' . $tFinalPoster . '" width="100%;" style="max-width:100%;">';
+                                    $FTS_FB_OUTPUT .= '<source src="' . $tFinal . '" type="video/mp4">';
+                                    $FTS_FB_OUTPUT .= '</video>';
+                                    $FTS_FB_OUTPUT .= '</div>';
+
+                 $FTS_FB_OUTPUT .= '</div>';
+
+
+
+
+
+
+
+
+           // return '<div class="fts-fluid-videoWrapper"><iframe src="' . $tFinal_video . '" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';
 
             // print $tFinal;
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          //////////////////////// REMOVING THIS TWITTER VID OPTION TILL WE GET SOME ANSWERS ////////////////////////
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////
+          // https://twittercommunity.com/t/twitter-statuses-oembed-parameters-not-working/105868
+          // https://stackoverflow.com/questions/50419158/twitter-statuses-oembed-parameters-not-working
 
-            return $fetchedTweets2->html;
-            //   } else {
+            return $FTS_FB_OUTPUT;
+           // }
+            // else {
             //      exit('That is not allowed. FTS!');
             //  }
-        } //strip Vine URL then ouput Iframe and script
+       // } //strip Vine URL then ouput Iframe and script
 
-
-        //  } // end main else
+}
+        // end main else
         //  die();
     } // end function
 
@@ -204,8 +223,6 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
             // $media_url = str_replace($not_protocol, $protocol, $media_url);
         } elseif (!empty($post_data->retweeted_status->entities->media[0]->media_url_https)) {
             $media_url = $post_data->retweeted_status->entities->media[0]->media_url_https;
-        } elseif (!empty($post_data->quoted_status->entities->media[0]->media_url_https)) {
-            $media_url = $post_data->quoted_status->entities->media[0]->media_url_https;
         } elseif (!empty($post_data->quoted_status->entities->media[0]->media_url_https)) {
             $media_url = $post_data->quoted_status->entities->media[0]->media_url_https;
         } else {
@@ -446,9 +463,11 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
             } else {
                 $fetchedTweets = $fetchedTweets;
             }
-            //   echo'<pre>';
-            //   print_r($fetchedTweets);
-            //   echo'</pre>';
+            // usually the one I look at
+            //      echo'<pre>';
+            //      print_r($fetchedTweets);
+            //     echo'</pre>';
+
             // get the count based on $exclude_replies
             $limitToDisplay = min($numTweets, count($fetchedTweets));
             for ($i = 0; $i < $limitToDisplay; $i++) {
@@ -693,33 +712,70 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                                         </span>
 
                                         <?php
+
+                                        if (isset($post_data->quoted_status->entities->media[0]->type)) {
+                                            $tFinal = isset($post_data->quoted_status->entities->media[0]->expanded_url) && $post_data->quoted_status->entities->media[0]->expanded_url == 'video';;
+                                        } else {
+                                            $tFinal = isset($post_data->entities->urls[0]->expanded_url) ? $post_data->entities->urls[0]->expanded_url : "";
+                                        }
+
                                         // Regular Posted Videos
                                         $twitter_video_reg = isset($post_data->extended_entities->media[0]->type) && $post_data->extended_entities->media[0]->type == 'video';
 
-                                        // Retweeted video urls
-                                        $twitter_video_retweeted = isset($post_data->retweeted_status->extended_entities->media[0]->type) ? $post_data->retweeted_status->extended_entities->media[0]->type : '';
+                                        // Retweeted video urls // NOTE I HAVE NOT COMPLETED THIS OPTION COMPLETELY BECAUSE I CANNOT FIND AN EXAMPLE
+                                        $twitter_video_retweeted = isset($post_data->retweeted_status->extended_entities->media[0]->type) && $post_data->retweeted_status->extended_entities->media[0]->type == 'video';
 
                                         // Quoted status which is when people retweet or copy paste video tweet link to there tweet. why people do this instead of retweeting is beyond me.
-                                        $twitter_video_quoted_status = isset($post_data->quoted_status->extended_entities->media[0]->type) ? $post_data->quoted_status->extended_entities->media[0]->type : '';
+                                        $twitter_video_quoted_status = isset($post_data->quoted_status->extended_entities->media[0]->type) && $post_data->quoted_status->extended_entities->media[0]->type == 'video';
 
-
-                                        // Quoted status which is when people retweet or copy paste video tweet link to there tweet. why people do this instead of retweeting is beyond me.
+                                        // Quoted status which is when people retweet or copy paste image tweet link to there tweet. why people do this instead of retweeting is beyond me.
                                         $twitter_image_quoted_status = isset($post_data->quoted_status->extended_entities->media[0]->type) && $post_data->quoted_status->extended_entities->media[0]->type == 'photo';
-
 
                                         $twitter_is_video_allowed = get_option('twitter_allow_videos');
                                         $twitter_allow_videos = !empty($twitter_is_video_allowed) ? $twitter_is_video_allowed : 'yes';
 
+                                     if (// These first 4 are the different types of actual twitter videos that can come about
+                                         $twitter_allow_videos == 'yes' && $tFinal == 'video' ||
+                                         $twitter_allow_videos == 'yes' && $twitter_video_reg == 'video' ||
+                                         $twitter_allow_videos == 'yes' && $twitter_video_quoted_status == 'video' ||
+                                         $twitter_allow_videos == 'yes' && $twitter_video_retweeted == 'video' ||
+                                         // 3rd party videos/music we are checking for; youtube, vimeo  and soudcloud
+                                         $twitter_allow_videos == 'yes' && strpos($tFinal, 'vimeo') > 0 ||
+                                         $twitter_allow_videos == 'yes' && strpos($tFinal, 'youtube') > 0 && !strpos($tFinal, '-youtube') > 0 ||
+                                         $twitter_allow_videos == 'yes' && strpos($tFinal, 'youtu.be') > 0 ||
+                                         $twitter_allow_videos == 'yes' && strpos($tFinal, 'soundcloud') > 0)
+                                     {
+                                            if ($twitter_video_quoted_status == 'video') { ?>
+                                            <div class="fts-twitter-quoted-text-wrap fts-twitter-quoted-video"><?php }
 
-                                        if ($twitter_video_quoted_status == 'video') { ?>
-                                        <div class="fts-twitter-quoted-text-wrap fts-twitter-quoted-video">
+                                                 //Print our video if one is available
+                                                print $this->fts_twitter_load_videos($post_data);
+
+                                                if ($twitter_video_quoted_status == 'video') { ?>
+
+                                                    <div class="fts-twitter-quoted-text">
+                                                        <a href="<?php print $user_retweet_permalink ?>" target="_blank" class="fts-twitter-full-name"><?php print $post_data->quoted_status->user->name; ?></a>
+                                                        <a href="<?php print $user_retweet_permalink ?>" target="_blank" class="fts-twitter-at-name">@<?php print $post_data->quoted_status->user->screen_name; ?></a><br />
+                                                        <?php print $this->fts_twitter_quote_description($post_data) ?>
+                                                    </div>
+
+                                                <?php }
+
+                                                if ($twitter_video_quoted_status == 'video') { ?>
+                                            </div>
+                                        <?php }
+                                    }
+                                    else {
+                                            //Print our IMAGE if one is available
+                                            $popup = isset($popup) ? $popup : '';
+
+                                            if ($twitter_image_quoted_status == 'photo') { ?>
+                                                <div class="fts-twitter-quoted-text-wrap fts-twitter-quoted-image">
                                             <?php }
 
-                                            //Print our video if one is available
-                                            print $this->fts_twitter_load_videos($post_data);
+                                            print $this->fts_twitter_image($post_data, $popup);
 
-
-                                            if ($twitter_video_quoted_status == 'video') { ?>
+                                            if ($twitter_image_quoted_status == 'photo') { ?>
 
                                                 <div class="fts-twitter-quoted-text">
                                                     <a href="<?php print $user_retweet_permalink ?>" target="_blank" class="fts-twitter-full-name"><?php print $post_data->quoted_status->user->name; ?></a>
@@ -729,38 +785,10 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
                                             <?php }
 
-                                            if ($twitter_video_quoted_status == 'video') { ?>
-                                        </div>
-                                    <?php }
-
-                                    //Print our IMAGE if one is available
-                                    if ($twitter_video_quoted_status !== 'video' && $twitter_video_retweeted !== 'video') {
-                                        //Print our IMAGE if one is available
-                                        $popup = isset($popup) ? $popup : '';
-
-
-                                        if ($twitter_image_quoted_status == 'photo') { ?>
-                                            <div class="fts-twitter-quoted-text-wrap fts-twitter-quoted-image">
-                                        <?php }
-
-
-                                        print $this->fts_twitter_image($post_data, $popup);
-
-                                        if ($twitter_image_quoted_status == 'photo') { ?>
-
-                                            <div class="fts-twitter-quoted-text">
-                                                <a href="<?php print $user_retweet_permalink ?>" target="_blank" class="fts-twitter-full-name"><?php print $post_data->quoted_status->user->name; ?></a>
-                                                <a href="<?php print $user_retweet_permalink ?>" target="_blank" class="fts-twitter-at-name">@<?php print $post_data->quoted_status->user->screen_name; ?></a><br />
-                                                <?php print $this->fts_twitter_quote_description($post_data) ?>
-                                            </div>
-
-                                        <?php }
-
-                                        if ($twitter_image_quoted_status == 'photo') { ?>
-                                            </div>
-                                        <?php }
-
-                                    } ?>
+                                            if ($twitter_image_quoted_status == 'photo') { ?>
+                                                </div>
+                                            <?php }
+                                     }   ?>
                                     </div>
                                     <div class="fts-twitter-reply-wrap <?php if ($fts_twitter_full_width == 'yes') { ?>fts-twitter-full-width<?php } else { ?>fts-twitter-no-margin-left<?php } ?>"><?php
                                         // twitter permalink per post

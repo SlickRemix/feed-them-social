@@ -2,8 +2,8 @@
 Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 4.9.5
-Stable tag: 2.4.0
+Tested up to: 4.9.6
+Stable tag: 2.4.1
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Groups, Events, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -78,6 +78,10 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.4.1 Friday, May 25th, 2018 =
+   * FIX: Twitter Feed: Twitter cards started displaying because twitters oembed option for displaying twitter videos and removing the tweet info is failing. Now Twitter videos are in a video element instead, which also fixes the issue you may be seeing duplicate images, text, etc.
+   * FIX: Twitter Options: The option to hide videos
+
 = Version 2.4.0 Tuesday, April 10th, 2018 =
    * REMOVE: Facebook Group Feed and Specific Events Posts: These feed types have been disabled by Facebook at this time. We'll post changes as we receive them from Facebook. [Read More](https://www.slickremix.com/facebook-api-changes-on-april-4th-2018/).
    * NOTE: Facebook Event Feed: Facebook now requires you use a page access token to view this feed type. The page access token must be for that facebook page for it to work. An APP ID will not work anymore.
@@ -86,9 +90,8 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Instagram Feed: To create additional Instragram Feeds we have now added access_token= to the shortcode generator on the Settings page of our plugin.
    * FIX: Settings Page: View Extensions and Demo link not working properly.
    * FIX: Plugins Page: Settings link not working properly.
-   * IMPROVE: Plugin License Page is now only takes 1 click to save ALL license keys and activate them. (Backwards Compatible)
-   * IMPROVE: Convert old License key fields in database to single option array on license key. (Backwards Compatible)
-   * REMOVE: Screenshots for Feed Them Social are no longer in Plugin but moved to the assets folder on wordpress.org repository.
+   * IMPROVED: Plugin License Page is now only takes 1 click to save ALL license keys and activate them. (Backwards Compatible)
+   * IMPROVED: Convert old License key fields in database to single option array on license key. (Backwards Compatible)
 
 = Version 2.3.8 - 2.3.9 Wednesday, March 15th, 2018 =
    * FIX: Facebook Feed: Extra Images not appearing. We will work on the image slideshow post types in the next update.

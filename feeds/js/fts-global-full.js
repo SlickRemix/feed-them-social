@@ -14,7 +14,7 @@ jQuery(document).ready(function() {
     }
 
     if (navigator.userAgent.indexOf("Firefox") > 0) {} else {
-        jQuery(".fts-instagram-popup-half video, .fts-simple-fb-wrapper video, .fts-slicker-facebook-posts video").click(function() {
+        jQuery(".fts-instagram-popup-half video, .fts-simple-fb-wrapper video, .fts-slicker-facebook-posts video, .fts-fluid-videoWrapper-html5 video").click(function() {
             jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")
         })
     }

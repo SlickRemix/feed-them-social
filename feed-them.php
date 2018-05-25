@@ -8,7 +8,7 @@
  * Plugin Name: Feed Them Social (Facebook, Instagram, Twitter, etc)
  * Plugin URI: http://feedthemsocial.com/
  * Description: Create and display custom feeds for Facebook Groups, Facebook Pages, Facebook Events, Facebook Photos, Facebook Album Covers, Twitter, Instagram, Pinterest and more.
- * Version: 2.4.0
+ * Version: 2.4.1
  * Author: SlickRemix
  * Author URI: https://slickremix.com/
  * Text Domain: feed-them-social

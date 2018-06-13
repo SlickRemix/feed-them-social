@@ -141,7 +141,7 @@ class FTS_facebook_options_page
                             }
 
                         } else {
-                            echo '<div class="fts-successful-api-token default-token">' . __('You are using our Default APP Token for testing purposes. Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page">settings page</a> to test your feed, but remember to add your own tokens after testing as the default token will not always work.', 'feed-them-social') . '</div>';
+                            echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
                         }
                         ?>
                         <div class="clear"></div>

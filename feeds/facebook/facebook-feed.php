@@ -1232,27 +1232,27 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
      */
     function get_access_token() {
         //API Access Token
-        $custom_access_token = get_option('fts_facebook_custom_api_token');
-        if (!empty($custom_access_token)) {
+     //   $custom_access_token = get_option('fts_facebook_custom_api_token');
+     //   if (!empty($custom_access_token)) {
             $access_token = get_option('fts_facebook_custom_api_token');
-            return $access_token;
-        } else {
+     //       return $access_token;
+     //   } else {
             //Randomizer
-            $values = array(
-                '431287540548931|4A23YYIFqhd-gpz_E4Fy6U_Seo0',
-                '1748446362151826|epVUmLiKT8QhLN63iRvvXXHwxqk',
-                '1875381106044241|KmWz3mtzGye0M5HTdX0SK7rqpIU',
-                '754106341419549|AMruxCJ_ly8825VXeLhBKo_kOfs',
-                '438563519819257|1GJ8GLl1AQ7ZTvXV_Xpok_QpH6s',
-                '753693994788276|xm_PXoNRWW8WPQdcQArRpBgWn5Q',
-                '644818402385988|sABEvG0QiOaJRlNLC2NphfQLlfg',
-                '292500071162951|9MA-kzWVs6HTEybpdxKjgF_gqeo',
-                '263710677420086|Jpui2CFig7RbtdHaHPN_fiEa77U',
-                '1850081601881384|u2JcPCn7TH40MY5BwC-i4PMHGm8',
-            );
-            $access_token = $values[array_rand($values, 1)];
+     //       $values = array(
+     //           '431287540548931|4A23YYIFqhd-gpz_E4Fy6U_Seo0',
+     //           '1748446362151826|epVUmLiKT8QhLN63iRvvXXHwxqk',
+     //           '1875381106044241|KmWz3mtzGye0M5HTdX0SK7rqpIU',
+     //           '754106341419549|AMruxCJ_ly8825VXeLhBKo_kOfs',
+     //           '438563519819257|1GJ8GLl1AQ7ZTvXV_Xpok_QpH6s',
+     //           '753693994788276|xm_PXoNRWW8WPQdcQArRpBgWn5Q',
+     //           '644818402385988|sABEvG0QiOaJRlNLC2NphfQLlfg',
+     //           '292500071162951|9MA-kzWVs6HTEybpdxKjgF_gqeo',
+     //           '263710677420086|Jpui2CFig7RbtdHaHPN_fiEa77U',
+     //           '1850081601881384|u2JcPCn7TH40MY5BwC-i4PMHGm8',
+     //       );
+     //       $access_token = $values[array_rand($values, 1)];
             return $access_token;
-        }
+     //   }
     }
 
     /**

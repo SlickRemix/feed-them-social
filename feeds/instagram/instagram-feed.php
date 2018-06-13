@@ -163,6 +163,11 @@ class FTS_Instagram_Feed extends feed_them_social_functions
             if ($pics_count == NULL)
                 $pics_count = '6';
         }
+        // Added new debug option SRL: 6/7/18
+        extract(shortcode_atts(array(
+            'debug' => '',
+            'debug_userinfo' => '',
+        ), $atts));
 
         if(!is_plugin_active('feed-them-premium/feed-them-premium.php') && $pics_count > '6'){
             $pics_count = '6';
@@ -206,6 +211,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions
           //  }
 
         // New method since Instagram API changes as of April 4th, 2018
+
         if($access_token == '') {
             $fts_instagram_access_token = $fts_instagram_access_token;
         }
@@ -229,22 +235,53 @@ class FTS_Instagram_Feed extends feed_them_social_functions
 
         $cache = 'instagram_cache_' . $instagram_id . '_num' . $pics_count . '';
 
-        $response = $this->fts_get_feed_json($instagram_data_array);
+        // First we make sure the feed is not cached already before trying to run the Instagram API
+        if (false == ($transient_exists = $this->fts_check_feed_cache_exists($cache))) {
+            $response = $this->fts_get_feed_json($instagram_data_array);
 
-        //Error Check
-        $error_check = json_decode($response['data']);
-        if (isset($error_check->meta->error_message)) {
-            return $error_check->meta->error_message;
+            //Error Check
+            $error_check = json_decode($response['data']);
+
+          //  $error_check_test = 'test error zzzz';
+          //  || $error_check_test == 'test error';
+
+            if($debug == 'true' && current_user_can('administrator') ) {
+                echo __('Check if user exists in Instagram\'s API', 'feed-them-social');
+                echo '<br/><pre>';
+                print_r($error_check);
+                echo '</pre>';
+            }
         }
 
+        // If the feed is cached then we run the cached array to display the feed.
         if (false !== ($transient_exists = $this->fts_check_feed_cache_exists($cache)) && !isset($_GET['load_more_ajaxing'])) {
             $response = $this->fts_get_feed_cache($cache);
             $insta_data = json_decode($response['data']);
-        } else {
+            $note =  __('Cached', 'feed-them-social');
+        }
+        // If the Instagram API array returns any error messages we check for them here and return the corrisponding error message.
+        elseif (isset($error_check->error_message) || isset($error_check->meta->error_message)  || empty($error_check)) {
+            if (current_user_can('administrator')) {
+
+                if (isset($error_check->error_message)) {
+                    $error = $error_check->error_message;
+                } elseif (isset($error_check->meta->error_message)) {
+                    $error = $error_check->meta->error_message;
+                } else {
+                    $error = __('Please go to the Instagram Options page of our plugin a double check your Instagram ID matches the one used in your shortcode on this page.', 'feed-them-social');
+                }
+
+                   return __('Feed Them Social (Notice visible to Admin only). Instagram returned:', 'feed-them-social').' '.$error;
+            } else {
+                   return;
+            }
+        }
+        else {
             $insta_data = json_decode($response['data']);
             //if Error DON'T Cache
-            if (!isset($error_check->meta->error_message) && !isset($_GET['load_more_ajaxing'])) {
+            if (!isset($error_check->meta->error_message) && !isset($_GET['load_more_ajaxing']) || !isset($error_check->error_message) && !isset($_GET['load_more_ajaxing'])) {
                 $this->fts_create_feed_cache($cache, $response);
+                $note =  __('Not Cached', 'feed-them-social');
             }
         }
 
@@ -258,15 +295,18 @@ class FTS_Instagram_Feed extends feed_them_social_functions
             $website = $instagram_user_info->data->website;
         }
 
-
-         // echo '<pre>';
-         // print_r($instagram_user_info);
-         // echo '</pre>';
+        if($debug_userinfo == 'true' && current_user_can('administrator') ) {
+            echo '<pre>';
+            print_r($instagram_user_info);
+            echo '</pre>';
+        }
 
             //->pagination->next_url
-        //  echo '<pre>';
-        //  print_r($insta_data);
-        //  echo '</pre>';
+        if($debug == 'true' && current_user_can('administrator') ) {
+            echo $note.'<br/><pre>';
+            print_r($response);
+            echo '</pre>';
+        }
 
         //Make sure it's not ajaxing
         if (!isset($_GET['load_more_ajaxing'])) {

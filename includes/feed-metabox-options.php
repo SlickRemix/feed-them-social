@@ -105,10 +105,10 @@ class Feed_Metabox_Options {
                     'title' => __('Facebook Page', 'feed-them-social'),
                 ),
                 //Facebook Page List of Events
-                array(
-                    'value' => 'events',
-                    'title' => __('Facebook Page List of Events', 'feed-them-social'),
-                ),
+             //   array(
+             //       'value' => 'events',
+             //       'title' => __('Facebook Page List of Events', 'feed-them-social'),
+             //   ),
                 //Facebook Page Single Event Posts
                 array(
                     'value' => 'event',

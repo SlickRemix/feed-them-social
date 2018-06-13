@@ -106,6 +106,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                 'id' => '',
                 'type' => '',
                 'posts' => '',
+                'description' => 'yes',
                 'posts_displayed' => '',
                 'height' => '',
                 'album_id' => '',
@@ -434,20 +435,16 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             }
             if($FB_Shortcode['type'] !== 'reviews') {
                 if (is_plugin_active('feed-them-premium/feed-them-premium.php')) {
-
                     // $FTS_FB_OUTPUT .= our Facebook Page Title or About Text. Commented out the group description because in the future we will be adding the about description.
-
                     $fts_align_title = isset($FB_Shortcode['title_align']) && $FB_Shortcode['title_align'] !== '' ? 'style="text-align:' . $FB_Shortcode['title_align'] . ';"' : '';
                     $FTS_FB_OUTPUT .= isset($FB_Shortcode['title']) && $FB_Shortcode['title'] !== 'no' ? '<h1 ' . $fts_align_title . '><a href="' . $fts_view_fb_link . '" target="_blank">' . $page_data->name . '</a></h1>' : '';
-                    //Description
-                    $FTS_FB_OUTPUT .= isset($FB_Shortcode['description']) && $FB_Shortcode['description'] !== 'no' ? '<div class="fts-jal-fb-group-header-desc">' . $this->fts_facebook_tag_filter($page_data->description) . '</div>' : '';
 
                 } else {
                     // $FTS_FB_OUTPUT .= our Facebook Page Title or About Text. Commented out the group description because in the future we will be adding the about description.
                     $FTS_FB_OUTPUT .= '<h1><a href="' . $fts_view_fb_link . '" target="_blank">' . $page_data->name . '</a></h1>';
-                    //Description
-                    $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-group-header-desc">' . $this->fts_facebook_tag_filter($page_data->description) . '</div>';
                 }
+                //Description
+                $FTS_FB_OUTPUT .= isset($FB_Shortcode['description']) && $FB_Shortcode['description'] !== 'no' ? '<div class="fts-jal-fb-group-header-desc">' . $this->fts_facebook_tag_filter($page_data->description) . '</div>' : '';
             }
             //END Header
             $FTS_FB_OUTPUT .= '</div>';
@@ -1510,13 +1507,13 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             $response = $this->fts_get_feed_json($mulit_data);
 
             if (!isset($_GET['load_more_ajaxing'])) {
-                //Error Check
-                $feed_data = json_decode($response['feed_data']);
-                $fts_error_check = new fts_error_handler();
-                $fts_error_check_complete = $fts_error_check->facebook_error_check($FB_Shortcode, $feed_data);
-                if (is_array($fts_error_check_complete) && $fts_error_check_complete[0] == true) {
-                    return array(false, $fts_error_check_complete[1]);
-                }
+                    //Error Check
+                    $feed_data = json_decode($response['feed_data']);
+                    $fts_error_check = new fts_error_handler();
+                    $fts_error_check_complete = $fts_error_check->facebook_error_check($FB_Shortcode, $feed_data);
+                    if (is_array($fts_error_check_complete) && $fts_error_check_complete[0] == true) {
+                        return array(false, $fts_error_check_complete[1]);
+                    }
             }
 
             //Make sure it's not ajaxing
@@ -1640,7 +1637,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             }
 
         } //End else
-        //  echo'<pre>';
+         // echo'<pre>';
         //   print_r($response_post_array);
         //  echo'</pre>';
         return $response_post_array;

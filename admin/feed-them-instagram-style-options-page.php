@@ -58,9 +58,9 @@ class FTS_instagram_options_page
                         //Error Check
                         $test_app_token_response = json_decode($response);
 
-                        //   echo '<pre>';
-                        //   print_r(json_decode($response));
-                        //   echo '</pre>';
+                         //  echo '<pre>';
+                         //  print_r(json_decode($response));
+                         //  echo '</pre>';
                         ?>
                         <p>
                             <?php _e('This is required to make the feed work. Just click the button below and it will connect to your instagram to get an access token, then it will return it in the input below. Then just click the save button and you will now be able to generate your Instagram feed. If the button is not working for you and can always manually create an Access Token <a href="http://www.slickremix.com/docs/how-to-create-instagram-access-token/" target="_blank">here</a>.', 'feed-them-social'); ?>
@@ -122,10 +122,11 @@ class FTS_instagram_options_page
                     else {
                         $custom_instagram_link_hash = '#feed_type=instagram';
                     }
-                    if (!isset($test_app_token_response->meta->error_message) && !empty($fts_instagram_access_token) || isset($test_app_token_response->meta->error_message) && $test_app_token_response->meta->error_message == 'This client has not been approved to access this resource.') {
+                    if (!isset($test_app_token_response->meta->error_message) && !isset($test_app_token_response->error_message) && !empty($fts_instagram_access_token) || isset($test_app_token_response->meta->error_message) && $test_app_token_response->meta->error_message == 'This client has not been approved to access this resource.') {
                         echo '<div class="fts-successful-api-token">' . __('Your access token is working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page'.$custom_instagram_link_hash .'">settings page</a>.', 'feed-them-social') . '</div>';
-                    } elseif (isset($test_app_token_response->meta->error_message) && !empty($fts_instagram_access_token)) {
-                        echo '<div class="fts-failed-api-token">' . __('Oh No something\'s wrong.', 'feed-them-social') . ' ' . $test_app_token_response->meta->error_message . '</div>';
+                    } elseif (isset($test_app_token_response->meta->error_message) && !empty($fts_instagram_access_token) || isset($test_app_token_response->error_message) && !empty($fts_instagram_access_token)) {
+                        $text = isset($test_app_token_response->meta->error_message) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
+                        echo '<div class="fts-failed-api-token">' . __('Oh No something\'s wrong.', 'feed-them-social') . ' ' . $text . '</div>';
                     }
                     if (empty($fts_instagram_access_token)) {
                         echo '<div class="fts-failed-api-token">' . __('You are required to get an access token to view your photos. Click Save all Changes after getting your Access Token.', 'feed-them-social') . '</div>';

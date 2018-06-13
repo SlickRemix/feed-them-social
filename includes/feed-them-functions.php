@@ -806,6 +806,7 @@ class feed_them_social_functions
             'fb_reviews_overall_rating_reviews_text',
             'fb_max_image_width',
             'fb_hide_images_in_posts',
+            'fb_hide_error_handler_message',
             'fb_count_offset',
             'fb_hide_no_posts_message',
             'fts_facebook_custom_api_token_user_id',

@@ -3,10 +3,10 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.6
-Stable tag: 2.4.1
+Stable tag: 2.4.2
 License: GPLv2 or later
 
-Custom feeds for Facebook Pages, Groups, Events, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
+Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
 
 == Description ==
 Create Social Feeds of any or all your celebrities, family, friends, yourself, or businesses. Looks great on Desktops, Tablets, and Mobile Devices.
@@ -21,16 +21,16 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
 
 = Features include the following: =
  * Easy to Install and Setup.
- * View photos and videos from your Facebook Page, Group, Album Photos, Album Covers or Event in our FREE version.
+ * View your Facebook Page, Album Photos or Album Covers in our FREE version.
  * Add as many social feeds as you need!
  * Display social feeds on any post, page, or sidebar!
  * Easily generate all the shortcodes you need for any feed with our SUPER SIMPLE shortcode generator.
  * Responsive Social Feeds.
  * Customize Font Colors.
- * Share options for the Facebook, Instagram and Twitter Feeds.
+ * Share options for the Facebook, Instagram, Twitter, Pinterest and YouTube Feeds.
  * Add Like and/or Follow Buttons above or below any feeds.
- * With our [Premium Extension](https://www.slickremix.com/product/feed-them-social-premium-extension/) you can set how many posts, pictures, tweets, or videos for each individual social feed! Facebook Groups now has the option to hide the Title or Description too! [See Example Demo](http://feedthemsocial.com/)
- * Facebook and Instagram feeds now have Load More Button and Infinite Scroll features available in Premium Version and they are mobile friendly.
+ * With our [Premium Extension](https://www.slickremix.com/product/feed-them-social-premium-extension/) you can set how many posts, pictures, tweets, or videos for each individual social feed. [See Example Demo](http://feedthemsocial.com/)
+ * Facebook, Instagram, Twitter and YouTube feeds have a Load More Button option and Auto Load more posts when you get done scrolling to the end of the feed. These features and much more are available in the Premium Version and they are mobile friendly.
  * Awesome Support!
 
 = Demos =
@@ -38,8 +38,6 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
  * [Facebook Page Feed Demo](http://feedthemsocial.com/)
  * [Facebook Album Photos Feed Demo](http://feedthemsocial.com/facebook-album-photos-demo/)
  * [Facebook Album Covers Feed Demo](http://feedthemsocial.com/facebook-album-covers/)
- * [Facebook Group Feed Demo](http://feedthemsocial.com/facebook-group-feed-demo/)
- * [Facebook Events Feed Demo](http://feedthemsocial.com/facebook-page-events-list/)
  * [Instagram Feed Demo](http://feedthemsocial.com/instagram-feed-demo/)
  * [Twitter Feed Demo](http://feedthemsocial.com/twitter-feed-demo/)
  * [Pinterest Boards Demo](http://feedthemsocial.com/pinterest/)
@@ -78,6 +76,14 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.4.2 Wednesday, June 13th, 2018 =
+   * FIX: Instagram Feed: User data was not getting cached probably cause API usage even if the feed was cached. Additional error check in place should also make sure cached feed is used if error found.
+   * FIX: Instagram Options: Message under Access Token will now show if your Access Token has hit an API limit and what the total consuption is. 200 calls per hour is the general limit, Instagram says. This does not mean 200 page loads or visitors, this means how much information is called from Instagram to create your feed. That is why extended cache times are best now.
+   * FIX: Facebook Options: Added an option to hide the Facebook error handler.
+   * EDIT: Remove all mention of Facebook Group feeds and edited site documentation until further notice.
+   * EDIT: Settings > Global Options - Cache Times: Remove all but 1 Day, 2 Days, 1 Week, 2 Weeks and Developer empty cache on reload select options.
+   * EDIT: Settings - Remove option to create Events. At this time many people seem to be experiencing more troubles than not, so for the time being we are going to remove the option to create this type of feed.
+
 = Version 2.4.1 Friday, May 25th, 2018 =
    * FIX: Twitter Feed: Twitter cards started displaying because twitters oembed option for displaying twitter videos and removing the tweet info is failing. Now Twitter videos are in a video element instead, which also fixes the issue you may be seeing duplicate images, text, etc.
    * FIX: Twitter Options: The option to hide videos

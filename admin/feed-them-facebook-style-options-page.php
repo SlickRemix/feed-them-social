@@ -49,6 +49,7 @@ class FTS_facebook_options_page
                 $fb_like_btn_color = get_option('fb_like_btn_color', 'light');
                 $fb_hide_shared_by_etc_text = get_option('fb_hide_shared_by_etc_text');
                 $fb_hide_images_in_posts = get_option('fb_hide_images_in_posts');
+                $fb_hide_error_handler_message = get_option('fb_hide_error_handler_message');
                 $fb_hide_no_posts_message = get_option('fb_hide_no_posts_message');
                 $fb_reviews_remove_see_reviews_link = get_option('fb_reviews_remove_see_reviews_link');
                 $fb_loadmore_background_color = get_option('fb_loadmore_background_color');
@@ -67,13 +68,13 @@ class FTS_facebook_options_page
                         <h3>
                             <?php _e('Facebook API Token', 'feed-them-social'); ?>
                         </h3>
-                        <?php _e('Facebook App Token works for all facebook feeds. If you are trying to show a <strong>Group Feed</strong> but do not have a facebook page you will need to go <a href="https://www.slickremix.com/docs/create-facebook-app-id-or-user-token" target="_blank">here</a>.', 'feed-them-social'); ?>
+                        <?php _e('This Facebook Access Token is for Business Pages, Events, Photos and Videos only and is simply used to display the feed. This will NOT work for personal accounts or groups. You must be an admin of the page to get your token.', 'feed-them-social'); ?>
                         <p>
                             <a href="https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo admin_url('admin.php?page=fts-facebook-feed-styles-submenu-page'); ?>&scope=manage_pages%2Cpublic_profile%2Cuser_friends%2Cemail" class="fts-facebook-get-access-token">Login
                                 and get my Access Token</a></p>
 
                     </div>
-                    <a href="https://www.slickremix.com/docs/create-facebook-app-id-or-user-token" target="_blank" class="fts-admin-button-no-work"><?php _e('Button not working?', 'feed-them-social'); ?></a>
+                    <a href="mailto:support@slickremix.com" target="_blank" class="fts-admin-button-no-work"><?php _e('Button not working?', 'feed-them-social'); ?></a>
                     <?php
                     $test_app_token_id = get_option('fts_facebook_custom_api_token');
                     $test_app_token_id_biz = get_option('fts_facebook_custom_api_token_biz');
@@ -174,7 +175,7 @@ class FTS_facebook_options_page
 
                         </div>
 
-                        <a href="https://www.slickremix.com/facebook-never-expiring-page-token" target="_blank" class="fts-admin-button-no-work"><?php _e('Button not working?', 'feed-them-social'); ?></a>
+                        <a href="mailto:support@slickremix.com" target="_blank" class="fts-admin-button-no-work"><?php _e('Button not working?', 'feed-them-social'); ?></a>
                         <div class="clear"></div>
                         <div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
                             <?php _e('Page Reviews Access Token', 'feed-them-social'); ?>
@@ -534,11 +535,11 @@ class FTS_facebook_options_page
                 </div>
                 <!--/fts-twitter-feed-styles-input-wrap-->
 
-                <div class="feed-them-social-admin-input-wrap">
+                <div class="feed-them-social-admin-input-wrap" style="display: none">
                     <div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
                         <?php _e('Facebook APP ID<br/><small>Not required if you used the "Login and get my Access Token" button, otherwise View Step 3 to <a href="http://www.slickremix.com/docs/create-facebook-app-id-or-user-token" target="_blank">get APP ID</a>.</small>', 'feed-them-social'); ?>
                     </div>
-                    <input type="text" name="fb_app_ID" class="feed-them-social-admin-input" id="fb-app-ID" value="<?php echo get_option('fb_app_ID'); ?>" placeholder="Not Required for New Users"/>
+                    <input type="text" name="fb_app_ID" class="feed-them-social-admin-input" id="fb-app-ID" value="<?php // echo get_option('fb_app_ID'); ?>" placeholder="Not Required for New Users"/>
                     <div class="clear"></div>
                 </div>
                 <div class="feed-them-social-admin-input-wrap">
@@ -666,16 +667,16 @@ class FTS_facebook_options_page
                 </div>
                 <!--/fts-facebook-feed-styles-input-wrap-->
 
-                    <?php if (is_plugin_active('feed-them-premium/feed-them-premium.php') || is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php')) { ?>
-                            <div class="feed-them-social-admin-input-wrap">
-                                <div class="feed-them-social-admin-input-label fts-fb-post-background-color-label">
-                                    <?php _e('Post Background Color<br/><small>Only works with show_media=top</small>', 'feed-them-social'); ?>
-                                </div>
-                                <input type="text" name="fb_post_background_color" class="feed-them-social-admin-input fb-post-background-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="fb-feed-background-color-input" placeholder="#ddd" value="<?php echo get_option('fb_post_background_color'); ?>"/>
-                                <div class="clear"></div>
-                            </div>
-                            <!--/fts-facebook-feed-styles-input-wrap-->
-                    <?php } ?>
+                <?php if (is_plugin_active('feed-them-premium/feed-them-premium.php') || is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php')) { ?>
+                    <div class="feed-them-social-admin-input-wrap">
+                        <div class="feed-them-social-admin-input-label fts-fb-post-background-color-label">
+                            <?php _e('Post Background Color<br/><small>Only works with show_media=top</small>', 'feed-them-social'); ?>
+                        </div>
+                        <input type="text" name="fb_post_background_color" class="feed-them-social-admin-input fb-post-background-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="fb-feed-background-color-input" placeholder="#ddd" value="<?php echo get_option('fb_post_background_color'); ?>"/>
+                        <div class="clear"></div>
+                    </div>
+                    <!--/fts-facebook-feed-styles-input-wrap-->
+                <?php } ?>
 
                 <div class="feed-them-social-admin-input-wrap">
                     <div class="feed-them-social-admin-input-label fts-fb-feed-background-color-label">
@@ -792,7 +793,7 @@ class FTS_facebook_options_page
                     <!--/fts-facebook-feed-styles-input-wrap-->
                 <?php } ?>
 
-                <div class="feed-them-social-admin-input-wrap">
+                <div class="feed-them-social-admin-input-wrap" style="display: none !important;">
                     <div class="fts-title-description-settings-page">
                         <h3>
                             <?php _e('Event Style Options', 'feed-them-social'); ?>
@@ -821,6 +822,32 @@ class FTS_facebook_options_page
                         <?php _e('Events Feed: Map Link Color', 'feed-them-social'); ?>
                     </div>
                     <input type="text" name="fb_events_map_link_color" class="feed-them-social-admin-input fb-events-map-link-color color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="fb-events-map-link-color-input" placeholder="#ddd" value="<?php echo get_option('fb_events_map_link_color'); ?>"/>
+                    <div class="clear"></div>
+                </div>
+                <!--/fts-facebook-feed-styles-input-wrap-->
+
+
+                <div class="feed-them-social-admin-input-wrap">
+                    <div class="fts-title-description-settings-page">
+                        <h3>
+                            <?php _e('Facebook Error Message', 'feed-them-social'); ?>
+                        </h3>
+                        <?php _e('If your feed is displaying a notice or error message at times you can utilize this option to hide them from displaying. Make sure and delete the <a href="admin.php?page=feed-them-settings-page&tab=global_options">Cache</a> to see the change. <p><small>NOTE: This does not hide any php warnings that may come up. To remove those go to the wp-config.php file on root of your WordPress install and set the wp_debug option to FALSE. Having that option set to TRUE is really only necessary when developing.</small></p>', 'feed-them-social'); ?>
+                    </div>
+                    <div class="feed-them-social-admin-input-label fb-error-handler-label">
+                        <?php _e('Hide Error Handler Message', 'feed-them-social'); ?>
+                    </div>
+                    <select name="fb_hide_error_handler_message" id="fb_hide_error_handler_message" class="feed-them-social-admin-input">
+                        <option value="">
+                            <?php _e('Please Select Option', 'feed-them-social'); ?>
+                        </option>
+                        <option <?php echo selected($fb_hide_error_handler_message, 'no', false) ?> value="no">
+                            <?php _e('No', 'feed-them-social'); ?>
+                        </option>
+                        <option <?php echo selected($fb_hide_error_handler_message, 'yes', false) ?> value="yes">
+                            <?php _e('Yes', 'feed-them-social'); ?>
+                        </option>
+                    </select>
                     <div class="clear"></div>
                 </div>
                 <!--/fts-facebook-feed-styles-input-wrap-->

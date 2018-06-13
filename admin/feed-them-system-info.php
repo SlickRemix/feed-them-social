@@ -167,6 +167,7 @@ $feed_them_social_premium_license_key = get_option('feed_them_social_premium_lic
 $fts_bar_license_key = get_option('fts_bar_license_key');
 $feed_them_carousel_premium_license_key = get_option('feed_them_carousel_premium_license_key');
 $feed_them_social_combined_streams_license_key = get_option('feed_them_social_combined_streams_license_key');
+$fb_hide_error_handler_message = get_option('fb_hide_error_handler_message');
 
 	?>YouTube:                    <?php echo $youtubeOptions     . "\n"; ?>
 
@@ -174,6 +175,10 @@ $feed_them_social_combined_streams_license_key = get_option('feed_them_social_co
 
 Date Format:                <?php echo $ftsDateTimeFormat     . "\n"; ?>
 Timezone:                   <?php echo $ftsTimezone     . "\n"; ?>
+
+-- Hide Facebook Error Handler:
+
+Hide:                       <?php echo isset($fb_hide_error_handler_message) && $fb_hide_error_handler_message == 'yes' ? 'Yes'. "\n" : 'No'. "\n"; ?>
 
 -- Fix Twitter Time:
 

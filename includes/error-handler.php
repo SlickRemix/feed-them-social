@@ -146,11 +146,17 @@ class fts_error_handler
                     //If just code.
                     if (isset($feed_data->error_msg)) $output = 'Error: ' . $feed_data->error_msg;
                     if (isset($feed_data->error_code)) $output .= '<br />Code: ' . $feed_data->error_code;
-                    throw new \Exception('<div style="clear:both; padding:15px 0;">' . $output . '</div>');
+                    throw new \Exception('<div style="clear:both; padding:15px 0;" class="fts-error-m">' . $output . '</div>');
                 }
             }
         } catch (\Exception $e) {
-            return array(true, $e->getMessage());
+            $fb_hide_error_handler_message = get_option('fb_hide_error_handler_message') && get_option('fb_hide_error_handler_message') == 'yes' ? 'yes' : 'no';
+            if ($fb_hide_error_handler_message == 'no') {
+                return array(true, $e->getMessage());
+            }
+            else{
+                return array(true, '');
+            }
         }
     }
 }

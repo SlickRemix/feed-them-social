@@ -1162,10 +1162,10 @@ class FTS_settings_page
                                             'title' => __('Facebook Page', 'feed-them-social'),
                                         ),
                                         //Facebook Page List of Events
-                                        array(
-                                            'value' => 'events',
-                                            'title' => __('Facebook Page List of Events', 'feed-them-social'),
-                                        ),
+                                //        array(
+                                //            'value' => 'events',
+                                //            'title' => __('Facebook Page List of Events', 'feed-them-social'),
+                                //        ),
                                  //       //Facebook Page Single Event Posts
                                  //       array(
                                  //           'value' => 'event',
@@ -1424,7 +1424,6 @@ class FTS_settings_page
                                                     'value' => 'no',
                                                 ),
                                             ),
-                                            'req_plugin' => 'fts_premium',
                                             'short_attr' => array(
                                                 'attr_name' => 'description',
                                             ),
@@ -4860,17 +4859,13 @@ class FTS_settings_page
                                 <p>
                                     <label><?php _e('Cache Time', 'feed-them-social'); ?></label>
                                     <select id="fts_clear_cache_developer_mode" name="fts_clear_cache_developer_mode">
-                                        <option value="10" <?php if ($ftsDevModeCache == '10') echo 'selected="selected"'; ?>><?php _e('10 Seconds (for testing only)', 'feed-them-social'); ?></option>
-                                        <option value="300" <?php if ($ftsDevModeCache == '300') echo 'selected="selected"'; ?>><?php _e('5 Minutes', 'feed-them-social'); ?></option>
-                                        <option value="600" <?php if ($ftsDevModeCache == '600') echo 'selected="selected"'; ?>><?php _e('10 Minutes', 'feed-them-social'); ?></option>
-                                        <option value="900" <?php if ($ftsDevModeCache == '900') echo 'selected="selected"'; ?>><?php _e('15 Minutes', 'feed-them-social'); ?></option>
-                                        <option value="1200" <?php if ($ftsDevModeCache == '1200') echo 'selected="selected"'; ?>><?php _e('20 Minutes', 'feed-them-social'); ?></option>
-                                        <option value="1800" <?php if ($ftsDevModeCache == '1800') echo 'selected="selected"'; ?>><?php _e('30 Minutes', 'feed-them-social'); ?></option>
-                                        <option value="3600" <?php if ($ftsDevModeCache == '3600') echo 'selected="selected"'; ?>><?php _e('60 Minutes', 'feed-them-social'); ?></option>
-                                        <option value="86400" <?php if ($ftsDevModeCache == '86400') echo 'selected="selected"'; ?>><?php _e('1 Day (Default)', 'feed-them-social'); ?></option>
+                                        <option value="" ><?php _e('Please choose an option', 'feed-them-social'); ?></option>
+                                        <option value="86400" <?php if ($ftsDevModeCache == '86400') echo 'selected="selected"'; ?>><?php _e('1 Day (Suggested Default)', 'feed-them-social'); ?></option>
+                                        <option value="172800" <?php if ($ftsDevModeCache == '172800') echo 'selected="selected"'; ?>><?php _e('2 Days', 'feed-them-social'); ?></option>
+                                        <option value="259200" <?php if ($ftsDevModeCache == '259200') echo 'selected="selected"'; ?>><?php _e('3 Days', 'feed-them-social'); ?></option>
                                         <option value="604800" <?php if ($ftsDevModeCache == '604800') echo 'selected="selected"'; ?>><?php _e('1 Week', 'feed-them-social'); ?></option>
                                         <option value="1209600" <?php if ($ftsDevModeCache == '1209600') echo 'selected="selected"'; ?>><?php _e('2 Weeks', 'feed-them-social'); ?></option>
-                                        <option value="1" <?php if ($ftsDevModeCache == '1') echo 'selected="selected"'; ?>><?php _e('Clear cache on every page load', 'feed-them-social'); ?></option>
+                                        <option value="1" <?php if ($ftsDevModeCache == '1') echo 'selected="selected"'; ?>><?php _e('(Developers Only) Clear cache on every page load', 'feed-them-social'); ?></option>
                                     </select>
                                 </p>
                                 <label><?php _e('Admin Bar', 'feed-them-social'); ?></label>
@@ -5319,7 +5314,7 @@ class FTS_settings_page
                     ★★★★★</a>
             </div>
             <div class="fts-plugin-reviews-support"><?php _e('If you\'re using the Free plugin and are having troubles getting setup please contact us on the <a href="https://wordpress.org/support/plugin/feed-them-social" target="_blank">Free Wordpress Support Forum</a>. We will respond within 24hrs during weekdays.', 'feed-them-social'); ?>
-                <?php _e('If you have a paid extensions from us please use our <a href="https://www.slickremix.com/support/" target="_blank">Paid Extension Support Ticket System</a>.', 'feed-them-social'); ?>
+                <?php _e('If you have a paid extensions from us please use our <a href="https://www.slickremix.com/my-account/#tab-support" target="_blank">Paid Extension Support Ticket System</a>.', 'feed-them-social'); ?>
 
                 <div class="fts-text-align-center">
                     <a class="feed-them-social-admin-slick-logo" href="https://www.slickremix.com" target="_blank"></a>

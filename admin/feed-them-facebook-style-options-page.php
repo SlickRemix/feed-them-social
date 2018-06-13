@@ -68,7 +68,7 @@ class FTS_facebook_options_page
                         <h3>
                             <?php _e('Facebook API Token', 'feed-them-social'); ?>
                         </h3>
-                        <?php _e('This Facebook Access Token is for Business Pages, Events, Photos and Videos only and is simply used to display the feed. This will NOT work for personal accounts or groups. You must be an admin of the page to get your token.', 'feed-them-social'); ?>
+                        <?php _e('This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. This will NOT work for personal accounts or groups. You must be an admin of the page to get your token.', 'feed-them-social'); ?>
                         <p>
                             <a href="https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo admin_url('admin.php?page=fts-facebook-feed-styles-submenu-page'); ?>&scope=manage_pages%2Cpublic_profile%2Cuser_friends%2Cemail" class="fts-facebook-get-access-token">Login
                                 and get my Access Token</a></p>

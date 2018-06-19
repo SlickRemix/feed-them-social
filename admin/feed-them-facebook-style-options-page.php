@@ -793,7 +793,7 @@ class FTS_facebook_options_page
                     <!--/fts-facebook-feed-styles-input-wrap-->
                 <?php } ?>
 
-                <div class="feed-them-social-admin-input-wrap" style="display: none !important;">
+                <div class="feed-them-social-admin-input-wrap" style="display:none !important;">
                     <div class="fts-title-description-settings-page">
                         <h3>
                             <?php _e('Event Style Options', 'feed-them-social'); ?>
@@ -808,7 +808,7 @@ class FTS_facebook_options_page
                 </div>
                 <!--/fts-facebook-feed-styles-input-wrap-->
 
-                <div class="feed-them-social-admin-input-wrap">
+                <div class="feed-them-social-admin-input-wrap" style="display:none !important;">
                     <div class="feed-them-social-admin-input-label fb-events-title-size-label">
                         <?php _e('Events Feed: Title Size', 'feed-them-social'); ?>
                     </div>
@@ -817,7 +817,7 @@ class FTS_facebook_options_page
                 </div>
                 <!--/fts-facebook-feed-styles-input-wrap-->
 
-                <div class="feed-them-social-admin-input-wrap">
+                <div class="feed-them-social-admin-input-wrap" style="display:none !important;">
                     <div class="feed-them-social-admin-input-label fb-events-map-link-color-label">
                         <?php _e('Events Feed: Map Link Color', 'feed-them-social'); ?>
                     </div>

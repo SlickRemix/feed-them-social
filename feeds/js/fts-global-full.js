@@ -281,7 +281,6 @@ function slickremixImageResizingFacebook() {
 
 
 
-
 // https://www.w3schools.com/js/js_comparisons.asp
 // >	greater than   x > 8	true
 // <	less than      x < 8	true

@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.6
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -76,6 +76,10 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.4.3 .....ay, June 13th, 2018 =
+   * Options Pages: Remove unused logo a tag at the end of each page.
+   * EDIT: Facebook Options: Remove a few overlooked style options for Events
+
 = Version 2.4.2 Wednesday, June 13th, 2018 =
    * FIX: Instagram Feed: User data was not getting cached probably cause API usage even if the feed was cached. Additional error check in place should also make sure cached feed is used if error found.
    * FIX: Instagram Options: Message under Access Token will now show if your Access Token has hit an API limit and what the total consuption is. 200 calls per hour is the general limit, Instagram says. This does not mean 200 page loads or visitors, this means how much information is called from Instagram to create your feed. That is why extended cache times are best now.

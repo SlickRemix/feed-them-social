@@ -541,18 +541,10 @@ class FTS_twitter_options_page
                             <div class="fts-clear"></div>
                         </div>
                         <!--/fts-twitter-feed-styles-input-wrap-->
-
                         <?php } ?>
-
-
-
-                            <input type="submit" class="feed-them-social-admin-submit-btn" value="<?php _e('Save All Changes') ?>"/>
-
+                    <input type="submit" class="feed-them-social-admin-submit-btn" value="<?php _e('Save All Changes') ?>"/>
             </form>
-            <a class="feed-them-social-admin-slick-logo" href="http://www.slickremix.com" target="_blank"></a>
-            <div class="fts-clear"></div>
         </div>
         <!--/feed-them-social-admin-wrap-->
-        <div class="clear"></div>
     <?php }
 }//END Class

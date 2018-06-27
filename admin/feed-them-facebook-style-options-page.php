@@ -100,9 +100,9 @@ class FTS_facebook_options_page
                         $test_app_token_response_biz = $fts_functions->fts_get_feed_json($test_app_token_URL_biz);
                         $test_app_token_response_biz = json_decode($test_app_token_response_biz['app_token_id_biz']);
 
-                        //   echo'<pre>';
-                        ///   print_r($test_app_token_response);
-                        //   echo'</pre>';
+                      //    echo'<pre>';
+                      //    print_r($test_app_token_response);
+                      //    echo'</pre>';
                     }
                     ?>
                     <div class="clear"></div>
@@ -793,7 +793,7 @@ class FTS_facebook_options_page
                     <!--/fts-facebook-feed-styles-input-wrap-->
                 <?php } ?>
 
-                <div class="feed-them-social-admin-input-wrap" style="display:none !important;">
+                <div class="feed-them-social-admin-input-wrap" style="display: none !important;">
                     <div class="fts-title-description-settings-page">
                         <h3>
                             <?php _e('Event Style Options', 'feed-them-social'); ?>
@@ -808,7 +808,7 @@ class FTS_facebook_options_page
                 </div>
                 <!--/fts-facebook-feed-styles-input-wrap-->
 
-                <div class="feed-them-social-admin-input-wrap" style="display:none !important;">
+                <div class="feed-them-social-admin-input-wrap" style="display: none !important;">
                     <div class="feed-them-social-admin-input-label fb-events-title-size-label">
                         <?php _e('Events Feed: Title Size', 'feed-them-social'); ?>
                     </div>
@@ -817,7 +817,7 @@ class FTS_facebook_options_page
                 </div>
                 <!--/fts-facebook-feed-styles-input-wrap-->
 
-                <div class="feed-them-social-admin-input-wrap" style="display:none !important;">
+                <div class="feed-them-social-admin-input-wrap"  style="display: none !important;">
                     <div class="feed-them-social-admin-input-label fb-events-map-link-color-label">
                         <?php _e('Events Feed: Map Link Color', 'feed-them-social'); ?>
                     </div>

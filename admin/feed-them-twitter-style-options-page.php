@@ -541,7 +541,6 @@ class FTS_twitter_options_page
                             <div class="fts-clear"></div>
                         </div>
                         <!--/fts-twitter-feed-styles-input-wrap-->
-
                         <?php } ?>
                     <input type="submit" class="feed-them-social-admin-submit-btn" value="<?php _e('Save All Changes') ?>"/>
             </form>

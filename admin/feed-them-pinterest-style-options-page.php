@@ -148,7 +148,6 @@ class FTS_pinterest_options_page {
 	 	  </div><!--/fts-twitter-feed-styles-input-wrap-->
 
 
-
 		  <div class="feed-them-social-admin-input-wrap">
 			  <div class="fts-title-description-settings-page">
 				  <h3>
@@ -179,7 +178,6 @@ class FTS_pinterest_options_page {
 			  <div class="fts-clear"></div>
 		  </div>
 		  <!--/fts-facebook-feed-styles-input-wrap-->
-
 
 	    <div class="fts-clear"></div>
 	    <input type="submit" class="feed-them-social-admin-submit-btn" value="<?php _e('Save All Changes') ?>" />

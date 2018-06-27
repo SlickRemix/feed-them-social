@@ -23,7 +23,8 @@
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2018 SlickRemix
  *
- * Need Support? http://www.slickremix.com/my-account
+ * Need Support: https://wordpress.org/support/plugin/feed-them-social
+ * Paid Extension Support: https://www.slickremix.com/my-account/#tab-support
  */
 
 final class Feed_Them_Social {

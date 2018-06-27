@@ -328,7 +328,6 @@ class FTS_youtube_options_page
                     <!--/fts-twitter-feed-styles-input-wrap-->
 
                     <?php } // END premium ?>
-
                     <input type="submit" class="feed-them-social-admin-submit-btn" value="<?php _e('Save All Changes') ?>"/>
             </form>
         </div>

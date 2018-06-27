@@ -76,9 +76,10 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.4.3 .....ay, June 13th, 2018 =
-   * Options Pages: Remove unused logo a tag at the end of each page.
+= Version 2.4.3 Wednesday, June 27th, 2018 =
+   * FIX: Facebook Feed: Remove with_tags depreciated call in app vs 2.7. Ths was causing many feeds to show an Error #100 message. This will also fix anyone encounter this error with the Combined Streams plugin.
    * EDIT: Facebook Options: Remove a few overlooked style options for Events
+   * Options Pages: Remove unused logo a tag at the end of each page.
 
 = Version 2.4.2 Wednesday, June 13th, 2018 =
    * FIX: Instagram Feed: User data was not getting cached probably cause API usage even if the feed was cached. Additional error check in place should also make sure cached feed is used if error found.

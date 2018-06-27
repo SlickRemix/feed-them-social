@@ -294,6 +294,7 @@ class feed_them_social_functions
                                 //	jQuery('#loadMore_< ?php echo $fts_dynamic_name ?>').removeClass('flip360-fts-load-more');
                                 jQuery("#loadMore_<?php echo $fts_dynamic_name ?>").removeClass('fts-fb-spinner');
 
+
                             }
                         }); // end of ajax()
                         return false;
@@ -330,6 +331,7 @@ class feed_them_social_functions
 
                 var fb = ".fb-page-list li";
                 $('#fb-list-wrap').show();
+                $('.fts-failed-api-token.get-started-message-hide').hide();
                 //alert("not set");
                 <?php } else { ?>
                 var fb = "#reviews-fb-list-wrap .fb-page-list li";

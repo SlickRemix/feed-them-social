@@ -294,11 +294,16 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                     // this count includes our original posts count + the amount of posts we found with no description
                     $FB_Shortcode['posts'] = $no_description_count;
                 }
-
+                $biz_access_token = get_option('fts_facebook_custom_api_token_biz');
                 //Get Response (AKA Page & Feed Information) ERROR CHECK inside this function
-                $response = $this->get_facebook_feed_response($FB_Shortcode, $fb_cache_name, $access_token, $language);
+                $response = $this->get_facebook_feed_response($FB_Shortcode, $fb_cache_name, $biz_access_token, $language);
 
                 $feed_data = json_decode($response['feed_data']);
+            // SHOW THE REVIEWS FEED PRINT_R
+         //   echo '<pre>';
+         //   print_r($feed_data );
+         //   echo '</pre>';
+
 
                 if($FB_Shortcode['remove_reviews_no_description'] == 'yes') {
                     // $no_description_count2 = 0;
@@ -311,6 +316,11 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                         }
                 }
             $ratings_data = json_decode($response['ratings_data']);
+            // SHOW THE REVIEWS RATING INFO PRINT_R
+         //   echo '<pre>';
+         //   print_r($ratings_data );
+         //   echo '</pre>';
+
         }
 
 
@@ -1407,10 +1417,10 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                 $mulit_data = array('page_data' => 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '?fields=id,name,description&access_token=' . $access_token . $language . '');
 
                 if(!$ftsCountIds >= 1) {
-                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/posts?fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,with_tags,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
+                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/posts?fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                 }
                 else{
-                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/posts?ids=' . $FB_Shortcode['id'] . '&fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,with_tags,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
+                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/posts?ids=' . $FB_Shortcode['id'] . '&fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                 }
 
             } //Event

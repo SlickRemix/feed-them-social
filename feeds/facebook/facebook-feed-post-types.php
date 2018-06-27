@@ -233,9 +233,6 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed
                     $FTS_FB_OUTPUT .= '<a href="https://facebook.com/' . ($FB_Shortcode['type'] == 'reviews' ? $post_data->reviewer->id : $post_data->from->id) . '" target="_blank"><img border="0" alt="' . ($FB_Shortcode['type'] == 'reviews' ? $post_data->reviewer->name : $post_data->from->name) . '" src="https://graph.facebook.com/' . ($FB_Shortcode['type'] == 'reviews' ? $post_data->reviewer->id : $post_data->from->id) . '/picture"/></a>';
                     $FTS_FB_OUTPUT .= '</div>';
 
-
-
-
                 //UserName
                 $FTS_FB_OUTPUT .= $FB_Shortcode['type'] == 'reviews' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') ? '<span class="fts-jal-fb-user-name" itemprop="author" itemscope itemtype="http://schema.org/Person"><a href="https://facebook.com/' . $post_data->reviewer->id . '/" target="_blank" ><span itemprop="name">' . $post_data->reviewer->name . '</span></a>' . $FTS_Facebook_Reviews->reviews_rating_format($FB_Shortcode, $post_data->rating) . '</span>' : '<span class="fts-jal-fb-user-name"><a href="https://facebook.com/' . $post_data->from->id . '" target="_blank">' . $post_data->from->name . '</a>' . $fb_hide_shared_by_etc_text . '</span>';
 

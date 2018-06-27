@@ -77,7 +77,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.4.3 Wednesday, June 27th, 2018 =
-   * FIX: Facebook Feed: Remove with_tags depreciated call in app vs 2.7. Ths was causing many feeds to show an Error #100 message. This will also fix anyone encounter this error with the Combined Streams plugin.
+   * FIX: Facebook Feed: Remove with_tags depreciated call in app vs 2.7. Ths was causing many feeds to show an Error #100 message. This will also fix anyone encountering this error with the Combined Streams plugin.
    * EDIT: Facebook Options: Remove a few overlooked style options for Events
    * Options Pages: Remove unused logo a tag at the end of each page.
 

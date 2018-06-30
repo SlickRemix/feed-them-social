@@ -36,10 +36,10 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
     }
 
     // Date sort option for multiple feeds in a shortcode
-    function dateSort($a,$b){
+    function dateSort($a, $b) {
         $dateA = strtotime($a->created_time);
         $dateB = strtotime($b->created_time);
-        return ($dateB-$dateA);
+        return ($dateB - $dateA);
     }
 
 
@@ -69,7 +69,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             include(WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/facebook/facebook-premium-feed.php');
             //Load up some scripts for popup
             $this->load_popup_scripts($FB_Shortcode);
-        } elseif (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php') && !is_plugin_active('feed-them-premium/feed-them-premium.php')){
+        } elseif (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php') && !is_plugin_active('feed-them-premium/feed-them-premium.php')) {
             $FB_Shortcode = shortcode_atts(array(
                 'id' => '',
                 'type' => '',
@@ -93,15 +93,15 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                 'colmn_width' => '',
                 'space_between_posts' => '',
                 //new show media on top options
-                'show_media'  => '',
-                'show_date'  => '',
-                'show_name'  => '',
+                'show_media' => '',
+                'show_date' => '',
+                'show_name' => '',
 
             ), $atts);
             if ($FB_Shortcode['posts'] == NULL)
                 $FB_Shortcode['posts'] = '6';
 
-        }else {
+        } else {
             $FB_Shortcode = shortcode_atts(array(
                 'id' => '',
                 'type' => '',
@@ -125,7 +125,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                 $FB_Shortcode['posts'] = '6';
         }
 
-        if($FB_Shortcode['type'] == 'album_videos'){
+        if ($FB_Shortcode['type'] == 'album_videos') {
             $FB_Shortcode['type'] = 'album_photos';
             $FB_Shortcode['video_album'] = 'yes';
             $FB_Shortcode['album_id'] = 'photo_stream';
@@ -172,9 +172,9 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
             $feed_data_check = json_decode($response2['feed_data']);
 
-             //  echo '<pre>';
-             //  print_r($feed_data_check);
-             //  echo '</pre>';
+            //  echo '<pre>';
+            //  print_r($feed_data_check);
+            //  echo '</pre>';
 
             //  $idNew = array();
             //  $idNew = explode(',', $FB_Shortcode['id']);
@@ -185,30 +185,29 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
             if (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php')) {
                 $ftsCountIds = substr_count($FB_Shortcode['id'], ",");
-            }
-            else{
+            } else {
                 $ftsCountIds = '';
             }
 
-            if(isset($feed_data_check->data)){
-                if($ftsCountIds >= 1 && $FB_Shortcode['type'] !== 'reviews') {
+            if (isset($feed_data_check->data)) {
+                if ($ftsCountIds >= 1 && $FB_Shortcode['type'] !== 'reviews') {
                     $fts_list_arrays = array();
                     foreach ($feed_data_check as $feed_data_name) {
 
-                        if(isset($feed_data_name->data)){
-                            $fts_list_arrays =  array_merge_recursive($fts_list_arrays, $feed_data_name->data);
+                        if (isset($feed_data_name->data)) {
+                            $fts_list_arrays = array_merge_recursive($fts_list_arrays, $feed_data_name->data);
                         }
                         //var_dump( $fts_list_arrays[$i]);
 
                     }
                     // we don't need to sort event feeds for this check because we already to that
-                    if($FB_Shortcode['type'] !== 'events') {
+                    if ($FB_Shortcode['type'] !== 'events') {
                         // Sort the array using the call back function
                         usort($fts_list_arrays, array($this, "dateSort"));
                     }
 
                     $merged_Array['data'] = $fts_list_arrays;
-                    $feed_data_check = (object) $merged_Array;
+                    $feed_data_check = (object)$merged_Array;
                 }
 
                 // Test the created dataes are being sorted properly
@@ -249,9 +248,9 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                 }
 
 
-              //  echo '<pre>';
-              //  print_r($feed_data_check);
-              //  echo '</pre>, ';
+                //  echo '<pre>';
+                //  print_r($feed_data_check);
+                //  echo '</pre>, ';
             }
 
             ///////////////////////////////////////////////////
@@ -283,55 +282,54 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
         if (is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') && get_option('fts_facebook_custom_api_token_biz') == TRUE && $FB_Shortcode['type'] == 'reviews') {
 
-                if($FB_Shortcode['remove_reviews_no_description'] == 'yes' && !isset($_GET['load_more_ajaxing'])) {
+            if ($FB_Shortcode['remove_reviews_no_description'] == 'yes' && !isset($_GET['load_more_ajaxing'])) {
 
-                    $FTS_Facebook_Reviews = new FTS_Facebook_Reviews();
-                    $no_description_count = $FTS_Facebook_Reviews->review_count_check($FB_Shortcode);
+                $FTS_Facebook_Reviews = new FTS_Facebook_Reviews();
+                $no_description_count = $FTS_Facebook_Reviews->review_count_check($FB_Shortcode);
 
-                    // testing purposes
-                   // print ''. $no_description_count - $FB_Shortcode['posts'] .' = The amount of posts with no review text.';
+                // testing purposes
+                // print ''. $no_description_count - $FB_Shortcode['posts'] .' = The amount of posts with no review text.';
 
-                    // this count includes our original posts count + the amount of posts we found with no description
-                    $FB_Shortcode['posts'] = $no_description_count;
-                }
-                $biz_access_token = get_option('fts_facebook_custom_api_token_biz');
-                //Get Response (AKA Page & Feed Information) ERROR CHECK inside this function
-                $response = $this->get_facebook_feed_response($FB_Shortcode, $fb_cache_name, $biz_access_token, $language);
+                // this count includes our original posts count + the amount of posts we found with no description
+                $FB_Shortcode['posts'] = $no_description_count;
+            }
+            $biz_access_token = get_option('fts_facebook_custom_api_token_biz');
+            //Get Response (AKA Page & Feed Information) ERROR CHECK inside this function
+            $response = $this->get_facebook_feed_response($FB_Shortcode, $fb_cache_name, $biz_access_token, $language);
 
-                $feed_data = json_decode($response['feed_data']);
+            $feed_data = json_decode($response['feed_data']);
             // SHOW THE REVIEWS FEED PRINT_R
-         //   echo '<pre>';
-         //   print_r($feed_data );
-         //   echo '</pre>';
+            //   echo '<pre>';
+            //   print_r($feed_data );
+            //   echo '</pre>';
 
 
-                if($FB_Shortcode['remove_reviews_no_description'] == 'yes') {
-                    // $no_description_count2 = 0;
-                        foreach ($feed_data->data as $k => $v) {
-                            if (!isset($v->review_text)) {
-                                //  print $v->reviewer->name . ' (Key# ' . $k . ') : Now Unset from array<br/>';
-                                unset($feed_data->data[$k]);
-                                // $no_description_count2++;
-                            }
-                        }
+            if ($FB_Shortcode['remove_reviews_no_description'] == 'yes') {
+                // $no_description_count2 = 0;
+                foreach ($feed_data->data as $k => $v) {
+                    if (!isset($v->review_text)) {
+                        //  print $v->reviewer->name . ' (Key# ' . $k . ') : Now Unset from array<br/>';
+                        unset($feed_data->data[$k]);
+                        // $no_description_count2++;
+                    }
                 }
+            }
             $ratings_data = json_decode($response['ratings_data']);
             // SHOW THE REVIEWS RATING INFO PRINT_R
-         //   echo '<pre>';
-         //   print_r($ratings_data );
-         //   echo '</pre>';
+            //   echo '<pre>';
+            //   print_r($ratings_data );
+            //   echo '</pre>';
 
         }
 
 
         if (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php')) {
             $ftsCountIds = substr_count($FB_Shortcode['id'], ",");
-        }
-        else{
+        } else {
             $ftsCountIds = '';
         }
 
-        if($ftsCountIds >= 1 && $FB_Shortcode['type'] !== 'reviews') {
+        if ($ftsCountIds >= 1 && $FB_Shortcode['type'] !== 'reviews') {
 
             $fts_list_arrays = array();
             foreach ($feed_data as $feed_data_name) {
@@ -342,7 +340,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             }
 
             // we don't need to sort event feeds because we already to that
-            if($FB_Shortcode['type'] !== 'events') {
+            if ($FB_Shortcode['type'] !== 'events') {
                 // Sort the array using the call back function
                 usort($fts_list_arrays, array($this, "dateSort"));
             }
@@ -408,11 +406,9 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             //******************
             // SOCIAL BUTTON
             //******************
-            if(!$ftsCountIds >= 1) {
+            if (!$ftsCountIds >= 1) {
                 $FTS_FB_OUTPUT .= $this->fb_social_btn_placement($FB_Shortcode, $access_token, 'fb-like-top-above-title');
             }
-
-
 
 
             if ($FB_Shortcode['type'] !== 'reviews') {
@@ -443,7 +439,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
 
             }
-            if($FB_Shortcode['type'] !== 'reviews') {
+            if ($FB_Shortcode['type'] !== 'reviews') {
                 if (is_plugin_active('feed-them-premium/feed-them-premium.php')) {
                     // $FTS_FB_OUTPUT .= our Facebook Page Title or About Text. Commented out the group description because in the future we will be adding the about description.
                     $fts_align_title = isset($FB_Shortcode['title_align']) && $FB_Shortcode['title_align'] !== '' ? 'style="text-align:' . $FB_Shortcode['title_align'] . ';"' : '';
@@ -466,7 +462,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
         //******************
         // SOCIAL BUTTON
         //******************
-        if(!$ftsCountIds >= 1) {
+        if (!$ftsCountIds >= 1) {
             $FTS_FB_OUTPUT .= $this->fb_social_btn_placement($FB_Shortcode, $access_token, 'fb-like-top-below-title');
         }
 
@@ -478,17 +474,17 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
         if (!isset($_GET['load_more_ajaxing'])) {
 
 
-            $fts_mashup_media_top = isset($FB_Shortcode['show_media']) && $FB_Shortcode['show_media'] == 'top'  ? 'fts-mashup-media-top ' : '';
-            $fts_mashup_show_name = isset($FB_Shortcode['show_name']) && $FB_Shortcode['show_name'] == 'no'  ? ' fts-mashup-hide-name ' : '';
-            $fts_mashup_show_date = isset($FB_Shortcode['show_date']) && $FB_Shortcode['show_date'] == 'no'  ? ' fts-mashup-hide-date ' : '';
-            $fts_mashup_show_thumbnail = isset($FB_Shortcode['show_thumbnail']) && $FB_Shortcode['show_thumbnail'] == 'no'  ? ' fts-mashup-hide-thumbnail ' : '';
+            $fts_mashup_media_top = isset($FB_Shortcode['show_media']) && $FB_Shortcode['show_media'] == 'top' ? 'fts-mashup-media-top ' : '';
+            $fts_mashup_show_name = isset($FB_Shortcode['show_name']) && $FB_Shortcode['show_name'] == 'no' ? ' fts-mashup-hide-name ' : '';
+            $fts_mashup_show_date = isset($FB_Shortcode['show_date']) && $FB_Shortcode['show_date'] == 'no' ? ' fts-mashup-hide-date ' : '';
+            $fts_mashup_show_thumbnail = isset($FB_Shortcode['show_thumbnail']) && $FB_Shortcode['show_thumbnail'] == 'no' ? ' fts-mashup-hide-thumbnail ' : '';
 
 
             if (!isset($FBtype) && $FB_Shortcode['type'] == 'albums' || !isset($FBtype) && $FB_Shortcode['type'] == 'album_photos' || isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes') {
 
 
                 if (isset($FB_Shortcode['video_album']) && $FB_Shortcode['video_album'] == 'yes') {
-                } elseif (isset($FB_Shortcode['slider']) && $FB_Shortcode['slider'] !== 'yes' && $FB_Shortcode['image_stack_animation'] == 'yes' || isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['image_stack_animation']) && $FB_Shortcode['image_stack_animation'] == 'yes' ) {
+                } elseif (isset($FB_Shortcode['slider']) && $FB_Shortcode['slider'] !== 'yes' && $FB_Shortcode['image_stack_animation'] == 'yes' || isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['image_stack_animation']) && $FB_Shortcode['image_stack_animation'] == 'yes') {
                     wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'));
                     $FTS_FB_OUTPUT .= '<script>';
                     $FTS_FB_OUTPUT .= 'jQuery(window).load(function(){';
@@ -501,7 +497,11 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
 
                 if (!isset($FBtype) && $FB_Shortcode['type'] == 'albums' || !isset($FBtype) && $FB_Shortcode['type'] == 'album_photos' && !isset($FBtype) && !isset($FB_Shortcode['slider']) || !isset($FBtype) && $FB_Shortcode['type'] == 'album_photos' && !isset($FBtype) && isset($FB_Shortcode['slider']) && $FB_Shortcode['slider'] !== 'yes') {
-                    $FTS_FB_OUTPUT .= '<div class="fts-slicker-facebook-photos fts-slicker-facebook-albums' . (isset($FB_Shortcode['video_album']) && $FB_Shortcode['video_album'] && $FB_Shortcode['video_album'] == 'yes' ? ' popup-video-gallery-fb' : '') . (isset($FB_Shortcode['image_stack_animation']) && $FB_Shortcode['image_stack_animation'] == 'yes' ? ' masonry js-masonry' : '') . (isset($FB_Shortcode['images_align']) && $FB_Shortcode['images_align'] ? ' popup-video-gallery-align-' . $FB_Shortcode['images_align'] : '') . ' popup-gallery-fb ' . $fts_dynamic_class_name . '"';if($FB_Shortcode['image_stack_animation'] == 'yes'){ $FTS_FB_OUTPUT .= 'data-masonry-options=\'{ "isFitWidth": ' . ($FB_Shortcode['center_container'] == 'no' ? 'false' : 'true') . ' ' . ($FB_Shortcode['image_stack_animation'] == 'no' ? ', "transitionDuration": 0' : '') . '}\' style="margin:auto;"';} $FTS_FB_OUTPUT .= '>';
+                    $FTS_FB_OUTPUT .= '<div class="fts-slicker-facebook-photos fts-slicker-facebook-albums' . (isset($FB_Shortcode['video_album']) && $FB_Shortcode['video_album'] && $FB_Shortcode['video_album'] == 'yes' ? ' popup-video-gallery-fb' : '') . (isset($FB_Shortcode['image_stack_animation']) && $FB_Shortcode['image_stack_animation'] == 'yes' ? ' masonry js-masonry' : '') . (isset($FB_Shortcode['images_align']) && $FB_Shortcode['images_align'] ? ' popup-video-gallery-align-' . $FB_Shortcode['images_align'] : '') . ' popup-gallery-fb ' . $fts_dynamic_class_name . '"';
+                    if ($FB_Shortcode['image_stack_animation'] == 'yes') {
+                        $FTS_FB_OUTPUT .= 'data-masonry-options=\'{ "isFitWidth": ' . ($FB_Shortcode['center_container'] == 'no' ? 'false' : 'true') . ' ' . ($FB_Shortcode['image_stack_animation'] == 'no' ? ', "transitionDuration": 0' : '') . '}\' style="margin:auto;"';
+                    }
+                    $FTS_FB_OUTPUT .= '>';
 
                 } // slideshow scrollHorz or carousel
                 elseif (!isset($FBtype) && isset($FB_Shortcode['slider']) && $FB_Shortcode['slider'] == 'yes') {
@@ -629,8 +629,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                     $FTS_FB_OUTPUT .= '<div class="fts-slicker-facebook-posts masonry js-masonry ' . $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail . ($FB_Shortcode['popup'] == 'yes' ? 'popup-gallery-fb-posts ' : '') . ($FB_Shortcode['type'] == 'reviews' ? 'fts-reviews-feed ' : '') . $fts_dynamic_class_name . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ($FB_Shortcode['center_container'] == 'no' ? 'false' : 'true') . ' ' . ($FB_Shortcode['image_stack_animation'] == 'no' ? ', "transitionDuration": 0' : '') . '}\'>';
                     //  $FTS_FB_OUTPUT .= '<div class="fts-slicker-facebook-photos fts-slicker-facebook-posts masonry js-masonry ' . ($FB_Shortcode['popup'] == 'yes' ? 'popup-gallery-fb-posts ' : '') . ($FB_Shortcode['type'] == 'reviews' ? 'fts-reviews-feed ' : '') . $fts_dynamic_class_name . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ($FB_Shortcode['center_container'] == 'no' ? 'false' : 'true') . ' ' . ($FB_Shortcode['image_stack_animation'] == 'no' ? ', "transitionDuration": 0' : '') . '}\'>';
                 }
-            }
-            else {
+            } else {
                 $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-group-display fts-simple-fb-wrapper ' . $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail . (isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'yes' ? ' popup-gallery-fb-posts ' : '') . ($FB_Shortcode['type'] == 'reviews' ? 'fts-reviews-feed ' : '') . $fts_dynamic_class_name . ' ' . ($FB_Shortcode['height'] !== 'auto' && empty($FB_Shortcode['height']) == NULL ? 'fts-fb-scrollable" style="height:' . $FB_Shortcode['height'] . '"' : '"') . '>';
             }
         } //End ajaxing Check
@@ -823,14 +822,13 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
         }
 
 
-
         unset($_REQUEST['next_url']);
 
 
         //******************
         // SOCIAL BUTTON
         //******************
-        if(!$ftsCountIds >= 1) {
+        if (!$ftsCountIds >= 1) {
             $FTS_FB_OUTPUT .= $this->fb_social_btn_placement($FB_Shortcode, $access_token, 'fb-like-below');
         }
 
@@ -888,25 +886,16 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
      */
     function fts_facebook_post_photo($FBlink, $FB_Shortcode, $photo_from, $photo_source) {
         if ($FB_Shortcode['type'] == 'album_photos' || $FB_Shortcode['type'] == 'albums') {
-            $output = '<a href="' . $FBlink . '" target="_blank" class="fts-jal-fb-picture album-photo-fts" style="width:' . $FB_Shortcode['image_width'].';height:' . $FB_Shortcode['image_height'].';';
-            //  if ($FB_Shortcode['image_position_lr'] !== '-0%' || $FB_Shortcode['image_position_top'] !== '-0%') {
-            //     $output .= 'style="right:' . $FB_Shortcode['image_position_lr'] . ';left:' . $FB_Shortcode['image_position_lr'] . ';top:' . $FB_Shortcode['image_position_top'] . '"';
-
-            //  }
+            $output = '<a href="' . $FBlink . '" target="_blank" class="fts-jal-fb-picture album-photo-fts" style="width:' . $FB_Shortcode['image_width'] . ';height:' . $FB_Shortcode['image_height'] . ';';
             if ($FB_Shortcode['type'] == 'albums') {
-                $output .= 'background-image:url(' . $photo_source . ');">';
-
-                //   $output .= '><img border="0" alt="' . $photo_from . '" src="https://graph.facebook.com/' . $photo_source . '/picture"/>';
+                $output .= 'background-image:url(https://graph.facebook.com/' . $photo_source . '/picture);">';
             } else {
-                //  $output .= '><img border="0" alt="' . $photo_from . '" src="' . $photo_source . '"/>';
-                $output .= 'background-image:url(' . $photo_source . ');">';
+                $output .= 'background-image:url('. $photo_source .');">';
             }
             $output .= '</a>';
         } else {
             $FB_ShortcodePopup = isset($FB_Shortcode['popup']) ? $FB_Shortcode['popup'] : '';
             if ($FB_ShortcodePopup == 'yes' && $FBlink !== 'javascript:;') {
-                //   $output = isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'yes' ? '<div class="fts-fb-caption"><a href="' . $FBlink . '" class="fts-view-on-facebook-link" target="_blank">' . __('View on Facebook', 'feed-them-social') . '</a></div> ' : '';
-
                 $output = '<a href="' . $photo_source . '" target="_blank" class="fts-facebook-link-target fts-jal-fb-picture fts-fb-large-photo"><img border="0" alt="' . $photo_from . '" src="' . $photo_source . '"/></a>';
 
             } else {
@@ -1117,12 +1106,12 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                 }
                 if ($FBpost_comments_count == '1') {
                     $LSC_array['comments'] = "<i class='icon-comments'></i> 1";
-                    $LSC_array['comments_thread'] =  $comment_count_data;
+                    $LSC_array['comments_thread'] = $comment_count_data;
 
                 }
                 if ($FBpost_comments_count > '1') {
                     $LSC_array['comments'] = "<i class='icon-comments'></i> " . $FBpost_comments_count;
-                    $LSC_array['comments_thread'] =  $comment_count_data;
+                    $LSC_array['comments_thread'] = $comment_count_data;
                 }
             }
         }
@@ -1138,7 +1127,6 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
         }
         return $LSC_array;
     }
-
 
 
     /**
@@ -1170,17 +1158,17 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             case 'events':
                 $single_event_id = 'https://facebook.com/events/' . $single_event_id;
                 $fts_share_option = $share_this->fts_share_option($single_event_id, $description);
-                $output = '<div class="fts-likes-shares-etc-wrap">'.$fts_share_option.'<a href="'.$single_event_id.'" target="_blank" class="fts-jal-fb-see-more">' . __('View on Facebook', 'feed-them-social') . '</a></div>';
+                $output = '<div class="fts-likes-shares-etc-wrap">' . $fts_share_option . '<a href="' . $single_event_id . '" target="_blank" class="fts-jal-fb-see-more">' . __('View on Facebook', 'feed-them-social') . '</a></div>';
                 return $output;
             case 'photo':
                 if (!empty($FBlink)) {
                     $fts_share_option = $share_this->fts_share_option($FBlink, $description);
-                    $output = '<div class="fts-likes-shares-etc-wrap">'.$fts_share_option.'<a href="' . $FBlink . '" target="_blank" class="fts-jal-fb-see-more">';
+                    $output = '<div class="fts-likes-shares-etc-wrap">' . $fts_share_option . '<a href="' . $FBlink . '" target="_blank" class="fts-jal-fb-see-more">';
                 } // exception for videos
                 else {
                     $single_video_id = 'https://facebook.com/' . $FBpost_id;
                     $fts_share_option = $share_this->fts_share_option($single_video_id, $description);
-                    $output = '<div class="fts-likes-shares-etc-wrap">'.$fts_share_option.'<a href="'.$single_video_id.'" target="_blank" class="fts-jal-fb-see-more">';
+                    $output = '<div class="fts-likes-shares-etc-wrap">' . $fts_share_option . '<a href="' . $single_video_id . '" target="_blank" class="fts-jal-fb-see-more">';
                 }
                 if ($FB_Shortcode['type'] == 'album_photos' && $FB_Shortcode['hide_date_likes_comments'] == 'yes') {
                     $output .= '<div class="hide-date-likes-comments-etc">' . $lcs_array['likes'] . ' ' . $lcs_array['comments'] . ' ' . $lcs_array['shares'] . ' &nbsp;&nbsp;</div>';
@@ -1203,7 +1191,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
 
                 $fts_share_option = $share_this->fts_share_option($new_album_url, $description);
 
-                $output = '<div class="fts-likes-shares-etc-wrap">'.$fts_share_option.'<a href="' . $new_album_url . '" target="_blank" class="fts-jal-fb-see-more">';
+                $output = '<div class="fts-likes-shares-etc-wrap">' . $fts_share_option . '<a href="' . $new_album_url . '" target="_blank" class="fts-jal-fb-see-more">';
                 if ($FB_Shortcode['type'] = 'albums' && $FB_Shortcode['hide_date_likes_comments'] == 'yes') {
                 } else {
                     $output .= '' . $lcs_array['likes'] . ' ' . $lcs_array['comments'] . ' &nbsp;&nbsp;';
@@ -1219,16 +1207,16 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                     $fb_reviews_see_more_reviews_language = get_option('fb_reviews_see_more_reviews_language') ? get_option('fb_reviews_see_more_reviews_language') : 'See More Reviews';
 
                     $hide_see_more = isset($FB_Shortcode['hide_see_more_reviews_link']) ? $FB_Shortcode['hide_see_more_reviews_link'] : 'yes';
-                    if($hide_see_more !== 'yes') {
+                    if ($hide_see_more !== 'yes') {
                         $output .= ' <a href="https://facebook.com/' . $FB_Shortcode['id'] . '/reviews" target="_blank" class="fts-jal-fb-see-more">' . __($fb_reviews_see_more_reviews_language, 'feed-them-social') . '</a>';
                     }
                 } else {
                     $post_single_id = 'https://facebook.com/' . $FBpost_user_id . '/posts/' . $FBpost_single_id;
                     $fts_share_option = $share_this->fts_share_option($post_single_id, $description);
-                    $output = '<div class="fts-likes-shares-etc-wrap">'.$fts_share_option.'<a href="'.$post_single_id.'" target="_blank" class="fts-jal-fb-see-more">';
+                    $output = '<div class="fts-likes-shares-etc-wrap">' . $fts_share_option . '<a href="' . $post_single_id . '" target="_blank" class="fts-jal-fb-see-more">';
                     $output .= '' . $lcs_array['likes'] . ' ' . $lcs_array['comments'] . ' &nbsp;&nbsp;&nbsp;' . __('View on Facebook', 'feed-them-social') . '</a></div>';
                 }
-                if(get_option('fb_reviews_remove_see_reviews_link') !== 'yes' ){
+                if (get_option('fb_reviews_remove_see_reviews_link') !== 'yes') {
                     return $output;
                 }
         }
@@ -1242,27 +1230,27 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
      */
     function get_access_token() {
         //API Access Token
-     //   $custom_access_token = get_option('fts_facebook_custom_api_token');
-     //   if (!empty($custom_access_token)) {
-            $access_token = get_option('fts_facebook_custom_api_token');
-     //       return $access_token;
-     //   } else {
-            //Randomizer
-     //       $values = array(
-     //           '431287540548931|4A23YYIFqhd-gpz_E4Fy6U_Seo0',
-     //           '1748446362151826|epVUmLiKT8QhLN63iRvvXXHwxqk',
-     //           '1875381106044241|KmWz3mtzGye0M5HTdX0SK7rqpIU',
-     //           '754106341419549|AMruxCJ_ly8825VXeLhBKo_kOfs',
-     //           '438563519819257|1GJ8GLl1AQ7ZTvXV_Xpok_QpH6s',
-     //           '753693994788276|xm_PXoNRWW8WPQdcQArRpBgWn5Q',
-     //           '644818402385988|sABEvG0QiOaJRlNLC2NphfQLlfg',
-     //           '292500071162951|9MA-kzWVs6HTEybpdxKjgF_gqeo',
-     //           '263710677420086|Jpui2CFig7RbtdHaHPN_fiEa77U',
-     //           '1850081601881384|u2JcPCn7TH40MY5BwC-i4PMHGm8',
-     //       );
-     //       $access_token = $values[array_rand($values, 1)];
-            return $access_token;
-     //   }
+        //   $custom_access_token = get_option('fts_facebook_custom_api_token');
+        //   if (!empty($custom_access_token)) {
+        $access_token = get_option('fts_facebook_custom_api_token');
+        //       return $access_token;
+        //   } else {
+        //Randomizer
+        //       $values = array(
+        //           '431287540548931|4A23YYIFqhd-gpz_E4Fy6U_Seo0',
+        //           '1748446362151826|epVUmLiKT8QhLN63iRvvXXHwxqk',
+        //           '1875381106044241|KmWz3mtzGye0M5HTdX0SK7rqpIU',
+        //           '754106341419549|AMruxCJ_ly8825VXeLhBKo_kOfs',
+        //           '438563519819257|1GJ8GLl1AQ7ZTvXV_Xpok_QpH6s',
+        //           '753693994788276|xm_PXoNRWW8WPQdcQArRpBgWn5Q',
+        //           '644818402385988|sABEvG0QiOaJRlNLC2NphfQLlfg',
+        //           '292500071162951|9MA-kzWVs6HTEybpdxKjgF_gqeo',
+        //           '263710677420086|Jpui2CFig7RbtdHaHPN_fiEa77U',
+        //           '1850081601881384|u2JcPCn7TH40MY5BwC-i4PMHGm8',
+        //       );
+        //       $access_token = $values[array_rand($values, 1)];
+        return $access_token;
+        //   }
     }
 
     /**
@@ -1300,7 +1288,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                 $fts_view_fb_link = 'https://www.facebook.com/' . $FB_Shortcode['id'] . '/reviews/';
                 break;
         }
-        $fts_view_fb_link =  isset($fts_view_fb_link) ? $fts_view_fb_link : '';
+        $fts_view_fb_link = isset($fts_view_fb_link) ? $fts_view_fb_link : '';
         return $fts_view_fb_link;
     }
 
@@ -1315,7 +1303,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
         //URL to get page info
         $rCount = substr_count($FB_Shortcode['id'], ",");
 
-        if($rCount >= 1){
+        if ($rCount >= 1) {
             $result = preg_replace('/[ ,]+/', '-', trim($FB_Shortcode['id']));
             $FB_Shortcode['id'] = $result;
         }
@@ -1404,8 +1392,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
 
         if (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php')) {
             $ftsCountIds = substr_count($FB_Shortcode['id'], ",");
-        }
-        else{
+        } else {
             $ftsCountIds = '';
         }
 
@@ -1416,10 +1403,9 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             if ($FB_Shortcode['type'] == 'page' && $FB_Shortcode['posts_displayed'] == 'page_only') {
                 $mulit_data = array('page_data' => 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '?fields=id,name,description&access_token=' . $access_token . $language . '');
 
-                if(!$ftsCountIds >= 1) {
+                if (!$ftsCountIds >= 1) {
                     $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/posts?fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
-                }
-                else{
+                } else {
                     $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/posts?ids=' . $FB_Shortcode['id'] . '&fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                 }
 
@@ -1429,21 +1415,19 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                 $date = date('Y-m-d');
                 $mulit_data = array('page_data' => 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '?fields=id,name&access_token=' . $access_token . $language . '');
                 //Check If Ajax next URL needs to be used
-                if(!$ftsCountIds >= 1) {
+                if (!$ftsCountIds >= 1) {
                     $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/events?since=' . $date . '&access_token=' . $access_token . $language . '';
-                }
-                else {
+                } else {
                     $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/events?ids=' . $FB_Shortcode['id'] . '&since=' . $date . '&access_token=' . $access_token . $language . '';
                 }
             } //Albums
             elseif ($FB_Shortcode['type'] == 'albums') {
                 $mulit_data = array('page_data' => 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '?fields=id,name,description,link&access_token=' . $access_token . $language . '');
                 //Check If Ajax next URL needs to be used
-                if(!$ftsCountIds >= 1) {
-                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/albums?fields=id,photos{webp_images},created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
-                }
-                else {
-                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/albums?ids=' . $FB_Shortcode['id'] . '&fields=id,photos{webp_images},created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
+                if (!$ftsCountIds >= 1) {
+                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/albums?fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
+                } else {
+                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/albums?ids=' . $FB_Shortcode['id'] . '&fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                 }
 
 //                    $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/albums?fields=id,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
@@ -1453,24 +1437,21 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                 //Check If Ajax next URL needs to be used
                 //The reason I did not create a whole new else if for the video album is because I did not want to duplicate all the code required to make the video because the videos gallery comes from the photo albums on facebook.
                 if (isset($FB_Shortcode['video_album']) && $FB_Shortcode['video_album'] == 'yes') {
-                    if(!$ftsCountIds >= 1) {
+                    if (!$ftsCountIds >= 1) {
                         $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/videos?fields=id,created_time,description,from,icon,link,message,object_id,picture,place,shares,source,to,type,format,embed_html&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
-                    }
-                    else{
+                    } else {
                         $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/videos?ids=' . $FB_Shortcode['id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,shares,source,to,type,format,embed_html&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                     }
                 } elseif (isset($FB_Shortcode['album_id']) && $FB_Shortcode['album_id'] == 'photo_stream') {
-                    if(!$ftsCountIds >= 1) {
+                    if (!$ftsCountIds >= 1) {
                         $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
-                    }
-                    else{
+                    } else {
                         $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/photos?ids=' . $FB_Shortcode['id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                     }
                 } else {
-                    if(!$ftsCountIds >= 1) {
+                    if (!$ftsCountIds >= 1) {
                         $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['album_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
-                    }
-                    else {
+                    } else {
                         $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/photos?ids=' . $FB_Shortcode['album_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                     }
                 }
@@ -1486,10 +1467,9 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             elseif ($FB_Shortcode['type'] == 'group') {
                 $mulit_data = array('page_data' => 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '?fields=id,name,description&access_token=' . $access_token . $language . '');
                 //Check If Ajax next URL needs to be used
-                if(!$ftsCountIds >= 1) {
+                if (!$ftsCountIds >= 1) {
                     $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/feed?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
-                }
-                else{
+                } else {
                     $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/feed?ids=' . $FB_Shortcode['id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                 }
             } //Reviews
@@ -1507,23 +1487,22 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             } else {
                 $mulit_data = array('page_data' => 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '?fields=feed,id,name,description&access_token=' . $access_token . $language . '');
                 //Check If Ajax next URL needs to be used
-                if(!$ftsCountIds >= 1) {
+                if (!$ftsCountIds >= 1) {
                     $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/' . $FB_Shortcode['id'] . '/feed?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
-                }
-                else{
+                } else {
                     $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? $_REQUEST['next_url'] : 'https://graph.facebook.com/feed?ids=' . $FB_Shortcode['id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $FB_Shortcode['posts'] . '&access_token=' . $access_token . $language . '';
                 }
             }
             $response = $this->fts_get_feed_json($mulit_data);
 
             if (!isset($_GET['load_more_ajaxing'])) {
-                    //Error Check
-                    $feed_data = json_decode($response['feed_data']);
-                    $fts_error_check = new fts_error_handler();
-                    $fts_error_check_complete = $fts_error_check->facebook_error_check($FB_Shortcode, $feed_data);
-                    if (is_array($fts_error_check_complete) && $fts_error_check_complete[0] == true) {
-                        return array(false, $fts_error_check_complete[1]);
-                    }
+                //Error Check
+                $feed_data = json_decode($response['feed_data']);
+                $fts_error_check = new fts_error_handler();
+                $fts_error_check_complete = $fts_error_check->facebook_error_check($FB_Shortcode, $feed_data);
+                if (is_array($fts_error_check_complete) && $fts_error_check_complete[0] == true) {
+                    return array(false, $fts_error_check_complete[1]);
+                }
             }
 
             //Make sure it's not ajaxing
@@ -1586,16 +1565,14 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
 
         if ($FB_Shortcode['type'] == 'album_photos') {
             $fb_post_data_cache = 'fb_' . $FB_Shortcode['type'] . '_post_' . $FB_Shortcode['album_id'] . '_num' . $FB_Shortcode['posts'] . '';
-        }
-        else {
+        } else {
             $fb_post_data_cache = 'fb_' . $FB_Shortcode['type'] . '_post_' . $FB_Shortcode['id'] . '_num' . $FB_Shortcode['posts'] . '';
         }
 
         // if (file_exists($fb_post_data_cache) && !filesize($fb_post_data_cache) == 0 && filemtime($fb_post_data_cache) > time() - 900 && false !== strpos($fb_post_data_cache, '-num' . $FB_Shortcode['posts'] . '') && !isset($_GET['load_more_ajaxing']) && $developer_mode !== '1') {
         if (false !== ($transient_exists = $this->fts_check_feed_cache_exists($fb_post_data_cache)) and !isset($_GET['load_more_ajaxing'])) {
             $response_post_array = $this->fts_get_feed_cache($fb_post_data_cache);
-        }
-        else {
+        } else {
             //Build the big post counter.
             $fb_post_array = array();
             //Single Events Array
@@ -1647,7 +1624,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             }
 
         } //End else
-         // echo'<pre>';
+        // echo'<pre>';
         //   print_r($response_post_array);
         //  echo'</pre>';
         return $response_post_array;
@@ -1673,8 +1650,7 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
         $fb_event_post_data_cache = 'fbe_' . $FB_Shortcode['type'] . '_post_' . $FB_Shortcode['id'] . '_num' . $FB_Shortcode['posts'] . '';
         if (false !== ($transient_exists = $this->fts_check_feed_cache_exists($fb_event_post_data_cache)) and !isset($_GET['load_more_ajaxing'])) {
             $response_event_post_array = $this->fts_get_feed_cache($fb_event_post_data_cache);
-        }
-        else {
+        } else {
             //Single Events Array
             $fb_single_events_array = array();
             $set_zero = 0;
@@ -1700,11 +1676,9 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             }
 
 
-
             $response_event_post_array = $this->fts_get_feed_json($fb_single_events_array);
             //Create Cache
             $this->fts_create_feed_cache($fb_event_post_data_cache, $response_event_post_array);
-
 
 
         } //End else
@@ -1911,9 +1885,9 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
 
             $next_url = isset($feed_data->paging->next) ? $feed_data->paging->next : "";
             $posts = isset($FB_Shortcode['posts']) ? $FB_Shortcode['posts'] : "";
-            $loadmore_count = isset($FB_Shortcode['loadmore_count']) && $FB_Shortcode['loadmore_count'] !=='' ? $FB_Shortcode['loadmore_count'] :'';
+            $loadmore_count = isset($FB_Shortcode['loadmore_count']) && $FB_Shortcode['loadmore_count'] !== '' ? $FB_Shortcode['loadmore_count'] : '';
             // we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts
-            $_REQUEST['next_url'] = $loadmore_count !== '' ? str_replace("limit=$posts","limit=$loadmore_count",$next_url) : $next_url;
+            $_REQUEST['next_url'] = $loadmore_count !== '' ? str_replace("limit=$posts", "limit=$loadmore_count", $next_url) : $next_url;
 
 
             //If events array Flip it so it's in proper order
@@ -1958,14 +1932,14 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                 $LOADMORE_OUPUT .= 'var fts_time = "' . $time . '";';
 
                 $LOADMORE_OUPUT .= 'var feed_name = "fts_facebook";';
-                $LOADMORE_OUPUT .= 'var loadmore_count = "posts='.$FB_Shortcode['loadmore_count'].'";';
+                $LOADMORE_OUPUT .= 'var loadmore_count = "posts=' . $FB_Shortcode['loadmore_count'] . '";';
                 $LOADMORE_OUPUT .= 'var feed_attributes = ' . json_encode($atts) . ';';
 
 
                 $LOADMORE_OUPUT .= 'jQuery.ajax({';
                 $LOADMORE_OUPUT .= 'data: {action: "my_fts_fb_load_more", next_url: nextURL_' . $fts_dynamic_name . ', fts_dynamic_name: fts_d_name, feed_name: feed_name, loadmore_count: loadmore_count, feed_attributes: feed_attributes, load_more_ajaxing: yes_ajax, fts_security: fts_security, fts_time: fts_time},';
                 $LOADMORE_OUPUT .= 'type: "GET",';
-                $LOADMORE_OUPUT .= 'url: "'.admin_url('admin-ajax.php').'",';
+                $LOADMORE_OUPUT .= 'url: "' . admin_url('admin-ajax.php') . '",';
                 $LOADMORE_OUPUT .= 'success: function( data ) {';
                 $LOADMORE_OUPUT .= 'console.log("Well Done and got this from sever: " + data);';
                 if ($FBtype && $FB_Shortcode['type'] == 'albums' || $FBtype && $FB_Shortcode['type'] == 'album_photos' && $FB_Shortcode['video_album'] !== 'yes' || $FB_Shortcode['grid'] == 'yes') {
@@ -2018,8 +1992,8 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
                 //jQuery("#loadMore_'.$fts_dynamic_name.'").removeClass("flip360-fts-load-more");
                 $LOADMORE_OUPUT .= 'jQuery("#loadMore_' . $fts_dynamic_name . '").removeClass("fts-fb-spinner");';
                 if (isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'yes') {
-                 // We return this function again otherwise the popup won't work correctly for the newly loaded items
-                 $LOADMORE_OUPUT .= 'jQuery.fn.slickFacebookPopUpFunction();';
+                    // We return this function again otherwise the popup won't work correctly for the newly loaded items
+                    $LOADMORE_OUPUT .= 'jQuery.fn.slickFacebookPopUpFunction();';
                 }
                 //Reload the share each funcion otherwise you can't open share option.
                 $LOADMORE_OUPUT .= 'jQuery.fn.ftsShare();slickremixImageResizingFacebook2();slickremixImageResizingFacebook3();';

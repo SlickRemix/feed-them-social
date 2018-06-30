@@ -1,9 +1,9 @@
-=== Feed Them Social - Facebook, Instagram, Twitter, YouTube, Pinterest ===
+=== Feed Them Social - Facebook, Instagram, Twitter, YouTube & Pinterest ===
 Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.6
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -76,6 +76,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.4.4 Friday, June 29th, 2018 =
+   * FIX: Facebook Cover photos, Album photos and Video Albums to have proper image file types to work in Firefox and Safari.
+
 = Version 2.4.3 Wednesday, June 27th, 2018 =
    * FIX: Facebook Feed: Remove with_tags depreciated call in app vs 2.7. Ths was causing many feeds to show an Error #100 message. This will also fix anyone encountering this error with the Combined Streams plugin.
    * EDIT: Facebook Options: Remove a few overlooked style options for Events

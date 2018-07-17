@@ -380,9 +380,8 @@ function fts_check_nag_get( $get, $nag, $option, $transient ) {
     if ( isset( $_GET[$nag] ) && $get[$nag] == 1 ) {
         update_option( $option, 'dismissed' );
     } elseif ( isset( $_GET[$nag] ) && $get[$nag] == 'later' ) {
-
         $time = 2 * WEEK_IN_SECONDS;
-        set_transient( $transient, 'waiting', $time );
+        set_transient( $transient, 'fts-review-waiting', $time );
         update_option( $option, 'pending' );
     }
 }
@@ -403,7 +402,7 @@ function fts_maybe_set_transient( $transient, $option ) {
 
     if ( ! $fts_rating_notice_waiting && !( $notice_status === 'dismissed' || $notice_status === 'pending' ) ) {
         $time = 2 * WEEK_IN_SECONDS;
-        set_transient( $transient, 'waiting', $time );
+        set_transient( $transient, 'fts-review-waiting', $time );
         update_option( $option, 'pending' );
     }
 }
@@ -430,14 +429,14 @@ function fts_rating_notice_html() {
             $output .=  "<img src='". plugins_url( 'feed-them-social/admin/images/feed-them-social-logo.png' ) ."' alt='Feed Them Social'>";
             $output .=  "<div class='fts-notice-text'>";
             $output .=  '<p>'. __('It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!' , 'feed-them-social').'</p>';
-                    $output .=  "<p class='fts-links'>";
-                        $output .=  '<a class="fts_notice_dismiss" href="https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post" target="_blank">'. __('Sure, I\'de love to' , 'feed-them-social').'</a>';
-                        $output .=  '<a class="fts_notice_dismiss" href="' .esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ). '">'. __('I\'ve already given a review' , 'feed-them-social').'</a>';
-                        $output .=  '<a class="fts_notice_dismiss" href="'.esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', 'later' ) ).'">'. __('Ask me later' , 'feed-them-social').'</a>';
-                        $output .=  '<a class="fts_notice_dismiss" href="https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post" target="_blank">'. __('Not working, I need support' , 'feed-them-social').'</a>';
-                        $output .=  '<a class="fts_notice_dismiss" href="'. esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ).'">'. __('No thanks' , 'feed-them-social').'</a>';
-                        $output .=  "</p>";
-                $output .=  "</div>";
+            $output .=  "<p class='fts-links'>";
+            $output .=  '<a class="fts_notice_dismiss" href="https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post" target="_blank">'. __('Sure, I\'de love to' , 'feed-them-social').'</a>';
+            $output .=  '<a class="fts_notice_dismiss" href="' .esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ). '">'. __('I\'ve already given a review' , 'feed-them-social').'</a>';
+            $output .=  '<a class="fts_notice_dismiss" href="'.esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', 'later' ) ).'">'. __('Ask me later' , 'feed-them-social').'</a>';
+            $output .=  '<a class="fts_notice_dismiss" href="https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post" target="_blank">'. __('Not working, I need support' , 'feed-them-social').'</a>';
+            $output .=  '<a class="fts_notice_dismiss" href="'. esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ).'">'. __('No thanks' , 'feed-them-social').'</a>';
+            $output .=  "</p>";
+            $output .=  "</div>";
             $output .=  " </div>";
             echo $output;
         }
@@ -454,9 +453,12 @@ fts_maybe_set_transient( $transient, $option );
 $notice_status = get_option( $option, false );
 
 // only display the notice if the time offset has passed and the user hasn't already dismissed it
-if ( get_transient( $transient ) !== 'waiting' && $notice_status !== 'dismissed' ) {
+if ( get_transient( $transient ) !== 'fts-review-waiting' && $notice_status !== 'dismissed' ) {
     add_action( 'admin_notices', 'fts_rating_notice_html' );
 }
+//print get_transient( $transient );
+//print  ' & ';
+//print  $notice_status;
 /* END FTS Ratings Notice */
 
 

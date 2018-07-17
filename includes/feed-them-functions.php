@@ -980,10 +980,12 @@ class feed_them_social_functions
             'fts_social_icons_color',
             'fts_social_icons_hover_color',
             'fts_social_icons_back_color',
+            'fts_slick_rating_notice_waiting',
+            'fts_slick_rating_notice',
+            'fts_slick_ignore_rating_notice_nag',
         );
         $this->register_settings('feed-them-social-settings', $settings);
     }
-
     /**
      * Social Follow Buttons
      *
@@ -1207,6 +1209,7 @@ class feed_them_social_functions
             }
 
             <?php }if (!empty($fb_link_color)) { ?>
+            .fts-simple-fb-wrapper .fts-jal-single-fb-post .fts-review-name,
             .fts-simple-fb-wrapper .fts-jal-single-fb-post a,
             .fts-slicker-facebook-posts .fts-jal-single-fb-post a,
             .fts-jal-fb-group-header-desc a {

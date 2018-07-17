@@ -100,19 +100,25 @@ class FTS_facebook_options_page
                         $test_app_token_response_biz = $fts_functions->fts_get_feed_json($test_app_token_URL_biz);
                         $test_app_token_response_biz = json_decode($test_app_token_response_biz['app_token_id_biz']);
 
-                      //    echo'<pre>';
-                      //    print_r($test_app_token_response);
-                      //    echo'</pre>';
+                       //   echo'<pre>';
+                       //   print_r($test_app_token_response);
+                       //   echo'</pre>';
                     }
                     ?>
                     <div class="clear"></div>
                     <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap" id="fts-fb-token-wrap" style="margin-bottom:0px;">
                         <div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
+                            <?php _e('Page ID', 'feed-them-social'); ?>
+                        </div>
+                        <input type="text"  name="fts_facebook_custom_api_token_user_id" class="feed-them-social-admin-input" id="fts_facebook_custom_api_token_user_id" value="<?php echo get_option('fts_facebook_custom_api_token_user_id'); ?>"/>
+                        <div class="clear" style="margin-bottom:10px;"></div>
+                        <div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
                             <?php _e('Access Token Required', 'feed-them-social'); ?>
                         </div>
 
                         <input type="text" name="fts_facebook_custom_api_token" class="feed-them-social-admin-input" id="fts_facebook_custom_api_token" value="<?php echo get_option('fts_facebook_custom_api_token'); ?>"/>
-                        <input type="text" hidden name="fts_facebook_custom_api_token_user_id" class="feed-them-social-admin-input" id="fts_facebook_custom_api_token_user_id" value="<?php echo get_option('fts_facebook_custom_api_token_user_id'); ?>"/>
+                        <div class="clear"></div>
+
                         <input type="text" hidden name="fts_facebook_custom_api_token_user_name" class="feed-them-social-admin-input" id="fts_facebook_custom_api_token_user_name" value="<?php echo get_option('fts_facebook_custom_api_token_user_name'); ?>"/>
                         <div class="clear"></div>
                         <?php if (!empty($test_app_token_response) && !empty($test_app_token_id)) {
@@ -124,7 +130,7 @@ class FTS_facebook_options_page
                                 if (!empty($fb_id) && !empty($fb_name) && !empty($test_app_token_id)) {
                                     echo '<img border="0" height="50" width="50" class="fts-fb-page-thumb" src="https://graph.facebook.com/' . $fb_id . '/picture"/><h3>' . $fb_name . '</h3>';
                                 }
-                                echo __('Your Access Token is now working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page">settings page</a>.', 'feed-them-social') . '</div>';
+                                echo __('Your Access Token is now working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page#feed_type=facebook">settings page</a>.', 'feed-them-social') . '</div>';
 
                             }
                             if (isset($test_app_token_response->data->error->message) && !empty($test_app_token_id) || isset($test_app_token_response->error->message) && !empty($test_app_token_id) && $test_app_token_response->error->message !== "(#100) You must provide an app access token or a user access token that is an owner or developer of the app") {
@@ -176,12 +182,18 @@ class FTS_facebook_options_page
                         </div>
 
                         <a href="mailto:support@slickremix.com" target="_blank" class="fts-admin-button-no-work"><?php _e('Button not working?', 'feed-them-social'); ?></a>
+
                         <div class="clear"></div>
+                        <div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
+                            <?php _e('Page Reviews ID', 'feed-them-social'); ?>
+                        </div>
+                        <input type="text" name="fts_facebook_custom_api_token_user_id_biz" class="feed-them-social-admin-input" id="fts_facebook_custom_api_token_user_id_biz" value="<?php echo get_option('fts_facebook_custom_api_token_user_id_biz'); ?>"/>
+
+                        <div class="clear" style="margin-bottom:10px;"></div>
                         <div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
                             <?php _e('Page Reviews Access Token', 'feed-them-social'); ?>
                         </div>
                         <input type="text" name="fts_facebook_custom_api_token_biz" class="feed-them-social-admin-input" id="fts_facebook_custom_api_token_biz" value="<?php echo get_option('fts_facebook_custom_api_token_biz'); ?>"/>
-                        <input type="text" hidden name="fts_facebook_custom_api_token_user_id_biz" class="feed-them-social-admin-input" id="fts_facebook_custom_api_token_user_id_biz" value="<?php echo get_option('fts_facebook_custom_api_token_user_id_biz'); ?>"/>
                         <input type="text" hidden name="fts_facebook_custom_api_token_user_name_biz" class="feed-them-social-admin-input" id="fts_facebook_custom_api_token_user_name_biz" value="<?php echo get_option('fts_facebook_custom_api_token_user_name_biz'); ?>"/>
                         <div class="clear"></div>
 
@@ -196,7 +208,7 @@ class FTS_facebook_options_page
                                 if (!empty($fb_id_biz) && !empty($fb_name_biz) && !empty($test_app_token_id_biz)) {
                                     echo '<img border="0" height="50" width="50" class="fts-fb-page-thumb" src="https://graph.facebook.com/' . $fb_id_biz . '/picture"/><h3>' . $fb_name_biz . '</h3>';
                                 }
-                                echo __('Your Page Reviews Access Token is now working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page">settings page</a>.', 'feed-them-social') . '</div>';
+                                echo __('Your Page Reviews Access Token is now working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page#feed_type=facebook_reviews">settings page</a>.', 'feed-them-social') . '</div>';
 
                             }
 
@@ -376,8 +388,8 @@ class FTS_facebook_options_page
                         <h3>
                             <?php _e('Language Options', 'feed-them-social'); ?>
                         </h3>
-                        <?php _e('You must have your Facebook Access Token saved above before this feature will work. This option will translate the FB Titles and Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the <a href="options-general.php" target="_blank">wordpress settings</a> page. If would like to help translate please visit our', 'feed-them-social'); ?>
-                        <a href="http://glotpress.slickremix.com/projects" target="_blank">GlottPress</a>.
+                        <?php _e('You must have your Facebook Access Token saved above before this feature will work. This option will translate the FB Titles and Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the <a href="options-general.php" target="_blank">wordpress settings</a> page. If would like to help translate please', 'feed-them-social'); ?>
+                        <a href="http://translate.slickremix.com/glotpress/projects/feed-them-social/" target="_blank">go here</a>.
                     </div>
                     <div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
                         <?php _e('Language For Facebook Feeds', 'feed-them-social'); ?>

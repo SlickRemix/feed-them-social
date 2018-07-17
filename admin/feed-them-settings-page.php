@@ -91,7 +91,7 @@ class FTS_settings_page
 
                             <?php
 
-                            $step2_custom_message = __('<br/><strong>STEP 2:</strong> Generator your custom shortcode using the options below, then click generate shortcode and paste that to a Page, Post or widget.', 'feed-them-social');
+                            $step2_custom_message = __('<br/><strong>STEP 2:</strong> Generate your custom shortcode using the options below, then click generate shortcode and paste that to a Page, Post or widget.', 'feed-them-social');
 
                             $limitforpremium = !is_plugin_active('feed-them-premium/feed-them-premium.php') ? '<small class="fts-required-more-posts"><br/>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>' : '';
 
@@ -460,8 +460,8 @@ class FTS_settings_page
                                         array(
                                             'option_type' => 'input',
                                             'input_wrap_class' => 'combine_facebook_name',
-                                            'label' => __('Facebook Name', 'feed-them-social'),
-                                            'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">Facebook Options</a> page then copy your <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-id-and-video-gallery-id" target="_blank">Facebook Name</a> and paste it in the first input below.',
+                                            'label' => __('Facebook ID or Name', 'feed-them-social'),
+                                            'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">Facebook Options</a> page. If that is in place your page ID should appear in the input below.',
                                             'type' => 'text',
                                             'id' => 'combine_facebook_name',
                                             'name' => 'combine_facebook_name',
@@ -1229,7 +1229,7 @@ class FTS_settings_page
                                             'label' => __('Facebook ID (required)', 'feed-them-social'),
                                             'instructional-text' => array(
                                                 array(
-                                                    'text' => __('Copy your', 'feed-them-social') . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-page-vanity-url/" target="_blank">' . __('Facebook Page ID', 'feed-them-social') . '</a> ' . __('and paste it in the first input below. You cannot use Personal Profiles it must be a Facebook Page. If your page ID looks something like, My-Page-Name-50043151918, only use the number portion, 50043151918.', 'feed-them-social') . ' <a href="http://feedthemsocial.com/?feedID=50043151918" target="_blank">' . __('Test your Page ID on our demo', 'feed-them-social') . '</a>',
+                                                    'text' => __('If your Access Token is set on the Facebook Options page of our plugin your ID should appear below. To create an additional feed go back the') . ' <a href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">' . __('Facebook Options', 'feed-them-social') . '</a> ' . __('page and make sure you are logged into that specific Facebook account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.', 'feed-them-social').'',
                                                     'class' => 'facebook-message-generator page inst-text-facebook-page',
                                                 ),
                                                 array(
@@ -1245,19 +1245,19 @@ class FTS_settings_page
                                                     'class' => 'facebook-message-generator event inst-text-facebook-event',
                                                 ),
                                                 array(
-                                                    'text' => __('To show a specific Album copy your', 'feed-them-social') . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . __('Facebook Album ID', 'feed-them-social') . '</a> ' . __('and paste it in the second input below. If you want to show all your uploaded photos leave the Album ID input blank.', 'feed-them-social'),
+                                                    'text' => __('To show a specific Album copy your', 'feed-them-social') . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . __('Facebook Album ID', 'feed-them-social') . '</a> ' . __('and paste it in the third input below. If you want to show all your uploaded photos leave the Album ID input blank.', 'feed-them-social'),
                                                     'class' => 'facebook-message-generator album_photos inst-text-facebook-album-photos',
                                                 ),
                                                 array(
-                                                    'text' => __('Copy your', 'feed-them-social') . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . __('Facebook Album Covers ID', 'feed-them-social') . '</a> ' . __('and paste it in the first input below.', 'feed-them-social'),
+                                                    'text' => __('If your Access Token is set on the Facebook Options page of our plugin your ID should appear below. To create an additional feed go back the') . ' <a href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">' . __('Facebook Options', 'feed-them-social') . '</a> ' . __('page and make sure you are logged into that specific Facebook account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.', 'feed-them-social').'',
                                                     'class' => 'facebook-message-generator albums inst-text-facebook-albums',
                                                 ),
                                                 array(
-                                                    'text' => __('Copy your', 'feed-them-social') . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-id-and-video-gallery-id" target="_blank">' . __('Facebook ID', 'feed-them-social') . '</a> ' . __('and paste it in the first input below.', 'feed-them-social'),
+                                                    'text' => __('If your Access Token is set on the Facebook Options page of our plugin your ID should appear below. To create an additional feed go back the') . ' <a href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">' . __('Facebook Options', 'feed-them-social') . '</a> ' . __('page and make sure you are logged into that specific Facebook account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.', 'feed-them-social').'',
                                                     'class' => 'facebook-message-generator video inst-text-facebook-video',
                                                 ),
                                                 array(
-                                                    'text' => __('Copy your', 'feed-them-social') . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-page-vanity-url/" target="_blank">' . __('Facebook Page ID', 'feed-them-social') . '</a> ' . __('and paste it in the first input below. If your page ID looks something like, My-Page-Name-50043151918, only use the number portion, 50043151918.', 'feed-them-social'),
+                                                    'text' => __('If your Access Token is set on the Facebook Options page of our plugin your ID should appear below. To create an additional feed go back the') . ' <a href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">' . __('Facebook Options', 'feed-them-social') . '</a> ' . __('page and make sure you are logged into that specific Facebook account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.', 'feed-them-social').'',
                                                     'class' => 'facebook-message-generator reviews inst-text-facebook-reviews',
                                                 ),
                                             ),
@@ -1270,6 +1270,24 @@ class FTS_settings_page
                                                 'attr_name' => 'id',
                                                 'var_final_if' => 'no',
                                                 'empty_error' => 'yes',
+                                            ),
+                                        ),
+                                        //Access Token
+                                        array(
+                                            'option_type' => 'input',
+                                            'label' => __('Access Token (required) ', 'feed-them-social') . '<br/><small>' . __('', 'feed-them-gallery') . '</small>',
+                                            'type' => 'text',
+                                            'id' => 'fb_access_token',
+                                            'name' => 'fb_access_token',
+                                            // Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
+                                            // 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
+                                            'placeholder' => __('', 'feed-them-social'),
+                                            //Relative to JS.
+                                            'short_attr' => array(
+                                                'attr_name' => 'access_token',
+                                                'var_final_if' => 'yes',
+                                                'empty_error' => 'set',
+                                                'empty_error_value' => '',
                                             ),
                                         ),
                                         //Facebook Album ID
@@ -5546,6 +5564,7 @@ class FTS_settings_page
                     }
                 });
 
+                /* Instagram */
                     function getQueryString(Param) {
                         return decodeURI(
                             (RegExp('[#|&]' + Param + '=' + '(.+?)(&|$)').exec(location.hash) || [, null])[1]
@@ -5569,6 +5588,55 @@ class FTS_settings_page
                         jQuery('#instagram_id').val('');
                     }
 
+                });
+                /* FB Pages, Ablums, Photos etc */
+                if (window.location.hash && getQueryString('feed_type') == 'facebook') {
+                    jQuery('#feed-selector-form').find('option[value=fts-fb-page-shortcode-form]').attr('selected','selected');
+                    jQuery('#fts-tab-content1 .fts-fb-page-shortcode-form').show();
+                    jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo get_option('fts_facebook_custom_api_token_user_id') ?>');
+                    jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo get_option('fts_facebook_custom_api_token') ?>');
+                }
+
+                jQuery('#shortcode-form-selector, #facebook-messages-selector').bind('change', function (e) {
+                    if (jQuery('#facebook-messages-selector').val() == 'page' || jQuery('#facebook-messages-selector').val() == 'album_photos' || jQuery('#facebook-messages-selector').val() == 'albums' || jQuery('#facebook-messages-selector').val() == 'album_videos') {
+                        jQuery('#fb_page_id, #fb_access_token').val('');
+                        jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo get_option('fts_facebook_custom_api_token_user_id') ?>');
+                        jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo get_option('fts_facebook_custom_api_token') ?>');
+                    }
+                    else {
+
+                    }
+
+                });
+
+                /* FB Pages, Ablums, Photos etc */
+                if (window.location.hash && getQueryString('feed_type') == 'facebook_reviews') {
+                    jQuery('#feed-selector-form').find('option[value=fts-fb-page-shortcode-form]').attr('selected','selected');
+                    jQuery('#fts-tab-content1 .fts-fb-page-shortcode-form').show();
+
+                    jQuery('#facebook-messages-selector').find('option[value=reviews]').attr('selected','selected');
+                    jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').show();
+                    jQuery('.align-images-wrap,.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts, .inst-text-facebook-page').hide();
+
+                    jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo get_option('fts_facebook_custom_api_token_user_id_biz') ?>');
+                    jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo get_option('fts_facebook_custom_api_token_biz') ?>');
+                }
+
+                jQuery('#shortcode-form-selector, #facebook-messages-selector').bind('change', function (e) {
+                    if (jQuery('#facebook-messages-selector').val() == 'reviews') {
+                        jQuery('#fb_page_id, #fb_access_token').val('');
+                        jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo get_option('fts_facebook_custom_api_token_user_id_biz') ?>');
+                        jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo get_option('fts_facebook_custom_api_token_biz') ?>');
+                    }
+                    else {
+
+                    }
+
+                });
+
+                jQuery('#combine_facebook').bind('change', function (e) {
+                    jQuery('#combine_facebook_name').val('');
+                    jQuery('#combine_facebook_name').val(jQuery('#combine_facebook_name').val() + '<?php echo get_option('fts_facebook_custom_api_token_user_id') ?>');
                 });
 
                 jQuery('#combine_instagram, #combine_instagram_type').bind('change', function (e) {

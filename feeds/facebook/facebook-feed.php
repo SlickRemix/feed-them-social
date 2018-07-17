@@ -96,6 +96,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                 'show_media' => '',
                 'show_date' => '',
                 'show_name' => '',
+                'access_token' => ''
 
             ), $atts);
             if ($FB_Shortcode['posts'] == NULL)
@@ -119,6 +120,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                 'image_position_lr' => '',
                 'image_position_top' => '',
                 'hide_comments_popup' => '',
+                'access_token' => ''
 
             ), $atts);
             if ($FB_Shortcode['posts'] == NULL)
@@ -129,15 +131,24 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             $FB_Shortcode['type'] = 'album_photos';
             $FB_Shortcode['video_album'] = 'yes';
             $FB_Shortcode['album_id'] = 'photo_stream';
+            if(isset($FB_Shortcode['loadmore_btn_maxwidth']) && $FB_Shortcode['loadmore_btn_maxwidth'] !== ''){
+                $FB_Shortcode['loadmore'] = 'button';
+            }
         }
-
 
         if (!is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') && !is_plugin_active('feed-them-premium/feed-them-premium.php') && !is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php') && $FB_Shortcode['posts'] > '6') {
             $FB_Shortcode['posts'] = '6';
         }
 
         //Get Access Token
-        $access_token = $this->get_access_token();
+        $access_token = isset($FB_Shortcode['access_token']) ? $FB_Shortcode['access_token'] : '';
+        if($access_token !== ''){
+            $access_token = $FB_Shortcode['access_token'];
+        }
+        else {
+            $access_token = $this->get_access_token();
+        }
+
         //UserName?
         if (!$FB_Shortcode['id']) {
             return 'Please enter a username for this feed.';

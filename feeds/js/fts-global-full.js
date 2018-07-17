@@ -49,7 +49,7 @@ jQuery(document).ready(function() {
 if (!jQuery.trim(jQuery('.fts-jal-fb-group-display').html()).length) {
     jQuery('.fts-jal-fb-group-display').append('<div class="fts-facebook-add-more-posts-notice"><p>Please go to the <strong>Facebook Options</strong> page of our plugin and look for the "<strong>Change Post Limit</strong>" option and add the number <strong>7</strong> or more. You can also hide this notice on the Facebook Options page if you want.</p>If you are trying to add a Personal Facebook feed and you are seeing this message too, please note: <strong>Personal Facebook Accounts generally do not work with our plugin.</strong></div>')
 }
-jQuery(window).load(function() {
+jQuery(window).on('load', function() {
     if (jQuery.fn.masonry) {
         setTimeout(function () {
             jQuery(".fts-pinterest-wrapper.masonry").masonry("layout");
@@ -190,8 +190,8 @@ function slickremixImageResizing() {
 // <	less than      x < 8	true
 // https://www.slickremix.com/betablog/2017/09/20200/
 
-jQuery(document).ready(slickremixImageResizingFacebook);
-jQuery(window).on('resize',slickremixImageResizingFacebook);
+jQuery(document).ready(slickremixImageResizingFacebook, slickremixImageResizingFacebook2, slickremixImageResizingFacebook3);
+jQuery(window).on('resize',slickremixImageResizingFacebook, slickremixImageResizingFacebook2, slickremixImageResizingFacebook3);
 
 function slickremixImageResizingFacebook() {
     // This is the container for our instagram images
@@ -262,7 +262,33 @@ function slickremixImageResizingFacebook() {
 
 
 
+function slickremixImageResizingFacebook2() {
+    var e = jQuery(".fts-more-photos-2-or-3-photos a"),
+        t = "calc(49.88888888% - 1px)";
+    e.css({
+        width: t
+    });
+    var s = e.width();
+    e.css({
+        width: t,
+        height: s,
+        margin: "1px"
+    })
+}
 
+function slickremixImageResizingFacebook3() {
+    var e = jQuery(".fts-more-photos-4-photos a"),
+        t = "calc(33.192222222% - 1px)";
+    e.css({
+        width: t
+    });
+    var s = e.width();
+    e.css({
+        width: t,
+        height: s,
+        margin: "1px"
+    })
+}
 
 
 

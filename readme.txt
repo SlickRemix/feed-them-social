@@ -2,8 +2,8 @@
 Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 4.9.6
-Stable tag: 2.4.4
+Tested up to: 4.9.7
+Stable tag: 2.4.5
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -29,45 +29,45 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
  * Customize Font Colors.
  * Share options for the Facebook, Instagram, Twitter, Pinterest and YouTube Feeds.
  * Add Like and/or Follow Buttons above or below any feeds.
- * With our [Premium Extension](https://www.slickremix.com/product/feed-them-social-premium-extension/) you can set how many posts, pictures, tweets, or videos for each individual social feed. [See Example Demo](http://feedthemsocial.com/)
+ * With our [Premium Extension](https://www.slickremix.com/product/feed-them-social-premium-extension/) you can set how many posts, pictures, tweets, or videos for each individual social feed. [See Example Demo](https://feedthemsocial.com/)
  * Facebook, Instagram, Twitter and YouTube feeds have a Load More Button option and Auto Load more posts when you get done scrolling to the end of the feed. These features and much more are available in the Premium Version and they are mobile friendly.
  * Awesome Support!
 
 = Demos =
- * All Demos can be found on [www.FeedThemSocial.com](http://feedthemsocial.com/)
- * [Facebook Page Feed Demo](http://feedthemsocial.com/)
- * [Facebook Album Photos Feed Demo](http://feedthemsocial.com/facebook-album-photos-demo/)
- * [Facebook Album Covers Feed Demo](http://feedthemsocial.com/facebook-album-covers/)
- * [Instagram Feed Demo](http://feedthemsocial.com/instagram-feed-demo/)
- * [Twitter Feed Demo](http://feedthemsocial.com/twitter-feed-demo/)
- * [Pinterest Boards Demo](http://feedthemsocial.com/pinterest/)
- * [Pinterest Pins from a single Board](http://feedthemsocial.com/pinterest-pins-from-a-single-board/)
- * [Pinterest Latest Pins from a User](http://feedthemsocial.com/instagram-feed-demo/)
- * [YouTube Feed Demo](http://feedthemsocial.com/youtube-feed-demo/)
+ * All Demos can be found on [www.FeedThemSocial.com](https://feedthemsocial.com/)
+ * [Facebook Page Feed Demo](https://feedthemsocial.com/)
+ * [Facebook Album Photos Feed Demo](https://feedthemsocial.com/facebook-album-photos-demo/)
+ * [Facebook Album Covers Feed Demo](https://feedthemsocial.com/facebook-album-covers/)
+ * [Instagram Feed Demo](https://feedthemsocial.com/instagram-feed-demo/)
+ * [Twitter Feed Demo](https://feedthemsocial.com/twitter-feed-demo/)
+ * [Pinterest Boards Demo](https://feedthemsocial.com/pinterest/)
+ * [Pinterest Pins from a single Board](https://feedthemsocial.com/pinterest-pins-from-a-single-board/)
+ * [Pinterest Latest Pins from a User](https://feedthemsocial.com/instagram-feed-demo/)
+ * [YouTube Feed Demo](https://feedthemsocial.com/youtube-feed-demo/)
 
 = PREMIUM Demos =
- * [Facebook Page Feed Demo](http://feedthemsocial.com/)
- * [Facebook Video Feed Demo](http://feedthemsocial.com/facebook-videos-demo/)
- * [Facebook Photo and Video Carousels Demo](http://feedthemsocial.com/facebook-videos-demo/)
+ * [Facebook Page Feed Demo](https://feedthemsocial.com/)
+ * [Facebook Video Feed Demo](https://feedthemsocial.com/facebook-videos-demo/)
+ * [Facebook Photo and Video Carousels Demo](https://feedthemsocial.com/facebook-videos-demo/)
 
 = Carousel Extension =
- * [See Demo](http://feedthemsocial.com/facebook-carousels-or-sliders/)
+ * [See Demo](https://feedthemsocial.com/facebook-carousels-or-sliders/)
 
 =  FTS Bar Extension =
- ✭ [See Demo](http://feedthemsocial.com/fts-bar/)
+ ✭ [See Demo](https://feedthemsocial.com/fts-bar/)
 
 = Facebook Reviews Extension =
- ✭ [See Demo](http://feedthemsocial.com/facebook-page-reviews-demo/)
+ ✭ [See Demo](https://feedthemsocial.com/facebook-page-reviews-demo/)
 
 = Combined Streams Extension =
- ✭ [See Demo](http://feedthemsocial.com/feed-them-social-combined-streams/)
+ ✭ [See Demo](https://feedthemsocial.com/feed-them-social-combined-streams/)
 
 = All Access Pass =
  ✭ [NEW! See Details](https://www.slickremix.com/downloads/all-access-pass/)
 
 All SlickRemix plugins come with FREE Basic Support! If you need help or have questions we're here to help, just post on our [Support Forum](https://wordpress.org/support/plugin/feed-them-social#new-topic-0) and we’ll get to you as quickly as we can! (usually within 48hrs)
 
-If you enjoy using our plugin please tell others. [Click here to share](https://www.facebook.com/sharer.php?u=http://wordpress.org/plugins/feed-them-social/&t=FeedThemSocial).
+If you enjoy using our plugin please tell others. [Click here to share](https://www.facebook.com/sharer.php?u=https://wordpress.org/plugins/feed-them-social/&t=FeedThemSocial).
 
 Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](https://www.slickremix.com/)
 
@@ -76,6 +76,16 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.4.5 Tuesday, July 16th, 2018 =
+   * NEW: Facebook Feed: Now you can create more than one facebook feed with a unique access token for each one using access_token= in the shortcode.
+   * NEW: Leave a review text and links.
+   * FIX: YouTube & Facebook Feed: Large video had extra unnecessary padding.
+   * FIX: Out of place closing ) for an add_action call to fts_upgrade_completed on the main plugin file page feed-them.php.
+   * FIX: Facebook Feed: Add missing js functions to make posts with 2 or more photos display properly.
+   * FIXED: fts-global.js: Depreciated .load() call. [https://github.com/SlickRemix/feed-them-social/issues/24](https://github.com/SlickRemix/feed-them-social/issues/24)
+   * PREMIUM: You must also update your Premium version to get the access_token= option in the facebook feed.
+   * PREMIUM FIXED: Video Feed: If loadmore button max width isset the loadmore button will show now. [https://github.com/SlickRemix/feed-them-social/issues/33](https://github.com/SlickRemix/feed-them-social/issues/33)
+
 = Version 2.4.4 Friday, June 29th, 2018 =
    * FIX: Facebook Cover photos, Album photos and Video Albums to have proper image file types to work in Firefox and Safari.
 
@@ -602,7 +612,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
  * FIXED: Now having more than one Facebook photo album on a page works.
  * UPDATED: Caching systems for Instagram and Twitter to increase speed and eliminate errors.
  * NEW: Now you can enter your own Twitter API tokens. This is helpful if you keep seeing the twitter is down and will be back shortly message which is caused by the high traffic coming from our default Twitter APP tokens.
- * NEW IN PREMIUM: Remove the Twitter profile photo on every tweet. Look at the [example on this page's sidebar](http://feedthemsocial.com/twitter-feed-demo/).
+ * NEW IN PREMIUM: Remove the Twitter profile photo on every tweet. Look at the [example on this page's sidebar](https://feedthemsocial.com/twitter-feed-demo/).
 
 = Version 1.6.2 Tuesday, November 25th, 2014 =
  * NEW: Added new Twitter Options page.

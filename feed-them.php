@@ -8,18 +8,18 @@
  * Plugin Name: Feed Them Social (Facebook, Instagram, Twitter, etc)
  * Plugin URI: http://feedthemsocial.com/
  * Description: Customize feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
- * Version: 2.4.4
+ * Version: 2.4.5
  * Author: SlickRemix
  * Author URI: https://slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: wordpress 4.0.0
- * Tested up to: WordPress 4.9.6
- * Stable tag: 2.4.4
+ * Tested up to: WordPress 4.9.7
+ * Stable tag: 2.4.5
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.4.4
+ * @version    2.4.5
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2018 SlickRemix
  *
@@ -70,7 +70,7 @@ final class Feed_Them_Social {
             add_action('admin_init', array(self::$instance, 'feed_them_social_load_plugin'));
             add_action('admin_notices', array(self::$instance, 'fts_install_notice'));
             add_action('admin_notices', array(self::$instance, 'fts_update_notice'));
-            add_action('upgrader_process_complete', array(self::$instance, 'fts_upgrade_completed', 10, 2));
+            add_action('upgrader_process_complete', array(self::$instance, 'fts_upgrade_completed'), 10, 2);
 
             // Include our own Settings link to plugin activation and update page.
             add_filter('plugin_action_links_' . plugin_basename(__FILE__), array(self::$instance, 'fts_free_plugin_actions'), 10, 4);
@@ -313,7 +313,7 @@ final class Feed_Them_Social {
      */
     function fts_free_plugin_actions($actions, $plugin_file, $plugin_data, $context) {
         array_unshift(
-            $actions, '<a href="admin.php?page=feed-them-settings-page">' . __('Settings') .'</a> | <a href="' . __('https://www.slickremix.com/support/') . '">' . __('Support') . '</a>'
+            $actions, '<a href="admin.php?page=feed-them-settings-page">' . __('Settings', 'feed-them-social') .'</a> | <a href="' . __('https://www.slickremix.com/support/', 'feed-them-social') . '">' . __('Support') . '</a>'
 
         );
         return $actions;
@@ -362,6 +362,103 @@ final class Feed_Them_Social {
         }
     }
 }
+
+
+/**
+ * FTS Review Check
+ *
+ * Checks $_GET to see if the nag variable is set and what it's value is
+ *
+ * @param $get
+ * @param $nag
+ * @param $option
+ * @param $transient
+ * @return mixed
+ * @since 2.4.5
+ */
+function fts_check_nag_get( $get, $nag, $option, $transient ) {
+    if ( isset( $_GET[$nag] ) && $get[$nag] == 1 ) {
+        update_option( $option, 'dismissed' );
+    } elseif ( isset( $_GET[$nag] ) && $get[$nag] == 'later' ) {
+
+        $time = 2 * WEEK_IN_SECONDS;
+        set_transient( $transient, 'waiting', $time );
+        update_option( $option, 'pending' );
+    }
+}
+
+/**
+ * FTS Set Review Transient
+ *
+ * Set a transient if the notice has not been dismissed or has not been set yet
+ *
+ * @param $transient
+ * @param $option
+ * @return mixed
+ * @since 2.4.5
+ */
+function fts_maybe_set_transient( $transient, $option ) {
+    $fts_rating_notice_waiting = get_transient( $transient );
+    $notice_status = get_option( $option, false );
+
+    if ( ! $fts_rating_notice_waiting && !( $notice_status === 'dismissed' || $notice_status === 'pending' ) ) {
+        $time = 2 * WEEK_IN_SECONDS;
+        set_transient( $transient, 'waiting', $time );
+        update_option( $option, 'pending' );
+    }
+}
+
+/**
+ * FTS Ratings Notice
+ *
+ * Generates the html for the admin notice
+ *
+ * @return mixed
+ * @since 2.4.5
+ */
+function fts_rating_notice_html() {
+
+    //Only show to admins
+    if ( current_user_can( 'manage_options' ) ){
+
+        global $current_user;
+        $user_id = $current_user->ID;
+
+        /* Has the user already clicked to ignore the message? */
+        if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice') ) {
+            $output =  "<div class='fts_notice fts_review_notice'>";
+            $output .=  "<img src='". plugins_url( 'feed-them-social/admin/images/feed-them-social-logo.png' ) ."' alt='Feed Them Social'>";
+            $output .=  "<div class='fts-notice-text'>";
+            $output .=  '<p>'. __('It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!' , 'feed-them-social').'</p>';
+                    $output .=  "<p class='fts-links'>";
+                        $output .=  '<a class="fts_notice_dismiss" href="https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post" target="_blank">'. __('Sure, I\'de love to' , 'feed-them-social').'</a>';
+                        $output .=  '<a class="fts_notice_dismiss" href="' .esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ). '">'. __('I\'ve already given a review' , 'feed-them-social').'</a>';
+                        $output .=  '<a class="fts_notice_dismiss" href="'.esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', 'later' ) ).'">'. __('Ask me later' , 'feed-them-social').'</a>';
+                        $output .=  '<a class="fts_notice_dismiss" href="https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post" target="_blank">'. __('Not working, I need support' , 'feed-them-social').'</a>';
+                        $output .=  '<a class="fts_notice_dismiss" href="'. esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ).'">'. __('No thanks' , 'feed-them-social').'</a>';
+                        $output .=  "</p>";
+                $output .=  "</div>";
+            $output .=  " </div>";
+            echo $output;
+        }
+    }
+}
+
+// Variables to define specific terms
+$transient = 'fts_slick_rating_notice_waiting';
+$option = 'fts_slick_rating_notice';
+$nag = 'fts_slick_ignore_rating_notice_nag';
+
+fts_check_nag_get( $_GET, $nag, $option, $transient );
+fts_maybe_set_transient( $transient, $option );
+$notice_status = get_option( $option, false );
+
+// only display the notice if the time offset has passed and the user hasn't already dismissed it
+if ( get_transient( $transient ) !== 'waiting' && $notice_status !== 'dismissed' ) {
+    add_action( 'admin_notices', 'fts_rating_notice_html' );
+}
+/* END FTS Ratings Notice */
+
 
 /**
  * Feed Them Social

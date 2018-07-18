@@ -77,7 +77,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.4.5 Tuesday, July 16th, 2018 =
-   * NEW: Facebook Feed: Now you can create more than one facebook feed with a unique access token for each one using access_token= in the shortcode.
+   * NEW: Facebook Feed: Create more than one feed by setting a new access token and creating a new shortcode.
    * NEW: Leave a review text and links.
    * FIX: YouTube & Facebook Feed: Large video had extra unnecessary padding.
    * FIX: Out of place closing ) for an add_action call to fts_upgrade_completed on the main plugin file page feed-them.php.

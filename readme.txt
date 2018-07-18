@@ -84,7 +84,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Facebook Feed: Add missing js functions to make posts with 2 or more photos display properly.
    * FIXED: fts-global.js: Depreciated .load() call. [https://github.com/SlickRemix/feed-them-social/issues/24](https://github.com/SlickRemix/feed-them-social/issues/24)
    * PREMIUM: You must also update your Premium version to get the access_token= option in the facebook feed.
-   * PREMIUM FIXED: Video Feed: If loadmore button max width isset the loadmore button will show now. [https://github.com/SlickRemix/feed-them-social/issues/33](https://github.com/SlickRemix/feed-them-social/issues/33)
+   * PREMIUM FIXED: Facebook Video Feed: If loadmore button max width isset the loadmore button will show now. [https://github.com/SlickRemix/feed-them-social/issues/33](https://github.com/SlickRemix/feed-them-social/issues/33)
 
 = Version 2.4.4 Friday, June 29th, 2018 =
    * FIX: Facebook Cover photos, Album photos and Video Albums to have proper image file types to work in Firefox and Safari.

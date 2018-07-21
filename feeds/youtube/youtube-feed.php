@@ -27,13 +27,13 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions
      * @since 2.3.2
      */
     function fts_youtube_head() {
-        wp_enqueue_style('fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'));
+        wp_enqueue_style('fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'), array(), FTS_CURRENT_VERSION);
         if (is_plugin_active('feed-them-premium/feed-them-premium.php')) {
             $fts_fix_magnific = get_option('fts_fix_magnific') ? get_option('fts_fix_magnific') : '';
             if (isset($fts_fix_magnific) && $fts_fix_magnific !== '1') {
-                wp_enqueue_style('fts-popup', plugins_url('feed-them-social/feeds/css/magnific-popup.css'));
+                wp_enqueue_style('fts-popup', plugins_url('feed-them-social/feeds/css/magnific-popup.css'), array(), FTS_CURRENT_VERSION);
             }
-            wp_enqueue_script('fts-popup-js', plugins_url('feed-them-social/feeds/js/magnific-popup.js'));
+            wp_enqueue_script('fts-popup-js', plugins_url('feed-them-social/feeds/js/magnific-popup.js'), array(), FTS_CURRENT_VERSION);
         }
     }
 
@@ -53,7 +53,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions
         $youtubeAccessToken = get_option('youtube_custom_access_token');
 
 
-        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
+        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'), FTS_CURRENT_VERSION);
 
         $youtubeAccessTokenNew = '';
         if (!isset($_GET['load_more_ajaxing']) && $youtubeAPIkey == '' && $youtubeAccessToken !== '') {

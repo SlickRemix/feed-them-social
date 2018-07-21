@@ -29,9 +29,12 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
      * @since 1.9.6
      */
     function fts_fb_head() {
-        wp_enqueue_style('fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'));
+       // wp_enqueue_style('fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'));
+        wp_enqueue_style( 'fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'), array(), FTS_CURRENT_VERSION);
+
+
         if (is_plugin_active('feed-them-social/feed-them.php') && is_plugin_active('feed-them-carousel-premium/feed-them-carousel-premium.php') && is_plugin_active('feed-them-premium/feed-them-premium.php')) {
-            wp_enqueue_script('fts-feeds', plugins_url('feed-them-carousel-premium/feeds/js/jquery.cycle2.js'));
+            wp_enqueue_script('fts-feeds', plugins_url('feed-them-carousel-premium/feeds/js/jquery.cycle2.js'), array(), FTS_CURRENT_VERSION);
         }
     }
 
@@ -54,7 +57,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
      */
     function fts_fb_func($atts, $cache) {
         // masonry snippet in fts-global
-        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
+        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'), FTS_CURRENT_VERSION);
         $developer_mode = 'on';
         //Make sure everything is reset
         include_once(ABSPATH . 'wp-admin/includes/plugin.php');
@@ -183,6 +186,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
             $feed_data_check = json_decode($response2['feed_data']);
 
+            // SHOW THE REGULAR FEEDS PRINT_R
             //  echo '<pre>';
             //  print_r($feed_data_check);
             //  echo '</pre>';
@@ -291,7 +295,9 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
         }
 
 
-        if (is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') && get_option('fts_facebook_custom_api_token_biz') == TRUE && $FB_Shortcode['type'] == 'reviews') {
+        if (is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') && get_option('fts_facebook_custom_api_token_biz') == TRUE && $FB_Shortcode['type'] == 'reviews' ||
+            is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') && $FB_Shortcode['token'] !=='' && $FB_Shortcode['type'] == 'reviews' ||
+            is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') && $FB_Shortcode['access_token'] !=='' && $FB_Shortcode['type'] == 'reviews') {
 
             if ($FB_Shortcode['remove_reviews_no_description'] == 'yes' && !isset($_GET['load_more_ajaxing'])) {
 
@@ -304,7 +310,16 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                 // this count includes our original posts count + the amount of posts we found with no description
                 $FB_Shortcode['posts'] = $no_description_count;
             }
-            $biz_access_token = get_option('fts_facebook_custom_api_token_biz');
+            if($FB_Shortcode['token'] !== ''){
+                $biz_access_token = $FB_Shortcode['token'];
+            }
+            elseif ($FB_Shortcode['access_token'] !== ''){
+                $biz_access_token = $FB_Shortcode['access_token'];
+            }
+            else{
+                $biz_access_token = get_option('fts_facebook_custom_api_token_biz');
+            }
+
             //Get Response (AKA Page & Feed Information) ERROR CHECK inside this function
             $response = $this->get_facebook_feed_response($FB_Shortcode, $fb_cache_name, $biz_access_token, $language);
 
@@ -360,7 +375,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             $merged_Array['data'] = $fts_list_arrays;
             $feed_data = (object)$merged_Array;
         }
-
+        // SHOW THE REGULAR FEEDS PRINT_R
         //  echo '<pre>';
         // print_r($feed_data );
         //  echo '</pre>';
@@ -496,7 +511,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
                 if (isset($FB_Shortcode['video_album']) && $FB_Shortcode['video_album'] == 'yes') {
                 } elseif (isset($FB_Shortcode['slider']) && $FB_Shortcode['slider'] !== 'yes' && $FB_Shortcode['image_stack_animation'] == 'yes' || isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['image_stack_animation']) && $FB_Shortcode['image_stack_animation'] == 'yes') {
-                    wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'));
+                    wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'), FTS_CURRENT_VERSION);
                     $FTS_FB_OUTPUT .= '<script>';
                     $FTS_FB_OUTPUT .= 'jQuery(window).load(function(){';
                     $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_class_name . '").masonry({';
@@ -1861,12 +1876,12 @@ style="margin:' . (isset($FB_Shortcode['slider_margin']) && $FB_Shortcode['slide
             // it's ok if these styles & scripts load at the bottom of the page
             $fts_fix_magnific = get_option('fts_fix_magnific') ? get_option('fts_fix_magnific') : '';
             if (isset($fts_fix_magnific) && $fts_fix_magnific !== '1') {
-                wp_enqueue_style('fts-popup', plugins_url('feed-them-social/feeds/css/magnific-popup.css'));
+                wp_enqueue_style('fts-popup', plugins_url('feed-them-social/feeds/css/magnific-popup.css'), array(), FTS_CURRENT_VERSION);
             }
-            wp_enqueue_script('fts-popup-js', plugins_url('feed-them-social/feeds/js/magnific-popup.js'));
-            wp_enqueue_script('fts-images-loaded', plugins_url('feed-them-social/feeds/js/imagesloaded.pkgd.min.js'));
+            wp_enqueue_script('fts-popup-js', plugins_url('feed-them-social/feeds/js/magnific-popup.js'), array(), FTS_CURRENT_VERSION);
+            wp_enqueue_script('fts-images-loaded', plugins_url('feed-them-social/feeds/js/imagesloaded.pkgd.min.js'), array(), FTS_CURRENT_VERSION);
             if (!isset($FB_Shortcode['video_album']) && $FB_Shortcode['video_album'] == 'yes') {
-                wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
+                wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'), FTS_CURRENT_VERSION);
             }
         }
     }

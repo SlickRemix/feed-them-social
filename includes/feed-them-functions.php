@@ -581,15 +581,15 @@ class feed_them_social_functions
         $ftsAdminBarMenu = get_option('fts_admin_bar_menu');
         $ftsDevModeCache = get_option('fts_clear_cache_developer_mode');
         if ($ftsDevModeCache == '1' || $ftsAdminActivationClearCache == 'feed-them-social') {
-            wp_enqueue_script('fts_clear_cache_script', plugins_url('feed-them-social/admin/js/developer-admin.js'), array('jquery'));
+            wp_enqueue_script('fts_clear_cache_script', plugins_url('feed-them-social/admin/js/developer-admin.js'), array('jquery'), FTS_CURRENT_VERSION);
             wp_localize_script('fts_clear_cache_script', 'ftsAjax', array('ajaxurl' => admin_url('admin-ajax.php')));
             wp_enqueue_script('jquery');
             wp_enqueue_script('fts_clear_cache_script');
         }
         if ($ftsDevModeCache !== 'hide-admin-bar-menu' && $ftsDevModeCache !== '1') {
             wp_enqueue_script('jquery');
-            wp_enqueue_script('fts_clear_cache_script', plugins_url('feed-them-social/admin/js/admin.js'));
-            wp_enqueue_script('fts_clear_cache_script', plugins_url('feed-them-social/admin/js/developer-admin.js'), array('jquery'));
+            wp_enqueue_script('fts_clear_cache_script', plugins_url('feed-them-social/admin/js/admin.js'), array(), FTS_CURRENT_VERSION);
+            wp_enqueue_script('fts_clear_cache_script', plugins_url('feed-them-social/admin/js/developer-admin.js'), array('jquery'), FTS_CURRENT_VERSION);
             wp_localize_script('fts_clear_cache_script', 'ftsAjax', array('ajaxurl' => admin_url('admin-ajax.php')));
             wp_enqueue_script('fts_clear_cache_script');
         }
@@ -690,7 +690,7 @@ class feed_them_social_functions
      * @since 1.9.6
      */
     function feed_them_admin_css() {
-        wp_register_style('feed_them_admin', plugins_url('admin/css/admin.css', dirname(__FILE__)));
+        wp_register_style('feed_them_admin', plugins_url('admin/css/admin.css', dirname(__FILE__)), array(), FTS_CURRENT_VERSION);
         wp_enqueue_style('feed_them_admin');
     }
 
@@ -702,7 +702,7 @@ class feed_them_social_functions
      * @since 1.9.6
      */
     function feed_them_system_info_css() {
-        wp_register_style('fts-settings-admin-css', plugins_url('admin/css/admin-settings.css', dirname(__FILE__)));
+        wp_register_style('fts-settings-admin-css', plugins_url('admin/css/admin-settings.css', dirname(__FILE__)), array(), FTS_CURRENT_VERSION);
         wp_enqueue_style('fts-settings-admin-css');
     }
 
@@ -714,10 +714,10 @@ class feed_them_social_functions
      * @since 1.9.6
      */
     function feed_them_settings() {
-        wp_register_style('feed_them_settings_css', plugins_url('admin/css/settings-page.css', dirname(__FILE__)));
+        wp_register_style('feed_them_settings_css', plugins_url('admin/css/settings-page.css', dirname(__FILE__)), array(), FTS_CURRENT_VERSION);
         wp_enqueue_style('feed_them_settings_css');
         if (isset($_GET['page']) && $_GET['page'] == 'fts-youtube-feed-styles-submenu-page' || isset($_GET['page']) && $_GET['page'] == 'fts-instagram-feed-styles-submenu-page' || isset($_GET['page']) && $_GET['page'] == 'fts-facebook-feed-styles-submenu-page' || isset($_GET['page']) && $_GET['page'] == 'fts-twitter-feed-styles-submenu-page' || isset($_GET['page']) && $_GET['page'] == 'feed-them-settings-page' || isset($_GET['page']) && $_GET['page'] == 'fts-pinterest-feed-styles-submenu-page') {
-            wp_enqueue_script('feed_them_style_options_color_js', plugins_url('admin/js/jscolor/jscolor.js', dirname(__FILE__)));
+            wp_enqueue_script('feed_them_style_options_color_js', plugins_url('admin/js/jscolor/jscolor.js', dirname(__FILE__)), array(), FTS_CURRENT_VERSION);
         }
     }
 
@@ -735,7 +735,7 @@ class feed_them_social_functions
         foreach ($fields as $key => $label) {
             $output .= '<div class="feed-them-social-admin-input-wrap">';
             $output .= '<div class="feed-them-social-admin-input-label">' . $label . '</div>';
-            $output .= '<div class="feed-them-social-admin-input-default">Must have <a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/">premium version</a> to edit.</div>';
+            $output .= '<div class="feed-them-social-admin-input-default">Must have <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">premium version</a> to edit.</div>';
             $output .= '<div class="fts-clear"></div>';
             $output .= '</div><!--/feed-them-social-admin-input-wrap-->';
         }//END Foreach
@@ -1474,8 +1474,7 @@ class feed_them_social_functions
      * @since 1.9.6
      */
     function fts_powered_by_js() {
-        wp_enqueue_script('fts_powered_by_js', plugins_url('feeds/js/powered-by.js', dirname(__FILE__)), array('jquery')
-        );
+        wp_enqueue_script('fts_powered_by_js', plugins_url('feeds/js/powered-by.js', dirname(__FILE__)), array('jquery'), FTS_CURRENT_VERSION);
     }
 
     /**

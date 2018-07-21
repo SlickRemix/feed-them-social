@@ -42,7 +42,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions
      */
     function fts_instagram_head()
     {
-        wp_enqueue_style('fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'));
+        wp_enqueue_style('fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'), array(), FTS_CURRENT_VERSION);
     }
 
     function fts_instagram_likes_count($post_data) {
@@ -133,9 +133,9 @@ class FTS_Instagram_Feed extends feed_them_social_functions
                 // it's ok if these styles & scripts load at the bottom of the page
                 $fts_fix_magnific = get_option('fts_fix_magnific') ? get_option('fts_fix_magnific') : '';
                 if (isset($fts_fix_magnific) && $fts_fix_magnific !== '1') {
-                    wp_enqueue_style('fts-popup', plugins_url('feed-them-social/feeds/css/magnific-popup.css'));
+                    wp_enqueue_style('fts-popup', plugins_url('feed-them-social/feeds/css/magnific-popup.css'), array(), FTS_CURRENT_VERSION);
                 }
-                wp_enqueue_script('fts-popup-js', plugins_url('feed-them-social/feeds/js/magnific-popup.js'));
+                wp_enqueue_script('fts-popup-js', plugins_url('feed-them-social/feeds/js/magnific-popup.js'), array(), FTS_CURRENT_VERSION);
             }
         } else {
             extract(shortcode_atts(array(
@@ -180,7 +180,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions
             $pics_count = '10';
         }
 
-        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
+        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'), FTS_CURRENT_VERSION);
         $instagram_data_array = array();
 
         $fts_instagram_access_token = get_option('fts_instagram_custom_api_token');

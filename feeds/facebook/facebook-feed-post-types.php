@@ -41,7 +41,6 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
         $FBlink = isset($post_data->link) ? $post_data->link : "";
         $FBname = isset($post_data->name) ? $post_data->name : '';
         $FBcaption = isset($post_data->caption) ? $post_data->caption : "";
-        $FBmessage = (isset($post_data->message) ? $post_data->message : (isset($post_data->review_text) ? $post_data->review_text : '') . '');
         $FBdescription = isset($post_data->description) ? $post_data->description : "";
         $FBLinkEventName = isset($post_data->to->data[0]->name) ? $post_data->to->data[0]->name : "";
         $FBstory = isset($post_data->story) ? $post_data->story : "";
@@ -58,8 +57,21 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
         $FBalbum_cover = isset($post_data->cover_photo->id) ? $post_data->cover_photo->id : "";
         $FBalbum_picture = isset($post_data->source) ? $post_data->source : '';
 
+        $FBplaces_name = isset($post_data->place->name) ? $post_data->place->name : '';
+        $FBplaces_id = isset($post_data->place->id) ? $post_data->place->id : '';
 
+        if($FBplaces_name){
 
+            $location = '<div class="fts-fb-location-wrap">';
+                $location .= '<div class="fts-fb-location-img"></div>';
+                $location .= '<a href="https://www.facebook.com/'.$FBplaces_id.'/" class="fts-fb-location-link" target="_blank">'.$FBname.'</a>';
+                $location .= '<div class="fts-fb-location-name">'.$FBplaces_name.'</div>';
+            $location .= '</div>';
+
+            $fts_fb_location = $location;
+        }
+
+        $FBattachmentsDescription = isset($post_data->attachments->data[0]->description) ? $post_data->attachments->data[0]->description : "";
         $FBattachments = isset($post_data->attachments) ? $post_data->attachments : "";
         // youtube and vimeo embed url
         $FBvideo_embed = isset($post_data->source) ? $post_data->source : "";
@@ -228,10 +240,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
                 $FTS_FB_OUTPUT .= ($FB_Shortcode['type'] == 'reviews' ? '' : '<a href="https://facebook.com/' . $post_data->from->id . '" target="_blank">').'<img border="0" alt="' . ($FB_Shortcode['type'] == 'reviews' ? $post_data->reviewer->name : $post_data->from->name) . '" src="https://graph.facebook.com/' . ($FB_Shortcode['type'] == 'reviews' ? $post_data->reviewer->id : $post_data->from->id) . '/picture"/></a>'. ($FB_Shortcode['type'] == 'reviews' ? '' : '</a>');
 
-
                  $FTS_FB_OUTPUT .= '</div>';
-
-
 
                 //UserName
                 $FTS_FB_OUTPUT .= $FB_Shortcode['type'] == 'reviews' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') ? '<span class="fts-jal-fb-user-name fts-review-name" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">' . $post_data->reviewer->name . '</span>' . $FTS_Facebook_Reviews->reviews_rating_format($FB_Shortcode, $post_data->rating) . '</span>' : '<span class="fts-jal-fb-user-name"><a href="https://facebook.com/' . $post_data->from->id . '" target="_blank">' . $post_data->from->name . '</a>' . $fb_hide_shared_by_etc_text . '</span>';
@@ -251,6 +260,20 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             }
             //filter messages to have urls
             //Output Message
+            $FBmessage = (isset($post_data->message) ? $post_data->message : (isset($post_data->review_text) ? $post_data->review_text : '') . '');
+            if($FBmessage == ''){
+
+                if(isset($post_data->description)){
+                    $FBmessage =  isset($post_data->description) ? $post_data->description : '';
+                }
+                elseif(isset($post_data->attachments->data[0]->description)){
+                    $FBmessage =  isset($post_data->attachments->data[0]->description) ? $post_data->attachments->data[0]->description : '';
+                }
+            }
+
+            // We need to make this an actual function I think. But this will show the location flag and the text and link.
+            $FTS_FB_OUTPUT .= isset($fts_fb_location) ? $fts_fb_location : '';
+
             if ($FBmessage && $show_media !== 'top') {
 
                 $itemprop_description_reviews = is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') ? ' itemprop="description"' : '';
@@ -258,6 +281,8 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
                 // here we trim the words for the premium version. The $FB_Shortcode['words'] string actually comes from the javascript
                 if (is_plugin_active('feed-them-premium/feed-them-premium.php') && array_key_exists('words', $FB_Shortcode) && $show_media !== 'top' || is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php') && array_key_exists('words', $FB_Shortcode) && $FB_Shortcode['words'] !== '' && $show_media !== 'top' || is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') && array_key_exists('words', $FB_Shortcode) && $show_media !== 'top') {
                     $more = isset($more) ? $more : "";
+
+
                     $trimmed_content = $this->fts_custom_trim_words($FBmessage, $FB_Shortcode['words'], $more);
 
                     // Going to consider this for the future if facebook fixes the api to define when are checking in. Add  '.$checked_in.' inside the fts-jal-fb-message div
@@ -785,8 +810,11 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
                         // if we have more than one attachment we get the first image width and set that for the max width
                         $fts_fb_image_count = isset($post_data->attachments->data[0]->subattachments->data) ? count($post_data->attachments->data[0]->subattachments->data) : '0';
+                        // TESTING: lets see how many images are being output per post
                         // $FTS_FB_OUTPUT .= $fts_fb_image_count;
-                        if ($fts_fb_image_count == '0' || $fts_fb_image_count > 2) {
+
+                        // $FTS_FB_OUTPUT .= $fts_fb_image_count;
+                        if ($fts_fb_image_count == '0'  || $fts_fb_image_count == '1' || $fts_fb_image_count > 2)  {
 
                             // $FTS_FB_OUTPUT .= $fts_fb_image_count;
                             $FTS_FB_OUTPUT .= '<a href="' . (isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'yes' ? $photo_source_final : $FBlink) . '" target="_blank" class="fts-jal-fb-picture fts-fb-large-photo" ><img border="0" alt="' . $post_data->from->name . '" src="' . $photo_source_final . '"></a>';
@@ -795,7 +823,6 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
 
                         if ($FBpictureGallery1 !== '') {
-
 
                             // we count the number of attachments in the subattachments->data portion of the array and count the objects http://php.net/manual/en/function.count.php
                             $fts_fb_image_counter = $fts_fb_image_count - 3;

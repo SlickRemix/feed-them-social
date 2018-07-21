@@ -29,11 +29,8 @@ class FTS_Pinterest_Feed extends feed_them_social_functions
      */
     function fts_pinterest_head()
     {
-        wp_enqueue_style('fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'));
+        wp_enqueue_style('fts-feeds', plugins_url('feed-them-social/feeds/css/styles.css'), array(), FTS_CURRENT_VERSION);
     }
-
-
-
 
     function fts_pinterest_image_url($post_data) {
         $pinterest_image_url = isset($post_data->image->original->url) ? $post_data->image->original->url : "";
@@ -126,10 +123,10 @@ class FTS_Pinterest_Feed extends feed_them_social_functions
 
         $API_Token = get_option('fts_pinterest_custom_api_token');
 
-        wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'));
+        wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'), FTS_CURRENT_VERSION);
         // masonry snippet in fts-global
-        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
-        wp_enqueue_script('fts-images-loaded', plugins_url('feed-them-social/feeds/js/imagesloaded.pkgd.min.js'));
+        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'), FTS_CURRENT_VERSION);
+        wp_enqueue_script('fts-images-loaded', plugins_url('feed-them-social/feeds/js/imagesloaded.pkgd.min.js'), array(), FTS_CURRENT_VERSION);
 
         $pinterest_show_follow_btn = get_option('pinterest_show_follow_btn');
         $pinterest_show_follow_btn_where = get_option('pinterest_show_follow_btn_where');
@@ -233,10 +230,10 @@ class FTS_Pinterest_Feed extends feed_them_social_functions
     function getPinsFromBoards($boards, $pinterest_name, $pins_count) {
 
         $API_Token = get_option('fts_pinterest_custom_api_token');
-        wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'));
+        wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'), FTS_CURRENT_VERSION);
         // masonry snippet in fts-global
-        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
-        wp_enqueue_script('fts-images-loaded', plugins_url('feed-them-social/feeds/js/imagesloaded.pkgd.min.js'));
+        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'), FTS_CURRENT_VERSION);
+        wp_enqueue_script('fts-images-loaded', plugins_url('feed-them-social/feeds/js/imagesloaded.pkgd.min.js'), array(), FTS_CURRENT_VERSION);
 
         $pins_data = array();
         foreach ($boards->data as $key => $board) {
@@ -270,10 +267,10 @@ class FTS_Pinterest_Feed extends feed_them_social_functions
         $API_Token = get_option('fts_pinterest_custom_api_token');
         $API_Points = '&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Cmetadata%2Cboard%2Ccounts%2Ccreated_at%2Ccreator%2Cimage%2Cmedia%2Coriginal_link';
 
-        wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'));
+        wp_enqueue_script('fts-masonry-pkgd', plugins_url('feed-them-social/feeds/js/masonry.pkgd.min.js'), array('jquery'), FTS_CURRENT_VERSION);
         // masonry snippet in fts-global
-        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'));
-        wp_enqueue_script('fts-images-loaded', plugins_url('feed-them-social/feeds/js/imagesloaded.pkgd.min.js'));
+        wp_enqueue_script('fts-global', plugins_url('feed-them-social/feeds/js/fts-global.js'), array('jquery'), FTS_CURRENT_VERSION);
+        wp_enqueue_script('fts-images-loaded', plugins_url('feed-them-social/feeds/js/imagesloaded.pkgd.min.js'), array(), FTS_CURRENT_VERSION);
 
 
         $output = '';

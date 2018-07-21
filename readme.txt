@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.7
-Stable tag: 2.4.5
+Stable tag: 2.4.6
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -76,6 +76,12 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.4.6 Saturday, July 21st, 2018 =
+   * NEW: All CSS and js files now contain the current version number of the plugin at the end of the file. ie* ?=2.4.6
+   * NEW: Facebook Feed: Location check in post type now added and shared location post type.
+   * FIX: Facebook Feed: Some shared posts were missing an image
+   * FB REVIEWS: access_token= or token= now work in the shortcode.
+
 = Version 2.4.5 Tuesday, July 16th, 2018 =
    * NEW: Facebook Feed: Create more than one feed by setting a new access token and creating a new shortcode.
    * NEW: Leave a review text and links.

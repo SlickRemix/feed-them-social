@@ -271,10 +271,10 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
                 }
             }
 
-            // We need to make this an actual function I think. But this will show the location flag and the text and link.
-            $FTS_FB_OUTPUT .= isset($fts_fb_location) ? $fts_fb_location : '';
-
             if ($FBmessage && $show_media !== 'top') {
+                // We need to make this an actual function I think. But this will show the location flag and the text and link.
+                $FTS_FB_OUTPUT .= isset($fts_fb_location) ? $fts_fb_location : '';
+
 
                 $itemprop_description_reviews = is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') ? ' itemprop="description"' : '';
 
@@ -987,7 +987,6 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
         //Output Message For combined feeds in the bottom
         if ($FBmessage && isset($FB_Shortcode['show_media']) && $show_media == 'top') {
 
-
             if (isset($FB_Shortcode['show_social_icon']) && $FB_Shortcode['show_social_icon'] == 'right') {
                 $FTS_FB_OUTPUT .= '<div class="fts-mashup-icon-wrap-right fts-mashup-facebook-icon"><a href="https://facebook.com/' . $post_data->from->id . '" target="_blank"></a></div>';
             }
@@ -1009,6 +1008,11 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             $fts_final_date = $this->fts_custom_date($times, $feed_type);
             //PostTime
             $FTS_FB_OUTPUT .= '<span class="fts-jal-fb-post-time">' . $fts_final_date . '</span><div class="fts-clear"></div>';
+
+
+            // We need to make this an actual function I think. But this will show the location flag and the text and link.
+            $FTS_FB_OUTPUT .= isset($fts_fb_location) ? $fts_fb_location : '';
+
 
             // here we trim the words for the premium version. The $FB_Shortcode['words'] string actually comes from the javascript
             if (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php') && array_key_exists('words', $FB_Shortcode) || is_plugin_active('feed-them-premium/feed-them-premium.php') && array_key_exists('words', $FB_Shortcode)) {

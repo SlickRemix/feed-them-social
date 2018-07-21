@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Feed Them Social Class (Main Class)
  *

@@ -70,7 +70,7 @@ class FTS_facebook_options_page
                         </h3>
                         <?php _e('This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. This will NOT work for personal accounts or groups. You must be an admin of the page to get your token.', 'feed-them-social'); ?>
                         <p>
-                            <a href="https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo admin_url('admin.php?page=fts-facebook-feed-styles-submenu-page'); ?>&scope=manage_pages%2Cpublic_profile%2Cuser_friends%2Cemail" class="fts-facebook-get-access-token">Login
+                            <a href="https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo admin_url('admin.php?page=fts-facebook-feed-styles-submenu-page'); ?>&scope=manage_pages" class="fts-facebook-get-access-token">Login
                                 and get my Access Token</a></p>
 
                     </div>
@@ -88,21 +88,17 @@ class FTS_facebook_options_page
                             'app_token_id_biz' => 'https://graph.facebook.com/debug_token?input_token=' . $test_app_token_id_biz . '&access_token=' . $test_app_token_id_biz . '&'
                             // 'app_token_id' => 'https://graph.facebook.com/oauth/access_token?client_id=705020102908771&client_secret=70166128c6a7b5424856282a5358f47b&grant_type=fb_exchange_token&fb_exchange_token=CAAKBNkjLG2MBAK5jVUp1ZBCYCiLB8ZAdALWTEI4CesM8h3DeI4Jotngv4TKUsQZBwnbw9jiZCgyg0eEmlpiVauTsReKJWBgHe31xWCsbug1Tv3JhXZBEZBOdOIaz8iSZC6JVs4uc9RVjmyUq5H52w7IJVnxzcMuZBx4PThN3CfgKC5E4acJ9RnblrbKB37TBa1yumiPXDt72yiISKci7sqds0WFR3XsnkwQZD'
                         );
-
                         //Test App ID
                         // Leave these for reference:
                         // App token for FTS APP2: 358962200939086|lyXQ5-zqXjvYSIgEf8mEhE9gZ_M
                         // App token for FTS APP3: 705020102908771|rdaGxW9NK2caHCtFrulCZwJNPyY
                         $test_app_token_response = $fts_functions->fts_get_feed_json($test_app_token_URL);
                         $test_app_token_response = json_decode($test_app_token_response['app_token_id']);
-
-
                         $test_app_token_response_biz = $fts_functions->fts_get_feed_json($test_app_token_URL_biz);
                         $test_app_token_response_biz = json_decode($test_app_token_response_biz['app_token_id_biz']);
-
-                       //   echo'<pre>';
-                       //   print_r($test_app_token_response);
-                       //   echo'</pre>';
+                        //   echo'<pre>';
+                        //   print_r($test_app_token_response);
+                        //   echo'</pre>';
                     }
                     ?>
                     <div class="clear"></div>

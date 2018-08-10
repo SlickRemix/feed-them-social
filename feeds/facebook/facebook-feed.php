@@ -196,7 +196,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
             // Testing options before foreach loop
             // $idNew = 'tonyhawk';
-            // print_r($feed_data_check->$idNew->data);
+             // print_r($feed_data_check->$idNew->data);
 
             if (is_plugin_active('feed-them-social-combined-streams/feed-them-social-combined-streams.php')) {
                 $ftsCountIds = substr_count($FB_Shortcode['id'], ",");
@@ -375,7 +375,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             $merged_Array['data'] = $fts_list_arrays;
             $feed_data = (object)$merged_Array;
         }
-        // SHOW THE REGULAR FEEDS PRINT_R
+        // SHOW THE REGULAR FEEDS PRINT_R (WORKS FOR VIDEOS TOO)
         //  echo '<pre>';
         // print_r($feed_data );
         //  echo '</pre>';

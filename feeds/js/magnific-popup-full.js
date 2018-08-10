@@ -85,9 +85,11 @@ jQuery(document).ready(function() {
             //  alert('ok don\'t change');
         }
         else {
-            jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
+            //      jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
             //  alert('change');
         }
+
+
     });
 
     jQuery('body').on('click', '.fts-facebook-popup .mfp-image-holder .fts-popup-image-position', function() {
@@ -97,7 +99,7 @@ jQuery(document).ready(function() {
             //  alert('ok don\'t change');
         }
         else {
-            jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
+            //      jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
             //  alert('change');
         }
     });
@@ -126,6 +128,56 @@ jQuery(document).ready(function() {
                 jQuery(".fts-video-popup-element").attr("src", "").hide();
                 jQuery(".fts-iframe-popup-element").show();
             }
+
+
+            //  if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
+            //      jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
+            //  alert('ok don\'t change');
+            //  }
+            //  else {
+            //     jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
+            //  alert('change');
+            //   }
+
+
+
+            if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
+                jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
+                //  alert('ok don\'t change');
+            }
+            else {
+                //  jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
+                //  alert('change');
+            }
+
+
+            // EMBED HTML CASE: We do this so we can adjust the height of the iframe as the popup scales in size
+            if(jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0]){
+                console.log('Arrows: Open Callback: Irregular size');
+                jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : jQuery( ".fts-popup-half" ).height()});
+                jQuery( ".fts-popup-image-position" ).css({"height" : "100%", "min-height" : "auto"});
+                jQuery( ".mfp-iframe-scaler" ).css("padding-top", "100%");
+
+            }
+            else if(jQuery(".fts-popup-second-half .fts-equal-width-height")[0]){
+                console.log('Arrows: Open Callback: Square size');
+                jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : jQuery( ".fts-popup-half" ).height()});
+                jQuery( ".mfp-iframe-scaler" ).css("padding-top", "");
+
+            }
+            else {
+                console.log('Arrows: Open Callback: Regular size');
+                jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : "100%"});
+                jQuery( ".mfp-iframe-scaler" ).css("padding-top", "56.0%");
+                jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-half" ).height());
+            }
+
+
+
+
+
+
+
         }, 10);
     });
     // CLOSE SLICKREMIX
@@ -136,22 +188,32 @@ jQuery(document).ready(function() {
 
         jQuery('.popup-gallery-fb-posts, .popup-gallery-fb, .popup-video-gallery-fb').each(function () {
             var $container = jQuery(this);
-            var $imageLinks = $container.find('a.fts-facebook-link-target, a.fts-fb-large-photo, a.fts-view-album-photos-large, a.fts-view-fb-videos-large, a.fts-view-fb-videos-btn');
+            var $imageLinks = $container.find('a.fts-facebook-link-target, a.fts-fb-large-photo, a.fts-view-album-photos-large, a.fts-view-fb-videos-large, a.fts-view-fb-videos-btn, a.fts-jal-fb-vid-html5video');
 
             var items = [];
             $imageLinks.each(function () {
                 var $item = jQuery(this);
                 var type = 'image';
-                if ($item.hasClass('fts-jal-fb-vid-image')) {
-                    type = 'iframe';
+                if ($item.hasClass('fts-jal-fb-vid-image') || $item.hasClass('fts-view-fb-videos-btn')) {
+                    var type = 'iframe';
+                    var video_check_me = jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-fb-embed-iframe-check-used-for-popup').html();
+                    if(video_check_me){
+                        var video_check = video_check_me;
+                    }
+                    else {
+                        var video_check = '';
+                    }
+                }
+                else {
+                    var video_check = '';
                 }
                 var magItem = {
                     src: $item.attr('href'),
-                    type: type,
+                    type: type
                 };
 
                 // SLICKREMIX: THIS ADDS THE LIKES, COMMENTS, DESCRIPTION, DATES ETC TO THE POPUP
-                magItem.title = jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-jal-fb-top-wrap').html() + jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-likes-shares-etc-wrap').html() + jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-fb-comments-wrap').html();
+                magItem.title = jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-jal-fb-top-wrap').html() + jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-likes-shares-etc-wrap').html() + jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-fb-comments-wrap').html() + video_check;
 
                 items.push(magItem);
             });
@@ -171,7 +233,7 @@ jQuery(document).ready(function() {
                     navigateByImgClick: false,
                     tCounter: '<span class="mfp-counter">%curr% of %total%</span>', // markup of counter
                     preload: [0,1], // Will preload 0 - before current, and 1 after the current
-                    arrowMarkup: '', // markup of an arrow button (slickremix = leave blank so we can show our custom buttons inside the framework)
+                    arrowMarkup: '' // markup of an arrow button (slickremix = leave blank so we can show our custom buttons inside the framework)
                 },
                 type: 'image',
                 callbacks: {
@@ -187,16 +249,43 @@ jQuery(document).ready(function() {
                         // Reload the share each funcion otherwise you can't open share option.
                         jQuery.fn.ftsShare();
 
-                        if(jQuery(".fts-popup-half .mfp-iframe-scaler")[0]){
-                            jQuery( ".fts-popup-image-position" ).css("height", '591px');
-                        }
-                        jQuery(window).resize(function() {
 
-                            jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
 
+                        //   jQuery(window).resize(function() {
+
+                        if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
                             jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-                        });
-                        jQuery(window).trigger('resize');
+                            //  alert('ok don\'t change');
+                        }
+                        else {
+                            jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
+                            //  alert('change');
+                        }
+
+
+                        // EMBED HTML CASE: We do this so we can adjust the height of the iframe as the popup scales in size
+                        if(jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0]){
+                            console.log('Open Callback: Irregular size');
+                            jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : jQuery( ".fts-popup-half" ).height()});
+                            jQuery( ".mfp-iframe-scaler" ).css("padding-top", "100%");
+
+                        }
+                        else if(jQuery(".fts-popup-second-half .fts-equal-width-height")[0]){
+                            console.log('Open Callback: Square size');
+                            jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : jQuery( ".fts-popup-half" ).height()});
+                            jQuery( ".mfp-iframe-scaler" ).css("padding-top", "");
+
+                        }
+                        else {
+                            console.log('Open Callback: Regular size');
+                            jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : "100%"});
+                            jQuery( ".mfp-iframe-scaler" ).css("padding-top", "56.0%");
+                            jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-half" ).height());
+                        }
+                        //  });
+
+                        //  jQuery(window).trigger('resize');
+
 
                         // slickremix trick to get the poster url from a tag we are clicking and pass it to the video player.
                         // We only want to load the poster if the size is mobile because tablets and desktops can/will play video automatically on popup
@@ -220,25 +309,22 @@ jQuery(document).ready(function() {
                         // Reload the share each funcion otherwise you can't open share option.
                         jQuery.fn.ftsShare();
 
+
+
+                        jQuery(window).trigger('resize');
+
+
                         console.log('Content changed');
-                        console.log(this.content); // Direct reference to your popup element
+                        // console.log(this.content); // Direct reference to your popup element
                         if(jQuery("body").hasClass("fts-using-arrows")) {
 
 
-                            if(jQuery(".fts-popup-half .mfp-iframe-scaler")[0]){
-                                jQuery( ".fts-popup-image-position" ).css("height", '591px');
-                                //  alert('iframe-scaler');
-                            }
-                            else{
-                                if(jQuery(".fts-popup-image-position" ).css("height") == "auto"){
-                                    jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-                                    alert('image');
 
-                                }
-                            }
+
 
 
                         }
+
 
                     },
 
@@ -246,16 +332,6 @@ jQuery(document).ready(function() {
                         // fires when image in current popup finished loading
                         // avaiable since v0.9.0
 
-
-                        if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
-                            jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-                            // alert('image');
-
-                        }
-                        else {
-                            jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
-                            //  alert('change');
-                        }
 
                     },
                     markupParse: function(template, values, item) {
@@ -285,7 +361,7 @@ jQuery(document).ready(function() {
                     afterClose: function() {
                         jQuery("body").removeClass("fts-using-arrows");
                         console.log('Popup is completely closed');
-                    },
+                    }
                 },
                 image: {
                     markup: '' +
@@ -301,14 +377,14 @@ jQuery(document).ready(function() {
                     '<div class="fts-popup-second-half">' +
                     '<div class="mfp-bottom-bar">'+
                     '<div class="mfp-title"></div>' +
-                    '<a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a>'+
+                    '<a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a>'+
                     '<div class="mfp-counter"></div>'+
                     '</div>' +
                     '</div>' +
                     '</div>'+
                     '</div>', // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
 
-                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
 
                 },
                 iframe: {
@@ -318,30 +394,31 @@ jQuery(document).ready(function() {
                     '    <div class="fts-popup-half ">' +
                     '               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>' +
                     '           <div class="fts-popup-image-position">' +
-                    '                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>' +
+                    '<div class="fts-fb-embed-iframe-check-used-for-popup"></div>' +
+                    '                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" align="middle" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>' +
                     '                           </div>' +
                     '               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>' +
                     '<script>' +
                     // SLICKREMIX: MUST HAVE THIS IN PLACE TO BE ABLE TO CHECK WHAT KIND OF VIDEOS ARE BEING CLICKED ON WHEN FIRST LOADED, AFTER THEY ARE LOADED REFER TO THE CLICK FUNCTION FOR THE ERRORS ABOVE
-                    'if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); };  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); </script>' +
+                    'if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); </script>' +
                     '       </div>' +
                     '    </div>'+
                     '<div class="fts-popup-second-half">' +
                     '<div class="mfp-bottom-bar">'+
                     '<div class="mfp-title"></div>' +
-                    '<a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a>'+
+                    '<a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a>'+
                     '<div class="mfp-counter"></div>'+
                     '</div>' +
                     '</div>' +
                     '</div>'+
                     '</div>', // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
 
-                    srcAction: 'iframe_src', // Templating object key. First part defines CSS selector, second attribute. "iframe_src" means: find "iframe" and set attribute "src".  
+                    srcAction: 'iframe_src' // Templating object key. First part defines CSS selector, second attribute. "iframe_src" means: find "iframe" and set attribute "src".  
                 }
             });
 
         });
-    }
+    };
 //Return the function right away
     jQuery.fn.slickFacebookPopUpFunction();
 

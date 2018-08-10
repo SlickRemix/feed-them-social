@@ -14,11 +14,11 @@
  * Domain Path: /languages
  * Requires at least: wordpress 4.0.0
  * Tested up to: WordPress 4.9.7
- * Stable tag: 2.4.6
+ * Stable tag: 2.4.7
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.4.6
+ * @version    2.4.7
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2018 SlickRemix
  *
@@ -27,7 +27,7 @@
  */
 
 // Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout
-define('FTS_CURRENT_VERSION', '2.4.6');
+define('FTS_CURRENT_VERSION', '2.4.7');
 
 final class Feed_Them_Social {
 

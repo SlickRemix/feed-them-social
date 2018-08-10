@@ -66,7 +66,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
 
             // echo $vimeoURLfinal;
-            return '<div class="fts-fluid-videoWrapper"><iframe src="http://player.vimeo.com/video/' . $vimeoURLfinal . '?autoplay=0" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';
+            return '<div class="fts-fluid-videoWrapper"><iframe src="https://player.vimeo.com/video/' . $vimeoURLfinal . '?autoplay=0" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';
         } //strip Vimeo Staffpics URL then ouput Iframe
 
 
@@ -81,18 +81,18 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
             preg_match($pattern, $tFinal, $matches);
             $youtubeURLfinal = $matches[1];
 
-            return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="http://www.youtube.com/embed/' . $youtubeURLfinal . '?autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
+            return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="https://www.youtube.com/embed/' . $youtubeURLfinal . '?autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
         } //strip Youtube URL then ouput Iframe and script
         elseif (strpos($tFinal, 'youtu.be') > 0) {
             $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
             preg_match($pattern, $tFinal, $matches);
             $youtubeURLfinal = $matches[1];
 
-            return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="http://www.youtube.com/embed/' . $youtubeURLfinal . '?autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
+            return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="https://www.youtube.com/embed/' . $youtubeURLfinal . '?autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
         } //strip Youtube URL then ouput Iframe and script
         elseif (strpos($tFinal, 'soundcloud') > 0) {
             //Get the JSON data of song details with embed code from SoundCloud oEmbed
-            $getValues = file_get_contents('http://soundcloud.com/oembed?format=js&url=' . $tFinal . '&auto_play=false&iframe=true');
+            $getValues = file_get_contents('https://soundcloud.com/oembed?format=js&url=' . $tFinal . '&auto_play=false&iframe=true');
             //Clean the Json to decode
             $decodeiFrame = substr($getValues, 1, -2);
             //json decode to convert it as an array

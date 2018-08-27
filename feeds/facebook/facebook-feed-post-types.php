@@ -63,9 +63,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
         if($FBplaces_name){
 
             $location = '<div class="fts-fb-location-wrap">';
-                $location .= '<div class="fts-fb-location-img"></div>';
-                $location .= '<a href="https://www.facebook.com/'.$FBplaces_id.'/" class="fts-fb-location-link" target="_blank">'.$FBname.'</a>';
-                $location .= '<div class="fts-fb-location-name">'.$FBplaces_name.'</div>';
+            $location .= '<div class="fts-fb-location-img"></div>';
+            $location .= '<a href="https://www.facebook.com/'.$FBplaces_id.'/" class="fts-fb-location-link" target="_blank">'.$FBname.'</a>';
+            $location .= '<div class="fts-fb-location-name">'.$FBplaces_name.'</div>';
             $location .= '</div>';
 
             $fts_fb_location = $location;
@@ -76,13 +76,13 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
         // youtube and vimeo embed url
         $FBvideo_embed = isset($post_data->source) ? $post_data->source : "";
 
-      //  if (isset($post_data->format[1]->picture)) {
-      //      $video_photo = $post_data->format[1]->picture;
-      //  } elseif (isset($post_data->format[0]->picture)) {
-      //      $video_photo = $post_data->format[0]->picture;
-      //  } else {
-      //      $video_photo = $post_data->picture;
-      //  }
+        //  if (isset($post_data->format[1]->picture)) {
+        //      $video_photo = $post_data->format[1]->picture;
+        //  } elseif (isset($post_data->format[0]->picture)) {
+        //      $video_photo = $post_data->format[0]->picture;
+        //  } else {
+        //      $video_photo = $post_data->picture;
+        //  }
 
         if (isset($post_data->format[3]->picture)) {
             $video_photo = $post_data->format[3]->picture;
@@ -316,7 +316,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
                 $FTS_FB_OUTPUT .= ($FB_Shortcode['type'] == 'reviews' ? '' : '<a href="https://facebook.com/' . $post_data->from->id . '" target="_blank">').'<img border="0" alt="' . ($FB_Shortcode['type'] == 'reviews' ? $post_data->reviewer->name : $post_data->from->name) . '" src="https://graph.facebook.com/' . ($FB_Shortcode['type'] == 'reviews' ? $post_data->reviewer->id : $post_data->from->id) . '/picture"/></a>'. ($FB_Shortcode['type'] == 'reviews' ? '' : '</a>');
 
-                 $FTS_FB_OUTPUT .= '</div>';
+                $FTS_FB_OUTPUT .= '</div>';
 
                 //UserName
                 $FTS_FB_OUTPUT .= $FB_Shortcode['type'] == 'reviews' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') ? '<span class="fts-jal-fb-user-name fts-review-name" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">' . $post_data->reviewer->name . '</span>' . $FTS_Facebook_Reviews->reviews_rating_format($FB_Shortcode, $post_data->rating) . '</span>' : '<span class="fts-jal-fb-user-name"><a href="https://facebook.com/' . $post_data->from->id . '" target="_blank">' . $post_data->from->name . '</a>' . $fb_hide_shared_by_etc_text . '</span>';
@@ -412,13 +412,13 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
                     elseif (isset($FB_Shortcode['video_album']) && $FB_Shortcode['video_album'] == 'yes') {
                         if ($FB_Shortcode['play_btn'] !== 'yes') {
 
-                                $FTS_FB_OUTPUT .= '<a href="' . $embed_html . '"  data-poster="' . $video_photo . '" id="fts-view-vid1-' . $fts_dynamic_vid_name_string . '" class="fts-jal-fb-vid-html5video '. $fts_view_fb_videos_btn  .' fts-view-fb-videos-large fts-view-fb-videos-btn fb-video-popup-' . $fts_dynamic_vid_name_string . '">' . __('View Video', 'feed-them-social') . '</a>';
+                            $FTS_FB_OUTPUT .= '<a href="' . $embed_html . '"  data-poster="' . $video_photo . '" id="fts-view-vid1-' . $fts_dynamic_vid_name_string . '" class="fts-jal-fb-vid-html5video '. $fts_view_fb_videos_btn  .' fts-view-fb-videos-large fts-view-fb-videos-btn fb-video-popup-' . $fts_dynamic_vid_name_string . '">' . __('View Video', 'feed-them-social') . '</a>';
 
-                                $FTS_FB_OUTPUT .= '<div class="fts-fb-embed-iframe-check-used-for-popup fts-fb-embed-yes">';
-                                    if($embed_height >= $embed_width){
-                                        $FTS_FB_OUTPUT .= '<div class=' . $data_height . ' data-width="'.$embed_width.'" data-height="'.$embed_height.'"></div>';
-                                    }
-                                $FTS_FB_OUTPUT .= '</div>';
+                            $FTS_FB_OUTPUT .= '<div class="fts-fb-embed-iframe-check-used-for-popup fts-fb-embed-yes">';
+                            if($embed_height >= $embed_width){
+                                $FTS_FB_OUTPUT .= '<div class=' . $data_height . ' data-width="'.$embed_width.'" data-height="'.$embed_height.'"></div>';
+                            }
+                            $FTS_FB_OUTPUT .= '</div>';
                         }
                         $FTS_FB_OUTPUT .= '</div>';
                     } else {
@@ -431,10 +431,10 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
                 $FTS_FB_OUTPUT .= '<div class="fts-clear"></div></div>';
             } //END Output Message
-           // elseif ($FBmessage == '' && $FB_Shortcode['type'] !== 'album_photos' || $FBmessage == '' && $FB_Shortcode['type'] !== 'albums') {
-                //If POPUP
-                //  $FTS_FB_OUTPUT .= $FB_Shortcode['popup'] == 'yes' ? '<div class="fts-jal-fb-message"><div class="fts-fb-caption"><a href="' . $FBlink . '" class="fts-view-on-facebook-link" target="_blank">' . __('View on Facebook', 'feed-them-facebook') . '</a></div></div>' : '';
-           // }
+            // elseif ($FBmessage == '' && $FB_Shortcode['type'] !== 'album_photos' || $FBmessage == '' && $FB_Shortcode['type'] !== 'albums') {
+            //If POPUP
+            //  $FTS_FB_OUTPUT .= $FB_Shortcode['popup'] == 'yes' ? '<div class="fts-jal-fb-message"><div class="fts-fb-caption"><a href="' . $FBlink . '" class="fts-view-on-facebook-link" target="_blank">' . __('View on Facebook', 'feed-them-facebook') . '</a></div></div>' : '';
+            // }
             if ($show_media !== 'top') {
                 $FTS_FB_OUTPUT .= '</div>'; // end .fts-jal-fb-top-wrap <!--end fts-jal-fb-top-wrap -->
             }
@@ -676,184 +676,189 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             // START VIDEO POST
             //**************************************************
             case 'video'  :
-               // $video_data = json_decode($response_post_array[$post_data_key . '_video']);
+                // $video_data = json_decode($response_post_array[$post_data_key . '_video']);
 
-               //  echo '<pre>';
-               //    print_r($video_data);
-               //  echo '</pre>';
+                //  echo '<pre>';
+                //    print_r($video_data);
+                //  echo '</pre>';
 
                 $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-vid-wrap">';
 
                 if (!empty($FBpicture)) {
 
-                        //Create Dynamic Class Name
-                        $fts_dynamic_vid_name_string = trim($this->rand_string(10) . '_' . $FB_Shortcode['type']);
-                        $fts_dynamic_vid_name = 'feed_dynamic_video_class' . $fts_dynamic_vid_name_string;
-                        $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-vid-picture ' . $fts_dynamic_vid_name . '">';
+                    //Create Dynamic Class Name
+                    $fts_dynamic_vid_name_string = trim($this->rand_string(10) . '_' . $FB_Shortcode['type']);
+                    $fts_dynamic_vid_name = 'feed_dynamic_video_class' . $fts_dynamic_vid_name_string;
+                    $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-vid-picture ' . $fts_dynamic_vid_name . '">';
 
 
-                        if (strpos($FBvideo_embed, 'youtube') > 0 || strpos($FBvideo_embed, 'youtu.be') > 0) {
-                            preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $FBvideo_embed, $matches);
-                            $videoURLfinal = 'https://www.youtube.com/watch?v=' . $matches[1];
+                    if (strpos($FBvideo_embed, 'youtube') > 0 || strpos($FBvideo_embed, 'youtu.be') > 0) {
+                        preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^\?&\"'>]+)/", $FBvideo_embed, $matches);
+                        $videoURLfinal = 'https://www.youtube.com/watch?v=' . $matches[1];
+                    } else {
+                        $videoURLfinal = $embed_html;
+                    }
+
+
+                    // This puts the video in a popup instead of displaying it directly on the page.
+                    if (is_plugin_active('feed-them-premium/feed-them-premium.php') && isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'yes') {
+
+                        if (strpos($FBlink, 'youtube') > 0 || strpos($FBlink, 'youtu.be') > 0 || strpos($FBlink, 'vimeo') > 0) {
+                            $FTS_FB_OUTPUT .= '<a href="' . $videoURLfinal . '" class="fts-facebook-link-target fts-jal-fb-vid-image fts-iframe-type">';
                         } else {
-                            $videoURLfinal = $embed_html;
+
+                            if($post_data->type == 'video') {
+                                $page_id = $post_data->from->id;
+                                $video_id = $post_data->object_id;
+                                $fb_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
+                                $FTS_FB_OUTPUT .= '<a href="' . $fb_embed_url . '" class="fts-jal-fb-vid-image ' . $fts_view_fb_videos_btn . ' fts-jal-fb-vid-html5video ">';
+
+
+                            }
+                            else {
+                                $FTS_FB_OUTPUT .= '<a href="' . $embed_html . '" class="fts-facebook-link-target fts-jal-fb-vid-html5video ">';
+                            }
+                        }
+                    }
+                    // srl: 8/27/17 - FB BUG: for some reason the full_picture for animated gifs is not correct so we dig deeper and grab another image size fb has set
+                    if($post_data->attachments->data[0]->type === 'animated_image_video'){
+                        $vid_pic = $post_data->attachments->data[0]->media->image->src;
+                    }
+                    else {
+                        $vid_pic = $post_data->full_picture;
+                    }
+                    $FTS_FB_OUTPUT .= '<img class="fts-jal-fb-vid-image" border="0" alt="' . $post_data->from->name . '" src="' . $vid_pic . '"/>';
+
+
+                    // This puts the video in a popup instead of displaying it directly on the page.
+                    if (is_plugin_active('feed-them-premium/feed-them-premium.php') && isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'yes') {
+                        $FTS_FB_OUTPUT .= '</a>';
+                    }
+
+                    $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-vid-play-btn"></div></div>';
+
+
+
+                    // If this is a facebook embed video then ouput Iframe and script
+                    $embed_height = isset($post_data->attachments->data[0]->media->image->height) ? $post_data->attachments->data[0]->media->image->height : '';
+                    $embed_width = isset($post_data->attachments->data[0]->media->image->width) ? $post_data->attachments->data[0]->media->image->width : '';
+                    $video_type =  isset($post_data->type) ? $post_data->type : '';
+                    $video_inline =  isset($post_data->attachments->data[0]->type) ? $post_data->attachments->data[0]->type : '';
+                    //  && $video_inline == 'video_inline'
+                    if($video_type == 'video' && $video_inline == 'video_inline' || $video_type == 'video' && $video_inline == 'animated_image_video' ) {
+
+                        if($embed_height > $embed_width ){
+                            $data_height = 'fts-greater-than-width-height';
+                        }
+                        elseif($embed_height === $embed_width ) {
+                            $data_height = 'fts-equal-width-height fts-fluid-videoWrapper ';
+                        }
+                        else{
+                            $data_height = 'fts-fluid-videoWrapper';
                         }
 
+                        $FTS_FB_OUTPUT .= '<div class="fts-fb-embed-iframe-check-used-for-popup fts-fb-embed-yes">';
+                        if ($embed_height >= $embed_width) {
+                            $FTS_FB_OUTPUT .= '<div class=' . $data_height . ' data-width="' . $embed_width . '" data-height="' . $embed_height . '"></div>';
+                        }
+                        $FTS_FB_OUTPUT .= '</div>';
+                    }
+
+                    //  FB Videos Embed
+                    if($video_type == 'video' && $video_inline == 'video_inline'  || $video_type == 'video' && $video_inline == 'animated_image_video') {
+                        // This puts the video on the page instead of the popup if you don't have the premium version
+                        if (!isset($FB_Shortcode['popup']) || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] !== 'yes' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == '' || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'no') {
+
+
+                            $page_id = isset($post_data->from->id) ? $post_data->from->id : '';
+                            $video_id = isset($post_data->object_id) ? $post_data->object_id : '';
+
+                            $fb_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
+
+                            $FTS_FB_OUTPUT .= '<script>';
+                            $FTS_FB_OUTPUT .= 'jQuery(document).ready(function() {';
+                            $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_vid_name . '").click(function() {';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).addClass("fts-vid-div");';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
+                            // $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$FBpost_id.'" src="http://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="'.$data_height.' fts-fb-video-on-page" ><iframe style="background:none !important" class="video-' . $FBpost_id . '" src="' . $fb_embed_url . '" frameborder="0" allowfullscreen></iframe></div>\');';
+                            $FTS_FB_OUTPUT .= 'jQuery( ".' . $fts_dynamic_vid_name . ' .fts-greater-than-width-height.fts-fb-video-on-page, .' . $fts_dynamic_vid_name . ' iframe" ).css({"height": "' . $embed_height . 'px", "width": "' . $embed_width . 'px"});';
+                            if (isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['grid_combined']) && $FB_Shortcode['grid_combined'] == 'yes') {
+                                $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
+                                $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
+                            }
+                            $FTS_FB_OUTPUT .= '});';
+                            $FTS_FB_OUTPUT .= '});';
+                            $FTS_FB_OUTPUT .= '</script>';
+                        }
+                    }
+                    // strip Youtube URL then ouput Iframe and script
+                    if (strpos($FBlink, 'youtube') > 0) {
+                        //  $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
+                        //  preg_match($pattern, $FBlink, $matches);
+                        //  $youtubeURLfinal = $matches[1];
+
+                        // This puts the video on the page instead of the popup if you don't have the premium version
+                        if (!isset($FB_Shortcode['popup']) || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] !== 'yes' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == '' || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'no') {
+                            $FTS_FB_OUTPUT .= '<script>jQuery(document).ready(function() {';
+                            $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_vid_name . '").click(function() {';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).addClass("fts-vid-div");';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
+                            //  $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$FBpost_id.'" src="https://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video' . $FBpost_id . '" src="' . $FBvideo_embed . '" frameborder="0" allowfullscreen></iframe></div>\');';
+                            if (isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['grid_combined']) && $FB_Shortcode['grid_combined'] == 'yes' ) {
+                                $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
+                                $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
+                            }
+                            $FTS_FB_OUTPUT .= '});';
+                            $FTS_FB_OUTPUT .= '});</script>';
+                        }
+                    } //strip Youtube URL then ouput Iframe and script
+                    elseif (strpos($FBlink, 'youtu.be') > 0) {
+                        //  $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
+                        //  preg_match($pattern, $FBlink, $matches);
+                        //  $youtubeURLfinal = $matches[1];
+                        // This puts the video in a popup instead of displaying it directly on the page.
+                        if (!isset($FB_Shortcode['popup']) || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] !== 'yes' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == ' ' || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'no') {
+                            $FTS_FB_OUTPUT .= '<script>';
+                            $FTS_FB_OUTPUT .= 'jQuery(document).ready(function() {';
+                            $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_vid_name . '").click(function() {';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).addClass("fts-vid-div");';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
+                            // $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$FBpost_id.'" src="http://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video' . $FBpost_id . '" src="' . $FBvideo_embed . '" frameborder="0" allowfullscreen></iframe></div>\');';
+                            if (isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['grid_combined']) && $FB_Shortcode['grid_combined'] == 'yes') {
+                                $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
+                                $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
+                            }
+                            $FTS_FB_OUTPUT .= '});';
+                            $FTS_FB_OUTPUT .= '});';
+                            $FTS_FB_OUTPUT .= '</script>';
+                        }
+                    } //strip Vimeo URL then ouput Iframe and script
+                    elseif (strpos($FBlink, 'vimeo') > 0) {
+                        //   $pattern = '/(\d+)/';
+                        //   preg_match($pattern, $FBlink, $matches);
+                        //   $vimeoURLfinal = $matches[0];
 
                         // This puts the video in a popup instead of displaying it directly on the page.
-                        if (is_plugin_active('feed-them-premium/feed-them-premium.php') && isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'yes') {
-
-                            if (strpos($FBlink, 'youtube') > 0 || strpos($FBlink, 'youtu.be') > 0 || strpos($FBlink, 'vimeo') > 0) {
-                                $FTS_FB_OUTPUT .= '<a href="' . $videoURLfinal . '" class="fts-facebook-link-target fts-jal-fb-vid-image fts-iframe-type">';
-                            } else {
-
-                                if($post_data->type == 'video') {
-                                    $page_id = $post_data->from->id;
-                                    $video_id = $post_data->object_id;
-                                    $fb_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
-                                    $FTS_FB_OUTPUT .= '<a href="' . $fb_embed_url . '" class="fts-jal-fb-vid-image ' . $fts_view_fb_videos_btn . ' fts-jal-fb-vid-html5video ">';
-
-
-                                }
-                                else {
-                                    $FTS_FB_OUTPUT .= '<a href="' . $embed_html . '" class="fts-facebook-link-target fts-jal-fb-vid-html5video ">';
-                                }
+                        if (!isset($FB_Shortcode['popup']) || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] !== 'yes' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == '' || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'no') {
+                            $FTS_FB_OUTPUT .= '<script>';
+                            $FTS_FB_OUTPUT .= 'jQuery(document).ready(function() {';
+                            $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_vid_name . '").click(function() {';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).addClass("fts-vid-div");';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
+                            //  $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe src="http://player.vimeo.com/video/'.$vimeoURLfinal.'?autoplay=1" class="video'.$FBpost_id.'" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>\');';
+                            $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe src="' . $FBvideo_embed . '" class="video' . $FBpost_id . '" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>\');';
+                            if (isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['grid_combined']) && $FB_Shortcode['grid_combined'] == 'yes') {
+                                $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
+                                $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
                             }
+                            $FTS_FB_OUTPUT .= '});';
+                            $FTS_FB_OUTPUT .= '});';
+                            $FTS_FB_OUTPUT .= '</script>';
                         }
-
-
-                        $FTS_FB_OUTPUT .= '<img class="fts-jal-fb-vid-image" border="0" alt="' . $post_data->from->name . '" src="' . $post_data->full_picture . '"/>';
-
-
-                        // This puts the video in a popup instead of displaying it directly on the page.
-                        if (is_plugin_active('feed-them-premium/feed-them-premium.php') && isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'yes') {
-                            $FTS_FB_OUTPUT .= '</a>';
-                        }
-
-                        $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-vid-play-btn"></div></div>';
-
-
-
-                        // If this is a facebook embed video then ouput Iframe and script
-                        $embed_height = isset($post_data->attachments->data[0]->media->image->height) ? $post_data->attachments->data[0]->media->image->height : '';
-                        $embed_width = isset($post_data->attachments->data[0]->media->image->width) ? $post_data->attachments->data[0]->media->image->width : '';
-                        $video_type =  isset($post_data->type) ? $post_data->type : '';
-                        $video_inline =  isset($post_data->attachments->data[0]->type) ? $post_data->attachments->data[0]->type : '';
-                        //  && $video_inline == 'video_inline'
-                        if($video_type == 'video' && $video_inline == 'video_inline' ) {
-
-                            if($embed_height > $embed_width ){
-                                $data_height = 'fts-greater-than-width-height';
-                            }
-                            elseif($embed_height === $embed_width ) {
-                                $data_height = 'fts-equal-width-height fts-fluid-videoWrapper ';
-                            }
-                            else{
-                                $data_height = 'fts-fluid-videoWrapper';
-                            }
-
-                            $FTS_FB_OUTPUT .= '<div class="fts-fb-embed-iframe-check-used-for-popup fts-fb-embed-yes">';
-                            if ($embed_height >= $embed_width) {
-                                $FTS_FB_OUTPUT .= '<div class=' . $data_height . ' data-width="' . $embed_width . '" data-height="' . $embed_height . '"></div>';
-                            }
-                            $FTS_FB_OUTPUT .= '</div>';
-                        }
-
-                        //  FB Videos Embed
-                        if($video_type == 'video' && $video_inline == 'video_inline'  ) {
-                            // This puts the video on the page instead of the popup if you don't have the premium version
-                            if (!isset($FB_Shortcode['popup']) || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] !== 'yes' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == '' || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'no') {
-
-
-                                    $page_id = isset($post_data->from->id) ? $post_data->from->id : '';
-                                    $video_id = isset($post_data->object_id) ? $post_data->object_id : '';
-
-                                    $fb_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
-
-                                    $FTS_FB_OUTPUT .= '<script>';
-                                    $FTS_FB_OUTPUT .= 'jQuery(document).ready(function() {';
-                                    $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_vid_name . '").click(function() {';
-                                    $FTS_FB_OUTPUT .= 'jQuery(this).addClass("fts-vid-div");';
-                                    $FTS_FB_OUTPUT .= 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-                                    // $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$FBpost_id.'" src="http://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';
-                                    $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="'.$data_height.' fts-fb-video-on-page" ><iframe style="background:none !important" class="video-' . $FBpost_id . '" src="' . $fb_embed_url . '" frameborder="0" allowfullscreen></iframe></div>\');';
-                                    $FTS_FB_OUTPUT .= 'jQuery( ".' . $fts_dynamic_vid_name . ' .fts-greater-than-width-height.fts-fb-video-on-page, .' . $fts_dynamic_vid_name . ' iframe" ).css({"height": "' . $embed_height . 'px", "width": "' . $embed_width . 'px"});';
-                                       if (isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['grid_combined']) && $FB_Shortcode['grid_combined'] == 'yes') {
-                                            $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
-                                            $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
-                                       }
-                                    $FTS_FB_OUTPUT .= '});';
-                                    $FTS_FB_OUTPUT .= '});';
-                                    $FTS_FB_OUTPUT .= '</script>';
-                            }
-                        }
-                        // strip Youtube URL then ouput Iframe and script
-                        if (strpos($FBlink, 'youtube') > 0) {
-                            //  $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
-                            //  preg_match($pattern, $FBlink, $matches);
-                            //  $youtubeURLfinal = $matches[1];
-
-                            // This puts the video on the page instead of the popup if you don't have the premium version
-                            if (!isset($FB_Shortcode['popup']) || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] !== 'yes' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == '' || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'no') {
-                                $FTS_FB_OUTPUT .= '<script>jQuery(document).ready(function() {';
-                                $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_vid_name . '").click(function() {';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).addClass("fts-vid-div");';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-                                //  $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$FBpost_id.'" src="https://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video' . $FBpost_id . '" src="' . $FBvideo_embed . '" frameborder="0" allowfullscreen></iframe></div>\');';
-                                    if (isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['grid_combined']) && $FB_Shortcode['grid_combined'] == 'yes' ) {
-                                        $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
-                                        $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
-                                    }
-                                $FTS_FB_OUTPUT .= '});';
-                                $FTS_FB_OUTPUT .= '});</script>';
-                            }
-                        } //strip Youtube URL then ouput Iframe and script
-                        elseif (strpos($FBlink, 'youtu.be') > 0) {
-                            //  $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
-                            //  preg_match($pattern, $FBlink, $matches);
-                            //  $youtubeURLfinal = $matches[1];
-                            // This puts the video in a popup instead of displaying it directly on the page.
-                            if (!isset($FB_Shortcode['popup']) || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] !== 'yes' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == ' ' || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'no') {
-                                $FTS_FB_OUTPUT .= '<script>';
-                                $FTS_FB_OUTPUT .= 'jQuery(document).ready(function() {';
-                                $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_vid_name . '").click(function() {';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).addClass("fts-vid-div");';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-                                // $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$FBpost_id.'" src="http://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video' . $FBpost_id . '" src="' . $FBvideo_embed . '" frameborder="0" allowfullscreen></iframe></div>\');';
-                                    if (isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['grid_combined']) && $FB_Shortcode['grid_combined'] == 'yes') {
-                                        $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
-                                        $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
-                                    }
-                                $FTS_FB_OUTPUT .= '});';
-                                $FTS_FB_OUTPUT .= '});';
-                                $FTS_FB_OUTPUT .= '</script>';
-                            }
-                        } //strip Vimeo URL then ouput Iframe and script
-                        elseif (strpos($FBlink, 'vimeo') > 0) {
-                            //   $pattern = '/(\d+)/';
-                            //   preg_match($pattern, $FBlink, $matches);
-                            //   $vimeoURLfinal = $matches[0];
-
-                            // This puts the video in a popup instead of displaying it directly on the page.
-                            if (!isset($FB_Shortcode['popup']) || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] !== 'yes' && is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == '' || isset($FB_Shortcode['popup']) && $FB_Shortcode['popup'] == 'no') {
-                                $FTS_FB_OUTPUT .= '<script>';
-                                $FTS_FB_OUTPUT .= 'jQuery(document).ready(function() {';
-                                $FTS_FB_OUTPUT .= 'jQuery(".' . $fts_dynamic_vid_name . '").click(function() {';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).addClass("fts-vid-div");';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-                                //  $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe src="http://player.vimeo.com/video/'.$vimeoURLfinal.'?autoplay=1" class="video'.$FBpost_id.'" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>\');';
-                                $FTS_FB_OUTPUT .= 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe src="' . $FBvideo_embed . '" class="video' . $FBpost_id . '" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>\');';
-                                    if (isset($FB_Shortcode['grid']) && $FB_Shortcode['grid'] == 'yes' || isset($FB_Shortcode['grid_combined']) && $FB_Shortcode['grid_combined'] == 'yes') {
-                                        $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
-                                        $FTS_FB_OUTPUT .= 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
-                                    }
-                                $FTS_FB_OUTPUT .= '});';
-                                $FTS_FB_OUTPUT .= '});';
-                                $FTS_FB_OUTPUT .= '</script>';
-                            }
-                        }
+                    }
 
                 }
                 if ($FBname || $FBcaption || $FBdescription) {
@@ -978,9 +983,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
 
 
-                      //  $post_data_source = isset($post_data->source) ? $post_data->source : $embed_html;
-                    //    $post_data_source = isset($embed_html) ? $embed_html : '';
-                     //   $post_data_format_3_picture = isset($post_data->format[3]->picture) ? $post_data->format[3]->picture : '';
+                        //  $post_data_source = isset($post_data->source) ? $post_data->source : $embed_html;
+                        //    $post_data_source = isset($embed_html) ? $embed_html : '';
+                        //   $post_data_format_3_picture = isset($post_data->format[3]->picture) ? $post_data->format[3]->picture : '';
 
                         $FTS_FB_OUTPUT .= '<a href="' . $embed_html . '"  data-poster="" id="fts-view-vid1-' . $fts_dynamic_vid_name_string . '" title="' . $FBdescription . '" class="fts-jal-fb-vid-html5video '. $fts_view_fb_videos_btn  .' fb-video-popup-' . $fts_dynamic_vid_name_string . $fb_play_btn_visible . ' fts-slicker-backg" style="height:' . $FB_Shortcode['play_btn_size'] . ' !important; width:' . $FB_Shortcode['play_btn_size'] . '; line-height: ' . $FB_Shortcode['play_btn_size'] . '; font-size:' . $FB_Shortcode['play_btn_size'] . '"><span class="fts-fb-video-icon" style="height:' . $FB_Shortcode['play_btn_size'] . '; width:' . $FB_Shortcode['play_btn_size'] . '; line-height:' . $FB_Shortcode['play_btn_size'] . '; font-size:' . $FB_Shortcode['play_btn_size'] . '"></span></a>';
 
@@ -1020,9 +1025,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
                 }
                 $FTS_FB_OUTPUT .= '>';
 
-              //  echo '<pre>rrr';
-              //  print_r($FBalbum_cover);
-              //  echo '</pre>';
+                //  echo '<pre>rrr';
+                //  print_r($FBalbum_cover);
+                //  echo '</pre>';
 
                 //Output Photo Picture
                 $FTS_FB_OUTPUT .= $FBalbum_cover ? $this->fts_facebook_post_photo($FBlink, $FB_Shortcode, $post_data->from->name, $FBalbum_cover) : '';

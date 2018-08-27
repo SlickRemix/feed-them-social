@@ -59,9 +59,9 @@ class feed_them_social_functions
 
 
 
-     function fts_ajax_check() {
+    function fts_ajax_check() {
 
-     }
+    }
 
     /**
      * Init
@@ -202,9 +202,9 @@ class feed_them_social_functions
 
         $build_shortcode = 'fts_fb_page_token';
         $_REQUEST['next_url'] = isset($test_fb_app_token_response->paging->next) ? $test_fb_app_token_response->paging->next : '';
-         //  echo'<pre>';
-         //  print_r($test_fb_app_token_response);
-         // echo'</pre>';
+        //  echo'<pre>';
+        //  print_r($test_fb_app_token_response);
+        // echo'</pre>';
 
         //Make sure it's not ajaxing
     if (!isset($_GET['load_more_ajaxing'])) {
@@ -508,9 +508,9 @@ class feed_them_social_functions
      */
     function my_fts_ajaxurl() {
         wp_enqueue_script('jquery');
-       // <script type="text/javascript">
-       //     var myAjaxFTS = '<?php echo admin_url('admin-ajax.php'); ';
-       // </script>
+        // <script type="text/javascript">
+        //     var myAjaxFTS = '<?php echo admin_url('admin-ajax.php'); ';
+        // </script>
     }
 
     /**
@@ -526,14 +526,14 @@ class feed_them_social_functions
             exit('Sorry, You can\'t do that!');
         } else {
 
-         if (
-             $_REQUEST['feed_name'] == 'fts_fb_page_token' ||
-             $_REQUEST['feed_name'] == 'fts_fb_page_token' ||
-             $_REQUEST['feed_name'] == 'fts_twitter'  ||
-             $_REQUEST['feed_name'] == 'fts_youtube'  ||
-             $_REQUEST['feed_name'] == 'fts_facebook' ||
-             $_REQUEST['feed_name'] == 'fts_facebookbiz' ||
-             $_REQUEST['feed_name'] == 'fts_instagram') {
+            if (
+                $_REQUEST['feed_name'] == 'fts_fb_page_token' ||
+                $_REQUEST['feed_name'] == 'fts_fb_page_token' ||
+                $_REQUEST['feed_name'] == 'fts_twitter'  ||
+                $_REQUEST['feed_name'] == 'fts_youtube'  ||
+                $_REQUEST['feed_name'] == 'fts_facebook' ||
+                $_REQUEST['feed_name'] == 'fts_facebookbiz' ||
+                $_REQUEST['feed_name'] == 'fts_instagram') {
 
                 $feed_atts = $_REQUEST['feed_attributes'];
 
@@ -548,16 +548,16 @@ class feed_them_social_functions
                     $loadmore_count = $_REQUEST['loadmore_count'] ? $_REQUEST['loadmore_count'] : '' ;
                     $build_shortcode .= ' '.$loadmore_count.']';
                 }
-                 elseif($_REQUEST['feed_name'] == 'fts_youtube'){
-                     $loadmore_count = $_REQUEST['loadmore_count'] ? $_REQUEST['loadmore_count'] : '' ;
-                     $build_shortcode .= ' '.$loadmore_count.']';
-                 }
+                elseif($_REQUEST['feed_name'] == 'fts_youtube'){
+                    $loadmore_count = $_REQUEST['loadmore_count'] ? $_REQUEST['loadmore_count'] : '' ;
+                    $build_shortcode .= ' '.$loadmore_count.']';
+                }
                 else {
                     $build_shortcode .= ' ]';
                 }
 
-             // $object = $build_shortcode;
-               $object = do_shortcode($build_shortcode);
+                // $object = $build_shortcode;
+                $object = do_shortcode($build_shortcode);
                 echo $object;
             } else {
                 exit('That is not an FTS shortcode!');
@@ -649,16 +649,16 @@ class feed_them_social_functions
             'fts-pinterest-feed-styles-submenu-page',
             array($pinterest_options_page, 'feed_them_pinterest_options_page')
         );
-            //Youtube Options Page
-            $youtube_options_page = new FTS_youtube_options_page();
-            add_submenu_page(
-                'feed-them-settings-page',
-                __('YouTube Options', 'feed-them-social'),
-                __('YouTube Options', 'feed-them-social'),
-                'manage_options',
-                'fts-youtube-feed-styles-submenu-page',
-                array($youtube_options_page, 'feed_them_youtube_options_page')
-            );
+        //Youtube Options Page
+        $youtube_options_page = new FTS_youtube_options_page();
+        add_submenu_page(
+            'feed-them-settings-page',
+            __('YouTube Options', 'feed-them-social'),
+            __('YouTube Options', 'feed-them-social'),
+            'manage_options',
+            'fts-youtube-feed-styles-submenu-page',
+            array($youtube_options_page, 'feed_them_youtube_options_page')
+        );
 
         //Instagram Options Page
         $instagram_options_page = new FTS_instagram_options_page();
@@ -1420,9 +1420,9 @@ class feed_them_social_functions
 
             <?php }
             if (!empty($fts_social_icons_color)) { ?>
-                .ft-gallery-share-wrap a.ft-galleryfacebook-icon, .ft-gallery-share-wrap a.ft-gallerytwitter-icon, .ft-gallery-share-wrap a.ft-gallerygoogle-icon, .ft-gallery-share-wrap a.ft-gallerylinkedin-icon, .ft-gallery-share-wrap a.ft-galleryemail-icon {
-                    color: <?php echo $fts_social_icons_color ?> !important;
-                }
+            .ft-gallery-share-wrap a.ft-galleryfacebook-icon, .ft-gallery-share-wrap a.ft-gallerytwitter-icon, .ft-gallery-share-wrap a.ft-gallerygoogle-icon, .ft-gallery-share-wrap a.ft-gallerylinkedin-icon, .ft-gallery-share-wrap a.ft-galleryemail-icon {
+                color: <?php echo $fts_social_icons_color ?> !important;
+            }
             <?php }
             if (!empty($fts_social_icons_hover_color)) { ?>
             .ft-gallery-share-wrap a.ft-galleryfacebook-icon:hover, .ft-gallery-share-wrap a.ft-gallerytwitter-icon:hover, .ft-gallery-share-wrap a.ft-gallerygoogle-icon:hover, .ft-gallery-share-wrap a.ft-gallerylinkedin-icon:hover, .ft-gallery-share-wrap a.ft-galleryemail-icon:hover {
@@ -1449,14 +1449,14 @@ class feed_them_social_functions
 
             <?php }
             if (!empty($youtube_loadmore_background_color)) { ?>
-                .fts-youtube-load-more-wrapper .fts-fb-load-more {
-                    background: <?php echo $youtube_loadmore_background_color ?> !important;
-                }
-    
-                <?php }if (!empty($youtube_loadmore_text_color)) { ?>
-                .fts-youtube-load-more-wrapper .fts-fb-load-more {
-                    color: <?php echo $youtube_loadmore_text_color ?> !important;
-                }
+            .fts-youtube-load-more-wrapper .fts-fb-load-more {
+                background: <?php echo $youtube_loadmore_background_color ?> !important;
+            }
+
+            <?php }if (!empty($youtube_loadmore_text_color)) { ?>
+            .fts-youtube-load-more-wrapper .fts-fb-load-more {
+                color: <?php echo $youtube_loadmore_text_color ?> !important;
+            }
             <?php }
             if (!empty($youtube_loadmore_text_color)) { ?>
             .fts-youtube-load-more-wrapper .fts-fb-spinner>div {
@@ -1877,7 +1877,7 @@ class feed_them_social_functions
             if (is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php')) {
                 $facebookOptions2 = get_option('fts_facebook_custom_api_token_biz') ? 'Yes' : 'No';
                 // Check to see if token is in place otherwise show a message letting person no what they need to do
-              //  $output .= isset($facebookOptions2) && $facebookOptions2 !== 'No' ? '' . "\n" : '<div class="feed-them-social-admin-input-wrap fts-required-token-message">Please add a Facebook Page Reviews API Token to our <a href="admin.php?page=fts-facebook-feed-styles-submenu-page">Facebook Options</a> page before trying to view your Facebook Reviews feed.</div>' . "\n";
+                //  $output .= isset($facebookOptions2) && $facebookOptions2 !== 'No' ? '' . "\n" : '<div class="feed-them-social-admin-input-wrap fts-required-token-message">Please add a Facebook Page Reviews API Token to our <a href="admin.php?page=fts-facebook-feed-styles-submenu-page">Facebook Options</a> page before trying to view your Facebook Reviews feed.</div>' . "\n";
                 // end custom message for requiring token
             }
 
@@ -2810,35 +2810,19 @@ class feed_them_social_functions
         );
     }
 
-
     function fts_cachetime_amount($fts_cachetime) {
         Switch ($fts_cachetime) {
             case '1':
                 $fts_display_cache_time = __('Clear cache on every page load', 'feed-them-social');
                 break;
-            case '10':
-                $fts_display_cache_time = __('10 Seconds (for testing only)', 'feed-them-social');
+            default: case '86400':
+            $fts_display_cache_time = __('1 Day (Default)', 'feed-them-social');
+            break;
+            case '172800':
+                $fts_display_cache_time = __('2 Days', 'feed-them-social');
                 break;
-            case '300':
-                $fts_display_cache_time = __('5 Minutes', 'feed-them-social');
-                break;
-            case '600':
-                $fts_display_cache_time = __('10 Minutes', 'feed-them-social');
-                break;
-            case '900':
-                $fts_display_cache_time = __('15 Minutes', 'feed-them-social');
-                break;
-            case '1200':
-                $fts_display_cache_time = __('20 Minutes', 'feed-them-social');
-                break;
-            case '1800':
-                $fts_display_cache_time = __('30 Minutes', 'feed-them-social');
-                break;
-            case '3600':
-                $fts_display_cache_time = __('60 Minutes', 'feed-them-social');
-                break;
-            case '86400':
-                $fts_display_cache_time = __('1 Day (Default)', 'feed-them-social');
+            case '259200':
+                $fts_display_cache_time = __('3 Days', 'feed-them-social');
                 break;
             case '604800':
                 $fts_display_cache_time = __('1 Week', 'feed-them-social');
@@ -3102,12 +3086,12 @@ class feed_them_social_functions
             update_option('youtube_custom_refresh_token',  $_REQUEST['refresh_token']);
             print 'Save New Tokens';
         }
-       update_option('youtube_custom_access_token',  $_REQUEST['access_token']);
-       update_option('youtube_custom_token_exp_time',  strtotime("+" . $_REQUEST['expires_in'] . " seconds"));
+        update_option('youtube_custom_access_token',  $_REQUEST['access_token']);
+        update_option('youtube_custom_token_exp_time',  strtotime("+" . $_REQUEST['expires_in'] . " seconds"));
         // This only happens if the token is expired on the YouTube Options page and you go to resave or refresh the page for some reason. It will also run this function if the cache is emptied and the token is found to be expired.
         if($_REQUEST['button_pushed'] == 'no') {
             print 'Token Refreshed';
-          //  print do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
+            //  print do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
         }
     }
 
@@ -3128,7 +3112,7 @@ class feed_them_social_functions
         }
         // refresh token
         else {
-          //  print 'helloooo';
+            //  print 'helloooo';
             $button_pushed = 'no';
             $oauth2token_url = "https://accounts.google.com/o/oauth2/token";
             $clienttoken_post = array(
@@ -3168,19 +3152,19 @@ class feed_them_social_functions
                         ?>
                         jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
 
-                            <?php  if(isset($_GET['refresh_token']) && isset($_GET['access_token']) && isset($_GET['expires_in'])) {?>
-                                    jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo $clienttoken_post["refresh_token"] ?>');
-                                    jQuery('.fts-failed-api-token').hide();
+                        <?php  if(isset($_GET['refresh_token']) && isset($_GET['access_token']) && isset($_GET['expires_in'])) {?>
+                        jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo $clienttoken_post["refresh_token"] ?>');
+                        jQuery('.fts-failed-api-token').hide();
 
-                                    if(!jQuery('.fts-successful-api-token').length) {
-                                        jQuery('.fts-youtube-last-row').append('<?php echo $sucess_message ?>');
-                                    }
-                                <?php }
-                                else { ?>
-                                    if(jQuery('.fts-failed-api-token').length) {
-                                        jQuery('.fts-youtube-last-row').append('<?php echo $sucess_message ?>');
-                                        jQuery('.fts-failed-api-token').hide();
-                                    }
+                        if(!jQuery('.fts-successful-api-token').length) {
+                            jQuery('.fts-youtube-last-row').append('<?php echo $sucess_message ?>');
+                        }
+                        <?php }
+                        else { ?>
+                        if(jQuery('.fts-failed-api-token').length) {
+                            jQuery('.fts-youtube-last-row').append('<?php echo $sucess_message ?>');
+                            jQuery('.fts-failed-api-token').hide();
+                        }
                         <?php }?>
 
                         jQuery('#youtube_custom_access_token').val(jQuery('#youtube_custom_access_token').val() + '<?php echo $authObj['access_token'] ?>');
@@ -3192,7 +3176,7 @@ class feed_them_social_functions
                     }
                 }); // end of ajax()
                 return false;
-        }); // end of document.ready
+            }); // end of document.ready
         </script>
         <?php
         return $authObj['access_token'];

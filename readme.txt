@@ -77,9 +77,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.4.8 Monday, August 27th, 2018 =
-   * FIX: Facebook Feed: Animated gif posts showing extra small image and not clickable. NOTE: facebook re-encodes gifs into videos so that is what is shown in the feed, we do not have a way to show a gif that repeats.
+   * FIX: Facebook Feed: Animated gif post types showing extra small image and not clickable. NOTE: facebook re-encodes gifs into videos so that is what is shown in the feed, we do not have a way to show a gif that repeats.
    * FIX: Admin: php warning for a case that did not have a default setting.
-   * FIX PREMIUM: Instagram and YouTube Popup option working properly now
+   * FIX PREMIUM: Instagram and YouTube Popup option working properly now.
 
 = Version 2.4.7 Friday, August 10th, 2018 =
    * FIX/NEW: Facebook Feed: Videos now play when clicked on, and facebook videos are now embed/iframes so it shows more info like youtube videos, with the number of views etc.

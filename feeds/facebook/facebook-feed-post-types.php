@@ -36,7 +36,6 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
         //Create Facebook Variables
         $FBfinalstory = '';
         $first_dir = '';
-
         $FBpicture = isset($post_data->picture) ? $post_data->picture : "";
         $FBlink = isset($post_data->link) ? $post_data->link : "";
         $FBname = isset($post_data->name) ? $post_data->name : '';
@@ -47,19 +46,15 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
         $FBicon = isset($post_data->icon) ? $post_data->icon : "";
         $FBby = isset($post_data->properties->text) ? $post_data->properties->text : "";
         $FBbylink = isset($post_data->properties->href) ? $post_data->properties->href : "";
-
         $FBpost_share_count = isset($post_data->shares->count) ? $post_data->shares->count : "";
         $FBpost_like_count_array = isset($post_data->likes->data) ? $post_data->likes->data : "";
         $FBpost_comments_count_array = isset($post_data->comments->data) ? $post_data->comments->data : "";
-
         $FBpost_object_id = isset($post_data->object_id) ? $post_data->object_id : "";
         $FBalbum_photo_count = isset($post_data->count) ? $post_data->count : "";
         $FBalbum_cover = isset($post_data->cover_photo->id) ? $post_data->cover_photo->id : "";
         $FBalbum_picture = isset($post_data->source) ? $post_data->source : '';
-
         $FBplaces_name = isset($post_data->place->name) ? $post_data->place->name : '';
         $FBplaces_id = isset($post_data->place->id) ? $post_data->place->id : '';
-
         if($FBplaces_name){
 
             $location = '<div class="fts-fb-location-wrap">';
@@ -67,12 +62,11 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             $location .= '<a href="https://www.facebook.com/'.$FBplaces_id.'/" class="fts-fb-location-link" target="_blank">'.$FBname.'</a>';
             $location .= '<div class="fts-fb-location-name">'.$FBplaces_name.'</div>';
             $location .= '</div>';
-
             $fts_fb_location = $location;
         }
-
-        $FBattachmentsDescription = isset($post_data->attachments->data[0]->description) ? $post_data->attachments->data[0]->description : "";
+        $FBattachmentsTitle = isset($post_data->attachments->data[0]->title) ? $post_data->attachments->data[0]->title : "";
         $FBattachments = isset($post_data->attachments) ? $post_data->attachments : "";
+        $FBpicture_job = isset($post_data->attachments->data[0]->media->image->src) ? $post_data->attachments->data[0]->media->image->src : "";
         // youtube and vimeo embed url
         $FBvideo_embed = isset($post_data->source) ? $post_data->source : "";
 
@@ -146,12 +140,6 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             $data_height = '';
         }
 
-
-
-
-
-
-
         $FBvideo = isset($post_data->embed_html) ? $post_data->embed_html : "";
         $FBvideoPicture = isset($post_data->format[2]->picture) ? $post_data->format[2]->picture : "";
 
@@ -171,6 +159,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             $FBpost_id = '';
             $FBpost_user_id = '';
         }
+
+        $FBJoblink = isset($post_data->id) ? 'https://www.facebook.com/'.$post_data->from->id.'/posts/'.$FBpost_single_id.'' : "";
+
         if ($FB_Shortcode['type'] == 'albums' && !$FBalbum_cover) {
             unset($post_data);
         }
@@ -334,6 +325,11 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
                 //Comments Count
                 $FBpost_id_final = substr($FBpost_id, strpos($FBpost_id, "_") + 1);
             }
+
+
+                $FB_title_job_opening = isset($post_data->attachments->data[0]->title) && $post_data->attachments->data[0]->type === 'job_search_job_opening' ? $post_data->attachments->data[0]->title : '';
+
+
             //filter messages to have urls
             //Output Message
             $FBmessage = (isset($post_data->message) ? $post_data->message : (isset($post_data->review_text) ? $post_data->review_text : '') . '');
@@ -366,6 +362,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
                     $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-message"' . $itemprop_description_reviews . '>';
 
+                    $FTS_FB_OUTPUT .= $FB_title_job_opening;
                     $FTS_FB_OUTPUT .= !empty($trimmed_content) ? $trimmed_content : '';
                     //If POPUP
                     // $FTS_FB_OUTPUT .= $FB_Shortcode['popup'] == 'yes' ? '<div class="fts-fb-caption"><a href="' . $FBlink . '" class="fts-view-on-facebook-link" target="_blank">' . __('View on Facebook', 'feed-them-facebook') . '</a></div> ' : '';
@@ -483,10 +480,17 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             //**************************************************
             case 'status':
                 //  && !$FBpicture == '' makes it so the attachment unavailable message does not show up
-                if (!$FBpicture && !$FBname && !$FBdescription && !$FBpicture == '') {
+               // if (!$FBpicture && !$FBname && !$FBdescription && !$FBpicture == '') {
                     $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-link-wrap">';
                     //Output Link Picture
-                    $FTS_FB_OUTPUT .= $FBpicture ? $this->fts_facebook_post_photo($FBlink, $FB_Shortcode, $post_data->from->name, $post_data->picture) : '';
+                     if($FBpicture_job) {
+                        $FTS_FB_OUTPUT .= $this->fts_facebook_post_photo($FBJoblink, $FB_Shortcode, $post_data->from->name, $FBpicture_job);
+                     }
+                     else{
+                         $FTS_FB_OUTPUT .= $FBpicture ? $this->fts_facebook_post_photo($FBlink, $FB_Shortcode, $post_data->from->name, $post_data->picture) : '';
+                     }
+
+
 
                     if ($FBname || $FBcaption || $FBdescription) {
                         $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-description-wrap">';
@@ -507,7 +511,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
 
                     $FTS_FB_OUTPUT .= '<div class="fts-clear"></div></div>';
-                }
+              //  }
 
                 break;
             //**************************************************
@@ -1116,6 +1120,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
                 $FTS_FB_OUTPUT .= '<div class="fts-jal-fb-message">';
 
+                $FTS_FB_OUTPUT .= $FB_title_job_opening;
                 $FTS_FB_OUTPUT .= !empty($trimmed_content) ? $trimmed_content : '';
                 //If POPUP
                 // $FTS_FB_OUTPUT .= $FB_Shortcode['popup'] == 'yes' ? '<div class="fts-fb-caption"><a href="' . $FBlink . '" class="fts-view-on-facebook-link" target="_blank">' . __('View on Facebook', 'feed-them-facebook') . '</a></div> ' : '';

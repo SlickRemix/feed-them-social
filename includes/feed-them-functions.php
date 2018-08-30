@@ -796,6 +796,7 @@ class feed_them_social_functions
             'fb_reviews_text_color',
             'fb_reviews_backg_color',
             'fb_reviews_star_language',
+            'fb_reviews_recommended_language',
             'fb_reviews_see_more_reviews_language',
             'fb_reviews_see_more_reviews_language',
             'fb_reviews_overall_rating_background_border_hide',

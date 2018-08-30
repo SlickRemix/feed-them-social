@@ -587,7 +587,7 @@ class Feed_Metabox_Options {
                 //Rating Format
                 array(
                     'option_type' => 'select',
-                    'label' => __('Rating Format', 'feed-them-social'),
+                    'label' => __('Rating Format', 'feed-them-social'). '<br/><small>' . __('Facebook has moved to what are called "recommendations" so for some people this option may not be needed anymore: <a href="admin.php?page=fts-facebook-feed-styles-submenu-page">Facebook Options</a> page.', 'feed-them-social') . '</small>',
                     'type' => 'text',
                     'id' => 'reviews_rating_format',
                     'name' => 'reviews_rating_format',

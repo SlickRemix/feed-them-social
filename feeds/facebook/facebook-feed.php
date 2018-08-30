@@ -187,9 +187,9 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             $feed_data_check = json_decode($response2['feed_data']);
 
             // SHOW THE REGULAR FEEDS PRINT_R
-            //  echo '<pre>';
-            //  print_r($feed_data_check);
-            //  echo '</pre>';
+           //   echo '<pre>';
+           //   print_r($feed_data_check);
+           //   echo '</pre>';
 
             //  $idNew = array();
             //  $idNew = explode(',', $FB_Shortcode['id']);
@@ -325,9 +325,9 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
             $feed_data = json_decode($response['feed_data']);
             // SHOW THE REVIEWS FEED PRINT_R
-            //   echo '<pre>';
-            //   print_r($feed_data );
-            //   echo '</pre>';
+               echo '<pre>';
+                print_r($feed_data );
+               echo '</pre>';
 
 
             if ($FB_Shortcode['remove_reviews_no_description'] == 'yes') {
@@ -404,7 +404,8 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
         //Reviews Rating Filter
         if (is_plugin_active('feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php') && $FB_Shortcode['type'] == 'reviews') {
             foreach ($feed_data->data as $key => $post_data) {
-                if ($post_data->rating < $FB_Shortcode['reviews_type_to_show']) {
+                // we are not going to show the unrecommended reviews in the feed at this point, no options in our plugin srl 8-28-18
+                if (isset($post_data->rating) && $post_data->rating < $FB_Shortcode['reviews_type_to_show'] || isset($post_data->recommendation_type) && $post_data->recommendation_type === 'negative') {
                     unset($feed_data->data[$key]);
                 }
             }

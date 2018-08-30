@@ -995,7 +995,10 @@ class FTS_settings_page
                                             'type' => 'text',
                                             'id' => 'combine_grid_column_width',
                                             'name' => 'combine_grid_column_width',
-                                            'instructional-text' =>  '<strong> ' . __('NOTE:', 'feed-them-social') . '</strong> ' . __('Define the Width of each post and the Space between each post below. You must add px after any number.', 'feed-them-social'),
+                                            'instructional-text' =>  '<strong> ' . __('NOTE:', 'feed-them-social') . '</strong> ' . sprintf(__('Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social'),
+                                                    '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">',
+                                                    '</a>'
+                                                ),
                                             'placeholder' => '310px ' . __('for example', 'feed-them-social'),
                                             'req_plugin' => 'combine_streams',
                                             //Relative to JS.
@@ -1778,7 +1781,7 @@ class FTS_settings_page
                                         //Rating Format
                                         array(
                                             'option_type' => 'select',
-                                            'label' => __('Rating Format', 'feed-them-social'),
+                                            'label' => __('Rating Format', 'feed-them-social').'<br/><small>'.__('8/17/2018: Facebook has moved to what are called "recommendations" so for some people this option may not be necessary.', 'feed-them-premium') . '</small>',
                                             'type' => 'text',
                                             'id' => 'reviews_rating_format',
                                             'name' => 'reviews_rating_format',
@@ -2215,8 +2218,10 @@ class FTS_settings_page
                                             'type' => 'text',
                                             'id' => 'facebook_grid_column_width',
                                             'name' => 'facebook_grid_column_width',
-                                            'instructional-text' => '<strong> ' . __('NOTE:', 'feed-them-social') . '</strong> ' . __('Define the Width of each post and the Space between each post below. You must add px after any number.', 'feed-them-social'),
-                                            'placeholder' => '310px ' . __('for example', 'feed-them-social'),
+                                            'instructional-text' =>  '<strong> ' . __('NOTE:', 'feed-them-social') . '</strong> ' . sprintf(__('Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social'),
+                                                    '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">',
+                                                    '</a>'
+                                                ),'placeholder' => '310px ' . __('for example', 'feed-them-social'),
                                             'value' => '',
                                             'req_plugin' => 'fts_premium',
                                             'or_req_plugin' => 'combine_streams',
@@ -4131,7 +4136,10 @@ class FTS_settings_page
                                             'type' => 'text',
                                             'id' => 'twitter_grid_column_width',
                                             'name' => 'twitter_grid_column_width',
-                                            'instructional-text' => '<strong> ' . __('NOTE:', 'feed-them-social') . '</strong> ' . __('Define the Width of each post and the Space between each post below. You must add px after any number.', 'feed-them-social'),
+                                            'instructional-text' =>  '<strong> ' . __('NOTE:', 'feed-them-social') . '</strong> ' . sprintf(__('Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social'),
+                                                    '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">',
+                                                    '</a>'
+                                                ),
                                             'placeholder' => '310px ' . __('for example', 'feed-them-social'),
                                             'value' => '',
                                             'req_plugin' => 'fts_premium',

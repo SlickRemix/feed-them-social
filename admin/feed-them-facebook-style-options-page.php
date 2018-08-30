@@ -269,6 +269,15 @@ class FTS_facebook_options_page
 
                     <div class="feed-them-social-admin-input-wrap">
                         <div class="feed-them-social-admin-input-label fb-events-map-link-color-label">
+                            <?php _e('Text for the word "Recommended"', 'feed-them-social'); ?>
+                        </div>
+                        <input type="text" name="fb_reviews_recommended_language" class="feed-them-social-admin-input" id="fb_reviews_recommended_language" placeholder="Recommeded" value="<?php echo get_option('fb_reviews_recommended_language'); ?>"/>
+                        <div class="clear"></div>
+                    </div>
+                    <!--/fts-facebook-feed-styles-input-wrap-->
+
+                    <div class="feed-them-social-admin-input-wrap">
+                        <div class="feed-them-social-admin-input-label fb-events-map-link-color-label">
                             <?php _e('Text for "See More Reviews"', 'feed-them-social'); ?>
                         </div>
                         <input type="text" name="fb_reviews_see_more_reviews_language" class="feed-them-social-admin-input" id="fb_reviews_see_more_reviews_language" placeholder="See More Reviews" value="<?php echo get_option('fb_reviews_see_more_reviews_language'); ?>"/>

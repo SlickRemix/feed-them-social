@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.8
-Stable tag: 2.4.8
+Stable tag: 2.4.9
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -76,6 +76,10 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.4.9 Monday, August 30th, 2018 =
+   * NEW: Facebook Feed: Add Job Posts to the feed.
+   * FB REVIEWS EXTENSION: Recommendations have been added to the feed, although we are waiting for facebook to do a final release in the API.
+
 = Version 2.4.8 Monday, August 27th, 2018 =
    * FIX: Facebook Feed: Animated gif post types showing extra small image that was not clickable. NOTE: facebook re-encodes gifs into videos so that is what is shown in the feed, we do not have a way to show a gif that repeats.
    * FIX: Admin: php warning for a case that did not have a default setting.

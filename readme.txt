@@ -76,7 +76,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.4.9 Monday, August 30th, 2018 =
+= Version 2.4.9 Thursday, August 30th, 2018 =
    * NEW: Facebook Feed: Add Job Posts Text and Image to the feed.
    * FB REVIEWS EXTENSION: Recommendations have been added to the feed, although we are waiting for facebook to do a final release in the API.
 

@@ -77,7 +77,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.4.9 Monday, August 30th, 2018 =
-   * NEW: Facebook Feed: Add Job Posts to the feed.
+   * NEW: Facebook Feed: Add Job Posts Text and Image to the feed.
    * FB REVIEWS EXTENSION: Recommendations have been added to the feed, although we are waiting for facebook to do a final release in the API.
 
 = Version 2.4.8 Monday, August 27th, 2018 =

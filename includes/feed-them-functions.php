@@ -213,7 +213,7 @@ class feed_them_social_functions
 
         ?>
         <div id="fb-list-wrap">
-            <div class="fts-pages-info"> <?php _e('Click a page to add the access token above, then click save.', 'feed-them-social'); ?></div>
+            <div class="fts-pages-info"> <?php _e('Click on a page in the list below and it will add the Page ID and Access Token above, then click save.', 'feed-them-social'); ?></div>
             <ul class="fb-page-list">
                 <?php }
 

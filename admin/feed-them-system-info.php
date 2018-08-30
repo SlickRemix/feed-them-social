@@ -33,7 +33,7 @@ class FTS_system_info_page extends feed_them_social_functions {
      */
     function feed_them_system_info_page() {
 ?>
-		<div class="fts-help-admin-wrap"> <a class="buy-extensions-btn" href="http://www.slickremix.com/downloads/category/feed-them-social/" target="_blank">
+		<div class="fts-help-admin-wrap"> <a class="buy-extensions-btn" href="https://www.slickremix.com/downloads/category/feed-them-social/" target="_blank">
 		<?php _e( 'Get Extensions Here!', 'feed-them-social' ); ?>
 		</a>
 		<h2>
@@ -41,7 +41,7 @@ class FTS_system_info_page extends feed_them_social_functions {
 		</h2>
 		<p>
 		<?php _e( 'Please click the box below and copy the report. You will need to paste this information along with your question in our', 'feed-them-social' ); ?>
-		<a href="http://www.slickremix.com/support-forum/" target="_blank">
+		<a href="https://www.slickremix.com/support/" target="_blank">
 		<?php _e( 'Support Forum', 'feed-them-social' ); ?>
 		</a>.
 		<?php _e( 'Ask your question then paste the copied text below it.  To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>
@@ -168,6 +168,9 @@ $fts_bar_license_key = get_option('fts_bar_license_key');
 $feed_them_carousel_premium_license_key = get_option('feed_them_carousel_premium_license_key');
 $feed_them_social_combined_streams_license_key = get_option('feed_them_social_combined_streams_license_key');
 $fb_hide_error_handler_message = get_option('fb_hide_error_handler_message');
+$fb_hide_images_in_posts = get_option('fb_hide_images_in_posts');
+
+
 
 	?>YouTube:                    <?php echo $youtubeOptions     . "\n"; ?>
 
@@ -175,6 +178,10 @@ $fb_hide_error_handler_message = get_option('fb_hide_error_handler_message');
 
 Date Format:                <?php echo $ftsDateTimeFormat     . "\n"; ?>
 Timezone:                   <?php echo $ftsTimezone     . "\n"; ?>
+
+-- Hide Facebook Images in Posts:
+
+Hide:                       <?php echo isset($fb_hide_images_in_posts) && $fb_hide_images_in_posts == 'yes' ? 'Yes'. "\n" : 'No'. "\n"; ?>
 
 -- Hide Facebook Error Handler:
 
@@ -215,7 +222,7 @@ Facebook Reviews Active:    <?php echo isset($fb_reviews_token) && $fb_reviews_t
  // COMMENTING OUT FOR NOW BECAUSE TO MUCH INFO FROM PEOPLES SITES ARE BEING ADDED TO OUR SUPPORT FORUMS.
  //echo do_shortcode("[shortcodefinderSlick find='[fts']"); ?>
 		</form>
-		<a class="fts-settings-admin-slick-logo" href="http://www.slickremix.com/support-forum/" target="_blank"></a> </div>
+		<a class="fts-settings-admin-slick-logo" href="https://www.slickremix.com/support/" target="_blank"></a> </div>
 		<?php
 		}
 		//**************************************************

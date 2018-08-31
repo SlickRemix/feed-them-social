@@ -325,9 +325,9 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
             $feed_data = json_decode($response['feed_data']);
             // SHOW THE REVIEWS FEED PRINT_R
-               echo '<pre>';
-                print_r($feed_data );
-               echo '</pre>';
+            //   echo '<pre>';
+            //    print_r($feed_data );
+            //   echo '</pre>';
 
 
             if ($FB_Shortcode['remove_reviews_no_description'] == 'yes') {

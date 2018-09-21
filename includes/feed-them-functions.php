@@ -168,7 +168,6 @@ class feed_them_social_functions
 
     }
 
-
     /**
      * FTS FB Options Page Function
      *
@@ -183,12 +182,22 @@ class feed_them_social_functions
         //Make sure it's not ajaxing
         if (!isset($_GET['load_more_ajaxing'])) {
             $_REQUEST['fts_dynamic_name'] = trim($this->feed_them_social_rand_string());
-        }
+        } //End make sure it's not ajaxing
 
         ob_start();
 
-        $fb_token_response = isset($_REQUEST['next_url']) ? wp_remote_fopen($_REQUEST['next_url']) : wp_remote_fopen('https://graph.facebook.com/me/accounts?access_token=' . $_GET['access_token'] . '&limit=25');
-        $test_fb_app_token_response = json_decode($fb_token_response);
+        if(!isset($_GET['locations'])){
+            $fb_token_response = isset($_REQUEST['next_url']) ? wp_remote_fopen($_REQUEST['next_url']) : wp_remote_fopen('https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25');
+            $test_fb_app_token_response = json_decode($fb_token_response);
+            $_REQUEST['next_url'] = isset($test_fb_app_token_response->paging->next) ? $test_fb_app_token_response->paging->next : '';
+        }
+        else{
+            $fb_token_response = isset($_REQUEST['next_location_url'])  ? wp_remote_fopen($_REQUEST['next_location_url']) : '';
+            $test_fb_app_token_response = json_decode($fb_token_response);
+        //    echo'<pre>';
+        //    print_r($test_fb_app_token_response);
+        //    echo'</pre>';
+        }
 
         //Make sure it's not ajaxing
         if (!isset($_GET['load_more_ajaxing'])) {
@@ -197,59 +206,164 @@ class feed_them_social_functions
             //******************
             ?>
             <div class="fts-clear"></div>
-            <div id="reviews-fb-list-wrap"></div>
-        <?php }
+        <?php } //End make sure it's not ajaxing
 
         $build_shortcode = 'fts_fb_page_token';
-        $_REQUEST['next_url'] = isset($test_fb_app_token_response->paging->next) ? $test_fb_app_token_response->paging->next : '';
-        //  echo'<pre>';
-        //  print_r($test_fb_app_token_response);
-        // echo'</pre>';
+
+         //Make sure it's not ajaxing
+        if (!isset($_GET['load_more_ajaxing'])) {
+
+            $reviews_token = isset($_GET['reviews_token']) ? 'yes' : 'no';
+            ?>
+            <div id="fb-list-wrap">
+                <div class="fts-pages-info"> <?php _e('Click on a page in the list below and it will add the Page ID and Access Token above, then click save.', 'feed-them-social'); ?></div>
+                <ul class="fb-page-list fb-page-master-list">
+        <?php } //End make sure it's not ajaxing
+
+                foreach ($test_fb_app_token_response->data as $data) {?>
+                    <li class="fts-fb-main-page-li">
+                        <div class="fb-click-wrapper" >
+                            <div class="fb-image">
+                                <img border="0" height="50" width="50" src="https://graph.facebook.com/<?php print $data->id ?>/picture"/>
+                            </div>
+                            <div class="fb-name-wrap"><span class="fb-name"><?php print $data->name ?> <?php if(isset($data->store_location_descriptor)){ print '('.$data->store_location_descriptor.')'; } ?></span></div>
+                            <div class="fb-other-wrap"><small><?php  _e('ID: ', 'feed-them-social'); print '<span class="fts-api-facebook-id">'; print $data->id; print '</span>'; ?> <?php if(isset($data->store_number)){ print '| ';  _e('Location:', 'feed-them-social'); print ' '.$data->store_number; } ?></small></div>
+                            <div class="page-token"><?php print $data->access_token ?></div>
+                            <?php
+                            $facebook_input_token = get_option('fts_facebook_custom_api_token');
+                            $facebook_access_token = $data->access_token;
+                            if ($facebook_input_token == $facebook_access_token) {
+                                ?>
+                                <div class="feed-them-social-admin-submit-btn " style="display: block !important;">Active
+                                </div>
+                            <?php } else { ?>
+                                <div class="feed-them-social-admin-submit-btn fts-token-save">Save</div>
+                            <?php } ?>
+                            <div class="fts-clear"></div>
+                        </div>
+                                        <?php
+                                        $_REQUEST['next_location_url'] = isset($data->locations->paging->next) ? $data->locations->paging->next : '';
+                                        $remove_class_or_not = isset($data->locations->paging->next) ? 'fb-sublist-page-id-' . $data->id : '';
+                                        if(isset($data->locations->data)){
+                                            $location_count = count($data->locations->data);
+                                            $location_plus_sign = isset($data->locations->paging->next) ? '+' : '';
+                                            $location_text = $location_count === 1 ? $location_count .' '.__('Location for', 'feed-them-social') : $location_count.$location_plus_sign.' '.__('Locations for', 'feed-them-social');
+                                            // if the locations equal 3 or less we will set the location container height to auto so the scroll loadmore does not fire.
+                                            $location_scroll_loadmore_needed_check =  $location_count <= 3 ? 'style="height:auto !important"' : '';
+                                        }
+
+                                        if(!isset($_GET['locations']) && isset($data->locations->data)) { ?>
+                                            <div class="fts-fb-location-text-wrap"><?php print $location_text ?> <?php print $data->name ?></div>
+                                            <ul class="fb-page-list fb-sublist <?php print $remove_class_or_not ?>" <?php echo $location_scroll_loadmore_needed_check?> style="height: 200px !important;">
+                                               <?php foreach ($data->locations->data as $location) { ?>
+                                                    <li>
+                                                        <div class="fb-click-wrapper">
+                                                            <div class="fb-image">
+                                                                <img border="0" height="50" width="50" src="https://graph.facebook.com/<?php print $location->id ?>/picture"/>
+                                                            </div>
+                                                            <div class="fb-name-wrap"><span class="fb-name"><?php print $location->name ?> <?php if(isset($location->store_location_descriptor)){ print '('.$location->store_location_descriptor.')'; } ?></span></div>
+                                                            <div class="fb-other-wrap"><small><?php  _e('ID: ', 'feed-them-social'); print '<span class="fts-api-facebook-id">'; print $location->id; print '</span>'; ?> <?php if(isset($location->store_number)){ print '| ';  _e('Location:', 'feed-them-social'); print ' '.$location->store_number; } ?></small></div>
+
+                                                            <div class="page-token"><?php print $location->access_token ?></div>
+                                                            <?php
+                                                            $facebook_input_token = get_option('fts_facebook_custom_api_token');
+                                                            $facebook_access_token = $location->access_token;
+                                                            if ($facebook_input_token == $facebook_access_token) {
+                                                                ?>
+                                                                <div class="feed-them-social-admin-submit-btn " style="display: block !important;">Active
+                                                                </div>
+                                                            <?php } else { ?>
+                                                                <div class="feed-them-social-admin-submit-btn fts-token-save">Save</div>
+                                                            <?php } ?>
+                                                            <div class="fts-clear"></div>
+                                                        </div>
+                                                    </li>
+                                            <?php } ?>
+                                            </ul>
+
+                                            <?php
+                                            //Make sure it's not ajaxing locations
+                                            if (!isset($_GET['locations']) && isset($data->locations->paging->next)) {
+                                                print '<div id="loadMore_' . $data->id . '_location" class="fts-fb-load-more" style="background:none !Important;">' . __('Scroll to view more Locations', 'feed-them-instagram') . '</div>';
+                                            }//End Check
+
+                                            //Make sure it's not ajaxing locations
+                                            if (!isset($_GET['locations'])) {
+                                                    $time = time();
+                                                    $nonce = wp_create_nonce($time . "load-more-nonce");
+                                                    $fbPageID = $data->id;
+                                                    ?>
+                                                    <script>
+                                                        jQuery(document).ready(function () {
+                                                                jQuery(".fb-sublist-page-id-<?php echo $fbPageID ?>").bind("scroll", function () {
+                                                                    if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
+                                                                        if(!jQuery('.fts-no-more-locations-<?php echo $fbPageID ?>').length){
+                                                                            jQuery("#loadMore_<?php echo $fbPageID ?>_location").addClass('fts-fb-spinner');
+                                                                            var button = jQuery('#loadMore_<?php echo $fbPageID ?>_location').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
+                                                                            console.log(button);
+                                                                            var build_shortcode = "<?php print $build_shortcode;?>";
+                                                                            var yes_ajax = "yes";
+                                                                            var fts_d_name = "<?php echo $fbPageID;?>";
+                                                                            var fts_security = "<?php echo $nonce;?>";
+                                                                            var fts_time = "<?php echo $time;?>";
+                                                                            var fts_reviews_feed = "<?php print $reviews_token;?>";
+                                                                            jQuery.ajax({
+                                                                                data: {
+                                                                                    action: "my_fts_fb_load_more",
+                                                                                    next_location_url: nextURL_location_<?php echo $fbPageID ?>,
+                                                                                    fts_dynamic_name: fts_d_name,
+                                                                                    rebuilt_shortcode: build_shortcode,
+                                                                                    load_more_ajaxing: yes_ajax,
+                                                                                    fts_security: fts_security,
+                                                                                    fts_time: fts_time,
+                                                                                    feed_name: build_shortcode,
+                                                                                    fts_reviews_feed: fts_reviews_feed,
+                                                                                    locations: 'yes'
+                                                                                },
+                                                                                type: 'GET',
+                                                                                url: ajaxurl,
+                                                                                success: function (data) {
+                                                                                    console.log('Well Done and got this from sever: ' + data);
+                                                                                     jQuery('.fb-sublist-page-id-<?php echo $fbPageID;?>').append(data).filter('.fb-sublist-page-id-<?php echo $fbPageID;?>').html();
+                                                                                     jQuery('.fb-sublist-page-id-<?php echo $fbPageID?>').animate({scrollTop: '+=100px'}, 800); // scroll down a 100px after new items are added
+
+
+
+                                                                                    <?php if(isset($data->locations->paging->next) && $data->locations->paging->next == $_REQUEST['next_location_url']) { ?>
+                                                                                        jQuery('#loadMore_<?php echo $fbPageID ?>_location').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb fts-no-more-locations-<?php echo $fbPageID ?>" style="background:none !important"><?php _e('All Locations loaded', 'feed-them-social') ?></div>');
+                                                                                        jQuery('#loadMore_<?php echo $fbPageID ?>_location').removeAttr('id');
+                                                                                     <?php } ?>
+                                                                                       // jQuery('#loadMore_<?php echo $fbPageID ?>_location').html('<?php _e('Keep Scrolling to view more Locations', 'feed-them-social') ?>');
+                                                                                        //	jQuery('#loadMore_< ?php echo $fbPageID ?>').removeClass('flip360-fts-load-more');
+                                                                                        jQuery("#loadMore_<?php echo $fbPageID ?>_location").removeClass('fts-fb-spinner');
+                                                                                }
+                                                                            }); // end of ajax()
+                                                                            return false;
+
+                                                                        } //stop ajax from submitting again if the fts-no-more-locations class is found
+
+                                                                    }
+                                                             }); // end of form.submit
+
+                                                        }); // end of document.ready
+                                                    </script>
+                                                    <?php
+                                            } //END Make sure it's not ajaxing locations ?>
+                                                <script>var nextURL_location_<?php echo $fbPageID; ?>= "<?php echo isset($data->locations->paging->next) ? $data->locations->paging->next : ''?>";</script>
+                                         <?php  } ?>
+                    </li>
+
+                <?php }  // foreach loop of locations
 
         //Make sure it's not ajaxing
-    if (!isset($_GET['load_more_ajaxing'])) {
-
-        $reviews_token = isset($_GET['reviews_token']) ? 'yes' : 'no';
-
-        ?>
-        <div id="fb-list-wrap">
-            <div class="fts-pages-info"> <?php _e('Click on a page in the list below and it will add the Page ID and Access Token above, then click save.', 'feed-them-social'); ?></div>
-            <ul class="fb-page-list">
-                <?php }
-
-                foreach ($test_fb_app_token_response->data as $data) { ?>
-                    <li>
-                        <div class="fb-image">
-                            <div class="fts-fb-id"><?php print $data->id ?></div>
-                            <img border="0" height="50" width="50" src="https://graph.facebook.com/<?php print $data->id ?>/picture"/>
-                        </div>
-                        <div class="fb-name"><?php print $data->name ?></div>
-                        <div class="page-token"><?php print $data->access_token ?></div>
-
-                        <?php
-                        $facebook_input_token = get_option('fts_facebook_custom_api_token');
-                        $facebook_access_token = $data->access_token;
-                        if ($facebook_input_token == $facebook_access_token) {
-                            ?>
-                            <div class="feed-them-social-admin-submit-btn " style="display: block !important;">Active
-                            </div>
-                        <?php } else { ?>
-                            <div class="feed-them-social-admin-submit-btn fts-token-save">Save</div>
-                        <?php } ?>
-                        <div class="fts-clear"></div>
-                    </li>
-                <?php }
-
-                if (!isset($_GET['load_more_ajaxing'])) { ?>
-
+     if (!isset($_GET['load_more_ajaxing'])) { ?>
             </ul>
             <div class="fts-clear"></div>
-
         </div>
+    <?php } //End make sure it's not ajaxing
 
-    <?php }
         //Make sure it's not ajaxing
-        if (!isset($_GET['load_more_ajaxing']) && !isset($_REQUEST['fts_no_more_posts'])) {
+        if (!isset($_GET['load_more_ajaxing']) && !isset($_GET['locations'])) {
             $fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
             $time = time();
             $nonce = wp_create_nonce($time . "load-more-nonce");
@@ -284,7 +398,7 @@ class feed_them_social_functions
                             url: ajaxurl,
                             success: function (data) {
                                 console.log('Well Done and got this from sever: ' + data);
-                                jQuery('.fb-page-list').append(data).filter('.fb-page-list').html();
+                                jQuery('.fb-page-master-list').append(data).filter('.fb-page-list').html();
 
                                 if (!nextURL_<?php echo $_REQUEST['fts_dynamic_name']; ?> || nextURL_<?php echo $_REQUEST['fts_dynamic_name']; ?> == 'no more') {
                                     jQuery('#loadMore_<?php echo $fts_dynamic_name ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php _e('No More Pages', 'feed-them-social') ?></div>');
@@ -298,7 +412,6 @@ class feed_them_social_functions
                             }
                         }); // end of ajax()
                         return false;
-
                     }); // end of form.submit
                 }); // end of document.ready
             </script>
@@ -307,7 +420,11 @@ class feed_them_social_functions
         } //END Make sure it's not ajaxing
         ?>
         <script>
-            var nextURL_<?php echo $_REQUEST['fts_dynamic_name']; ?>= "<?php echo $_REQUEST['next_url']; ?>";
+            <?php  if(!isset($_GET['locations'])) {?>
+                var nextURL_<?php echo $_REQUEST['fts_dynamic_name']; ?>= "<?php echo $_REQUEST['next_url']; ?>";
+               // alert('nextURL_<?php echo $_REQUEST['fts_dynamic_name']; ?>');
+             <?php } ?>
+
 
             if (document.querySelector('#fts-fb-token-wrap .fts-pages-info') !== null) {
                 jQuery(".fts-successful-api-token.default-token").hide();
@@ -327,27 +444,16 @@ class feed_them_social_functions
                     $("#fts-facebook-feed-options-form").submit();
                 });
 
-                <?php if ($reviews_token == 'no' || isset($_GET['fts_reviews_feed']) && $_GET['fts_reviews_feed'] == 'no'){?>
-
-                var fb = ".fb-page-list li";
+                var fb = ".fb-page-list .fb-click-wrapper";
                 $('#fb-list-wrap').show();
-                $('.fts-failed-api-token.get-started-message-hide').hide();
-                //alert("not set");
-                <?php } else { ?>
-                var fb = "#reviews-fb-list-wrap .fb-page-list li";
-                $('#fb-list-wrap').appendTo('#reviews-fb-list-wrap');
-                $('#fts-fb-reviews-wrap #fb-list-wrap').show();
-                $('.fts-failed-api-token.get-started-message').hide();
                 //alert("reviews_token");
-                <?php } ?>
 
                 $(fb).click(function () {
-                    var fb_page_id = $(this).find('.fts-fb-id').html();
+                    var fb_page_id = $(this).find('.fts-api-facebook-id').html();
                     var token = $(this).find('.page-token').html();
                     // alert(token);
                     var name = $(this).find('.fb-name').html();
                     <?php if ($reviews_token == 'no' || isset($_GET['fts_reviews_feed']) && $_GET['fts_reviews_feed'] == 'no'){?>
-
                     $("#fts_facebook_custom_api_token").val(token);
                     $("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
                     $("#fts_facebook_custom_api_token_user_name").val(name);
@@ -356,18 +462,15 @@ class feed_them_social_functions
                     $("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
                     $("#fts_facebook_custom_api_token_user_name_biz").val(name);
                     <?php } ?>
-
-
                     $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
                     $(this).find('.feed-them-social-admin-submit-btn').toggle();
                     //   alert(name + token)
                 })
             });
         </script>
-
         <?php
         //Make sure it's not ajaxing
-        if (!isset($_GET['load_more_ajaxing']) && isset($test_fb_app_token_response->paging->next)) {
+        if (!isset($_GET['load_more_ajaxing']) && isset($test_fb_app_token_response->paging->next) && !isset($_GET['locations'])) {
             $fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
             // this div returns outputs our ajax request via jquery append html from above
 
@@ -377,12 +480,18 @@ class feed_them_social_functions
             print '<div class="fts-clear"></div>';
 
             //  print '<div class="fts-fb-load-more-wrapper">';
-            print '<div id="loadMore_' . $fts_dynamic_name . '" class="fts-fb-load-more">' . __('Load More', 'feed-them-instagram') . '</div>';
+            print '<div id="loadMore_' . $fts_dynamic_name . '" class="fts-fb-load-more">' . __('Load More', 'feed-them-social') . '</div>';
             //  print '</div>';
 
-        }//End Check
-        unset($_REQUEST['next_url']);
+        }//End make sure it's not ajaxing
 
+        // Lastly if we can't find a next url we unset the next url from the page to not let the loadmore button be active.
+        if(!isset($_GET['locations'])) {
+             unset($_REQUEST['next_url']);
+        }
+        else {
+             unset($_REQUEST['next_location_url']);
+        }
         return ob_get_clean();
     }
 

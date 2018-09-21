@@ -68,7 +68,7 @@ class FTS_facebook_options_page
                         <h3>
                             <?php _e('Facebook API Token', 'feed-them-social'); ?>
                         </h3>
-                        <?php _e('This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. This will NOT work for personal accounts or groups. You must be an admin of the page to get your token.', 'feed-them-social'); ?>
+                        <?php _e('This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups. ', 'feed-them-social'); ?>
                         <p>
                             <a href="https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo admin_url('admin.php?page=fts-facebook-feed-styles-submenu-page'); ?>&scope=manage_pages" class="fts-facebook-get-access-token">Login
                                 and get my Access Token</a></p>
@@ -124,7 +124,7 @@ class FTS_facebook_options_page
                                 echo '<div class="fts-successful-api-token fts-special-working-wrap">';
 
                                 if (!empty($fb_id) && !empty($fb_name) && !empty($test_app_token_id)) {
-                                    echo '<img border="0" height="50" width="50" class="fts-fb-page-thumb" src="https://graph.facebook.com/' . $fb_id . '/picture"/><h3>' . $fb_name . '</h3>';
+                                    echo '<a href="https://www.facebook.com/'. get_option('fts_facebook_custom_api_token_user_id').'" target="_blank"><img border="0" height="50" width="50" class="fts-fb-page-thumb" src="https://graph.facebook.com/' . $fb_id . '/picture"/></a><h3><a href="https://www.facebook.com/'. get_option('fts_facebook_custom_api_token_user_id').'" target="_blank">' . $fb_name . '</a></h3>';
                                 }
                                 echo __('Your Access Token is now working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page#feed_type=facebook">settings page</a>.', 'feed-them-social') . '</div>';
 
@@ -138,12 +138,17 @@ class FTS_facebook_options_page
                                 }
 
                                 if (isset($test_app_token_response->data->error->message) && empty($test_app_token_id) || isset($test_app_token_response->error->message) && empty($test_app_token_id)) {
-                                    echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
+
+                                        echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
+
+
                                 }
                             }
 
                         } else {
-                            echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
+                                if (!isset($_GET['return_long_lived_token']) || isset($_GET['reviews_token'])) {
+                                    echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
+                                }
                         }
                         ?>
                         <div class="clear"></div>
@@ -154,7 +159,7 @@ class FTS_facebook_options_page
                         if (isset($_GET['return_long_lived_token']) && !isset($_GET['reviews_token'])) {
                             // Echo our shortcode for the page token list with loadmore button
                             // These functions are on feed-them-functions.php
-                            echo do_shortcode('[fts_fb_page_token]');
+                             echo do_shortcode('[fts_fb_page_token]');
 
                         } ?>
                     </div>
@@ -172,7 +177,7 @@ class FTS_facebook_options_page
                             </h3>
                             <?php _e('This Facebook Access Token works for the Reviews feed only and is simply used to display the feed. You must be an admin of the page to get your token.', 'feed-them-social'); ?>
                             <p>
-                                <a href="https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo admin_url('admin.php?page=fts-facebook-feed-styles-submenu-page'); ?>%26reviews_token=yes&scope=manage_pages%2Cpublic_profile%2Cuser_friends%2Cemail" class="fts-facebook-get-access-token">Login
+                                <a href="https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=<?php echo admin_url('admin.php?page=fts-facebook-feed-styles-submenu-page'); ?>%26reviews_token=yes&scope=manage_pages" class="fts-facebook-get-access-token">Login
                                     and get my Reviews Access Token</a></p>
 
                         </div>
@@ -202,7 +207,7 @@ class FTS_facebook_options_page
 
 
                                 if (!empty($fb_id_biz) && !empty($fb_name_biz) && !empty($test_app_token_id_biz)) {
-                                    echo '<img border="0" height="50" width="50" class="fts-fb-page-thumb" src="https://graph.facebook.com/' . $fb_id_biz . '/picture"/><h3>' . $fb_name_biz . '</h3>';
+                                    echo '<img border="0" height="50" width="50" class="fts-fb-page-thumb" src="https://graph.facebook.com/' . $fb_id_biz . '/picture"/><h3><a href="https://facebook.com/'.$test_app_token_id_biz.'" target="_blank">' . $fb_name_biz . '</a></h3>';
                                 }
                                 echo __('Your Page Reviews Access Token is now working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page#feed_type=facebook_reviews">settings page</a>.', 'feed-them-social') . '</div>';
 
@@ -218,7 +223,7 @@ class FTS_facebook_options_page
                             }
 
                         }
-                        if (empty($test_app_token_id_biz)) {
+                        if (!isset($_GET['reviews_token']) && empty($test_app_token_id_biz)) {
                             echo '<div class="fts-failed-api-token get-started-message">' . __('To get started, please click the button above to retrieve your Page Reviews Access Token.', 'feed-them-social') . '</div>';
                         }
 

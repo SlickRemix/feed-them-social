@@ -155,6 +155,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             if (isset($FBpost_full_ID[1])) {
                 $FBpost_single_id = $FBpost_full_ID[1];
             }
+            else {
+                $FBpost_single_id = '';
+            }
         } else {
             $FBpost_id = '';
             $FBpost_user_id = '';

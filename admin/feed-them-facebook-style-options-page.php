@@ -139,16 +139,16 @@ class FTS_facebook_options_page
 
                                 if (isset($test_app_token_response->data->error->message) && empty($test_app_token_id) || isset($test_app_token_response->error->message) && empty($test_app_token_id)) {
 
-                                        echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
+                                    echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
 
 
                                 }
                             }
 
                         } else {
-                                if (!isset($_GET['return_long_lived_token']) || isset($_GET['reviews_token'])) {
-                                    echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
-                                }
+                            if (!isset($_GET['return_long_lived_token']) || isset($_GET['reviews_token'])) {
+                                echo '<div class="fts-failed-api-token">' . __('To get started, please click the button above to retrieve your Access Token.', 'feed-them-social') . '</div>';
+                            }
                         }
                         ?>
                         <div class="clear"></div>
@@ -159,7 +159,7 @@ class FTS_facebook_options_page
                         if (isset($_GET['return_long_lived_token']) && !isset($_GET['reviews_token'])) {
                             // Echo our shortcode for the page token list with loadmore button
                             // These functions are on feed-them-functions.php
-                             echo do_shortcode('[fts_fb_page_token]');
+                            echo do_shortcode('[fts_fb_page_token]');
 
                         } ?>
                     </div>

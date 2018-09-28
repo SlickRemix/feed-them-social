@@ -181,18 +181,18 @@ class feed_them_social_functions
 
         //Make sure it's not ajaxing
         if (!isset($_GET['load_more_ajaxing'])) {
-            $_REQUEST['fts_dynamic_name'] = trim($this->feed_them_social_rand_string());
+            $_REQUEST['fts_dynamic_name'] = sanitize_key($this->feed_them_social_rand_string());
         } //End make sure it's not ajaxing
 
         ob_start();
 
         if(!isset($_GET['locations'])){
-            $fb_token_response = isset($_REQUEST['next_url']) ? wp_remote_fopen($_REQUEST['next_url']) : wp_remote_fopen('https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=2');
+            $fb_token_response = isset($_REQUEST['next_url']) ? wp_remote_fopen(esc_url_raw($_REQUEST['next_url'])) : wp_remote_fopen('https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25');
             $test_fb_app_token_response = json_decode($fb_token_response);
-            $_REQUEST['next_url'] = isset($test_fb_app_token_response->paging->next) ? $test_fb_app_token_response->paging->next : '';
+            $_REQUEST['next_url'] = isset($test_fb_app_token_response->paging->next) ? esc_url_raw($test_fb_app_token_response->paging->next) : '';
         }
         else{
-            $fb_token_response = isset($_REQUEST['next_location_url'])  ? wp_remote_fopen($_REQUEST['next_location_url']) : '';
+            $fb_token_response = isset($_REQUEST['next_location_url'])  ? wp_remote_fopen(esc_url_raw($_REQUEST['next_location_url'])) : '';
             $test_fb_app_token_response = json_decode($fb_token_response);
         }
 
@@ -243,7 +243,7 @@ class feed_them_social_functions
                             <div class="fts-clear"></div>
                         </div>
                         <?php
-                        $_REQUEST['next_location_url'] = isset($data->locations->paging->next) ? $data->locations->paging->next : '';
+                        $_REQUEST['next_location_url'] = isset($data->locations->paging->next) ? esc_url_raw($data->locations->paging->next) : '';
                         $remove_class_or_not = isset($data->locations->paging->next) ? 'fb-sublist-page-id-' . $data->id : '';
                         if(isset($data->locations->data)){
                             $location_count = count($data->locations->data);
@@ -292,7 +292,7 @@ class feed_them_social_functions
                         if (!isset($_GET['locations'])) {
                         $time = time();
                         $nonce = wp_create_nonce($time . "load-more-nonce");
-                        $fbPageID = $data->id;
+                        $fbPageID = sanitize_key($data->id);
                         ?>
                             <script>
                                 jQuery(document).ready(function () {
@@ -350,7 +350,7 @@ class feed_them_social_functions
                             </script>
                         <?php
                         } //END Make sure it's not ajaxing locations ?>
-                            <script>var nextURL_location_<?php echo $fbPageID; ?>= "<?php echo isset($data->locations->paging->next) ? $data->locations->paging->next : ''?>";</script>
+                            <script>var nextURL_location_<?php echo $fbPageID; ?>= "<?php echo isset($data->locations->paging->next) ? esc_url_raw($data->locations->paging->next) : ''?>";</script>
                         <?php  } ?>
                     </li>
 
@@ -365,7 +365,7 @@ class feed_them_social_functions
 
         //Make sure it's not ajaxing
         if (!isset($_GET['load_more_ajaxing']) && !isset($_GET['locations'])) {
-            $fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
+            $fts_dynamic_name = sanitize_key($_REQUEST['fts_dynamic_name']);
             $time = time();
             $nonce = wp_create_nonce($time . "load-more-nonce");
             ?>
@@ -422,7 +422,7 @@ class feed_them_social_functions
         ?>
         <script>
             <?php  if(!isset($_GET['locations'])) {?>
-            var nextURL_<?php echo $_REQUEST['fts_dynamic_name']; ?>= "<?php echo $_REQUEST['next_url']; ?>";
+            var nextURL_<?php echo $_REQUEST['fts_dynamic_name']; ?>= "<?php echo esc_url_raw($_REQUEST['next_url']); ?>";
             // alert('nextURL_<?php echo $_REQUEST['fts_dynamic_name']; ?>');
             <?php } ?>
 
@@ -472,12 +472,7 @@ class feed_them_social_functions
         <?php
         //Make sure it's not ajaxing
         if (!isset($_GET['load_more_ajaxing']) && isset($test_fb_app_token_response->paging->next) && !isset($_GET['locations'])) {
-            $fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
-            // this div returns outputs our ajax request via jquery append html from above
-
-            print '<div class="fts-clear"></div>';
-            print '<div id="output_' . $fts_dynamic_name . '" class="fts-hide"></div>';
-
+            $fts_dynamic_name = sanitize_key($_REQUEST['fts_dynamic_name']);
             print '<div class="fts-clear"></div>';
 
             //  print '<div class="fts-fb-load-more-wrapper">';

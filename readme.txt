@@ -77,7 +77,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.5.2.1 Friday, September 28th, 2018 =
-   * FIX: Facebook Options: Additional check to make sure the next url does not contain malicious code and sanatize the dynamic name passed through ajax.
+   * FIX: Facebook Options: Additional check to make sure the next url does not contain malicious code and sanitize the dynamic name passed through ajax.
 
 = Version 2.5.1 Friday, September 21st, 2018 =
    * NEW: Facebook Options: If you have Location pages you can get an access token for each one now when clicking the get access token button on the Facebook Options page of our plugin.

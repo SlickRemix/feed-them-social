@@ -530,7 +530,7 @@ if ( 'yes' === $profile_description ) {
 					echo '</div>';
 				}
 
-				if ( 'autoscroll' === $scroll_more || '' !== $height ) {
+				if ( isset( $scroll_more ) && 'autoscroll' === $scroll_more || '' !== $height ) {
 					?>
 <div class="fts-instagram-scrollable <?php echo esc_attr( $fts_dynamic_class_name ); ?>instagram" style="overflow:auto;
 					<?php
@@ -744,7 +744,7 @@ if ( 'yes' === $profile_description ) {
 					?>
 			<div class='instagram-placeholder fts-instagram-wrapper' style='width:150px;'>
 						<?php
-						if ( 'yes' === $popup ) {
+						if ( isset(  $popup  ) && 'yes' === $popup ) {
 							print '<div class="fts-backg"></div>';
 						} else {
 							?>
@@ -754,7 +754,7 @@ if ( 'yes' === $profile_description ) {
 				</div>
 
 
-						<?php if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup ) { ?>
+						<?php if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) { ?>
 
 
 					<div class="fts-instagram-popup-profile-wrap">
@@ -819,7 +819,7 @@ if ( 'yes' === $profile_description ) {
 			// ******************
 			$next_url = isset( $insta_data->pagination->next_url ) ? $insta_data->pagination->next_url : '';
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
-			$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "count=$pics_count", "count=$loadmore_count", $next_url ) : $next_url;
+			$_REQUEST['next_url'] = ! empty( $loadmore_count ) ? str_replace( "count=$pics_count", "count=$loadmore_count", $next_url ) : $next_url;
 			?>
 	<script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
 			<?php
@@ -931,7 +931,7 @@ if ( 'yes' === $profile_description ) {
 		</script>
 			<?php } //end $height !== 'auto' && empty($height) == NULL. ?>
 			<?php
-			if ( 'autoscroll' === $scroll_more || '' !== $height ) {
+			if ( isset( $scroll_more ) && 'autoscroll' === $scroll_more || '' !== $height ) {
 				print '</div>'; // closing height div for scrollable feeds.
 			}
 

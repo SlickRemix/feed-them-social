@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.8
-Stable tag: 2.5.3
+Stable tag: 2.5.4
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -76,7 +76,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.5.2 - 2.5.3 Wednesday, October 10th, 2018 =
+= Version 2.5.2 - 2.5.4 Wednesday, October 10th, 2018 =
    * Full audit of every file to ensure proper escaping and sanitizing are in place to help prevent malicious attacks through our plugin.
    * NOTICE: Users of the Combined Streams Extension will also need to update to correct some formatting issues.
 

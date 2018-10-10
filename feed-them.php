@@ -181,10 +181,17 @@ final class Feed_Them_Social {
 	public function fts_install_notice() {
 		// Check the transient to see if we've just activated the plugin!
 		if ( get_transient( 'fts_activated' ) ) {
-			echo '<div class="notice notice-success updated is-dismissible"><p>' . esc_html( 'Thanks for installing Feed Them Social. To get started please view our <a href="' . esc_url( 'admin.php?page=feed-them-settings-page">Settings' ) . '</a> page.', 'feed-them-social' ) . '</p></div>';
+			echo '<div class="notice notice-success updated is-dismissible"><p>';
+			echo sprintf(
+				esc_html( 'Thanks for installing Feed Them Social. To get started please view our %1$sSettings%2$s page.', 'feed-them-social' ),
+				'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
+				'</a>'
+			);
+			echo '</p></div>';
 			// Delete the transient so we don't keep displaying the activation message!
 			delete_transient( 'fts_activated' );
 		}
+
 	}
 
 	/**
@@ -309,7 +316,17 @@ final class Feed_Them_Social {
 	 * @since 1.0.0
 	 */
 	public function fts_required_php_check1() {
-		echo '<div class="error"><p>' . esc_html( '<strong>Warning:</strong> Your php version is ' . phpversion() . '. You need to be running at least 5.3 or greater to use this plugin. Please upgrade the php by contacting your host provider. Some host providers will allow you to change this yourself in the hosting control panel too.<br/><br/>If you are hosting with BlueHost or Godaddy and the php version above is saying you are running 5.2.17 but you are really running something higher please <a href="https://wordpress.org/support/topic/php-version-difference-after-changing-it-at-bluehost-php-config?replies=4" target="_blank">click here for the fix</a>. If you cannot get it to work using the method described in the link please contact your host provider and explain the problem so they can fix it.', 'feed-them-social' ) . '</p></div>';
+			echo '<div class="error"><p>';
+			echo sprintf(
+				esc_html( '%1$s Feed Them Social Warning:%2$s Your php version is %1$s%3$s%2$s. You need to be running at least %1$s5.3%2$s or greater to use this plugin. Please upgrade the php by contacting your host provider. Some host providers will allow you to change this yourself in the hosting control panel too. %4$s If you are hosting with BlueHost or Godaddy and the php version above is saying you are running %1$s5.2.17%2$s but you are really running something higher please %5$sclick here for the fix%6$s. If you cannot get it to work using the method described in the link please contact your host provider and explain the problem so they can fix it.', 'feed-them-social' ),
+				'<strong>',
+				'</strong>',
+				phpversion(),
+				'<br/><br/>',
+				'<a href="' . esc_url( 'https://wordpress.org/support/topic/php-version-difference-after-changing-it-at-bluehost-php-config?replies=4' ) . '" target="_blank">',
+				'</a>'
+			);
+			echo '</p></div>';
 	}
 
 	/**

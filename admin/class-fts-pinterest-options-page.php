@@ -63,7 +63,7 @@ class FTS_Pinterest_Options_Page {
 						<p>
 							<?php
 							echo sprintf(
-								esc_html( 'This is required to make the feed work. Click the button below and it will connect to your Pinterest account to get an access token, and it will return it in the input below. Then click the save button and you will now be able to generate your Pinterest feed. If you are having troubles with the button you can also get your Access Token %1$sHere%2$s.', 'feed-them-gallery' ),
+								esc_html( 'This is required to make the feed work. Click the button below and it will connect to your Pinterest account to get an access token, and it will return it in the input below. Then click the save button and you will now be able to generate your Pinterest feed. If you are having troubles with the button you can also get your Access Token %1$sHere%2$s.', 'feed-them-social' ),
 								'<a href="' . esc_url( 'https://www.slickremix.com/docs/how-to-create-a-pinterest-access-token/' ) . '" target="_blank">',
 								'</a>'
 							);
@@ -72,7 +72,7 @@ class FTS_Pinterest_Options_Page {
 						<p>
 							<?php
 							echo sprintf(
-								esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-gallery' ),
+								esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
 								'<a href="' . esc_url( 'https://api.pinterest.com/oauth/?response_type=token&redirect_uri=https://www.slickremix.com/pinterest-token-plugin/&client_id=4852080225414031681&scope=read_public&state=' . admin_url( 'admin.php?page=fts-pinterest-feed-styles-submenu-page' ) . '&scope=manage_pages' ) . '" class="fts-pinterest-get-access-token">',
 								'</a>'
 							);
@@ -114,14 +114,14 @@ class FTS_Pinterest_Options_Page {
 					// Error Check!
 					if ( ! isset( $test_app_token_response->status ) && ! empty( $fts_pinterest_access_token ) ) {
 						echo sprintf(
-							esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-gallery' ),
+							esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
 							'<div class="fts-successful-api-token">',
 							'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
 							'</a></div>'
 						);
 					} elseif ( isset( $test_app_token_response->status ) && ! empty( $fts_pinterest_access_token ) ) {
 						echo sprintf(
-							esc_html( '%1$sOh No something\'s wrong. %2$s. Please try again, if you are still having troulbes please contact us on our Support Forum. Make sure to include screenshots of the browser page that may come up with any errors. %3$sSupport Forum%4$s', 'feed-them-gallery' ),
+							esc_html( '%1$sOh No something\'s wrong. %2$s. Please try again, if you are still having troulbes please contact us on our Support Forum. Make sure to include screenshots of the browser page that may come up with any errors. %3$sSupport Forum%4$s', 'feed-them-social' ),
 							'<div class="fts-failed-api-token">',
 							esc_html( $test_app_token_response->message ),
 							'<a href="' . esc_url( 'https://www.slickremix.com/support/' ) . '">',
@@ -130,7 +130,7 @@ class FTS_Pinterest_Options_Page {
 					}
 					if ( empty( $fts_pinterest_access_token ) ) {
 						echo sprintf(
-							esc_html( 'You are required to get an access token to view your any of the Pinterest Feeds. Click "Save All Changes" after getting your Access Token.', 'feed-them-gallery' ),
+							esc_html( 'You are required to get an access token to view your any of the Pinterest Feeds. Click "Save All Changes" after getting your Access Token.', 'feed-them-social' ),
 							'<div class="fts-failed-api-token">',
 							'</div>'
 						);
@@ -187,7 +187,7 @@ class FTS_Pinterest_Options_Page {
 						</h3>
 						<?php
 						echo sprintf(
-							esc_html( 'These styles are for the list of Boards type feed %1$sSeen Here%2$s', 'feed-them-gallery' ),
+							esc_html( 'These styles are for the list of Boards type feed %1$sSeen Here%2$s', 'feed-them-social' ),
 							'<a href="' . esc_url( 'https://feedthemsocial.com/pinterest/' ) . '">',
 							'</a>'
 						);

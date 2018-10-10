@@ -77,7 +77,7 @@ class FTS_Instagram_Options_Page {
 						<p>
 						<?php
 						echo sprintf(
-							esc_html( 'This is required to make the feed work. Just click the button below and it will connect to your Instagram to get an access token, then it will return it in the input below. Then just click the save button and you will now be able to generate your Instagram feed. If the button is not working for you and can always %1$s manually create an Access Token.%2$s', 'feed-them-gallery' ),
+							esc_html( 'This is required to make the feed work. Just click the button below and it will connect to your Instagram to get an access token, then it will return it in the input below. Then just click the save button and you will now be able to generate your Instagram feed. If the button is not working for you and can always %1$s manually create an Access Token.%2$s', 'feed-them-social' ),
 							'<a href="' . esc_url( 'https://www.slickremix.com/docs/how-to-create-instagram-access-token/' ) . '" target="_blank">',
 							'</a>'
 						);
@@ -86,7 +86,7 @@ class FTS_Instagram_Options_Page {
 						<p>
 						<?php
 						echo sprintf(
-							esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-gallery' ),
+							esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
 							'<a href="' . esc_url( 'https://instagram.com/oauth/authorize/?client_id=da06fb6699f1497bb0d5d4234a50da75&redirect_uri=http://www.slickremix.com/instagram-token-plugin/?return_uri=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '&response_type=token&scope=public_content' ) . '" class="fts-instagram-get-access-token">',
 							'</a>'
 						);
@@ -145,7 +145,7 @@ class FTS_Instagram_Options_Page {
 					}
 					if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) && ! empty( $fts_instagram_access_token ) || isset( $test_app_token_response->meta->error_message ) && 'This client has not been approved to access this resource.' === $test_app_token_response->meta->error_message ) {
 						echo sprintf(
-							esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-gallery' ),
+							esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
 							'<div class="fts-successful-api-token">',
 							'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
 							'</a></div>'
@@ -153,7 +153,7 @@ class FTS_Instagram_Options_Page {
 					} elseif ( isset( $test_app_token_response->meta->error_message ) && ! empty( $fts_instagram_access_token ) || isset( $test_app_token_response->error_message ) && ! empty( $fts_instagram_access_token ) ) {
 						$text = isset( $test_app_token_response->meta->error_message ) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
 						echo sprintf(
-							esc_html( '%1$sOh No something\'s wrong. %2$s. %3$s.', 'feed-them-gallery' ),
+							esc_html( '%1$sOh No something\'s wrong. %2$s. %3$s.', 'feed-them-social' ),
 							'<div class="fts-failed-api-token">',
 							esc_html( $text ),
 							'</div>'
@@ -161,7 +161,7 @@ class FTS_Instagram_Options_Page {
 					}
 					if ( empty( $fts_instagram_access_token ) ) {
 						echo sprintf(
-							esc_html( '%1$sYou are required to get an access token to view your photos. Click Save all Changes after getting your Access Token.%2$s.', 'feed-them-gallery' ),
+							esc_html( '%1$sYou are required to get an access token to view your photos. Click Save all Changes after getting your Access Token.%2$s.', 'feed-them-social' ),
 							'<div class="fts-failed-api-token">',
 							'</div>'
 						);

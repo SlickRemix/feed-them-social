@@ -125,7 +125,7 @@ class FTS_Twitter_Options_Page {
 						<p>
 							<?php
 							echo sprintf(
-								esc_html( '%1$sLogin and get my Access Tokens%2$s', 'feed-them-gallery' ),
+								esc_html( '%1$sLogin and get my Access Tokens%2$s', 'feed-them-social' ),
 								'<a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . admin_url( 'admin.php?page=fts-twitter-feed-styles-submenu-page' ) . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
 								'</a>'
 							);
@@ -152,7 +152,7 @@ class FTS_Twitter_Options_Page {
 						<div class="twitter-extra-keys-text">
 							<?php
 							echo sprintf(
-								esc_html( 'Learn how to manually create the Consumer Key/Secret and the Access Token/Secret %1$shere%2$s.', 'feed-them-gallery' ),
+								esc_html( 'Learn how to manually create the Consumer Key/Secret and the Access Token/Secret %1$shere%2$s.', 'feed-them-social' ),
 								'<a href="' . esc_url( 'https://www.slickremix.com/docs/how-to-get-api-keys-and-tokens-for-twitter/' ) . '" target="_blank">',
 								'</a>'
 							);
@@ -207,12 +207,12 @@ class FTS_Twitter_Options_Page {
 							if ( ! empty( $fts_twitter_custom_access_token_secret ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {
 								if ( 200 !== $test_connection->http_code || isset( $fetched_tweets->errors ) ) {
 									echo sprintf(
-										esc_html( '%1$sOh No, something\'s wrong. ', 'feed-them-gallery' ),
+										esc_html( '%1$sOh No, something\'s wrong. ', 'feed-them-social' ),
 										'<div class="fts-failed-api-token">'
 									);
 									foreach ( $fetched_tweets->errors as $error ) {
 										echo sprintf(
-											esc_html( '%1$s%2$s%3$s You may have entered in the Access information incorrectly please re-enter and try again.%4$s', 'feed-them-gallery' ),
+											esc_html( '%1$s%2$s%3$s You may have entered in the Access information incorrectly please re-enter and try again.%4$s', 'feed-them-social' ),
 											'<strong>',
 											esc_html( $error->message ),
 											'</strong>',
@@ -221,7 +221,7 @@ class FTS_Twitter_Options_Page {
 									}
 								} else {
 									echo sprintf(
-										esc_html( '%1$sYou are using our Default Access tokens for testing purposes. Generate your shortcode on the %2$sSettings Page%3$s to test your feed, but remember to add your own tokens after testing as the default tokens will not always work.%4$s', 'feed-them-gallery' ),
+										esc_html( '%1$sYou are using our Default Access tokens for testing purposes. Generate your shortcode on the %2$sSettings Page%3$s to test your feed, but remember to add your own tokens after testing as the default tokens will not always work.%4$s', 'feed-them-social' ),
 										'<div class="fts-successful-api-token">',
 										'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
 										'</a>',
@@ -230,7 +230,7 @@ class FTS_Twitter_Options_Page {
 								}
 							} else {
 								echo sprintf(
-									esc_html( '%1$sYou are using our Default Access tokens for testing purposes. Generate your shortcode on the %2$sSettings Page%3$s to test your feed, but remember to add your own tokens after testing as the default tokens will not always work.%4$s', 'feed-them-gallery' ),
+									esc_html( '%1$sYou are using our Default Access tokens for testing purposes. Generate your shortcode on the %2$sSettings Page%3$s to test your feed, but remember to add your own tokens after testing as the default tokens will not always work.%4$s', 'feed-them-social' ),
 									'<div class="fts-successful-api-token">',
 									'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
 									'</a>',
@@ -326,7 +326,7 @@ class FTS_Twitter_Options_Page {
 						<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
 							<?php
 							echo sprintf(
-								esc_html( 'Convert shortlinks for video%1$sLike bitly etc. May slow load time slightly%2$s.', 'feed-them-gallery' ),
+								esc_html( 'Convert shortlinks for video%1$sLike bitly etc. May slow load time slightly%2$s.', 'feed-them-social' ),
 								'<br/><small>',
 								'</small>'
 							);
@@ -451,7 +451,7 @@ class FTS_Twitter_Options_Page {
 							<div class="feed-them-social-admin-input-label fts-twitter-feed-margin-label">
 								<?php
 								echo sprintf(
-									esc_html( 'Feed Margin %1$sTo center feed type auto%2$s', 'feed-them-gallery' ),
+									esc_html( 'Feed Margin %1$sTo center feed type auto%2$s', 'feed-them-social' ),
 									'<br/><small>',
 									'</small>'
 								);
@@ -559,7 +559,7 @@ class FTS_Twitter_Options_Page {
 								<div class="feed-them-social-admin-input-label fts-fb-border-bottom-color-label">
 									<?php
 									echo sprintf(
-										esc_html( 'Fix Post Count %1$sType 2 or 3 if your feed is skipping posts when using the loadmore option.%2$s', 'feed-them-gallery' ),
+										esc_html( 'Fix Post Count %1$sType 2 or 3 if your feed is skipping posts when using the loadmore option.%2$s', 'feed-them-social' ),
 										'<br/><small>',
 										'</small>'
 									);

@@ -143,7 +143,7 @@ class feed_them_social_functions {
 
 		if ( isset( $hide_share ) && 1 !== $hide_share ) {
 			$output  = '<div class="fts-share-wrap">';
-			$output .= '<a href="javascript:;" class="ft-gallery-link-popup">' . esc_html( '', 'feed-them-gallery' ) . '</a>';
+			$output .= '<a href="javascript:;" class="ft-gallery-link-popup">' . esc_html( '', 'feed-them-social' ) . '</a>';
 			$output .= '<div class="ft-gallery-share-wrap">';
 			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" class="ft-galleryfacebook-icon"><i class="fa fa-facebook-square"></i></a>';
 			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" class="ft-gallerytwitter-icon"><i class="fa fa-twitter"></i></a>';
@@ -443,7 +443,7 @@ class feed_them_social_functions {
 			?>
 		<script>
 			<?php if ( ! isset( $_GET['locations'] ) ) { ?>
-			var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ); ?>";
+			var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";
 			// alert('nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>');
 			<?php } ?>
 
@@ -860,7 +860,7 @@ class feed_them_social_functions {
 			$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( $label ) . '</div>';
 			$output .= '<div class="feed-them-social-admin-input-default">';
 			$output .= sprintf(
-				esc_html( 'Must have %1$sPremium Extension%3$s to edit.', 'feed-them-gallery' ),
+				esc_html( 'Must have %1$sPremium Extension%3$s to edit.', 'feed-them-social' ),
 				'<a href="' . esc_url( 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/' ) . '" target="_blank">',
 				'</a>'
 			);
@@ -2175,7 +2175,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$output .= '<h3>' . esc_html( 'Twitter Search', 'feed-them-social' ) . '</h3>';
 			$output .= '<div class="instructional-text">';
 			$output .= sprintf(
-				esc_html( 'You can use #hashtag, @person, or single words. For example, weather or weather-channel.%1$sIf you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. %2$sfrom:user_name%#YourHashtag%3$s', 'feed-them-gallery' ),
+				esc_html( 'You can use #hashtag, @person, or single words. For example, weather or weather-channel.%1$sIf you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. %2$sfrom:user_name%#YourHashtag%3$s', 'feed-them-social' ),
 				'<br/><br/>',
 				'<strong style="color:#225DE2;">',
 				'</strong>'
@@ -2199,7 +2199,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( '# of Tweets (optional)', 'feed-them-premium' );
 			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				$output .= sprintf(
-					esc_html( '%1$s More than 6 Requires the %2$sPremium Extension%3$s', 'feed-them-gallery' ),
+					esc_html( '%1$s More than 6 Requires the %2$sPremium Extension%3$s', 'feed-them-social' ),
 					'<br/><small>',
 					'<a target="_blank" href="' . esc_url( 'http://www.slickremix.com/downloads/feed-them-social-premium-extension/' ) . '">',
 					'</a></small>'
@@ -2323,7 +2323,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( '# of Pics (optional)', 'feed-them-premium' );
 			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				$output .= sprintf(
-					esc_html( '%1$s More than 6 Requires the %2$sPremium Extension%3$s', 'feed-them-gallery' ),
+					esc_html( '%1$s More than 6 Requires the %2$sPremium Extension%3$s', 'feed-them-social' ),
 					'<br/><small>',
 					'<a target="_blank" href="' . esc_url( 'http://www.slickremix.com/downloads/feed-them-social-premium-extension/' ) . '">',
 					'</a></small>'

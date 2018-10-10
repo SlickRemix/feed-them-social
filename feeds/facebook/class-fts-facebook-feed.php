@@ -708,7 +708,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				if ( 'button' === $fb_shortcode['loadmore'] ) {
 
 					echo '<div class="fts-fb-load-more-wrapper">';
-					echo '<div id="loadMore_' . esc_attr( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ) . '" style="';
+					echo '<div id="loadMore_' . esc_attr( $_REQUEST['fts_dynamic_name'] ) . '" style="';
 					if ( isset( $fb_shortcode['loadmore_btn_maxwidth'] ) && '' !== $fb_shortcode['loadmore_btn_maxwidth'] ) {
 						echo 'max-width:' . esc_attr( $fb_shortcode['loadmore_btn_maxwidth'] ) . ';';
 					}
@@ -1601,9 +1601,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 
 				if ( ! $fts_count_ids >= 1 ) {
 					// We cannot add sanitize_text_field here on the $_REQUEST['next_url'] otherwise it will fail to load the contents from the facebook API.
-					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/posts?fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/posts?fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 				} else {
-					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/posts?ids=' . $fb_shortcode['id'] . '&fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/posts?ids=' . $fb_shortcode['id'] . '&fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 				}
 			} elseif (
 				// Albums.
@@ -1611,9 +1611,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description,link&access_token=' . $access_token . $language . '' );
 				// Check If Ajax next URL needs to be used.
 				if ( ! $fts_count_ids >= 1 ) {
-					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 				} else {
-					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/albums?ids=' . $fb_shortcode['id'] . '&fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/albums?ids=' . $fb_shortcode['id'] . '&fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 				}
 
 				// $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? esc_url_raw($_REQUEST['next_url']) : 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '';
@@ -1625,21 +1625,21 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				// The reason I did not create a whole new else if for the video album is because I did not want to duplicate all the code required to make the video because the videos gallery comes from the photo albums on facebook.
 				if ( isset( $fb_shortcode['video_album'] ) && 'yes' === $fb_shortcode['video_album'] ) {
 					if ( ! $fts_count_ids >= 1 ) {
-						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/videos?fields=id,created_time,description,from,icon,link,message,object_id,picture,place,shares,source,to,type,format,embed_html&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/videos?fields=id,created_time,description,from,icon,link,message,object_id,picture,place,shares,source,to,type,format,embed_html&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 					} else {
-						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/videos?ids=' . $fb_shortcode['id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,shares,source,to,type,format,embed_html&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/videos?ids=' . $fb_shortcode['id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,shares,source,to,type,format,embed_html&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 					}
 				} elseif ( isset( $fb_shortcode['album_id'] ) && 'photo_stream' === $fb_shortcode['album_id'] ) {
 					if ( ! $fts_count_ids >= 1 ) {
-						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 					} else {
-						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/photos?ids=' . $fb_shortcode['id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/photos?ids=' . $fb_shortcode['id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 					}
 				} else {
 					if ( ! $fts_count_ids >= 1 ) {
-						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['album_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['album_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 					} else {
-						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/photos?ids=' . $fb_shortcode['album_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/photos?ids=' . $fb_shortcode['album_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 					}
 				}
 			} elseif ( 'reviews' === $fb_shortcode['type'] ) {
@@ -1658,9 +1658,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=feed,id,name,description&access_token=' . $access_token . $language . '' );
 				// Check If Ajax next URL needs to be used.
 				if ( ! $fts_count_ids >= 1 ) {
-					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/feed?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/feed?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 				} else {
-					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : esc_url_raw( 'https://graph.facebook.com/feed?ids=' . $fb_shortcode['id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/feed?ids=' . $fb_shortcode['id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 				}
 			}
 			$response = $this->fts_get_feed_json( $mulit_data );
@@ -2028,7 +2028,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 			$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
 
 			echo '<script>';
-			echo 'var nextURL_' . esc_js( $_REQUEST['fts_dynamic_name'] ) . '= "' . esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) . '";';
+			echo 'var nextURL_' . esc_js( $_REQUEST['fts_dynamic_name'] ) . '= "' . esc_url_raw( $_REQUEST['next_url'] ) . '";';
 			echo '</script>';
 
 			// Make sure it's not ajaxing.

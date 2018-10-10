@@ -105,7 +105,7 @@ class FTS_Settings_Page {
 										1 => array(
 											'option_name'  => 'fts_facebook_custom_api_token',
 											'no_token_msg' => sprintf(
-												__( '%1$sSTEP 1:%2$s Please get your API Token on our %3$sFacebook Options%4$s page before getting started.%5$s', 'feed-them-gallery' ),
+												__( '%1$sSTEP 1:%2$s Please get your API Token on our %3$sFacebook Options%4$s page before getting started.%5$s', 'feed-them-social' ),
 												'<strong>',
 												'</strong>',
 												'<a href="admin.php?page=fts-facebook-feed-styles-submenu-page">',
@@ -116,7 +116,7 @@ class FTS_Settings_Page {
 										2 => array(
 											'option_name'  => 'fts_facebook_custom_api_token_biz',
 											'no_token_msg' => sprintf(
-												__( '%1$sSTEP 1:%2$s Please add a Facebook Page Reviews API Token to our %3$sFacebook Options%4$s page before getting started.%5$s', 'feed-them-gallery' ),
+												__( '%1$sSTEP 1:%2$s Please add a Facebook Page Reviews API Token to our %3$sFacebook Options%4$s page before getting started.%5$s', 'feed-them-social' ),
 												'<strong>',
 												'</strong>',
 												'<a href="admin.php?page=fts-facebook-feed-styles-submenu-page">',
@@ -132,7 +132,7 @@ class FTS_Settings_Page {
 										1 => array(
 											'option_name'  => 'fts_facebook_custom_api_token',
 											'no_token_msg' => sprintf(
-												__( '%1$sSTEP 1:%2$s Please get your API Token on our %3$sFacebook Options%4$s page before getting started.%5$s', 'feed-them-gallery' ),
+												__( '%1$sSTEP 1:%2$s Please get your API Token on our %3$sFacebook Options%4$s page before getting started.%5$s', 'feed-them-social' ),
 												'<strong>',
 												'</strong>',
 												'<a href="admin.php?page=fts-facebook-feed-styles-submenu-page">',
@@ -791,13 +791,13 @@ class FTS_Settings_Page {
 					<?php
 					// Free Support Message!
 					echo sprintf(
-						esc_html( 'If you\'re using the Free plugin and are having troubles getting setup please contact us on the %1$sFree WordPress Support Forum%2$s. We will respond within 24hrs during weekdays.', 'feed-them-gallery' ),
+						esc_html( 'If you\'re using the Free plugin and are having troubles getting setup please contact us on the %1$sFree WordPress Support Forum%2$s. We will respond within 24hrs during weekdays.', 'feed-them-social' ),
 						'<a href="' . esc_url( 'https://wordpress.org/support/plugin/feed-them-social' ) . '" target="_blank">',
 						'</a>'
 					);
 					// Paid Support Message!
 					echo sprintf(
-						esc_html( 'If you have a paid extensions from us please use our %1$sPaid Extension Support Ticket System%2$s', 'feed-them-gallery' ),
+						esc_html( 'If you have a paid extensions from us please use our %1$sPaid Extension Support Ticket System%2$s', 'feed-them-social' ),
 						'<a href="' . esc_url( 'https://www.slickremix.com/my-account/#tab-support' ) . '" target="_blank">',
 						'</a>'
 					);

@@ -346,11 +346,11 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 			// $instagram_id comes from our shortcode.
 			// URL to get Feeds.
 			if ( 'hashtag' === $type ) {
-				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : 'https://api.instagram.com/v1/tags/' . $instagram_id . '/media/recent/?access_token=' . $fts_instagram_access_token_final;
+				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://api.instagram.com/v1/tags/' . $instagram_id . '/media/recent/?access_token=' . $fts_instagram_access_token_final;
 			} elseif ( 'location' === $type ) {
-				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : 'https://api.instagram.com/v1/locations/' . $instagram_id . '/media/recent/?count=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
+				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://api.instagram.com/v1/locations/' . $instagram_id . '/media/recent/?count=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
 			} else {
-				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) : 'https://api.instagram.com/v1/users/' . $instagram_id . '/media/recent/?count=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
+				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://api.instagram.com/v1/users/' . $instagram_id . '/media/recent/?count=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
 			}
 
 			$instagram_data_array['user_info'] = 'https://api.instagram.com/v1/users/' . $instagram_id . '?access_token=' . $fts_instagram_access_token_final;
@@ -821,7 +821,7 @@ if ( 'yes' === $profile_description ) {
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
 			$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "count=$pics_count", "count=$loadmore_count", $next_url ) : $next_url;
 			?>
-	<script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ); ?>";</script>
+	<script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
 			<?php
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {

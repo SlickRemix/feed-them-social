@@ -1203,7 +1203,7 @@ class FTS_Settings_Page_Options {
 					// Access Token
 					array(
 						'option_type' => 'input',
-						'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-gallery' ) . '</small>',
+						'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
 						'type'        => 'text',
 						'id'          => 'fb_access_token',
 						'name'        => 'fb_access_token',
@@ -3191,18 +3191,18 @@ class FTS_Settings_Page_Options {
 					array(
 						'input_wrap_class' => 'youtube_hide_option',
 						'option_type' => 'select',
-						'label'       => __( 'Force thumbnails rows', 'feed-them-gallery' ) . '<br/><small>' . __( 'No, will allow the video images to be responsive for smaller devices. Yes, will force the selected rows.', 'feed-them-social' ) . '</small>',
+						'label'       => __( 'Force thumbnails rows', 'feed-them-social' ) . '<br/><small>' . __( 'No, will allow the video images to be responsive for smaller devices. Yes, will force the selected rows.', 'feed-them-social' ) . '</small>',
 						'type'        => 'text',
 						'id'          => 'fts_youtube_force_columns',
 						'name'        => 'fts_youtube_force_columns',
 						'default_value' => 'no',
 						'options'     => array(
 							array(
-								'label' => __( 'No', 'feed-them-gallery' ),
+								'label' => __( 'No', 'feed-them-social' ),
 								'value' => 'no',
 							),
 							array(
-								'label' => __( 'Yes', 'feed-them-gallery' ),
+								'label' => __( 'Yes', 'feed-them-social' ),
 								'value' => 'yes',
 							),
 						),
@@ -4422,7 +4422,7 @@ class FTS_Settings_Page_Options {
 					// Access Token
 					array(
 						'option_type' => 'input',
-						'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-gallery' ) . '</small>',
+						'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
 						'type'        => 'text',
 						'id'          => 'insta_access_token',
 						'name'        => 'insta_access_token',
@@ -4499,7 +4499,7 @@ class FTS_Settings_Page_Options {
 					array(
 						'input_wrap_class' => 'instagram_fixed_height_option',
 						'option_type' => 'input',
-						'label'       => __( 'Gallery Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Use this option to create a scrolling feed.', 'feed-them-gallery' ) . '</small>',
+						'label'       => __( 'Gallery Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Use this option to create a scrolling feed.', 'feed-them-social' ) . '</small>',
 						'label_note'  => __( 'Leave blank for auto height', 'feed-them-social' ),
 						'type'        => 'text',
 						'id'          => 'instagram_page_height',
@@ -4661,9 +4661,9 @@ class FTS_Settings_Page_Options {
 					array(
 						'input_wrap_class' => 'fb-page-columns-option-hide',
 						'option_type' => 'select',
-						'label'       => __( 'Number of Columns', 'feed-them-gallery' ),
+						'label'       => __( 'Number of Columns', 'feed-them-social' ),
 						'type'        => 'text',
-						'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong>' . __( 'Using the Columns option will make this gallery fully responsive and it will adapt in size to your containers width. Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-gallery' ) . ' <a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
+						'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong>' . __( 'Using the Columns option will make this gallery fully responsive and it will adapt in size to your containers width. Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
 						'id'          => 'fts_instagram_columns',
 						'name'        => 'fts_instagram_columns',
 						'default_value' => '3',
@@ -4714,18 +4714,18 @@ class FTS_Settings_Page_Options {
 					array(
 						'input_wrap_class' => 'fb-page-columns-option-hide',
 						'option_type' => 'select',
-						'label'       => __( 'Force Columns', 'feed-them-gallery' ) . '<br/><small>' . __( 'No, will allow the images to be responsive for smaller devices. Yes, will force columns.', 'feed-them-social' ) . '</small>',
+						'label'       => __( 'Force Columns', 'feed-them-social' ) . '<br/><small>' . __( 'No, will allow the images to be responsive for smaller devices. Yes, will force columns.', 'feed-them-social' ) . '</small>',
 						'type'        => 'text',
 						'id'          => 'fts_instagram_force_columns',
 						'name'        => 'fts_instagram_force_columns',
 						'default_value' => 'no',
 						'options'     => array(
 							array(
-								'label' => __( 'No', 'feed-them-gallery' ),
+								'label' => __( 'No', 'feed-them-social' ),
 								'value' => 'no',
 							),
 							array(
-								'label' => __( 'Yes', 'feed-them-gallery' ),
+								'label' => __( 'Yes', 'feed-them-social' ),
 								'value' => 'yes',
 							),
 						),

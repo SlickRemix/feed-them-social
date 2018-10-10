@@ -579,7 +579,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 						$_REQUEST['next_url'] = ! empty( $loadmore ) ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
 
 						echo '<script>';
-						echo 'var nextURL_' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '= "' . esc_url_raw( wp_unslash( $_REQUEST['next_url'] ) ) . '";';
+						echo 'var nextURL_' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '= "' . esc_url_raw( $_REQUEST['next_url'] ) . '";';
 						echo '</script>';
 					}
 					// Make sure it's not ajaxing.

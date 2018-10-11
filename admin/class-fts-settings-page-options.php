@@ -66,7 +66,7 @@ class FTS_Settings_Page_Options {
 					'main_select' => [
 						'req_plugin' => 'combine_streams',
 						'msg'        => 'With this extension you can mix a Facebook, Instagram, Twitter, Youtube and Pinterest posts all in one feed. The other feature this exentsion gives you is the abillity to mix multiple Facebook accounts into one feed!
-<a href="http://feedthemsocial.com/feed-them-social-combined-streams/" target="_blank">View Combined Streams Demo</a> . <a href="http://feedthemsocial.com/feed-them-social-combined-streams/#combined-fb-streams" target="_blank">View Combined Facebook Streams Demo</a>',
+<a href="https://feedthemsocial.com/feed-them-social-combined-streams/" target="_blank">View Combined Streams Demo</a> . <a href="https://feedthemsocial.com/feed-them-social-combined-streams/#combined-fb-streams" target="_blank">View Combined Facebook Streams Demo</a>',
 					],
 				),
 				'short_attr_final'   => 'yes',
@@ -1123,11 +1123,11 @@ class FTS_Settings_Page_Options {
 				'premium_msg_boxes'  => array(
 					'album_videos' => array(
 						'req_plugin' => 'fts_premium',
-						'msg'        => 'The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your wordpress site! <a href="http://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br /><br />Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too! <a href="http://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a>',
+						'msg'        => 'The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your wordpress site! <a href="https://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br /><br />Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too! <a href="https://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a>',
 					),
 					'reviews'      => array(
 						'req_plugin' => 'facebook_reviews',
-						'msg'        => 'The Facebook Reviews feed allows you to view all of the reviews people have made on your Facebook Page. See these great examples and options of all the different ways you can display your Facebook Page Reviews on your website. <a href="http://feedthemsocial.com/facebook-page-reviews-demo/" target="_blank">View Demo</a>',
+						'msg'        => 'The Facebook Reviews feed allows you to view all of the reviews people have made on your Facebook Page. See these great examples and options of all the different ways you can display your Facebook Page Reviews on your website. <a href="https://feedthemsocial.com/facebook-page-reviews-demo/" target="_blank">View Demo</a>',
 					),
 				),
 				'short_attr_final'   => 'yes',
@@ -2040,7 +2040,7 @@ class FTS_Settings_Page_Options {
 						'sub_options' => array(
 							'sub_options_wrap_class' => 'facebook-loadmore-wrap',
 
-							// 'sub_options_instructional_txt' => '<a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+							// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
 						),
 					),
 
@@ -2073,7 +2073,7 @@ class FTS_Settings_Page_Options {
 						'sub_options' => array(
 							'sub_options_wrap_class' => 'fts-facebook-load-more-options-wrap',
 
-							// 'sub_options_instructional_txt' => '<a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+							// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
 						),
 						'sub_options_end' => true,
 					),
@@ -2102,7 +2102,7 @@ class FTS_Settings_Page_Options {
 						'sub_options' => array(
 							'sub_options_wrap_class' => 'fts-facebook-load-more-options2-wrap',
 
-							// 'sub_options_instructional_txt' => '<a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+							// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
 						),
 					),
 
@@ -2193,7 +2193,7 @@ class FTS_Settings_Page_Options {
 						'sub_options' => array(
 							'sub_options_wrap_class' => 'fts-facebook-grid-options-wrap',
 
-							// 'sub_options_instructional_txt' => '<a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+							// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
 						),
 					),
 
@@ -2314,7 +2314,7 @@ class FTS_Settings_Page_Options {
 					array(
 						'grouped_options_title' => __( 'Carousel/Slider', 'feed-them-social' ),
 						'input_wrap_id' => 'facebook_slider',
-						'instructional-text' => __( 'Create a Carousel or Slideshow with these options.', 'feed-them-social' ) . ' <a href="http://feedthemsocial.com/facebook-carousels-or-sliders/" target="_blank">' . __( 'View Demos', 'feed-them-social' ) . '</a> ' . __( 'and copy easy to use shortcode examples.', 'feed-them-social' ),
+						'instructional-text' => __( 'Create a Carousel or Slideshow with these options.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/facebook-carousels-or-sliders/" target="_blank">' . __( 'View Demos', 'feed-them-social' ) . '</a> ' . __( 'and copy easy to use shortcode examples.', 'feed-them-social' ),
 						'option_type' => 'select',
 						'label'       => __( 'Carousel/Slideshow', 'feed-them-social' ),
 						'type'        => 'text',
@@ -2769,7 +2769,7 @@ class FTS_Settings_Page_Options {
 
 				// Feed Type Selection
 				'feed_type_select'   => array(
-					'label'          => __( 'Feed Type', 'feed-them-social' ) . '<br/><small><a href="http://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/" target="_blank">' . __( 'See Example Demos', 'feed-them-social' ) . '</a></small>',
+					'label'          => __( 'Feed Type', 'feed-them-social' ) . '<br/><small><a href="https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/" target="_blank">' . __( 'See Example Demos', 'feed-them-social' ) . '</a></small>',
 					'select_wrap_classes' => 'youtube-gen-selection',
 					'select_classes' => '',
 					'select_name'    => 'youtube-messages-selector',
@@ -4241,7 +4241,7 @@ class FTS_Settings_Page_Options {
 						'sub_options' => array(
 							'sub_options_wrap_class' => 'fts-twitter-grid-options-wrap',
 
-							// 'sub_options_instructional_txt' => '<a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+							// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
 						),
 					),
 
@@ -4663,7 +4663,7 @@ class FTS_Settings_Page_Options {
 						'option_type' => 'select',
 						'label'       => __( 'Number of Columns', 'feed-them-social' ),
 						'type'        => 'text',
-						'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong>' . __( 'Using the Columns option will make this gallery fully responsive and it will adapt in size to your containers width. Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
+						'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong>' . __( 'Using the Columns option will make this gallery fully responsive and it will adapt in size to your containers width. Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
 						'id'          => 'fts_instagram_columns',
 						'name'        => 'fts_instagram_columns',
 						'default_value' => '3',
@@ -4884,7 +4884,7 @@ class FTS_Settings_Page_Options {
 						'sub_options' => array(
 							'sub_options_wrap_class' => 'fts-instagram-load-more-options2-wrap',
 
-							// 'sub_options_instructional_txt' => '<a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+							// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
 						),
 					),
 

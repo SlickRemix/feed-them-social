@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.8
-Stable tag: 2.5.4
+Stable tag: 2.5.5
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -76,6 +76,12 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.5.5 Thursday, October 11th, 2018 =
+   * FIX: Twitter Feed: The post count is proper now.
+   * FIX: Scrolling Feeds missing height option.
+   * FIX: YouTube and other feeds had echo ob_get_clean instead of just using return.
+   * FIX: Small cleanup items with spelling and text domain names.
+
 = Version 2.5.2 - 2.5.4 Wednesday, October 10th, 2018 =
    * Full audit of every file to ensure proper escaping and sanitizing are in place to help prevent malicious attacks through our plugin.
    * NOTICE: Users of the Combined Streams Extension will also need to update to correct some formatting issues.
@@ -186,7 +192,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: YouTube Feed: Date formats besides the 1 day ago not working properly. This also fixes a non numeric warning that was coming up on the page too if you did not have the 1 day ago date option set. If debug mode was set to false in your wp-config you would not have seen the warning on the page.
 
 = Version 2.3.2 - 2.3.3 Thursday, November 28th, 2017 =
-   * NEW: YouTube Feed is now apart of the free version and it has a completely new look! [See New Demo](http://feedthemsocial.com/youtube-feed-demo/).
+   * NEW: YouTube Feed is now apart of the free version and it has a completely new look! [See New Demo](https://feedthemsocial.com/youtube-feed-demo/).
    * NEW: YouTube Options: New simple button to get your access token and token automatically saves to the page after it returns. No need to click the save button!
    * NEW: Twitter Options: No more time waisted created your own keys, now we have a new simple button to get your access token.
    * NEW: System Info Page: Added Cache Time to the report
@@ -222,7 +228,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Twitter Feed: Overflow auto missing for scrolling feeds.
 
 = Version 2.2.9 - 2.3.0 Friday, October 13th, 2017 =
-   * NEW: Instagram Shortcode: Fully Responsive gallery. Now you can choose the column width and whether to force the columns or make images full size on smaller containers or devices. See the [New Demo](http://feedthemsocial.com/instagram-feed-demo/)!
+   * NEW: Instagram Shortcode: Fully Responsive gallery. Now you can choose the column width and whether to force the columns or make images full size on smaller containers or devices. See the [New Demo](https://feedthemsocial.com/instagram-feed-demo/)!
    * NEW: Instagram Shortcode: Choose a width for the gallery.
    * NEW: When plugin is updated or activated the cache is deleted to ensure you are seeing any changes we have made.
    * FIX: Facebook Feed: Overflow auto missing for scrolling feeds
@@ -236,7 +242,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FB REVIEWS NEW: Customize the No More Reviews text.
    * FB REVIEWS NEW: Google Reviews structured data.
    * FB REVIEWS FIXED: popup js error when loading more reviews.
-   * FTS BAR NEW: Instagram: All new responsive gallery. See [New Demo](http://feedthemsocial.com/fts-bar/).
+   * FTS BAR NEW: Instagram: All new responsive gallery. See [New Demo](https://feedthemsocial.com/fts-bar/).
    * FTS BAR NEW/FIX: Instagram Options: Now when converting an instagram ID you will see a list of ID's to choose from if yours was first in the list.
    * FTS BAR NEW: Twitter: Load More button option.
    * FTS BAR FIX: Misc CSS tweaks to override themes from wrecking our ul and li elements.
@@ -334,7 +340,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Twitter: Videos now show in the feed instead of a show video link and they also show proper on retweets and replies.
    * NEW: Twitter: Includes the proper thumbnail and name for the retweets and replies. New name/date style format.
    * NEW: Pinterest: Links are now clickable in the description for User Pins and Pins from a Board.
-   * NEW: Instagram: Now you can show your profile photo, name, description and the count for your posts, followers and following. [View Demo](http://feedthemsocial.com/instagram-feed-demo/)
+   * NEW: Instagram: Now you can show your profile photo, name, description and the count for your posts, followers and following. [View Demo](https://feedthemsocial.com/instagram-feed-demo/)
    * NEW: Instagram, Twitter and Pinterest: Truncated specfic calls into functions.
    * PREMIUM NEW: YouTube: Truncated specfic calls into functions.
    * NEW EXTENSION: [Feed Them Social Combined Streams](https://www.slickremix.com/downloads/feed-them-social-combined-streams/). With this extension you can combine your facebook feeds or you can combine Facebook, Instagram, Twitter, Pinterest or Youtube into one feed.
@@ -343,7 +349,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Twitter: Search type feeds (@, #, etc) not showing the full text.
 
 = Version 2.0.8 Wednesday, September 29th, 2016 =
-   * NEW: Twitter: Added new way of getting media url. Restyled and added retweet icon, favorite icon and counts. Plus all new Background cover photo and stats bar you can display above your feed like Twitter. Add cover_photo=yes stats_bar=yes to your Twitter shortcode to see the new additions. Premium users will need to upgrade to version 1.6.4 to use the new additions. [Updated Example](http://feedthemsocial.com/twitter-feed-demo/).
+   * NEW: Twitter: Added new way of getting media url. Restyled and added retweet icon, favorite icon and counts. Plus all new Background cover photo and stats bar you can display above your feed like Twitter. Add cover_photo=yes stats_bar=yes to your Twitter shortcode to see the new additions. Premium users will need to upgrade to version 1.6.4 to use the new additions. [Updated Example](https://feedthemsocial.com/twitter-feed-demo/).
 
 = Version 2.0.7 Monday, September 19th, 2016 =
    * NEW: Facebook Options: Now all you have to do is click a button to get an Access Token, no more having to create an APP in facebook! Same goes for our Premium Review Plugin too.
@@ -365,7 +371,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Twitter: Offset Time option for some server's that are 3 hours difference.
    * NEW: System Info: Added more info to the report.
    * FIXED for FTS BAR: Instagram and Twitter post count was not visible.
-   * NEW PREMIUM: Facebook: Brand new popup that looks like facebook's popup and also shows comments. [Try it out here](http://feedthemsocial.com/).
+   * NEW PREMIUM: Facebook: Brand new popup that looks like facebook's popup and also shows comments. [Try it out here](https://feedthemsocial.com/).
 
 = Version 2.0.4 Monday, July 18th, 2016 =
    * NEW: Instagram: Photos in Super Instagram feed do not have white borders anymore.
@@ -487,7 +493,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 = Version 1.8.7 Monday, August 2nd, 2015 =
   * NEW: Twitter: Now you can search #hashtag, @person, or single words. For example, weather or weather-channel. No spaces allowed.
   * NEW: Option to disable Magnific Popup if you are experiencing problems with your theme(s) or other plugin(s).
-  * NEW: Option to not allow certain Facebook Album Covers. See how here: [http://feedthemsocial.com/facebook-album-covers/](http://feedthemsocial.com/facebook-album-covers/)
+  * NEW: Option to not allow certain Facebook Album Covers. See how here: [https://feedthemsocial.com/facebook-album-covers/](https://feedthemsocial.com/facebook-album-covers/)
   * NEW: Settings page newer look.
   * NEW: Authors Note on Settings Page.
   * FIXED: Facebook: Missed call in new v2.4 API for the main feeds description.
@@ -497,14 +503,14 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * CLEANED: Minified all CSS scripts for wp-admin pages.
 
 = Version 1.8.6 Saturday, July 11th, 2015 =
-  * MAJOR: Facebook: [New API v2.4 update released July 8th from Facebook](https://developers.facebook.com/docs/apps/changelog) so we had to make a few changes to calls in the Facebook feeds only. All previously created APPS using v2.3 will still work with this update unless you are using the Album Covers feed. Then you will need to create a new APP on Facebook. It is suggested that you create a new APP in Facebook and replace your old APP Token but not required with this update. [http://feedthemsocial.com/facebook-videos-demo/](http://www.slickremix.com/docs/create-facebook-app-id-or-user-token)
+  * MAJOR: Facebook: [New API v2.4 update released July 8th from Facebook](https://developers.facebook.com/docs/apps/changelog) so we had to make a few changes to calls in the Facebook feeds only. All previously created APPS using v2.3 will still work with this update unless you are using the Album Covers feed. Then you will need to create a new APP on Facebook. It is suggested that you create a new APP in Facebook and replace your old APP Token but not required with this update. [https://feedthemsocial.com/facebook-videos-demo/](http://www.slickremix.com/docs/create-facebook-app-id-or-user-token)
   * FIXED: Decrease font size for share icon slightly and make sure the font-style is normal so other themes don't override it.
 
 = Version 1.8.5 Wednesday, July 8th, 2015 =
   * FIXED: Fatal error on install for users under php 5.3 due to new namespace name overiding our initial php version error check.
   * FIXED: Misc cleanup on files to speed things up.
   * PREMIUM USERS: The below new options can be found on the settings page when you generate your shortcode for the facebook feed you need.
-  * NEW: Facebook Video Feed. Now you can add a feed of your Facebook page's uploaded videos. Only Works with Facebook Pages. Not user accounts or groups etc. See example here: [http://feedthemsocial.com/facebook-videos-demo/](hhttp://feedthemsocial.com/facebook-videos-demo/)
+  * NEW: Facebook Video Feed. Now you can add a feed of your Facebook page's uploaded videos. Only Works with Facebook Pages. Not user accounts or groups etc. See example here: [https://feedthemsocial.com/facebook-videos-demo/](hhttps://feedthemsocial.com/facebook-videos-demo/)
   * NEW: Facebook: Type 0 for the words= option and the description for each post will disappear.
   * NEW: Facebook: Hide the Like Button or Box if you are using more than one feed on a page.
   * NEW: Facebook: Align the Like Button or Box left, center or right.
@@ -512,7 +518,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * NEW: Facebook: Set the margin for the Load More button. Even setting this to 0 will align the button in the center.
 
 = Version 1.8.4 Monday, June 29th, 2015 =
-  * NEW: Vine Feed. Now you can add a gallery of Vine videos with thumbnails. Premium users will need to upgrade the feed-them-premium plugin to 1.5.0 to get the premium features. See example here: [http://feedthemsocial.com/vine-demo/](http://feedthemsocial.com/vine-demo/)
+  * NEW: Vine Feed. Now you can add a gallery of Vine videos with thumbnails. Premium users will need to upgrade the feed-them-premium plugin to 1.5.0 to get the premium features. See example here: [https://feedthemsocial.com/vine-demo/](https://feedthemsocial.com/vine-demo/)
   * FIXED: Facebook: API change for call to Album Cover photo source. Thanks to all who let us know this was not working.
 
 = Version 1.8.3 Tuesday, June 23rd, 2015 =
@@ -899,22 +905,22 @@ Yes. We have the Premium Extension which also includes Youtube. Then we also hav
 
 == Screenshots ==
 
-1. Facebook Feed. All Feeds Work on Pages, posts or Text Widgets. Adjust the height to make it a scrolling feed too. [Demo](http://feedthemsocial.com/facebook-page-feed-demo/)
-2. Facebook Popup with comments. All popups for feeds except Vine are available in the [Premium Extension](https://www.slickremix.com/downloads/feed-them-social-premium-extension/). [Demo](http://feedthemsocial.com/facebook-page-feed-demo/)
-3. Facebook Popup example showing a video. [Demo](http://feedthemsocial.com/facebook-page-feed-demo/)
-4. Facebook Album Photos Feed. [Demo](http://feedthemsocial.com/facebook-album-photos-demo/)
-5. Facebook Popup for the Album Photos. You can show album photos, your latest photos or even album covers with our plugin. [Demo](http://feedthemsocial.com/facebook-album-photos-demo/)
-6. Instagram Feed. We have the new style and the old classic style format. [Demo](http://feedthemsocial.com/instagram-feed-demo/)
-7. Instagram Popup with description of photo or video. Premium Feature. [Demo](http://feedthemsocial.com/instagram-feed-demo/)
-8. Twitter Feed. See photos and videos in your feed. Show @ or # or user type feeds. [Demo](http://feedthemsocial.com/twitter-feed-demo/)
-9. Twitter Popup with photo description. Premium Feature. [Demo](http://feedthemsocial.com/twitter-feed-demo/)
-10. Vine Feed. Show as many vine videos as you want. [Demo](http://feedthemsocial.com/vine-demo/)
-11. Vine Popup that shows video. Available in the Free Version. [Demo](http://feedthemsocial.com/vine-demo/)
-12. Pinterest Feed to display your Boards. [Demo](http://feedthemsocial.com/pinterest/)
-13. Pinterest Feed to display Pins from a specific Board. [Demo](http://feedthemsocial.com/pinterest-pins-from-a-single-board/)
-14. Pinterest Feed to display you latest Pins. [Demo](http://feedthemsocial.com/pinterest-demo-pins-from-user/)
-15. Our premium version also offers the YouTube Feed. [Demo](http://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
-16. Youtube Feed Popup. [Demo](http://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
+1. Facebook Feed. All Feeds Work on Pages, posts or Text Widgets. Adjust the height to make it a scrolling feed too. [Demo](https://feedthemsocial.com/facebook-page-feed-demo/)
+2. Facebook Popup with comments. All popups for feeds except Vine are available in the [Premium Extension](https://www.slickremix.com/downloads/feed-them-social-premium-extension/). [Demo](https://feedthemsocial.com/facebook-page-feed-demo/)
+3. Facebook Popup example showing a video. [Demo](https://feedthemsocial.com/facebook-page-feed-demo/)
+4. Facebook Album Photos Feed. [Demo](https://feedthemsocial.com/facebook-album-photos-demo/)
+5. Facebook Popup for the Album Photos. You can show album photos, your latest photos or even album covers with our plugin. [Demo](https://feedthemsocial.com/facebook-album-photos-demo/)
+6. Instagram Feed. We have the new style and the old classic style format. [Demo](https://feedthemsocial.com/instagram-feed-demo/)
+7. Instagram Popup with description of photo or video. Premium Feature. [Demo](https://feedthemsocial.com/instagram-feed-demo/)
+8. Twitter Feed. See photos and videos in your feed. Show @ or # or user type feeds. [Demo](https://feedthemsocial.com/twitter-feed-demo/)
+9. Twitter Popup with photo description. Premium Feature. [Demo](https://feedthemsocial.com/twitter-feed-demo/)
+10. Vine Feed. Show as many vine videos as you want. [Demo](https://feedthemsocial.com/vine-demo/)
+11. Vine Popup that shows video. Available in the Free Version. [Demo](https://feedthemsocial.com/vine-demo/)
+12. Pinterest Feed to display your Boards. [Demo](https://feedthemsocial.com/pinterest/)
+13. Pinterest Feed to display Pins from a specific Board. [Demo](https://feedthemsocial.com/pinterest-pins-from-a-single-board/)
+14. Pinterest Feed to display you latest Pins. [Demo](https://feedthemsocial.com/pinterest-demo-pins-from-user/)
+15. Our premium version also offers the YouTube Feed. [Demo](https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
+16. Youtube Feed Popup. [Demo](https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
 17. Settings page where you can generate a shortcode for any of the feeds and more.
 18. Facebook Options page of our plugin. The other pages have similar options.
 19. Add the shortcode you generated from the settings page to any post, page or text widget.

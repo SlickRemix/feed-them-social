@@ -283,11 +283,6 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 					}
 					echo '</div>';
 				}
-				// we ob_get_clean here so the button is on top and also allows the content in WordPress textarea to be on top if shortcode is below text.
-				echo ob_get_clean();
-
-				// and we start over so we can ob_get_clean at the very end.
-				ob_start();
 				// This first line was added to fix the bug that happens when using the popular DIVI theme.
 				$ssl = is_ssl() ? 'https' : 'http';
 
@@ -333,7 +328,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 								if ( 'yes' === $large_vid_title ) {
 									echo '<h2>' . esc_html( $this->fts_youtube_title( $post_data ) ) . '</h2>';
 								}
-                                // URL for the video is escaped in this function.
+								// URL for the video is escaped in this function.
 								echo $this->fts_youtube_video_and_wrap( $post_data, $username, $playlist_id );
 
 								$youtube_description   = $this->fts_youtube_tag_filter( $this->fts_youtube_description( $post_data ) );
@@ -477,12 +472,11 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 								$youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
 
-								$href = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? 'javascript:;' : esc_url_raw( $youtube_video_url );
-
-								$iframe_embed = '' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque"';
+								$href         = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? 'javascript:;' : esc_url_raw( $youtube_video_url );
+								$iframe_embed = '' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque';
 								$iframe       = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? ' fts-youtube-iframe-click' : '';
-
-								echo '<a href="' . esc_js( $href ) . '" rel="' . esc_url_raw( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
+								// escaping the $href above because one option is html and one is url raw.
+								echo '<a href="' . $href . '" rel="' . esc_url_raw( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
 
 								if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 									// echo '<div id="#fts-' . $video_id . '" class="fts-yt-overlay-wrap">';.
@@ -514,12 +508,11 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 								$youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
 
-								$href = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? 'javascript:;' : esc_url_raw( $youtube_video_url );
-
-								$iframe_embed = 'rel="' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque"';
+								$href         = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? esc_html( 'javascript:;' ) : esc_url_raw( $youtube_video_url );
+								$iframe_embed = '' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque';
 								$iframe       = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? ' fts-youtube-iframe-click' : '';
-
-								echo '<a href="' . esc_url( $href ) . '" rel="' . esc_url_raw( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
+								// escaping the $href above because one option is html and one is url raw.
+								echo '<a href="' . $href . '" rel="' . esc_url_raw( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
 
 								if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 									echo '<div class="entriestitle fts-youtube-popup fts-facebook-popup"><div class="fts-master-youtube-wrap-close fts-yt-close-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '"></div>';
@@ -738,7 +731,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 					echo '</div>';
 				}
 
-				echo ob_get_clean();
+				return ob_get_clean();
 
 			} else {
 				print 'Please add an access token to the Youtube Options page of Feed Them Social.';
@@ -824,7 +817,6 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 						$youtube_comment = $this->fts_youtube_tag_filter( $message );
 
-
 						echo '<div class="fts-fb-comment">';
 						echo '<a href="' . $comment_data->snippet->topLevelComment->snippet->authorChannelUrl . '" target="_blank" class="">';
 						echo '<img src="' . $comment_data->snippet->topLevelComment->snippet->authorProfileImageUrl . '" class="fts-fb-comment-user-pic"/>';
@@ -836,16 +828,17 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 						echo '</a>';
 						echo '</span> ';
 						echo '<span class="fts-fb-comment-date">' . esc_html( $this->fts_custom_date( $comment_data->snippet->topLevelComment->snippet->publishedAt, 'youtube' ) ) . '</span><br/>';
-						echo wp_kses( $youtube_comment,
+						echo wp_kses(
+							$youtube_comment,
 							array(
 								'a'      => array(
 									'href'  => array(),
-									'title' => array()
+									'title' => array(),
 								),
 								'br'     => array(),
 								'em'     => array(),
 								'strong' => array(),
-								'small'  => array()
+								'small'  => array(),
 							)
 						);
 						echo '</div>';

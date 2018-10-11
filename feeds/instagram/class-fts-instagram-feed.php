@@ -530,7 +530,7 @@ if ( 'yes' === $profile_description ) {
 					echo '</div>';
 				}
 
-				if ( isset( $scroll_more ) && 'autoscroll' === $scroll_more || '' !== $height ) {
+				if ( isset( $scroll_more ) && 'autoscroll' === $scroll_more || ! empty( $height ) ) {
 					?>
 <div class="fts-instagram-scrollable <?php echo esc_attr( $fts_dynamic_class_name ); ?>instagram" style="overflow:auto;
 					<?php
@@ -912,7 +912,7 @@ if ( 'yes' === $profile_description ) {
 			?>
 			<?php
 			// only show this script if the height option is set to a number.
-			if ( '' !== $height && null === empty( $height ) ) {
+			if ( isset( $height ) && 'auto' !== $height ) {
 				?>
 		<script>
 			// this makes it so the page does not scroll if you reach the end of scroll bar or go back to top
@@ -931,7 +931,7 @@ if ( 'yes' === $profile_description ) {
 		</script>
 			<?php } //end $height !== 'auto' && empty($height) == NULL. ?>
 			<?php
-			if ( isset( $scroll_more ) && 'autoscroll' === $scroll_more || '' !== $height ) {
+			if ( isset( $scroll_more ) && 'autoscroll' === $scroll_more || !empty( $height ) ) {
 				print '</div>'; // closing height div for scrollable feeds.
 			}
 

@@ -316,7 +316,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
 				include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/twitter/twitter-feed.php';
 
-				if ( 'yes' === $popup ) {
+				if ( isset( $popup ) && 'yes' === $popup ) {
 					// it's ok if these styles & scripts load at the bottom of the page.
 					$fts_fix_magnific = get_option( 'fts_fix_magnific' ) ? get_option( 'fts_fix_magnific' ) : '';
 					if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
@@ -368,8 +368,6 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 					$fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_key( $_REQUEST['fts_dynamic_name'] );
 				}
 			}
-
-			ob_start();
 
 			if ( ! empty( $search ) ) {
 				$data_cache = 'twitter_data_cache_' . $search . '_num' . $num_tweets . '';
@@ -430,7 +428,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				) {
 					$total_to_fetch = $num_tweets;
 				} else {
-					$total_to_fetch = 'true' === $exclude_replies ? max( 50, $num_tweets * 3 ) : $num_tweets;
+					$total_to_fetch = $exclude_replies == 'true' ? max( 50, $num_tweets * 3 ) : $num_tweets;
 				}
 				// $total_to_fetch = $num_tweets;.
 				$description_image = ! empty( $description_image ) ? $description_image : '';
@@ -438,7 +436,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				if ( isset( $show_retweets ) && 'yes' === $show_retweets ) {
 					$show_retweets = 'true';
 				}
-				if ( 'no' === $show_retweets ) {
+				if ( isset( $show_retweets ) && 'no' === $show_retweets ) {
 					$show_retweets = 'false';
 				}
 
@@ -521,6 +519,8 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
 				$error_check = __( ' This account has no tweets. Please Tweet to see this feed. Feed Them Social.', 'feed-them-social' );
 			}
+
+				ob_start();
 
 			// IS RATE LIMIT REACHED?
 			if ( isset( $fetched_tweets->errors ) && '32' !== $fetched_tweets->errors[0]->code && '34' !== $fetched_tweets->errors[0]->code ) {
@@ -636,21 +636,22 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 							<?php
 						} else {
 							?>
-	<div id="twitter-feed-<?php echo esc_attr( $twitter_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div
-									  <?php
-										if ( 'auto' !== $twitter_height && null === empty( $twitter_height ) ) {
+	<div id="twitter-feed-<?php echo esc_attr( $twitter_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div 
+									 <?php
+										if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
 											?>
-					fts-twitter-scrollable
-												<?php
+											fts-twitter-scrollable 
+											<?php
 										}
 										if ( isset( $popup ) && 'yes' === $popup ) {
 
 											?>
-					popup-gallery-twitter<?php } ?>"
+											popup-gallery-twitter<?php } ?>"
 							<?php
-							if ( 'auto' !== $twitter_height && null === empty( $twitter_height ) ) {
+							if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
+
 								?>
-			style="height:<?php echo esc_attr( $twitter_height ); ?>"<?php } ?>>
+								style="height:<?php echo esc_attr( $twitter_height ); ?>"<?php } ?>>
 			<?php } ?>
 
 						<?php
@@ -937,7 +938,8 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			</div>
 						<?php
 						$i++;
-						if ( $i === $num_tweets ) {
+						// cannot use === for this equation because $i is a dynamic number.
+						if ( $i == $num_tweets ) {
 							break;
 						}
 					}
@@ -960,7 +962,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 					<?php
 
 					// this makes it so the page does not scroll if you reach the end of scroll bar or go back to top.
-					if ( 'auto' !== $twitter_height && null === empty( $twitter_height ) ) {
+					if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
 						?>
 		<script>jQuery.fn.isolatedScrollTwitter = function () {
 				this.bind('mousewheel DOMMouseScroll', function (e) {

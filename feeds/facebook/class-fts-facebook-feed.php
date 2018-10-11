@@ -612,7 +612,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 					echo '<div class="fts-slicker-facebook-posts masonry js-masonry ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( 'yes' === $fb_shortcode['popup'] ? 'popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $fb_shortcode['type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ( 'no' === $fb_shortcode['center_container'] ? 'false' : 'true' ) . ' ' . ( 'no' === $fb_shortcode['image_stack_animation'] ? ', "transitionDuration": 0' : '' ) . '}\'>';
 				}
 			} else {
-				echo '<div class="fts-jal-fb-group-display fts-simple-fb-wrapper ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? ' popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $fb_shortcode['type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' ' . ( 'auto' !== $fb_shortcode['height'] && null === empty( $fb_shortcode['height'] ) ? 'fts-fb-scrollable" style="height:' . esc_attr( $fb_shortcode['height'] ) . '"' : '"' ) . '>';
+				echo '<div class="fts-jal-fb-group-display fts-simple-fb-wrapper ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? ' popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $fb_shortcode['type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' ' . ( 'auto' !== $fb_shortcode['height'] && ! empty( $fb_shortcode['height'] ) ? 'fts-fb-scrollable" style="height:' . esc_attr( $fb_shortcode['height'] ) . '"' : '"' ) . '>';
 			}
 		} //End ajaxing Check
 
@@ -684,7 +684,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 
 		echo '</div>'; // closing main div for fb photos, groups etc
 		// only show this script if the height option is set to a number.
-		if ( 'auto' !== $fb_shortcode['height'] && null === empty( $fb_shortcode['height'] ) ) {
+		if ( 'auto' !== $fb_shortcode['height'] && ! empty( $fb_shortcode['height'] ) ) {
 			echo '<script>';
 			// this makes it so the page does not scroll if you reach the end of scroll bar or go back to top'.
 			echo 'jQuery.fn.isolatedScrollFacebookFTS = function() {';

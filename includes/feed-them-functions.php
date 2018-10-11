@@ -1850,12 +1850,22 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			if ( isset( $section_info['premium_msg_boxes'] ) ) {
 				foreach ( $section_info['premium_msg_boxes'] as $key => $premium_msg ) {
 					if ( ! is_plugin_active( $required_plugins[ $premium_msg['req_plugin'] ]['plugin_url'] ) ) {
-						$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message" id="not_active_' . esc_attr( $key ) . '"><a class="not-active-title" href="' . esc_url( $required_plugins[ $premium_msg['req_plugin'] ]['slick_url'] ) . '" target="_blank">' . esc_html( $required_plugins[ $premium_msg['req_plugin'] ]['name'] ) . '</a>' . wp_kses(
+						$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message" id="not_active_' . esc_attr( $key ) . '"><a class="not-active-title" href="' . esc_url( $required_plugins[ $premium_msg['req_plugin'] ]['slick_url'] ) . '" target="_blank">' .
+
+                            wp_kses(
+                                $required_plugins[ $premium_msg['req_plugin'] ]['name'] ,
+                                array(
+                                    'h3'  => array(),
+                                )
+                            ) .
+
+                            '</a>' . wp_kses(
 							$premium_msg['msg'],
 							array(
 								'a'      => array(
 									'href'  => array(),
 									'title' => array(),
+                                    'target' => array(),
 								),
 								'br'     => array(),
 								'em'     => array(),
@@ -1929,7 +1939,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
 			};
 			// INSTRUCTIONAL TEXT FOR FACEBOOK TYPE SELECTION. PAGE, GROUP, EVENT, ALBUMS, ALBUM COVERS AND HASH TAGS!
-			$output .= '<div class="instructional-text facebook-message-generator page inst-text-facebook-page" style="display:block;">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-page-vanity-url/" target="_blank">' . esc_html( 'Facebook Page ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below. You cannot use Personal Profiles it must be a Facebook Page. If your page ID looks something like, My-Page-Name-50043151918, only use the number portion, 50043151918.', 'feed-them-social' ) . ' <a href="http://feedthemsocial.com/?feedID=50043151918" target="_blank">' . esc_html( 'Test your Page ID on our demo', 'feed-them-social' ) . '</a></div>
+			$output .= '<div class="instructional-text facebook-message-generator page inst-text-facebook-page" style="display:block;">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-page-vanity-url/" target="_blank">' . esc_html( 'Facebook Page ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below. You cannot use Personal Profiles it must be a Facebook Page. If your page ID looks something like, My-Page-Name-50043151918, only use the number portion, 50043151918.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/?feedID=50043151918" target="_blank">' . esc_html( 'Test your Page ID on our demo', 'feed-them-social' ) . '</a></div>
 			<div class="instructional-text facebook-message-generator group inst-text-facebook-group">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-group-id/" target="_blank">' . esc_html( 'Facebook Group ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>
 			<div class="instructional-text facebook-message-generator event-list inst-text-facebook-event-list">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . esc_html( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below. PLEASE NOTE: This will only work with Facebook Page Events and you cannot have more than 25 events on Facebook.', 'feed-them-social' ) . '</div>
 			<div class="instructional-text facebook-message-generator event inst-text-facebook-event">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . esc_html( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>
@@ -1938,9 +1948,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			<div class="instructional-text facebook-message-generator video inst-text-facebook-video">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/docs/how-to-get-your-facebook-id-and-video-gallery-id" target="_blank">' . esc_html( 'Facebook ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>';
 			if ( isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] ) {
 				// this is for the facebook videos!
-				$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message" style="display:none;"><a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium Version Required</a><br/>The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your WordPress site!<br/><a href="http://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br/><br/>Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too!<br/><a href="http://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a> </div>';
+				$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message" style="display:none;"><a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium Version Required</a><br/>The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your WordPress site!<br/><a href="https://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br/><br/>Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too!<br/><a href="https://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a> </div>';
 				// this is for the facebook reviews!
-				$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message2" style="display:none;"><a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-facebook-reviews/">Facebook Reviews Required</a><br/>The Facebook Reviews feed allows you to view all of the reviews people have made on your Facebook Page. See these great examples and options of all the different ways you can display your Facebook Page Reviews on your website. <a href="http://feedthemsocial.com/facebook-page-reviews-demo/" target="_blank">View Demo</a></div>';
+				$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message2" style="display:none;"><a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-facebook-reviews/">Facebook Reviews Required</a><br/>The Facebook Reviews feed allows you to view all of the reviews people have made on your Facebook Page. See these great examples and options of all the different ways you can display your Facebook Page Reviews on your website. <a href="https://feedthemsocial.com/facebook-page-reviews-demo/" target="_blank">View Demo</a></div>';
 			}
 			// FACEBOOK PAGE ID!
 			if ( isset( $_GET['page'] ) && 'fts-bar-settings-page' !== $_GET['page'] ) {
@@ -2099,7 +2109,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
 				// Slideshow Carousel Options!
 				$output .= '<div class="slideshow-wrap" style="display: none;">';
-				$output .= '<div class="instructional-text" style="display: block;">' . esc_html( 'Create a Carousel or Slideshow with these options.', 'feed-them-social' ) . ' <a href="http://feedthemsocial.com/facebook-carousels-or-sliders/" target="_blank">' . esc_html( 'View Demos', 'feed-them-social' ) . '</a> ' . esc_html( 'and copy easy to use shortcode examples.', 'feed-them-social' ) . '</div>';
+				$output .= '<div class="instructional-text" style="display: block;">' . esc_html( 'Create a Carousel or Slideshow with these options.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/facebook-carousels-or-sliders/" target="_blank">' . esc_html( 'View Demos', 'feed-them-social' ) . '</a> ' . esc_html( 'and copy easy to use shortcode examples.', 'feed-them-social' ) . '</div>';
 
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) ) {
 					include $this->facebook_carousel_premium . 'admin/facebook-carousel-options-settings-page.php';
@@ -2341,7 +2351,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output .= '<select id="instagram-custom-gallery" name="instagram-custom-gallery" class="feed-them-social-admin-input"><option value="no">' . esc_html( 'No', 'feed-them-social' ) . '</option><option value="yes">' . esc_html( 'Yes', 'feed-them-social' ) . '</option></select>';
 				$output .= '<div class="fts-clear"></div>';
 				$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
-				$output .= '<div class="feed-them-social-admin-input-wrap"><div class="feed-them-social-admin-input-label">' . esc_html( 'Instagram Image Size', 'feed-them-social' ) . '<br/><small><a href="http://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . esc_html( 'View demo', 'feed-them-social' ) . '</a></small></div>
+				$output .= '<div class="feed-them-social-admin-input-wrap"><div class="feed-them-social-admin-input-label">' . esc_html( 'Instagram Image Size', 'feed-them-social' ) . '<br/><small><a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . esc_html( 'View demo', 'feed-them-social' ) . '</a></small></div>
            <input type="text" name="fts-slicker-instagram-container-image-size" id="fts-slicker-instagram-container-image-size" class="feed-them-social-admin-input" value="250px" placeholder="">
            <div class="fts-clear"></div> </div>';
 				$output .= '<div class="feed-them-social-admin-input-wrap"><div class="feed-them-social-admin-input-label">' . esc_html( 'Size of the Instagram Icon', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Visible when you hover over photo', 'feed-them-social' ) . '</small></div>
@@ -2544,7 +2554,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			// Fetch Multiple Requests!
 			$responses = \Requests::request_multiple( $new_feeds_mulit_data );
 
-			$data = [];
+			$data = array();
 			foreach ( $responses as $key => $response ) {
 
 				if ( is_a( $response, 'Requests_Response' ) ) {
@@ -2558,7 +2568,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
 					$single_response = \Requests::get( $url );
 
-					$data = [];
+                    $data = array();
 					if ( is_a( $single_response, 'Requests_Response' ) ) {
 						$data[ $key ] = $single_response->body;
 					}

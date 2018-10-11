@@ -221,7 +221,7 @@ class FTS_Twitter_Options_Page {
 									}
 								} else {
 									echo sprintf(
-										esc_html( '%1$sYou are using our Default Access tokens for testing purposes. Generate your shortcode on the %2$sSettings Page%3$s to test your feed, but remember to add your own tokens after testing as the default tokens will not always work.%4$s', 'feed-them-social' ),
+										esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s.%4$s', 'feed-them-social' ),
 										'<div class="fts-successful-api-token">',
 										'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
 										'</a>',

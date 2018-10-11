@@ -926,7 +926,6 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 					if ( $fb_post_object_id ) {
 						$this->fts_facebook_post_photo( $fb_link, $fb_shortcode, $post_data->from->name, 'https://graph.facebook.com/' . $fb_post_object_id . '/picture' );
 					} else {
-                        echo 'srczzzz' . $post_data->source;
 						echo isset( $fb_shortcode['video_album'] ) && 'yes' === $fb_shortcode['video_album'] ? $this->fts_facebook_post_photo( $fb_link, $fb_shortcode, $post_data->from->name, $video_photo ) : $this->fts_facebook_post_photo( $fb_link, $fb_shortcode, $post_data->from->name, $post_data->source );
 					}
 				}

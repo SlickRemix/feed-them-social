@@ -274,7 +274,6 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 		}
 
 		ob_start();
-
 		// Uncomment these for testing purposes to see the actual count and the offset count
 		// print   $set_zero;
 		// print   $fb_shortcode['posts'];

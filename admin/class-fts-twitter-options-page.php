@@ -144,7 +144,7 @@ class FTS_Twitter_Options_Page {
 
 					<div class="fts-twitter-add-all-keys-click-option">
 						<label for="fts-custom-tokens-twitter">
-							<input type="checkbox" id="fts-custom-tokens-twitter" name="fts_twitter_custom_tokens" value="1" <?php echo checked( '1', empty( trim( $extra_keys ) ) ); ?>> <?php echo esc_html( 'Add your own tokens?', 'feed-them-social' ); ?>
+							<input type="checkbox" id="fts-custom-tokens-twitter" name="fts_twitter_custom_tokens" value="1" <?php echo checked('1', '' === $extra_keys); ?>> <?php echo esc_html( 'Add your own tokens?', 'feed-them-social' ); ?>
 						</label>
 					</div>
 

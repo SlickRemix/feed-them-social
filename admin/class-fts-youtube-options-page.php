@@ -102,7 +102,7 @@ class FTS_Youtube_Options_Page {
 				<div class="feed-them-social-admin-input-wrap" style="margin-bottom:0;">
 
 					<?php
-					$extra_keys    = empty( get_option( 'youtube_custom_api_token' ) ) ? 'display:none' : '';
+					$extra_keys    = '' === get_option( 'youtube_custom_api_token' ) ? 'display:none' : '';
 					$extra_keys_no = get_option( 'youtube_custom_api_token' );
 					if ( ! empty( $extra_keys_no ) ) {
 						$extra_keys_no = 'display:none';

@@ -218,7 +218,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 								$kind = isset( $post_data->id->kind ) ? $post_data->id->kind : '';
 								// This is the method to skip empty posts or posts that are simply about changing settings or other non important post types.
-								// We will count all the ones that are like this and add that number to the output of posts to offset the posts we are filtering out. Line 278 needs the same treatment of if options.
+								// We will count all the ones that are like this and add that number to the output of posts to offset the posts we are filtering out. Line 319 needs the same treatment of if options.
 								if ( 'youtube#playlist' === $kind ) {
 									$set_zero++;
 								}

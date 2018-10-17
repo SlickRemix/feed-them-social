@@ -251,7 +251,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/instagram/instagram-feed.php';
 				// $popup variable comes from the premium version
-				if ( 'yes' === $popup ) {
+				if ( isset( $popup ) && 'yes' === $popup ) {
 					// it's ok if these styles & scripts load at the bottom of the page.
 					$fts_fix_magnific = get_option( 'fts_fix_magnific' ) ? get_option( 'fts_fix_magnific' ) : '';
 					if ( '1' !== $fts_fix_magnific ) {
@@ -546,28 +546,19 @@ if ( 'yes' === $profile_description ) {
 						<?php
 						echo esc_attr( $height );
 					}
-					?>
-		">
+					?>">
 					<?php
 				}
 				if ( 'yes' === $super_gallery ) {
-					$columns       = isset( $columns ) ? 'data-ftsi-columns="' . $columns . '" ' : '';
-					$force_columns = isset( $force_columns ) ? 'data-ftsi-force-columns="' . $force_columns . '" ' : '';
+					$columns       = isset( $columns ) ? $columns : '';
+					$force_columns = isset( $force_columns ) ? $force_columns : '';
 					?>
-		<div
-					<?php
-					if ( '' !== $width ) {
-						?>
-		style="max-width:
-						<?php
-						echo esc_attr( $width ) . ';"';
+		<div <?php if ( '' !== $width ) {
+						?>style="max-width: <?php echo esc_attr( $width ) . ';"';
 					}
-					echo esc_attr( $columns . $force_columns );
 					?>
-			data-ftsi-margin="<?php echo esc_attr( $space_between_photos ); ?>" data-ftsi-width="<?php echo esc_attr( $image_size ); ?>" class="
-					<?php
-											echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
-					if ( 'yes' === $popup ) {
+                    data-ftsi-columns="<?php echo esc_attr( $columns ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $force_columns ); ?>" data-ftsi-margin="<?php echo esc_attr( $space_between_photos ); ?>" data-ftsi-width="<?php echo esc_attr( $image_size ); ?>" class="<?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
+					if ( isset( $popup ) && 'yes' === $popup ) {
 						echo ' popup-gallery';
 					}
 											echo '">';
@@ -582,9 +573,9 @@ if ( 'yes' === $profile_description ) {
 						echo esc_attr( $width ) . '; margin:auto;" ';
 					}
 					?>
-						class=" fts-instagram
+						class="fts-instagram
 					<?php
-					if ( 'yes' === $popup ) {
+					if ( isset( $popup ) && 'yes' === $popup ) {
 						echo 'popup-gallery ';
 					}
 					echo esc_attr( $fts_dynamic_class_name ) . '">';
@@ -643,7 +634,7 @@ if ( 'yes' === $profile_description ) {
 			<div class='slicker-instagram-placeholder fts-instagram-wrapper' style='background-image:url(<?php echo esc_url( $this->fts_instagram_image_link( $post_data ) ); ?>);'>
 					<?php
 
-					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup ) {
+					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) {
 						?>
 					<div class="fts-instagram-popup-profile-wrap">
 						<div class="fts-profile-pic">
@@ -686,25 +677,19 @@ if ( 'yes' === $profile_description ) {
 					}
 
 					?>
-				<a href='
-					<?php
-					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && ( 'image' === $post_data->type || 'carousel' === $post_data->type ) ) {
+				<a href='<?php
+					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && ( 'image' === $post_data->type || 'carousel' === $post_data->type ) ) {
 						print esc_url( $this->fts_instagram_image_link( $post_data ) );
 					} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && 'video' === $post_data->type ) {
 						print esc_url( $this->fts_instagram_video_link( $post_data ) );
 					} else {
 						print esc_url( $this->fts_view_on_instagram_url( $post_data ) );
 					}
-					?>
-					' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" class='fts-instagram-link-target fts-slicker-backg
-										 <?php
-											if ( 'video' === $post_data->type && 'yes' === $popup ) {
-												?>
-												fts-instagram-video-link
-												<?php
+					?>' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" class='fts-instagram-link-target fts-slicker-backg <?php
+											if ( 'video' === $post_data->type && isset( $popup ) && 'yes' === $popup ) {
+												?> fts-instagram-video-link <?php
 											} else {
-												?>
-	fts-instagram-img-link<?php } ?>' style="height:<?php echo esc_attr( $icon_size ); ?> !important; width:<?php echo esc_attr( $icon_size ); ?>; line-height:<?php echo esc_attr( $icon_size ); ?>; font-size:<?php echo esc_attr( $icon_size ); ?>;"><span
+												?> fts-instagram-img-link<?php } ?>' style="height:<?php echo esc_attr( $icon_size ); ?> !important; width:<?php echo esc_attr( $icon_size ); ?>; line-height:<?php echo esc_attr( $icon_size ); ?>; font-size:<?php echo esc_attr( $icon_size ); ?>;"><span
 							class="fts-instagram-icon"
 							style="height:<?php echo esc_attr( $icon_size ); ?>; width:<?php echo esc_attr( $icon_size ); ?>; line-height:<?php echo esc_attr( $icon_size ); ?>; font-size:<?php echo esc_attr( $icon_size ); ?>;"></span></a>
 
@@ -782,22 +767,17 @@ if ( 'yes' === $profile_description ) {
 							?>
 				<?php } ?>
 
-				<a href="
-					<?php
-					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && ( 'image' === $post_data->type || 'carousel' === $post_data->type ) ) {
+				<a href="<?php
+					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && ( 'image' === $post_data->type || 'carousel' === $post_data->type ) ) {
 						echo esc_url( $this->fts_instagram_image_link( $post_data ) );
-					} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && 'video' === $post_data->type ) {
+					} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && 'video' === $post_data->type ) {
 						echo esc_url( $this->fts_instagram_video_link( $post_data ) );
 					} else {
 						echo esc_url( $this->fts_view_on_instagram_url( $post_data ) );
 					}
-					?>
-						" class='fts-instagram-link-target instaG-backg-link
-					<?php
+					?>" class='fts-instagram-link-target instaG-backg-link <?php
 					if ( 'video' === $post_data->type ) {
-						?>
-						fts-instagram-video-link
-						<?php
+						?>fts-instagram-video-link<?php
 					} else {
 						?>
 	fts-instagram-img-link<?php } ?>' target='_blank' title='<?php echo esc_attr( $instagram_caption_a_title ); ?>'>
@@ -814,105 +794,108 @@ if ( 'yes' === $profile_description ) {
 					$set_zero++;
 				}
 			}
-			// ******************
-			// Load More BUTTON Start
-			// ******************
-			$next_url = isset( $insta_data->pagination->next_url ) ? $insta_data->pagination->next_url : '';
-			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
-			$_REQUEST['next_url'] = ! empty( $loadmore_count ) ? str_replace( "count=$pics_count", "count=$loadmore_count", $next_url ) : $next_url;
-			?>
-	<script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
-			<?php
-			// Make sure it's not ajaxing.
-			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {
-				$fts_dynamic_name = sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
-				$time             = time();
-				$nonce            = wp_create_nonce( $time . 'load-more-nonce' );
-				?>
-		<script>jQuery(document).ready(function () {
-				<?php
-				// $scroll_more = load_more_posts_style shortcode att.
-				if ( 'autoscroll' === $scroll_more ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
-					?>
-				jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").bind("scroll", function () {
-					if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
-						<?php
-				} else { // this is where we do CLICK function to LOADMORE if = button in shortcode.
-					?>
-						jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").click(function () {
-				<?php } ?>
-							jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").addClass('fts-fb-spinner');
-							var button = jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
-							console.log(button);
 
-							var feed_name = "fts_instagram";
-							var loadmore_count = "pics_count=<?php echo esc_js( $loadmore_count ); ?>";
-							var feed_attributes = <?php echo wp_json_encode( $atts ); ?>;
-							var yes_ajax = "yes";
-							var fts_d_name = "<?php echo esc_js( $fts_dynamic_name ); ?>";
-							var fts_security = "<?php echo esc_js( $nonce ); ?>";
-							var fts_time = "<?php echo esc_js( $time ); ?>";
-							jQuery.ajax({
-								data: {
-									action: "my_fts_fb_load_more",
-									next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ); ?>,
-									fts_dynamic_name: fts_d_name,
-									load_more_ajaxing: yes_ajax,
-									fts_security: fts_security,
-									fts_time: fts_time,
-									feed_name: feed_name,
-									loadmore_count: loadmore_count,
-									feed_attributes: feed_attributes
-								},
-								type: 'GET',
-								url: "<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>",
-								success: function (data) {
-									console.log('Well Done and got this from sever: ' + data);
-									jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
-									if (!nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> || nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> === 'no more') {
-										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $instagram_no_more_photos_text ); ?></div>');
-										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
-										jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").unbind('scroll');
-									}
-									jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $instagram_load_more_text ); ?>');
-									jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
-									jQuery.fn.ftsShare(); // Reload the share each funcion otherwise you can't open share option
-									jQuery.fn.slickInstagramPopUpFunction(); // Reload this function again otherwise the popup won't work correctly for the newly loaded items
-									if (typeof outputSRmargin === "function") {
-										outputSRmargin(document.querySelector('#margin').value)
-									} // Reload our margin for the demo
-									slickremixImageResizing(); // Reload our imagesizing function so the images show up proper
-								}
-							}); // end of ajax()
-							return false;
-							<?php
-							// string $scroll_more is at top of this js script. exception for scroll option closing tag.
-							if ( 'autoscroll' === $scroll_more ) {
-								?>
-						}; // end of scroll ajax load
-						<?php } ?>
-					}
-				); // end of document.ready
-			}); // end of form.submit </script>
-				<?php
-			}//End Check.
+            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && !empty( $scroll_more ) ) {
+                // ******************
+                // Load More BUTTON Start
+                // ******************
+                $next_url = isset( $insta_data->pagination->next_url ) ? $insta_data->pagination->next_url : '';
+                // we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
+                $_REQUEST['next_url'] = ! empty( $loadmore_count ) ? str_replace( "count=$pics_count", "count=$loadmore_count", $next_url ) : $next_url;
+                ?>
+        <script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
+                <?php
+                // Make sure it's not ajaxing.
+                if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {
+                    $fts_dynamic_name = sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
+                    $time             = time();
+                    $nonce            = wp_create_nonce( $time . 'load-more-nonce' );
+                    ?>
+            <script>jQuery(document).ready(function () {
+                    <?php
+                    // $scroll_more = load_more_posts_style shortcode att.
+                    if ( 'autoscroll' === $scroll_more ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
+                        ?>
+                    jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").bind("scroll", function () {
+                        if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
+                            <?php
+                    } else { // this is where we do CLICK function to LOADMORE if = button in shortcode.
+                        ?>
+                            jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").click(function () {
+                    <?php } ?>
+                                jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").addClass('fts-fb-spinner');
+                                var button = jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
+                                console.log(button);
+
+                                var feed_name = "fts_instagram";
+                                var loadmore_count = "pics_count=<?php echo esc_js( $loadmore_count ); ?>";
+                                var feed_attributes = <?php echo wp_json_encode( $atts ); ?>;
+                                var yes_ajax = "yes";
+                                var fts_d_name = "<?php echo esc_js( $fts_dynamic_name ); ?>";
+                                var fts_security = "<?php echo esc_js( $nonce ); ?>";
+                                var fts_time = "<?php echo esc_js( $time ); ?>";
+                                jQuery.ajax({
+                                    data: {
+                                        action: "my_fts_fb_load_more",
+                                        next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ); ?>,
+                                        fts_dynamic_name: fts_d_name,
+                                        load_more_ajaxing: yes_ajax,
+                                        fts_security: fts_security,
+                                        fts_time: fts_time,
+                                        feed_name: feed_name,
+                                        loadmore_count: loadmore_count,
+                                        feed_attributes: feed_attributes
+                                    },
+                                    type: 'GET',
+                                    url: "<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>",
+                                    success: function (data) {
+                                        console.log('Well Done and got this from sever: ' + data);
+                                        jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
+                                        if (!nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> || nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> === 'no more') {
+                                            jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $instagram_no_more_photos_text ); ?></div>');
+                                            jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
+                                            jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").unbind('scroll');
+                                        }
+                                        jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $instagram_load_more_text ); ?>');
+                                        jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
+                                        jQuery.fn.ftsShare(); // Reload the share each funcion otherwise you can't open share option
+                                        jQuery.fn.slickInstagramPopUpFunction(); // Reload this function again otherwise the popup won't work correctly for the newly loaded items
+                                        if (typeof outputSRmargin === "function") {
+                                            outputSRmargin(document.querySelector('#margin').value)
+                                        } // Reload our margin for the demo
+                                        slickremixImageResizing(); // Reload our imagesizing function so the images show up proper
+                                    }
+                                }); // end of ajax()
+                                return false;
+                                <?php
+                                // string $scroll_more is at top of this js script. exception for scroll option closing tag.
+                                if ( 'autoscroll' === $scroll_more ) {
+                                    ?>
+                            }; // end of scroll ajax load
+                            <?php } ?>
+                        }
+                    ); // end of document.ready
+                }); // end of form.submit </script>
+                    <?php
+                }//End Check.
+            }
 			// main closing div not included in ajax check so we can close the wrap at all times.
 			print '</div>'; // closing main div for photos and scroll wrap.
 
 			// Make sure it's not ajaxing.
-			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$fts_dynamic_name = sanitize_key( $_REQUEST['fts_dynamic_name'] );
 				// this div returns outputs our ajax request via jquery append html from above.
 				print '<div class="fts-clear"></div>';
 				print '<div id="output_' . esc_attr( $fts_dynamic_name ) . '"></div>';
-				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'autoscroll' === $scroll_more ) {
+				if ( ! empty ( $scroll_more ) && 'autoscroll' === $scroll_more ) {
 					print '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">Instagram</div>';
 				}
 			}
 			?>
 			<?php
 			// only show this script if the height option is set to a number.
-			if ( isset( $height ) && 'auto' !== $height ) {
+			if ( ! empty ( $height ) && 'auto' !== $height ) {
 				?>
 		<script>
 			// this makes it so the page does not scroll if you reach the end of scroll bar or go back to top
@@ -931,28 +914,29 @@ if ( 'yes' === $profile_description ) {
 		</script>
 			<?php } //end $height !== 'auto' && empty($height) == NULL. ?>
 			<?php
-			if ( isset( $scroll_more ) && 'autoscroll' === $scroll_more || !empty( $height ) ) {
+			if ( ! empty( $scroll_more ) && 'autoscroll' === $scroll_more || !empty( $height ) ) {
 				print '</div>'; // closing height div for scrollable feeds.
 			}
 
-			// Make sure it's not ajaxing.
-			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-				print '<div class="fts-clear"></div>';
-				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'button' === $scroll_more ) {
+			if( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )) {
+                // Make sure it's not ajaxing.
+                if ( !isset( $_GET['load_more_ajaxing'] ) ) {
+                    print '<div class="fts-clear"></div>';
+                    if ( !empty ( $scroll_more ) && 'button' === $scroll_more ) {
 
-					print '<div class="fts-instagram-load-more-wrapper">';
-					print '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" style="';
-					if ( '' !== $loadmore_btn_maxwidth ) {
-						print 'max-width:' . esc_attr( $loadmore_btn_maxwidth ) . ';';
-					}
-					$loadmore_btn_margin = isset( $loadmore_btn_margin ) ? $loadmore_btn_margin : '10px';
-					print 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $instagram_load_more_text ) . '</div>';
-					print '</div>';
+                        print '<div class="fts-instagram-load-more-wrapper">';
+                        print '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" style="';
+                        if ( '' !== $loadmore_btn_maxwidth ) {
+                            print 'max-width:' . esc_attr( $loadmore_btn_maxwidth ) . ';';
+                        }
+                        $loadmore_btn_margin = isset( $loadmore_btn_margin ) ? $loadmore_btn_margin : '10px';
+                        print 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $instagram_load_more_text ) . '</div>';
+                        print '</div>';
 
-				}
-			}//End Check.
-			unset( $_REQUEST['next_url'] );
-
+                    }
+                }//End Check.
+                unset( $_REQUEST['next_url'] );
+            }
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 				// Social Button.

@@ -60,25 +60,18 @@ class FTS_Pinterest_Options_Page {
 						<h3>
 							<?php echo esc_html( 'Pinterest Access Token', 'feed-them-social' ); ?>
 						</h3>
-						<p>
-							<?php
-							echo sprintf(
-								esc_html( 'This is required to make the feed work. Click the button below and it will connect to your Pinterest account to get an access token, and it will return it in the input below. Then click the save button and you will now be able to generate your Pinterest feed. If you are having troubles with the button you can also get your Access Token %1$sHere%2$s.', 'feed-them-social' ),
-								'<a href="' . esc_url( 'https://www.slickremix.com/docs/how-to-create-a-pinterest-access-token/' ) . '" target="_blank">',
-								'</a>'
-							);
-							?>
+						<p><?php echo esc_html( 'This is required to make the feed work. Click the button below and it will connect to your Pinterest account to get an access token, and it will return it in the input below. Then click the save button and you will now be able to generate your Pinterest feed from the Settings page of our plugin.', 'feed-them-social' ); ?>
 						</p>
 						<p>
 							<?php
 							echo sprintf(
 								esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
-								'<a href="' . esc_url( 'https://api.pinterest.com/oauth/?response_type=token&redirect_uri=https://www.slickremix.com/pinterest-token-plugin/&client_id=4852080225414031681&scope=read_public&state=' . admin_url( 'admin.php?page=fts-pinterest-feed-styles-submenu-page' ) . '&scope=manage_pages' ) . '" class="fts-pinterest-get-access-token">',
+								'<a href="' . esc_url( 'https://api.pinterest.com/oauth/?response_type=token&redirect_uri=https://www.slickremix.com/pinterest-token-plugin/&client_id=4852080225414031681&scope=read_public&state=' . admin_url( 'admin.php?page=fts-pinterest-feed-styles-submenu-page' ) ) . '" class="fts-pinterest-get-access-token">',
 								'</a>'
 							);
 							?>
 						</p>
-						<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php echo esc_html( 'Button not working?', 'feed-them-social' ); ?></a>
+						<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" style="margin-top:14px;display:inline-block" class="fts-admin-button-no-work"><?php echo esc_html( 'Button not working?', 'feed-them-social' ); ?></a>
 					</div>
 
 					<div class="fts-clear"></div>
@@ -130,7 +123,7 @@ class FTS_Pinterest_Options_Page {
 					}
 					if ( empty( $fts_pinterest_access_token ) ) {
 						echo sprintf(
-							esc_html( 'You are required to get an access token to view your any of the Pinterest Feeds. Click "Save All Changes" after getting your Access Token.', 'feed-them-social' ),
+							esc_html( '%1$sYou are required to get an access token to view your any of the Pinterest Feeds. Click "Save All Changes" after getting your Access Token.%2$s', 'feed-them-social' ),
 							'<div class="fts-failed-api-token">',
 							'</div>'
 						);
@@ -187,8 +180,8 @@ class FTS_Pinterest_Options_Page {
 						</h3>
 						<?php
 						echo sprintf(
-							esc_html( 'These styles are for the list of Boards type feed %1$sSeen Here%2$s', 'feed-them-social' ),
-							'<a href="' . esc_url( 'https://feedthemsocial.com/pinterest/' ) . '">',
+							esc_html( 'These styles are for the list of Boards type feed %1$sseen here%2$s', 'feed-them-social' ),
+							'<a href="' . esc_url( 'https://feedthemsocial.com/pinterest/' ) . '" target="_blank">',
 							'</a>'
 						);
 						?>

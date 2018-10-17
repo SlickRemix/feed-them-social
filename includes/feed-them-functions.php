@@ -1185,8 +1185,8 @@ class feed_them_social_functions {
 						echo '<script>jQuery(function () {jQuery.getScript("//assets.pinterest.com/js/pinit.js");});</script>';
 						$_POST['fts_pinterest_script_loaded'] = 'yes';
 					}
-
-					echo '<a data-pin-do="buttonFollow" href="https://www.pinterest.com/' . esc_html( $user_id ) . '/">' . esc_html( $user_id ) . '</a>';
+                    // we return this one until we echo out the pinterest feed instead of $output.=.
+					return '<a data-pin-do="buttonFollow" href="https://www.pinterest.com/' . esc_html( $user_id ) . '/">' . esc_html( $user_id ) . '</a>';
 					break;
 				case 'youtube':
 					if ( ! isset( $_POST['fts_youtube_script_loaded'] ) ) {
@@ -1623,6 +1623,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				'a'      => array(
 					'href'  => array(),
 					'title' => array(),
+                    'target' => array(),
 				),
 				'br'     => array(),
 				'em'     => array(),
@@ -1661,6 +1662,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 								'a'      => array(
 									'href'  => array(),
 									'title' => array(),
+                                    'target' => array(),
 								),
 								'br'     => array(),
 								'em'     => array(),
@@ -1682,6 +1684,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 						'a'      => array(
 							'href'  => array(),
 							'title' => array(),
+                            'target' => array(),
 						),
 						'br'     => array(),
 						'em'     => array(),
@@ -1747,6 +1750,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 							'a'      => array(
 								'href'  => array(),
 								'title' => array(),
+                                'target' => array(),
 							),
 							'br'     => array(),
 							'em'     => array(),
@@ -1763,6 +1767,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 									'a'      => array(
 										'href'  => array(),
 										'title' => array(),
+                                        'target' => array(),
 									),
 									'br'     => array(),
 									'em'     => array(),
@@ -1779,6 +1784,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 							'a'      => array(
 								'href'  => array(),
 								'title' => array(),
+                                'target' => array(),
 							),
 							'br'     => array(),
 							'em'     => array(),
@@ -1796,6 +1802,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 									'a'      => array(
 										'href'  => array(),
 										'title' => array(),
+                                        'target' => array(),
 									),
 									'br'     => array(),
 									'em'     => array(),
@@ -2116,7 +2123,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				} else {
 					// if slider plugin is active!
 					$output .= '<div class="feed-them-social-admin-input-wrap facebook_name"><div class="feed-them-social-admin-input-label">' . esc_html( 'Carousel or Slideshow', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Many more options when active', 'feed-them-social' ) . '</small></div>
-				<div class="feed-them-social-admin-input-default" style="display: block !important;">' . esc_html( 'Must have ', 'feed-them-social' ) . ' <a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/">' . esc_html( 'premium', 'feed-them-social' ) . '</a> ' . esc_html( 'and', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/downloads/feed-them-carousel-premium/">' . esc_html( 'carousel', 'feed-them-social' ) . '</a> ' . esc_html( 'plugin ', 'feed-them-social' ) . '</a> ' . esc_html( 'to edit.', 'feed-them-social' ) . '</div> <div class="fts-clear"></div></div>';
+				<div class="feed-them-social-admin-input-default" style="display: block !important;">' . esc_html( 'Must have ', 'feed-them-social' ) . ' <a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/">' . esc_html( 'premium', 'feed-them-social' ) . '</a> ' . esc_html( 'and', 'feed-them-social' ) . ' <a target="_blank" href="http://www.slickremix.com/downloads/feed-them-carousel-premium/">' . esc_html( 'carousel', 'feed-them-social' ) . '</a> ' . esc_html( 'plugin ', 'feed-them-social' ) . '</a> ' . esc_html( 'to edit.', 'feed-them-social' ) . '</div> <div class="fts-clear"></div></div>';
 				}
 
 				// end slideshow wrap!

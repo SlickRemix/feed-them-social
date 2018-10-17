@@ -82,7 +82,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Pinterest Feed: Share button above or below feed was not returning in it's centered container div properly.
    * FIX: Misc style updates.
    * FIX: Various admin pages: target="_blank" missing on our links.
-   * To All: We apologize for the continuous updates recently. Our 2.5.4 update was just massive and we're thankful for everyone's patience in reporting errors that have needed fixing since then.
+   * To All: We apologize for the continuous updates recently. Our 2.5.4 update was just a massive overhaul to the structure and security of the plugin. We're thankful for everyone's patience in reporting errors that have needed fixing in the last week.
 
 = Version 2.5.6 Friday, October 12th, 2018 =
    * FIX: Fatal error for servers running less than php 5.6.

@@ -168,7 +168,7 @@ class FTS_Settings_Page {
 										'name'          => '<h3>Feed Them Social Combined Streams extension</h3>',
 										'slick_url'     => 'https://www.slickremix.com/downloads/feed-them-social-combined-streams/',
 										'plugin_url'    => 'feed-them-social-combined-streams/feed-them-social-combined-streams.php',
-										'no_active_msg' => 'Must have <a href="https://www.slickremix.com/downloads/feed-them-social-combined-streams/">combined streams extenstion</a> to edit.',
+										'no_active_msg' => 'Must have <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-combined-streams/">combined streams extenstion</a> to edit.',
 									),
 								);
 

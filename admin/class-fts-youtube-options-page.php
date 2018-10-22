@@ -226,7 +226,7 @@ class FTS_Youtube_Options_Page {
 						// Error Check!
 						if ( ! isset( $test_app_token_response->error->errors[0]->reason ) && ! empty( $youtube_api_key ) || ! isset( $test_app_token_response->error->errors[0]->reason ) && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
 							echo sprintf(
-								esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$ ssettings page. %4$s %5$s', 'feed-them-social' ),
+								esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
 								'<div class="fts-successful-api-token">',
 								esc_html( $type_of_key ),
 								'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',

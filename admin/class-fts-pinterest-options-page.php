@@ -35,6 +35,7 @@ class FTS_Pinterest_Options_Page {
 		$fts_pinterest_access_token          = get_option( 'fts_pinterest_custom_api_token' );
 		$fts_pinterest_show_follow_btn       = get_option( 'pinterest_show_follow_btn' );
 		$fts_pinterest_show_follow_btn_where = get_option( 'pinterest_show_follow_btn_where' );
+        $access_token         = isset( $_GET['access_token'] ) ? sanitize_text_field( $_GET['access_token'] ) : get_option( 'fts_pinterest_custom_api_token' );
 		?>
 		<div class="feed-them-social-admin-wrap">
 			<h1>
@@ -71,7 +72,7 @@ class FTS_Pinterest_Options_Page {
 							);
 							?>
 						</p>
-						<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" style="margin-top:14px;display:inline-block" class="fts-admin-button-no-work"><?php echo esc_html( 'Button not working?', 'feed-them-social' ); ?></a>
+						<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" style="margin-top:14px;display:inline-block" class="fts-admin-button-no-work"><?php echo esc_html( 'Button not working?', 'feed-them-social' ); ?></a>
 					</div>
 
 					<div class="fts-clear"></div>
@@ -80,21 +81,8 @@ class FTS_Pinterest_Options_Page {
 						<div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
 							<?php echo esc_html( 'Access Token Required', 'feed-them-social' ); ?>
 						</div>
-						<script>
-							jQuery(document).ready(function ($) {
-								function getQueryString(Param) {
-									return decodeURI(
-										(RegExp('[#|&]' + Param + '=' + '(.+?)(&|$)').exec(location.hash) || [, null])[1]
-									);
-								}
 
-								if (window.location.hash) {
-									$('#fts_pinterest_custom_api_token').val('');
-									$('#fts_pinterest_custom_api_token').val($('#fts_pinterest_custom_api_token').val() + getQueryString('access_token'));
-								}
-							});
-						</script>
-						<input type="text" name="fts_pinterest_custom_api_token" class="feed-them-social-admin-input" id="fts_pinterest_custom_api_token" value="<?php echo esc_attr( get_option( 'fts_pinterest_custom_api_token' ) ); ?>"/>
+						<input type="text" name="fts_pinterest_custom_api_token" class="feed-them-social-admin-input" id="fts_pinterest_custom_api_token" value="<?php echo esc_attr( $access_token ); ?>"/>
 						<div class="fts-clear"></div>
 					</div>
 

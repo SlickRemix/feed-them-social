@@ -1310,13 +1310,14 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		// echo'<pre>';.
 		// print_r();.
 		// echo'</pre>';.
-		$share_this = new feed_them_social_functions();
+		$view_on_facebook = get_option( 'fb_view_on_fb_fts' ) ? get_option( 'fb_view_on_fb_fts' ) : __( 'View on Facebook', 'feed-them-social' );
+		$share_this       = new feed_them_social_functions();
 		switch ( $fb_type ) {
 			case 'events':
 				$single_event_id = 'https://www.facebook.com/events/' . $single_event_id;
 				echo '<div class="fts-likes-shares-etc-wrap">';
 				echo $share_this->fts_share_option( $single_event_id, $description );
-				echo '<a href="' . esc_attr( $single_event_id ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html( 'View on Facebook', 'feed-them-social' ) . '</a></div>';
+				echo '<a href="' . esc_attr( $single_event_id ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html( $view_on_facebook ) . '</a></div>';
 				break;
 			case 'photo':
 				if ( ! empty( $fb_link ) ) {
@@ -1359,7 +1360,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 						)
 					) . ' &nbsp;&nbsp;';
 				}
-				echo '&nbsp;' . esc_html( 'View on Facebook', 'feed-them-social' ) . '</a></div>';
+				echo '&nbsp;' . esc_html( $view_on_facebook ) . '</a></div>';
 				break;
 			case 'app':
 			case 'cover':
@@ -1391,7 +1392,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 						)
 					) . ' &nbsp;&nbsp;';
 				}
-				echo '&nbsp;' . esc_html( 'View on Facebook', 'feed-them-social' ) . '</a></div>';
+				echo '&nbsp;' . esc_html( $view_on_facebook ) . '</a></div>';
 				break;
 			default:
 				if ( 'yes' !== get_option( 'fb_reviews_remove_see_reviews_link' ) ) {
@@ -1419,7 +1420,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 									'class' => array(),
 								),
 							)
-						) . ' &nbsp;&nbsp;&nbsp;' . esc_html( 'View on Facebook', 'feed-them-social' ) . '</a></div>';
+						) . ' &nbsp;&nbsp;&nbsp;' . esc_html( $view_on_facebook ) . '</a></div>';
 					}
 				}
 				break;

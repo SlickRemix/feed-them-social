@@ -7,18 +7,18 @@
  * Plugin Name: Feed Them Social (Facebook, Instagram, Twitter, etc)
  * Plugin URI: https://feedthemsocial.com/
  * Description: Customize feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
- * Version: 2.5.7
+ * Version: 2.5.8
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
  * Tested up to: WordPress 4.9.8
- * Stable tag: 2.5.7
+ * Stable tag: 2.5.8
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.5.7
+ * @version    2.5.8
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2018 SlickRemix
  *
@@ -31,7 +31,11 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '2.5.7' );
+define( 'FTS_CURRENT_VERSION', '2.5.8' );
+
+define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
+
+
 
 /**
  * Class Feed_Them_Social
@@ -92,10 +96,8 @@ final class Feed_Them_Social {
 			add_action( 'admin_init', array( self::$instance, 'fts_check_nag_get' ) );
 			add_action( 'admin_init', array( self::$instance, 'fts_maybe_set_transient' ) );
 
-			$notice_status = get_option( 'fts_slick_rating_notice', false );
-
 			// only display the notice if the time offset has passed and the user hasn't already dismissed it!
-			if ( 'fts-review-waiting' !== get_transient( 'fts_slick_rating_notice_waiting' ) && 'dismissed' !== $notice_status ) {
+			if ( 'fts-review-waiting' !== get_transient( 'rating_fts_slick_notice_waiting' ) && 'dismissed' !== FEED_THEM_SOCIAL_NOTICE_STATUS ) {
 				add_action( 'admin_notices', array( self::$instance, 'fts_rating_notice_html' ) );
 			}
 
@@ -223,6 +225,7 @@ final class Feed_Them_Social {
 
 		$plugin_data    = get_plugin_data( __FILE__ );
 		$plugin_version = $plugin_data['Version'];
+
 		// Free Version Plugin version!
 		if ( ! defined( 'FEED_THEM_SOCIAL_VERSION' ) ) {
 			define( 'FEED_THEM_SOCIAL_VERSION', $plugin_version );
@@ -361,7 +364,7 @@ final class Feed_Them_Social {
 	 */
 	public function fts_leave_feedback_link( $links, $file ) {
 		if ( plugin_basename( __FILE__ ) === $file ) {
-			$links['feedback'] = '<a href="' . esc_url( 'http://wordpress.org/support/view/plugin-reviews/feed-them-social', 'feed-them-social' ) . '" target="_blank">' . esc_html( 'Rate Plugin', 'feed-them-social' ) . '</a>';
+			$links['feedback'] = '<a href="' . esc_url( 'https://wordpress.org/support/view/plugin-reviews/feed-them-social', 'feed-them-social' ) . '" target="_blank">' . esc_html( 'Rate Plugin', 'feed-them-social' ) . '</a>';
 		}
 		return $links;
 	}
@@ -400,18 +403,27 @@ final class Feed_Them_Social {
 	public function fts_check_nag_get() {
 		$fts_nag_nonce = wp_create_nonce( 'fts-nag-nonce' );
 
+		global $current_user;
+		$user_id = $current_user->ID;
+		// Used for testing: delete_user_meta( $user_id, 'fts_slick_ignore_rating_notice' );
 		if ( wp_verify_nonce( $fts_nag_nonce, 'fts-nag-nonce' ) ) {
-			$transient = 'fts_slick_rating_notice_waiting';
-			$option    = 'fts_slick_rating_notice';
-			$nag       = 'fts_slick_ignore_rating_notice_nag';
 
-			if ( isset( $_GET[ $nag ] ) && '1' === $_GET[ $nag ] ) {
+			$transient = 'rating_fts_slick_notice_waiting';
+			$option    = 'rating_fts_slick_notice';
+			$nag       = 'rating_fts_slick_ignore_notice_nag';
+
+			// Used for testing: echo isset( $_GET[ $nag ] ) ? $_GET[ $nag ] : 'no set nag';.
+			if ( isset( $_GET[ $nag ] ) && '1' === $_GET[ $nag ] && ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) ) {
+
 				update_option( $option, 'dismissed' );
+				update_user_meta( $user_id, 'fts_slick_ignore_rating_notice', '1' );
 			} elseif ( isset( $_GET[ $nag ] ) && 'later' === $_GET[ $nag ] ) {
 				$time = 2 * WEEK_IN_SECONDS;
+				// Used for testin: echo $time;.
 				set_transient( $transient, 'fts-review-waiting', $time );
 				update_option( $option, 'pending' );
 			}
+			// Used for testin: echo 'no hit';.
 			return;
 		}
 	}
@@ -419,26 +431,40 @@ final class Feed_Them_Social {
 	/**
 	 * FTS Set Review Transient
 	 *
-	 * Set a transient if the notice has not been dismissed or has not been set yet
+	 * Set a transient if the notice has not been dismissed or has not been set yet.
 	 *
 	 * @since 2.4.5
 	 */
 	public function fts_maybe_set_transient() {
+
 		$fts_set_transient_nonce = wp_create_nonce( 'fts-set-transient-nonce' );
 
 		if ( wp_verify_nonce( $fts_set_transient_nonce, 'fts-set-transient-nonce' ) ) {
 			// Variables to define specific terms!
-			$transient = 'fts_slick_rating_notice_waiting';
-			$option    = 'fts_slick_rating_notice';
+			$transient = 'rating_fts_slick_notice_waiting';
+			$option    = 'rating_fts_slick_notice';
 
 			$fts_rating_notice_waiting = get_transient( $transient );
 			$notice_status             = get_option( $option, false );
 
-			if ( ! $fts_rating_notice_waiting && ! ( 'dismissed' === $notice_status || 'pending' === $notice_status ) ) {
+			global $current_user;
+			$user_id = $current_user->ID;
+
+			if ( ! $fts_rating_notice_waiting && ! ( 'dismissed' === $notice_status || 'pending' === $notice_status ) && ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) ) {
 				$time = 2 * WEEK_IN_SECONDS;
 				set_transient( $transient, 'fts-review-waiting', $time );
 				update_option( $option, 'pending' );
+				// Used for testing: print 'waiting';.
 			}
+			// Used for testing:
+            // print get_transient( $transient );
+			// Used for testing: print ' & ';
+			// Used for testing: print $notice_status;
+			// Used for testing:
+            // update_option( $option, '' );
+			// Used for testing:
+            // set_transient( $transient, '', '' );
+			// Used for testing: echo 'no hit2';.
 			return;
 		}
 	}
@@ -458,23 +484,27 @@ final class Feed_Them_Social {
 			global $current_user;
 			$user_id = $current_user->ID;
 
+			// Used for testing: print_r( get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) );
+			// Used for testing: $all_meta_for_user = get_user_meta( $user_id );
+			// Used for testing: print_r( $all_meta_for_user );.
 			/* Has the user already clicked to ignore the message? */
-			if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) ) {
+			if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' )  && ! isset( $_GET['rating_fts_slick_ignore_notice_nag'] ) ) {
+
 				?>
-				<div class="fts_notice fts_review_notice">
-				<img src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/images/feed-them-social-logo.png' ) ); ?>" alt="Feed Them Social">
-				<div class="fts-notice-text">
-				<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed-them-social' ); ?></p>
-				<p class="fts-links">
-				<a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Sure, I\'de love to', 'feed-them-social' ); ?></a>
-				<a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
-				<a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', 'later' ) ); ?>"><?php echo esc_html( 'Ask me later', 'feed-them-social' ); ?></a>
-				<a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Not working, I need support', 'feed-them-social' ); ?></a>
-				<a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html( 'No thanks', 'feed-them-social' ); ?></a>
-				</p>
-				</div>
-				</div>
-				<?php
+					<div class="fts_notice fts_review_notice">
+					<img src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/images/feed-them-social-logo.png' ) ); ?>" alt="Feed Them Social">
+					<div class="fts-notice-text">
+					<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed-them-social' ); ?></p>
+					<p class="fts-links">
+					<a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Sure, I\'de love to', 'feed-them-social' ); ?></a>
+					<a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', '1' ) ); ?>"><?php echo esc_html( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
+					<a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', 'later' ) ); ?>"><?php echo esc_html( 'Ask me later', 'feed-them-social' ); ?></a>
+					<a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Not working, I need support', 'feed-them-social' ); ?></a>
+					<a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', '1' ) ); ?>"><?php echo esc_html( 'No thanks', 'feed-them-social' ); ?></a>
+					</p>
+					</div>
+					</div>
+					<?php
 			}
 		}
 	}

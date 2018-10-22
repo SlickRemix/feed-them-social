@@ -527,7 +527,24 @@ class FTS_Facebook_Options_Page {
 					</div>
 					<!--/fts-twitter-feed-styles-input-wrap-->
 
-					<div class="feed-them-social-admin-input-wrap">
+
+
+                <div class="feed-them-social-admin-input-wrap">
+                    <div class="feed-them-social-admin-input-label fts-fb-text-color-label">
+                        <?php esc_html_e( 'View on Facebook', 'feed-them-social' ); ?>
+                    </div>
+                    <input type="text" name="fb_view_on_fb_fts" class="feed-them-social-admin-input" placeholder="" value="<?php echo esc_attr( get_option( 'fb_view_on_fb_fts' ) ); ?>"/>
+                    <div class="clear"></div>
+
+
+
+                        <div class="clear"></div>
+                    </div>
+                    <!--/fts-twitter-feed-styles-input-wrap-->
+
+
+
+                    <div class="feed-them-social-admin-input-wrap">
 						<div class="fts-title-description-settings-page">
 							<h3>
 								<?php esc_html_e( 'Like Button or Box Options', 'feed-them-social' ); ?>

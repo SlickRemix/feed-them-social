@@ -40,8 +40,22 @@ class FTS_Instagram_Options_Page {
 		$fts_instagram_custom_id             = get_option( 'fts_instagram_custom_id' );
 		$fts_instagram_show_follow_btn       = get_option( 'instagram_show_follow_btn' );
 		$fts_instagram_show_follow_btn_where = get_option( 'instagram_show_follow_btn_where' );
+		$access_token                        = isset( $_GET['access_token'] ) ? sanitize_text_field( $_GET['access_token'] ) : get_option( 'fts_instagram_custom_api_token' );
 
-		?>
+		if ( isset( $_GET['access_token'] ) ) { ?>
+		<script>
+			jQuery(document).ready(function ($) {
+
+				$('#fts_instagram_custom_api_token').val('');
+				$('#fts_instagram_custom_api_token').val($('#fts_instagram_custom_api_token').val() + '<?php echo esc_js( $access_token ); ?>');
+
+
+				$('#fts_instagram_custom_id').val('');
+				var str = '<?php echo esc_js( $access_token ); ?>';
+				$('#fts_instagram_custom_id').val($('#fts_instagram_custom_id').val() + str.split('.', 1));
+			});
+		</script>
+		<?php } ?>
 		<div class="feed-them-social-admin-wrap">
 			<h1>
 				<?php esc_html_e( 'Instagram Feed Options', 'feed-them-social' ); ?>
@@ -87,12 +101,12 @@ class FTS_Instagram_Options_Page {
 						<?php
 						echo sprintf(
 							esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
-							'<a href="' . esc_url( 'https://instagram.com/oauth/authorize/?client_id=da06fb6699f1497bb0d5d4234a50da75&redirect_uri=http://www.slickremix.com/instagram-token-plugin/?return_uri=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '&response_type=token&scope=public_content' ) . '" class="fts-instagram-get-access-token">',
+							'<a href="' . esc_url( 'https://instagram.com/oauth/authorize/?client_id=da06fb6699f1497bb0d5d4234a50da75&redirect_uri=https://www.slickremix.com/instagram-token-plugin/?return_uri=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '&response_type=token&scope=public_content' ) . '" class="fts-instagram-get-access-token">',
 							'</a>'
 						);
 						?>
 						</p>
-						<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Button not working?', 'feed-them-social' ); ?></a>
+						<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" class="fts-admin-button-no-work" style="margin-top: 14px; display: inline-block"><?php esc_html_e( 'Button not working?', 'feed-them-social' ); ?></a>
 					</div>
 
 					<div class="fts-clear"></div>
@@ -109,30 +123,8 @@ class FTS_Instagram_Options_Page {
 						<div class="feed-them-social-admin-input-label fts-instagram-border-bottom-color-label">
 							<?php esc_html_e( 'Access Token Required', 'feed-them-social' ); ?>
 						</div>
-						<script>
-							jQuery(document).ready(function ($) {
-								function getQueryString(Param) {
-									return decodeURI(
-										(RegExp('[#|&]' + Param + '=' + '(.+?)(&|$)').exec(location.hash) || [, null])[1]
-									);
-								}
 
-								if (window.location.hash) {
-
-									$('select').find('option[value=5]').attr('selected', 'selected');
-
-									$('#fts_instagram_custom_api_token').val('');
-									$('#fts_instagram_custom_api_token').val($('#fts_instagram_custom_api_token').val() + getQueryString('access_token'));
-
-
-									$('#fts_instagram_custom_id').val('');
-									var str = getQueryString('access_token');
-									$('#fts_instagram_custom_id').val($('#fts_instagram_custom_id').val() + str.split('.', 1));
-
-								}
-							});
-						</script>
-						<input type="text" name="fts_instagram_custom_api_token" class="feed-them-social-admin-input" id="fts_instagram_custom_api_token" value="<?php echo esc_attr( $fts_instagram_access_token ); ?>"/>
+						<input type="text" name="fts_instagram_custom_api_token" class="feed-them-social-admin-input" id="fts_instagram_custom_api_token" value="<?php echo esc_attr( $access_token ); ?>"/>
 						<div class="fts-clear"></div>
 					</div>
 					<?php
@@ -161,7 +153,7 @@ class FTS_Instagram_Options_Page {
 					}
 					if ( empty( $fts_instagram_access_token ) ) {
 						echo sprintf(
-							esc_html( '%1$sYou are required to get an access token to view your photos. Click Save all Changes after getting your Access Token.%2$s.', 'feed-them-social' ),
+							esc_html( '%1$sYou are required to get an access token to view your photos. Click Save all Changes after getting your Access Token.%2$s', 'feed-them-social' ),
 							'<div class="fts-failed-api-token">',
 							'</div>'
 						);

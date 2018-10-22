@@ -82,7 +82,7 @@ class fts_error_handler {
 	public function fts_plugin_version_check() {
 		// return error if no data retreived!
 		try {
-			$update_msg = __( 'Please update ALL Premium Extensions for Feed Them Social because they will no longer work with this version of Feed Them Social. We have made some Major Changes to the Core of the plugin to help with plugin conflicts. Please update your extensions from your <a href="http://www.slickremix.com/my-account" target="_blank">My Account</a> page on our website if you are not receiving notifications for updates on the premium extensions. Thanks again for using our plugin!', 'feed-them-social' );
+			$update_msg = __( 'Please update ALL Premium Extensions for Feed Them Social because they will no longer work with this version of Feed Them Social. We have made some Major Changes to the Core of the plugin to help with plugin conflicts. Please update your extensions from your <a href="https://www.slickremix.com/my-account" target="_blank">My Account</a> page on our website if you are not receiving notifications for updates on the premium extensions. Thanks again for using our plugin!', 'feed-them-social' );
 
 			$plugins = get_plugins();
 
@@ -108,7 +108,18 @@ class fts_error_handler {
 			add_action(
 				'admin_notices',
 				function () use ( $e ) {
-					echo esc_html( $e->getMessage() );
+					echo wp_kses(
+						$e->getMessage(),
+						array(
+							'a'   => array(
+								'href'   => array(),
+								'target' => array(),
+							),
+							'div' => array(
+								'class' => array(),
+							),
+						)
+					);
 				}
 			);
 			return true;

@@ -346,7 +346,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 			// $instagram_id comes from our shortcode.
 			// URL to get Feeds.
 			if ( 'hashtag' === $type ) {
-				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://api.instagram.com/v1/tags/' . $instagram_id . '/media/recent/?access_token=' . $fts_instagram_access_token_final;
+				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://api.instagram.com/v1/tags/' . $instagram_id . '/media/recent/?count=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
 			} elseif ( 'location' === $type ) {
 				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://api.instagram.com/v1/locations/' . $instagram_id . '/media/recent/?count=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
 			} else {

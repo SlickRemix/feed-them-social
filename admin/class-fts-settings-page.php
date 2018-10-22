@@ -205,12 +205,12 @@ class FTS_Settings_Page {
 										<label><?php echo esc_html( 'Cache Time', 'feed-them-social' ); ?></label>
 										<select id="fts_clear_cache_developer_mode" name="fts_clear_cache_developer_mode">
 											<option value=""><?php echo esc_html( 'Please choose an option', 'feed-them-social' ); ?></option>
-											<option value="86400" <?php echo '86400' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '1 Day (Suggested Default)', 'feed-them-social' ); ?></option>
+											<option value="86400" <?php echo '86400' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '1 Day ago (Suggested Default)', 'feed-them-social' ); ?></option>
 											<option value="172800" <?php echo '172800' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '2 Days', 'feed-them-social' ); ?></option>
 											<option value="259200" <?php echo '259200' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '3 Days', 'feed-them-social' ); ?></option>
 											<option value="604800" <?php echo '604800' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '1 Week', 'feed-them-social' ); ?></option>
 											<option value="1209600" <?php echo '1209600' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '2 Weeks', 'feed-them-social' ); ?></option>
-											<option value="1" <?php echo 1 === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '(Developers Only) Clear cache on every page load', 'feed-them-social' ); ?></option>
+											<option value="1" <?php echo '1' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '(Developers Only) Clear cache on every page load', 'feed-them-social' ); ?></option>
 										</select>
 									</p>
 									<label><?php echo esc_html( 'Admin Bar', 'feed-them-social' ); ?></label>
@@ -1985,4 +1985,5 @@ class FTS_Settings_Page {
 			<?php
 		}
 	}
-}//end class
+}
+// end class.

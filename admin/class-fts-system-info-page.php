@@ -44,11 +44,11 @@ class FTS_System_Info_Page extends feed_them_social_functions {
 		<?php esc_html_e( 'System Info', 'feed-them-social' ); ?>
 		</h2>
 		<p>
-		<?php esc_html_e( 'Please click the box below and copy the report. You will need to paste this information along with your question in our', 'feed-them-social' ); ?>
+		<?php esc_html_e( 'Please click the box below and copy the report. You will need to paste this information along with your question when requesting', 'feed-them-social' ); ?>
 		<a href="https://www.slickremix.com/support/" target="_blank">
-		<?php esc_html_e( 'Support Forum', 'feed-them-social' ); ?>
+		<?php esc_html_e( 'Support', 'feed-them-social' ); ?>
 		</a>.
-		<?php esc_html_e( 'Ask your question then paste the copied text below it.  To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>
+		<?php esc_html_e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>
 		</p>
 		<form action="<?php echo esc_url( admin_url( 'admin.php?page=fts-system-info-submenu-page' ) ); ?>" method="post" dir="ltr" >
 		<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="fts-sysinfo" title="<?php esc_html_e( 'To copy the system info, click here then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>">
@@ -193,9 +193,9 @@ Fix: <?php echo isset( $fts_fix_twitter_time ) && 1 === $fts_fix_twitter_time ? 
 Fix: <?php echo isset( $fts_disable_magnific_css ) && 1 === $fts_disable_magnific_css ? 'Yes' . "\n" : 'No' . "\n"; ?>
 
 -- Fix Internal Server Error:
-		<?php if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) || is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) ) { ?>
 
 Fix: <?php echo isset( $fts_fix_time_out ) && 1 === $fts_fix_time_out ? 'Yes' . "\n" : 'No' . "\n"; ?>
+<?php if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) || is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) ) { ?>
 
 -- Load More Options:
 
@@ -208,9 +208,7 @@ FTS Combined Streams:    <?php echo isset( $feed_them_social_combined_streams_li
 Premium Active:          <?php echo isset( $feed_them_social_premium_license_key ) && '' !== $feed_them_social_premium_license_key ? 'Yes' . "\n" : 'No' . "\n"; }if ( is_plugin_active( 'fts-bar/fts-bar.php' ) ) { ?>
 FTS Bar Active:          <?php echo isset( $fts_bar_license_key ) && '' !== $fts_bar_license_key ? 'Yes' . "\n" : 'No' . "\n"; }if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) ) { ?>
 FTS Carousel Premium:    <?php echo isset( $feed_them_carousel_premium_license_key ) && '' !== $feed_them_carousel_premium_license_key ? 'Yes' . "\n" : 'No' . "\n"; }if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) { ?>
-Facebook Reviews Active: <?php echo isset( $fb_reviews_token ) && '' !== $fb_reviews_token ? 'Yes' . "\n" : 'No' . "\n"; }
-}
-?>
+Facebook Reviews Active: <?php echo isset( $fb_reviews_token ) && '' !== $fb_reviews_token ? 'Yes' . "\n" : 'No' . "\n"; }}?>
 ### End System Info ###</textarea>
 		<?php
 		// -- Pages or Posts with Shortcode(s).

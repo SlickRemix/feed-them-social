@@ -954,6 +954,7 @@ class feed_them_social_functions {
 			'fb_no_more_videos_text',
 			'fb_no_more_reviews_text',
 			'fb_text_size',
+            'fb_view_on_fb_fts',
 		);
 		$this->register_settings( 'fts-facebook-feed-style-options', $fb_style_options );
 	}
@@ -1185,7 +1186,7 @@ class feed_them_social_functions {
 						echo '<script>jQuery(function () {jQuery.getScript("//assets.pinterest.com/js/pinit.js");});</script>';
 						$_POST['fts_pinterest_script_loaded'] = 'yes';
 					}
-                    // we return this one until we echo out the pinterest feed instead of $output.=.
+					// we return this one until we echo out the pinterest feed instead of $output.=.
 					return '<a data-pin-do="buttonFollow" href="https://www.pinterest.com/' . esc_html( $user_id ) . '/">' . esc_html( $user_id ) . '</a>';
 					break;
 				case 'youtube':
@@ -1621,9 +1622,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$fields_info['no_active_msg'],
 			array(
 				'a'      => array(
-					'href'  => array(),
-					'title' => array(),
-                    'target' => array(),
+					'href'   => array(),
+					'title'  => array(),
+					'target' => array(),
 				),
 				'br'     => array(),
 				'em'     => array(),
@@ -1660,9 +1661,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 							$token_info['no_token_msg'],
 							array(
 								'a'      => array(
-									'href'  => array(),
-									'title' => array(),
-                                    'target' => array(),
+									'href'   => array(),
+									'title'  => array(),
+									'target' => array(),
 								),
 								'br'     => array(),
 								'em'     => array(),
@@ -1682,9 +1683,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 					$section_info['feed_type_select']['label'],
 					array(
 						'a'      => array(
-							'href'  => array(),
-							'title' => array(),
-                            'target' => array(),
+							'href'   => array(),
+							'title'  => array(),
+							'target' => array(),
 						),
 						'br'     => array(),
 						'em'     => array(),
@@ -1748,9 +1749,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 						$option['instructional-text'],
 						array(
 							'a'      => array(
-								'href'  => array(),
-								'title' => array(),
-                                'target' => array(),
+								'href'   => array(),
+								'title'  => array(),
+								'target' => array(),
 							),
 							'br'     => array(),
 							'em'     => array(),
@@ -1765,9 +1766,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 								$instructional_txt['text'],
 								array(
 									'a'      => array(
-										'href'  => array(),
-										'title' => array(),
-                                        'target' => array(),
+										'href'   => array(),
+										'title'  => array(),
+										'target' => array(),
 									),
 									'br'     => array(),
 									'em'     => array(),
@@ -1782,9 +1783,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 						$option['label'],
 						array(
 							'a'      => array(
-								'href'  => array(),
-								'title' => array(),
-                                'target' => array(),
+								'href'   => array(),
+								'title'  => array(),
+								'target' => array(),
 							),
 							'br'     => array(),
 							'em'     => array(),
@@ -1800,9 +1801,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 								$label_txt['text'],
 								array(
 									'a'      => array(
-										'href'  => array(),
-										'title' => array(),
-                                        'target' => array(),
+										'href'   => array(),
+										'title'  => array(),
+										'target' => array(),
 									),
 									'br'     => array(),
 									'em'     => array(),
@@ -1859,27 +1860,27 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 					if ( ! is_plugin_active( $required_plugins[ $premium_msg['req_plugin'] ]['plugin_url'] ) ) {
 						$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message" id="not_active_' . esc_attr( $key ) . '"><a class="not-active-title" href="' . esc_url( $required_plugins[ $premium_msg['req_plugin'] ]['slick_url'] ) . '" target="_blank">' .
 
-                            wp_kses(
-                                $required_plugins[ $premium_msg['req_plugin'] ]['name'] ,
-                                array(
-                                    'h3'  => array(),
-                                )
-                            ) .
+							wp_kses(
+								$required_plugins[ $premium_msg['req_plugin'] ]['name'],
+								array(
+									'h3' => array(),
+								)
+							) .
 
-                            '</a>' . wp_kses(
-							$premium_msg['msg'],
-							array(
-								'a'      => array(
-									'href'  => array(),
-									'title' => array(),
-                                    'target' => array(),
-								),
-								'br'     => array(),
-								'em'     => array(),
-								'strong' => array(),
-								'small'  => array(),
-							)
-						) . '</div>';
+							'</a>' . wp_kses(
+								$premium_msg['msg'],
+								array(
+									'a'      => array(
+										'href'   => array(),
+										'title'  => array(),
+										'target' => array(),
+									),
+									'br'     => array(),
+									'em'     => array(),
+									'strong' => array(),
+									'small'  => array(),
+								)
+							) . '</div>';
 					}
 				}
 			}
@@ -2575,7 +2576,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
 					$single_response = \Requests::get( $url );
 
-                    $data = array();
+					$data = array();
 					if ( is_a( $single_response, 'Requests_Response' ) ) {
 						$data[ $key ] = $single_response->body;
 					}
@@ -3011,7 +3012,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
 			if ( isset( $_REQUEST['refresh_token'], $_REQUEST['button_pushed'] ) && 'yes' === $_REQUEST['button_pushed'] ) {
 				update_option( 'youtube_custom_refresh_token', sanitize_text_field( wp_unslash( $_REQUEST['refresh_token'] ) ) );
-				return 'Save New Tokens';
 			}
 			if ( isset( $_REQUEST['access_token'] ) ) {
 				update_option( 'youtube_custom_access_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
@@ -3020,7 +3020,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
 			update_option( 'youtube_custom_token_exp_time', $start_of_time_final );
 
-			// This only happens if the token is expired on the YouTube Options page and you go to resave or refresh the page for some reason. It will also run this function if the cache is emptied and the token is found to be expired.
+			// This only happens if the token is expired on the YouTube Options page and you go to re-save or refresh the page for some reason. It will also run this function if the cache is emptied and the token is found to be expired.
 			if ( 'no' === $_REQUEST['button_pushed'] ) {
 				return 'Token Refreshed';
 				// $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
@@ -3082,7 +3082,36 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 						console.log(response);
 					<?php
 					if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] ) {
-						$sucess_message = '<div class="fts-successful-api-token">' . __( 'Your Access Token is working! Generate your shortcode on the <a href="admin.php?page=feed-them-settings-page">settings page</a>.', 'feed-them-social' ) . '</div><div class="fts-clear"></div>';
+						foreach ( $auth_obj as $user_id ) {
+							if ( ! isset( $user_id->error->errors[0]->reason ) ) {
+								$type_of_key = __( 'API key', 'feed-them-social' );
+							} elseif ( ! isset( $user_id->error->errors[0]->reason ) && ! empty( $youtube_access_token ) ) {
+								$type_of_key = __( 'Access Token', 'feed-them-social' );
+							}
+
+							// Error Check!
+							if ( ! isset( $auth_obj->error->errors[0]->reason ) ) {
+								$fts_youtube_message = sprintf(
+									esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
+									'<div class="fts-successful-api-token">',
+									esc_html( $type_of_key ),
+									'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
+									'</a>',
+									'</div><div class="clear"></div>'
+								);
+							} elseif ( isset( $user_id->error->errors[0]->reason ) ) {
+								$fts_youtube_message = sprintf(
+									esc_html( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
+									'<div class="fts-failed-api-token">',
+									esc_html( $type_of_key ),
+									esc_html( $user_id->errors[0]->reason ),
+									'</div><div class="clear"></div>'
+								);
+							}
+
+							break;
+						}
+
 						?>
 						jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
 
@@ -3091,13 +3120,13 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 						jQuery('.fts-failed-api-token').hide();
 
 						if(!jQuery('.fts-successful-api-token').length) {
-							jQuery('.fts-youtube-last-row').append('<?php echo esc_js( $sucess_message ); ?>');
+							jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
 						}
 								<?php
 } else {
 	?>
 						if(jQuery('.fts-failed-api-token').length) {
-							jQuery('.fts-youtube-last-row').append('<?php echo esc_js( $sucess_message ); ?>');
+							jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
 							jQuery('.fts-failed-api-token').hide();
 						}
 						<?php } ?>

@@ -227,14 +227,14 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 						$unset_count = $vid_count + $set_zero;
 						$vid_count   = $unset_count;
 						// Uncomment these for testing purposes to see the actual count and the offset count.
-						// echo'<pre>';.
-						// print_r($set_zero);.
-						// echo'</pre>';.
-						// echo'<pre>';.
-						// print_r('vidcount: '.$vid_count);.
+						// echo'<pre>';
+						// print_r($set_zero);
 						// echo'</pre>';
-						// echo'<pre>';.
-						// print_r($kind);.
+						// echo'<pre>';
+						// print_r('vidcount: '.$vid_count);
+						// echo'</pre>';
+						// echo'<pre>';
+						// print_r($videos_check);
 						// echo'</pre>';.
 						$youtube_channel_id_data['items'] = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' . $channel_id . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token ) );
 						$user_channel_returned            = $this->fts_get_feed_json( $youtube_channel_id_data );
@@ -339,8 +339,9 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 										$youtube_description,
 										array(
 											'a'      => array(
-												'href'  => array(),
-												'title' => array(),
+												'href'   => array(),
+												'title'  => array(),
+												'target' => array(),
 											),
 											'br'     => array(),
 											'em'     => array(),
@@ -365,7 +366,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 					$space_between_videos = isset( $space_between_videos ) && '' !== $space_between_videos ? $space_between_videos : '1px';
 
-					$thumbs_wrap_color_final  = isset( $thumbs_wrap_color ) ? ' style="background:' . $thumbs_wrap_color . '!important"' : '';
+					$thumbs_wrap_color_final  = isset( $thumbs_wrap_color ) ? 'background:' . $thumbs_wrap_color . '!important' : '';
 					$thumbs_wrap_color_scroll = isset( $thumbs_wrap_color ) ? 'background:' . $thumbs_wrap_color . '' : '';
 
 					if ( ! empty( $video_id_or_link ) ) {
@@ -393,7 +394,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 					$video_id_or_link_final = isset( $video_id_or_link ) && '' === $video_id_or_link ? $space_between_videos : '';
 					$thumbgallery_class     = isset( $video_id_or_link ) && '' !== $video_id_or_link ? ' fts-youtube-no-thumbs-gallery' : '';
 
-					echo '<div data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-force-columns="' . esc_attr( $force_columns ) . '" data-ftsi-margin="' . esc_html( $video_id_or_link_final ) . '" class="' . esc_attr( $fts_dynamic_class_name ) . ' fts-youtube-popup-gallery fts-youtube-inline-block-centered ' . esc_attr( $thumbgallery_class ) . '" ' . esc_attr( $thumbs_wrap_color_final ) . '>';
+					echo '<div data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-force-columns="' . esc_attr( $force_columns ) . '" data-ftsi-margin="' . esc_html( $video_id_or_link_final ) . '" class="' . esc_attr( $fts_dynamic_class_name ) . ' fts-youtube-popup-gallery fts-youtube-inline-block-centered ' . esc_attr( $thumbgallery_class ) . '" style="' . esc_attr( $thumbs_wrap_color_final ) . '"">';
 
 					if ( ! empty( $video_id_or_link ) ) {
 
@@ -488,8 +489,9 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 										$youtube_description,
 										array(
 											'a'      => array(
-												'href'  => array(),
-												'title' => array(),
+												'href'   => array(),
+												'title'  => array(),
+												'target' => array(),
 											),
 											'br'     => array(),
 											'em'     => array(),
@@ -523,8 +525,9 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 										$youtube_description,
 										array(
 											'a'      => array(
-												'href'  => array(),
-												'title' => array(),
+												'href'   => array(),
+												'title'  => array(),
+												'target' => array(),
 											),
 											'br'     => array(),
 											'em'     => array(),
@@ -532,7 +535,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 											'small'  => array(),
 										)
 									) . '</div>';
-									$share_this->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
+									echo $share_this->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
 									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 									if ( isset( $comments_count ) && '0' !== $comments_count && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 										$this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $comments_count );
@@ -688,7 +691,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 					echo '</div><!--END main wrap for thumbnails-->';
 					// END main wrap for thumbnails.
 					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'autoscroll' === $loadmore ) {
-						echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader" ' . esc_attr( $thumbs_wrap_color_final ) . '></div>';
+						echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader" style="' . esc_attr( $thumbs_wrap_color_final ) . '"></div>';
 					}
 					if ( ! empty( $thumbs_wrap_height ) || ! empty( $wrap ) ) {
 						echo '</div>';
@@ -832,8 +835,9 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 							$youtube_comment,
 							array(
 								'a'      => array(
-									'href'  => array(),
-									'title' => array(),
+									'href'   => array(),
+									'title'  => array(),
+									'target' => array(),
 								),
 								'br'     => array(),
 								'em'     => array(),
@@ -900,8 +904,9 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 					$youtube_description,
 					array(
 						'a'      => array(
-							'href'  => array(),
-							'title' => array(),
+							'href'   => array(),
+							'title'  => array(),
+							'target' => array(),
 						),
 						'br'     => array(),
 						'em'     => array(),

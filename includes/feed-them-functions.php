@@ -130,18 +130,20 @@ class feed_them_social_functions {
 	 * @since
 	 */
 	public function fts_share_option( $fb_link, $description ) {
-		// Social media sharing URLs!
-		$link                      = $fb_link;
-		$description               = wp_strip_all_tags( $description );
-		$ft_gallery_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link;
-		$ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
-		$ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
-		$ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
-		$ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
 
-		$hide_share = get_option( 'fts_disable_share_button' ) ? get_option( 'fts_disable_share_button' ) : '';
+        $hide_share = get_option( 'fts_disable_share_button', true ) ? get_option( 'fts_disable_share_button', true ) : '';
 
-		if ( isset( $hide_share ) && 1 !== $hide_share ) {
+        if ( isset($hide_share) && '1' !== $hide_share ) {
+            // Social media sharing URLs
+            $link                      = $fb_link;
+            $description               = wp_strip_all_tags( $description );
+            $ft_gallery_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link;
+            $ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
+            $ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
+            $ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
+            $ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
+
+            // The share wrap and links
 			$output  = '<div class="fts-share-wrap">';
 			$output .= '<a href="javascript:;" class="ft-gallery-link-popup">' . esc_html( '', 'feed-them-social' ) . '</a>';
 			$output .= '<div class="ft-gallery-share-wrap">';
@@ -152,8 +154,8 @@ class feed_them_social_functions {
 			$output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" class="ft-galleryemail-icon"><i class="fa fa-envelope"></i></a>';
 			$output .= '</div>';
 			$output .= '</div>';
+            return $output;
 		}
-		return $output;
 	}
 
 	/**

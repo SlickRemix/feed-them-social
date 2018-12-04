@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 4.9.8
-Stable tag: 2.5.9
+Stable tag: 2.6.0
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -76,6 +76,11 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.6.0 Tuesday, December 4th, 2018 =
+   * FIX: Global Options: Share button not hiding when option was checked.
+   * FIX: Review Notice showing on activation.
+   * IMPORTANT NOTE: Instagram Feed & Combined Streams: Added depreciation text about hashtag and location options being removed. Hashtag Search and Location information will be retired on the Instagram API platform on December 11th, 2018. Your Existing Hashtag or Location feeds will work until December 11th, 2018. We will be making an update on the 10th to remove the call so any existing hashtag or location feeds will not display. We will be looking into creating an app on facebook so we can also pull hashtags. Keep everyone posted.
+
 = Version 2.5.8 - 2.5.9 Monday, October 22nd, 2018 =
    * NEW: Facebook Options: Translate the text, View on Facebook.
    * FIX: Pinterest & Instagram Options: Some plugins stripping out the hashtag we used to pass the access token in the browser url. Now we use &access_token instead.

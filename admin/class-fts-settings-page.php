@@ -1004,18 +1004,38 @@ class FTS_Settings_Page {
 					});
 
 
-					jQuery('#instagram-messages-selector').bind('change', function (e) {
+                    var fts_notice_message = '<div class="feed-them-social-admin-input-wrap fts-instagram-hashtag-location-options-message fts-premium-options-message" id="not_active_main_select" style="display: block;"><a class="not-active-title" href="https://www.slickremix.com/instagram-hashtag-and-location-options/" target="_blank"><h3>Hashtag and Location Depreciation Notice</h3></a>The hashtag and location options are being retired for the moment. You can <a target="_blank" href="https://www.slickremix.com/instagram-hashtag-and-location-options/">read more about it here</a>. It appears there is a way to do hashtag calls through the Facebook/Instagram api, so we are looking into making this happen. It is limited in terms of API calls so this may not work for many people. Unfortunately these are the new privacy guide lines set forth by facebook since they own Instagram.<br/><br/>Your Existing Hashtag or Location feeds will work until December 11th, 2018. We will be making an update on the 10th to remove the call so any existing hashtag or location feeds will not display</div>';
+
+                    jQuery('#instagram-messages-selector').bind('change', function (e) {
 						if (jQuery('#instagram-messages-selector').val() == 'hashtag') {
 							jQuery(".instagram-id-option-wrap,.instagram-user-option-text,.instagram-location-option-text,.main-instagram-profile-options-wrap").hide();
 							jQuery(".instagram-hashtag-option-text").show();
+                               jQuery(".instagram_options_wrap").hide();
+                               if(!jQuery('div').hasClass('fts-instagram-hashtag-location-options-message')){
+                                   jQuery(  ".fts-instagram-shortcode-form").append( fts_notice_message );
+                               }
+                               else {
+                                   jQuery(".fts-instagram-hashtag-location-options-message").show();
+                               }
+
 						}
 						else if (jQuery('#instagram-messages-selector').val() == 'location') {
 							jQuery(".instagram-id-option-wrap,.instagram-user-option-text,.instagram-hashtag-option-text,.main-instagram-profile-options-wrap").hide();
 							jQuery(".instagram-location-option-text").show();
+                            jQuery(".instagram_options_wrap").hide();
+                            if(!jQuery('div').hasClass('fts-instagram-hashtag-location-options-message')){
+                                jQuery(  ".fts-instagram-shortcode-form").append( fts_notice_message );
+                            }
+                            else {
+                                jQuery(".fts-instagram-hashtag-location-options-message").show();
+                            }
 						}
 						else {
 							jQuery(".instagram-id-option-wrap,.instagram-user-option-text,.main-instagram-profile-options-wrap").show();
 							jQuery(".instagram-hashtag-option-text,.instagram-location-option-text").hide();
+                            jQuery(".instagram_options_wrap").show();
+                            jQuery(".fts-instagram-hashtag-location-options-message").hide();
+
 						}
 					});
 
@@ -1023,14 +1043,36 @@ class FTS_Settings_Page {
 						if (jQuery('#combine_instagram_type').val() == 'hashtag') {
 							jQuery(".combine-instagram-id-option-wrap,.combine-instagram-user-option-text,.combine-instagram-location-option-text").hide();
 							jQuery(".combine-instagram-hashtag-option-text").show();
+
+                            jQuery(".combine-instagram-hashtag-option-text, .combine-instagram-hashtag-option-text, #combine_instagram_name").hide();
+
+                            if(!jQuery('.combine_instagram_type div').hasClass('fts-instagram-hashtag-location-options-message')){
+                                jQuery(  ".combine_instagram_type").append( fts_notice_message );
+                            }
+                            else {
+                                jQuery(".fts-instagram-hashtag-location-options-message").show();
+                            }
 						}
 						else if (jQuery('#combine_instagram_type').val() == 'location') {
 							jQuery(".combine-instagram-id-option-wrap,.combine-instagram-user-option-text,.combine-instagram-hashtag-option-text").hide();
 							jQuery(".combine-instagram-location-option-text").show();
+
+                            jQuery(".combine-instagram-location-option-text, .combine-instagram-location-option-text, #combine_instagram_name").hide();
+
+                            jQuery(".instagram_options_wrap").hide();
+                            if(!jQuery('.combine_instagram_type div').hasClass('fts-instagram-hashtag-location-options-message')){
+                                jQuery(  ".combine_instagram_type").append( fts_notice_message );
+                            }
+                            else {
+                                jQuery(".fts-instagram-hashtag-location-options-message").show();
+                            }
 						}
 						else {
 							jQuery(".combine-instagram-id-option-wrap,.combine-instagram-user-option-text").show();
 							jQuery(".combine-instagram-hashtag-option-text,.combine-instagram-location-option-text").hide();
+                            jQuery("#combine_instagram_name").show();
+                            jQuery(".fts-instagram-hashtag-location-options-message").hide();
+
 						}
 					});
 

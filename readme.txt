@@ -66,7 +66,6 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
  ✭ [NEW! See Details](https://www.slickremix.com/downloads/all-access-pass/)
 
 All SlickRemix plugins come with FREE Basic Support! If you need help or have questions we're here to help, just post on our [Support Forum](https://wordpress.org/support/plugin/feed-them-social#new-topic-0) and we’ll get to you as quickly as we can! (usually within 48hrs)
-
 If you enjoy using our plugin please tell others. [Click here to share](https://www.facebook.com/sharer.php?u=https://wordpress.org/plugins/feed-them-social/&t=FeedThemSocial).
 
 Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](https://www.slickremix.com/)

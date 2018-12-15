@@ -35,6 +35,8 @@ class feed_them_social_functions {
 
 		add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
 
+        add_action( 'wp_ajax_fts_instagram_token_ajax', array($this, 'fts_instagram_token_ajax') );
+
 		if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
 			// Load More Options!
 			add_action( 'wp_ajax_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
@@ -103,6 +105,112 @@ class feed_them_social_functions {
 			add_filter( 'jetpack_photon_skip_image', array( $this, 'fts_jetpack_photon_exception' ), 10, 3 );
 		}
 	}
+
+
+    /**
+     * FTS Instagram Token Ajax
+     *
+     * This will save the returned token to the database.
+     *
+     * @since 2.3.3
+     */
+     public function fts_instagram_token_ajax() {
+
+        $fts_refresh_token_nonce = wp_create_nonce( 'fts_token_nonce' );
+        $access_token = $_REQUEST['access_token'];
+        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_token_nonce' ) ) {
+            if ( isset($access_token ) ) {
+                update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $access_token ) );
+                $insta_id = substr($access_token, 0, strpos($access_token, "."));
+                update_option( 'fts_instagram_custom_id', sanitize_text_field( $insta_id ) );
+            }
+        }
+        die;
+    }
+
+    /**
+     * FTS Check and Save Instgram Token Validity
+     *
+     * @since 2.6.1
+     */
+     public function feed_them_instagram_save_token() {
+
+        $fts_refresh_token_nonce = wp_create_nonce( 'access_token' );
+
+        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'access_token' ) ) {
+
+            $auth_obj = $_GET['access_token'];
+
+            if ( isset( $auth_obj ) ) {
+                ?>
+                <script>
+                    jQuery(document).ready(function() {
+
+                        var access_token = '<?php echo sanitize_text_field( $auth_obj ) ?>';
+                        jQuery.ajax({
+                            data: {
+                                action: 'fts_instagram_token_ajax',
+                                access_token: access_token,
+                            },
+                            type: 'POST',
+                            url: ftsAjax.ajaxurl,
+                            success: function( response ) {
+                              <?php
+
+                                $auth_obj = $_GET['access_token'];
+                                $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $auth_obj );
+                                // Get Data for Instagram to check for errors
+                                $response = wp_remote_fopen( $insta_url );
+                                $test_app_token_response = json_decode( $response );
+
+                                // if the combined streams plugin is active we won't allow the settings page link to open up the Instagram Feed, instead we'll remove the #feed_type=instagram and just let the user manually select the combined streams or single instagram feed.
+                                if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
+                                    $custom_instagram_link_hash = '';
+                                } else {
+                                    $custom_instagram_link_hash = '#feed_type=instagram';
+                                }
+                                if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) || isset( $test_app_token_response->meta->error_message ) && 'This client has not been approved to access this resource.' === $test_app_token_response->meta->error_message ) {
+                                    $fts_instagram_message = sprintf(
+                                        esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
+                                        '<div class="fts-successful-api-token">',
+                                        '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
+                                        '</a></div>'
+                                    );
+                                        ?>
+                                        jQuery('.fts-failed-api-token').hide();
+                                        if(!jQuery('.fts-successful-api-token').length) {
+                                            jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
+                                        }
+                                        jQuery('.fts-success').show();
+						                <?php
+                                } elseif ( isset( $test_app_token_response->meta->error_message ) || isset( $test_app_token_response->error_message ) ) {
+                                    $text = isset( $test_app_token_response->meta->error_message ) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
+                                    $fts_instagram_message = sprintf(
+                                        esc_html( '%1$sOh No something\'s wrong. %2$s. Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s.', 'feed-them-social' ),
+                                        '<div class="fts-failed-api-token">',
+                                        esc_html( $text ),
+                                        '</div>'
+                                    );
+                                    ?>
+                                    if(jQuery('.fts-failed-api-token').length) {
+                                        jQuery('.fts-failed-api-token').hide();
+                                        jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
+                                    }
+                                    <?php
+                                }
+                                ?>
+
+
+                            }
+
+                        }); // end of ajax()
+                        return false;
+                    }); // end of document.ready
+                </script>
+                <?php
+            }
+        }
+    }
 
 	/**
 	 * FTS JetPack Photon Option Exception
@@ -3001,6 +3109,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		}
 		return $random_string;
 	}
+
 
 	/**
 	 * FTS Refresh YouTube Token

@@ -30,12 +30,14 @@ class FTS_Instagram_Options_Page {
 	public function __construct() {
 	}
 
+
 	/**
 	 * Feed Them Instagram Options Page
 	 *
 	 * @since 1.9.6
 	 */
 	public function feed_them_instagram_options_page() {
+        $fts_functions                     = new feed_them_social_functions();
 		$fts_instagram_access_token          = get_option( 'fts_instagram_custom_api_token' );
 		$fts_instagram_custom_id             = get_option( 'fts_instagram_custom_id' );
 		$fts_instagram_show_follow_btn       = get_option( 'instagram_show_follow_btn' );
@@ -82,7 +84,8 @@ class FTS_Instagram_Options_Page {
 						</h3>
 						<?php
 
-						$insta_url = esc_url( 'https://api.instagram.com/v1/tags/slickremix/media/recent/?access_token=' . $fts_instagram_access_token );
+
+                        $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $fts_instagram_access_token );
 						// Get Data for Instagram!
 						$response = wp_remote_fopen( $insta_url );
 						// Error Check!
@@ -90,13 +93,14 @@ class FTS_Instagram_Options_Page {
 						?>
 						<p>
 						<?php
-						echo sprintf(
-							esc_html( 'This is required to make the feed work. Just click the button below and it will connect to your Instagram to get an access token, then it will return it in the input below. Then just click the save button and you will now be able to generate your Instagram feed. If the button is not working for you and can always %1$s manually create an Access Token.%2$s', 'feed-them-social' ),
-							'<a href="' . esc_url( 'https://www.slickremix.com/docs/how-to-create-instagram-access-token/' ) . '" target="_blank">',
-							'</a>'
-						);
-						?>
+						echo esc_html( 'This is required to make the feed work. Just click the button below and it will connect to your Instagram Account to get an access token, then it will return it in the input below and then you will be able to generate your Instagram feed.', 'feed-them-social' );
+                        ?>
 						</p>
+                        <p>
+                            <?php
+                            echo esc_html( 'If you need to generate more than one feed simply remove the Instagram ID and Access Token and click the Save All Changes button at the bottom of the page. Make sure you are logged out of your current Instagram Account then click the button to get a new access token, after which you will be prompted to login to Instagram with your new account username and password. Once the new access token is returned you can then create another feed.', 'feed-them-social' );
+                            ?>
+                        </p>
 						<p>
 						<?php
 						echo sprintf(
@@ -121,44 +125,54 @@ class FTS_Instagram_Options_Page {
 
 					<div class="feed-them-social-admin-input-wrap">
 						<div class="feed-them-social-admin-input-label fts-instagram-border-bottom-color-label">
-							<?php esc_html_e( 'Access Token Required', 'feed-them-social' ); ?>
+							<?php esc_html_e( 'Access Token', 'feed-them-social' );
+
+
+                            if ( isset( $_GET['access_token'] )  ) {
+                                // START AJAX TO SAVE TOKEN TO DB
+                                $fts_functions->feed_them_instagram_save_token();
+                            }
+                            ?>
 						</div>
 
 						<input type="text" name="fts_instagram_custom_api_token" class="feed-them-social-admin-input" id="fts_instagram_custom_api_token" value="<?php echo esc_attr( $access_token ); ?>"/>
 						<div class="fts-clear"></div>
 					</div>
-					<?php
-					// Error Check
-					// if the combined streams plugin is active we won't allow the settings page link to open up the Instagram Feed, instead we'll remove the #feed_type=instagram and just let the user manually select the combined streams or single instagram feed.
-					if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
-						$custom_instagram_link_hash = '';
-					} else {
-						$custom_instagram_link_hash = '#feed_type=instagram';
-					}
-					if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) && ! empty( $fts_instagram_access_token ) || isset( $test_app_token_response->meta->error_message ) && 'This client has not been approved to access this resource.' === $test_app_token_response->meta->error_message ) {
-						echo sprintf(
-							esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
-							'<div class="fts-successful-api-token">',
-							'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
-							'</a></div>'
-						);
-					} elseif ( isset( $test_app_token_response->meta->error_message ) && ! empty( $fts_instagram_access_token ) || isset( $test_app_token_response->error_message ) && ! empty( $fts_instagram_access_token ) ) {
-						$text = isset( $test_app_token_response->meta->error_message ) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
-						echo sprintf(
-							esc_html( '%1$sOh No something\'s wrong. %2$s. %3$s.', 'feed-them-social' ),
-							'<div class="fts-failed-api-token">',
-							esc_html( $text ),
-							'</div>'
-						);
-					}
-					if ( empty( $fts_instagram_access_token ) ) {
-						echo sprintf(
-							esc_html( '%1$sYou are required to get an access token to view your photos. Click Save all Changes after getting your Access Token.%2$s', 'feed-them-social' ),
-							'<div class="fts-failed-api-token">',
-							'</div>'
-						);
-					}
-					?>
+
+                    <div class="feed-them-social-admin-input-wrap fts-instagram-last-row" style="margin-top: 0; padding-top: 0">
+                        <?php
+                        // Error Check
+                        // if the combined streams plugin is active we won't allow the settings page link to open up the Instagram Feed, instead we'll remove the #feed_type=instagram and just let the user manually select the combined streams or single instagram feed.
+                        if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
+                            $custom_instagram_link_hash = '';
+                        } else {
+                            $custom_instagram_link_hash = '#feed_type=instagram';
+                        }
+                        if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) && ! empty( $fts_instagram_access_token ) || isset( $test_app_token_response->meta->error_message ) && 'This client has not been approved to access this resource.' === $test_app_token_response->meta->error_message ) {
+                            echo sprintf(
+                                esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
+                                '<div class="fts-successful-api-token">',
+                                '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
+                                '</a></div>'
+                            );
+                        } elseif ( isset( $test_app_token_response->meta->error_message ) && ! empty( $fts_instagram_access_token ) || isset( $test_app_token_response->error_message ) && ! empty( $fts_instagram_access_token ) ) {
+                            $text = isset( $test_app_token_response->meta->error_message ) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
+                            echo sprintf(
+                                esc_html( '%1$sOh No something\'s wrong. %2$s. Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s', 'feed-them-social' ),
+                                '<div class="fts-failed-api-token">',
+                                esc_html( $text ),
+                                '</div>'
+                            );
+                        }
+                        if ( empty( $fts_instagram_access_token ) && empty($_GET['access_token']) ) {
+                            echo sprintf(
+                                esc_html( '%1$sYou are required to get an access token to view your photos.%2$s', 'feed-them-social' ),
+                                '<div class="fts-failed-api-token">',
+                                '</div>'
+                            );
+                        }
+                        ?>
+                    </div>
 					<div class="fts-clear"></div>
 				</div>
 

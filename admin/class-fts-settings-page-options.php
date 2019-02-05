@@ -1155,7 +1155,7 @@ class FTS_Settings_Page_Options {
 						'label'       => __( 'Facebook ID (required)', 'feed-them-social' ),
 						'instructional-text' => array(
 							array(
-								'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below. To create an additional feed go back the' ) . ' <a href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">' . __( 'Facebook Options', 'feed-them-social' ) . '</a> ' . __( 'page and make sure you are logged into that specific Facebook account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.', 'feed-them-social' ) . '',
+								'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
 								'class' => 'facebook-message-generator page inst-text-facebook-page',
 							),
 							array(
@@ -1175,16 +1175,16 @@ class FTS_Settings_Page_Options {
 								'class' => 'facebook-message-generator album_photos inst-text-facebook-album-photos',
 							),
 							array(
-								'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below. To create an additional feed go back the' ) . ' <a href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">' . __( 'Facebook Options', 'feed-them-social' ) . '</a> ' . __( 'page and make sure you are logged into that specific Facebook account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.', 'feed-them-social' ) . '',
-								'class' => 'facebook-message-generator albums inst-text-facebook-albums',
+                                'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
+                                'class' => 'facebook-message-generator albums inst-text-facebook-albums',
 							),
 							array(
-								'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below. To create an additional feed go back the' ) . ' <a href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">' . __( 'Facebook Options', 'feed-them-social' ) . '</a> ' . __( 'page and make sure you are logged into that specific Facebook account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.', 'feed-them-social' ) . '',
-								'class' => 'facebook-message-generator video inst-text-facebook-video',
+                                'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
+                                'class' => 'facebook-message-generator video inst-text-facebook-video',
 							),
 							array(
-								'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below. To create an additional feed go back the' ) . ' <a href="admin.php?page=fts-facebook-feed-styles-submenu-page" target="_blank">' . __( 'Facebook Options', 'feed-them-social' ) . '</a> ' . __( 'page and make sure you are logged into that specific Facebook account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.', 'feed-them-social' ) . '',
-								'class' => 'facebook-message-generator reviews inst-text-facebook-reviews',
+                                'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
+                                'class' => 'facebook-message-generator reviews inst-text-facebook-reviews',
 							),
 						),
 						'type'        => 'text',
@@ -1201,25 +1201,25 @@ class FTS_Settings_Page_Options {
 					),
 
 					// Access Token
-					array(
-						'option_type' => 'input',
-						'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
-						'type'        => 'text',
-						'id'          => 'fb_access_token',
-						'name'        => 'fb_access_token',
+			//		array(
+			//			'option_type' => 'input',
+			//			'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+			//			'type'        => 'text',
+			//			'id'          => 'fb_access_token',
+			//			'name'        => 'fb_access_token',
 
 						// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
 						// 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
-						'placeholder' => __( '', 'feed-them-social' ),
+			//			'placeholder' => __( '', 'feed-them-social' ),
 
 						// Relative to JS.
-						'short_attr'  => array(
-							'attr_name'    => 'access_token',
-							'var_final_if' => 'yes',
-							'empty_error'  => 'set',
-							'empty_error_value' => '',
-						),
-					),
+			//			'short_attr'  => array(
+			//				'attr_name'    => 'access_token',
+			//				'var_final_if' => 'yes',
+			//				'empty_error'  => 'set',
+			//				'empty_error_value' => '',
+			//			),
+			//		),
 
 					// Facebook Album ID
 					array(
@@ -4398,8 +4398,8 @@ class FTS_Settings_Page_Options {
 						'required'    => 'yes',
 						'instructional-text' => array(
 							1 => array(
-								'text' => __( '<div class="fts-insta-info-plus-wrapper">If your Access Token is set on the Instagram Options page of our plugin your ID should appear below.<br/><strong>To create an additional feed</strong> go back the ', 'feed-them-social' ) . ' <a href="admin.php?page=fts-instagram-feed-styles-submenu-page" target="">' . __( 'Instagram Options', 'feed-them-social' ) . '</a>' . __( ' and make sure you are logged into that specific Instagram account then click the button again to get a new Access Token/ID. Remember to click Save all Changes and return here.</div>', 'feed-them-social' ),
-								'class' => 'instagram-user-option-text',
+                                'text' => __( '<div class="fts-insta-info-plus-wrapper">If your Access Token is set on the Instagram Options page of our plugin your ID should appear below.</div>', 'feed-them-social' ),
+                                'class' => 'instagram-user-option-text',
 							),
 							2 => array(
 								'text' => __( 'Add your Hashtag below. <strong>DO NOT</strong> add the #, just the name.', 'feed-them-social' ),
@@ -4420,25 +4420,25 @@ class FTS_Settings_Page_Options {
 					),
 
 					// Access Token
-					array(
-						'option_type' => 'input',
-						'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
-						'type'        => 'text',
-						'id'          => 'insta_access_token',
-						'name'        => 'insta_access_token',
+			//		array(
+			//			'option_type' => 'input',
+			//			'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+			//			'type'        => 'text',
+			//			'id'          => 'insta_access_token',
+			//			'name'        => 'insta_access_token',
 
 						// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
 						// 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
-						'placeholder' => __( '', 'feed-them-social' ),
+			//			'placeholder' => __( '', 'feed-them-social' ),
 
 						// Relative to JS.
-						'short_attr'  => array(
-							'attr_name'    => 'access_token',
-							'var_final_if' => 'yes',
-							'empty_error'  => 'set',
-							'empty_error_value' => '',
-						),
-					),
+			//			'short_attr'  => array(
+			//				'attr_name'    => 'access_token',
+			//				'var_final_if' => 'yes',
+			//				'empty_error'  => 'set',
+			//				'empty_error_value' => '',
+			//			),
+			//		),
 
 					// Pic Count
 					array(

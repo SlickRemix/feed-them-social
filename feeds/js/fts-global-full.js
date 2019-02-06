@@ -1,7 +1,6 @@
 jQuery(document).ready(function() {
 
 
-
     jQuery('.fts-youtube-scrollable, .youtube-comments-wrap-premium, .youtube-comments-thumbs').hover(function() {
         jQuery("body").css("overflow","hidden");
     }, function() {

@@ -282,7 +282,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 							'profile_description'      => '',
 							'columns'                  => '',
 							'force_columns'            => '',
-							'access_token'             => '',
+							// 'access_token'             => '',
 						),
 						$atts
 					)
@@ -343,6 +343,9 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				$fts_instagram_access_token_final = $access_token;
 			}
 
+            if(isset($_REQUEST['next_url'])){
+                $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_instagram_custom_api_token'), $_REQUEST['next_url'] );
+            }
 			// $instagram_id comes from our shortcode.
 			// URL to get Feeds.
 			if ( 'hashtag' === $type ) {
@@ -802,6 +805,10 @@ if ( 'yes' === $profile_description ) {
                 $next_url = isset( $insta_data->pagination->next_url ) ? $insta_data->pagination->next_url : '';
                 // we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
                 $_REQUEST['next_url'] = ! empty( $loadmore_count ) ? str_replace( "count=$pics_count", "count=$loadmore_count", $next_url ) : $next_url;
+
+                $access_token = 'access_token='.get_option( 'fts_instagram_custom_api_token' );
+                $_REQUEST['next_url'] = str_replace( $access_token, "access_token=XXX", $next_url );
+
                 ?>
         <script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
                 <?php

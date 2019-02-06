@@ -113,7 +113,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 					'show_media'               => '',
 					'show_date'                => '',
 					'show_name'                => '',
-					'access_token'             => '',
+				//	'access_token'             => '',
 
 				),
 				$atts
@@ -140,7 +140,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 					'image_position_lr'        => '',
 					'image_position_top'       => '',
 					'hide_comments_popup'      => '',
-					'access_token'             => '',
+				//	'access_token'             => '',
 
 				),
 				$atts
@@ -164,12 +164,12 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 		}
 
 		// Get Access Token.
-		$access_token = isset( $fb_shortcode['access_token'] ) ? $fb_shortcode['access_token'] : '';
-		if ( ! empty( $access_token ) ) {
-			$access_token = $fb_shortcode['access_token'];
-		} else {
+	//	$access_token = isset( $fb_shortcode['access_token'] ) ? $fb_shortcode['access_token'] : '';
+	//	if ( ! empty( $access_token ) ) {
+	//		$access_token = $fb_shortcode['access_token'];
+	//	} else {
 			$access_token = $this->get_access_token();
-		}
+	//	}
 
 		// UserName?.
 		if ( ! $fb_shortcode['id'] ) {
@@ -1599,6 +1599,10 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 			if ( 'page' === $fb_shortcode['type'] && 'page_only' === $fb_shortcode['posts_displayed'] ) {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description&access_token=' . $access_token . $language . '' );
 
+                if(isset($_REQUEST['next_url'])){
+                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_facebook_custom_api_token'), $_REQUEST['next_url'] );
+                }
+
 				if ( ! $fts_count_ids >= 1 ) {
 					// We cannot add sanitize_text_field here on the $_REQUEST['next_url'] otherwise it will fail to load the contents from the facebook API.
 					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/posts?fields=id,caption,attachments,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
@@ -2022,10 +2026,14 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 
 			// Load More BUTTON Start.
 			$next_url       = isset( $feed_data->paging->next ) ? $feed_data->paging->next : '';
+
 			$posts          = isset( $fb_shortcode['posts'] ) ? $fb_shortcode['posts'] : '';
 			$loadmore_count = isset( $fb_shortcode['loadmore_count'] ) && '' !== $fb_shortcode['loadmore_count'] ? $fb_shortcode['loadmore_count'] : '';
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
 			$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
+
+			$access_token = 'access_token='.get_option( 'fts_facebook_custom_api_token' );
+            $_REQUEST['next_url'] = str_replace( $access_token, "access_token=XXX", $next_url );
 
 			echo '<script>';
 			echo 'var nextURL_' . esc_js( $_REQUEST['fts_dynamic_name'] ) . '= "' . esc_url_raw( $_REQUEST['next_url'] ) . '";';

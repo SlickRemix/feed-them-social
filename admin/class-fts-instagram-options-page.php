@@ -96,11 +96,6 @@ class FTS_Instagram_Options_Page {
 						echo esc_html( 'This is required to make the Instagram Feed work. Click the button below and it will connect to your Instagram Account to get an access token. It will then return to this page and save it in the inputs below. After it finishes you will be able to generate your Instagram feed.', 'feed-them-social' );
                         ?>
 						</p>
-                        <p>
-                            <?php
-                            echo esc_html( 'If you need to generate more than one feed simply remove the Instagram ID and Access Token and click the Save All Changes button at the bottom of the page. Make sure you are logged out of your current Instagram Account and click the button to get a new access token. You will be prompted to login to Instagram with your new account username and password. Once the new access token is returned you can then create another feed.', 'feed-them-social' );
-                            ?>
-                        </p>
 						<p>
 						<?php
 						echo sprintf(

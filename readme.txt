@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.0.3
-Stable tag: 2.6.3
+Stable tag: 2.6.3.1
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -76,7 +76,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.6.3 Wednesday, February 5th, 2018 =
-   * FIX: Facebook & Instagram Feed: Remove the access_token= option in the shortcode. Unfortunately this is a security risk to your access token if our plugin is not active. This means if you had multiple feeds using different access tokens those feeds will not work anymore. We are working on creating a custom post type for the feeds so you will be able to do this but for now we need to remove the option. Very sorry for the any inconveniences this may cause you, but rest assured we will be back with an even easier method using the custom post type.
+   * FIX: All Facebook & Instagram Feeds: Remove the access_token= option in the shortcode. Unfortunately this is a security risk to your access token if our plugin is not active. This means if you had multiple feeds using different access tokens those feeds will not work anymore. We are working on creating a custom post type for the feeds so you will be able to do this but for now we need to remove the option. Very sorry for the any inconveniences this may cause you, but rest assured we will be back with an even easier method using the custom post type.
 
 = Version 2.6.2 Saturday, December 15th, 2018 =
    * FIX: Instagram Feed: Incorrect CSS for Videos.

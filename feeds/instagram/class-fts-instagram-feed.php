@@ -337,11 +337,11 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 			ob_start();
 
 			// New method since Instagram API changes as of April 4th, 2018.
-			if ( '' === $access_token ) {
+		//	if ( '' === $access_token ) {
 				$fts_instagram_access_token_final = $fts_instagram_access_token;
-			} else {
-				$fts_instagram_access_token_final = $access_token;
-			}
+		//	} else {
+		//		$fts_instagram_access_token_final = $access_token;
+		//	}
 
             if(isset($_REQUEST['next_url'])){
                 $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_instagram_custom_api_token'), $_REQUEST['next_url'] );

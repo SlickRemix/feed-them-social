@@ -184,6 +184,10 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 		// Count Likes/Shares/.
 		$lcs_array = $this->get_likes_shares_comments( $response_post_array, $post_data_key, $fb_post_share_count );
 
+		//echo '<pre>';
+        //print_r($lcs_array);
+        //echo '</pre>';
+
 		$fb_location  = isset( $post_data->location ) ? $post_data->location : '';
 		$fb_embed_vid = isset( $post_data->embed_html ) ? $post_data->embed_html : '';
 		$fb_from_name = isset( $post_data->from->name ) ? $post_data->from->name : '';
@@ -303,7 +307,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
 				echo '<div class="fts-jal-fb-user-thumb">';
 
-				echo ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $post_data->from->id ) . '" target="_blank">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_attr( $post_data->reviewer->name ) : esc_attr( $post_data->from->name ) ) . '" src="https://graph.facebook.com/' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_attr( $post_data->reviewer->id ) : esc_attr( $post_data->from->id ) ) . '/picture"/></a>' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '</a>' );
+				echo ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $post_data->from->id ) . '" target="_blank">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_attr( $post_data->reviewer->name ) : esc_attr( $post_data->from->name ) ) . '" src="' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_url( $post_data->fts_profile_pic_url ) : 'https://graph.facebook.com/' .esc_attr( $post_data->from->id ) ) . '/picture"/></a>' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '</a>' );
 
 				echo '</div>';
 
@@ -690,7 +694,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 						}
 					}
 					// srl: 8/27/17 - FB BUG: for some reason the full_picture for animated gifs is not correct so we dig deeper and grab another image size fb has set.
-					if ( 'animated_image_video' === $post_data->attachments->data[0]->type ) {
+					if ( isset($post_data->attachments->data[0]->type) && 'animated_image_video' === $post_data->attachments->data[0]->type ) {
 						$vid_pic = $post_data->attachments->data[0]->media->image->src;
 					} else {
 						$vid_pic = $post_data->full_picture;
@@ -1000,18 +1004,20 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 				echo '<div class="fts-fb-comments-content fts-comments-post-' . esc_attr( $fb_post_id ) . '">';
 
 				foreach ( $lcs_array['comments_thread']->data as $comment ) {
-					echo '<div class="fts-fb-comment fts-fb-comment-' . esc_attr( $comment->id ) . '">';
-					// User Profile Img.
-					$avatar_id = isset( $comment->from->id ) ? $comment->from->id : '118790751525884';
-					echo '<img class="fts-fb-comment-user-pic" src="' . esc_url( 'https://graph.facebook.com/' . $avatar_id . '/picture?type=square' ) . '"/>';
-					echo '<div class="fts-fb-comment-msg">';
-					if ( isset( $comment->from->name ) ) {
-						echo '<span class="fts-fb-comment-user-name">' . esc_html( $comment->from->name ) . '</span> ';
-					}
-					echo esc_html( $comment->message ) . '</div>';
+				    if(!empty($comment->message)) {
+                        echo '<div class="fts-fb-comment fts-fb-comment-' . esc_attr( $comment->id ) . '">';
+                        // User Profile Img.
+                        $avatar_id = isset( $comment->from->id ) ? $comment->from->id : '118790751525884';
+                        echo '<img class="fts-fb-comment-user-pic" src="' . esc_url( 'https://graph.facebook.com/' . $avatar_id . '/picture?type=square' ) . '"/>';
+                        echo '<div class="fts-fb-comment-msg">';
+                        if ( isset( $comment->from->name ) ) {
+                            echo '<span class="fts-fb-comment-user-name">' . esc_html( $comment->from->name ) . '</span> ';
+                        }
+                        echo esc_html( $comment->message ) . '</div>';
 
-					// Comment Message.
-					echo '</div>';
+                        // Comment Message.
+                        echo '</div>';
+                    }
 				}
 				echo '</div>';
 			}

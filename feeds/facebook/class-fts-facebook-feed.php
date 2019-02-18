@@ -318,10 +318,16 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 			$response = $this->get_facebook_feed_response( $fb_shortcode, $fb_cache_name, $biz_access_token, $language );
 
 			$feed_data = json_decode( $response['feed_data'] );
+
+            $feed_data = (object) $feed_data;
+            // Add Feed Type to post array.
+
 			// SHOW THE REVIEWS FEED PRINT_R
 			// echo '<pre>';
 			// print_r($feed_data );
-			// echo '</pre>';.
+			// echo '</pre>';
+
+
 			if ( 'yes' === $fb_shortcode['remove_reviews_no_description'] ) {
 				// $no_description_count2 = 0;.
 				foreach ( $feed_data->data as $k => $v ) {
@@ -333,10 +339,27 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 				}
 			}
 			$ratings_data = json_decode( $response['ratings_data'] );
+
 			// SHOW THE REVIEWS RATING INFO PRINT_R
 			// echo '<pre>';
 			// print_r($ratings_data );
 			// echo '</pre>';.
+
+            // Add fts_profile_pic_url to the array so we can show profile photos for reviews and comments in popup
+            foreach ( $feed_data->data as $post_array ) {
+
+                $the_image = 'https://graph.facebook.com/'.$post_array->reviewer->id.'/picture?redirect=false&access_token='.$biz_access_token.'';
+
+                $profile_pic_response = wp_remote_get($the_image );
+                $profile_pic_data = wp_remote_retrieve_body( $profile_pic_response );
+                $profile_pic_output = json_decode( $profile_pic_data );
+
+                  //  echo '<pre>';
+                  //  print_r($profile_pic_output->data->url);
+                  //  echo '</pre>';
+
+                $post_array->fts_profile_pic_url = $profile_pic_output->data->url;
+            }
 		}
 
 		if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
@@ -1652,7 +1675,11 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 					$fts_facebook_reviews = new FTS_Facebook_Reviews();
 					$mulit_data           = $fts_facebook_reviews->review_connection( $fb_shortcode, $access_token, $language );
 
+					// I THINK THIS IS WHERE WE NEED TO DO ANOTHER CONNECTION TO GET THE REVIEWS IMAGES NOW THAT FACEBOOK CHANGED MORE STUFF
+                    // CODE GOES HERE
+
 					$mulit_data['ratings_data'] = esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/?fields=overall_star_rating,rating_count&access_token=' . $access_token . '' );
+
 
 				} else {
 					return 'Please Purchase and Activate the Feed Them Social Reviews plugin.';

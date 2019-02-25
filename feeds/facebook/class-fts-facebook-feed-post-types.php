@@ -206,9 +206,10 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 		$fb_picture_gallery0_width = isset( $post_data->attachments->data[0]->subattachments->data[0]->media->image->src ) ? $post_data->attachments->data[0]->subattachments->data[0]->media->image->width : '';
 
 		// June 22, 2017 - Going to leave the attachments description idea for a future update, lots more work to get the likes and comments for attachments and have that info be in the popup.
-		// $fb_pictureGalleryDescription0 = isset($post_data->attachments->data[0]->subattachments->data[1]->description) ? $post_data->attachments->data[0]->subattachments->data[1]->media->image->src : '';.
-		// $fb_pictureGalleryDescription1 = isset($post_data->attachments->data[0]->subattachments->data[2]->description)? $post_data->attachments->data[0]->subattachments->data[2]->media->image->src :  '';.
-		// $fb_pictureGalleryDescription2 = isset($post_data->attachments->data[0]->subattachments->data[3]->description) ? $post_data->attachments->data[0]->subattachments->data[3]->media->image->src : '';.
+		// February 25, 2019 - Uncommented Description variables so they can be used when making it so the pictures meet accessibility standards.
+		$fb_pictureGalleryDescription0 = isset($post_data->attachments->data[0]->subattachments->data[1]->description) ? $post_data->attachments->data[0]->subattachments->data[1]->media->image->src : 'Picture from Facebook';
+		$fb_pictureGalleryDescription1 = isset($post_data->attachments->data[0]->subattachments->data[2]->description)? $post_data->attachments->data[0]->subattachments->data[2]->media->image->src :  'Picture from Facebook';
+		$fb_pictureGalleryDescription2 = isset($post_data->attachments->data[0]->subattachments->data[3]->description) ? $post_data->attachments->data[0]->subattachments->data[3]->media->image->src : 'Picture from Facebook';
 		$fb_picture_gallery_link1 = isset( $post_data->attachments->data[0]->subattachments->data[1]->target->url ) ? $post_data->attachments->data[0]->subattachments->data[1]->target->url : '';
 		$fb_picture_gallery_link2 = isset( $post_data->attachments->data[0]->subattachments->data[2]->target->url ) ? $post_data->attachments->data[0]->subattachments->data[2]->target->url : '';
 		$fb_picture_gallery_link3 = isset( $post_data->attachments->data[0]->subattachments->data[3]->target->url ) ? $post_data->attachments->data[0]->subattachments->data[3]->target->url : '';
@@ -558,7 +559,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 				}
 				// Get Directions.
 				if ( ! empty( $fb_event_latitude ) && ! empty( $fb_event_longitude ) ) {
-					echo '<a target="_blank" class="fts-fb-get-directions" href="' . esc_html( 'https://www.google.com/maps/dir/Current+Location/' . $fb_event_latitude . ',' . $fb_event_longitude . '' ) . '"  
+					echo '<a target="_blank" class="fts-fb-get-directions" href="' . esc_html( 'https://www.google.com/maps/dir/Current+Location/' . $fb_event_latitude . ',' . $fb_event_longitude . '' ) . '"
 >' . esc_html( 'Get Directions', 'feed-them-social' ) . '</a>';
 				}
 				if ( ! empty( $fb_event_ticket_info ) && ! empty( $fb_event_ticket_info ) ) {
@@ -902,25 +903,25 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 							echo '<div class="fts-clear"></div><div class="' . esc_attr( $columns_css . 'fts-fb-more-photos-wrap fts-facebook-inline-block-centered' . $fb_picture_gallery2_check . $fb_picture_gallery3_check ) . '" style="max-width:' . esc_attr( $fb_picture_gallery1_check ) . '" data-ftsi-id=' . esc_attr( $fts_dynamic_vid_name_string ) . ' data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-margin="1px" data-ftsi-force-columns="yes">';
 						}
 						if ( 2 === $fts_fb_image_count ) {
-							echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $photo_source_final ) : esc_url( $fb_link ) ) . '" target="_blank" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $photo_source_final ) . ');"></a>';
+							echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $photo_source_final ) : esc_url( $fb_link ) ) . '" target="_blank" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $photo_source_final ) . ');" title="'.$fb_pictureGalleryDescription0.'" aria-label="'.$fb_pictureGalleryDescription0.'"></a>';
 
 						}
 						if ( '' !== $fb_picture_gallery1 ) {
-							echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $fb_picture_gallery1 ) : esc_url( $fb_picture_gallery_link1 ) ) . '" target="_blank" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $fb_picture_gallery1 ) . ');"></a>';
+							echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $fb_picture_gallery1 ) : esc_url( $fb_picture_gallery_link1 ) ) . '" target="_blank" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $fb_picture_gallery1 ) . ');" title="'.$fb_pictureGalleryDescription1.'" aria-label="'.$fb_pictureGalleryDescription1.'"></a>';
 
 							if ( '' !== $fb_picture_gallery2 ) {
-								echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $fb_picture_gallery2 ) : esc_url( $fb_picture_gallery_link2 ) ) . '" target="_blank" class="fts-2-or-3-photos slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-one-wrap fts-fb-large-photo" style="background:url(' . esc_url( $fb_picture_gallery2 ) . ');"></a>';
+								echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $fb_picture_gallery2 ) : esc_url( $fb_picture_gallery_link2 ) ) . '" target="_blank" class="fts-2-or-3-photos slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-one-wrap fts-fb-large-photo" style="background:url(' . esc_url( $fb_picture_gallery2 ) . ');" title="'.$fb_pictureGalleryDescription2.'" aria-label="'.$fb_pictureGalleryDescription2.'"></a>';
 
 							}
 							if ( '' !== $fb_picture_gallery3 ) {
-								echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $fb_picture_gallery3 ) : esc_url( $fb_picture_gallery_link3 ) ) . '" target="_blank" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-two-wrap fts-fb-large-photo' . esc_attr( $fts_fb_image_count_check ) . '" style="background:url(' . esc_url( $fb_picture_gallery3 ) . ');"><div class="fts-image-count-tint-underlay"></div><div class="fts-image-count"><span>+</span>' . esc_html( $fts_fb_image_counter ) . '</div></a>';
+								echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $fb_picture_gallery3 ) : esc_url( $fb_picture_gallery_link3 ) ) . '" target="_blank" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-two-wrap fts-fb-large-photo' . esc_attr( $fts_fb_image_count_check ) . '" style="background:url(' . esc_url( $fb_picture_gallery3 ) . ');" title="'.$fb_pictureGalleryDescription3.'" aria-label="'.$fb_pictureGalleryDescription3.'"><div class="fts-image-count-tint-underlay"></div><div class="fts-image-count"><span>+</span>' . esc_html( $fts_fb_image_counter ) . '</div></a>';
 							}
 						}
 						if ( '' !== $fb_picture_gallery1 ) {
 							echo '</div>';
 						}
 					} else {
-						echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $photo_source_final ) : esc_url( $fb_link ) ) . '" target="_blank" class="fts-jal-fb-picture fts-fb-large-photo"><img border="0" alt="' . esc_attr( $post_data->from->name ) . '" src="' . esc_url( $photo_source_final ) . '"></a>';
+						echo '<a href="' . ( isset( $fb_shortcode['popup'] ) && 'yes' === $fb_shortcode['popup'] ? esc_url( $photo_source_final ) : esc_url( $fb_link ) ) . '" target="_blank" class="fts-jal-fb-picture fts-fb-large-photo"><img border="0" alt="' . esc_attr( $post_data->from->name ) . '" src="' . esc_url( $photo_source_final ) . '" title="'.$fb_pictureGalleryDescription0.'" aria-label="'.$fb_pictureGalleryDescription0.'"></a>';
 					}
 				} elseif ( $fb_picture ) {
 					if ( $fb_post_object_id ) {

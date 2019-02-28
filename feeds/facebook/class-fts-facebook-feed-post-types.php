@@ -212,9 +212,10 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
         // KZeni Edit: https://github.com/KZeni
         // February 25, 2019 - Uncommented Description variables so they can be used when making it so the pictures meet accessibility standards.
-        $fb_pictureGalleryDescription0 = isset($post_data->attachments->data[0]->subattachments->data[1]->description) ? $post_data->attachments->data[0]->subattachments->data[1]->description : 'Picture from Facebook';
-        $fb_pictureGalleryDescription1 = isset($post_data->attachments->data[0]->subattachments->data[2]->description)? $post_data->attachments->data[0]->subattachments->data[2]->description :  'Picture from Facebook';
-        $fb_pictureGalleryDescription2 = isset($post_data->attachments->data[0]->subattachments->data[3]->description) ? $post_data->attachments->data[0]->subattachments->data[3]->description : 'Picture from Facebook';
+        $picture_from_fb = __( 'Picture from Facebook', 'feed-them-social' );
+        $fb_pictureGalleryDescription0 = isset($post_data->attachments->data[0]->subattachments->data[1]->description) ? $post_data->attachments->data[0]->subattachments->data[1]->description : $picture_from_fb;
+        $fb_pictureGalleryDescription1 = isset($post_data->attachments->data[0]->subattachments->data[2]->description)? $post_data->attachments->data[0]->subattachments->data[2]->description :  $picture_from_fb;
+        $fb_pictureGalleryDescription2 = isset($post_data->attachments->data[0]->subattachments->data[3]->description) ? $post_data->attachments->data[0]->subattachments->data[3]->description : $picture_from_fb;
 
         $fb_picture_gallery_link1 = isset( $post_data->attachments->data[0]->subattachments->data[1]->target->url ) ? $post_data->attachments->data[0]->subattachments->data[1]->target->url : '';
 		$fb_picture_gallery_link2 = isset( $post_data->attachments->data[0]->subattachments->data[2]->target->url ) ? $post_data->attachments->data[0]->subattachments->data[2]->target->url : '';
@@ -1092,4 +1093,3 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
 	}//end feed_post_types()
 }//end class
-

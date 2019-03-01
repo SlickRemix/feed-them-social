@@ -2,8 +2,8 @@
 Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.0.3
-Stable tag: 2.6.5
+Tested up to: 5.1
+Stable tag: 2.6.6
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,6 +75,15 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.6.6 Friday, March 1st, 2018 =
+   * NEW: System Info: curl_multi_select and json check added.
+   * NEW: Facebook Feed: Make Extra Image Attachment Elements Accessible. Thanks to [KZeni](https://github.com/KZeni) for contributing.
+   * FIX: Facebook Feed: If we are unable to get the commenter's profile photo for privacy reasons we then load the default comment image now included in the plugin. This will greatly reduce errors in our APP and speed up load time.
+   * FIX: Facebook Settings: Add check for languages drop down because it requires json to make the calls and some servers do not have the json php extension.
+   * FIX: Twitter Feed: Retweet videos not coming up.
+   * FIX: Settings Page: The select social network option was unusable on some Windows machines. Thanks to [Thomas](https://github.com/SlickRemix/feed-them-social/issues/63) for helping us fix this problem.
+   * MISC FIX: Translatable strings, misspellings etc and CSS for Settings page feed select option.
+
 = Version 2.6.5 Monday, February 18th, 2018 =
    * FIX: Facebook Feed: php warning: unset call for $post_data->attachments->data[0]->type
    * FB REVIEWS EXTENSION: Profile photos of reviewers visible again (recent changes to the API was why the images disappeared).

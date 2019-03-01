@@ -69,11 +69,11 @@ class FTS_Settings_Page {
 					<div class="fts-tabs" id="fts-tabs">
 
 						<label for="fts-tab1" class="fts-tab1 fts-tabbed <?php echo isset( $_GET['tab'] ) && 'general_options' === $_GET['tab'] || ! isset( $_GET['tab'] ) ? 'tab-active' : ''; ?>" id="general_options">
-							<span><?php echo esc_html( 'Create Shortcode', 'sidebar-support' ); ?></span>
+							<span><?php echo esc_html( 'Create Shortcode', 'feed-them-social' ); ?></span>
 						</label>
 
 						<label for="fts-tab2" class="fts-tab2 fts-tabbed <?php echo isset( $_GET['tab'] ) && 'global_options' === $_GET['tab'] ? 'tab-active' : ''; ?>" id="global_options">
-							<span><?php echo esc_html( 'Global Options', 'sidebar-support' ); ?></span>
+							<span><?php echo esc_html( 'Global Options', 'feed-them-social' ); ?></span>
 						</label>
 
 						<div id="fts-tab-content1" class="fts-tab-content fts-hide-me <?php echo isset( $_GET['tab'] ) && 'general_options' === $_GET['tab'] || ! isset( $_GET['tab'] ) ? 'pane-active' : ''; ?>">

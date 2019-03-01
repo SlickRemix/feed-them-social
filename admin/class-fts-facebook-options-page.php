@@ -77,7 +77,7 @@ class FTS_Facebook_Options_Page {
 					$lang_options_array = json_decode( $fts_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
 					// echo '<pre>';
 					// print_r($lang_options_array);
-					// echo '</pre>'; !
+					// echo '</pre>';
 					?>
 					<div id="fb-token-master-wrap" class="feed-them-social-admin-input-wrap" style="padding-bottom:0px;">
 						<div class="fts-title-description-settings-page" style="padding-top:0; border:none; margin-bottom:0px;">
@@ -476,9 +476,11 @@ class FTS_Facebook_Options_Page {
 								<?php esc_html_e( 'Please Select Option', 'feed-them-social' ); ?>
 							</option>
 							<?php
-							foreach ( $lang_options_array->locale as $language ) {
-								echo '<option ' . selected( $fb_language, $language->codes->code->standard->representation, true ) . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
-							}
+                            if(!empty($lang_options_array->locale)) {
+                                foreach ( $lang_options_array->locale as $language ) {
+                                    echo '<option ' . selected( $fb_language, $language->codes->code->standard->representation, true ) . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
+                                }
+                            }
 							?>
 						</select>
 						<div class="clear"></div>

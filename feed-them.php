@@ -7,18 +7,18 @@
  * Plugin Name: Feed Them Social (Facebook, Instagram, Twitter, etc)
  * Plugin URI: https://feedthemsocial.com/
  * Description: Customize feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
- * Version: 2.6.5
+ * Version: 2.6.6
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
- * Tested up to: WordPress 5.0.3
- * Stable tag: 2.6.5
+ * Tested up to: WordPress 5.1
+ * Stable tag: 2.6.6
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.6.5
+ * @version    2.6.6
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2019 SlickRemix
  *
@@ -31,7 +31,7 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '2.6.5' );
+define( 'FTS_CURRENT_VERSION', '2.6.6' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 
@@ -496,7 +496,7 @@ final class Feed_Them_Social {
 					<div class="fts-notice-text">
 					<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed-them-social' ); ?></p>
 					<p class="fts-links">
-					<a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Sure, I\'de love to', 'feed-them-social' ); ?></a>
+					<a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Sure, I\'d love to', 'feed-them-social' ); ?></a>
 					<a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', '1' ) ); ?>"><?php echo esc_html( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
 					<a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', 'later' ) ); ?>"><?php echo esc_html( 'Ask me later', 'feed-them-social' ); ?></a>
 					<a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Not working, I need support', 'feed-them-social' ); ?></a>

@@ -1636,6 +1636,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				// Albums.
 				'albums' === $fb_shortcode['type'] ) {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description,link&access_token=' . $access_token . $language . '' );
+                if(isset($_REQUEST['next_url'])){
+                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_facebook_custom_api_token'), $_REQUEST['next_url'] );
+                }
 				// Check If Ajax next URL needs to be used.
 				if ( ! $fts_count_ids >= 1 ) {
 					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
@@ -1648,6 +1651,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				// Album Photos.
 				'album_photos' === $fb_shortcode['type'] ) {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description&access_token=' . $access_token . $language . '' );
+                if(isset($_REQUEST['next_url'])){
+                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_facebook_custom_api_token'), $_REQUEST['next_url'] );
+                }
 				// Check If Ajax next URL needs to be used
 				// The reason I did not create a whole new else if for the video album is because I did not want to duplicate all the code required to make the video because the videos gallery comes from the photo albums on facebook.
 				if ( isset( $fb_shortcode['video_album'] ) && 'yes' === $fb_shortcode['video_album'] ) {
@@ -1670,13 +1676,11 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 					}
 				}
 			} elseif ( 'reviews' === $fb_shortcode['type'] ) {
+
 				// Reviews.
 				if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
 					$fts_facebook_reviews = new FTS_Facebook_Reviews();
 					$mulit_data           = $fts_facebook_reviews->review_connection( $fb_shortcode, $access_token, $language );
-
-					// I THINK THIS IS WHERE WE NEED TO DO ANOTHER CONNECTION TO GET THE REVIEWS IMAGES NOW THAT FACEBOOK CHANGED MORE STUFF
-                    // CODE GOES HERE
 
 					$mulit_data['ratings_data'] = esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/?fields=overall_star_rating,rating_count&access_token=' . $access_token . '' );
 
@@ -1687,6 +1691,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				}
 			} else {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=feed,id,name,description&access_token=' . $access_token . $language . '' );
+
 				// Check If Ajax next URL needs to be used.
 				if ( ! $fts_count_ids >= 1 ) {
 					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/feed?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
@@ -2059,7 +2064,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
 			$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
 
-			$access_token = 'access_token='.get_option( 'fts_facebook_custom_api_token' );
+			$access_token = is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? 'access_token='.get_option( 'fts_facebook_custom_api_token_biz' ) : 'access_token='.get_option( 'fts_facebook_custom_api_token' );
             $_REQUEST['next_url'] = str_replace( $access_token, "access_token=XXX", $next_url );
 
 			echo '<script>';

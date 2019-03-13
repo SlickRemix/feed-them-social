@@ -266,13 +266,13 @@ class FTS_Youtube_Options_Page {
 					<select name="youtube_show_follow_btn" id="youtube-show-follow-btn"
 							class="feed-them-social-admin-input">
 						<option
-							<?php echo selected( $fts_youtube_show_follow_btn, 'no', false ); ?>
+							<?php echo selected( $fts_youtube_show_follow_btn, 'yes', false ); ?>
 								value="<?php echo esc_attr( 'yes' ); ?>">
-							<?php echo esc_html( 'No', 'feed-them-social' ); ?>
-						</option>
-						<option <?php echo selected( $fts_youtube_show_follow_btn, 'yes', false ); ?>
-								value="<?php echo esc_attr( 'no' ); ?>">
 							<?php echo esc_html( 'Yes', 'feed-them-social' ); ?>
+						</option>
+						<option <?php echo selected( $fts_youtube_show_follow_btn, 'no', false ); ?>
+								value="<?php echo esc_attr( 'no' ); ?>">
+							<?php echo esc_html( 'No', 'feed-them-social' ); ?>
 						</option>
 					</select>
 

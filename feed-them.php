@@ -7,18 +7,18 @@
  * Plugin Name: Feed Them Social (Facebook, Instagram, Twitter, etc)
  * Plugin URI: https://feedthemsocial.com/
  * Description: Customize feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
- * Version: 2.6.6
+ * Version: 2.6.7
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
  * Tested up to: WordPress 5.1
- * Stable tag: 2.6.6
+ * Stable tag: 2.6.7
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.6.6
+ * @version    2.6.7
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2019 SlickRemix
  *
@@ -31,7 +31,7 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '2.6.6' );
+define( 'FTS_CURRENT_VERSION', '2.6.7' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 
@@ -105,9 +105,11 @@ final class Feed_Them_Social {
 			self::$instance->setup_constants();
 			// Include the files!
 			self::$instance->includes();
+            // Error Handler!
+            self::$instance->error_handler = new feedthemsocial\fts_error_handler();
 
-			// Error Handler!
-			self::$instance->error_handler = new feedthemsocial\fts_error_handler();
+            // Truncate HTML Class
+            self::$instance->truncate_html = new FeedThemSocialTruncateHTML();
 
 			// FTS Custom Post Type
 			// self::$instance->fts_custom_post_type = new feedthemsocial\FTS_Custom_Post_Type();
@@ -297,6 +299,9 @@ final class Feed_Them_Social {
 		include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'feeds/pinterest/class-fts-pinterest-feed.php';
 
 		include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'feeds/youtube/class-youtube-feed-free.php';
+
+
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/trim-words.php';
 	}
 
 	/**

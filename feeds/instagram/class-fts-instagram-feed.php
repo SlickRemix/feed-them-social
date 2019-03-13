@@ -41,9 +41,9 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 	 */
 	public function convert_instagram_description_links( $bio ) {
 		// Create links from @mentions and regular links.
-		$bio = preg_replace( '/((http)+(s)?:\/\/[^<>\s]+)/i', '<a href="$0" target="_blank">$0</a>', $bio );
-		$bio = preg_replace( '/[#]+([0-9\p{L}]+)/u', '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">$0</a>', $bio );
-		$bio = preg_replace( '/[@]+([0-9\p{L}]+)/u', '<a href="https://www.instagram.com/$1" target="_blank">@$1</a>', $bio );
+		$bio = preg_replace( '~https?://[^<>\s]+~i', '<a href="$0" target="_blank">$0</a>', $bio );
+		$bio = preg_replace( '/#+(\w+)/u', '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">$0</a>', $bio );
+		$bio = preg_replace( '/@+(\w+)/u', '<a href="https://www.instagram.com/$1" target="_blank">@$1</a>', $bio );
 
 		return $bio;
 	}
@@ -58,12 +58,13 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 	 * @since 1.9.6
 	 */
 	public function convert_instagram_links( $instagram_caption_a_title ) {
-		// Create links from @mentions and regular links.
-		$instagram_caption_a_title = preg_replace( '/((http)+(s)?:\/\/[^<>\s]+)/i', '<a href="$0" target="_blank">$0</a>', $instagram_caption_a_title );
-		$instagram_caption         = preg_replace( '/[#]+([0-9\p{L}]+)/u', '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">$0</a>', $instagram_caption_a_title );
-		$instagram_caption         = preg_replace( '/[@]+([0-9\p{L}]+)/u', '<a href="https://www.instagram.com/$1" target="_blank">@$1</a>', $instagram_caption );
-		return $instagram_caption;
-	}
+        // Create links from @mentions, #hashtags and regular links.
+        $instagram_caption_a_title = preg_replace( '~https?://[^<>\s]+~i', '<a href="$0" target="_blank">$0</a>', $instagram_caption_a_title );
+        $instagram_caption         = preg_replace( '/#+(\w+)/u', '<a href="https://www.instagram.com/explore/tags/$1" target="_blank">$0</a>', $instagram_caption_a_title );
+        $instagram_caption         = preg_replace( '/@+(\w+)/u', '<a href="https://www.instagram.com/$1" target="_blank">@$1</a>', $instagram_caption );
+
+        return $instagram_caption;
+    }
 
 	/**
 	 * FTS Instagram Head

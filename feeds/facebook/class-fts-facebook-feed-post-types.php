@@ -41,7 +41,12 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 	 */
 	public function feed_post_types( $set_zero, $fb_type, $post_data, $fb_shortcode, $response_post_array, $single_event_array_response = null ) {
 
-		// print_r($post_data);
+
+        //echo '<pre>';
+        //print_r($lcs_array);
+        //echo '</pre>';
+
+
 		// echo 'ASDF';
 		// Reviews Plugin.
 		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {

@@ -386,6 +386,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 		// echo '<pre>';
 		// print_r($feed_data );
 		// echo '</pre>';
+
 		// If No Response or Error then return.
 		if ( is_array( $response ) && isset( $response[0] ) && isset( $response[1] ) && false === $response[0] ) {
 			return $response[1];
@@ -954,6 +955,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @since 1.9.6
 	 */
 	public function fts_facebook_post_desc( $fb_description, $fb_shortcode, $fb_type, $fb_post_id = null, $fb_by = null ) {
+        $trunacate_words =  new \ FeedThemSocialTruncateHTML();
 		switch ( $fb_type ) {
 			case 'video':
 				$fb_description = $this->fts_facebook_tag_filter( $fb_description );
@@ -975,7 +977,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				if ( 'album_photos' === $fb_shortcode['type'] ) {
 					if ( array_key_exists( 'words', $fb_shortcode ) ) {
 						$more            = isset( $more ) ? $more : '';
-						$trimmed_content = $this->fts_custom_trim_words( $fb_description, $fb_shortcode['words'], $more );
+						$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_description, $fb_shortcode['words'], $more );
 						echo '<div class="fts-jal-fb-description fts-non-popup-text">' . wp_kses(
 							$trimmed_content,
 							array(
@@ -1027,7 +1029,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				if ( 'albums' === $fb_shortcode['type'] ) {
 					if ( array_key_exists( 'words', $fb_shortcode ) ) {
 						$more            = isset( $more ) ? $more : '';
-						$trimmed_content = $this->fts_custom_trim_words( $fb_description, $fb_shortcode['words'], $more );
+						$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_description, $fb_shortcode['words'], $more );
 						echo '<div class="fts-jal-fb-description">' . wp_kses(
 							$trimmed_content,
 							array(
@@ -1063,7 +1065,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 						$fb_description = $this->fts_facebook_tag_filter( $fb_description );
 						if ( is_array( $fb_shortcode ) && array_key_exists( 'words', $fb_shortcode ) && '0' !== $fb_shortcode['words'] ) {
 							$more            = isset( $more ) ? $more : '';
-							$trimmed_content = $this->fts_custom_trim_words( $fb_description, $fb_shortcode['words'], $more );
+							$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_description, $fb_shortcode['words'], $more );
 							echo '<div class="fts-jal-fb-description">' . wp_kses(
 								$trimmed_content,
 								array(
@@ -1106,7 +1108,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 					// here we trim the words for the links description text... for the premium version. The $fb_shortcode['words'] string actually comes from the javascript.
 					if ( is_array( $fb_shortcode ) && array_key_exists( 'words', $fb_shortcode ) ) {
 						$more            = isset( $more ) ? $more : '';
-						$trimmed_content = $this->fts_custom_trim_words( $fb_description, $fb_shortcode['words'], $more );
+						$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_description, $fb_shortcode['words'], $more );
 						echo '<div class="jal-fb-description">' . wp_kses(
 							$trimmed_content,
 							array(
@@ -1166,7 +1168,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @since 1.9.6
 	 */
 	public function fts_facebook_post_cap( $fb_caption, $fb_shortcode, $fb_type, $fb_post_id = null ) {
-
+        $trunacate_words =  new \ FeedThemSocialTruncateHTML();
 		switch ( $fb_type ) {
 			case 'video':
 				$fb_caption = $this->fts_facebook_tag_filter( str_replace( 'www.', '', $fb_caption ) );
@@ -1190,7 +1192,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 					// here we trim the words for the links description text... for the premium version. The $fb_shortcode['words'] string actually comes from the javascript.
 					if ( array_key_exists( 'words', $fb_shortcode ) ) {
 						$more            = isset( $more ) ? $more : '';
-						$trimmed_content = $this->fts_custom_trim_words( $fb_caption, $fb_shortcode['words'], $more );
+						$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_caption, $fb_shortcode['words'], $more );
 						echo '<div class="jal-fb-caption">' . wp_kses(
 							$trimmed_content,
 							array(
@@ -1636,6 +1638,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				// Albums.
 				'albums' === $fb_shortcode['type'] ) {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description,link&access_token=' . $access_token . $language . '' );
+                if(isset($_REQUEST['next_url'])){
+                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_facebook_custom_api_token'), $_REQUEST['next_url'] );
+                }
 				// Check If Ajax next URL needs to be used.
 				if ( ! $fts_count_ids >= 1 ) {
 					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
@@ -1648,6 +1653,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				// Album Photos.
 				'album_photos' === $fb_shortcode['type'] ) {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description&access_token=' . $access_token . $language . '' );
+                if(isset($_REQUEST['next_url'])){
+                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_facebook_custom_api_token'), $_REQUEST['next_url'] );
+                }
 				// Check If Ajax next URL needs to be used
 				// The reason I did not create a whole new else if for the video album is because I did not want to duplicate all the code required to make the video because the videos gallery comes from the photo albums on facebook.
 				if ( isset( $fb_shortcode['video_album'] ) && 'yes' === $fb_shortcode['video_album'] ) {
@@ -1670,13 +1678,11 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 					}
 				}
 			} elseif ( 'reviews' === $fb_shortcode['type'] ) {
+
 				// Reviews.
 				if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
 					$fts_facebook_reviews = new FTS_Facebook_Reviews();
 					$mulit_data           = $fts_facebook_reviews->review_connection( $fb_shortcode, $access_token, $language );
-
-					// I THINK THIS IS WHERE WE NEED TO DO ANOTHER CONNECTION TO GET THE REVIEWS IMAGES NOW THAT FACEBOOK CHANGED MORE STUFF
-                    // CODE GOES HERE
 
 					$mulit_data['ratings_data'] = esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/?fields=overall_star_rating,rating_count&access_token=' . $access_token . '' );
 
@@ -1687,6 +1693,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				}
 			} else {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=feed,id,name,description&access_token=' . $access_token . $language . '' );
+
 				// Check If Ajax next URL needs to be used.
 				if ( ! $fts_count_ids >= 1 ) {
 					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/feed?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,full_picture,place,shares,source,status_type,story,to,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
@@ -1952,6 +1959,8 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	/**
 	 * FTS Custom Trim Words
 	 *
+     * Not using this anymore but keeping it as a fallback function for the combined if user has not updated the free version before the combined extension
+     *
 	 * @param string $text The description text.
 	 * @param int    $num_words Number of words you want to be showm.
 	 * @param string $more The ...
@@ -2059,7 +2068,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
 			$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
 
-			$access_token = 'access_token='.get_option( 'fts_facebook_custom_api_token' );
+			$access_token = is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? 'access_token='.get_option( 'fts_facebook_custom_api_token_biz' ) : 'access_token='.get_option( 'fts_facebook_custom_api_token' );
             $_REQUEST['next_url'] = str_replace( $access_token, "access_token=XXX", $next_url );
 
 			echo '<script>';

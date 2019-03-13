@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.1
-Stable tag: 2.6.6
+Stable tag: 2.6.7
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,7 +75,16 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.6.6 Friday, March 1st, 2018 =
+= Version 2.6.7 Wednesday, March 13th, 2019 =
+   * FIX: Pinterest Feed: Add alt tag to img elements.
+   * FIX: Facebook & Twitter Feed: Links with underscores, @mentions_withUnderscore, #mentions_withUnderscore now are complete links.
+   * FIX: YouTube Options Page: Show share button not saving correctly.
+   * FIX: Instagram Options Page: Access Token not returning proper if user was not logged into Instagram account first.
+   * COMBINED STREAMS FIX: When using the words= shortcode option: Links with underscores, @mentions_withUnderscore, #mentions_withUnderscore and links getting cut off and showing html.
+   * PREMIUM FIX: Facebook Feed: Fix loadmore problem with photo albums, album covers and videos.
+   * PREMIUM FIX: Instagram Feed: If using word=45 and it gets to an html element in the description the html element would be broken and show the html in description.
+
+= Version 2.6.6 Friday, March 1st, 2019 =
    * NEW: System Info: curl_multi_select and json check added.
    * NEW: Facebook Feed: Make Extra Image Attachment Elements Accessible. Thanks to [KZeni](https://github.com/KZeni) for contributing.
    * FIX: Facebook Feed: If we are unable to get the commenter's profile photo for privacy reasons we then load the default comment image now included in the plugin. This will greatly reduce errors in our APP and speed up load time.

@@ -105,9 +105,11 @@ final class Feed_Them_Social {
 			self::$instance->setup_constants();
 			// Include the files!
 			self::$instance->includes();
+            // Error Handler!
+            self::$instance->error_handler = new feedthemsocial\fts_error_handler();
 
-			// Error Handler!
-			self::$instance->error_handler = new feedthemsocial\fts_error_handler();
+            // Truncate HTML Class
+            self::$instance->truncate_html = new FeedThemSocialTruncateHTML();
 
 			// FTS Custom Post Type
 			// self::$instance->fts_custom_post_type = new feedthemsocial\FTS_Custom_Post_Type();
@@ -297,6 +299,9 @@ final class Feed_Them_Social {
 		include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'feeds/pinterest/class-fts-pinterest-feed.php';
 
 		include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'feeds/youtube/class-youtube-feed-free.php';
+
+
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/trim-words.php';
 	}
 
 	/**

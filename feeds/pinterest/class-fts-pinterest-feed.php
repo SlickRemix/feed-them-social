@@ -361,7 +361,7 @@ class FTS_Pinterest_Feed extends feed_them_social_functions {
 				$output .= '<div class="fts-single-pin-wrap">';
 				$output .= '<a class="fts-single-pin-link" href="' . $this->fts_view_on_pinterest_link( $post_data ) . '" target="_blank">';
 				// Pin Main Image.
-				$output .= '<div class="fts-single-pin-img-wrap"><img class="fts-single-pin-cover" src="' . $this->fts_pinterest_image_url( $post_data ) . '"/></div>';
+				$output .= '<div class="fts-single-pin-img-wrap"><img class="fts-single-pin-cover" src="' . $this->fts_pinterest_image_url( $post_data ) . '" alt="'. __('Pinterest Photo', 'feed-them-social') . '"/></div>';
 				$output .= '</a>';
 				// Pin Meta wrap.
 				$output .= '<div class="fts-single-pin-meta-wrap">';
@@ -372,7 +372,7 @@ class FTS_Pinterest_Feed extends feed_them_social_functions {
 				$output .= isset( $pinterest_description ) ? '<div class="fts-single-pin-description">' . $pinterest_description . '</div>' : '';
 
 				// Pinned To (Single Board view ONLY).
-				$output .= isset( $board_id ) && ! empty( $post_data->attribution ) && ! empty( $post_data->attribution->author_url ) && ! empty( $post_data->attribution->provider_icon_url ) && ! empty( $post_data->attribution->author_name ) ? '<a class="fts-single-attribution-wrap" href="' . $post_data->attribution->author_url . '" target="_blank"><img class="fts-single-pin-attribution-icon" src="' . $post_data->attribution->provider_icon_url . '"/><div class="fts-single-pin-attribution-provider">by ' . $post_data->attribution->author_name . '</div></a>' : '';
+				$output .= isset( $board_id ) && ! empty( $post_data->attribution ) && ! empty( $post_data->attribution->author_url ) && ! empty( $post_data->attribution->provider_icon_url ) && ! empty( $post_data->attribution->author_name ) ? '<a class="fts-single-attribution-wrap" href="' . $post_data->attribution->author_url . '" target="_blank"><img class="fts-single-pin-attribution-icon" src="' . $post_data->attribution->provider_icon_url . '" alt="'. __('Pinterest Attribution Icon', 'feed-them-social') . '"/><div class="fts-single-pin-attribution-provider">by ' . $post_data->attribution->author_name . '</div></a>' : '';
 				// Repins and likes wrap.
 				$output .= $this->fts_pinterest_repins_likes_wrap( $post_data );
 
@@ -403,8 +403,8 @@ class FTS_Pinterest_Feed extends feed_them_social_functions {
 	 */
 	public function fts_pinterest_tag_filter( $pinterest_description ) {
 			// Create links from @mentions and regular links.
-			$pinterest_description = preg_replace( '/((http)+(s)?:\/\/[^<>\s]+)/i', '<a href="$0" target="_blank">$0</a>', $pinterest_description );
-			$pinterest_description = preg_replace( '/[#]+([0-9\p{L}]+)/u', '<a href="https://www.pinterest.com/search/?q=%23$1&rs=hashtag" target="_blank">$0</a>', $pinterest_description );
+			$pinterest_description = preg_replace( '~https?://[^<>\s]+~i', '<a href="$0" target="_blank">$0</a>', $pinterest_description );
+			$pinterest_description = preg_replace( '/#+(\w+)/u', '<a href="https://www.pinterest.com/search/?q=%23$1&rs=hashtag" target="_blank">$0</a>', $pinterest_description );
 			return $pinterest_description;
 
 	}

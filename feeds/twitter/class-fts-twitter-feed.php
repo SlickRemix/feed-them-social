@@ -214,7 +214,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 		$text = $post_data->quoted_status->full_text;
 
 		// Message. Convert links to real links.
-		$pattern   = array( '/http:(\S)+/', '/https:(\S)+/', '/[@]+([0-9\p{L}]+)/u', '/[#]+([0-9\p{L}]+)/u' );
+		$pattern   = array( '/http:(\S)+/', '/https:(\S)+/', '/@+(\w+)/u', '/#+(\w+)/u' );
 		$replace   = array( ' <a href="${0}" target="_blank" rel="nofollow">${0}</a>', ' <a href="${0}" target="_blank" rel="nofollow">${0}</a>', ' <a href="https://twitter.com/$1" target="_blank" rel="nofollow">@$1</a>', ' <a href="https://twitter.com/hashtag/$1?src=hash" target="_blank" rel="nofollow">#$1</a>' );
 		$full_text = preg_replace( $pattern, $replace, $text );
 

@@ -75,7 +75,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.6.7 Wednesday, March 6th, 2019 =
+= Version 2.6.7 Wednesday, March 13th, 2019 =
    * FIX: Pinterest Feed: Add alt tag to img elements.
    * FIX: Facebook & Twitter Feed: Links with underscores, @mentions_withUnderscore, #mentions_withUnderscore now are complete links.
    * FIX: YouTube Options Page: Show share button not saving correctly.

@@ -79,7 +79,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Pinterest Feed: Add alt tag to img elements.
    * FIX: Facebook & Twitter Feed: Links with underscores, @mentions_withUnderscore, #mentions_withUnderscore now are complete links.
    * FIX: YouTube Options Page: Show share button not saving correctly.
-   * FIX: Instagram Options Page: Access Token not returning proper if user was not logged into Instgram account first.
+   * FIX: Instagram Options Page: Access Token not returning proper if user was not logged into Instagram account first.
    * COMBINED STREAMS FIX: When using the words= shortcode option: Links with underscores, @mentions_withUnderscore, #mentions_withUnderscore and links getting cut off and showing html.
    * PREMIUM FIX: Facebook Feed: Fix loadmore problem with photo albums, album covers and videos.
    * PREMIUM FIX: Instagram Feed: If using word=45 and it gets to an html element in the description the html element would be broken and show the html in description.

@@ -3415,5 +3415,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
     {
         // DEPRECIATED!
     }
-}//end class
+
+} // end class
+
 ?>

@@ -2216,6 +2216,3 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		return $random_string;
 	}
 }//end class
-
-
-

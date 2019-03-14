@@ -4,7 +4,6 @@
  * See http://www.pjgalbraith.com/2011/11/truncating-text-html-with-php/ for related blog post.
  * https://www.pjgalbraith.com/truncating-text-html-with-php/
  * Example:
- *
  * $output = FeedThemSocialTruncateHTML::truncateChars($your_html, '40', '...');
  * $output = FeedThemSocialTruncateHTML::truncateWords($your_html, '7', '...');
  *

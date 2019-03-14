@@ -3417,5 +3417,4 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
     }
 
 } // end class
-
 ?>

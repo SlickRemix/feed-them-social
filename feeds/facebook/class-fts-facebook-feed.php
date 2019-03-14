@@ -2014,9 +2014,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 			}
 		}
 		// Mentions.
-		$return_value = preg_replace( '/[@]+([0-9\p{L}]+)/u', '<a target="_blank" href="https://www.facebook.com/$1">@$1</a>', $return_value );
+		$return_value = preg_replace( '/@+(\w+)/u', '<a target="_blank" href="https://www.facebook.com/$1">@$1</a>', $return_value );
 		// Hash tags.
-		$return_value = preg_replace( '/[#]+([0-9\p{L}]+)/u', '<a target="_blank" href="https://www.facebook.com/hashtag/$1">#$1</a>', $return_value );
+		$return_value = preg_replace( '/#+(\w+)/u', '<a target="_blank" href="https://www.facebook.com/hashtag/$1">#$1</a>', $return_value );
 
 		return $return_value;
 	}
@@ -2216,6 +2216,3 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		return $random_string;
 	}
 }//end class
-
-
-

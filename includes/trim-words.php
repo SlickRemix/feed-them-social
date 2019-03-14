@@ -3,9 +3,7 @@
  * Truncates HTML text retaining tags and formatting.
  * See http://www.pjgalbraith.com/2011/11/truncating-text-html-with-php/ for related blog post.
  * https://www.pjgalbraith.com/truncating-text-html-with-php/
- *
  * Example:
- *
  * $output = FeedThemSocialTruncateHTML::truncateChars($your_html, '40', '...');
  * $output = FeedThemSocialTruncateHTML::truncateWords($your_html, '7', '...');
  *
@@ -43,8 +41,14 @@ class FeedThemSocialTruncateHTML {
         if($limit <= 0 || $limit >= self::countWords(strip_tags($html)))
             return $html;
 
+        // create new DOMDocument
         $dom = new DOMDocument();
+        // set error level
+        $internalErrors = libxml_use_internal_errors(true);
+        // load HTML
         $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+        // Restore error level
+        libxml_use_internal_errors($internalErrors);
 
         $body = $dom->getElementsByTagName("body")->item(0);
 

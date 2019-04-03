@@ -101,7 +101,7 @@ class FTS_Instagram_Options_Page {
                         // state=' . admin_url( 'admin.php?page-fts has a dash instead of equals otherwise instagram will chop our return url so on the return instagram page on our server we change it back to = so the token can be retrieved fts v2.6.7.
 						echo sprintf(
 							esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
-							'<a href="' . esc_url( 'https://instagram.com/oauth/authorize/?client_id=da06fb6699f1497bb0d5d4234a50da75&scope=public_content&redirect_uri=https://www.slickremix.com/instagram-token-plugin/?return_uri=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '&response_type=token&state=' . admin_url( 'admin.php?page-fts-instagram-feed-styles-submenu-page' ) . '' ) . '" class="fts-instagram-get-access-token">',
+							'<a href="' . esc_url( 'https://instagram.com/oauth/authorize/?client_id=da06fb6699f1497bb0d5d4234a50da75&hl=en&scope=public_content&redirect_uri=https://www.slickremix.com/instagram-token-plugin/?return_uri=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '&response_type=token&state=' . admin_url( 'admin.php?page-fts-instagram-feed-styles-submenu-page' ) . '' ) . '" class="fts-instagram-get-access-token">',
 							'</a>'
 						);
 						?>

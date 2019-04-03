@@ -2,8 +2,8 @@
 Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.1
-Stable tag: 2.6.7
+Tested up to: 5.1.1
+Stable tag: 2.6.8
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,6 +75,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.6.8 Wednesday, April 3rd, 2019 =
+   * FIX: Instagram Options page: Button to get an access token if your browser was not in english would fail. We have added hl=en to the url now to address this issue. We are aware this will force the authorization box to be in english but until Instagram fixes this issue it is the only work around.
+
 = Version 2.6.7 Wednesday, March 13th, 2019 =
    * FIX: Pinterest Feed: Add alt tag to img elements.
    * FIX: Facebook & Twitter Feed: Links with underscores, @mentions_withUnderscore, #mentions_withUnderscore now are complete links.

@@ -77,6 +77,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 == Changelog ==
 = Version 2.6.9 Wednesday, May 17th, 2019 =
    * FIX: Twitter Feed: Fixed links with underscores to work proper, such as; #my_hashtag or @my_name.
+   * FIX: Feeds Stylesheet: CSS value errors. Thanks to [@malae](https://wordpress.org/support/topic/errors-in-feeds-css-styles-cssver2-6-8/#post-11543949) for pointing out these errors.
    * PREMIUM FIX: Facebook Videos Feed: Removed shares from the edge for the API call. Shares has been depreciated and was making video feeds fail to load properly.
 
 = Version 2.6.8 Wednesday, April 3rd, 2019 =

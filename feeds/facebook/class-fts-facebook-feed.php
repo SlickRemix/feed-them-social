@@ -653,7 +653,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		$set_zero = 0;
 
 		// echo '<br/><br/>feed array<br/><br/>';.
-		// print_r( $feed_data );.
+        // echo '<pre>';
+        // print_r($feed_data );
+        // echo '</pre>';
 		// THE MAIN FEED
 		// LOOP to fix Post count!
 		foreach ( $feed_data->data as $k => $v ) {
@@ -1660,9 +1662,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				// The reason I did not create a whole new else if for the video album is because I did not want to duplicate all the code required to make the video because the videos gallery comes from the photo albums on facebook.
 				if ( isset( $fb_shortcode['video_album'] ) && 'yes' === $fb_shortcode['video_album'] ) {
 					if ( ! $fts_count_ids >= 1 ) {
-						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/videos?fields=id,created_time,description,from,icon,link,message,object_id,picture,place,shares,source,to,type,format,embed_html&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/videos?fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 					} else {
-						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/videos?ids=' . $fb_shortcode['id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,shares,source,to,type,format,embed_html&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+						$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/videos?ids=' . $fb_shortcode['id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
 					}
 				} elseif ( isset( $fb_shortcode['album_id'] ) && 'photo_stream' === $fb_shortcode['album_id'] ) {
 					if ( ! $fts_count_ids >= 1 ) {

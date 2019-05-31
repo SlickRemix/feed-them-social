@@ -3090,6 +3090,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
         } else {
             $custom_date_check = 'F jS, Y \a\t g:ia';
         }
+        // Always store the current timezone so that it can be restored later
+	$fts_old_timezone = date_default_timezone_get();
         if ( !empty( $fts_timezone ) ) {
             date_default_timezone_set( $fts_timezone );
         }
@@ -3148,6 +3150,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                 $u_time = !empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
             }
         }
+	// Restore the timezone to its value when entering this function to avoid side-effects
+	date_default_timezone_set( $fts_old_timezone );
         // Return the time!
         return $u_time;
     }

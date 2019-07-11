@@ -144,7 +144,7 @@ class FTS_Twitter_Options_Page {
 
 					<div class="fts-twitter-add-all-keys-click-option">
 						<label for="fts-custom-tokens-twitter">
-							<input type="checkbox" id="fts-custom-tokens-twitter" name="fts_twitter_custom_tokens" value="1" <?php echo checked('1', '' === $extra_keys); ?>> <?php echo esc_html( 'Add your own tokens?', 'feed-them-social' ); ?>
+							<input type="checkbox" id="fts-custom-tokens-twitter" name="fts_twitter_custom_tokens" value="1" <?php echo checked( '1', '' === $extra_keys ); ?>> <?php echo esc_html( 'Add your own tokens?', 'feed-them-social' ); ?>
 						</label>
 					</div>
 
@@ -230,10 +230,8 @@ class FTS_Twitter_Options_Page {
 								}
 							} else {
 								echo sprintf(
-									esc_html( '%1$sYou are using our Default Access tokens for testing purposes. Generate your shortcode on the %2$sSettings Page%3$s to test your feed, but remember to add your own tokens after testing as the default tokens will not always work.%4$s', 'feed-them-social' ),
-									'<div class="fts-successful-api-token">',
-									'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
-									'</a>',
+									esc_html( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
+									'<div class="fts-failed-api-token get-started-message">',
 									'</div>'
 								);
 							}

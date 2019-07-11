@@ -136,8 +136,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			} elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->content_type ) && 'video/mp4' === $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->content_type ) {
 				$twitter_final = isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->url ) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->url : '';
 			}
-			
-			
+
 			// Check to see if there is a poster image available.
 			if ( isset( $post_data->extended_entities->media[0]->media_url_https ) ) {
 
@@ -145,8 +144,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			} elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->media_url_https ) ) {
 
 				$twitter_final_poster = isset( $post_data->quoted_status->extended_entities->media[0]->media_url_https ) ? $post_data->quoted_status->extended_entities->media[0]->media_url_https : '';
-			}
-			 elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->media_url_https ) ) {
+			} elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->media_url_https ) ) {
 
 				$twitter_final_poster = isset( $post_data->retweeted_status->extended_entities->media[0]->media_url_https ) ? $post_data->retweeted_status->extended_entities->media[0]->media_url_https : '';
 			}
@@ -422,20 +420,16 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 						// Access Token Secret.
 						$fts_twitter_custom_access_token_secret
 					);
-				} else {
-					// else use default info.
-					$connection = new TwitterOAuthFTS(
-
-						// Consumer Key.
-						'4UUpTLglrsvQMjmrfdgdtHEEJ',
-						// Consumer Secret.
-						'ngtRtVKRvcY4e2lZHHkKNc63JPMn8SnOw1bM0jd6Fv8H5C3phP',
-						// Access Token.
-						'1561334624-CSmnb3JqhKctSGzYfB5ouf3GmR9Pne1fR2q9PzY',
-						// Access Token Secret.
-						'CH2Ojl5G4sgn8kUaBIEhy6M0UUvBWs1CrYW8sh1fpCQXT'
-					);
 				}
+
+				/*$fetch_api_limit = $connection->get(
+					'application/rate_limit_status',
+					array(
+						'resources' => 'help,users,search,statuses',
+					)
+				);
+
+				error_log( print_r( $fetch_api_limit, true ) );*/
 
 				// $videosDecode = 'https://api.twitter.com/1.1/statuses/oembed.json?id=507185938620219395';.
 				// numTimes = get_option('twitter_replies_offset') == TRUE ? get_option('twitter_replies_offset') : '1' ;.
@@ -674,10 +668,9 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 						<?php
 					}
 
-					    //  echo'<pre>';
-					    // print_r($fetched_tweets->data);
+						// echo'<pre>';
+						// print_r($fetched_tweets->data);
 						// echo'</pre>';
-
 					$i = 0;
 					foreach ( $fetched_tweets->data as $post_data ) {
 

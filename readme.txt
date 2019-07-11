@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.2
-Stable tag: 2.6.9
+Stable tag: 2.7.0
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,6 +75,11 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.7.0 Thursday, July 11th, 2019 =
+   * REMOVE: Remove Twitter Feed default options. This change will break all users trying to use Feed Them Socials past default tokens which are no longer available. You must retrieve your own tokens for the plugin to work.
+   * ADD: Message to Twitter options if no token is set.
+   * FIX: date_default_timezone_set to be set and not change other plugins set time.
+
 = Version 2.6.9 Wednesday, May 17th, 2019 =
    * FIX: Twitter Feed: Fixed links with underscores to work proper, such as; #my_hashtag or @my_name.
    * FIX: Feeds Stylesheet: CSS value errors. Thanks to [@malae](https://wordpress.org/support/topic/errors-in-feeds-css-styles-cssver2-6-8/#post-11543949) for pointing out these errors.

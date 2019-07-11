@@ -594,7 +594,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
 							// here we add a , for all numbers below 9,999.
 							if ( isset( $statuses_count ) && $statuses_count <= 9999 ) {
-								$statuses_count = number_format( $statuses_count );
+								$statuses_count = number_format( (float) $statuses_count );
 							}
 							// here we convert the number for the like count like 1,200,000 to 1.2m if the number goes into the millions.
 							if ( isset( $statuses_count ) && $statuses_count >= 1000000 ) {
@@ -607,7 +607,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
 							// here we add a , for all numbers below 9,999.
 							if ( isset( $followers_count ) && $followers_count <= 9999 ) {
-								$followers_count = number_format( $followers_count );
+								$followers_count = number_format( (float) $followers_count );
 							}
 							// here we convert the number for the comment count like 1,200,000 to 1.2m if the number goes into the millions.
 							if ( isset( $followers_count ) && $followers_count >= 1000000 ) {
@@ -628,9 +628,9 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 							// option to allow the followers plus count to show.
 							echo '<div class="fts-twitter-followers-wrap">';
 							echo '<div class="twitter-followers-fts fts-tweets-first"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Tweets', 'feed-them-social' ) . '</a> ' . esc_html( $statuses_count ) . '</div>';
-							echo '<div class="twitter-followers-fts fts-following-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Following', 'feed-them-social' ) . '</a> ' . number_format( $friends_count ) . '</div>';
+							echo '<div class="twitter-followers-fts fts-following-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Following', 'feed-them-social' ) . '</a> ' . number_format( (float) $friends_count ) . '</div>';
 							echo '<div class="twitter-followers-fts fts-followers-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Followers', 'feed-them-social' ) . '</a> ' . esc_html( $followers_count ) . '</div>';
-							echo '<div class="twitter-followers-fts fts-likes-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Likes', 'feed-them-social' ) . '</a> ' . number_format( $favourites_count ) . '</div>';
+							echo '<div class="twitter-followers-fts fts-likes-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Likes', 'feed-them-social' ) . '</a> ' . number_format( (float) $favourites_count ) . '</div>';
 							echo '</div>';
 
 						}

@@ -422,7 +422,8 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 					);
 				}
 
-				/*$fetch_api_limit = $connection->get(
+				/*
+				$fetch_api_limit = $connection->get(
 					'application/rate_limit_status',
 					array(
 						'resources' => 'help,users,search,statuses',
@@ -491,10 +492,12 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 						$connection_user_array['max_id'] = sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) - 1;
 					}
 
-					$fetched_tweets = $connection->get(
-						'statuses/user_timeline',
-						$connection_user_array
-					);
+					if ( null !== $connection ) {
+						$fetched_tweets = $connection->get(
+							'statuses/user_timeline',
+							$connection_user_array
+						);
+					}
 				}
 
 				if ( ! empty( $search ) ) {
@@ -529,13 +532,15 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				}
 			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
 				$error_check = __( ' This account has no tweets. Please Tweet to see this feed. Feed Them Social.', 'feed-them-social' );
+			} elseif ( null === $connection ) {
+				$error_check = __( 'No Access Tokens have been set. Please retrieve Twitter API tokens on the Twitter Options page of Feed Them Social.', 'feed-them-social' );
 			}
 
 				ob_start();
 
 			// IS RATE LIMIT REACHED?
 			if ( isset( $fetched_tweets->errors ) && '32' !== $fetched_tweets->errors[0]->code && '34' !== $fetched_tweets->errors[0]->code ) {
-				echo esc_html( 'Rate Limited Exceeded. Please go to the Feed Them Social Plugin then the Twitter Options page and follow the instructions under the header Twitter API Token.', 'feed-them-social' );
+				echo esc_html( 'Rate Limited Exceeded. Please go to the Feed Them Social Plugin then the Twitter Options page for Feed Them Social and follow the instructions under the header Twitter API Token.', 'feed-them-social' );
 			}
 			// Did the fetch fail?
 			if ( isset( $error_check ) ) {

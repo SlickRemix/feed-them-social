@@ -389,6 +389,10 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			} else {
 				$data_cache = 'twitter_data_cache_' . $name . '_num' . $num_tweets . '';
 			}
+
+			$fts_twitter_custom_access_token        = get_option( 'fts_twitter_custom_access_token' );
+			$fts_twitter_custom_access_token_secret = get_option( 'fts_twitter_custom_access_token_secret' );
+
 			// Check Cache.
 			if ( false !== $this->fts_check_feed_cache_exists( $data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$fetched_tweets = $this->fts_get_feed_cache( $data_cache );
@@ -404,9 +408,6 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
 				$fts_twitter_custom_consumer_key    = isset( $fts_twitter_custom_consumer_key ) && '' !== $fts_twitter_custom_consumer_key ? $fts_twitter_custom_consumer_key : $test_fts_twitter_custom_consumer_key;
 				$fts_twitter_custom_consumer_secret = isset( $fts_twitter_custom_consumer_secret ) && '' !== $fts_twitter_custom_consumer_secret ? $fts_twitter_custom_consumer_secret : $test_fts_twitter_custom_consumer_secret;
-
-				$fts_twitter_custom_access_token        = get_option( 'fts_twitter_custom_access_token' );
-				$fts_twitter_custom_access_token_secret = get_option( 'fts_twitter_custom_access_token_secret' );
 
 				// Use custom api info.
 				if ( ! empty( $fts_twitter_custom_access_token ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {
@@ -451,6 +452,8 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				if ( isset( $show_retweets ) && 'no' === $show_retweets ) {
 					$show_retweets = 'false';
 				}
+
+				$fetched_tweets = array();
 
 				// $url_of_status = !empty($url_of_status) ? $url_of_status : "";.
 				// $widget_type_for_videos = !empty($widget_type_for_videos) ? $widget_type_for_videos : "";.
@@ -530,12 +533,13 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				if ( '34' === $fetched_tweets->errors[0]->code ) {
 					$error_check .= __( ' Please check the Twitter Username you have entered is correct in your shortcode for Feed Them Social.', 'feed-them-social' );
 				}
-			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
-				$error_check = __( ' This account has no tweets. Please Tweet to see this feed. Feed Them Social.', 'feed-them-social' );
-			} elseif ( null === $connection ) {
+			} elseif ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
+				// NO Access tokens found.
 				$error_check = __( 'No Access Tokens have been set. Please retrieve Twitter API tokens on the Twitter Options page of Feed Them Social.', 'feed-them-social' );
+			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
+				// No Tweets Found!
+				$error_check = __( ' This account has no tweets. Please Tweet to see this feed. Feed Them Social.', 'feed-them-social' );
 			}
-
 				ob_start();
 
 			// IS RATE LIMIT REACHED?
@@ -544,9 +548,14 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			}
 			// Did the fetch fail?
 			if ( isset( $error_check ) ) {
-				echo esc_html( $error_check );
+
+				if ( current_user_can( 'administrator' ) ) {
+					echo esc_html( $error_check );
+				} else {
+					echo esc_html__( 'No Tweets available. Login as Admin to see more details.', 'feed-them-social' );
+				}
 			} else {
-				if ( ! empty( $fetched_tweets ) ) {
+				if ( isset( $fetched_tweets ) && ! empty( $fetched_tweets ) ) {
 
 					// Cache It.
 					if ( ! isset( $cache_used ) && ! isset( $_GET['load_more_ajaxing'] ) ) {

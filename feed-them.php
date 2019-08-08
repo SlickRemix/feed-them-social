@@ -14,11 +14,11 @@
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
  * Tested up to: WordPress 5.2
- * Stable tag: 2.6.9
+ * Stable tag: 2.7.3
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.6.9
+ * @version    2.7.3
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2019 SlickRemix
  *
@@ -31,7 +31,7 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '2.6.9' );
+define( 'FTS_CURRENT_VERSION', '2.7.3' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 

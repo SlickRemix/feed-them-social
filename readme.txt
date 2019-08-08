@@ -2,8 +2,8 @@
 Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.2
-Stable tag: 2.6.9
+Tested up to: 5.2.2
+Stable tag: 2.7.3
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,6 +75,19 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.7.3 Thursday, August 8th, 2019 =
+   * FIX: Instagram Options: Button not working to get access token because of depreciated API call. public_content does not work anymore for scope, basic was required instead.
+
+= Version 2.7.1 - 2.7.2 Monday, July 16th, 2019 =
+   * ADD: Twitter Error messages only show for Logged in Admins now.
+   * FIX: Twitter Access Tokens Error message and check.
+   * FIX: Twitter Access Tokens now save on Option Page in the admin automatically when returned from Twitter Authorization page instead of having to click the "Save" button after return. This prevents confusion with Access token check.
+
+= Version 2.7.0 Thursday, July 11th, 2019 =
+   * REMOVE: Remove Twitter Feed default options. This change will break all users trying to use Feed Them Socials past default tokens which are no longer available. You must retrieve your own tokens for the plugin to work.
+   * ADD: Message to Twitter options if no token is set.
+   * FIX: date_default_timezone_set to be set and not change other plugins set time.
+
 = Version 2.6.9 Wednesday, May 17th, 2019 =
    * FIX: Twitter Feed: Fixed links with underscores to work proper, such as; #my_hashtag or @my_name.
    * FIX: Feeds Stylesheet: CSS value errors. Thanks to [@malae](https://wordpress.org/support/topic/errors-in-feeds-css-styles-cssver2-6-8/#post-11543949) for pointing out these errors.

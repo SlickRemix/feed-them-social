@@ -136,8 +136,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			} elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->content_type ) && 'video/mp4' === $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->content_type ) {
 				$twitter_final = isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->url ) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->url : '';
 			}
-			
-			
+
 			// Check to see if there is a poster image available.
 			if ( isset( $post_data->extended_entities->media[0]->media_url_https ) ) {
 
@@ -145,8 +144,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			} elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->media_url_https ) ) {
 
 				$twitter_final_poster = isset( $post_data->quoted_status->extended_entities->media[0]->media_url_https ) ? $post_data->quoted_status->extended_entities->media[0]->media_url_https : '';
-			}
-			 elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->media_url_https ) ) {
+			} elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->media_url_https ) ) {
 
 				$twitter_final_poster = isset( $post_data->retweeted_status->extended_entities->media[0]->media_url_https ) ? $post_data->retweeted_status->extended_entities->media[0]->media_url_https : '';
 			}
@@ -391,6 +389,10 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			} else {
 				$data_cache = 'twitter_data_cache_' . $name . '_num' . $num_tweets . '';
 			}
+
+			$fts_twitter_custom_access_token        = get_option( 'fts_twitter_custom_access_token' );
+			$fts_twitter_custom_access_token_secret = get_option( 'fts_twitter_custom_access_token_secret' );
+
 			// Check Cache.
 			if ( false !== $this->fts_check_feed_cache_exists( $data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$fetched_tweets = $this->fts_get_feed_cache( $data_cache );
@@ -407,9 +409,6 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				$fts_twitter_custom_consumer_key    = isset( $fts_twitter_custom_consumer_key ) && '' !== $fts_twitter_custom_consumer_key ? $fts_twitter_custom_consumer_key : $test_fts_twitter_custom_consumer_key;
 				$fts_twitter_custom_consumer_secret = isset( $fts_twitter_custom_consumer_secret ) && '' !== $fts_twitter_custom_consumer_secret ? $fts_twitter_custom_consumer_secret : $test_fts_twitter_custom_consumer_secret;
 
-				$fts_twitter_custom_access_token        = get_option( 'fts_twitter_custom_access_token' );
-				$fts_twitter_custom_access_token_secret = get_option( 'fts_twitter_custom_access_token_secret' );
-
 				// Use custom api info.
 				if ( ! empty( $fts_twitter_custom_access_token ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {
 					$connection = new TwitterOAuthFTS(
@@ -422,20 +421,17 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 						// Access Token Secret.
 						$fts_twitter_custom_access_token_secret
 					);
-				} else {
-					// else use default info.
-					$connection = new TwitterOAuthFTS(
-
-						// Consumer Key.
-						'4UUpTLglrsvQMjmrfdgdtHEEJ',
-						// Consumer Secret.
-						'ngtRtVKRvcY4e2lZHHkKNc63JPMn8SnOw1bM0jd6Fv8H5C3phP',
-						// Access Token.
-						'1561334624-CSmnb3JqhKctSGzYfB5ouf3GmR9Pne1fR2q9PzY',
-						// Access Token Secret.
-						'CH2Ojl5G4sgn8kUaBIEhy6M0UUvBWs1CrYW8sh1fpCQXT'
-					);
 				}
+
+				/*
+				$fetch_api_limit = $connection->get(
+					'application/rate_limit_status',
+					array(
+						'resources' => 'help,users,search,statuses',
+					)
+				);
+
+				error_log( print_r( $fetch_api_limit, true ) );*/
 
 				// $videosDecode = 'https://api.twitter.com/1.1/statuses/oembed.json?id=507185938620219395';.
 				// numTimes = get_option('twitter_replies_offset') == TRUE ? get_option('twitter_replies_offset') : '1' ;.
@@ -456,6 +452,8 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				if ( isset( $show_retweets ) && 'no' === $show_retweets ) {
 					$show_retweets = 'false';
 				}
+
+				$fetched_tweets = array();
 
 				// $url_of_status = !empty($url_of_status) ? $url_of_status : "";.
 				// $widget_type_for_videos = !empty($widget_type_for_videos) ? $widget_type_for_videos : "";.
@@ -497,10 +495,12 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 						$connection_user_array['max_id'] = sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) - 1;
 					}
 
-					$fetched_tweets = $connection->get(
-						'statuses/user_timeline',
-						$connection_user_array
-					);
+					if ( null !== $connection ) {
+						$fetched_tweets = $connection->get(
+							'statuses/user_timeline',
+							$connection_user_array
+						);
+					}
 				}
 
 				if ( ! empty( $search ) ) {
@@ -533,21 +533,29 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				if ( '34' === $fetched_tweets->errors[0]->code ) {
 					$error_check .= __( ' Please check the Twitter Username you have entered is correct in your shortcode for Feed Them Social.', 'feed-them-social' );
 				}
+			} elseif ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
+				// NO Access tokens found.
+				$error_check = __( 'No Access Tokens have been set. Please retrieve Twitter API tokens on the Twitter Options page of Feed Them Social.', 'feed-them-social' );
 			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
+				// No Tweets Found!
 				$error_check = __( ' This account has no tweets. Please Tweet to see this feed. Feed Them Social.', 'feed-them-social' );
 			}
-
 				ob_start();
 
 			// IS RATE LIMIT REACHED?
 			if ( isset( $fetched_tweets->errors ) && '32' !== $fetched_tweets->errors[0]->code && '34' !== $fetched_tweets->errors[0]->code ) {
-				echo esc_html( 'Rate Limited Exceeded. Please go to the Feed Them Social Plugin then the Twitter Options page and follow the instructions under the header Twitter API Token.', 'feed-them-social' );
+				echo esc_html( 'Rate Limited Exceeded. Please go to the Feed Them Social Plugin then the Twitter Options page for Feed Them Social and follow the instructions under the header Twitter API Token.', 'feed-them-social' );
 			}
 			// Did the fetch fail?
 			if ( isset( $error_check ) ) {
-				echo esc_html( $error_check );
+
+				if ( current_user_can( 'administrator' ) ) {
+					echo esc_html( $error_check );
+				} else {
+					echo esc_html__( 'No Tweets available. Login as Admin to see more details.', 'feed-them-social' );
+				}
 			} else {
-				if ( ! empty( $fetched_tweets ) ) {
+				if ( isset( $fetched_tweets ) && ! empty( $fetched_tweets ) ) {
 
 					// Cache It.
 					if ( ! isset( $cache_used ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -600,7 +608,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
 							// here we add a , for all numbers below 9,999.
 							if ( isset( $statuses_count ) && $statuses_count <= 9999 ) {
-								$statuses_count = number_format( $statuses_count );
+								$statuses_count = number_format( (float) $statuses_count );
 							}
 							// here we convert the number for the like count like 1,200,000 to 1.2m if the number goes into the millions.
 							if ( isset( $statuses_count ) && $statuses_count >= 1000000 ) {
@@ -613,7 +621,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 
 							// here we add a , for all numbers below 9,999.
 							if ( isset( $followers_count ) && $followers_count <= 9999 ) {
-								$followers_count = number_format( $followers_count );
+								$followers_count = number_format( (float) $followers_count );
 							}
 							// here we convert the number for the comment count like 1,200,000 to 1.2m if the number goes into the millions.
 							if ( isset( $followers_count ) && $followers_count >= 1000000 ) {
@@ -634,9 +642,9 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 							// option to allow the followers plus count to show.
 							echo '<div class="fts-twitter-followers-wrap">';
 							echo '<div class="twitter-followers-fts fts-tweets-first"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Tweets', 'feed-them-social' ) . '</a> ' . esc_html( $statuses_count ) . '</div>';
-							echo '<div class="twitter-followers-fts fts-following-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Following', 'feed-them-social' ) . '</a> ' . number_format( $friends_count ) . '</div>';
+							echo '<div class="twitter-followers-fts fts-following-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Following', 'feed-them-social' ) . '</a> ' . number_format( (float) $friends_count ) . '</div>';
 							echo '<div class="twitter-followers-fts fts-followers-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Followers', 'feed-them-social' ) . '</a> ' . esc_html( $followers_count ) . '</div>';
-							echo '<div class="twitter-followers-fts fts-likes-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Likes', 'feed-them-social' ) . '</a> ' . number_format( $favourites_count ) . '</div>';
+							echo '<div class="twitter-followers-fts fts-likes-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Likes', 'feed-them-social' ) . '</a> ' . number_format( (float) $favourites_count ) . '</div>';
 							echo '</div>';
 
 						}
@@ -674,10 +682,9 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 						<?php
 					}
 
-					    //  echo'<pre>';
-					    // print_r($fetched_tweets->data);
+						// echo'<pre>';
+						// print_r($fetched_tweets->data);
 						// echo'</pre>';
-
 					$i = 0;
 					foreach ( $fetched_tweets->data as $post_data ) {
 

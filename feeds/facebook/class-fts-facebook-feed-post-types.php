@@ -1098,4 +1098,3 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 
 	}//end feed_post_types()
 }//end class
-

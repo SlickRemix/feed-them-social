@@ -32,12 +32,35 @@ class FTS_Twitter_Options_Page {
 	public function __construct() {
 	}
 
+
+	/**
+	 * Set New Access Tokens
+	 *
+	 * Set the Tokens from Twitter on return.
+	 *
+	 * @since 2.7.1
+	 */
+	public function set_new_access_tokens() {
+		// Set New Access Tokens!
+		if ( isset( $_GET['oauth_token'], $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token_secret'] ) ) {
+			$new_oath_token         = sanitize_text_field( wp_unslash( $_GET['oauth_token'] ) );
+			$new_oauth_token_secret = sanitize_text_field( wp_unslash( $_GET['oauth_token_secret'] ) );
+			// Set Returned Access Tokens.
+			update_option( 'fts_twitter_custom_access_token', $new_oath_token );
+			update_option( 'fts_twitter_custom_access_token_secret', $new_oauth_token_secret );
+		}
+	}
+
 	/**
 	 * Feed Them Twitter Options Page
 	 *
 	 * @since 1.9.6
 	 */
 	public function feed_them_twitter_options_page() {
+
+	    // Check if new tokens have been returned.
+		$this->set_new_access_tokens();
+
 		?>
 		<div class="feed-them-social-admin-wrap">
 			<h1>
@@ -144,7 +167,7 @@ class FTS_Twitter_Options_Page {
 
 					<div class="fts-twitter-add-all-keys-click-option">
 						<label for="fts-custom-tokens-twitter">
-							<input type="checkbox" id="fts-custom-tokens-twitter" name="fts_twitter_custom_tokens" value="1" <?php echo checked('1', '' === $extra_keys); ?>> <?php echo esc_html( 'Add your own tokens?', 'feed-them-social' ); ?>
+							<input type="checkbox" id="fts-custom-tokens-twitter" name="fts_twitter_custom_tokens" value="1" <?php echo checked( '1', '' === $extra_keys ); ?>> <?php echo esc_html( 'Add your own tokens?', 'feed-them-social' ); ?>
 						</label>
 					</div>
 
@@ -228,12 +251,12 @@ class FTS_Twitter_Options_Page {
 										'</div>'
 									);
 								}
+								// Clear Cache!
+								do_action( 'wp_ajax_fts_clear_cache_ajax' );
 							} else {
 								echo sprintf(
-									esc_html( '%1$sYou are using our Default Access tokens for testing purposes. Generate your shortcode on the %2$sSettings Page%3$s to test your feed, but remember to add your own tokens after testing as the default tokens will not always work.%4$s', 'feed-them-social' ),
-									'<div class="fts-successful-api-token">',
-									'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
-									'</a>',
+									esc_html( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
+									'<div class="fts-failed-api-token get-started-message">',
 									'</div>'
 								);
 							}

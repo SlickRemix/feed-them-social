@@ -73,7 +73,6 @@ PHP Version:              <?php echo PHP_VERSION . "\n"; ?>
 Web Server Info:          <?php echo esc_html( $server_software ) . "\n"; ?>
 
 -- PHP Configuration:
-Safe Mode:                <?php echo ini_get( 'safe_mode' ) ? 'Yes' : "No\n"; ?>
 Upload Max Size:          <?php echo esc_html( ini_get( 'upload_max_filesize' ) ) . "\n"; ?>
 Post Max Size:            <?php echo esc_html( ini_get( 'post_max_size' ) ) . "\n"; ?>
 Upload Max Filesize:      <?php echo esc_html( ini_get( 'upload_max_filesize' ) ) . "\n"; ?>

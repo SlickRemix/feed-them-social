@@ -141,8 +141,9 @@ class feed_them_social_functions {
 		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'access_token' ) ) {
 
 			$auth_obj = $_GET['access_token'];
+            $feed_type = $_GET['feed_type'];
 
-			if ( isset( $auth_obj ) ) {
+			if ( isset( $auth_obj ) && 'original_instagram' === $feed_type ) {
 				?>
 				<script>
 					jQuery(document).ready(function () {
@@ -176,8 +177,8 @@ class feed_them_social_functions {
 										'</a></div>'
 									);
 									?>
-								jQuery('.fts-failed-api-token').hide();
-								if (!jQuery('.fts-successful-api-token').length) {
+								jQuery('.instagram-failed-message').hide();
+								if (!jQuery('.fts-instagram-last-row .fts-successful-api-token').length) {
 									jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
 								}
 								jQuery('.fts-success').show();
@@ -191,8 +192,8 @@ class feed_them_social_functions {
 										'</div>'
 									);
 									?>
-								if (jQuery('.fts-failed-api-token').length) {
-									jQuery('.fts-failed-api-token').hide();
+								if (jQuery('.instagram-failed-message').length) {
+									jQuery('.instagram-failed-message').hide();
 									jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
 								}
 									<?php
@@ -282,8 +283,9 @@ class feed_them_social_functions {
 
 			ob_start();
 
+
 			if ( ! isset( $_GET['locations'] ) ) {
-				$fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25' );
+				$fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25' );
 				$test_fb_app_token_response = json_decode( $fb_token_response );
 				$_REQUEST['next_url']       = isset( $test_fb_app_token_response->paging->next ) ? esc_url_raw( $test_fb_app_token_response->paging->next ) : '';
 			} else {
@@ -291,9 +293,11 @@ class feed_them_social_functions {
 				$test_fb_app_token_response = json_decode( $fb_token_response );
 			}
 
-			// echo '<pre>';
-			// echo _r($test_fb_app_token_response);
-			// echo '</pre>';
+
+         //   echo '<pre>';
+         //   print_r($test_fb_app_token_response);
+         //  echo '</pre>';
+
 			// Make sure it's not ajaxing!
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 				// ******************
@@ -318,16 +322,23 @@ class feed_them_social_functions {
 			} //End make sure it's not ajaxing!
 
 			foreach ( $test_fb_app_token_response->data as $data ) {
-				?>
+
+			   // if( !empty( $data->instagram_business_account )  ){
+
+
+                    $data_id = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->id : $data->id;
+                    $data_user_name = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' .$data->instagram_business_account->username. '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>'.$data->name : $data->name;
+                    $data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $data->id . '/picture';
+                    ?>
 						<li class="fts-fb-main-page-li">
 							<div class="fb-click-wrapper">
 								<div class="fb-image">
 									<img border="0" height="50" width="50"
-										 src="<?php echo esc_url( 'https://graph.facebook.com/' . $data->id . '/picture' ); ?>"/>
+										 src="<?php echo esc_url( $data_thumbnail ); ?>"/>
 								</div>
 								<div class="fb-name-wrap"><span class="fb-name">
 					<?php
-					echo esc_html( $data->name );
+					echo  $data_user_name ;
 					if ( isset( $data->store_number, $data->store_location_descriptor ) ) {
 						print '(' . $data->store_location_descriptor . ')';
 					}
@@ -336,7 +347,7 @@ class feed_them_social_functions {
 								<div class="fb-other-wrap">
 									<small>
 								<?php echo esc_html( 'ID: ', 'feed-them-social' ); ?>
-										<span class="fts-api-facebook-id"><?php echo esc_html( $data->id ); ?></span>
+										<span class="fts-api-facebook-id"><?php echo esc_html( $data_id ) ; ?></span>
 								<?php echo isset( $data->store_number ) ? esc_html( '| Location: ' . $data->store_number, 'feed-them-social' ) : ''; ?>
 									</small>
 								</div>
@@ -356,7 +367,7 @@ class feed_them_social_functions {
 							</div>
 							<?php
 							$_REQUEST['next_location_url'] = isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : '';
-							$remove_class_or_not           = isset( $data->locations->paging->next ) ? 'fb-sublist-page-id-' . esc_attr( $data->id ) : '';
+							$remove_class_or_not           = isset( $data->locations->paging->next ) ? 'fb-sublist-page-id-' . esc_attr( $data_id ) : '';
 							if ( isset( $data->locations->data ) ) {
 								$location_count     = count( $data->locations->data );
 								$location_plus_sign = isset( $data->locations->paging->next ) ? '+' : '';
@@ -365,70 +376,81 @@ class feed_them_social_functions {
 								$location_scroll_loadmore_needed_check = $location_count <= 3 ? 'height:auto !important' : 'height: 200px !important;';
 							}
 
-							if ( ! isset( $_GET['locations'] ) && isset( $data->locations->data ) ) {
-								?>
+							if ( ! isset( $_GET['locations'] ) && isset( $data->locations->data )  ) {
+                                ?>
 								<div class="fts-fb-location-text-wrap"><?php echo esc_html( $location_text . ' ' . $data->name ); ?></div>
 								<ul class="fb-page-list fb-sublist <?php echo esc_attr( $remove_class_or_not ); ?>"
 									style="<?php echo esc_attr( $location_scroll_loadmore_needed_check ); ?>">
-									<?php foreach ( $data->locations->data as $location ) { ?>
-										<li>
-											<div class="fb-click-wrapper">
-												<div class="fb-image">
-													<img border="0" height="50" width="50"
-														 src="<?php echo esc_url( 'https://graph.facebook.com/' . $location->id . '/picture' ); ?>"/>
-												</div>
-												<div class="fb-name-wrap"><span
-															class="fb-name"><?php echo esc_html( $location->name ); ?>
-														<?php
-														if ( isset( $location->store_location_descriptor ) ) {
-															echo '(' . esc_html( $location->store_location_descriptor ) . ')';
-														}
-														?>
-											</span></div>
-												<div class="fb-other-wrap">
-													<small>
-														<?php echo esc_html( 'ID: ', 'feed-them-social' ); ?>
-														<span class="fts-api-facebook-id"><?php echo esc_html( $location->id ); ?></span>
-														<?php
-														if ( isset( $location->store_number ) ) {
-															print '| ';
-															esc_html( 'Location:', 'feed-them-social' );
-															print ' ' . esc_html( $location->store_number );
-														}
-														?>
-													</small>
-												</div>
+									<?php foreach ( $data->locations->data as $location ) {
 
-												<div class="page-token"><?php echo esc_html( $location->access_token ); ?></div>
-												<?php
-												$facebook_input_token  = get_option( 'fts_facebook_custom_api_token' );
-												$facebook_access_token = $location->access_token;
-												if ( $facebook_input_token === $facebook_access_token ) {
-													?>
-													<div class="feed-them-social-admin-submit-btn "
-														 style="display: block !important;">Active
-													</div>
-												<?php } else { ?>
-													<div class="feed-them-social-admin-submit-btn fts-token-save">Save
-													</div>
-												<?php } ?>
-												<div class="fts-clear"></div>
-											</div>
-										</li>
-									<?php } ?>
+                                      //  if ( !empty( $location->instagram_business_account ) ) {
+
+                                                $loc_data_id = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->id : $location->id;
+                                                $loc_data_user_name = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' .$location->instagram_business_account->username. '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>'.$location->name : $location->name;
+                                                $loc_data_thumbnail = isset( $location->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $location->id . '/picture';
+
+                                                    ?>
+                                                    <li>
+                                                        <div class="fb-click-wrapper">
+                                                            <div class="fb-image">
+                                                                <img border="0" height="50" width="50"
+                                                                     src="<?php echo esc_url( $loc_data_thumbnail ); ?>"/>
+                                                            </div>
+                                                            <div class="fb-name-wrap"><span
+                                                                        class="fb-name"><?php echo $loc_data_user_name; ?>
+                                                                    <?php
+                                                                    if ( isset( $location->store_location_descriptor ) ) {
+                                                                        echo '(' . esc_html( $location->store_location_descriptor ) . ')';
+                                                                    }
+                                                                    ?>
+                                                    </span></div>
+                                                            <div class="fb-other-wrap">
+                                                                <small>
+                                                                    <?php echo esc_html( 'ID: ', 'feed-them-social' ); ?>
+                                                                    <span class="fts-api-facebook-id"><?php echo esc_html( $loc_data_id ); ?></span>
+                                                                    <?php
+                                                                    if ( isset( $location->store_number ) ) {
+                                                                        print '| ';
+                                                                        esc_html( 'Location:', 'feed-them-social' );
+                                                                        print ' ' . esc_html( $location->store_number );
+                                                                    }
+                                                                    ?>
+                                                                </small>
+                                                            </div>
+
+                                                            <div class="page-token"><?php echo esc_html( $location->access_token ); ?></div>
+                                                            <?php
+                                                            $facebook_input_token = get_option( 'fts_facebook_custom_api_token' );
+                                                            $facebook_access_token = $location->access_token;
+                                                            if ( $facebook_input_token === $facebook_access_token ) {
+                                                                ?>
+                                                                <div class="feed-them-social-admin-submit-btn "
+                                                                     style="display: block !important;">Active
+                                                                </div>
+                                                            <?php } else { ?>
+                                                                <div class="feed-them-social-admin-submit-btn fts-token-save">
+                                                                    Save
+                                                                </div>
+                                                            <?php } ?>
+                                                            <div class="fts-clear"></div>
+                                                        </div>
+                                                    </li>
+
+                                        <?php // }
+                                    } ?>
 								</ul>
 
 								<?php
 								// Make sure it's not ajaxing locations!
 								if ( ! isset( $_GET['locations'] ) && isset( $data->locations->paging->next ) ) {
-									echo '<div id="loadMore_' . esc_attr( $data->id ) . '_location" class="fts-fb-load-more" style="background:none !Important;">' . esc_html( 'Scroll to view more Locations', 'feed-them-instagram' ) . '</div>';
+									echo '<div id="loadMore_' . esc_attr( $data_id ) . '_location" class="fts-fb-load-more" style="background:none !Important;">' . esc_html( 'Scroll to view more Locations', 'feed-them-instagram' ) . '</div>';
 								}//End Check
 
 								// Make sure it's not ajaxing locations!
 								if ( ! isset( $_GET['locations'] ) ) {
 									$time       = time();
 									$nonce      = wp_create_nonce( $time . 'load-more-nonce' );
-									$fb_page_id = $data->id;
+									$fb_page_id = $data_id;
 									?>
 								<script>
 									jQuery(document).ready(function () {
@@ -490,6 +512,9 @@ class feed_them_social_functions {
 						</li>
 
 						<?php
+
+
+              //  }
 			}  // foreach loop of locations
 
 					// Make sure it's not ajaxing!
@@ -580,26 +605,41 @@ class feed_them_social_functions {
 						// alert('test');
 						var newUrl = "<?php echo esc_url( admin_url( 'admin.php?page=fts-facebook-feed-styles-submenu-page/' ) ); ?>";
 						history.replaceState({}, null, newUrl);
-						$("#fts-facebook-feed-options-form").submit();
-					});
+						<?php if('fts-facebook-feed-styles-submenu-page' === $_GET['page']){?>
+                            $("#fts-facebook-feed-options-form").submit();
+						<?php }
+						elseif ( 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] ) { ?>
+                            $("#fts-instagram-feed-options-form").submit();
+                        <?php } ?>
+                    });
 
-					var fb = ".fb-page-list .fb-click-wrapper";
-					$('#fb-list-wrap').show();
-					//alert("reviews_token");
+                    var fb = ".fb-page-list .fb-click-wrapper";
+                    $('#fb-list-wrap').show();
+                    //alert("reviews_token");
 
-					$(fb).click(function () {
-						var fb_page_id = $(this).find('.fts-api-facebook-id').html();
-						var token = $(this).find('.page-token').html();
-						// alert(token);
-						var name = $(this).find('.fb-name').html();
-						<?php if ( 'no' === $reviews_token || isset( $_GET['fts_reviews_feed'] ) && 'no' === $_GET['fts_reviews_feed'] ) { ?>
-						$("#fts_facebook_custom_api_token").val(token);
-						$("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
-						$("#fts_facebook_custom_api_token_user_name").val(name);
-						<?php } else { ?>
+                    $(fb).click(function () {
+                        var fb_page_id = $(this).find('.fts-api-facebook-id').html();
+                        var token = $(this).find('.page-token').html();
+                        // alert(token);
+                        var name = $(this).find('.fb-name').html();
+                        var profile_image = $(this).find('.fb-image img').attr('src');
+                        <?php if( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
+                        $("#fts_facebook_instagram_custom_api_token").val(token);
+                        $("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
+                        $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
+                        $("#fts_facebook_instagram_custom_api_token_profile_image").val(profile_image);
+						<?php }
+                        elseif ( 'no' === $reviews_token || isset( $_GET['fts_reviews_feed'] ) && 'no' === $_GET['fts_reviews_feed'] ) { ?>
+                            $("#fts_facebook_custom_api_token").val(token);
+                            $("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
+                            $("#fts_facebook_custom_api_token_user_name").val(name);
+                            $("#fts_facebook_custom_api_token_profile_image").val(profile_image);
+                        <?php }
+                        else { ?>
 						$("#fts_facebook_custom_api_token_biz").val(token);
 						$("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
 						$("#fts_facebook_custom_api_token_user_name_biz").val(name);
+                        $("#fts_facebook_custom_api_token_biz_profile_image").val(profile_image);
 						<?php } ?>
 						$('.fb-page-list .feed-them-social-admin-submit-btn').hide();
 						$(this).find('.feed-them-social-admin-submit-btn').toggle();
@@ -766,8 +806,8 @@ class feed_them_social_functions {
 		} else {
 
 			if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ) {
-				if ( isset( $_REQUEST['next_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ), 'https://graph.facebook.com/v3.1' ) ||
-					isset( $_REQUEST['next_location_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ), 'https://graph.facebook.com/v3.1' ) ||
+				if ( isset( $_REQUEST['next_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ), 'https://graph.facebook.com/' ) ||
+					isset( $_REQUEST['next_location_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ), 'https://graph.facebook.com/' ) ||
 					isset( $_REQUEST['next_url'] ) && sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) !== sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) ||
 					isset( $_REQUEST['next_location_url'] ) && sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ) !== sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ) ) {
 
@@ -1061,8 +1101,10 @@ class feed_them_social_functions {
 			'fb_hide_no_posts_message',
 			'fts_facebook_custom_api_token_user_id',
 			'fts_facebook_custom_api_token_user_name',
+			'fts_facebook_custom_api_token_profile_image',
 			'fts_facebook_custom_api_token_user_id_biz',
 			'fts_facebook_custom_api_token_user_name_biz',
+			'fts_facebook_custom_api_token_biz_profile_image',
 			'fb_loadmore_background_color',
 			'fb_loadmore_text_color',
 			'fb_load_more_text',
@@ -1135,6 +1177,10 @@ class feed_them_social_functions {
 			'instagram_loadmore_text_color',
 			'instagram_load_more_text',
 			'instagram_no_more_photos_text',
+            'fts_facebook_instagram_custom_api_token',
+            'fts_facebook_instagram_custom_api_token_user_id',
+            'fts_facebook_instagram_custom_api_token_user_name',
+            'fts_facebook_instagram_custom_api_token_profile_image'
 		);
 		$this->register_settings( 'fts-instagram-feed-style-options', $instagram_style_options );
 	}
@@ -2722,13 +2768,27 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	/**
 	 * FTS Create Feed Cache
 	 *
+	 * Create Feed Cache. This is also where the previous cache is deleted and replace with new cache.
+	 *
 	 * @param string $transient_name transient name.
 	 * @param array  $response Data returned from response.
 	 * @since 1.9.6
 	 */
 	public function fts_create_feed_cache( $transient_name, $response ) {
+
+		// Is there old Cache? If so Delete it!
+		if ( true === $this->fts_check_feed_cache_exists( $transient_name ) ) {
+			// Make Sure to delete old cache before setting up new cache!
+			$this->delete_specific_feed_cache( $transient_name );
+		}
+		// Cache Time set on Settings Page under FTS Tab.
 		$cache_time_limit = true === get_option( 'fts_clear_cache_developer_mode' ) && '1' !== get_option( 'fts_clear_cache_developer_mode' ) ? get_option( 'fts_clear_cache_developer_mode' ) : '900';
-		set_transient( 'fts_' . $transient_name, $response, $cache_time_limit );
+
+		// Timed Cache (Using transient only for Timer)!
+		set_transient( 'fts_t_' . $transient_name, 'cached', $cache_time_limit );
+
+		// Permanent Feed cache. NOTE set to 0.
+		set_transient( 'fts_' . $transient_name, $response, 0 );
 	}
 
 	/**
@@ -2739,8 +2799,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 * @since 1.9.6
 	 */
 	public function fts_get_feed_cache( $transient_name ) {
-		$returned_cache_data = get_transient( 'fts_' . $transient_name );
-		return $returned_cache_data;
+
+		return get_transient( 'fts_' . $transient_name );
+
 	}
 
 	/**
@@ -2750,31 +2811,42 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 * @return bool
 	 * @since 1.9.6
 	 */
-	public function fts_check_feed_cache_exists( $transient_name ) {
-		if ( false === get_transient( 'fts_' . $transient_name ) ) {
-			return false;
+	public function fts_check_feed_cache_exists( $transient_name, $errored = null ) {
+
+		$transient_check      = get_transient( 'fts_' . $transient_name );
+		$transient_time_check = get_transient( 'fts_t_' . $transient_name );
+
+		//If error exists is set and old cache still exists.
+		if ( true === $errored && false !== $transient_check ) {
+			return true;
 		}
-		return true;
+		if ( true !== $errored && false !== $transient_check && false !== $transient_time_check ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
-	 * FTS Clear Cache Ajax
+	 * FTS Clear ALL FTS Cache Ajax
 	 *
 	 * @since 1.9.6
 	 */
 	public function fts_clear_cache_ajax() {
 		global $wpdb;
-		// Clear UnExpired!
+
+		// Clear UnExpired Timed Cache!
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_%' ) );
-		// Clear Exired Transients!
+		// Clear UnExpired Timed Cache!
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_%' ) );
+
 		wp_reset_query();
 	}
 
 	/**
 	 * Feed Them Clear Cache
 	 *
-	 * Clear Cache Folder.
+	 * Clear ALL FTS Cache.
 	 *
 	 * @return string
 	 * @since 1.9.6
@@ -2786,8 +2858,31 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		// Clear Exired Transients!
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_%' ) );
 		wp_reset_query();
-		return 'Cache for all FTS Feeds cleared!';
+		return 'Cache for ALL FTS Feeds cleared!';
 	}
+
+	/**
+	 * Delete specific feed Cache
+	 *
+	 * Clear ONLY SPECIFIC feed's cache.
+	 *
+	 * @return string
+	 * @since 1.9.6
+	 */
+	public function delete_specific_feed_cache( $transient_name ) {
+		global $wpdb;
+
+		// Clear ONLY Specfic Feeds Cache!
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_' . $transient_name ) );
+
+		// Clear UnExpired!
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_t_' . $transient_name ) );
+		// Clear Exired Transients!
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_t_' . $transient_name ) );
+		wp_reset_query();
+		return 'Cache for this feed cleared!';
+	}
+
 
 	/**
 	 * FTS Admin Bar Menu
@@ -2926,63 +3021,63 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		// not setting isset'ing anything because you have to save the settings page to even enable this feature
 		$fts_language_second = get_option( 'fts_language_second' );
 		if ( empty( $fts_language_second ) ) {
-			$fts_language_second = 'second';
+			$fts_language_second = esc_html__( 'second', 'feed-them-social' );
 		}
 		$fts_language_seconds = get_option( 'fts_language_seconds' );
 		if ( empty( $fts_language_seconds ) ) {
-			$fts_language_seconds = 'seconds';
+			$fts_language_seconds = esc_html__( 'seconds', 'feed-them-social' );
 		}
 		$fts_language_minute = get_option( 'fts_language_minute' );
 		if ( empty( $fts_language_minute ) ) {
-			$fts_language_minute = 'minute';
+			$fts_language_minute = esc_html__( 'minute', 'feed-them-social' );
 		}
 		$fts_language_minutes = get_option( 'fts_language_minutes' );
 		if ( empty( $fts_language_minute ) ) {
-			$fts_language_minute = 'minutes';
+			$fts_language_minute = esc_html__( 'minutes', 'feed-them-social' );
 		}
 		$fts_language_hour = get_option( 'fts_language_hour' );
 		if ( empty( $fts_language_hour ) ) {
-			$fts_language_hour = 'hour';
+			$fts_language_hour = esc_html__( 'hour', 'feed-them-social' );
 		}
 		$fts_language_hours = get_option( 'fts_language_hours' );
 		if ( empty( $fts_language_hours ) ) {
-			$fts_language_hours = 'hours';
+			$fts_language_hours = esc_html__( 'hours', 'feed-them-social' );
 		}
 		$fts_language_day = get_option( 'fts_language_day' );
 		if ( empty( $fts_language_day ) ) {
-			$fts_language_day = 'day';
+			$fts_language_day = esc_html__( 'day', 'feed-them-social' );;
 		}
 		$fts_language_days = get_option( 'fts_language_days' );
 		if ( empty( $fts_language_days ) ) {
-			$fts_language_days = 'days';
+			$fts_language_days = esc_html__( 'days', 'feed-them-social' );
 		}
 		$fts_language_week = get_option( 'fts_language_week' );
 		if ( empty( $fts_language_week ) ) {
-			$fts_language_week = 'week';
+			$fts_language_week = esc_html__( 'week', 'feed-them-social' );
 		}
 		$fts_language_weeks = get_option( 'fts_language_weeks' );
 		if ( empty( $fts_language_weeks ) ) {
-			$fts_language_weeks = 'weeks';
+			$fts_language_weeks = esc_html__( 'weeks', 'feed-them-social' );
 		}
 		$fts_language_month = get_option( 'fts_language_month' );
 		if ( empty( $fts_language_month ) ) {
-			$fts_language_month = 'month';
+			$fts_language_month = esc_html__( 'month', 'feed-them-social' );
 		}
 		$fts_language_months = get_option( 'fts_language_months' );
 		if ( empty( $fts_language_months ) ) {
-			$fts_language_months = 'months';
+			$fts_language_months = esc_html__( 'months', 'feed-them-social' );
 		}
 		$fts_language_year = get_option( 'fts_language_year' );
 		if ( empty( $fts_language_year ) ) {
-			$fts_language_year = 'year';
+			$fts_language_year = esc_html__( 'year', 'feed-them-social' );
 		}
 		$fts_language_years = get_option( 'fts_language_years' );
 		if ( empty( $fts_language_years ) ) {
-			$fts_language_years = 'years';
+			$fts_language_years = esc_html__( 'years', 'feed-them-social' );
 		}
 		$fts_language_ago = get_option( 'fts_language_ago' );
 		if ( empty( $fts_language_ago ) ) {
-			$fts_language_ago = 'ago';
+			$fts_language_ago = esc_html__( 'ago', 'feed-them-social' );
 		}
 
 		// $periods = array( "sec", "min", "hour", "day", "week", "month", "years", "decade" );.

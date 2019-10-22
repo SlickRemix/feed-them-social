@@ -548,10 +548,10 @@ class FTS_Settings_Page_Options {
 							),
 
 							// location Feed
-							array(
-								'value' => 'location',
-								'label' => __( 'Location Feed', 'feed-them-social' ),
-							),
+							//array(
+							//	'value' => 'location',
+							//	'label' => __( 'Location Feed', 'feed-them-social' ),
+							// ),
 						),
 						'req_plugin'  => 'combine_streams',
 						'short_attr'  => array(
@@ -1201,25 +1201,25 @@ class FTS_Settings_Page_Options {
 					),
 
 					// Access Token
-			//		array(
-			//			'option_type' => 'input',
-			//			'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
-			//			'type'        => 'text',
-			//			'id'          => 'fb_access_token',
-			//			'name'        => 'fb_access_token',
+					array(
+						'option_type' => 'input',
+						'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+						'type'        => 'text',
+						'id'          => 'fb_access_token',
+						'name'        => 'fb_access_token',
 
 						// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
-						// 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
-			//			'placeholder' => __( '', 'feed-them-social' ),
+						 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
+						'placeholder' => __( '', 'feed-them-social' ),
 
 						// Relative to JS.
-			//			'short_attr'  => array(
-			//				'attr_name'    => 'access_token',
-			//				'var_final_if' => 'yes',
-			//				'empty_error'  => 'set',
-			//				'empty_error_value' => '',
-			//			),
-			//		),
+						'short_attr'  => array(
+							'attr_name'    => 'access_token',
+							'var_final_if' => 'yes',
+							'empty_error'  => 'set',
+							'empty_error_value' => '',
+						),
+					),
 
 					// Facebook Album ID
 					array(
@@ -4345,16 +4345,16 @@ class FTS_Settings_Page_Options {
 					),
 
 					// hastag Feed
-					array(
-						'value' => 'hashtag',
-						'title' => __( 'Hashtag Feed', 'feed-them-social' ),
-					),
+				//	array(
+				//		'value' => 'hashtag',
+				//		'title' => __( 'Hashtag Feed', 'feed-them-social' ),
+				//	),
 
 					// location Feed
-					array(
-						'value' => 'location',
-						'title' => __( 'Location Feed', 'feed-them-social' ),
-					),
+					// array(
+					//	'value' => 'location',
+					//	'title' => __( 'Location Feed', 'feed-them-social' ),
+					//),
 				),
 
 				// Feed Type Selection
@@ -4384,10 +4384,6 @@ class FTS_Settings_Page_Options {
 								'class' => 'instagram-user-option-text',
 							),
 							2 => array(
-								'text' => __( 'Hashtag (required)', 'feed-them-social' ),
-								'class' => 'instagram-hashtag-option-text',
-							),
-							3 => array(
 								'text' => __( 'Location ID (required)', 'feed-them-social' ),
 								'class' => 'instagram-location-option-text',
 							),
@@ -4402,10 +4398,6 @@ class FTS_Settings_Page_Options {
                                 'class' => 'instagram-user-option-text',
 							),
 							2 => array(
-								'text' => __( 'Add your Hashtag below. <strong>DO NOT</strong> add the #, just the name.', 'feed-them-social' ),
-								'class' => 'instagram-hashtag-option-text',
-							),
-							3 => array(
 								'text' => __( '<strong>NOTE:</strong> The post count may not count proper in some location instances because private instagram photos are in the mix. We cannot pull private accounts photos in any location feed. Add your Location ID below.', 'feed-them-social' ),
 								'class' => 'instagram-location-option-text',
 							),
@@ -4419,26 +4411,56 @@ class FTS_Settings_Page_Options {
 						),
 					),
 
+
+                    // Instagram Hashtag
+                    array(
+                        'option_type' => 'input',
+                        'input_wrap_class' => 'instagram_hashtag',
+                        'label'       => array(
+                            1 => array(
+                                'text' => __( 'Hashtag (required)', 'feed-them-social' ),
+                                'class' => 'instagram-hashtag-option-text',
+                            ),
+                        ),
+                        'type'        => 'text',
+                        'id'          => 'instagram_hashtag',
+                        'name'        => 'instagram_hashtag',
+                        'required'    => 'yes',
+                        'instructional-text' => array(
+                            1 => array(
+                                'text' => __( 'Add your Hashtag below. <strong>DO NOT</strong> add the #, just the name.', 'feed-them-social' ),
+                                'class' => 'instagram-hashtag-option-text',
+                            ),
+                        ),
+
+                        // Relative to JS.
+                        'short_attr'  => array(
+                            'attr_name'    => 'hashtag',
+                            'var_final_if' => 'no',
+                            'empty_error'  => 'yes',
+                        ),
+                    ),
+
 					// Access Token
-			//		array(
-			//			'option_type' => 'input',
-			//			'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
-			//			'type'        => 'text',
-			//			'id'          => 'insta_access_token',
-			//			'name'        => 'insta_access_token',
+					array(
+						'option_type' => 'input',
+						'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+						'type'        => 'text',
+						'id'          => 'insta_access_token',
+						'name'        => 'insta_access_token',
 
 						// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
-						// 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
-			//			'placeholder' => __( '', 'feed-them-social' ),
+                        'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
+						'placeholder' => __( '', 'feed-them-social' ),
 
 						// Relative to JS.
-			//			'short_attr'  => array(
-			//				'attr_name'    => 'access_token',
-			//				'var_final_if' => 'yes',
-			//				'empty_error'  => 'set',
-			//				'empty_error_value' => '',
-			//			),
-			//		),
+						'short_attr'  => array(
+							'attr_name'    => 'access_token',
+							'var_final_if' => 'yes',
+							'empty_error'  => 'set',
+							'empty_error_value' => '',
+						),
+					),
 
 					// Pic Count
 					array(

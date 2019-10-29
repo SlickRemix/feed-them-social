@@ -113,8 +113,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 					'show_media'               => '',
 					'show_date'                => '',
 					'show_name'                => '',
-				//	'access_token'             => '',
-
+				// 'access_token'             => '',
 				),
 				$atts
 			);
@@ -140,8 +139,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 					'image_position_lr'        => '',
 					'image_position_top'       => '',
 					'hide_comments_popup'      => '',
-				//	'access_token'             => '',
-
+					'access_token'             => '',
 				),
 				$atts
 			);
@@ -164,12 +162,12 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 		}
 
 		// Get Access Token.
-	//	$access_token = isset( $fb_shortcode['access_token'] ) ? $fb_shortcode['access_token'] : '';
-	//	if ( ! empty( $access_token ) ) {
-	//		$access_token = $fb_shortcode['access_token'];
-	//	} else {
+		$access_token = isset( $fb_shortcode['access_token'] ) ? $fb_shortcode['access_token'] : '';
+		if ( ! empty( $access_token ) ) {
+			$access_token = $fb_shortcode['access_token'];
+		} else {
 			$access_token = $this->get_access_token();
-	//	}
+		}
 
 		// UserName?.
 		if ( ! $fb_shortcode['id'] ) {
@@ -319,15 +317,12 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
 			$feed_data = json_decode( $response['feed_data'] );
 
-            $feed_data = (object) $feed_data;
-            // Add Feed Type to post array.
-
+			$feed_data = (object) $feed_data;
+			// Add Feed Type to post array.
 			// SHOW THE REVIEWS FEED PRINT_R
 			// echo '<pre>';
 			// print_r($feed_data );
 			// echo '</pre>';
-
-
 			if ( 'yes' === $fb_shortcode['remove_reviews_no_description'] ) {
 				// $no_description_count2 = 0;.
 				foreach ( $feed_data->data as $k => $v ) {
@@ -344,22 +339,20 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 			// echo '<pre>';
 			// print_r($ratings_data );
 			// echo '</pre>';.
+			// Add fts_profile_pic_url to the array so we can show profile photos for reviews and comments in popup
+			foreach ( $feed_data->data as $post_array ) {
 
-            // Add fts_profile_pic_url to the array so we can show profile photos for reviews and comments in popup
-            foreach ( $feed_data->data as $post_array ) {
+				$the_image = 'https://graph.facebook.com/' . $post_array->reviewer->id . '/picture?redirect=false&access_token=' . $biz_access_token . '';
 
-                $the_image = 'https://graph.facebook.com/'.$post_array->reviewer->id.'/picture?redirect=false&access_token='.$biz_access_token.'';
+				$profile_pic_response = wp_remote_get( $the_image );
+				$profile_pic_data     = wp_remote_retrieve_body( $profile_pic_response );
+				$profile_pic_output   = json_decode( $profile_pic_data );
 
-                $profile_pic_response = wp_remote_get($the_image );
-                $profile_pic_data = wp_remote_retrieve_body( $profile_pic_response );
-                $profile_pic_output = json_decode( $profile_pic_data );
-
-                  //  echo '<pre>';
-                  //  print_r($profile_pic_output->data->url);
-                  //  echo '</pre>';
-
-                $post_array->fts_profile_pic_url = $profile_pic_output->data->url;
-            }
+				  // echo '<pre>';
+				  // print_r($profile_pic_output->data->url);
+				  // echo '</pre>';
+				$post_array->fts_profile_pic_url = $profile_pic_output->data->url;
+			}
 		}
 
 		if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
@@ -386,7 +379,6 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 		// echo '<pre>';
 		// print_r($feed_data );
 		// echo '</pre>';
-
 		// If No Response or Error then return.
 		if ( is_array( $response ) && isset( $response[0] ) && isset( $response[1] ) && false === $response[0] ) {
 			return $response[1];
@@ -643,7 +635,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		// Post Information
 		// *********************
 		$fb_load_more_text   = get_option( 'fb_load_more_text' ) ? get_option( 'fb_load_more_text' ) : esc_html( 'Load More', 'feed-them-social' );
-		$response_post_array = $this->get_post_info( $feed_data, $fb_shortcode, $access_token, $language );
+		$response_post_array = $this->get_post_info( $feed_data, $fb_shortcode, $access_token, $language, $fb_cache_name );
 
 		// Single event info call.
 		if ( 'events' === $fb_shortcode['type'] ) {
@@ -653,9 +645,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		$set_zero = 0;
 
 		// echo '<br/><br/>feed array<br/><br/>';.
-        // echo '<pre>';
-        // print_r($feed_data );
-        // echo '</pre>';
+		// echo '<pre>';
+		// print_r($feed_data );
+		// echo '</pre>';
 		// THE MAIN FEED
 		// LOOP to fix Post count!
 		foreach ( $feed_data->data as $k => $v ) {
@@ -957,7 +949,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @since 1.9.6
 	 */
 	public function fts_facebook_post_desc( $fb_description, $fb_shortcode, $fb_type, $fb_post_id = null, $fb_by = null ) {
-        $trunacate_words =  new \ FeedThemSocialTruncateHTML();
+		$trunacate_words = new \ FeedThemSocialTruncateHTML();
 		switch ( $fb_type ) {
 			case 'video':
 				$fb_description = $this->fts_facebook_tag_filter( $fb_description );
@@ -1170,7 +1162,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @since 1.9.6
 	 */
 	public function fts_facebook_post_cap( $fb_caption, $fb_shortcode, $fb_type, $fb_post_id = null ) {
-        $trunacate_words =  new \ FeedThemSocialTruncateHTML();
+		$trunacate_words = new \ FeedThemSocialTruncateHTML();
 		switch ( $fb_type ) {
 			case 'video':
 				$fb_caption = $this->fts_facebook_tag_filter( str_replace( 'www.', '', $fb_caption ) );
@@ -1609,6 +1601,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @param string $access_token The Access Token.
 	 * @param string $language Language.
 	 * @return array|mixed
+	 * @throws \Exception
 	 * @since 1.9.6
 	 */
 	public function get_facebook_feed_response( $fb_shortcode, $fb_cache_name, $access_token, $language ) {
@@ -1626,9 +1619,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 			if ( 'page' === $fb_shortcode['type'] && 'page_only' === $fb_shortcode['posts_displayed'] ) {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description&access_token=' . $access_token . $language . '' );
 
-                if(isset($_REQUEST['next_url'])){
-                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_facebook_custom_api_token'), $_REQUEST['next_url'] );
-                }
+				if ( isset( $_REQUEST['next_url'] ) ) {
+					$_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . get_option( 'fts_facebook_custom_api_token' ), $_REQUEST['next_url'] );
+				}
 
 				if ( ! $fts_count_ids >= 1 ) {
 					// We cannot add sanitize_text_field here on the $_REQUEST['next_url'] otherwise it will fail to load the contents from the facebook API.
@@ -1640,9 +1633,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				// Albums.
 				'albums' === $fb_shortcode['type'] ) {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description,link&access_token=' . $access_token . $language . '' );
-                if(isset($_REQUEST['next_url'])){
-                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_facebook_custom_api_token'), $_REQUEST['next_url'] );
-                }
+				if ( isset( $_REQUEST['next_url'] ) ) {
+					$_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . get_option( 'fts_facebook_custom_api_token' ), $_REQUEST['next_url'] );
+				}
 				// Check If Ajax next URL needs to be used.
 				if ( ! $fts_count_ids >= 1 ) {
 					$mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
@@ -1655,9 +1648,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				// Album Photos.
 				'album_photos' === $fb_shortcode['type'] ) {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $fb_shortcode['id'] . '?fields=id,name,description&access_token=' . $access_token . $language . '' );
-                if(isset($_REQUEST['next_url'])){
-                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token='.get_option('fts_facebook_custom_api_token'), $_REQUEST['next_url'] );
-                }
+				if ( isset( $_REQUEST['next_url'] ) ) {
+					$_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . get_option( 'fts_facebook_custom_api_token' ), $_REQUEST['next_url'] );
+				}
 				// Check If Ajax next URL needs to be used
 				// The reason I did not create a whole new else if for the video album is because I did not want to duplicate all the code required to make the video because the videos gallery comes from the photo albums on facebook.
 				if ( isset( $fb_shortcode['video_album'] ) && 'yes' === $fb_shortcode['video_album'] ) {
@@ -1688,7 +1681,6 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 
 					$mulit_data['ratings_data'] = esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/?fields=overall_star_rating,rating_count&access_token=' . $access_token . '' );
 
-
 				} else {
 					return 'Please Purchase and Activate the Feed Them Social Reviews plugin.';
 					exit;
@@ -1711,12 +1703,38 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				$fts_error_check          = new fts_error_handler();
 				$fts_error_check_complete = $fts_error_check->facebook_error_check( $fb_shortcode, $feed_data );
 				if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
-					return array( false, $fts_error_check_complete[1] );
+
+					// If old Cache exists use it instead of showing an error.
+					if ( true === $this->fts_check_feed_cache_exists( $fb_cache_name, true ) ) {
+
+						// If Current user is Admin and Cache exists for use then still show Admin the error for debugging purposes.
+						if ( current_user_can( 'administrator' ) ) {
+							echo wp_kses(
+								$fts_error_check_complete[1] . ' <em>**NOTE** This error is only shown to logged in Admins of this WordPress install</em>',
+								array(
+									'a'      => array(
+										'href'  => array(),
+										'title' => array(),
+									),
+									'br'     => array(),
+									'em'     => array(),
+									'strong' => array(),
+								)
+							);
+						}
+
+						// Return Cache because it exists in Database. Better than showing nothing right?
+						return $this->fts_get_feed_cache( $fb_cache_name, true );
+					}
+					// If User is Admin and no Old cache is saved in database for use.
+					if ( current_user_can( 'administrator' ) ) {
+						return array( false, $fts_error_check_complete[1] );
+					}
 				}
 			}
 
 			// Make sure it's not ajaxing.
-			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! empty( $response['feed_data'] ) ) {
+			if ( ! empty( $response['feed_data'] ) ) {
 				// Create Cache.
 				$this->fts_create_feed_cache( $fb_cache_name, $response );
 			}
@@ -1768,7 +1786,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @return array|mixed
 	 * @since 1.9.6
 	 */
-	public function get_post_info( $feed_data, $fb_shortcode, $access_token, $language ) {
+	public function get_post_info( $feed_data, $fb_shortcode, $access_token, $language, $fb_cache_name) {
 		$developer_mode = get_option( 'fts_clear_cache_developer_mode' );
 
 		if ( 'album_photos' === $fb_shortcode['type'] ) {
@@ -1778,6 +1796,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		}
 		if ( false !== $this->fts_check_feed_cache_exists( $fb_post_data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 			$response_post_array = $this->fts_get_feed_cache( $fb_post_data_cache );
+
 		} else {
 			// Build the big post counter.
 			$fb_post_array = array();
@@ -1819,6 +1838,18 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				}
 
 				$set_zero++;
+			}
+
+			$fts_error_check          = new fts_error_handler();
+			$fts_error_check_complete = $fts_error_check->facebook_error_check( $fb_shortcode, $feed_data );
+			if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
+
+				// If old Cache exists use it instead of showing an error.
+				if ( true === $this->fts_check_feed_cache_exists( $fb_cache_name, true ) ) {
+
+					// Return Cache because it exists in Database. Better than showing nothing right?
+					return $this->fts_get_feed_cache( $fb_cache_name, true );
+				}
 			}
 
 			// Response.
@@ -1961,8 +1992,8 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	/**
 	 * FTS Custom Trim Words
 	 *
-     * Not using this anymore but keeping it as a fallback function for the combined if user has not updated the free version before the combined extension
-     *
+	 * Not using this anymore but keeping it as a fallback function for the combined if user has not updated the free version before the combined extension
+	 *
 	 * @param string $text The description text.
 	 * @param int    $num_words Number of words you want to be showm.
 	 * @param string $more The ...
@@ -2063,15 +2094,15 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 			$fb_no_more_reviews_text = get_option( 'fb_no_more_reviews_text' ) ? get_option( 'fb_no_more_reviews_text' ) : esc_html( 'No More Reviews', 'feed-them-social' );
 
 			// Load More BUTTON Start.
-			$next_url       = isset( $feed_data->paging->next ) ? $feed_data->paging->next : '';
+			$next_url = isset( $feed_data->paging->next ) ? $feed_data->paging->next : '';
 
 			$posts          = isset( $fb_shortcode['posts'] ) ? $fb_shortcode['posts'] : '';
 			$loadmore_count = isset( $fb_shortcode['loadmore_count'] ) && '' !== $fb_shortcode['loadmore_count'] ? $fb_shortcode['loadmore_count'] : '';
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
 			$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
 
-			$access_token = is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? 'access_token='.get_option( 'fts_facebook_custom_api_token_biz' ) : 'access_token='.get_option( 'fts_facebook_custom_api_token' );
-            $_REQUEST['next_url'] = str_replace( $access_token, "access_token=XXX", $next_url );
+			$access_token         = is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? 'access_token=' . get_option( 'fts_facebook_custom_api_token_biz' ) : 'access_token=' . get_option( 'fts_facebook_custom_api_token' );
+			$_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
 
 			echo '<script>';
 			echo 'var nextURL_' . esc_js( $_REQUEST['fts_dynamic_name'] ) . '= "' . esc_url_raw( $_REQUEST['next_url'] ) . '";';

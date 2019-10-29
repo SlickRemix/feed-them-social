@@ -139,7 +139,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 					'image_position_lr'        => '',
 					'image_position_top'       => '',
 					'hide_comments_popup'      => '',
-				    'access_token'             => '',
+					'access_token'             => '',
 				),
 				$atts
 			);
@@ -162,12 +162,12 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 		}
 
 		// Get Access Token.
-        $access_token = isset( $fb_shortcode['access_token'] ) ? $fb_shortcode['access_token'] : '';
-		 if ( ! empty( $access_token ) ) {
-		 $access_token = $fb_shortcode['access_token'];
-		 } else {
+		$access_token = isset( $fb_shortcode['access_token'] ) ? $fb_shortcode['access_token'] : '';
+		if ( ! empty( $access_token ) ) {
+			$access_token = $fb_shortcode['access_token'];
+		} else {
 			$access_token = $this->get_access_token();
-		 }
+		}
 
 		// UserName?.
 		if ( ! $fb_shortcode['id'] ) {
@@ -635,7 +635,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		// Post Information
 		// *********************
 		$fb_load_more_text   = get_option( 'fb_load_more_text' ) ? get_option( 'fb_load_more_text' ) : esc_html( 'Load More', 'feed-them-social' );
-		$response_post_array = $this->get_post_info( $feed_data, $fb_shortcode, $access_token, $language );
+		$response_post_array = $this->get_post_info( $feed_data, $fb_shortcode, $access_token, $language, $fb_cache_name );
 
 		// Single event info call.
 		if ( 'events' === $fb_shortcode['type'] ) {
@@ -1601,6 +1601,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @param string $access_token The Access Token.
 	 * @param string $language Language.
 	 * @return array|mixed
+	 * @throws \Exception
 	 * @since 1.9.6
 	 */
 	public function get_facebook_feed_response( $fb_shortcode, $fb_cache_name, $access_token, $language ) {
@@ -1723,12 +1724,11 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 						}
 
 						// Return Cache because it exists in Database. Better than showing nothing right?
-						return $this->fts_get_feed_cache( $fb_cache_name );
+						return $this->fts_get_feed_cache( $fb_cache_name, true );
 					}
 					// If User is Admin and no Old cache is saved in database for use.
 					if ( current_user_can( 'administrator' ) ) {
-							return array( false, $fts_error_check_complete[1] );
-
+						return array( false, $fts_error_check_complete[1] );
 					}
 				}
 			}
@@ -1786,7 +1786,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @return array|mixed
 	 * @since 1.9.6
 	 */
-	public function get_post_info( $feed_data, $fb_shortcode, $access_token, $language ) {
+	public function get_post_info( $feed_data, $fb_shortcode, $access_token, $language, $fb_cache_name) {
 		$developer_mode = get_option( 'fts_clear_cache_developer_mode' );
 
 		if ( 'album_photos' === $fb_shortcode['type'] ) {
@@ -1796,6 +1796,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 		}
 		if ( false !== $this->fts_check_feed_cache_exists( $fb_post_data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 			$response_post_array = $this->fts_get_feed_cache( $fb_post_data_cache );
+
 		} else {
 			// Build the big post counter.
 			$fb_post_array = array();
@@ -1837,6 +1838,18 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 				}
 
 				$set_zero++;
+			}
+
+			$fts_error_check          = new fts_error_handler();
+			$fts_error_check_complete = $fts_error_check->facebook_error_check( $fb_shortcode, $feed_data );
+			if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
+
+				// If old Cache exists use it instead of showing an error.
+				if ( true === $this->fts_check_feed_cache_exists( $fb_cache_name, true ) ) {
+
+					// Return Cache because it exists in Database. Better than showing nothing right?
+					return $this->fts_get_feed_cache( $fb_cache_name, true );
+				}
 			}
 
 			// Response.

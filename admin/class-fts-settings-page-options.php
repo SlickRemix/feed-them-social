@@ -69,7 +69,7 @@ class FTS_Settings_Page_Options {
 						'req_plugin' => 'combine_streams',
 						'msg'        => 'With this extension you can mix a Facebook, Instagram, Twitter, Youtube and Pinterest posts all in one feed. The other feature this exentsion gives you is the abillity to mix multiple Facebook accounts into one feed!
 <a href="https://feedthemsocial.com/feed-them-social-combined-streams/" target="_blank">View Combined Streams Demo</a> . <a href="https://feedthemsocial.com/feed-them-social-combined-streams/#combined-fb-streams" target="_blank">View Combined Facebook Streams Demo</a>',
-                    ).
+                    )
 				),
 				'short_attr_final'   => 'yes',
 

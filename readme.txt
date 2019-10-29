@@ -76,7 +76,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.7.6 Tuesday, October 29th, 2019 =
-  * FIX: Facebook Feed: Now we have a permanent caching system if the access token fails or reaches the API limit.
+  * FIX: Facebook Feed & YouTube Feed: Now we have a permanent caching system if the access token fails or reaches the API limit.
 
 = Version 2.7.4 - 2.7.5 Friday, September 20th, 2019 =
    * CHANGE: Remove the words Facebook and Instagram from the name of our plugin as we have been served to change it.

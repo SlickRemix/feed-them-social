@@ -13,7 +13,7 @@
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
- * Tested up to: WordPress 5.2.3
+ * Tested up to: WordPress 5.2.4
  * Stable tag: 2.7.6
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html

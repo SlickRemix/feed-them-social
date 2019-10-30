@@ -316,7 +316,7 @@ class FTS_Pinterest_Feed extends feed_them_social_functions {
 	public function getPins( $pinterest_name, $board_id, $pins_count, $type ) {
 
 		$api_token  = get_option( 'fts_pinterest_custom_api_token' );
-		$api_points = '&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Cmetadata%2Cboard%2Ccounts%2Ccreated_at%2Ccreator%2Cimage%2Cmedia%2Coriginal_link';
+		$api_points = '&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Cmetadata%2Cboard%2Ccounts%2Ccreated_at%2Cimage%2Cmedia%2Coriginal_link';
 
 		wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 		// masonry snippet in fts-global.
@@ -344,8 +344,8 @@ class FTS_Pinterest_Feed extends feed_them_social_functions {
 
 		$pins = json_decode( $pins_returned['pins'] );
 
-		// echo'<pre>';.
-		// print_r($pins);.
+		// echo'<pre>';
+		// print_r($pins);
 		// echo'</pre>';.
 		// SOCIAL BUTTON.
 		if ( isset( $pinterest_show_follow_btn ) && 'yes' === $pinterest_show_follow_btn && 'pinterest-follow-above' === $pinterest_show_follow_btn_where ) {

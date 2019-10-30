@@ -1546,6 +1546,10 @@ class FTS_Settings_Page {
 				if (jQuery('#facebook_grid_space_between_posts').val().indexOf('px') <= 0 && isPXpresent3 !== "") {
 					jQuery('#facebook_grid_space_between_posts').val(jQuery('#facebook_grid_space_between_posts').val() + 'px');
 				}
+                var isPXpresent7 = jQuery('#fts-slicker-instagram-container-margin').val();
+                if (jQuery('#fts-slicker-instagram-container-margin').val().indexOf('px') <= 0 && isPXpresent7 !== "") {
+                    jQuery('#fts-slicker-instagram-container-margin').val(jQuery('#fts-slicker-instagram-container-margin').val() + 'px');
+                }
 				var isPXpresent4 = jQuery('#loadmore_button_width').val();
 				if (jQuery('#loadmore_button_width').val().indexOf('px') <= 0 && isPXpresent4 !== "") {
 					jQuery('#loadmore_button_width').val(jQuery('#loadmore_button_width').val() + 'px');

@@ -197,6 +197,51 @@ class fts_error_handler {
 				return array( true, '' );
 			}
 		}
+
+		return;
+	}
+
+	/**
+	 * Youtube Error Check
+	 *
+	 * @param string|array $feed_data feed data.
+	 * @return string|array
+	 * @throws \Exception Don't let old plugins activate.
+	 * @since 1.9.6
+	 */
+	public function youtube_error_check( $feed_data ) {
+
+        $feed_data = json_decode( $feed_data['data'] );
+
+
+        error_log( print_r( $feed_data, true ) );
+
+		// return error if no data retreived!
+		try {
+			if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
+
+				// Solution Text!
+				$solution_text = 'Here are some possible solutions to fix the error.';
+				if ( isset( $feed_data->error ) && 400 === $feed_data->error->code  ) {
+					throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - A VALID access token is required to request this resource. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
+				}
+				if ( isset( $feed_data->error ) ) {
+					// If Custom Exception is not needed but still error then throw ugly error.
+					if ( isset( $feed_data->error->message ) ) {
+						$output = 'Error: ' . $feed_data->error->message;
+					}
+					if ( isset( $feed_data->error->code ) ) {
+						$output .= '<br />Code: ' . $feed_data->error->code;
+					}
+
+					throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">' . $output . '</div>' );
+				}
+
+                throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
+			}
+		} catch ( \Exception $e ) {
+            return array( true, $e->getMessage() );
+		}
+        return;
 	}
 }
-

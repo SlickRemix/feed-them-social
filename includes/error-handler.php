@@ -237,7 +237,7 @@ class fts_error_handler {
 					throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">' . $output . '</div>' );
 				}
 
-                throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
+              //  throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
 			}
 		} catch ( \Exception $e ) {
             return array( true, $e->getMessage() );

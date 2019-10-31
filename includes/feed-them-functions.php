@@ -252,11 +252,11 @@ class feed_them_social_functions {
 			$output  = '<div class="fts-share-wrap">';
 			$output .= '<a href="javascript:;" class="ft-gallery-link-popup">' . esc_html( '', 'feed-them-social' ) . '</a>';
 			$output .= '<div class="ft-gallery-share-wrap">';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" class="ft-galleryfacebook-icon"><i class="fa fa-facebook-square"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" class="ft-gallerytwitter-icon"><i class="fa fa-twitter"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" class="ft-gallerygoogle-icon"><i class="fa fa-google-plus"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" class="ft-gallerylinkedin-icon"><i class="fa fa-linkedin"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" class="ft-galleryemail-icon"><i class="fa fa-envelope"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
 			$output .= '</div>';
 			$output .= '</div>';
 			return $output;

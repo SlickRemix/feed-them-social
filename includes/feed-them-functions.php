@@ -321,9 +321,10 @@ class feed_them_social_functions {
 			foreach ( $test_fb_app_token_response->data as $data ) {
 
 				// if( !empty( $data->instagram_business_account )  ){
-					$data_id        = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->id : $data->id;
-					$data_user_name = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $data->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $data->name : $data->name;
-					$data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $data->id . '/picture';
+
+					$data_id        = $data->id;
+					$data_user_name = $data->name;
+					$data_thumbnail = 'https://graph.facebook.com/' . $data->id . '/picture';
 				?>
 						<li class="fts-fb-main-page-li">
 							<div class="fb-click-wrapper">
@@ -380,9 +381,9 @@ class feed_them_social_functions {
 									foreach ( $data->locations->data as $location ) {
 
 										// if ( !empty( $location->instagram_business_account ) ) {
-												$loc_data_id        = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->id : $location->id;
-												$loc_data_user_name = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $location->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $location->name : $location->name;
-												$loc_data_thumbnail = isset( $location->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $location->id . '/picture';
+												$loc_data_id        = $location->id;
+												$loc_data_user_name = $location->name;
+												$loc_data_thumbnail = 'https://graph.facebook.com/' . $location->id . '/picture';
 
 										?>
 													<li>

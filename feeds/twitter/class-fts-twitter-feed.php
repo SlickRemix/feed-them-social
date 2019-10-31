@@ -792,7 +792,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 						</div>
 
 						<span class="time"><a href="<?php echo esc_url( $permalink ); ?>"
-											  target="_blank"><?php echo esc_html( $fts_date_time ); ?></a></span><br/>
+											  target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a></span><br/>
 						<span class="fts-twitter-text">
 						<?php
 						echo wp_kses(

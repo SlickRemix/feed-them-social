@@ -3,7 +3,7 @@ Contributors: slickremix
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.2.4
-Stable tag: 2.7.6.1
+Stable tag: 2.7.6.2
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,6 +75,12 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.7.6.2 Thursday, October 31th, 2019 =
+  * HAPPY HOLLOWEEN!
+  * FIX: Facebook Options: Issue with Instagram Pages getting included in the return.
+  * FIX: Twitter Feed: Now the Date has a title so it is accessible.
+  * FIX: All Feeds: Now the share links are accessible.
+  
 = Version 2.7.6.1 Wednesday, October 30th, 2019 =
   * FIX: Settings: Missing js that would add px to the input field.
   * FIX: Pinterest: Creator permission was removed by Pinterest on October 25th, 2019. We were not notified of this change however we have corrected the issue.

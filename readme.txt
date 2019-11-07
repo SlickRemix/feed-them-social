@@ -77,7 +77,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 == Changelog ==
 = Version 2.7.7 Thursday, November 7th, 2019 =
   * HAPPY BIRTHDAY TO SPENCER! :)
-  * FIX: Instagram Feed: Mutliple feeds problem.
+  * FIX: Instagram Feed: Multiple feeds problem.
   
 = Version 2.7.6.2 Thursday, October 31th, 2019 =
   * HAPPY HOLLOWEEN!

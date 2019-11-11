@@ -1,9 +1,9 @@
 === Feed Them Social - Page, Post, Video and Photo Galleries ===
-Contributors: slickremix slickchris
+Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.2.4
-Stable tag: 2.7.7.1
+Stable tag: 2.7.7.2
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,7 +75,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.7.7.1 Monday, November 11th, 2019 =
+= Version 2.7.7.1 - 2.7.7.2 Monday, November 11th, 2019 =
   * ADD: New Support Manager Chris to .org so he can help with support on the forum. 
 
 = Version 2.7.7 Thursday, November 7th, 2019 =

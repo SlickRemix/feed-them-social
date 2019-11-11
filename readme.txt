@@ -75,6 +75,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.7.7.1 Monday, November 11th, 2019 =
+  * ADD: New Support Manager Chris to .org so he can help with support on the forum. 
+
 = Version 2.7.7 Thursday, November 7th, 2019 =
   * HAPPY BIRTHDAY TO SPENCER! :)
   * FIX: Instagram Feed: Multiple feeds problem.

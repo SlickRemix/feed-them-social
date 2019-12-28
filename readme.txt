@@ -1,23 +1,15 @@
-=== Feed Them Social - Page, Post, Video and Photo Galleries ===
+=== Feed Them Social - for Twitter feed, Youtube feed, Pinterest feed and more ===
 Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.3.0
-Stable tag: 2.7.8
+Tested up to: 5.3.1
+Stable tag: 2.7.9
 License: GPLv2 or later
 
-Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
+Display a Custom Facebook feed, Instagram feed, Twitter feed, Pinterest feed & YouTube feed on pages, posts or widgets.
 
 == Description ==
-Create Social Feeds of any or all your celebrities, family, friends, yourself, or businesses. Looks great on Desktops, Tablets, and Mobile Devices.
-
-= See what people are saying about our Plugin and Support. =
-
-*"Have been using it daily for more than 2 years and never failed us once. It is an amzing plugin, very simple to setup and use. Great work guys and keep up the good work!"* ~ [stonerecords](https://wordpress.org/support/topic/saves-time-money-its-the-best-social-plugin-out-there?replies=1#post-)
-
-*"This is a very versatile plugin that offers a ton of customization and use options. And if you need help, their support is the best I've ever experienced with a WordPress plugin developer. Thanks guys, keep it up!"* ~ [exonfluxx](https://wordpress.org/support/topic/great-plugin-great-support-389?replies=2#post-)
-
-*"Hammering out issues with most plugin teams usually takes at least 24 hours. For more complicated support issues, it can take a handful of days to fix a problem. The time between messages with the Feed Them Social support team was around 15 minutes instead of 15 hours. Fantastic."* ~ [tunare](https://wordpress.org/support/topic/freaky-fast-support?replies=2#post-)
+Create and Display Responsive Social Feeds for your Facebook Pages, Instagram, Twitter, Pinterest and YouTube feeds while keeping people on your website! 
 
 = Features include the following: =
  * Easy to Install and Setup.
@@ -32,6 +24,14 @@ Create Social Feeds of any or all your celebrities, family, friends, yourself, o
  * With our [Premium Extension](https://www.slickremix.com/product/feed-them-social-premium-extension/) you can set how many posts, pictures, tweets, or videos for each individual social feed. [See Example Demo](https://feedthemsocial.com/)
  * Facebook, Instagram, Twitter and YouTube feeds have a Load More Button option and Auto Load more posts when you get done scrolling to the end of the feed. These features and much more are available in the Premium Version and they are mobile friendly.
  * Awesome Support!
+
+= See what people are saying about our Plugin and Support. =
+
+*"Have been using it daily for more than 2 years and never failed us once. It is an amazing plugin, very simple to setup and use. Great work guys and keep up the good work!"* ~ [stonerecords](https://wordpress.org/support/topic/saves-time-money-its-the-best-social-plugin-out-there?replies=1#post-)
+
+*"This is a very versatile plugin that offers a ton of customization and use options. And if you need help, their support is the best I've ever experienced with a WordPress plugin developer. Thanks guys, keep it up!"* ~ [exonfluxx](https://wordpress.org/support/topic/great-plugin-great-support-389?replies=2#post-)
+
+*"Hammering out issues with most plugin teams usually takes at least 24 hours. For more complicated support issues, it can take a handful of days to fix a problem. The time between messages with the Feed Them Social support team was around 15 minutes instead of 15 hours. Fantastic."* ~ [tunare](https://wordpress.org/support/topic/freaky-fast-support?replies=2#post-)
 
 = Demos =
  * All Demos can be found on [www.FeedThemSocial.com](https://feedthemsocial.com/)
@@ -75,6 +75,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+
+= Version 2.7.9 Saturday, December 28th, 2019 =
+  * UPDATED: Updated Readme to better reflect abilities of plugin.
 
 = Version 2.7.8 Monday, November 18th, 2019 =
   * TESTED: Tested plugin with WordPress version 5.3.0. 

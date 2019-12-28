@@ -4,9 +4,9 @@
  *
  * This class is what initiates the Feed Them Social class
  *
- * Plugin Name: Feed Them Social - for Twitter feed, Youtube feed, Pinterest feed and more
+ * Plugin Name: Feed Them Social - for Twitter feed, Youtube, Pinterest and more
  * Plugin URI: https://feedthemsocial.com/
- * Description: Display Custom Facebook feed, Instagram feed, Twitter feed, Pinterest feed & YouTube feed on pages, posts or widgets.
+ * Description: Display a Custom Facebook feed, Instagram feed, Twitter feed, Pinterest feed & YouTube feed on pages, posts or widgets.
  * Version: 2.7.9
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/

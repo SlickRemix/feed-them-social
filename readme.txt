@@ -1,4 +1,4 @@
-=== Feed Them Social - for Twitter feed, Youtube feed, Pinterest feed and more ===
+=== Feed Them Social - for Twitter feed, Youtube, Pinterest and more ===
 Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0

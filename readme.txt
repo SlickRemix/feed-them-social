@@ -2,14 +2,14 @@
 Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.3.1
-Stable tag: 2.7.9
+Tested up to: 5.3.2
+Stable tag: 2.8.0
 License: GPLv2 or later
 
 Display a Custom Facebook feed, Instagram feed, Twitter feed, Pinterest feed & YouTube feed on pages, posts or widgets.
 
 == Description ==
-Create and Display Responsive Social Feeds for your Facebook Pages, Instagram, Twitter, Pinterest and YouTube feeds while keeping people on your website! 
+Create and Display Responsive Social Feeds for your Facebook Pages, Instagram, Twitter, Pinterest and YouTube feeds while keeping people on your website!
 
 = Features include the following: =
  * Easy to Install and Setup.
@@ -75,36 +75,41 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.8.0 Friday, January 10th, 2020 =
+  * NEW: Instagram Feed: Video posts now have a video icon indicating it's a video post and also a carousel icon for posts containing more than one image and now those images are also displayed in the popup if you have the premium version.
+  * NEW: Twitter Feed: Add a title tag with the date on the post date link.
+  * BACK AGAIN: Happy New Year Everyone! If you are a premium user we have good news for you. The Instagram Hashtag feed is back :) You can show the latest or most popular pics and videos tagged with whatever hashtag you add to the shortcode. If you are not using the premium version, well you have just one more thing to look forward to if you upgrade at some point.
+  * PLUGIN NOTICE: In a few months from now we will be releasing a new version of Feed Them Social that will contain a custom post type instead of a shortcode with all the options in it. This will allow you to make option changes in a flash, and this will also allow you to have more than one feed of ALL the social networks we offer in this plugin. This major overhaul will be in the free version too so existing free users will gain these additions.
 
 = Version 2.7.9 Saturday, December 28th, 2019 =
   * UPDATED: Updated Readme to better reflect abilities of plugin.
 
 = Version 2.7.8 Monday, November 18th, 2019 =
-  * TESTED: Tested plugin with WordPress version 5.3.0. 
+  * TESTED: Tested plugin with WordPress version 5.3.0.
 
 = Version 2.7.7.1 - 2.7.7.2 Monday, November 11th, 2019 =
-  * ADD: New Support Manager Chris to .org so he can help with support on the forum. 
+  * ADD: New Support Manager Chris to .org so he can help with support on the forum.
 
 = Version 2.7.7 Thursday, November 7th, 2019 =
   * HAPPY BIRTHDAY TO SPENCER! :)
   * FIX: Instagram Feed: Multiple feeds problem.
-  
+
 = Version 2.7.6.2 Thursday, October 31th, 2019 =
   * HAPPY HOLLOWEEN!
   * FIX: Facebook Options: Issue with Instagram Pages getting included in the return.
   * FIX: Twitter Feed: Now the Date has a title so it is accessible.
   * FIX: All Feeds: Now the share links are accessible.
-  
+
 = Version 2.7.6.1 Wednesday, October 30th, 2019 =
   * FIX: Settings: Missing js that would add px to the input field.
   * FIX: Pinterest: Creator permission was removed by Pinterest on October 25th, 2019. We were not notified of this change however we have corrected the issue.
-  
+
 = Version 2.7.6 Tuesday, October 29th, 2019 =
   * FIX: Facebook Feed & YouTube Feed: Now we have a permanent caching system if the access token fails or reaches the API limit.
 
 = Version 2.7.4 - 2.7.5 Friday, September 20th, 2019 =
    * CHANGE: Remove the words Facebook and Instagram from the name of our plugin as we have been served to change it.
-   
+
 = Version 2.7.3 Thursday, August 8th, 2019 =
    * FIX: Instagram Options: Button not working to get access token because of depreciated API call. public_content does not work anymore for scope, basic was required instead.
 

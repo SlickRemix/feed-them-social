@@ -593,13 +593,9 @@ class FTS_Settings_Page_Options {
 								'class' => 'combine-instagram-user-option-text',
 							),
 							2 => array(
-								'text' => __( 'Hashtag (required)', 'feed-them-social' ),
+								'text' => __( 'Instagram ID # (required)', 'feed-them-social' ),
 								'class' => 'combine-instagram-hashtag-option-text',
-							),
-							3 => array(
-								'text' => __( 'Location ID (required)', 'feed-them-social' ),
-								'class' => 'combine-instagram-location-option-text',
-							),
+							)
 						),
 						'type'        => 'text',
 						'id'          => 'combine_instagram_name',
@@ -611,13 +607,9 @@ class FTS_Settings_Page_Options {
 								'class' => 'combine-instagram-user-option-text',
 							),
 							2 => array(
-								'text' => __( 'Add your Hashtag below. Do not add the #, just the name.', 'feed-them-social' ),
-								'class' => 'combine-instagram-hashtag-option-text',
-							),
-							3 => array(
-								'text' => __( '<strong>NOTE:</strong> The post count may not count proper in some location instances because private instagram photos are in the mix. We cannot pull private accounts photos in any location feed. Add your Location ID below.', 'feed-them-social' ),
-								'class' => 'combine-instagram-location-option-text',
-							),
+                                'text' => __( '<div class="fts-insta-info-plus-wrapper">If your Hashtag Access Token is set on the Instagram Options page of our plugin your ID should appear below.</div>', 'feed-them-social' ),
+                                'class' => 'combine-instagram-hashtag-option-text',
+							)
 						),
 
 						// Relative to JS.
@@ -627,9 +619,65 @@ class FTS_Settings_Page_Options {
 							'var_final_if' => 'no',
 							'empty_error' => 'set',
 							'empty_error_value' => '',
-						),
-						'sub_options_end' => 2,
+						)
 					),
+
+
+                    // Instagram Hashtag
+                    array(
+                        'option_type' => 'input',
+                        'input_wrap_class' => 'combine_instagram_hashtag',
+                        'label'       => array(
+                            1 => array(
+                                'text' => __( 'Hashtag (required)', 'feed-them-social' ),
+                                'class' => 'combine-instagram-hashtag-option-text',
+                            ),
+                        ),
+                        'type'        => 'text',
+                        'id'          => 'combine_instagram_hashtag',
+                        'name'        => 'combine_instagram_hashtag',
+                        'required'    => 'yes',
+                        'instructional-text' => array(
+                            1 => array(
+                                'text' => __( 'Add your hashtag below. <strong>DO NOT</strong> add the #, just the name. Only one hashtag allowed at this time. Hashtag media only stays on Instagram for 24 hours and the API does not give us a date/time. That also means if you decide to combine this feed these media posts will appear before any other posts because we cannot sort them by date. In order to use the Instagram hashtag feed you must have your Instagram account linked to a Facebook Business Page. <a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">Read Instructions.</a>', 'feed-them-social' ),
+                                'class' => 'combine-instagram-hashtag-option-text',
+                            ),
+                        ),
+
+                        // Relative to JS.
+                        'short_attr'  => array(
+                            'attr_name'    => 'hashtag',
+                            'var_final_if' => 'no',
+                            'empty_error'  => 'yes',
+                        ),
+                    ),
+
+
+                    // Hashtag Type
+                    array(
+                        'option_type' => 'select',
+                        'input_wrap_class' => 'combine_instagram_hashtag_type',
+                        'label'       => __( 'Hashtag Search Type', 'feed-them-social' ),
+
+                        'type'        => 'text',
+                        'id'          => 'combine_instagram_hashtag_type',
+                        'name'        => 'combine_instagram_hashtag_type',
+                        'class'       => 'combine_instagram-hashtag-type',
+                        'options'     => array(
+                            1 => array(
+                                'label' => __( 'Recent Media', 'feed-them-social' ),
+                                'value' => 'recent-media',
+                            ),
+                            2 => array(
+                                'label' => __( 'Top Media (Most Interactions)', 'feed-them-social' ),
+                                'value' => 'top-media',
+                            ),
+                        ),
+                        'short_attr'  => array(
+                            'attr_name' => 'instagram_search',
+                        ),
+                        'sub_options_end' => 2,
+                    ),
 
 					// Combine Pinterest
 					array(
@@ -4347,10 +4395,10 @@ class FTS_Settings_Page_Options {
 					),
 
 					// hastag Feed
-				//	array(
-				//		'value' => 'hashtag',
-				//		'title' => __( 'Hashtag Feed', 'feed-them-social' ),
-				//	),
+					array(
+						'value' => 'hashtag',
+						'title' => __( 'Hashtag Feed', 'feed-them-social' ),
+					),
 
 					// location Feed
 					// array(
@@ -4430,7 +4478,7 @@ class FTS_Settings_Page_Options {
                         'required'    => 'yes',
                         'instructional-text' => array(
                             1 => array(
-                                'text' => __( 'Add your Hashtag below. <strong>DO NOT</strong> add the #, just the name.', 'feed-them-social' ),
+                                'text' => __( 'Add your hashtag below. <strong>DO NOT</strong> add the #, just the name. Only one hashtag allowed at this time. Hashtag media only stays on Instagram for 24 hours and the API does not give us a date/time. In order to use the Instagram hashtag feed you must have your Instagram account linked to a Facebook Business Page. <a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">Read Instructions.</a>', 'feed-them-social' ),
                                 'class' => 'instagram-hashtag-option-text',
                             ),
                         ),
@@ -4463,6 +4511,31 @@ class FTS_Settings_Page_Options {
 							'empty_error_value' => '',
 						),
 					),
+
+                    // Hashtag Type
+                    array(
+                        'option_type' => 'select',
+                        'input_wrap_class' => 'instagram_hashtag_type',
+                        'label'       => __( 'Hashtag Search Type', 'feed-them-social' ),
+
+                        'type'        => 'text',
+                        'id'          => 'instagram_hashtag_type',
+                        'name'        => 'instagram_hashtag_type',
+                        'class'       => 'instagram-hashtag-type',
+                        'options'     => array(
+                            1 => array(
+                                'label' => __( 'Recent Media', 'feed-them-social' ),
+                                'value' => 'recent-media',
+                            ),
+                            2 => array(
+                                'label' => __( 'Top Media (Most Interactions)', 'feed-them-social' ),
+                                'value' => 'top-media',
+                            ),
+                        ),
+                        'short_attr'  => array(
+                            'attr_name' => 'search',
+                        ),
+                    ),
 
 					// Pic Count
 					array(

@@ -840,7 +840,8 @@ class FTS_Settings_Page {
 						<?php if ( ! is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) { ?>
 						if (jQuery("select#shortcode-form-selector").val() == "combine-steams-shortcode-form") {
 							jQuery('.combine-steams-shortcode-form, .fts-required-more-posts').hide();
-							jQuery('#not_active_main_select, .fts-required-more-posts').show();
+							// jQuery('#not_active_main_select, .fts-required-more-posts').show();
+                            jQuery('.fts-required-more-posts').show();
 						}
 						<?php } ?>
 
@@ -1011,7 +1012,7 @@ class FTS_Settings_Page {
                         if (jQuery('#instagram-messages-selector').val() == 'hashtag') {
                             jQuery(".instagram-location-option-text,.main-instagram-profile-options-wrap").hide();
 
-                            jQuery(".instagram_hashtag, .instagram-hashtag-option-text").show();
+                            jQuery(".instagram_hashtag, .instagram-hashtag-option-text, .instagram_hashtag_type").show();
                         }
 						else if (jQuery('#instagram-messages-selector').val() == 'location') {
 							jQuery(".instagram-id-option-wrap,.instagram-user-option-text,.instagram-hashtag-option-text,.main-instagram-profile-options-wrap").hide();
@@ -1028,44 +1029,30 @@ class FTS_Settings_Page {
 							jQuery(".instagram-id-option-wrap,.instagram-user-option-text,.main-instagram-profile-options-wrap").show();
 							jQuery(".instagram-hashtag-option-text,.instagram-location-option-text").hide();
                             jQuery(".instagram_options_wrap").show();
-                            jQuery(".fts-instagram-hashtag-location-options-message, .instagram_hashtag, .instagram-hashtag-option-text").hide();
+                            jQuery(".fts-instagram-hashtag-location-options-message, .instagram_hashtag, .instagram-hashtag-option-text, .instagram_hashtag_type").hide();
 
 						}
 					});
 
 					jQuery('#combine_instagram_type').bind('change', function (e) {
 						if (jQuery('#combine_instagram_type').val() == 'hashtag') {
-							jQuery(".combine-instagram-id-option-wrap,.combine-instagram-user-option-text,.combine-instagram-location-option-text").hide();
+
+						 	jQuery(".combine-instagram-id-option-wrap,.combine-instagram-location-option-text, .combine-instagram-user-option-text").hide();
 							jQuery(".combine-instagram-hashtag-option-text").show();
 
-                            jQuery(".combine-instagram-hashtag-option-text, .combine-instagram-hashtag-option-text, #combine_instagram_name").hide();
+                            jQuery(".combine-instagram-hashtag-option-text, .combine-instagram-hashtag-option-text, #combine_instagram_name, .combine_instagram_hashtag, .combine_instagram_hashtag_type").show();
 
                             if(!jQuery('.combine_instagram_type div').hasClass('fts-instagram-hashtag-location-options-message')){
-                                jQuery(  ".combine_instagram_type").append( fts_notice_message );
+                               // jQuery(  ".combine_instagram_type").append( fts_notice_message );
                             }
                             else {
                                 jQuery(".fts-instagram-hashtag-location-options-message").show();
                             }
-						}
-						else if (jQuery('#combine_instagram_type').val() == 'location') {
-							jQuery(".combine-instagram-id-option-wrap,.combine-instagram-user-option-text,.combine-instagram-hashtag-option-text").hide();
-							jQuery(".combine-instagram-location-option-text").show();
 
-                            jQuery(".combine-instagram-location-option-text, .combine-instagram-location-option-text, #combine_instagram_name").hide();
-
-                            jQuery(".instagram_options_wrap").hide();
-                            if(!jQuery('.combine_instagram_type div').hasClass('fts-instagram-hashtag-location-options-message')){
-                                jQuery(  ".combine_instagram_type").append( fts_notice_message );
-                            }
-                            else {
-                                jQuery(".fts-instagram-hashtag-location-options-message").show();
-                            }
 						}
 						else {
-							jQuery(".combine-instagram-id-option-wrap,.combine-instagram-user-option-text").show();
-							jQuery(".combine-instagram-hashtag-option-text,.combine-instagram-location-option-text").hide();
-                            jQuery("#combine_instagram_name").show();
-                            jQuery(".fts-instagram-hashtag-location-options-message").hide();
+							jQuery(".combine-instagram-user-option-text").show();
+							jQuery(".combine-instagram-hashtag-option-text,.combine-instagram-location-option-text, .combine_instagram_hashtag_type, .combine_instagram_hashtag, .fts-instagram-hashtag-location-options-message").hide();
 
 						}
 					});
@@ -1091,8 +1078,8 @@ class FTS_Settings_Page {
 							jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_api_token' ) ); ?>');
 						}
 						else if (jQuery('#instagram-messages-selector').val() == 'hashtag') {
-                            jQuery('#instagram_id, #insta_access_token').val('');
-                            jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token_user_id' ) ); ?>');
+                            jQuery('#instagram_id').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token_user_id' ) ); ?>');
+                            jQuery('#insta_access_token').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token' ) ); ?>');
                         }
 						else {
 							jQuery('#instagram_id').val('');
@@ -1154,8 +1141,9 @@ class FTS_Settings_Page {
 						if (jQuery('#combine_instagram_type').val() == 'user') {
 							jQuery('#combine_instagram_name').val(jQuery('#combine_instagram_name').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_id' ) ); ?>');
 						}
-						else {
-							jQuery('#combine_instagram_name').val('');
+						else if (jQuery('#combine_instagram_type').val() == 'hashtag') {
+
+                            jQuery('#combine_instagram_name').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token_user_id' ) ); ?>');
 						}
 
 					});

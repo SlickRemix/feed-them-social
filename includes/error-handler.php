@@ -214,7 +214,7 @@ class fts_error_handler {
         $feed_data = json_decode( $feed_data['data'] );
 
 
-        error_log( print_r( $feed_data, true ) );
+        //error_log( print_r( $feed_data, true ) );
 
 		// return error if no data retreived!
 		try {
@@ -237,7 +237,7 @@ class fts_error_handler {
 					throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">' . $output . '</div>' );
 				}
 
-              //  throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
+                //throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
 			}
 		} catch ( \Exception $e ) {
             return array( true, $e->getMessage() );
@@ -245,3 +245,4 @@ class fts_error_handler {
         return;
 	}
 }
+

@@ -227,41 +227,41 @@ class feed_them_social_functions {
 		return $val;
 	}
 
-	/**
-	 * FTS Share Option
-	 *
-	 * @param string $fb_link link for social network.
-	 * @param string $description description field for some of the social networks.
-	 * @since
-	 */
-	public function fts_share_option( $fb_link, $description ) {
+    /**
+     * FTS Share Option
+     *
+     * @param string $fb_link link for social network.
+     * @param string $description description field for some of the social networks.
+     * @since
+     */
+    public function fts_share_option( $fb_link, $description ) {
 
-		$hide_share = get_option( 'fts_disable_share_button', true ) ? get_option( 'fts_disable_share_button', true ) : '';
+        $hide_share = get_option( 'fts_disable_share_button', true ) ? get_option( 'fts_disable_share_button', true ) : '';
 
-		if ( isset( $hide_share ) && '1' !== $hide_share ) {
-			// Social media sharing URLs
-			$link                      = $fb_link;
-			$description               = wp_strip_all_tags( $description );
-			$ft_gallery_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link;
-			$ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
-			$ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
-			$ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
-			$ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
+        if ( isset( $hide_share ) && '1' !== $hide_share ) {
+            // Social media sharing URLs
+            $link                      = $fb_link;
+            $description               = wp_strip_all_tags( $description );
+            $ft_gallery_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link;
+            $ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
+            $ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
+            $ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
+            $ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
 
-			// The share wrap and links
-			$output  = '<div class="fts-share-wrap">';
-			$output .= '<a href="javascript:;" class="ft-gallery-link-popup">' . esc_html( '', 'feed-them-social' ) . '</a>';
-			$output .= '<div class="ft-gallery-share-wrap">';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
-			$output .= '</div>';
-			$output .= '</div>';
-			return $output;
-		}
-	}
+            // The share wrap and links
+            $output  = '<div class="fts-share-wrap">';
+            $output .= '<a href="javascript:;" class="ft-gallery-link-popup">' . esc_html( '', 'feed-them-social' ) . '</a>';
+            $output .= '<div class="ft-gallery-share-wrap">';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
+            $output .= '</div>';
+            $output .= '</div>';
+            return $output;
+        }
+    }
 
 	/**
 	 * FTS FB Options Page Function
@@ -322,9 +322,9 @@ class feed_them_social_functions {
 
 				// if( !empty( $data->instagram_business_account )  ){
 
-					$data_id        = $data->id;
-					$data_user_name = $data->name;
-					$data_thumbnail = 'https://graph.facebook.com/' . $data->id . '/picture';
+					$data_id        = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->id : $data->id;
+					$data_user_name = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $data->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $data->name : $data->name;
+					$data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $data->id . '/picture';
 				?>
 						<li class="fts-fb-main-page-li">
 							<div class="fb-click-wrapper">
@@ -381,9 +381,9 @@ class feed_them_social_functions {
 									foreach ( $data->locations->data as $location ) {
 
 										// if ( !empty( $location->instagram_business_account ) ) {
-												$loc_data_id        = $location->id;
-												$loc_data_user_name = $location->name;
-												$loc_data_thumbnail = 'https://graph.facebook.com/' . $location->id . '/picture';
+												$loc_data_id        = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->id : $location->id;
+												$loc_data_user_name = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $location->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $location->name : $location->name;
+												$loc_data_thumbnail = isset( $location->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $location->id . '/picture';
 
 										?>
 													<li>

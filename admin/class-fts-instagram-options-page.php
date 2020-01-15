@@ -200,7 +200,7 @@ class FTS_Instagram_Options_Page {
                             // This redirect url must have an &state= instead of a ?state= otherwise it will not work proper with the fb app. https://www.slickremix.com/instagram-token/&state=.
                             echo sprintf(
                                 esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
-                                '<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=2503994969928671&redirect_uri=https://www.slickremix.com/instagram-token/&state=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '&scope=manage_pages,instagram_basic' ) . '" class="fts-facebook-get-access-token">',
+                                '<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/instagram-token/&state=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '&scope=manage_pages,instagram_basic' ) . '" class="fts-facebook-get-access-token">',
                                 '</a>'
                             );
                             ?>

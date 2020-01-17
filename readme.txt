@@ -76,7 +76,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.8.2 Friday, January 17th, 2020 =
-  * FIXED: Instagram Options & Feed: Premium feature was visible. Please upgrade to the premium or combined streams extension to use the hashtag feed.
+  * FIXED: Instagram Options & Feed: Premium feature was visible and not working properly. Please upgrade to the premium or combined streams extension to use the hashtag feed.
 
 = Version 2.8.1 Wednesday, January 15th, 2020 =
   * FIXED: Instagram Options: The button for hashtag feed was not functioning properly.

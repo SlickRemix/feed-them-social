@@ -178,9 +178,9 @@ class FTS_Instagram_Options_Page {
 
 
 
-
-
-                <div id="fb-token-master-wrap" class="feed-them-social-admin-input-wrap" >
+                <?php
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) { ?>
+                    <div id="fb-token-master-wrap" class="feed-them-social-admin-input-wrap" >
                     <div class="fts-title-description-settings-page">
                         <h3>
                             <?php esc_html_e( 'Instagram Hashtag API Token', 'feed-them-social' ); ?>
@@ -322,6 +322,7 @@ class FTS_Instagram_Options_Page {
                     <div class="clear"></div>
                 </div>
                 <!--/fts-facebook-feed-styles-input-wrap-->
+                 <?php } ?>
 
 
 

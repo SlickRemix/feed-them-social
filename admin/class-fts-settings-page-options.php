@@ -1173,7 +1173,7 @@ class FTS_Settings_Page_Options {
 				'premium_msg_boxes'  => array(
 					'album_videos' => array(
 						'req_plugin' => 'fts_premium',
-						'msg'        => 'The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your wordpress site! <a href="https://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br /><br />Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too! <a href="https://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a>',
+						'msg'        => 'The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your WordPress site! <a href="https://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br /><br />Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too! <a href="https://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a>',
 					),
 					'reviews'      => array(
 						'req_plugin' => 'facebook_reviews',
@@ -5074,7 +5074,21 @@ class FTS_Settings_Page_Options {
 							'value'    => 'yes',
 						),
 					),
+                        'hashtag'      => array(
+                            'if' => array(
+                                'class'    => 'select#instagram-messages-selector',
+                                'operator' => '==',
+                                'value'    => 'hashtag',
+                            ),
+                        ),
 				),
+
+                'premium_msg_boxes'  => array(
+                    'hashtag' => array(
+                        'req_plugin' => 'fts_premium',
+                        'msg'        => 'The Instagram hashtag feed allows you to view publicly visible images and videos that have been tagged with a specific hashtag. See this example and how you can bring new life to your WordPress site! <a href="https://feedthemsocial.com/instagram-hashtag-feed-demo/" target="_blank">View Demo</a>',
+                    ),
+                ),
 
 				// Generator Info
 				'generator_title'    => __( 'Instagram Feed Shortcode', 'feed-them-social' ),

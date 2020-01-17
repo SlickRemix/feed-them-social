@@ -840,7 +840,7 @@ class FTS_Settings_Page {
 						<?php if ( ! is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) { ?>
 						if (jQuery("select#shortcode-form-selector").val() == "combine-steams-shortcode-form") {
 							jQuery('.combine-steams-shortcode-form, .fts-required-more-posts').hide();
-							// jQuery('#not_active_main_select, .fts-required-more-posts').show();
+                            jQuery('#not_active_main_select, .fts-required-more-posts').show();
                             jQuery('.fts-required-more-posts').show();
 						}
 						<?php } ?>

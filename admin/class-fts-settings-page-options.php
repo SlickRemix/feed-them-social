@@ -439,6 +439,10 @@ class FTS_Settings_Page_Options {
 					// 'short_attr_final' => 'yes',
 					// Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
 					// Twitter Search Name
+
+                    // MUST ADD TWITTER DIRECTIONS FOR SEARCH
+
+                    // If you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. from:user_name%#YourHashtag
 					array(
 						'option_type' => 'input',
 						'input_wrap_class' => 'combine_twitter_hashtag_etc_name',
@@ -537,13 +541,17 @@ class FTS_Settings_Page_Options {
 						'name'        => 'combine_instagram_type',
 						'options'     => array(
 
-							// User Feed
+							// Basic Feed
 							array(
-								'value' => 'user',
-								'label' => __( 'User Feed', 'feed-them-social' ),
+								'value' => 'basic',
+								'label' => __( 'Basic Feed', 'feed-them-social' ),
 							),
-
-							// hastag Feed
+                            // Business Feed
+                            array(
+                                'value' => 'business',
+                                'label' => __( 'Business Feed', 'feed-them-social' ),
+                            ),
+							// Hastag Feed
 							array(
 								'value' => 'hashtag',
 								'label' => __( 'Hashtag Feed', 'feed-them-social' ),
@@ -4388,13 +4396,17 @@ class FTS_Settings_Page_Options {
 				// Feed Types and their options
 				'feeds_types'        => array(
 
-					// User Feed
+					// Basic Feed
 					array(
-						'value' => 'user',
-						'title' => __( 'User Feed', 'feed-them-social' ),
+						'value' => 'basic',
+						'title' => __( 'Basic Feed', 'feed-them-social' ),
 					),
-
-					// hastag Feed
+                    // Business Feed
+                    array(
+                        'value' => 'business',
+                        'title' => __( 'Business Feed', 'feed-them-social' ),
+                    ),
+					// Hastag Feed
 					array(
 						'value' => 'hashtag',
 						'title' => __( 'Hashtag Feed', 'feed-them-social' ),
@@ -4742,13 +4754,13 @@ class FTS_Settings_Page_Options {
 						'name'        => 'instagram-custom-gallery',
 						'options'     => array(
 							1 => array(
-								'label' => __( 'New Gallery Style', 'feed-them-social' ),
+								'label' => __( 'Responsive Gallery', 'feed-them-social' ),
 								'value' => 'yes',
 							),
-							2 => array(
-								'label' => __( 'Classic Gallery Style', 'feed-them-social' ),
-								'value' => 'no',
-							),
+						//	2 => array(
+						//		'label' => __( 'Classic Gallery Style', 'feed-them-social' ),
+						//		'value' => 'no',
+						//	),
 						),
 						'short_attr'  => array(
 							'attr_name' => 'super_gallery',
@@ -4871,7 +4883,7 @@ class FTS_Settings_Page_Options {
 					// Hide Date, Likes and Comments
 					array(
 						'option_type' => 'select',
-						'label'       => __( 'Date, Heart & Comment icon', 'feed-them-social' ),
+						'label'       => __( 'Date, Heart & Comment icon', 'feed-them-social' ) . '<br/><small>' . __( 'Heart and Comment counts only work when using Feed Type: Business Feed.', 'feed-them-social' ) . '</small>',
 						'label_note'  => __( 'Good for image sizes under 120px', 'feed-them-social' ),
 						'type'        => 'text',
 						'id'          => 'fts-slicker-instagram-container-hide-date-likes-comments',

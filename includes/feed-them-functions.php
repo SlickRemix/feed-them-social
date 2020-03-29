@@ -116,11 +116,13 @@ class feed_them_social_functions {
 
 		$fts_refresh_token_nonce = wp_create_nonce( 'fts_token_nonce' );
 		$access_token            = $_REQUEST['access_token'];
+        $user_id                 = $_REQUEST['user_id'];
+
 		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_token_nonce' ) ) {
 			if ( isset( $access_token ) ) {
 				update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $access_token ) );
-				$insta_id = substr( $access_token, 0, strpos( $access_token, '.' ) );
-				update_option( 'fts_instagram_custom_id', sanitize_text_field( $insta_id ) );
+				// $insta_id = substr( $access_token, 0, strpos( $access_token, '.' ) );
+                update_option( 'fts_instagram_custom_id', sanitize_text_field( $user_id ) );
 			}
 		}
 		die;
@@ -142,23 +144,32 @@ class feed_them_social_functions {
 
 			$auth_obj  = $_GET['access_token'];
 			$feed_type = $_GET['feed_type'];
+            $user_id = $_GET['user_id'];
 
-			if ( isset( $auth_obj ) && 'original_instagram' === $feed_type ) {
+			if ( isset( $auth_obj ) && 'original_instagram' === $feed_type || isset( $auth_obj ) && 'instagram_basic' === $feed_type ) {
 				?>
 				<script>
 					jQuery(document).ready(function () {
 						var access_token = '<?php echo sanitize_text_field( $auth_obj ); ?>';
+                        var user_id = '<?php echo sanitize_text_field( $user_id ); ?>';
+
 						jQuery.ajax({
 							data: {
 								action: 'fts_instagram_token_ajax',
 								access_token: access_token,
+                                user_id: user_id,
 							},
 							type: 'POST',
 							url: ftsAjax.ajaxurl,
 							success: function (response) {
 								<?php
 								$auth_obj  = $_GET['access_token'];
-								$insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $auth_obj );
+								if ( 'instagram_basic' === $feed_type ){
+                                    $insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $auth_obj );
+                                }
+								else {
+                                    $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $auth_obj );
+                                }
 								// Get Data for Instagram to check for errors
 								$response                = wp_remote_fopen( $insta_url );
 								$test_app_token_response = json_decode( $response );
@@ -199,6 +210,7 @@ class feed_them_social_functions {
 									<?php
 								}
 								?>
+                                console.log( 'success saving instagram access token' );
 							}
 						}); // end of ajax()
 						return false;

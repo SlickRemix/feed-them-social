@@ -67,7 +67,7 @@ class FTS_Pinterest_Options_Page {
 							<?php
 							echo sprintf(
 								esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
-								'<a href="' . esc_url( 'https://api.pinterest.com/oauth/?response_type=token&redirect_uri=https://www.slickremix.com/pinterest-token-plugin/&client_id=4852080225414031681&scope=read_public&state=' . admin_url( 'admin.php?page=fts-pinterest-feed-styles-submenu-page' ) ) . '" class="fts-pinterest-get-access-token">',
+								'<a href="' . esc_url( 'https://api.pinterest.com/oauth/?response_type=token&redirect_uri=https://www.slickremix.com/pinterest-token-plugin/&client_id=5063534389122615467&scope=read_public&state=' . admin_url( 'admin.php?page=fts-pinterest-feed-styles-submenu-page' ) ) . '" class="fts-pinterest-get-access-token">',
 								'</a>'
 							);
 							?>

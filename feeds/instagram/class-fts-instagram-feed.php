@@ -163,7 +163,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 
 		$instagram_api_children = isset( $post_data->images ) ? $post_data->images->standard_resolution->url : $hashtag_children;
 
-		$data_type_child = strpos( $hashtag_children, 'mp4' ) ? $post_data->permalink . 'media?size=l' : $instagram_api_children ;
+		$data_type_child = strpos( $hashtag_children, 'mp4' ) ? $post_data->permalink . 'media?size=l' : $instagram_api_children;
 
 		$hastag_media_url = isset( $post_data->media_url ) ? $post_data->media_url : $data_type_child;
 
@@ -203,15 +203,19 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 	 */
 	public function fts_instagram_video_link( $post_data ) {
 
-		$hashtag_children = isset( $post_data->children ) ? $post_data->children->data[0]->media_url : '';
+		if ( isset( $post_data->children ) ) {
+			$video = isset( $post_data->children ) ? $post_data->children->data[0]->media_url : '';
+		} else {
+			$hashtag_children = isset( $post_data->children ) ? $post_data->children->data[0]->media_url : '';
 
-		$instagram_api_children = isset( $post_data->videos ) ? $post_data->videos->standard_resolution->url : $hashtag_children;
+			$instagram_api_children = isset( $post_data->videos ) ? $post_data->videos->standard_resolution->url : $hashtag_children;
 
-		$hastag_media_url = isset( $post_data->media_url ) ? $post_data->media_url : $instagram_api_children;
+			$hastag_media_url = isset( $post_data->media_url ) ? $post_data->media_url : $instagram_api_children;
 
-		$instagram_video_standard_resolution = isset( $post_data->videos->standard_resolution->url ) ? $post_data->videos->standard_resolution->url : $hastag_media_url;
+			$video = isset( $post_data->videos->standard_resolution->url ) ? $post_data->videos->standard_resolution->url : $hastag_media_url;
+		}
 
-		return $instagram_video_standard_resolution;
+		return $video;
 	}
 
 	/**
@@ -358,11 +362,11 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			$instagram_data_array = array();
 
-			$fts_hashtag_check_token_type        = '' === $access_token ? get_option( 'fts_facebook_instagram_custom_api_token' ) : $access_token;
-			$fts_check_token_type                = '' === $access_token ? get_option( 'fts_instagram_custom_api_token' ) : $access_token;
-			$fts_instagram_access_token          = 'hashtag' === $type ? $fts_hashtag_check_token_type : $fts_check_token_type;
-			$fts_instagram_show_follow_btn       = get_option( 'instagram_show_follow_btn' );
-			$fts_instagram_show_follow_btn_where = get_option( 'instagram_show_follow_btn_where' );
+			$fts_business_or_hashtag_check_token_type = '' === $access_token ? get_option( 'fts_facebook_instagram_custom_api_token' ) : $access_token;
+			$fts_check_token_type                     = '' === $access_token ? get_option( 'fts_instagram_custom_api_token' ) : $access_token;
+			$fts_instagram_access_token               = 'hashtag' === $type || 'business' === $type ? $fts_business_or_hashtag_check_token_type : $fts_check_token_type;
+			$fts_instagram_show_follow_btn            = get_option( 'instagram_show_follow_btn' );
+			$fts_instagram_show_follow_btn_where      = get_option( 'instagram_show_follow_btn_where' );
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				$instagram_load_more_text      = get_option( 'instagram_load_more_text' ) ? get_option( 'instagram_load_more_text' ) : __( 'Load More', 'feed-them-social' );
 				$instagram_no_more_photos_text = get_option( 'instagram_no_more_photos_text' ) ? get_option( 'instagram_no_more_photos_text' ) : __( 'No More Photos', 'feed-them-social' );
@@ -370,7 +374,6 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-				// $type is the variable coming the shortcode.
 				$_REQUEST['fts_dynamic_name'] = sanitize_key( $this->fts_rand_string( 10 ) . '_' . $type );
 				// Create Dynamic Class Name.
 				$fts_dynamic_class_name = '';
@@ -405,7 +408,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				$cache_hashtag_id_array = 'instagram_cache_' . $instagram_id . '_num' . $pics_count . '_search' . $search . '';
 
 				if ( false === $this->fts_check_feed_cache_exists( $cache_hashtag_id_array ) ) {
-
+					// This call is required because users enter a hashtag name, then we have to check the API to see if it exists and if it does return the ID number for that hashtag.
 					$instagram_hashtag_data_array['data'] = 'https://graph.facebook.com/ig_hashtag_search?user_id=' . $instagram_id . '&q=' . $hashtag . '&access_token=' . $fts_instagram_access_token_final;
 
 					$hashtag_response = $this->fts_get_feed_json( $instagram_hashtag_data_array );
@@ -441,7 +444,147 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 					// Now that we have the Instagram ID we can do a search for the endpoint 'Top Media'.
 					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $hashtag_id . '/top_media?user_id=' . $instagram_id . '&fields=media_url,caption,id,comments_count,permalink,like_count,media_type,children{media_url}&limit=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
 				}
-			} else {
+			}
+
+
+
+
+
+
+
+
+
+
+			elseif ( 'business' === $type ) {
+
+				    $business_cache = 'instagram_business_cache' . $instagram_id . '_num' . $pics_count . '';
+
+				    // this is not getting cached currently
+					$instagram_data_array['user_info'] = 'https://graph.facebook.com/v3.2/' . $instagram_id . '?fields=biography%2Cid%2Cig_id%2Cfollowers_count%2Cfollows_count%2Cmedia_count%2Cname%2Cprofile_picture_url%2Cusername%2Cwebsite&access_token=' . $fts_instagram_access_token_final;
+
+					// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $instagram_id . '/media?limit=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
+
+					// First we make sure the feed is not cached already before trying to run the Instagram API.
+                    if ( false === $this->fts_check_feed_cache_exists( $business_cache ) ) {
+
+
+                            $instagram_business_response = $this->fts_get_feed_json( $instagram_data_array );
+
+                            $instagram_business = json_decode( $instagram_business_response['data'] );
+
+                            // We loop through the media ids from the above $instagram_business_data_array['data'] and request the info for each to create an array we can cache.
+                            $instagram_business_output = (object) [ 'data' => [] ];
+                        foreach ( $instagram_business->data as $media ) {
+                            $media_id                              = $media->id;
+                            $instagram_business_data_array['data'] = 'https://graph.facebook.com/' . $media_id . '?fields=caption,comments_count,like_count,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $fts_instagram_access_token_final;
+                            $instagram_business_media_response     = $this->fts_get_feed_json( $instagram_business_data_array );
+                            $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
+                            $instagram_business_output->data[]     = $instagram_business_media;
+                        }
+                            $insta_data = (object) array_merge( (array) $instagram_business, (array) $instagram_business_output );
+
+                       // echo 'rrrrrrrrrrrr';
+                        //	echo '<br/><pre>';
+                        //	    print_r( $insta_data );
+                        //	echo '</pre>';
+
+                            if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+                                $this->fts_create_feed_cache( $business_cache, $insta_data );
+                            }
+                    }
+
+                    else {
+                        $insta_data = $this->fts_get_feed_cache( $business_cache );
+
+                       // echo 'eeeeeeeeeeee';
+                        // Used for Testing Only.
+                        if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
+                            esc_html_e( 'Array Check Cached', 'feed-them-social' );
+                            echo '<br/><pre>';
+                                print_r( $insta_data );
+                            echo '</pre>';
+                        }
+                    }
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+			elseif ( 'basic' === $type ) {
+					// We don't really need this right now, but leaving in case we find a need. This is a call to return basic user data but the only thing worth anything I can
+					// think of right now would be making an option to show the media count. That would need to be a new option, worth adding in a future update. This call is duplicated and used to return info on the instagram options page though.
+					// $instagram_data_array['user_info'] = 'https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=' . $fts_instagram_access_token_final;
+
+				    $basic_cache = 'instagram_basic_cache' . $instagram_id . '_num' . $pics_count . '';
+					// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.instagram.com/' . $instagram_id . '/media?limit=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
+
+					// First we make sure the feed is not cached already before trying to run the Instagram API.
+                    if ( false === $this->fts_check_feed_cache_exists( $basic_cache ) ) {
+                         $instagram_basic_response = $this->fts_get_feed_json( $instagram_data_array );
+
+                         $instagram_basic = json_decode( $instagram_basic_response['data'] );
+
+                        // We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
+                        $instagram_basic_output = (object) [ 'data' => [] ];
+                        foreach ( $instagram_basic->data as $media ) {
+                            $media_id                           = $media->id;
+                            $instagram_basic_data_array['data'] = 'https://graph.instagram.com/' . $media_id . '?fields=caption,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $fts_instagram_access_token_final;
+                            $instagram_basic_media_response     = $this->fts_get_feed_json( $instagram_basic_data_array );
+                            $instagram_basic_media              = json_decode( $instagram_basic_media_response['data'] );
+                            $instagram_basic_output->data[]     = $instagram_basic_media;
+                        }
+
+                            $insta_data = (object) array_merge( (array) $instagram_basic, (array) $instagram_basic_output );
+
+
+                            if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+                                $this->fts_create_feed_cache( $basic_cache, $insta_data );
+                            }
+                    }
+
+                    else {
+                        $insta_data = $this->fts_get_feed_cache( $basic_cache );
+
+                       // echo 'eeeeeeeeeeee';
+                        // Used for Testing Only.
+                        if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
+                            esc_html_e( 'Array Check Cached', 'feed-them-social' );
+                            echo '<br/><pre>';
+                                print_r( $insta_data );
+                            echo '</pre>';
+                        }
+                    }
+
+					   // echo '<br/>asdfasdfasdf<pre>';
+					   // print_r( $insta_data );
+					   // echo '</pre>zzzz';
+				// $instagram_data_array['user_info'] = 'https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=' . $fts_instagram_access_token_final;
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			else {
 				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://api.instagram.com/v1/users/' . $instagram_id . '/media/recent/?count=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
 
 				$instagram_data_array['user_info'] = 'https://api.instagram.com/v1/users/' . $instagram_id . '?access_token=' . $fts_instagram_access_token_final;
@@ -464,49 +607,63 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				}
 			}
 
-			// If the feed is cached then we run the cached array to display the feed.
-			if ( false !== $this->fts_check_feed_cache_exists( $cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
-				$response   = $this->fts_get_feed_cache( $cache );
-				$insta_data = json_decode( $response['data'] );
-				$note       = esc_html( 'Cached', 'feed-them-social' );
+			//$spencer_testing = 'true';
+			if ( 'hashtag' === $type || 'user' === $type ) {
+					// If the feed is NOT cached then we run the cached array to display the feed.
+					// Legacy API depreciation as of March 31st, 2020. SO we add a check here to by pass the cache and show an error message
+					// letting users know they need to reconnect there account generate a new shortcode.
+				if ( false !== $this->fts_check_feed_cache_exists( $cache ) && ! isset( $_GET['load_more_ajaxing'] ) && 'username' !== $type ) {
+					$response   = $this->fts_get_feed_cache( $cache );
+					$insta_data = isset( $type ) && 'basic' === $type || 'business' === $type ? $insta_fb_data : json_decode( $response['data'] );
+					$note       = esc_html( 'Cached', 'feed-them-social' );
 
-			} elseif ( isset( $error_check->error_message ) || isset( $error_check->meta->error_message ) || empty( $error_check ) ) {
-				// If the Instagram API array returns any error messages we check for them here and return the corresponding error message!
-				if ( current_user_can( 'administrator' ) ) {
+				} elseif ( isset( $error_check->error_message ) || isset( $error_check->meta->error_message ) || empty( $error_check ) || 'user' === $type ) {
+					// If the Instagram API array returns any error messages we check for them here and return the corresponding error message!
+					if ( current_user_can( 'administrator' ) ) {
 
-					if ( isset( $error_check->error_message ) ) {
-						$error = $error_check->error_message;
-					} elseif ( isset( $error_check->meta->error_message ) ) {
-						$error = $error_check->meta->error_message;
+						if ( 'user' === $type ) {
+							$error = esc_html( 'The Legacy API is depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please go to the Instgram Options page of our plugin and reconnect your account and generate a new shortcode and replace your existing one.', 'feed-them-social' );
+						} elseif ( isset( $error_check->error_message ) ) {
+							$error = $error_check->error_message;
+						} elseif ( isset( $error_check->meta->error_message ) ) {
+							$error = $error_check->meta->error_message;
+						} else {
+							$error = esc_html( 'Please go to the Feed Them > Instagram Options page of our Feed Them Social plugin a double check your Instagram ID matches the one used in your shortcode on this page.', 'feed-them-social' );
+						}
+
+						return esc_html( 'Feed Them Social (Notice visible to Admin only). Instagram returned:', 'feed-them-social' ) . ' ' . $error;
 					} else {
-						$error = esc_html( 'Please go to the Instagram Options page of our plugin a double check your Instagram ID matches the one used in your shortcode on this page.', 'feed-them-social' );
+						return;
 					}
-
-					return esc_html( 'Feed Them Social (Notice visible to Admin only). Instagram returned:', 'feed-them-social' ) . ' ' . $error;
 				} else {
-					return;
-				}
-			} else {
-				$insta_data = json_decode( $response['data'] );
-				// if Error DON'T Cache.
-				if ( ! isset( $error_check->meta->error_message ) && ! isset( $_GET['load_more_ajaxing'] ) || ! isset( $error_check->error_message ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
-					$this->fts_create_feed_cache( $cache, $response );
-					$note = esc_html( 'Not Cached', 'feed-them-social' );
+					$insta_data = json_decode( $response['data'] );
+					// if Error DON'T Cache.
+					if ( ! isset( $error_check->meta->error_message ) && ! isset( $_GET['load_more_ajaxing'] ) || ! isset( $error_check->error_message ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
+										$this->fts_create_feed_cache( $cache, $response );
+										$note = esc_html( 'Not Cached', 'feed-them-social' );
+					}
 				}
 			}
 
 			$instagram_user_info = ! empty( $response['user_info'] ) ? json_decode( $response['user_info'] ) : '';
 			// URL to get Feeds.
-			if ( 'hashtag' !== $type && 'location' !== $type ) {
+			if ( 'user' === $type ) {
 				$username        = $instagram_user_info->data->username;
 				$bio             = $instagram_user_info->data->bio;
 				$profile_picture = $instagram_user_info->data->profile_picture;
 				$full_name       = $instagram_user_info->data->full_name;
 				$website         = $instagram_user_info->data->website;
+			} elseif ( 'business' === $type ) {
+				$username        = $instagram_user_info->username;
+				$bio             = $instagram_user_info->biography;
+				$profile_picture = $instagram_user_info->profile_picture_url;
+				$full_name       = $instagram_user_info->name;
+				$website         = $instagram_user_info->website;
+
 			}
 
 			if ( current_user_can( 'administrator' ) && 'true' === $debug_userinfo ) {
-				echo '<pre>';
+				echo 'aSDasdasDasdaSDa<pre>';
 				print_r( $instagram_user_info );
 				echo '</pre>';
 			}
@@ -538,9 +695,9 @@ if ( isset( $profile_name ) && 'yes' === $profile_name ) {
 
 				<div class="fts-isnta-full-name"><?php echo esc_html( $full_name ); ?></div>
 		<?php
-		if ( isset( $instagram_user_info->data->username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
+		if ( isset( $username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
 			echo '<div class="fts-follow-header-wrap">';
-			echo $this->social_follow_button( 'instagram', $instagram_user_info->data->username );
+			echo $this->social_follow_button( 'instagram', $username );
 			echo '</div>';
 		}
 		?>
@@ -550,7 +707,8 @@ if ( isset( $profile_name ) && 'yes' === $profile_name ) {
 // $profile stats comes from the shortcode
 if ( 'yes' === $profile_stats ) {
 	// These need to be in this order to keep the different counts straight since I used either $instagram_likes or $instagram_comments throughout.
-	$number_posted_pics = isset( $instagram_user_info->data->counts->media ) ? $instagram_user_info->data->counts->media : '';
+	$number_posted_pics_fb_api = isset( $instagram_user_info->media_count ) ? $instagram_user_info->media_count : '';
+	$number_posted_pics        = isset( $instagram_user_info->data->counts->media ) ? $instagram_user_info->data->counts->media : $number_posted_pics_fb_api;
 	// here we add a , for all numbers below 9,999.
 	if ( isset( $number_posted_pics ) && $number_posted_pics <= 9999 ) {
 		$number_posted_pics = number_format( $number_posted_pics );
@@ -564,7 +722,8 @@ if ( 'yes' === $profile_stats ) {
 		$number_posted_pics = round( ( $number_posted_pics / 1000 ), 1 ) . 'k';
 	}
 
-	$number_followed_by = $instagram_user_info->data->counts->followed_by;
+	$number_followed_by_fb_api = isset( $instagram_user_info->followers_count ) ? $instagram_user_info->followers_count : '';
+	$number_followed_by        = isset( $instagram_user_info->data->counts->followed_by ) ? $instagram_user_info->data->counts->followed_by : $number_followed_by_fb_api;
 	// here we add a , for all numbers below 9,999.
 	if ( isset( $number_followed_by ) && $number_followed_by <= 9999 ) {
 		$number_followed_by = number_format( $number_followed_by );
@@ -578,7 +737,8 @@ if ( 'yes' === $profile_stats ) {
 		$number_followed_by = round( ( $number_followed_by / 1000 ), 1 ) . 'k';
 	}
 
-	$number_follows = $instagram_user_info->data->counts->follows;
+	$number_follows_fb_api = isset( $instagram_user_info->follows_count ) ? $instagram_user_info->follows_count : '';
+	$number_follows        = isset( $instagram_user_info->data->counts->follows ) ? $instagram_user_info->data->counts->follows : $number_follows_fb_api;
 	// here we add a , for all numbers below 9,999.
 	if ( isset( $number_follows ) && $number_follows <= 9999 ) {
 		$number_follows = number_format( $number_follows );
@@ -700,8 +860,9 @@ if ( 'yes' === $profile_description ) {
 
 				// Create Instagram Variables
 				// tied to date function.
-				$feed_type = 'instagram';
-				$times     = isset( $post_data->created_time ) ? $post_data->created_time : '';
+				$feed_type   = 'instagram';
+				$fb_api_time = isset( $post_data->timestamp ) ? $post_data->timestamp : '';
+				$times       = isset( $post_data->created_time ) ? $post_data->created_time : $fb_api_time;
 				// call our function to get the date.
 				$instagram_date = $this->fts_custom_date( $times, $feed_type );
 
@@ -710,8 +871,13 @@ if ( 'yes' === $profile_description ) {
 					$profile_picture    = isset( $post_data->user->profile_picture ) ? $post_data->user->profile_picture : '';
 					$full_name          = isset( $post_data->user->full_name ) ? $post_data->user->full_name : '';
 					$instagram_username = $username;
+				} elseif ( 'basic' === $type ) {
+					$instagram_username = $post_data->username;
+					$username           = $instagram_username;
+				} elseif ( 'business' === $type ) {
+					$instagram_username = $post_data->username;
+					$username           = $instagram_username;
 				} else {
-
 					$instagram_username = $instagram_user_info->data->username;
 				}
 				$instagram_caption_a_hashtag_title = isset( $post_data->caption ) ? $post_data->caption : '';
@@ -737,10 +903,10 @@ if ( 'yes' === $profile_description ) {
 					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) {
 						?>
 					<div class="fts-instagram-popup-profile-wrap">
-						<div class="fts-profile-pic"><?php $user_type = isset( $hashtag ) ? 'explore/tags/' . $hashtag : $username; ?>
+						<div class="fts-profile-pic"><?php $user_type = isset( $type ) && 'hashtag' === $type ? 'explore/tags/' . $hashtag : $username; ?>
 							<a href="https://www.instagram.com/<?php echo esc_html( $user_type ); ?>" target="_blank">
 						<?php
-						if ( 'user' === $type ) {
+						if ( 'user' === $type || 'business' === $type ) {
 							?>
 									<img src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>"/>
 								<?php
@@ -756,6 +922,8 @@ if ( 'yes' === $profile_description ) {
 								<?php
 								if ( 'user' === $type ) {
 									echo esc_html( $full_name );
+								} elseif ( 'basic' === $type || 'business' === $type ) {
+									echo esc_html( $instagram_username );
 								} else {
 									echo esc_html( '#' . $hashtag );
 								}
@@ -764,7 +932,7 @@ if ( 'yes' === $profile_description ) {
 							</div>
 
 							<?php
-							if ( isset( $instagram_user_info->data->username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
+							if ( isset( $instagram_username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
 								echo '<div class="fts-follow-header-wrap">';
 								echo $this->social_follow_button( 'instagram', $instagram_username );
 								echo '</div>';
@@ -785,8 +953,9 @@ if ( 'yes' === $profile_description ) {
 					$data_type          = isset( $post_data->type ) ? $post_data->type : $data_type_hashtag;
 
 					// Check to see if a video is the first child if children are present
-					$instagram_api_child_url =  isset( $post_data->carousel_media ) ? $post_data->carousel_media[0]->videos->standard_resolution->url : '';
-					//$child url is the fb/instagram api
+					$instagram_basic_api_child_url = isset( $post_data->children->data[0]->media_url ) ? $post_data->children->data[0]->media_url : '';
+					$instagram_api_child_url       = isset( $post_data->carousel_media ) ? $post_data->carousel_media[0]->videos->standard_resolution->url : $instagram_basic_api_child_url;
+					// $child url is the fb/instagram api
 					$child_url       = isset( $post_data->children ) ? $post_data->children->data[0]->media_url : $instagram_api_child_url;
 					$data_type_child = ! empty( $child_url ) && false !== strpos( $child_url, 'mp4' ) ? 'VIDEO' : '';
 
@@ -796,11 +965,11 @@ if ( 'yes' === $profile_description ) {
 
 					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && $data_type_image === $data_type || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && $data_type_carousel === $data_type && empty( $data_type_child ) ) {
 
-					    print esc_url( $this->fts_instagram_image_link( $post_data ) );
+						print esc_url( $this->fts_instagram_image_link( $post_data ) );
 
 					} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && $data_type_video === $data_type || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && ! empty( $data_type_child ) && 'VIDEO' === $data_type_child ) {
 
-					    // this statement below does not make sense, check later.
+						// this statement below does not make sense, check later.
 						print $this->fts_instagram_video_link( $post_data ) ? esc_url( $this->fts_instagram_video_link( $post_data ) ) : esc_url( $post_data->permalink . 'media?size=l' );
 
 					} else {
@@ -826,28 +995,26 @@ if ( 'yes' === $profile_description ) {
 					// element so we don't have duplicated of the first child. We do this because we need to hide these other links with CSS. We have to have these links here
 					// because that is how the magnific popup works in order to get to the next image or video.
 					// NOTE: $post_data->childer is FB/Instagram API, $post_data->carousel_media is OG Instagram API.
-
 					if ( isset( $post_data->children ) || isset( $post_data->carousel_media ) ) {
 
-					    $carousel_media = isset( $post_data->children ) ? $post_data->children->data : $post_data->carousel_media;
+						$carousel_media = isset( $post_data->children ) ? $post_data->children->data : $post_data->carousel_media;
 						?>
 						<div class="fts-carousel-image-wrapper"><div class="fts-carousel-image" ></div></div>
 						<?php
 						foreach ( array_slice( $carousel_media, 1 ) as $child ) {
 
-						    // echo '<pre style="text-align: left;"> wwwqwqwq';
-                            // print_r( $child );
-                            // echo '</pre>';
-
-                            $url_images = isset( $child->images->standard_resolution->url ) ? $child->images->standard_resolution->url : '';
+							// echo '<pre style="text-align: left;"> wwwqwqwq';
+							// print_r( $child );
+							// echo '</pre>';
+							$url_images            = isset( $child->images->standard_resolution->url ) ? $child->images->standard_resolution->url : '';
 							$url                   = isset( $child->videos->standard_resolution->url ) ? $child->videos->standard_resolution->url : $url_images;
-							$url_final                  = isset( $child->media_url ) ? $child->media_url : $url;
+							$url_final             = isset( $child->media_url ) ? $child->media_url : $url;
 							$data_type_video_child = ! empty( $url_final ) && false != strpos( $url_final, 'mp4' ) ? 'video_media' : 'image_media';
 							?>
 	<a href='
 							<?php
 							if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && 'image_media' === $data_type_video_child ) {
-                                print esc_url( $this->fts_instagram_image_link( $child ) );
+								print esc_url( $this->fts_instagram_image_link( $child ) );
 							} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && 'video_media' === $data_type_video_child ) {
 								print esc_url( $this->fts_instagram_video_link( $child ) );
 							} else {
@@ -909,15 +1076,17 @@ if ( 'yes' === $profile_description ) {
 							// this is already escaping in the function, re escaping will cause errors.
 							echo $this->fts_share_option( $this->fts_view_on_instagram_url( $post_data ), $this->fts_instagram_description( $post_data ) );
 
-							?>
-						<div class="fts-instagram-reply-wrap-left">
-							<ul class='slicker-heart-comments-wrap'>
-								<li class='slicker-instagram-image-likes'><?php echo esc_html( $this->fts_instagram_likes_count( $post_data ) ); ?> </li>
-								<li class='slicker-instagram-image-comments'>
-									<span class="fts-comment-instagram"></span> <?php echo esc_html( $this->fts_instagram_comments_count( $post_data ) ); ?>
-								</li>
-							</ul>
-						</div>
+							if ( 'basic' !== $type ) {
+								?>
+								<div class="fts-instagram-reply-wrap-left">
+									<ul class='slicker-heart-comments-wrap'>
+										<li class='slicker-instagram-image-likes'><?php echo esc_html( $this->fts_instagram_likes_count( $post_data ) ); ?> </li>
+										<li class='slicker-instagram-image-comments'>
+											<span class="fts-comment-instagram"></span> <?php echo esc_html( $this->fts_instagram_comments_count( $post_data ) ); ?>
+										</li>
+									</ul>
+								</div>
+							<?php } ?>
 					</div>
 				<?php } ?>
 			</div>
@@ -950,9 +1119,9 @@ if ( 'yes' === $profile_description ) {
 
 							<div class="fts-isnta-full-name"><?php echo esc_attr( $full_name ); ?></div>
 							<?php
-							if ( isset( $instagram_user_info->data->username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
+							if ( $username && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
 								echo '<div class="fts-follow-header-wrap">';
-								echo $this->social_follow_button( 'instagram', $instagram_user_info->data->username );
+								echo $this->social_follow_button( 'instagram', $username );
 								echo '</div>';
 							}
 							?>
@@ -1012,7 +1181,7 @@ if ( 'yes' === $profile_description ) {
 					$next_hashtag_url = isset( $insta_data->paging->next ) ? $insta_data->paging->next : '';
 					$next_url         = isset( $insta_data->pagination->next_url ) ? $insta_data->pagination->next_url : $next_hashtag_url;
 					// fb api uses limit for the post count and instagram api uses count.
-					$the_count = 'hashtag' === $type ? 'limit' : 'count';
+					$the_count = 'hashtag' === $type || 'basic' === $type || 'business' === $type ? 'limit' : 'count';
 					// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
 					$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "'.$the_count.'=$pics_count", "'.$the_count.'=$loadmore_count", $next_url ) : $next_url;
 					$access_token         = 'access_token=' . $fts_instagram_access_token_final;

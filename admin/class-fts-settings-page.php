@@ -1007,6 +1007,8 @@ class FTS_Settings_Page {
 
                     var fts_notice_message = '<div class="feed-them-social-admin-input-wrap fts-instagram-hashtag-location-options-message fts-premium-options-message" id="not_active_main_select" style="display: block;"><a class="not-active-title" href="https://www.slickremix.com/instagram-hashtag-and-location-options/" target="_blank"><h3>Hashtag and Location Depreciation Notice</h3></a>The hashtag and location options are being retired for the moment. You can <a target="_blank" href="https://www.slickremix.com/instagram-hashtag-and-location-options/">read more about it here</a>. It appears there is a way to do hashtag calls through the Facebook/Instagram api, so we are looking into making this happen. It is limited in terms of API calls so this may not work for many people. Unfortunately these are the new privacy guide lines set forth by facebook since they own Instagram.<br/><br/>Your Existing Hashtag or Location feeds will work until December 11th, 2018. We will be making an update on the 10th to remove the call so any existing hashtag or location feeds will not display</div>';
 
+                    jQuery(".main-instagram-profile-options-wrap").hide();
+
                     jQuery('#instagram-messages-selector').bind('change', function (e) {
 
                         if (jQuery('#instagram-messages-selector').val() == 'hashtag') {
@@ -1014,17 +1016,17 @@ class FTS_Settings_Page {
 
                             jQuery(".instagram_hashtag, .instagram-hashtag-option-text, .instagram_hashtag_type").show();
                         }
-						else if (jQuery('#instagram-messages-selector').val() == 'location') {
-							jQuery(".instagram-id-option-wrap,.instagram-user-option-text,.instagram-hashtag-option-text,.main-instagram-profile-options-wrap").hide();
-							jQuery(".instagram-location-option-text").show();
-                            jQuery(".instagram_options_wrap").hide();
-                            if(!jQuery('div').hasClass('fts-instagram-hashtag-location-options-message')){
-                                jQuery(  ".fts-instagram-shortcode-form").append( fts_notice_message );
-                            }
-                            else {
-                                jQuery(".fts-instagram-hashtag-location-options-message").show();
-                            }
+						else if (jQuery('#instagram-messages-selector').val() == 'basic') {
+
+                            jQuery(".main-instagram-profile-options-wrap").hide();
+                            jQuery(".instagram_hashtag, .instagram_hashtag_type").hide();
+
 						}
+                        else if (jQuery('#instagram-messages-selector').val() == 'business') {
+
+                            jQuery(".instagram_hashtag, .instagram_hashtag_type").hide();
+
+                        }
 						else {
 							jQuery(".instagram-id-option-wrap,.instagram-user-option-text,.main-instagram-profile-options-wrap").show();
 							jQuery(".instagram-hashtag-option-text,.instagram-location-option-text").hide();
@@ -1072,12 +1074,12 @@ class FTS_Settings_Page {
 					}
 
 					jQuery('#shortcode-form-selector, #instagram-messages-selector').bind('change', function (e) {
-						if (jQuery('#instagram-messages-selector').val() == 'user') {
+						if (jQuery('#instagram-messages-selector').val() == 'basic') {
 							jQuery('#instagram_id, #insta_access_token').val('');
 							jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_id' ) ); ?>');
 							jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_api_token' ) ); ?>');
 						}
-						else if (jQuery('#instagram-messages-selector').val() == 'hashtag') {
+						else if (jQuery('#instagram-messages-selector').val() == 'hashtag' || jQuery('#instagram-messages-selector').val() == 'business') {
                             jQuery('#instagram_id').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token_user_id' ) ); ?>');
                             jQuery('#insta_access_token').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token' ) ); ?>');
                         }
@@ -1138,10 +1140,10 @@ class FTS_Settings_Page {
 
 					jQuery('#combine_instagram, #combine_instagram_type').bind('change', function (e) {
 						jQuery('#combine_instagram_name').val('');
-						if (jQuery('#combine_instagram_type').val() == 'user') {
+						if (jQuery('#combine_instagram_type').val() == 'basic') {
 							jQuery('#combine_instagram_name').val(jQuery('#combine_instagram_name').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_id' ) ); ?>');
 						}
-						else if (jQuery('#combine_instagram_type').val() == 'hashtag') {
+						else if (jQuery('#combine_instagram_type').val() == 'hashtag' || jQuery('#combine_instagram_type').val() == 'business') {
 
                             jQuery('#combine_instagram_name').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token_user_id' ) ); ?>');
 						}

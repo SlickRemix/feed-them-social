@@ -573,23 +573,6 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-			else {
-				$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://api.instagram.com/v1/users/' . $instagram_id . '/media/recent/?count=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
-
-				$instagram_data_array['user_info'] = 'https://api.instagram.com/v1/users/' . $instagram_id . '?access_token=' . $fts_instagram_access_token_final;
-			}
-
 			$cache = 'instagram_cache_' . $instagram_id . '_num' . $pics_count . '';
 				// First we make sure the feed is not cached already before trying to run the Instagram API.
 			if ( false === $this->fts_check_feed_cache_exists( $cache ) ) {
@@ -608,21 +591,21 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 			}
 
 			//$spencer_testing = 'true';
-			if ( 'hashtag' === $type || 'user' === $type ) {
+			if ( 'hashtag' === $type || 'user' === $type || !isset( $type ) ) {
 					// If the feed is NOT cached then we run the cached array to display the feed.
 					// Legacy API depreciation as of March 31st, 2020. SO we add a check here to by pass the cache and show an error message
 					// letting users know they need to reconnect there account generate a new shortcode.
-				if ( false !== $this->fts_check_feed_cache_exists( $cache ) && ! isset( $_GET['load_more_ajaxing'] ) && 'username' !== $type ) {
+				if ( false !== $this->fts_check_feed_cache_exists( $cache ) && ! isset( $_GET['load_more_ajaxing'] ) && 'user' !== $type ) {
 					$response   = $this->fts_get_feed_cache( $cache );
 					$insta_data = isset( $type ) && 'basic' === $type || 'business' === $type ? $insta_fb_data : json_decode( $response['data'] );
 					$note       = esc_html( 'Cached', 'feed-them-social' );
 
-				} elseif ( isset( $error_check->error_message ) || isset( $error_check->meta->error_message ) || empty( $error_check ) || 'user' === $type ) {
+				} elseif ( isset( $error_check->error_message ) || isset( $error_check->meta->error_message ) || empty( $error_check ) || 'user' === $type || !isset( $type )  ) {
 					// If the Instagram API array returns any error messages we check for them here and return the corresponding error message!
 					if ( current_user_can( 'administrator' ) ) {
 
-						if ( 'user' === $type ) {
-							$error = esc_html( 'The Legacy API is depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please go to the Instgram Options page of our plugin and reconnect your account and generate a new shortcode and replace your existing one.', 'feed-them-social' );
+						if ( 'user' === $type || !isset( $type )  ) {
+                                $error = esc_html( 'The Legacy API is depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please go to the Instgram Options page of our plugin and reconnect your account and generate a new shortcode and replace your existing one.', 'feed-them-social' );
 						} elseif ( isset( $error_check->error_message ) ) {
 							$error = $error_check->error_message;
 						} elseif ( isset( $error_check->meta->error_message ) ) {

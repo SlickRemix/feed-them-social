@@ -485,9 +485,9 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                             $insta_data = (object) array_merge( (array) $instagram_business, (array) $instagram_business_output );
 
                        // echo 'rrrrrrrrrrrr';
-                        //	echo '<br/><pre>';
-                        //	    print_r( $insta_data );
-                        //	echo '</pre>';
+                      //  	echo '<br/><pre>';
+                      //  	    print_r( $insta_data );
+                      //  	echo '</pre>';
 
                             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                                 $this->fts_create_feed_cache( $business_cache, $insta_data );
@@ -565,9 +565,9 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                         }
                     }
 
-					   // echo '<br/>asdfasdfasdf<pre>';
-					   // print_r( $insta_data );
-					   // echo '</pre>zzzz';
+					  //  echo '<br/>asdfasdfasdf<pre>';
+					  //  print_r( $insta_data );
+					  //  echo '</pre>zzzz';
 				// $instagram_data_array['user_info'] = 'https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=' . $fts_instagram_access_token_final;
 			}
 
@@ -605,7 +605,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 					if ( current_user_can( 'administrator' ) ) {
 
 						if ( 'user' === $type || !isset( $type )  ) {
-                                $error = esc_html( 'The Legacy API is depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please go to the Instgram Options page of our plugin and reconnect your account and generate a new shortcode and replace your existing one.', 'feed-them-social' );
+                                $error = esc_html( 'The Legacy API is depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please go to the instagram Options page of our plugin and reconnect your account and generate a new shortcode and replace your existing one.', 'feed-them-social' );
 						} elseif ( isset( $error_check->error_message ) ) {
 							$error = $error_check->error_message;
 						} elseif ( isset( $error_check->meta->error_message ) ) {
@@ -644,6 +644,9 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				$website         = $instagram_user_info->website;
 
 			}
+			elseif( 'basic' === $type ){
+                 $username = $insta_data->data[0]->username;
+			}
 
 			if ( current_user_can( 'administrator' ) && 'true' === $debug_userinfo ) {
 				echo 'aSDasdasDasdaSDa<pre>';
@@ -672,7 +675,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 						<?php
 }
 
-if ( isset( $profile_name ) && 'yes' === $profile_name ) {
+if ( isset( $profile_name, $type ) && 'yes' === $profile_name  && 'business' === $type  ) {
 	?>
 			<div class="fts-profile-name-wrap">
 
@@ -688,7 +691,7 @@ if ( isset( $profile_name ) && 'yes' === $profile_name ) {
 	<?php
 }
 // $profile stats comes from the shortcode
-if ( 'yes' === $profile_stats ) {
+if ( isset( $profile_stats, $type ) && 'yes' === $profile_stats  && 'business' === $type ) {
 	// These need to be in this order to keep the different counts straight since I used either $instagram_likes or $instagram_comments throughout.
 	$number_posted_pics_fb_api = isset( $instagram_user_info->media_count ) ? $instagram_user_info->media_count : '';
 	$number_posted_pics        = isset( $instagram_user_info->data->counts->media ) ? $instagram_user_info->data->counts->media : $number_posted_pics_fb_api;
@@ -746,8 +749,7 @@ if ( 'yes' === $profile_stats ) {
 			</div>
 			<?php
 }
-
-if ( 'yes' === $profile_description ) {
+if ( isset( $profile_description, $type ) && 'yes' === $profile_description  && 'business' === $type ) {
 	?>
 
 			<div class="fts-profile-description"><?php echo $this->convert_instagram_description_links( $bio ); ?>
@@ -759,9 +761,9 @@ if ( 'yes' === $profile_description ) {
 
 	</div>
 					<?php
-				} elseif ( isset( $instagram_user_info->data->username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
+				} elseif ( 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where && 'hashtag' !== $type ) {
 					echo '<div class="instagram-social-btn-top">';
-					echo $this->social_follow_button( 'instagram', $instagram_user_info->data->username );
+					echo $this->social_follow_button( 'instagram', $username );
 					echo '</div>';
 				}
 
@@ -915,7 +917,7 @@ if ( 'yes' === $profile_description ) {
 							</div>
 
 							<?php
-							if ( isset( $instagram_username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
+							if ( isset( $instagram_username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where && 'hashtag' !== $type ) {
 								echo '<div class="fts-follow-header-wrap">';
 								echo $this->social_follow_button( 'instagram', $instagram_username );
 								echo '</div>';
@@ -1308,9 +1310,9 @@ if ( 'yes' === $profile_description ) {
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 				// Social Button.
-				if ( isset( $instagram_user_info->data->username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-below' === $fts_instagram_show_follow_btn_where ) {
+				if ( isset( $username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-below' === $fts_instagram_show_follow_btn_where && 'hashtag' !== $type  ) {
 					echo '<div class="instagram-social-btn-bottom">';
-					echo $this->social_follow_button( 'instagram', $instagram_user_info->data->username );
+					echo $this->social_follow_button( 'instagram', $username );
 					echo '</div>';
 				}
 			}

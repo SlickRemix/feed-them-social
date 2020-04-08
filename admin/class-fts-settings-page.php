@@ -1025,6 +1025,7 @@ class FTS_Settings_Page {
                         else if (jQuery('#instagram-messages-selector').val() == 'business') {
 
                             jQuery(".instagram_hashtag, .instagram_hashtag_type").hide();
+                            jQuery(".main-instagram-profile-options-wrap").show();
 
                         }
 						else {

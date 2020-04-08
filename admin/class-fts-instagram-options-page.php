@@ -360,7 +360,7 @@ class FTS_Instagram_Options_Page {
 						<h3>
 						<?php esc_html_e( 'Follow Button Options', 'feed-them-social' ); ?>
 						</h3>
-					<?php esc_html_e( 'This will only show on regular feeds not combined feeds.', 'feed-them-social' ); ?>
+					<?php esc_html_e( 'This will only show on regular feeds not combined or hashtag feeds.', 'feed-them-social' ); ?>
 					</div>
 					<div class="feed-them-social-admin-input-label fts-instagram-text-color-label">
 					<?php esc_html_e( 'Show Follow Button', 'feed-them-social' ); ?>

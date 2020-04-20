@@ -132,7 +132,8 @@ Cache time: <?php echo esc_html( $this->fts_cachetime_amount( $fts_cachetime ) )
 			$twitter_options2  = get_option( 'fts_twitter_custom_consumer_secret' ) ? 'Yes' : 'No';
 			$twitter_options3  = get_option( 'fts_twitter_custom_access_token' ) ? 'Yes' : 'No';
 			$twitter_options4  = get_option( 'fts_twitter_custom_access_token_secret' ) ? 'Yes' : 'No';
-			$instagram_options = get_option( 'fts_instagram_custom_api_token' ) ? 'Yes' : 'No';
+			$instagram_basic_token = get_option( 'fts_instagram_custom_api_token' ) ? 'Yes' : 'No';
+            $instagram_business_token = get_option( 'fts_instagram_custom_api_token' ) ? 'Yes' : 'No';
 			$pinterest_token   = get_option( 'fts_pinterest_custom_api_token' ) ? 'Yes' : 'No';
 
 			$fts_date_time_format = get_option( 'fts-date-and-time-format' ) ? get_option( 'fts-date-and-time-format' ) : 'No';
@@ -161,7 +162,8 @@ Twitter Secret:             <?php echo esc_html( $twitter_options2 ) . "\n"; ?>
 Twitter Token:              <?php echo esc_html( $twitter_options3 ) . "\n"; ?>
 Twitter Token Secret:       <?php echo esc_html( $twitter_options4 ) . "\n"; ?>
 Pinterest Token:            <?php echo esc_html( $pinterest_token ) . "\n"; ?>
-Instagram: 		    <?php echo esc_html( $instagram_options ) . "\n";
+Instagram Basic Token:      <?php echo esc_html( $instagram_basic_token ) . "\n"; ?>
+Instagram Business Token:   <?php echo esc_html( $instagram_business_token ) . "\n";
 		$youtube_options                               = get_option( 'youtube_custom_api_token' ) || get_option( 'youtube_custom_access_token' ) && get_option( 'youtube_custom_refresh_token' ) && get_option( 'youtube_custom_token_exp_time' ) ? 'Yes' : 'No';
 		$fts_fix_loadmore                              = get_option( 'fts_fix_loadmore' ) ? get_option( 'fts_fix_loadmore' ) : 'No';
 		$feed_them_social_premium_license_key          = get_option( 'feed_them_social_premium_license_key' );

@@ -76,7 +76,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.8.3.3 Monday, April 20th, 2020 =
-  * REMOVED: Pinterest Feed: Without notice or warning the Pinterest API has become unavailable. Once the API is available to us again we will make an update to correct the issue. For the time being we are going to disable the access token button.
+  * DISABLED: Pinterest Feed: Without notice or warning the Pinterest API has become unavailable. Once the API is available to us again we will make an update to correct the issue. For the time being we are going to disable the access token button.
   * NEW: System Info: Added Instgram Basic and Business token checks to aid in support.
 
 = Version 2.8.3.2 Wednesday, April 8th, 2020 =

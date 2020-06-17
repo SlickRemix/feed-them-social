@@ -81,7 +81,6 @@ class feed_them_social_functions {
 				add_action( 'admin_footer', array( $this, 'fts_plugin_license' ) );
 			}
 		}
-
 		// FTS Admin Bar!
 		add_action( 'wp_before_admin_bar_render', array( $this, 'fts_admin_bar_menu' ), 999 );
 		// Settings option. Add Custom CSS to the header of FTS pages only!

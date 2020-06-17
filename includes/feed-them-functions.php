@@ -81,7 +81,6 @@ class feed_them_social_functions {
 				add_action( 'admin_footer', array( $this, 'fts_plugin_license' ) );
 			}
 		}
-
 		// FTS Admin Bar!
 		add_action( 'wp_before_admin_bar_render', array( $this, 'fts_admin_bar_menu' ), 999 );
 		// Settings option. Add Custom CSS to the header of FTS pages only!
@@ -92,7 +91,7 @@ class feed_them_social_functions {
 		// Facebook Settings option. Add Custom CSS to the header of FTS pages only!
 		$fts_include_fb_custom_css_checked_css = '1';
 		if ( '1' === $fts_include_fb_custom_css_checked_css ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'fts_fb_color_options_head_css' ) );
+			add_action( 'wp_print_styles', array( $this, 'fts_fb_color_options_head_css' ) );
 		}
 		// Settings option. Custom Powered by Feed Them Social Option!
 		$fts_powered_text_options_settings = get_option( 'fts-powered-text-options-settings' );

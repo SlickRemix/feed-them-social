@@ -76,7 +76,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 		$fb_post_comments_count_array = isset( $post_data->comments->data ) ? $post_data->comments->data : '';
 		$fb_post_object_id            = isset( $post_data->object_id ) ? $post_data->object_id : '';
 		$fb_album_photo_count         = isset( $post_data->count ) ? $post_data->count : '';
-		$fb_album_cover               = isset( $post_data->cover_photo->id ) ? $post_data->cover_photo->id : '';
+		$fb_album_cover               = isset( $post_data->photos->data[0]->images[0]->source ) ? $post_data->photos->data[0]->images[0]->source : '';
 		$fb_album_picture             = isset( $post_data->source ) ? $post_data->source : '';
 		$fb_places_name               = isset( $post_data->place->name ) ? $post_data->place->name : '';
 		$fb_places_id                 = isset( $post_data->place->id ) ? $post_data->place->id : '';
@@ -156,8 +156,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 		$fb_video         = isset( $post_data->embed_html ) ? $post_data->embed_html : '';
 		$fb_video_picture = isset( $post_data->format[2]->picture ) ? $post_data->format[2]->picture : '';
 
+
 		if ( $fb_album_cover ) {
-			$photo_data = json_decode( $response_post_array[ $fb_album_cover . '_photo' ] );
+		//	$photo_data = json_decode( $response_post_array[ $fb_album_cover . '_photo' ] );
 		}
 		if ( isset( $post_data->id ) ) {
 			$fb_post_id      = $post_data->id;
@@ -410,7 +411,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 					echo '<div class="fts-fb-caption fts-fb-album-view-link">';
 					// Album Covers.
 					if ( 'albums' === $fb_shortcode['type'] ) {
-						echo '<a href="' . esc_url( 'https://graph.facebook.com/' . $fb_album_cover . '/picture' ) . '" class="fts-view-album-photos-large" target="_blank">' . esc_html( 'View photo', 'feed-them-social' ) . '</a></div>';
+						echo '<a href="' . esc_url( $fb_album_cover ) . '" class="fts-view-album-photos-large" target="_blank">' . esc_html( 'View photo', 'feed-them-social' ) . '</a></div>';
 					} elseif (
 						// Album Photos.
 						'album_photos' === $fb_shortcode['type'] && ( isset( $fb_shortcode['video_album'] ) && 'yes' !== $fb_shortcode['video_album'] || ! isset( $fb_shortcode['video_album'] ) ) ) {
@@ -594,11 +595,13 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 			case 'link':
 				echo '<div class="fts-jal-fb-link-wrap">';
 				// start url check.
-				$url       = $fb_link;
-				$url_parts = parse_url( $url );
-				$host      = $url_parts['host'];
+                if (!empty( $fb_link )) {
+                    $url = $fb_link;
+                    $url_parts = parse_url( $url );
+                    $host = $url_parts['host'];
+                }
 
-				if ( 'www.facebook.com' === $host ) {
+				if ( isset( $host ) && 'www.facebook.com' === $host ) {
 					$spliturl        = $url_parts['path'];
 					$path_components = explode( '/', $spliturl );
 					$first_dir       = $path_components[1];
@@ -606,7 +609,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 				// end url check.
 				// Output Link Picture.
 				// echo isset($fb_shortcode['popup']) && $fb_shortcode['popup'] == 'yes' ? '<div class="fts-fb-caption"><a href="' . $fb_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html('View on Facebook', 'feed-them-social') . '</a></div> ' : '';.
-				if ( 'www.facebook.com' === $host && 'events' === $first_dir ) {
+				if ( isset( $host ) && 'www.facebook.com' === $host && 'events' === $first_dir ) {
 					$fb_picture ? $this->fts_facebook_post_photo( $fb_link, $fb_shortcode, $post_data->from->name, $post_data->picture ) : '';
 				} elseif ( strpos( $fb_link, 'soundcloud' ) > 0 ) {
 					// Get the SoundCloud URL.
@@ -653,7 +656,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 				echo '<div class="fts-jal-fb-description-wrap">';
 				// Output Link Name.
 				$fb_name ? $this->fts_facebook_post_name( $fb_link, $fb_name, $fb_type ) : '';
-				if ( 'www.facebook.com' === $host && 'events' === $first_dir ) {
+				if ( isset( $host ) && 'www.facebook.com' === $host && 'events' === $first_dir ) {
 					echo ' &#9658; ';
 					echo '<a href="' . esc_url( $fb_link ) . '" class="fts-jal-fb-name" target="_blank">' . esc_html( $fb_link_event_name ) . '</a>';
 				}//end if event.
@@ -987,9 +990,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 				}
 				echo '>';
 
-				// echo '<pre>rrr';.
-				// print_r($fb_album_cover);.
-				// echo '</pre>';.
+				// echo '<pre>rrr';
+				// print_r($fb_album_cover);
+				// echo '</pre>';
 				// Output Photo Picture.
 				$this->fts_facebook_post_photo( $fb_link, $fb_shortcode, $post_data->from->name, $fb_album_cover );
 				echo '<div class="slicker-facebook-album-photoshadow"></div>';

@@ -647,7 +647,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
         // echo '<br/><br/>feed array<br/><br/>';.
         // echo '<pre>';
         // print_r($feed_data );
-        // echo '</pre>';
+        // echo '</pre>';.
         // THE MAIN FEED
         // LOOP to fix Post count!
         foreach ( $feed_data->data as $k => $v ) {
@@ -876,11 +876,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
     public function fts_facebook_post_photo( $fb_link, $fb_shortcode, $photo_from, $photo_source ) {
         if ( 'album_photos' === $fb_shortcode['type'] || 'albums' === $fb_shortcode['type'] ) {
             echo '<a href="' . esc_url( $fb_link ) . '" target="_blank" class="fts-jal-fb-picture album-photo-fts" style="width:' . esc_attr( $fb_shortcode['image_width'] . ';height:' . $fb_shortcode['image_height'] ) . ';';
-            if ( 'albums' === $fb_shortcode['type'] ) {
-                echo 'background-image:url(' . esc_url( 'https://graph.facebook.com/' . $photo_source . '/picture' ) . ');">';
-            } else {
-                echo 'background-image:url(' . esc_url( $photo_source ) . ');">';
-            }
+            echo 'background-image:url(' . esc_url( $photo_source ) . ');">';
             echo '</a>';
         } else {
             $fb_shortcode_popup = isset( $fb_shortcode['popup'] ) ? $fb_shortcode['popup'] : '';
@@ -1638,9 +1634,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
                 }
                 // Check If Ajax next URL needs to be used.
                 if ( ! $fts_count_ids >= 1 ) {
-                    $mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+                    $mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,photos{images},created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' ) ;
                 } else {
-                    $mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/albums?ids=' . $fb_shortcode['id'] . '&fields=id,photos,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
+                    $mulit_data['feed_data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( 'https://graph.facebook.com/albums?ids=' . $fb_shortcode['id'] . '&fields=id,photos{images},created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '' );
                 }
 
                 // $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? esc_url_raw($_REQUEST['next_url']) : 'https://graph.facebook.com/' . $fb_shortcode['id'] . '/albums?fields=id,created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $fb_shortcode['posts'] . '&access_token=' . $access_token . $language . '';

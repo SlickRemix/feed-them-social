@@ -261,13 +261,13 @@ class feed_them_social_functions {
 
             // The share wrap and links
             $output  = '<div class="fts-share-wrap">';
-            $output .= '<a href="javascript:;" class="ft-gallery-link-popup">' . esc_html( '', 'feed-them-social' ) . '</a>';
+            $output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html( 'Social Share Options', 'feed-them-social' ) . '">' . esc_html( '', 'feed-them-social' ) . '</a>';
             $output .= '<div class="ft-gallery-share-wrap">';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" rel="noreferrer" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" rel="noreferrer" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" rel="noreferrer" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
             $output .= '</div>';
             $output .= '</div>';
             return $output;
@@ -1347,7 +1347,7 @@ class feed_them_social_functions {
 					}
 					break;
 				case 'instagram':
-					echo '<a href="' . esc_url( 'https://instagram.com/' . $user_id . '/' ) . '" target="_blank">' . esc_html( 'Follow on Instagram', 'feed-them-social' ) . '</a>';
+					echo '<a href="' . esc_url( 'https://instagram.com/' . $user_id . '/' ) . '" target="_blank" rel="noreferrer">' . esc_html( 'Follow on Instagram', 'feed-them-social' ) . '</a>';
 					break;
 				case 'twitter':
 					if ( ! isset( $_POST['fts_twitter_script_loaded'] ) ) {

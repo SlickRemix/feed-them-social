@@ -115,13 +115,13 @@ class feed_them_social_functions {
 
 		$fts_refresh_token_nonce = wp_create_nonce( 'fts_token_nonce' );
 		$access_token            = $_REQUEST['access_token'];
-        $user_id                 = $_REQUEST['user_id'];
+		$user_id                 = $_REQUEST['user_id'];
 
 		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_token_nonce' ) ) {
 			if ( isset( $access_token ) ) {
 				update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $access_token ) );
 				// $insta_id = substr( $access_token, 0, strpos( $access_token, '.' ) );
-                update_option( 'fts_instagram_custom_id', sanitize_text_field( $user_id ) );
+				update_option( 'fts_instagram_custom_id', sanitize_text_field( $user_id ) );
 			}
 		}
 		die;
@@ -143,32 +143,31 @@ class feed_them_social_functions {
 
 			$auth_obj  = $_GET['access_token'];
 			$feed_type = $_GET['feed_type'];
-            $user_id = $_GET['user_id'];
+			$user_id   = $_GET['user_id'];
 
 			if ( isset( $auth_obj ) && 'original_instagram' === $feed_type || isset( $auth_obj ) && 'instagram_basic' === $feed_type ) {
 				?>
 				<script>
 					jQuery(document).ready(function () {
 						var access_token = '<?php echo sanitize_text_field( $auth_obj ); ?>';
-                        var user_id = '<?php echo sanitize_text_field( $user_id ); ?>';
+						var user_id = '<?php echo sanitize_text_field( $user_id ); ?>';
 
 						jQuery.ajax({
 							data: {
 								action: 'fts_instagram_token_ajax',
 								access_token: access_token,
-                                user_id: user_id,
+								user_id: user_id,
 							},
 							type: 'POST',
 							url: ftsAjax.ajaxurl,
 							success: function (response) {
 								<?php
-								$auth_obj  = $_GET['access_token'];
-								if ( 'instagram_basic' === $feed_type ){
-                                    $insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $auth_obj );
-                                }
-								else {
-                                    $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $auth_obj );
-                                }
+								$auth_obj = $_GET['access_token'];
+								if ( 'instagram_basic' === $feed_type ) {
+									$insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $auth_obj );
+								} else {
+									$insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $auth_obj );
+								}
 								// Get Data for Instagram to check for errors
 								$response                = wp_remote_fopen( $insta_url );
 								$test_app_token_response = json_decode( $response );
@@ -209,7 +208,7 @@ class feed_them_social_functions {
 									<?php
 								}
 								?>
-                                console.log( 'success saving instagram access token' );
+								console.log( 'success saving instagram access token' );
 							}
 						}); // end of ajax()
 						return false;
@@ -238,41 +237,41 @@ class feed_them_social_functions {
 		return $val;
 	}
 
-    /**
-     * FTS Share Option
-     *
-     * @param string $fb_link link for social network.
-     * @param string $description description field for some of the social networks.
-     * @since
-     */
-    public function fts_share_option( $fb_link, $description ) {
+	/**
+	 * FTS Share Option
+	 *
+	 * @param string $fb_link link for social network.
+	 * @param string $description description field for some of the social networks.
+	 * @since
+	 */
+	public function fts_share_option( $fb_link, $description ) {
 
-        $hide_share = get_option( 'fts_disable_share_button', true ) ? get_option( 'fts_disable_share_button', true ) : '';
+		$hide_share = get_option( 'fts_disable_share_button', true ) ? get_option( 'fts_disable_share_button', true ) : '';
 
-        if ( isset( $hide_share ) && '1' !== $hide_share ) {
-            // Social media sharing URLs
-            $link                      = $fb_link;
-            $description               = wp_strip_all_tags( $description );
-            $ft_gallery_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link;
-            $ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
-            $ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
-            $ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
-            $ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
+		if ( isset( $hide_share ) && '1' !== $hide_share ) {
+			// Social media sharing URLs
+			$link                      = $fb_link;
+			$description               = wp_strip_all_tags( $description );
+			$ft_gallery_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link;
+			$ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
+			$ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
+			$ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
+			$ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
 
-            // The share wrap and links
-            $output  = '<div class="fts-share-wrap">';
-            $output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html( 'Social Share Options', 'feed-them-social' ) . '">' . esc_html( '', 'feed-them-social' ) . '</a>';
-            $output .= '<div class="ft-gallery-share-wrap">';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" rel="noreferrer" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" rel="noreferrer" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" rel="noreferrer" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
-            $output .= '</div>';
-            $output .= '</div>';
-            return $output;
-        }
-    }
+			// The share wrap and links
+			$output  = '<div class="fts-share-wrap">';
+			$output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html( 'Social Share Options', 'feed-them-social' ) . '">' . esc_html( '', 'feed-them-social' ) . '</a>';
+			$output .= '<div class="ft-gallery-share-wrap">';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" rel="noreferrer" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" rel="noreferrer" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" rel="noreferrer" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
+			$output .= '</div>';
+			$output .= '</div>';
+			return $output;
+		}
+	}
 
 	/**
 	 * FTS FB Options Page Function
@@ -295,9 +294,9 @@ class feed_them_social_functions {
 			ob_start();
 
 			if ( ! isset( $_GET['locations'] ) ) {
-			    $fb_url = 'fts-facebook-feed-styles-submenu-page' == $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25' ) :  wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25' );
-                $fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : $fb_url;
-                $test_fb_app_token_response = json_decode( $fb_token_response );
+				$fb_url                     = 'fts-facebook-feed-styles-submenu-page' == $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25' );
+				$fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : $fb_url;
+				$test_fb_app_token_response = json_decode( $fb_token_response );
 				$_REQUEST['next_url']       = isset( $test_fb_app_token_response->paging->next ) ? esc_url_raw( $test_fb_app_token_response->paging->next ) : '';
 			} else {
 				$fb_token_response          = isset( $_REQUEST['next_location_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_location_url'] ) ) : '';
@@ -333,7 +332,6 @@ class feed_them_social_functions {
 			foreach ( $test_fb_app_token_response->data as $data ) {
 
 				// if( !empty( $data->instagram_business_account )  ){
-
 					$data_id        = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->id : $data->id;
 					$data_user_name = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $data->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $data->name : $data->name;
 					$data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $data->id . '/picture';
@@ -2126,18 +2124,18 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
 			};
 			// INSTRUCTIONAL TEXT FOR FACEBOOK TYPE SELECTION. PAGE, GROUP, EVENT, ALBUMS, ALBUM COVERS AND HASH TAGS!
-			$output .= '<div class="instructional-text facebook-message-generator page inst-text-facebook-page" style="display:block;">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-page-vanity-url/" target="_blank">' . esc_html( 'Facebook Page ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below. You cannot use Personal Profiles it must be a Facebook Page. If your page ID looks something like, My-Page-Name-50043151918, only use the number portion, 50043151918.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/?feedID=50043151918" target="_blank">' . esc_html( 'Test your Page ID on our demo', 'feed-them-social' ) . '</a></div>
-			<div class="instructional-text facebook-message-generator group inst-text-facebook-group">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-group-id/" target="_blank">' . esc_html( 'Facebook Group ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>
-			<div class="instructional-text facebook-message-generator event-list inst-text-facebook-event-list">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . esc_html( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below. PLEASE NOTE: This will only work with Facebook Page Events and you cannot have more than 25 events on Facebook.', 'feed-them-social' ) . '</div>
-			<div class="instructional-text facebook-message-generator event inst-text-facebook-event">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . esc_html( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>
-			<div class="instructional-text facebook-message-generator album_photos inst-text-facebook-album-photos">' . esc_html( 'To show a specific Album copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . esc_html( 'Facebook Album ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the second input below. If you want to show all your uploaded photos leave the Album ID input blank.', 'feed-them-social' ) . '</div>
-			<div class="instructional-text facebook-message-generator albums inst-text-facebook-albums">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . esc_html( 'Facebook Album Covers ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>
-			<div class="instructional-text facebook-message-generator video inst-text-facebook-video">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/docs/how-to-get-your-facebook-id-and-video-gallery-id" target="_blank">' . esc_html( 'Facebook ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>';
+			$output .= '<div class="instructional-text facebook-message-generator page inst-text-facebook-page" style="display:block;">' . esc_html( 'If your Access Token is set on the Instagram Options page of our plugin your ID should appear below.', 'feed-them-social' ) . ' </div>
+			<div class="instructional-text facebook-message-generator group inst-text-facebook-group">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-group-id/" target="_blank">' . esc_html( 'Facebook Group ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>
+			<div class="instructional-text facebook-message-generator event-list inst-text-facebook-event-list">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . esc_html( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below. PLEASE NOTE: This will only work with Facebook Page Events and you cannot have more than 25 events on Facebook.', 'feed-them-social' ) . '</div>
+			<div class="instructional-text facebook-message-generator event inst-text-facebook-event">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . esc_html( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>
+			<div class="instructional-text facebook-message-generator album_photos inst-text-facebook-album-photos">' . esc_html( 'To show a specific Album copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . esc_html( 'Facebook Album ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the second input below. If you want to show all your uploaded photos leave the Album ID input blank.', 'feed-them-social' ) . '</div>
+			<div class="instructional-text facebook-message-generator albums inst-text-facebook-albums">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . esc_html( 'Facebook Album Covers ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>
+			<div class="instructional-text facebook-message-generator video inst-text-facebook-video">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-id-and-video-gallery-id" target="_blank">' . esc_html( 'Facebook ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>';
 			if ( isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] ) {
 				// this is for the facebook videos!
-				$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message" style="display:none;"><a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium Version Required</a><br/>The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your WordPress site!<br/><a href="https://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br/><br/>Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too!<br/><a href="https://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a> </div>';
+				$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message" style="display:none;"><a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium Version Required</a><br/>The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your WordPress site!<br/><a href="https://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br/><br/>Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too!<br/><a href="https://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a> </div>';
 				// this is for the facebook reviews!
-				$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message2" style="display:none;"><a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-facebook-reviews/">Facebook Reviews Required</a><br/>The Facebook Reviews feed allows you to view all of the reviews people have made on your Facebook Page. See these great examples and options of all the different ways you can display your Facebook Page Reviews on your website. <a href="https://feedthemsocial.com/facebook-page-reviews-demo/" target="_blank">View Demo</a></div>';
+				$output .= '<div class="feed-them-social-admin-input-wrap fts-premium-options-message2" style="display:none;"><a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-facebook-reviews/">Facebook Reviews Required</a><br/>The Facebook Reviews feed allows you to view all of the reviews people have made on your Facebook Page. See these great examples and options of all the different ways you can display your Facebook Page Reviews on your website. <a href="https://feedthemsocial.com/facebook-page-reviews-demo/" target="_blank">View Demo</a></div>';
 			}
 			// FACEBOOK PAGE ID!
 			if ( isset( $_GET['page'] ) && 'fts-bar-settings-page' !== $_GET['page'] ) {
@@ -2169,8 +2167,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$output                   .= '<div class="feed-them-social-admin-input-wrap">';
 			$output                   .= '<div class="feed-them-social-admin-input-label">' . esc_html( '# of Posts', 'feed-them-premium' );
 
-			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || ! is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
-				$output .= '<br/><small>' . esc_html( 'More than 6 Requires <a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-premium' ) . '</small>';
+			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+				$output .= '<br/><small>' . esc_html( 'More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-premium' ) . '</small>';
 			}
 			$output .= '</div>';
 			$output .= '<input type="text" name="fb_page_post_count" id="fb_page_post_count" class="feed-them-social-admin-input" value="' . esc_html( $fb_page_post_count_option ) . '" placeholder="5 ' . esc_html( 'is the default number', 'feed-them-premium' ) . '" />';
@@ -2279,7 +2277,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output .= ' <div class="feed-them-social-admin-input-wrap" id="facebook_super_gallery_animate"><div class="feed-them-social-admin-input-label">' . esc_html( 'Image Stacking Animation On', 'feed-them-social' ) . '<br/><small>' . esc_html( 'This happens when resizing browsert', 'feed-them-social' ) . '</small></div>
 	        	 <select id="fts-slicker-facebook-container-animation" name="fts-slicker-facebook-container-animation" class="feed-them-social-admin-input"><option value="no">' . esc_html( 'No', 'feed-them-social' ) . '</option><option value="yes">' . esc_html( 'Yes', 'feed-them-social' ) . '</option></select><div class="fts-clear"></div></div>';
 				// POSITION IMAGE LEFT RIGHT!
-				$output .= '<div class="instructional-text" style="display: block;">' . esc_html( 'These options allow you to make the thumbnail larger if you do not want to see black bars above or below your photos.', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/docs/fit-thumbnail-on-facebook-galleries/" target="_blank">' . esc_html( 'View Examples', 'feed-them-social' ) . '</a> ' . esc_html( 'and simple details or leave default options.', 'feed-them-social' ) . '</div>
+				$output .= '<div class="instructional-text" style="display: block;">' . esc_html( 'These options allow you to make the thumbnail larger if you do not want to see black bars above or below your photos.', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/fit-thumbnail-on-facebook-galleries/" target="_blank">' . esc_html( 'View Examples', 'feed-them-social' ) . '</a> ' . esc_html( 'and simple details or leave default options.', 'feed-them-social' ) . '</div>
 			<div class="feed-them-social-admin-input-wrap facebook_name"><div class="feed-them-social-admin-input-label">' . esc_html( 'Make photo larger', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Helps with blackspace', 'feed-them-social' ) . '</small></div>
 				<input type="text" id="fts-slicker-facebook-image-position-lr" name="fts-slicker-facebook-image-position-lr" class="feed-them-social-admin-input" value="-0%" placeholder="eg. -50%. -0% ' . esc_html( 'is default', 'feed-them-social' ) . '">
 	           <div class="fts-clear"></div></div>';
@@ -2303,7 +2301,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				} else {
 					// if slider plugin is active!
 					$output .= '<div class="feed-them-social-admin-input-wrap facebook_name"><div class="feed-them-social-admin-input-label">' . esc_html( 'Carousel or Slideshow', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Many more options when active', 'feed-them-social' ) . '</small></div>
-				<div class="feed-them-social-admin-input-default" style="display: block !important;">' . esc_html( 'Must have ', 'feed-them-social' ) . ' <a target="_blank" href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/">' . esc_html( 'premium', 'feed-them-social' ) . '</a> ' . esc_html( 'and', 'feed-them-social' ) . ' <a target="_blank" href="http://www.slickremix.com/downloads/feed-them-carousel-premium/">' . esc_html( 'carousel', 'feed-them-social' ) . '</a> ' . esc_html( 'plugin ', 'feed-them-social' ) . '</a> ' . esc_html( 'to edit.', 'feed-them-social' ) . '</div> <div class="fts-clear"></div></div>';
+				<div class="feed-them-social-admin-input-default" style="display: block !important;">' . esc_html( 'Must have ', 'feed-them-social' ) . ' <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">' . esc_html( 'premium', 'feed-them-social' ) . '</a> ' . esc_html( 'and', 'feed-them-social' ) . ' <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-carousel-premium/">' . esc_html( 'carousel', 'feed-them-social' ) . '</a> ' . esc_html( 'plugin ', 'feed-them-social' ) . '</a> ' . esc_html( 'to edit.', 'feed-them-social' ) . '</div> <div class="fts-clear"></div></div>';
 				}
 
 				// end slideshow wrap!
@@ -2385,7 +2383,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
 			$output .= '</div><!--/twitter-hashtag-etc-wrap-->';
 
-			$output .= '<div class="instructional-text"><span class="hashtag-option-small-text">' . esc_html( 'Twitter Name is only required if you want to show a', 'feed-them-social' ) . ' <a href="admin.php?page=fts-twitter-feed-styles-submenu-page">' . esc_html( 'Follow Button', 'feed-them-social' ) . '</a>.</span><span class="must-copy-twitter-name">' . esc_html( 'You must copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . esc_html( 'Twitter Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</span></div>';
+			$output .= '<div class="instructional-text"><span class="hashtag-option-small-text">' . esc_html( 'Twitter Name is only required if you want to show a', 'feed-them-social' ) . ' <a href="admin.php?page=fts-twitter-feed-styles-submenu-page">' . esc_html( 'Follow Button', 'feed-them-social' ) . '</a>.</span><span class="must-copy-twitter-name">' . esc_html( 'You must copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . esc_html( 'Twitter Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</span></div>';
 			$output .= '<div class="feed-them-social-admin-input-wrap twitter_name">';
 			$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Twitter Name', 'feed-them-social' ) . ' <span class="hashtag-option-not-required">' . esc_html( '(required)', 'feed-them-social' ) . '</span></div>';
 			$output .= '<input type="text" name="twitter_name" id="twitter_name" class="feed-them-social-admin-input" value="' . esc_html( $twitter_name_option ) . '" />';
@@ -2398,7 +2396,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output .= sprintf(
 					esc_html( '%1$s More than 6 Requires the %2$sPremium Extension%3$s', 'feed-them-social' ),
 					'<br/><small>',
-					'<a target="_blank" href="' . esc_url( 'http://www.slickremix.com/downloads/feed-them-social-premium-extension/' ) . '">',
+					'<a target="_blank" href="' . esc_url( 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/' ) . '">',
 					'</a></small>'
 				);
 			}
@@ -2457,8 +2455,10 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		if ( wp_verify_nonce( $fts_instagram_form_nonce, 'fts-instagram-form-nonce' ) ) {
 
 			if ( $save_options ) {
-				$instagram_name_option      = get_option( 'convert_instagram_username' );
+				// $instagram_name_option      = get_option( 'convert_instagram_username' );
+				$instagram_feed_type        = get_option( 'instagram_feed_type' );
 				$instagram_id_option        = get_option( 'instagram_id' );
+				$instagram_hashtag_option   = get_option( 'instagram_hashtag_name' );
 				$pics_count_option          = get_option( 'pics_count' );
 				$instagram_popup_option     = get_option( 'instagram_popup_option' );
 				$instagram_load_more_option = get_option( 'instagram_load_more_option' );
@@ -2472,47 +2472,59 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output           .= isset( $instagram_options ) && 'No' !== $instagram_options ? '' . "\n" : '<div class="feed-them-social-admin-input-wrap fts-required-token-message">Please get your Access Token on the <a href="admin.php?page=fts-instagram-feed-styles-submenu-page">Instagram Options</a> page or you won\'t be able to view your photos.</div>' . "\n";
 				// end custom message for requiring token!
 				// ONLY SHOW SUPER GALLERY OPTIONS ON FTS SETTINGS PAGE FOR NOW, NOT FTS BAR!
-				if ( isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] ) {
+				// if ( isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] ) {
 					// INSTAGRAM FEED TYPE!
-					$output .= '<h2>' . esc_html( 'Instagram Shortcode Generator', 'feed-them-social' ) . '</h2><div class="feed-them-social-admin-input-wrap instagram-gen-selection">';
-					$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Feed Type', 'feed-them-social' ) . '</div>';
-					$output .= '<select name="instagram-messages-selector" id="instagram-messages-selector" class="feed-them-social-admin-input">';
-					$output .= '<option value="user">' . esc_html( 'User Feed', 'feed-them-social' ) . '</option>';
-					$output .= '<option value="hashtag">' . esc_html( 'Hashtag Feed', 'feed-them-social' ) . '</option>';
-					$output .= '</select>';
-					$output .= '<div class="fts-clear"></div>';
-					$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
-				};
-				$output .= '<div class="instagram-id-option-wrap">';
-				$output .= '<h3>' . esc_html( 'Convert Instagram Name to ID', 'feed-them-social' ) . '</h3>';
-			}
-			$instagram_name_option = isset( $instagram_name_option ) ? $instagram_name_option : '';
-			$instagram_id_option   = isset( $instagram_id_option ) ? $instagram_id_option : '';
-			$output               .= '<div class="instructional-text">' . esc_html( 'You must copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-instagram-name-and-convert-to-id/" target="_blank">' . esc_html( 'Instagram Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below', 'feed-them-social' ) . '</div>';
-			$output               .= '<div class="feed-them-social-admin-input-wrap convert_instagram_username">';
-			$output               .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Instagram Name (required)', 'feed-them-social' ) . '</div>';
-			$output               .= '<input type="text" id="convert_instagram_username" name="convert_instagram_username" class="feed-them-social-admin-input" value="' . esc_html( $instagram_name_option ) . '" />';
-			$output               .= '<div class="fts-clear"></div>';
-			$output               .= '</div><!--/feed-them-social-admin-input-wrap-->';
-			$output               .= '<input type="button" class="feed-them-social-admin-submit-btn" value="' . esc_html( 'Convert Instagram Username', 'feed-them-social' ) . '" onclick="converter_instagram_username();" tabindex="4" style="margin-right:1em;" />';
-			// ONLY THIS DIV IF ON OUR SETTINGS PAGE!
-			if ( isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] ) {
-				$output .= '</div><!--instagram-id-option-wrap-->';
 			};
+			// $output .= '<div class="instagram-id-option-wrap">';
+			// $output .= '<h3>' . esc_html( 'Convert Instagram Name to ID', 'feed-them-social' ) . '</h3>';
+			// }
+			$instagram_name_option    = isset( $instagram_name_option ) ? $instagram_name_option : '';
+			$instagram_id_option      = isset( $instagram_id_option ) ? $instagram_id_option : '';
+			$instagram_hashtag_option = isset( $instagram_hashtag_option ) ? $instagram_hashtag_option : '';
+			$instagram_feed_type      = isset( $instagram_feed_type ) ? $instagram_feed_type : '';
+			// $output               .= '<div class="instructional-text">' . esc_html( 'You must copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-instagram-name-and-convert-to-id/" target="_blank">' . esc_html( 'Instagram Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below', 'feed-them-social' ) . '</div>';
+			// $output               .= '<div class="feed-them-social-admin-input-wrap convert_instagram_username">';
+			// $output               .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Instagram Name (required)', 'feed-them-social' ) . '</div>';
+			// $output               .= '<input type="text" id="convert_instagram_username" name="convert_instagram_username" class="feed-them-social-admin-input" value="' . esc_html( $instagram_name_option ) . '" />';
+			// $output               .= '<div class="fts-clear"></div>';
+			// $output               .= '</div><!--/feed-them-social-admin-input-wrap-->';
+			// $output               .= '<input type="button" class="feed-them-social-admin-submit-btn" value="' . esc_html( 'Convert Instagram Username', 'feed-them-social' ) . '" onclick="converter_instagram_username();" tabindex="4" style="margin-right:1em;" />';
+			// ONLY THIS DIV IF ON OUR SETTINGS PAGE!
+			// if ( isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] ) {
+			// $output .= '</div><!--instagram-id-option-wrap-->';
+			// };
 			if ( false === $save_options ) {
 				$output .= '</form>';
 			}
 			if ( false === $save_options ) {
 				$output .= '<form class="feed-them-social-admin-form shortcode-generator-form instagram-shortcode-form">';
 			}
-			$output .= '<div class="instructional-text instagram-user-option-text" style="margin-top:12px;"><div class="fts-insta-info-plus-wrapper">' . esc_html( 'Choose a different ID if yours is not the first name below after clicking Convert Instagram Username button.', 'feed-them-social' ) . '</div><!-- the li list comes from an ajax call after looking up the user ID --><ul id="fts-instagram-username-picker-wrap" class="fts-instagram-username-picker-wrap"></ul></div>';
-			$output .= '<div class="instructional-text instagram-hashtag-option-text" style="display:none;margin-top:12px;">' . esc_html( 'Add your Hashtag below. Do not add the #, just the name.', 'feed-them-social' ) . '</div>';
+
+			$output .= '<div class="feed-them-social-admin-input-wrap instagram-gen-selection">';
+			$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Feed Type', 'feed-them-social' ) . '</div>';
+			$output .= '<select name="instagram_feed_type" id="instagram-messages-selector" class="feed-them-social-admin-input">';
+			$output .= '<option value="basic" ' . selected( $instagram_feed_type, 'basic', false ) . ' >' . esc_html( 'Basic Feed', 'feed-them-social' ) . '</option>';
+			$output .= '<option value="business"  ' . selected( $instagram_feed_type, 'business', false ) . '>' . esc_html( 'Business Feed', 'feed-them-social' ) . '</option>';
+			$output .= '<option value="hashtag" ' . selected( $instagram_feed_type, 'hashtag', false ) . '>' . esc_html( 'Hashtag Feed', 'feed-them-social' ) . '</option>';
+			$output .= '</select>';
+			$output .= '<div class="fts-clear"></div>';
+			$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
+
+			$output .= '<div class="instructional-text instagram-user-option-text" style="margin-top:12px;"><div class="fts-insta-info-plus-wrapper">' . esc_html( 'If your Access Token is set on the Instagram Options page of our plugin your ID should appear below.', 'feed-them-social' ) . '</div><!-- the li list comes from an ajax call after looking up the user ID --><ul id="fts-instagram-username-picker-wrap" class="fts-instagram-username-picker-wrap"></ul></div>';
 			$output .= '<div class="feed-them-social-admin-input-wrap instagram_name">';
 			$output .= '<div class="feed-them-social-admin-input-label instagram-user-option-text">' . esc_html( 'Instagram ID # (required)', 'feed-them-social' ) . '</div>';
-			$output .= '<div class="feed-them-social-admin-input-label instagram-hashtag-option-text" style="display:none;">' . esc_html( 'Hashtag (required)', 'feed-them-social' ) . '</div>';
 			$output .= '<input type="text" name="instagram_id" id="instagram_id" class="feed-them-social-admin-input" value="' . esc_html( $instagram_id_option ) . '" />';
 			$output .= '<div class="fts-clear"></div>';
 			$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
+
+			$output .= '<div class="instructional-text instagram-hashtag-option-text">Add your hashtag below. <strong>DO NOT</strong> add the #, just the name. Only one hashtag allowed at this time. Hashtag media only stays on Instagram for 24 hours and the API does not give us a date/time. In order to use the Instagram hashtag feed you must have your Instagram account linked to a Facebook Business Page. <a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">Read Instructions.</a></div>';
+
+			$output .= '<div class="feed-them-social-admin-input-wrap instagram_hashtag">';
+			$output .= '<div class="feed-them-social-admin-input-label instagram-hashtag-option-text">' . esc_html( 'Hashtag (required)', 'feed-them-social' ) . '</div>';
+			$output .= '<input type="text" name="instagram_hashtag_name" id="instagram_hashtag_name" class="feed-them-social-admin-input" value="' . esc_html( $instagram_hashtag_option ) . '" />';
+			$output .= '<div class="fts-clear"></div>';
+			$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
+
 			// Super Instagram Options!
 			$pics_count_option = isset( $pics_count_option ) ? $pics_count_option : '';
 			// Pic Count Option!
@@ -2522,7 +2534,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output .= sprintf(
 					esc_html( '%1$s More than 6 Requires the %2$sPremium Extension%3$s', 'feed-them-social' ),
 					'<br/><small>',
-					'<a target="_blank" href="' . esc_url( 'http://www.slickremix.com/downloads/feed-them-social-premium-extension/' ) . '">',
+					'<a target="_blank" href="' . esc_url( 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/' ) . '">',
 					'</a></small>'
 				);
 			}
@@ -2616,7 +2628,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				// end custom message for requiring token!
 				$output .= '<h2>' . esc_html( 'YouTube Shortcode Generator', 'feed-them-social' ) . '</h2>';
 			}
-			$output .= '<div class="instructional-text">' . esc_html( 'You must copy your YouTube ', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">' . esc_html( 'Username, Channel ID and or Playlist ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it below.', 'feed-them-social' ) . '</div>';
+			$output .= '<div class="instructional-text">' . esc_html( 'You must copy your YouTube ', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">' . esc_html( 'Username, Channel ID and or Playlist ID', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it below.', 'feed-them-social' ) . '</div>';
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				include $this->premium . 'admin/youtube-settings-fields.php';
 			} else {
@@ -2628,7 +2640,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 					__( 'Display First video full size', 'feed-them-social' ),
 				);
 				$output .= $this->need_fts_premium_fields( $fields );
-				$output .= '<a href="http://www.slickremix.com/downloads/feed-them-social-premium-extension/" target="_blank" class="feed-them-social-admin-submit-btn" style="margin-right:1em; margin-top: 15px; display:inline-block; text-decoration:none !important;">' . esc_html( 'Click to see Premium Version', 'feed-them-social' ) . '</a>';
+				$output .= '<a href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/" target="_blank" class="feed-them-social-admin-submit-btn" style="margin-right:1em; margin-top: 15px; display:inline-block; text-decoration:none !important;">' . esc_html( 'Click to see Premium Version', 'feed-them-social' ) . '</a>';
 				$output .= '</form>';
 			}
 			$output .= '</div><!--/fts-youtube-shortcode-form-->';
@@ -2664,8 +2676,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$output               .= '</select>';
 			$output               .= '<div class="fts-clear"></div>';
 			$output               .= '</div><!--/feed-them-social-admin-input-wrap-->';
-			$output               .= '<h3>' . esc_html( 'Pinterest Feed', 'feed-them-social' ) . '</h3><div class="instructional-text pinterest-name-text">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-pinterest-name/" target="_blank">' . esc_html( 'Pinterest Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>';
-			$output               .= '<div class="instructional-text pinterest-board-and-name-text" style="display:none;">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="http://www.slickremix.com/how-to-get-your-pinterest-name/" target="_blank">' . esc_html( 'Pinterest and Board Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste them below.', 'feed-them-social' ) . '</div>';
+			$output               .= '<h3>' . esc_html( 'Pinterest Feed', 'feed-them-social' ) . '</h3><div class="instructional-text pinterest-name-text">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-pinterest-name/" target="_blank">' . esc_html( 'Pinterest Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</div>';
+			$output               .= '<div class="instructional-text pinterest-board-and-name-text" style="display:none;">' . esc_html( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-pinterest-name/" target="_blank">' . esc_html( 'Pinterest and Board Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste them below.', 'feed-them-social' ) . '</div>';
 			$pinterest_name_option = isset( $pinterest_name_option ) ? $pinterest_name_option : '';
 			$boards_count_option   = isset( $boards_count_option ) ? $boards_count_option : '';
 			$output               .= '<div class="feed-them-social-admin-input-wrap pinterest_name">';
@@ -2825,8 +2837,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	/**
 	 * FTS Check Feed Cache Exists
 	 *
-	 * @param string $transient_name transient name.
-     * @param boolean $errored Error Check.
+	 * @param string  $transient_name transient name.
+	 * @param boolean $errored Error Check.
 	 * @return bool
 	 * @since 1.9.6
 	 */

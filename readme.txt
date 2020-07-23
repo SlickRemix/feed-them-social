@@ -78,6 +78,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 = Version 2.8.6 Thursday, July 23rd, 2020 =
   * NEW: Facebook Feed: All target="_blank" a tag elements now have rel="noreferrer" for better SEO results.
   * NEW: Facebook Options: Option to change the main page title htag (h1-h6) and font size.
+  * REMOVE: G+ from the share options since the Google Plus social network has been shutdown.
   * REMOVE: Facebook Albums Feed: Date the Album was created.
   * PREMIUM NEW: Facebook Albums: Now you can see 25 photos per album using the popup option.
   * PREMIUM FIX: Facebook Feed:

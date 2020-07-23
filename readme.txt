@@ -80,8 +80,8 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * NEW: Facebook Options: Option to change the main page title htag (h1-h6) and font size.
   * REMOVE: G+ from the share options since the Google Plus social network has been shutdown.
   * REMOVE: Facebook Albums Feed: Date the Album was created.
-  * PREMIUM NEW: Facebook Albums: Now you can see 25 photos per album using the popup option.
-  * PREMIUM FIX: Facebook Feed:
+  * PREMIUM NEW: Facebook Albums: Now you can see 25 photos per album using the popup option. On the 25th photo a link will appear to see the rest of the Album on Facebook.
+  * PREMIUM FIX: Facebook Photo & Album Feed: The popup description was missing link and tag conversions to clickable links.
   * PREMIUM FIX: Add h6 in the list of tags to avoid appending the ellipsis. This works when using the words=45 shortcode option.
   * FACEBOOK REVIEWS FIX: If no profile photo set on Facebook use our default fts icon so the profile image does not appear broken.
 

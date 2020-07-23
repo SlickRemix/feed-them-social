@@ -1089,6 +1089,8 @@ class feed_them_social_functions {
 			'fb_events_title_size',
 			'fb_events_map_link_color',
 			'fb_hide_shared_by_etc_text',
+            'fb_title_htag',
+			'fb_title_htag_size',
 			'fts_facebook_custom_api_token_biz',
 			'fb_reviews_text_color',
 			'fb_reviews_backg_color',

@@ -65,6 +65,7 @@ class FTS_Facebook_Options_Page {
 					$fb_show_follow_btn_profile_pic     = get_option( 'fb_show_follow_btn_profile_pic' );
 					$fb_like_btn_color                  = get_option( 'fb_like_btn_color', 'light' );
 					$fb_hide_shared_by_etc_text         = get_option( 'fb_hide_shared_by_etc_text' );
+					$fb_title_htag                      = get_option( 'fb_title_htag' );
 					$fb_hide_images_in_posts            = get_option( 'fb_hide_images_in_posts' );
 					$fb_hide_error_handler_message      = get_option( 'fb_hide_error_handler_message' );
 					$fb_hide_no_posts_message           = get_option( 'fb_hide_no_posts_message' );
@@ -658,6 +659,54 @@ class FTS_Facebook_Options_Page {
 								<?php esc_html_e( 'Global Facebook Style Options', 'feed-them-social' ); ?>
 							</h3>
 						</div>
+
+						<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
+							<?php
+							echo sprintf(
+								esc_html( 'Page Title Tag %1$s %2$s', 'feed-them-social' ),
+								'<br/><small>',
+								'</small>'
+							);
+							?>
+						</div>
+						<select name="fb_title_htag" id="fb_title_htag" class="feed-them-social-admin-input">
+							<option value="">
+								<?php esc_html_e( 'Please Select Option', 'feed-them-social' ); ?>
+							</option>
+							<option <?php echo selected( $fb_title_htag, 'h1', false ); ?> value="<?php esc_attr_e( 'h1' ); ?>">
+								<?php esc_html_e( 'h1 (Default)', 'feed-them-social' ); ?>
+							</option>
+							<option <?php echo selected( $fb_title_htag, 'h2', false ); ?> value="<?php esc_attr_e( 'h2' ); ?>">
+								<?php esc_html_e( 'h2', 'feed-them-social' ); ?>
+							</option>
+							<option <?php echo selected( $fb_title_htag, 'h3', false ); ?> value="<?php esc_attr_e( 'h3' ); ?>">
+								<?php esc_html_e( 'h3', 'feed-them-social' ); ?>
+							</option>
+							<option <?php echo selected( $fb_title_htag, 'h4', false ); ?> value="<?php esc_attr_e( 'h4' ); ?>">
+								<?php esc_html_e( 'h4', 'feed-them-social' ); ?>
+							</option>
+							<option <?php echo selected( $fb_title_htag, 'h5', false ); ?> value="<?php esc_attr_e( 'h5' ); ?>">
+								<?php esc_html_e( 'h5', 'feed-them-social' ); ?>
+							</option>
+							<option <?php echo selected( $fb_title_htag, 'h6', false ); ?> value="<?php esc_attr_e( 'h6' ); ?>">
+								<?php esc_html_e( 'h6', 'feed-them-social' ); ?>
+							</option>
+						</select>
+						<div class="clear"></div>
+					</div>
+					<!--/fts-twitter-feed-styles-input-wrap-->
+
+					<div class="feed-them-social-admin-input-wrap">
+						<div class="feed-them-social-admin-input-label fts-fb-text-color-label">
+							<?php esc_html_e( 'Page Title Size', 'feed-them-social' ); ?>
+						</div>
+						<input type="text" name="fb_title_htag_size" class="feed-them-social-admin-input" placeholder="16px" value="<?php echo esc_attr( get_option( 'fb_title_htag_size' ) ); ?>"/>
+						<div class="clear"></div>
+					</div>
+					<!--/fts-facebook-feed-styles-input-wrap-->
+
+
+					<div class="feed-them-social-admin-input-wrap">
 
 						<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
 							<?php

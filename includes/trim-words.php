@@ -94,7 +94,7 @@ class FeedThemSocialTruncateHTML {
     }
 
     private static function insertEllipsis(DOMNode $domNode, $ellipsis) {
-        $avoid = array('a', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5'); //html tags to avoid appending the ellipsis to
+        $avoid = array('a', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'); //html tags to avoid appending the ellipsis to
 
         if( in_array($domNode->parentNode->nodeName, $avoid) && $domNode->parentNode->parentNode !== NULL) {
             // Append as text node to parent instead

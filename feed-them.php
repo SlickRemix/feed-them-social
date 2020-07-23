@@ -35,8 +35,6 @@ define( 'FTS_CURRENT_VERSION', '2.8.5' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 
-
-
 /**
  * Class Feed_Them_Social
  */

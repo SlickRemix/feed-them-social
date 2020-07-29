@@ -78,7 +78,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 			// Load up some scripts for popup.
 			$this->load_popup_scripts( $fb_shortcode );
 		} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-			include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/facebook/facebook-premium-feed.php';
+			include WP_PLUGIN_DIR . '/feed-them-premium/feeds/facebook/facebook-premium-feed.php';
 			// Doing this to phase out the invalid snake case.
 			$fb_shortcode = $FB_Shortcode;
 			// Load up some scripts for popup.

@@ -97,7 +97,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-					include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/youtube/youtube-feed.php';
+					include WP_PLUGIN_DIR . '/feed-them-premium/feeds/youtube/youtube-feed.php';
 				} else {
 					extract(
 						shortcode_atts(

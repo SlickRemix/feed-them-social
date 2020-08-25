@@ -811,49 +811,55 @@ class feed_them_social_functions {
 	 * @updated 2.1.4 (fts_fb_page_token)
 	 */
 	public function my_fts_fb_load_more() {
-		if ( isset( $_REQUEST['fts_security'], $_REQUEST['fts_time'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ), sanitize_text_field( wp_unslash( $_REQUEST['fts_time'] ) ) . 'load-more-nonce' ) ) {
+
+		// Check security token is set.
+		if ( ! isset( $_REQUEST['fts_security'], $_REQUEST['fts_time'] ) ) {
 			exit( 'Sorry, You can\'t do that!' );
-		} else {
+		}
 
-			if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ) {
-				if ( isset( $_REQUEST['next_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ), 'https://graph.facebook.com/' ) ||
-					isset( $_REQUEST['next_location_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ), 'https://graph.facebook.com/' ) ||
-					isset( $_REQUEST['next_url'] ) && sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) !== sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) ||
-					isset( $_REQUEST['next_location_url'] ) && sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ) !== sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ) ) {
+        // Verify Nonce Security.
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ) , sanitize_text_field( wp_unslash( $_REQUEST['fts_time'] ) ) . 'load-more-nonce' ) ) {
+			exit( 'Sorry, You can\'t do that!' );
+		}
 
-					exit( 'That is not an FTS shortcode!' );
-				}
+		if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ) {
+			if ( isset( $_REQUEST['next_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ), 'https://graph.facebook.com/' ) ||
+				isset( $_REQUEST['next_location_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ), 'https://graph.facebook.com/' ) ||
+				isset( $_REQUEST['next_url'] ) && sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) !== sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) ||
+				isset( $_REQUEST['next_location_url'] ) && sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ) !== sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ) ) {
+
+				exit( 'That is not an FTS shortcode!' );
 			}
+		}
 
-			if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ||
+		if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ||
 				isset( $_REQUEST['feed_name'] ) && 'fts_twitter' === $_REQUEST['feed_name'] ||
 				isset( $_REQUEST['feed_name'] ) && 'fts_youtube' === $_REQUEST['feed_name'] ||
 				isset( $_REQUEST['feed_name'] ) && 'fts_facebook' === $_REQUEST['feed_name'] ||
 				isset( $_REQUEST['feed_name'] ) && 'fts_facebookbiz' === $_REQUEST['feed_name'] ||
 				isset( $_REQUEST['feed_name'] ) && 'fts_instagram' === $_REQUEST['feed_name'] ) {
 
-				$feed_atts = isset( $_REQUEST['feed_attributes'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['feed_attributes'] ) ) : '';
+			$feed_atts = isset( $_REQUEST['feed_attributes'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['feed_attributes'] ) ) : '';
 
-				$build_shortcode = '[' . sanitize_text_field( wp_unslash( $_REQUEST['feed_name'] ) ) . '';
-				foreach ( $feed_atts as $attribute => $value ) {
-					$build_shortcode .= ' ' . $attribute . '=' . $value;
-				}
-
-				if ( 'fts_twitter' === $_REQUEST['feed_name'] ) {
-					$loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
-					$build_shortcode .= ' ' . $loadmore_count . ']';
-				} elseif ( 'fts_youtube' === $_REQUEST['feed_name'] ) {
-					$loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
-					$build_shortcode .= ' ' . $loadmore_count . ']';
-				} else {
-					$build_shortcode .= ' ]';
-				}
-
-				echo do_shortcode( $build_shortcode );
-
-			} else {
-				exit( esc_html( 'That is not an FTS shortcode!' ) );
+			$build_shortcode = '[' . sanitize_text_field( wp_unslash( $_REQUEST['feed_name'] ) ) . '';
+			foreach ( $feed_atts as $attribute => $value ) {
+				$build_shortcode .= ' ' . $attribute . '=' . $value;
 			}
+
+			if ( 'fts_twitter' === $_REQUEST['feed_name'] ) {
+				$loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
+				$build_shortcode .= ' ' . $loadmore_count . ']';
+			} elseif ( 'fts_youtube' === $_REQUEST['feed_name'] ) {
+				$loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
+				$build_shortcode .= ' ' . $loadmore_count . ']';
+			} else {
+				$build_shortcode .= ' ]';
+			}
+
+			echo do_shortcode( $build_shortcode );
+
+		} else {
+			exit( esc_html( 'That is not an FTS shortcode!' ) );
 		}
 		die();
 	}
@@ -1089,7 +1095,7 @@ class feed_them_social_functions {
 			'fb_events_title_size',
 			'fb_events_map_link_color',
 			'fb_hide_shared_by_etc_text',
-            'fb_title_htag',
+			'fb_title_htag',
 			'fb_title_htag_size',
 			'fts_facebook_custom_api_token_biz',
 			'fb_reviews_text_color',

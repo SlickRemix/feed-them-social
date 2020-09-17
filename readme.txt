@@ -2,8 +2,8 @@
 Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.5
-Stable tag: 2.8.7
+Tested up to: 5.5.1
+Stable tag: 2.8.8
 License: GPLv2 or later
 
 Display a Custom Facebook feed, Instagram feed, Twitter feed, Pinterest feed & YouTube feed on pages, posts or widgets.
@@ -75,6 +75,10 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.8.8 Thursday, September 17th, 2020 =
+  * TESTED: Tested plugin with WordPress version 5.5.1.
+  * FIX: FACEBOOK & INSTAGRAM OPTIONS PAGE: manage_pages permission is depreciatted in favor of pages_show_list. This is required when going through the login flow allowing you to choose the facebok business pages you are an admin of that you want to get an access token for.
+
 = Version 2.8.7 Tuesday, August 25th, 2020 =
   * TESTED: Tested plugin with WordPress version 5.5.0.
   * FIX: Security Fixes.

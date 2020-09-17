@@ -101,7 +101,7 @@ class FTS_Twitter_Options_Page {
 
 					if ( isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] ) {
 
-						include WP_CONTENT_DIR . '/plugins/feed-them-social/feeds/twitter/twitteroauth/twitteroauth.php';
+						include WP_PLUGIN_DIR . '/feed-them-social/feeds/twitter/twitteroauth/twitteroauth.php';
 
 						$test_connection = new TwitterOAuthFTS(
 							// Consumer Key!

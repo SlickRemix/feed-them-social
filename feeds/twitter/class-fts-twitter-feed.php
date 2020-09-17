@@ -329,7 +329,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				$twitter_load_more_text      = get_option( 'twitter_load_more_text' ) ? get_option( 'twitter_load_more_text' ) : __( 'Load More', 'feed-them-social' );
 				$twitter_no_more_tweets_text = get_option( 'twitter_no_more_tweets_text' ) ? get_option( 'twitter_no_more_tweets_text' ) : __( 'No More Tweets', 'feed-them-social' );
 
-				include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/twitter/twitter-feed.php';
+				include WP_PLUGIN_DIR . '/feed-them-premium/feeds/twitter/twitter-feed.php';
 
 				if ( isset( $popup ) && 'yes' === $popup ) {
 					// it's ok if these styles & scripts load at the bottom of the page.
@@ -398,7 +398,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				$fetched_tweets = $this->fts_get_feed_cache( $data_cache );
 				$cache_used     = true;
 			} else {
-				include_once WP_CONTENT_DIR . '/plugins/feed-them-social/feeds/twitter/twitteroauth/twitteroauth.php';
+				include_once WP_PLUGIN_DIR . '/feed-them-social/feeds/twitter/twitteroauth/twitteroauth.php';
 
 				$fts_twitter_custom_consumer_key    = get_option( 'fts_twitter_custom_consumer_key' );
 				$fts_twitter_custom_consumer_secret = get_option( 'fts_twitter_custom_consumer_secret' );

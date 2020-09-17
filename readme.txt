@@ -77,6 +77,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 == Changelog ==
 = Version 2.8.8 Thursday, September 17th, 2020 =
   * TESTED: Tested plugin with WordPress version 5.5.1.
+  * FIX: Use WP_PLUGIN_DIR instead of WP_CONTENT_DIR to prevent fatal errors. Thanks to [stodorovic](https://github.com/stodorovic) for making the Pull Request on github.
   * FIX: FACEBOOK & INSTAGRAM OPTIONS PAGE: manage_pages permission is deprecated in favor of pages_show_list. This is required when going through the login flow allowing you to choose the facebook business pages you are an admin of that you want to get an access token for.
 
 = Version 2.8.7 Tuesday, August 25th, 2020 =

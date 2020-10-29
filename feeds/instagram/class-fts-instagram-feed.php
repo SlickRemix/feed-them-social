@@ -163,11 +163,11 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 
 		$instagram_api_children = isset( $post_data->images ) ? $post_data->images->standard_resolution->url : $hashtag_children;
 
-		$data_type_child = strpos( $hashtag_children, 'mp4' ) ? $post_data->permalink . 'media?size=l' : $instagram_api_children;
+		$data_type_child = strpos( $hashtag_children, 'mp4' ) ? $post_data->media_url : $instagram_api_children;
 
 		$hastag_media_url = isset( $post_data->media_url ) ? $post_data->media_url : $data_type_child;
 
-		$hastag_media_url_final = isset( $post_data->media_type ) && 'VIDEO' === $post_data->media_type ? $post_data->permalink . 'media?size=l' : $hastag_media_url;
+		$hastag_media_url_final = isset( $post_data->media_type ) && 'VIDEO' === $post_data->media_type ? $post_data->thumbnail_url : $hastag_media_url;
 
 		$instagram_lowrez_url = isset( $post_data->images->standard_resolution->url ) ? $post_data->images->standard_resolution->url : $hastag_media_url_final;
 
@@ -395,7 +395,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				$_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $fts_instagram_access_token_final, $_REQUEST['next_url'] );
 			}
 			// URL to get Feeds.
-			$debug = 'false';
+			// $debug = 'false';
 			if ( 'hashtag' === $type ) {
 				// cheezballs = 17843830210018045
 				// sleepytime = 17841401899184039

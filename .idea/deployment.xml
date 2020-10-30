@@ -5,7 +5,7 @@
       <paths name="FTS Staging 2">
         <serverdata>
           <mappings>
-            <mapping deploy="/wp-content/plugins/feed-them-social" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/wp-content/plugins/feed-them-social/" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

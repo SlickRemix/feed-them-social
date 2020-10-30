@@ -835,7 +835,7 @@ if ( isset( $profile_description, $type ) && 'yes' === $profile_description  && 
 					echo esc_html( 'To see the Instagram feed you need to add your own API Token to the Instagram Options page of our plugin.', 'feed-them-social' ) . '</div>';
 				}
 			}
-			// echo '<pre style="text-align: left;">asdfasdf';
+			// echo '<pre style="text-align: left;">asdfasdf ';
 			// print_r( $insta_data );
 			// echo '</pre>';
 			foreach ( $insta_data->data as $post_data ) {

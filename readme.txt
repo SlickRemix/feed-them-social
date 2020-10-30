@@ -78,6 +78,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 Version 2.9.0 Thursday, October 29th, 2020 =
  * FIX: INSTAGRAM FEED: Missing images for videos.
  * PREMIUM FIX: INSTAGRAM FEED: Pop for images.
+ * PREMIUM FIX COMING: INSTAGRAM HASHTAG FEED: Images for Videos are missing.
 
 Version 2.8.9 Friday, September 18th, 2020 =
  * FIX: FACEBOOK & INSTAGRAM OPTIONS PAGE: missing pages_read_engagement scope so non admins of our APP can gain access to pages they manage.

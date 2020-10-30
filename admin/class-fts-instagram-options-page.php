@@ -147,6 +147,21 @@ class FTS_Instagram_Options_Page {
 							?>
 						</div>
 
+                        <?php
+                      //  $test_refresh_app_token_url = array(
+                      //      'access_token' => 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&&access_token=IGQVJXaGddRaN0N3alZAqU2xmOWZAOUjltbnpsVFFGcUdyRFdjb1lTTld3UHk1VmlCNmlUdXJNMEJocS00ZAFZAJd3BQR3BpU0I1LWRGaVlCLTZALT1pTam91SUs3NmdNTWFBVHBFRDJNdVFn',
+                      //  );
+
+                     // Test App ID
+                     //   $test_refresh_app_token_url = $fts_functions->fts_get_feed_json( $test_refresh_app_token_url );
+                     //   $test_refresh_app_token_url = json_decode( $test_refresh_app_token_url['access_token'] );
+
+                     //   echo 'WTF<pre>';
+                     //   print_r( $test_refresh_app_token_url );
+                     //   echo '</pre>';
+
+                        ?>
+
 						<input type="text" name="fts_instagram_custom_api_token" class="feed-them-social-admin-input" id="fts_instagram_custom_api_token" value="<?php echo esc_attr( $access_token ); ?>"/>
 						<div class="fts-clear"></div>
 					</div>
@@ -275,7 +290,8 @@ class FTS_Instagram_Options_Page {
 						<?php
 						if ( ! empty( $test_app_token_response ) && ! empty( $test_app_token_id ) ) {
 							if ( isset( $test_app_token_response->data->is_valid ) || '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' === $test_app_token_response->error->message ) {
-								$fb_id   = get_option( 'fts_facebook_instagram_custom_api_token_user_id' );
+
+							    $fb_id   = get_option( 'fts_facebook_instagram_custom_api_token_user_id' );
 								$fb_name = get_option( 'fts_facebook_instagram_custom_api_token_user_name' );
 								echo '<div class="fts-successful-api-token fts-special-working-wrap">';
 

@@ -688,7 +688,7 @@ class FTS_Settings_Page_Options {
                     ),
 
 					// Combine Pinterest
-					array(
+					/* array(
 						'grouped_options_title' => __( 'Pinterest', 'feed-them-social' ),
 						'option_type' => 'select',
 						'label'       => __( 'Combine Pinterest', 'feed-them-social' ),
@@ -714,7 +714,7 @@ class FTS_Settings_Page_Options {
 						'sub_options' => array(
 							'sub_options_wrap_class' => 'main-combine-pinterest-wrap',
 						),
-					),
+					), */
 
 					// Pinterest Type
 					array(

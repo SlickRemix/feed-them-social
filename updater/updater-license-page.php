@@ -136,7 +136,7 @@ class updater_license_page {
 						<?php wp_nonce_field( 'license_page_nonce', 'license_page_nonce' ); ?>
 						<input type="submit" class="button-secondary" name="<?php echo esc_html( $key ); ?>_license_deactivate" value="<?php echo esc_html( ( 'Deactivate License' ) ); ?>"/>
 
-						<div class="edd-license-data"><p><?php echo esc_html( 'License Key Active.' ); ?></p></div>
+						<div class="edd-license-data"><p><?php echo esc_html__( 'License Key Active.', 'feed-them-social' ); ?></p></div>
 
 						<?php
 } else {
@@ -146,7 +146,7 @@ class updater_license_page {
 							<p><?php echo esc_html( $license_error ); ?>
 								<?php
 								$this->update_admin_notices();
-								echo esc_html( 'To receive updates notifications, please enter your valid license key.' );
+								echo esc_html__( 'To receive updates notifications, please enter your valid license key.', 'feed-them-social' );
 								?>
 								</p>
 						</div>
@@ -183,11 +183,11 @@ class updater_license_page {
 
 		?>
 		<div class="wrap">
-			<h2><?php echo esc_html( 'Plugin License Options' ); ?></h2>
+			<h2><?php echo esc_html__( 'Plugin License Options', 'feed-them-social' ); ?></h2>
 			<div class="license-note">
 				<?php
 				echo sprintf(
-					esc_html( 'If you need more licenses or your key has expired, please go to the %1$sMY ACCOUNT%2$s page on our website to upgrade or renew your license.%3$sTo get started follow the instructions below.', 'feed-them-social' ),
+					esc_html__( 'If you need more licenses or your key has expired, please go to the %1$sMY ACCOUNT%2$s page on our website to upgrade or renew your license.%3$sTo get started follow the instructions below.', 'feed-them-social' ),
 					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/' ) . '" target="_blank">',
 					'</a>',
 					'<br/>'
@@ -200,7 +200,7 @@ class updater_license_page {
 					<li>
 					<?php
 					echo sprintf(
-						esc_html( 'Install the zip file of the plugin you should have received after purchase on the %1$splugins page%2$s and leave the free version active too.', 'feed-them-social' ),
+						esc_html__( 'Install the zip file of the plugin you should have received after purchase on the %1$splugins page%2$s and leave the free version active too.', 'feed-them-social' ),
 						'<a href="' . esc_url( 'plugin-install.php' ) . '" target="_blank">',
 						'</a>'
 					);
@@ -209,7 +209,7 @@ class updater_license_page {
 					<li>
 					<?php
 					echo sprintf(
-						esc_html( 'Now Enter your License Key and Click the %1$sSave Changes button%2$s.', 'feed-them-social' ),
+						esc_html__( 'Now Enter your License Key and Click the %1$sSave Changes button%2$s.', 'feed-them-social' ),
 						'<strong>',
 						'</strong>'
 					);
@@ -411,7 +411,7 @@ class updater_license_page {
 
 					case 'expired':
 						$message = sprintf(
-							esc_html( 'Your license key expired on %s.' ),
+							esc_html__( 'Your license key expired on %s.', 'feed-them-social' ),
 							date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, time() ) )
 						);
 						break;
@@ -430,7 +430,7 @@ class updater_license_page {
 						break;
 
 					case 'item_name_mismatch':
-						$message = sprintf( esc_html( 'This appears to be an invalid license key for %s.' ), $this->prem_plugins[ $key ]['title'] );
+						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $this->prem_plugins[ $key ]['title'] );
 						break;
 
 					case 'no_activations_left':

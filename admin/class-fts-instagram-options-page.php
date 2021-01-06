@@ -42,11 +42,11 @@ class FTS_Instagram_Options_Page {
         $fts_instagram_custom_id             = get_option( 'fts_instagram_custom_id' );
         $fts_instagram_show_follow_btn       = get_option( 'instagram_show_follow_btn' );
         $fts_instagram_show_follow_btn_where = get_option( 'instagram_show_follow_btn_where' );
-        $user_id_basic                       = isset( $_GET['access_token'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['user_id'] ) : $fts_instagram_custom_id;
-        $access_token_basic                  = isset( $_GET['access_token'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['access_token'] ) : get_option( 'fts_instagram_custom_api_token' );
-        $access_token                        = isset( $_GET['access_token'], $_GET['feed_type'] ) && 'original_instagram' === $_GET['feed_type'] ? sanitize_text_field( $_GET['access_token'] ) : $access_token_basic;
+        $user_id_basic                       = isset( $_GET['code'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['user_id'] ) : $fts_instagram_custom_id;
+        $access_token_basic                  = isset( $_GET['code'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : get_option( 'fts_instagram_custom_api_token' );
+        $access_token                        = isset( $_GET['code'], $_GET['feed_type'] ) && 'original_instagram' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $access_token_basic;
 
-        if ( isset( $_GET['access_token'] ) ) { ?>
+        if ( isset( $_GET['code'] ) ) { ?>
             <script>
                 jQuery(document).ready(function ($) {
 
@@ -109,14 +109,14 @@ class FTS_Instagram_Options_Page {
                         ?>
                         <p>
                             <?php
-                            echo esc_html( 'This is required to make the Instagram Feed work. Click the button below and it will connect to your Instagram Account to get an access token. It will then return to this page and save it in the inputs below. After it finishes you will be able to generate your Instagram feed. Instagram Basic connections do not allow you to show Profile info or Heart/Comment counts. Please use the Instagram Business option to achieve that.', 'feed-them-social' );
+                            echo esc_html__( 'This is required to make the Instagram Feed work. Click the button below and it will connect to your Instagram Account to get an access token. It will then return to this page and save it in the inputs below. After it finishes you will be able to generate your Instagram feed. Instagram Basic connections do not allow you to show Profile info or Heart/Comment counts. Please use the Instagram Business option to achieve that.', 'feed-them-social' );
                             ?>
                         </p>
                         <p>
                             <?php
 
                             echo sprintf(
-                                esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
+                                esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
                                 '<a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '' ) . '" class="fts-instagram-get-access-token">',
                                 '</a>'
                             );
@@ -140,7 +140,7 @@ class FTS_Instagram_Options_Page {
                             <?php
                             esc_html_e( 'Access Token Required', 'feed-them-social' );
 
-                            if ( isset( $_GET['access_token'], $_GET['feed_type'] ) && 'original_instagram' === $_GET['feed_type'] || isset( $_GET['access_token'], $_GET['feed_type'] ) && 'instagram_basic' === $_GET['feed_type'] ) {
+                            if ( isset( $_GET['code'], $_GET['feed_type'] ) && 'original_instagram' === $_GET['feed_type'] || isset( $_GET['code'], $_GET['feed_type'] ) && 'instagram_basic' === $_GET['feed_type'] ) {
                                 // START AJAX TO SAVE TOKEN TO DB
                                 $fts_functions->feed_them_instagram_save_token();
                             }
@@ -165,7 +165,7 @@ class FTS_Instagram_Options_Page {
 
                         if( ! empty( $fts_instagram_access_token ) && 0 !== $count ){
                             echo sprintf(
-                                esc_html( '%1$sThe %2$sLegacy API will be depreciated as of March 31st, 2020%3$s in favor of the new Instagram Graph API and the Instagram Basic Display API. Please click the the button above to reconnect your account or you can connect as a Business account below. You must also generate a new shortcode and replace your existing one.%4$s', 'feed-them-social' ),
+                                esc_html__( '%1$sThe %2$sLegacy API will be depreciated as of March 31st, 2020%3$s in favor of the new Instagram Graph API and the Instagram Basic Display API. Please click the the button above to reconnect your account or you can connect as a Business account below. You must also generate a new shortcode and replace your existing one.%4$s', 'feed-them-social' ),
                                 '<div class="fts-failed-api-token instagram-failed-message">',
                                 '<a href="' . esc_url( 'https://www.instagram.com/developer/' ) . '" target="_blank">',
                                 '</a>',
@@ -174,7 +174,7 @@ class FTS_Instagram_Options_Page {
                         }
                         elseif ( ! isset( $test_app_token_response->error ) && ! empty( $fts_instagram_access_token ) ) {
                             echo sprintf(
-                                esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
+                                esc_html__( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
                                 '<div class="fts-successful-api-token">',
                                 '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
                                 '</a></div>'
@@ -182,7 +182,7 @@ class FTS_Instagram_Options_Page {
                         } elseif ( isset( $test_app_token_response->error ) && ! empty( $fts_instagram_access_token ) ) {
                             $text = isset( $test_app_token_response->error->message ) ? $test_app_token_response->error->message : $test_app_token_response->error->message;
                             echo sprintf(
-                                esc_html( '%1$sOh No something\'s wrong. %2$s Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s', 'feed-them-social' ),
+                                esc_html__( '%1$sOh No something\'s wrong. %2$s Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s', 'feed-them-social' ),
                                 '<div class="fts-failed-api-token instagram-failed-message">',
                                 esc_html( $text ),
                                 '</div>'
@@ -193,7 +193,7 @@ class FTS_Instagram_Options_Page {
 
                         if ( empty( $fts_instagram_access_token ) && 'original_instagram' !== $feed_type ) {
                             echo sprintf(
-                                esc_html( '%1$sYou are required to get an access token to view your photos.%2$s', 'feed-them-social' ),
+                                esc_html__( '%1$sYou are required to get an access token to view your photos.%2$s', 'feed-them-social' ),
                                 '<div class="fts-failed-api-token instagram-failed-message">',
                                 '</div>'
                             );
@@ -214,7 +214,7 @@ class FTS_Instagram_Options_Page {
                         </h3>
                         <?php
                         echo sprintf(
-                            esc_html( 'You must have your Instagram Account linked to a Facebook Business Page, this is required to make the Instagram Business Feed or Hashtag Feed work. %1$sRead Instructions%2$s. Once you have completed the instructions you can click the button below and it will connect to your Facebook Account to get an access token. It should return a Facebook page or list of pages you are admin of and display which ones are connected to Instagram. Choose one, then click save. The Instagram Business option will allow you to display your profile info and the Heart/Comment counts on your media.', 'feed-them-social' ),
+                            esc_html__( 'You must have your Instagram Account linked to a Facebook Business Page, this is required to make the Instagram Business Feed or Hashtag Feed work. %1$sRead Instructions%2$s. Once you have completed the instructions you can click the button below and it will connect to your Facebook Account to get an access token. It should return a Facebook page or list of pages you are admin of and display which ones are connected to Instagram. Choose one, then click save. The Instagram Business option will allow you to display your profile info and the Heart/Comment counts on your media.', 'feed-them-social' ),
                             '<a target="_blank" href="' . esc_url( 'https://www.slickremix.com/docs/link-instagram-account-to-facebook/' ) . '">',
                             '</a>'
                         );
@@ -227,7 +227,7 @@ class FTS_Instagram_Options_Page {
                             // 1844222799032692?fields=instagram_business_account&access_token=
                             // This redirect url must have an &state= instead of a ?state= otherwise it will not work proper with the fb app. https://www.slickremix.com/instagram-token/&state=.
                             echo sprintf(
-                                esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
+                                esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
                                 '<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/instagram-token/&state=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '&scope=pages_show_list,pages_read_engagement,instagram_basic' ) . '" class="fts-facebook-get-access-token">',
                                 '</a>'
                             );
@@ -291,7 +291,7 @@ class FTS_Instagram_Options_Page {
                                 }
 
                                 echo sprintf(
-                                    esc_html( 'Your access token is working! Generate your shortcode on the %1$sSettings Page%2$s', 'feed-them-social' ),
+                                    esc_html__( 'Your access token is working! Generate your shortcode on the %1$sSettings Page%2$s', 'feed-them-social' ),
                                     '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
                                     '</a>'
                                 );
@@ -301,7 +301,7 @@ class FTS_Instagram_Options_Page {
                             if ( isset( $test_app_token_response->data->error->message ) && ! empty( $test_app_token_id ) || isset( $test_app_token_response->error->message ) && ! empty( $test_app_token_id ) && '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' !== $test_app_token_response->error->message ) {
                                 if ( isset( $test_app_token_response->data->error->message ) ) {
                                     echo sprintf(
-                                        esc_html( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
+                                        esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                                         '<div class="fts-failed-api-token">',
                                         esc_html( $test_app_token_response->data->error->message ),
                                         '</div>'
@@ -309,7 +309,7 @@ class FTS_Instagram_Options_Page {
                                 }
                                 if ( isset( $test_app_token_response->error->message ) ) {
                                     echo sprintf(
-                                        esc_html( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
+                                        esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                                         '<div class="fts-failed-api-token">',
                                         esc_html( $test_app_token_response->error->message ),
                                         '</div>'
@@ -318,7 +318,7 @@ class FTS_Instagram_Options_Page {
 
                                 if ( isset( $test_app_token_response->data->error->message ) && empty( $test_app_token_id ) || isset( $test_app_token_response->error->message ) && empty( $test_app_token_id ) ) {
                                     echo sprintf(
-                                        esc_html( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
+                                        esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
                                         '<div class="fts-failed-api-token get-started-message">',
                                         '</div>'
                                     );
@@ -327,7 +327,7 @@ class FTS_Instagram_Options_Page {
                         } else {
                             if ( ! isset( $_GET['return_long_lived_token'] ) || isset( $_GET['reviews_token'] ) ) {
                                 echo sprintf(
-                                    esc_html( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
+                                    esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
                                     '<div class="fts-failed-api-token get-started-message">',
                                     '</div>'
                                 );

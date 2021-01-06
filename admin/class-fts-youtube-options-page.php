@@ -43,10 +43,10 @@ class FTS_Youtube_Options_Page {
 		?>
 		<div class="feed-them-social-admin-wrap">
 			<h1>
-				<?php echo esc_html( 'Feed Options', 'feed-them-social' ); ?>
+				<?php echo esc_html__( 'Feed Options', 'feed-them-social' ); ?>
 			</h1>
 			<div class="use-of-plugin">
-				<?php echo esc_html( 'Add a follow button and position it using the options below. This option will not work for combined feeds.', 'feed-them-social' ); ?>
+				<?php echo esc_html__( 'Add a follow button and position it using the options below. This option will not work for combined feeds.', 'feed-them-social' ); ?>
 			</div>
 
 			<!-- custom option for padding -->
@@ -78,14 +78,14 @@ class FTS_Youtube_Options_Page {
 				<div class="feed-them-social-admin-input-wrap" style="padding-top: 0">
 					<div class="fts-title-description-settings-page">
 						<h3>
-							<?php echo esc_html( 'YouTube API Key', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'YouTube API Key', 'feed-them-social' ); ?>
 						</h3>
-						<p><?php echo esc_html( 'This is required to make the feed work. Simply click the button below and it will connect to your YouTube account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your YouTube feed.', 'feed-them-social' ); ?>
+						<p><?php echo esc_html__( 'This is required to make the feed work. Simply click the button below and it will connect to your YouTube account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your YouTube feed.', 'feed-them-social' ); ?>
 						</p>
 						<p>
 							<?php
 							echo sprintf(
-								esc_html( '%1$sLogin and get my Access Token (API key)%2$s', 'feed-them-social' ),
+								esc_html__( '%1$sLogin and get my Access Token (API key)%2$s', 'feed-them-social' ),
 								'<a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . admin_url( 'admin.php?page=fts-youtube-feed-styles-submenu-page' ) ) . '" class="fts-youtube-get-access-token">',
 								'</a>'
 							);
@@ -114,12 +114,12 @@ class FTS_Youtube_Options_Page {
 					<div class="fts-clear"></div>
 
 					<div class="youtube-extra-keys" style="<?php echo esc_attr( $extra_keys ); ?>">
-						<div class="youtube-extra-keys-text" style="<?php echo esc_attr( $extra_keys_no ); ?>"><?php echo esc_html( 'Learn how to manually create your own YouTube API Key', 'feed-them-social' ); ?>
-							<a href="<?php echo esc_url( 'https://www.slickremix.com/docs/get-api-key-for-youtube/' ); ?>" target="_blank"><?php echo esc_html( 'here', 'feed-them-social' ); ?></a>.
+						<div class="youtube-extra-keys-text" style="<?php echo esc_attr( $extra_keys_no ); ?>"><?php echo esc_html__( 'Learn how to manually create your own YouTube API Key', 'feed-them-social' ); ?>
+							<a href="<?php echo esc_url( 'https://www.slickremix.com/docs/get-api-key-for-youtube/' ); ?>" target="_blank"><?php echo esc_html__( 'here', 'feed-them-social' ); ?></a>.
 						</div>
 
 						<div class="feed-them-social-admin-input-label fts-youtube-border-bottom-color-label">
-							<?php echo esc_html( 'API Key Required', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'API Key Required', 'feed-them-social' ); ?>
 						</div>
 
 						<input type="text" name="youtube_custom_api_token" class="feed-them-social-admin-input" id="youtube_custom_api_token" value="<?php echo esc_attr( get_option( 'youtube_custom_api_token' ) ); ?>"/>
@@ -130,14 +130,14 @@ class FTS_Youtube_Options_Page {
 				<div class="hide-button-tokens-options" style="<?php echo esc_attr( $extra_keys_no ); ?>">
 					<div class="feed-them-social-admin-input-wrap">
 						<div class="feed-them-social-admin-input-label">
-							<?php echo esc_html( 'Refresh Token', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Refresh Token', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_custom_refresh_token" class="feed-them-social-admin-input" id="youtube_custom_refresh_token" value="<?php echo esc_attr( get_option( 'youtube_custom_refresh_token' ) ); ?>"/>
 						<div class="fts-clear"></div>
 					</div>
 					<div class="feed-them-social-admin-input-wrap" style="margin-bottom:0;">
 						<div class="feed-them-social-admin-input-label">
-							<?php echo esc_html( 'Access Token', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Access Token', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_custom_access_token" class="feed-them-social-admin-input" id="youtube_custom_access_token" value="<?php echo esc_attr( get_option( 'youtube_custom_access_token' ) ); ?>"/>
 						<div class="fts-clear"></div>
@@ -152,7 +152,7 @@ class FTS_Youtube_Options_Page {
 						?>
 							display:none<?php } ?>">
 						<div class="feed-them-social-admin-input-label">
-							<?php echo esc_html( 'Expiration Time for Access Token', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Expiration Time for Access Token', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_custom_tokenecho esc_htmlxp_time" class="feed-them-social-admin-input" id="youtube_custom_tokenecho esc_htmlxp_time" value="<?php echo esc_attr( get_option( 'youtube_custom_tokenecho esc_htmlxp_time' ) ); ?>"/>
 						<div class="fts-clear"></div>
@@ -168,7 +168,7 @@ class FTS_Youtube_Options_Page {
 						});
 					</script>
 					<?php
-					if ( isset( $_GET['refresh_token'] ) && isset( $_GET['access_token'] ) && isset( $_GET['expires_in'] ) ) {
+					if ( isset( $_GET['refresh_token'] ) && isset( $_GET['code'] ) && isset( $_GET['expires_in'] ) ) {
 						// START AJAX TO SAVE TOKEN TO DB RIGHT AWAY SO WE CAN DO OUR NEXT SET OF CHECKS
 						// new token action!
 						$fts_functions->feed_them_youtube_refresh_token();
@@ -226,7 +226,7 @@ class FTS_Youtube_Options_Page {
 						// Error Check!
 						if ( ! isset( $test_app_token_response->error->errors[0]->reason ) && ! empty( $youtube_api_key ) || ! isset( $test_app_token_response->error->errors[0]->reason ) && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
 							echo sprintf(
-								esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
+								esc_html__( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
 								'<div class="fts-successful-api-token">',
 								esc_html( $type_of_key ),
 								'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
@@ -235,7 +235,7 @@ class FTS_Youtube_Options_Page {
 							);
 						} elseif ( isset( $user_id->error->errors[0]->reason ) && ! empty( $youtube_api_key ) || ! isset( $user_id->error->errors[0]->reason ) && ! empty( $youtube_access_token ) ) {
 							echo sprintf(
-								esc_html( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
+								esc_html__( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
 								'<div class="fts-failed-api-token">',
 								esc_html( $type_of_key ),
 								esc_html( $user_id->errors[0]->reason ),
@@ -244,7 +244,7 @@ class FTS_Youtube_Options_Page {
 						}
 						if ( empty( $youtube_api_key ) && empty( $youtube_access_token ) ) {
 							echo sprintf(
-								esc_html( '%1$s You must click the button above or register for an API token to use the YouTube feed.%2$s', 'feed-them-social' ),
+								esc_html__( '%1$s You must click the button above or register for an API token to use the YouTube feed.%2$s', 'feed-them-social' ),
 								'<div class="fts-failed-api-token">',
 								'</div>'
 							);
@@ -259,20 +259,20 @@ class FTS_Youtube_Options_Page {
 
 				<div class="feed-them-social-admin-input-wrap">
 					<div class="fts-title-description-settings-page">
-						<h3><?php echo esc_html( 'Follow Button Options', 'feed-them-social' ); ?></h3>
+						<h3><?php echo esc_html__( 'Follow Button Options', 'feed-them-social' ); ?></h3>
 					</div>
-					<div class="feed-them-social-admin-input-label fts-youtube-text-color-label"><?php echo esc_html( 'Show Follow Button', 'feed-them-social' ); ?></div>
+					<div class="feed-them-social-admin-input-label fts-youtube-text-color-label"><?php echo esc_html__( 'Show Follow Button', 'feed-them-social' ); ?></div>
 
 					<select name="youtube_show_follow_btn" id="youtube-show-follow-btn"
 							class="feed-them-social-admin-input">
 						<option
 							<?php echo selected( $fts_youtube_show_follow_btn, 'yes', false ); ?>
 								value="<?php echo esc_attr( 'yes' ); ?>">
-							<?php echo esc_html( 'Yes', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Yes', 'feed-them-social' ); ?>
 						</option>
 						<option <?php echo selected( $fts_youtube_show_follow_btn, 'no', false ); ?>
 								value="<?php echo esc_attr( 'no' ); ?>">
-							<?php echo esc_html( 'No', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'No', 'feed-them-social' ); ?>
 						</option>
 					</select>
 
@@ -280,20 +280,20 @@ class FTS_Youtube_Options_Page {
 				</div><!--/fts-youtube-feed-styles-input-wrap-->
 
 				<div class="feed-them-social-admin-input-wrap">
-					<div class="feed-them-social-admin-input-label fts-youtube-text-color-label"><?php echo esc_html( 'Placement of the Buttons', 'feed-them-social' ); ?></div>
+					<div class="feed-them-social-admin-input-label fts-youtube-text-color-label"><?php echo esc_html__( 'Placement of the Buttons', 'feed-them-social' ); ?></div>
 
 					<select name="youtube_show_follow_btn_where" id="youtube-show-follow-btn-where"
 							class="feed-them-social-admin-input">
-						<option><?php echo esc_html( 'Please Select Option', 'feed-them-social' ); ?></option>
+						<option><?php echo esc_html__( 'Please Select Option', 'feed-them-social' ); ?></option>
 						<option
 							<?php echo selected( $fts_youtube_show_follow_btn_where, 'youtube-follow-above', false ); ?>
 								value="<?php echo esc_attr( 'youtube-follow-above' ); ?>">
-							<?php echo esc_html( 'Show Above Feed', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Show Above Feed', 'feed-them-social' ); ?>
 						</option>
 						<option
 							<?php echo selected( $fts_youtube_show_follow_btn_where, 'youtube-follow-below', false ); ?>
 								value="<?php echo esc_attr( 'youtube-follow-below' ); ?>">
-							<?php echo esc_html( 'Show Below Feed', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Show Below Feed', 'feed-them-social' ); ?>
 						</option>
 					</select>
 
@@ -306,12 +306,12 @@ class FTS_Youtube_Options_Page {
 				<div class="feed-them-social-admin-input-wrap">
 					<div class="fts-title-description-settings-page">
 						<h3>
-							<?php echo esc_html( 'Load More Button Styles & Options', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Load More Button Styles & Options', 'feed-them-social' ); ?>
 						</h3>
 					</div>
 					<div class="feed-them-social-admin-input-wrap">
 						<div class="feed-them-social-admin-input-label fts-fb-loadmore-background-color-label">
-							<?php echo esc_html( 'Button Color', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Button Color', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_loadmore_background_color" class="feed-them-social-admin-input fb-loadmore-background-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="youtube-loadmore-background-color-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'youtube_loadmore_background_color' ) ); ?>"/>
 						<div class="fts-clear"></div>
@@ -320,7 +320,7 @@ class FTS_Youtube_Options_Page {
 
 					<div class="feed-them-social-admin-input-wrap">
 						<div class="feed-them-social-admin-input-label fts-fb-border-bottom-color-label">
-							<?php echo esc_html( 'Text Color', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Text Color', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_loadmore_text_color" class="feed-them-social-admin-input fb-loadmore-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="youtube-loadmore-text-color-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'youtube_loadmore_text_color' ) ); ?>"/>
 						<div class="fts-clear"></div>
@@ -329,7 +329,7 @@ class FTS_Youtube_Options_Page {
 
 					<div class="feed-them-social-admin-input-wrap">
 						<div class="feed-them-social-admin-input-label">
-							<?php echo esc_html( '"Load More" Text', 'feed-them-social' ); ?>
+							<?php echo esc_html__( '"Load More" Text', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_load_more_text" class="feed-them-social-admin-input" id="youtube_load_more_text" placeholder="Load More" value="<?php echo esc_attr( get_option( 'youtube_load_more_text' ) ); ?>"/>
 						<div class="clear"></div>
@@ -338,7 +338,7 @@ class FTS_Youtube_Options_Page {
 
 					<div class="feed-them-social-admin-input-wrap">
 						<div class="feed-them-social-admin-input-label">
-							<?php echo esc_html( '"No More Videos" Text', 'feed-them-social' ); ?>
+							<?php echo esc_html__( '"No More Videos" Text', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_no_more_videos_text" class="feed-them-social-admin-input" id="youtube_no_more_videos_text" placeholder="No More Videos" value="<?php echo esc_attr( get_option( 'youtube_no_more_videos_text' ) ); ?>"/>
 						<div class="clear"></div>
@@ -346,7 +346,7 @@ class FTS_Youtube_Options_Page {
 					<!--/fts-youtube-feed-styles-input-wrap-->
 
 					<?php } // END premium ?>
-					<input type="submit" class="feed-them-social-admin-submit-btn" value="<?php echo esc_html( 'Save All Changes' ); ?>"/>
+					<input type="submit" class="feed-them-social-admin-submit-btn" value="<?php echo esc_html__( 'Save All Changes', 'feed-them-social' ); ?>"/>
 					<?php } ?>
 			</form>
 		</div>

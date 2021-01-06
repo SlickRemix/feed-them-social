@@ -41,7 +41,7 @@ class FTS_Settings_Page {
 		$fts_functions = new feed_them_social_functions();
 
 		if ( ! function_exists( 'curl_init' ) ) {
-			print '<div class="error"><p>' . esc_html( 'Warning: cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this.', 'feed-them-social' ) . '</p></div>';
+			print '<div class="error"><p>' . esc_html__( 'Warning: cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this.', 'feed-them-social' ) . '</p></div>';
 		}
 
 		$fts_fb_options_nonce = wp_create_nonce( 'fts-settings-page-nonce' );
@@ -52,7 +52,7 @@ class FTS_Settings_Page {
 			<div class="feed-them-social-admin-wrap">
 				<div class="fts-backg"></div>
 				<div class="fts-content">
-					<h1 class="fts-logo-header"><?php echo esc_html( 'Feed Them Social', 'feed-them-social' ); ?></h1>
+					<h1 class="fts-logo-header"><?php echo esc_html__( 'Feed Them Social', 'feed-them-social' ); ?></h1>
 
 					<div class="feed-them-icon-wrap">
 						<a href="javascript:" class="youtube-icon"></a>
@@ -62,35 +62,35 @@ class FTS_Settings_Page {
 						<a href="javascript:" class="pinterest-icon"></a>
 
 						<div id="discount-for-review">
-							<a href="admin.php?page=fts-license-page"><?php echo esc_html( 'View Extensions & Demos', 'feed-them-social' ); ?></a>
+							<a href="admin.php?page=fts-license-page"><?php echo esc_html__( 'View Extensions & Demos', 'feed-them-social' ); ?></a>
 						</div>
 					</div>
 
 					<div class="fts-tabs" id="fts-tabs">
 
 						<label for="fts-tab1" class="fts-tab1 fts-tabbed <?php echo isset( $_GET['tab'] ) && 'general_options' === $_GET['tab'] || ! isset( $_GET['tab'] ) ? 'tab-active' : ''; ?>" id="general_options">
-							<span><?php echo esc_html( 'Create Shortcode', 'feed-them-social' ); ?></span>
+							<span><?php echo esc_html__( 'Create Shortcode', 'feed-them-social' ); ?></span>
 						</label>
 
 						<label for="fts-tab2" class="fts-tab2 fts-tabbed <?php echo isset( $_GET['tab'] ) && 'global_options' === $_GET['tab'] ? 'tab-active' : ''; ?>" id="global_options">
-							<span><?php echo esc_html( 'Global Options', 'feed-them-social' ); ?></span>
+							<span><?php echo esc_html__( 'Global Options', 'feed-them-social' ); ?></span>
 						</label>
 
 						<div id="fts-tab-content1" class="fts-tab-content fts-hide-me <?php echo isset( $_GET['tab'] ) && 'general_options' === $_GET['tab'] || ! isset( $_GET['tab'] ) ? 'pane-active' : ''; ?>">
 							<section>
 
-								<h2 class="fts-logo-subheader"><?php echo esc_html( 'Create Shortcode for Social Network', 'feed-them-social' ); ?></h2>
-								<div class="use-of-plugin"><?php echo esc_html( 'Please select what type of feed you would like using the select option below. After setting your options click the green Generate Shortcode button, then copy and paste the shortcode to a page, post or widget.', 'feed-them-social' ); ?></div>
+								<h2 class="fts-logo-subheader"><?php echo esc_html__( 'Create Shortcode for Social Network', 'feed-them-social' ); ?></h2>
+								<div class="use-of-plugin"><?php echo esc_html__( 'Please select what type of feed you would like using the select option below. After setting your options click the green Generate Shortcode button, then copy and paste the shortcode to a page, post or widget.', 'feed-them-social' ); ?></div>
 
 								<form class="feed-them-social-admin-form" id="feed-selector-form">
 									<select id="shortcode-form-selector">
-										<option value=""><?php echo esc_html( 'Select a Social Network', 'feed-them-social' ); ?> </option>
-										<option value="fts-fb-page-shortcode-form"><?php echo esc_html( 'Facebook Feed', 'feed-them-social' ); ?></option>
-										<option value="combine-steams-shortcode-form"><?php echo esc_html( 'Combine Streams Feed', 'feed-them-social' ); ?></option>
-										<option value="twitter-shortcode-form"><?php echo esc_html( 'Twitter Feed', 'feed-them-social' ); ?></option>
-										<option value="instagram-shortcode-form"><?php echo esc_html( 'Instagram Feed', 'feed-them-social' ); ?></option>
-										<option value="youtube-shortcode-form"><?php echo esc_html( 'YouTube Feed' ); ?></option>
-										<option value="pinterest-shortcode-form"><?php echo esc_html( 'Pinterest Feed', 'feed-them-social' ); ?></option>
+										<option value=""><?php echo esc_html__( 'Select a Social Network', 'feed-them-social' ); ?> </option>
+										<option value="fts-fb-page-shortcode-form"><?php echo esc_html__( 'Facebook Feed', 'feed-them-social' ); ?></option>
+										<option value="combine-steams-shortcode-form"><?php echo esc_html__( 'Combine Streams Feed', 'feed-them-social' ); ?></option>
+										<option value="twitter-shortcode-form"><?php echo esc_html__( 'Twitter Feed', 'feed-them-social' ); ?></option>
+										<option value="instagram-shortcode-form"><?php echo esc_html__( 'Instagram Feed', 'feed-them-social' ); ?></option>
+										<option value="youtube-shortcode-form"><?php echo esc_html__( 'YouTube Feed', 'feed-them-social' ); ?></option>
+                                        <!--/ <option value="pinterest-shortcode-form"><?php echo esc_html__( 'Pinterest Feed', 'feed-them-social' ); ?></option>  -->
 									</select>
 								</form><!--/feed-them-social-admin-form-->
 
@@ -184,8 +184,8 @@ class FTS_Settings_Page {
 							">
 							<section>
 								<div class="feed-them-clear-cache">
-									<h2><?php echo esc_html( 'Clear All Cache Options', 'feed-them-social' ); ?></h2>
-									<div class="use-of-plugin"><?php echo esc_html( 'Please Clear Cache if you have changed a Feed Them Social Shortcode. This will Allow you to see the changes right away.', 'feed-them-social' ); ?></div>
+									<h2><?php echo esc_html__( 'Clear All Cache Options', 'feed-them-social' ); ?></h2>
+									<div class="use-of-plugin"><?php echo esc_html__( 'Please Clear Cache if you have changed a Feed Them Social Shortcode. This will Allow you to see the changes right away.', 'feed-them-social' ); ?></div>
 									<?php
 									if ( isset( $_GET['cache'] ) && 'clearcache' === $_GET['cache'] ) {
 										echo '<div class="feed-them-clear-cache-text">' . esc_html( $fts_functions->feed_them_clear_cache() ) . '</div>';
@@ -196,30 +196,30 @@ class FTS_Settings_Page {
 									?>
 
 									<form method="post" action="?page=feed-them-settings-page&cache=clearcache&tab=global_options">
-										<input class="feed-them-social-admin-submit-btn" type="submit" value="<?php echo esc_html( 'Clear All FTS Feeds Cache', 'feed-them-social' ); ?>"/>
+										<input class="feed-them-social-admin-submit-btn" type="submit" value="<?php echo esc_html__( 'Clear All FTS Feeds Cache', 'feed-them-social' ); ?>"/>
 									</form>
 								</div><!--/feed-them-clear-cache-->
 								<!-- custom option for padding -->
 								<form method="post" class="fts-color-settings-admin-form" action="options.php">
 									<p>
-										<label><?php echo esc_html( 'Cache Time', 'feed-them-social' ); ?></label>
+										<label><?php echo esc_html__( 'Cache Time', 'feed-them-social' ); ?></label>
 										<select id="fts_clear_cache_developer_mode" name="fts_clear_cache_developer_mode">
-											<option value=""><?php echo esc_html( 'Please choose an option', 'feed-them-social' ); ?></option>
-											<option value="86400" <?php echo '86400' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '1 Day ago (Suggested Default)', 'feed-them-social' ); ?></option>
-											<option value="172800" <?php echo '172800' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '2 Days', 'feed-them-social' ); ?></option>
-											<option value="259200" <?php echo '259200' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '3 Days', 'feed-them-social' ); ?></option>
-											<option value="604800" <?php echo '604800' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '1 Week', 'feed-them-social' ); ?></option>
-											<option value="1209600" <?php echo '1209600' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '2 Weeks', 'feed-them-social' ); ?></option>
-											<option value="1" <?php echo '1' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html( '(Developers Only) Clear cache on every page load', 'feed-them-social' ); ?></option>
+											<option value=""><?php echo esc_html__( 'Please choose an option', 'feed-them-social' ); ?></option>
+											<option value="86400" <?php echo '86400' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html__( '1 Day ago (Suggested Default)', 'feed-them-social' ); ?></option>
+											<option value="172800" <?php echo '172800' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html__( '2 Days', 'feed-them-social' ); ?></option>
+											<option value="259200" <?php echo '259200' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html__( '3 Days', 'feed-them-social' ); ?></option>
+											<option value="604800" <?php echo '604800' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html__( '1 Week', 'feed-them-social' ); ?></option>
+											<option value="1209600" <?php echo '1209600' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html__( '2 Weeks', 'feed-them-social' ); ?></option>
+											<option value="1" <?php echo '1' === $fts_dev_mode_cache ? 'selected="selected"' : ''; ?>><?php echo esc_html__( '(Developers Only) Clear cache on every page load', 'feed-them-social' ); ?></option>
 										</select>
 									</p>
-									<label><?php echo esc_html( 'Admin Bar', 'feed-them-social' ); ?></label>
+									<label><?php echo esc_html__( 'Admin Bar', 'feed-them-social' ); ?></label>
 									<select id="fts_admin_bar_menu" name="fts_admin_bar_menu">
 										<option value="<?php echo esc_attr( 'show-admin-bar-menu' ); ?>" <?php echo 'show-admin-bar-menu' === $fts_admin_bar_menu ? 'selected="selected"' : ''; ?>>
-											<?php echo esc_html( 'Show Admin Bar Menu', 'feed-them-social' ); ?>
+											<?php echo esc_html__( 'Show Admin Bar Menu', 'feed-them-social' ); ?>
 										</option>
 										<option value="<?php echo esc_attr( 'hide-admin-bar-menu' ); ?>" <?php echo 'hide-admin-bar-menu' === $fts_admin_bar_menu ? 'selected="selected"' : ''; ?>>
-											<?php echo esc_html( 'Hide Admin Bar Menu', 'feed-them-social' ); ?>
+											<?php echo esc_html__( 'Hide Admin Bar Menu', 'feed-them-social' ); ?>
 										</option>
 									</select>
 									<div class="feed-them-custom-css">
@@ -237,7 +237,7 @@ class FTS_Settings_Page {
 
 										?>
 										<div style="float:left; max-width:400px; margin-right:30px;">
-											<h2><?php echo esc_html( 'FaceBook & Twitter Date Format', 'feed-them-social' ); ?></h2>
+											<h2><?php echo esc_html__( 'FaceBook & Twitter Date Format', 'feed-them-social' ); ?></h2>
 
 											<fieldset>
 												<select id="fts-date-and-time-format" name="fts-date-and-time-format">
@@ -278,10 +278,10 @@ class FTS_Settings_Page {
 														<?php echo esc_html( date( 'Y/m/d @ G:i' ) ); ?>
 													</option>
 													<option value="<?php echo esc_attr( 'one-day-ago' ); ?>" <?php echo 'one-day-ago' === $fts_date_time_format ? 'selected="selected"' : ''; ?>>
-														<?php echo esc_html( 'One Day Ago' ); ?>
+														<?php echo esc_html__( 'One Day Ago', 'feed-them-social' ); ?>
 													</option>
 													<option value="<?php echo esc_attr( 'fts-custom-date' ); ?>" <?php echo 'fts-custom-date' === $fts_date_time_format ? 'selected="selected"' : ''; ?>>
-														<?php echo esc_html( 'Use Custom Date and Time Option Below', 'feed-them-social' ); ?>
+														<?php echo esc_html__( 'Use Custom Date and Time Option Below', 'feed-them-social' ); ?>
 													</option>
 												</select>
 											</fieldset>
@@ -306,50 +306,50 @@ class FTS_Settings_Page {
 											?>
 
 											<div class="custom_time_ago_wrap" style="display:none;">
-												<h2><?php echo esc_html( 'Translate words for 1 day ago option.', 'feed-them-social' ); ?></h2>
-												<label for="fts_language_second"><?php echo esc_html( 'second' ); ?></label>
+												<h2><?php echo esc_html__( 'Translate words for 1 day ago option.', 'feed-them-social' ); ?></h2>
+												<label for="fts_language_second"><?php echo esc_html__( 'second', 'feed-them-social' ); ?></label>
 												<input name="fts_language_second" type="text" value="<?php echo esc_attr( $fts_language_second ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_seconds"><?php echo esc_html( 'seconds' ); ?></label>
+												<label for="fts_language_seconds"><?php echo esc_html__( 'seconds', 'feed-them-social' ); ?></label>
 												<input name="fts_language_seconds" type="text" value="<?php echo esc_attr( $fts_language_seconds ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_minute"><?php echo esc_html( 'minute' ); ?></label>
+												<label for="fts_language_minute"><?php echo esc_html__( 'minute', 'feed-them-social' ); ?></label>
 												<input name="fts_language_minute" type="text" value="<?php echo esc_attr( $fts_language_minute ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_minutes"><?php echo esc_html( 'minutes' ); ?></label>
+												<label for="fts_language_minutes"><?php echo esc_html__( 'minutes', 'feed-them-social' ); ?></label>
 												<input name="fts_language_minutes" type="text" value="<?php echo esc_attr( $fts_language_minutes ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_hour"><?php echo esc_html( 'hour' ); ?></label>
+												<label for="fts_language_hour"><?php echo esc_html__( 'hour', 'feed-them-social' ); ?></label>
 												<input name="fts_language_hour" type="text" value="<?php echo esc_attr( $fts_language_hour ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_hours"><?php echo esc_html( 'hours' ); ?></label>
+												<label for="fts_language_hours"><?php echo esc_html__( 'hours', 'feed-them-social' ); ?></label>
 												<input name="fts_language_hours" type="text" value="<?php echo esc_attr( $fts_language_hours ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_day"><?php echo esc_html( 'day' ); ?></label>
+												<label for="fts_language_day"><?php echo esc_html__( 'day', 'feed-them-social' ); ?></label>
 												<input name="fts_language_day" type="text" value="<?php echo esc_attr( $fts_language_day ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_days"><?php echo esc_html( 'days' ); ?></label>
+												<label for="fts_language_days"><?php echo esc_html__( 'days', 'feed-them-social' ); ?></label>
 												<input name="fts_language_days" type="text" value="<?php echo esc_attr( $fts_language_days ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_week"><?php echo esc_html( 'week' ); ?></label>
+												<label for="fts_language_week"><?php echo esc_html__( 'week', 'feed-them-social' ); ?></label>
 												<input name="fts_language_week" type="text" value="<?php echo esc_attr( $fts_language_week ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_weeks"><?php echo esc_html( 'weeks' ); ?></label>
+												<label for="fts_language_weeks"><?php echo esc_html__( 'weeks', 'feed-them-social' ); ?></label>
 												<input name="fts_language_weeks" type="text" value="<?php echo esc_attr( $fts_language_weeks ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_month"><?php echo esc_html( 'month' ); ?></label>
+												<label for="fts_language_month"><?php echo esc_html__( 'month', 'feed-them-social' ); ?></label>
 												<input name="fts_language_month" type="text" value="<?php echo esc_attr( $fts_language_month ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_months"><?php echo esc_html( 'months' ); ?></label>
+												<label for="fts_language_months"><?php echo esc_html__( 'months', 'feed-them-social' ); ?></label>
 												<input name="fts_language_months" type="text" value="<?php echo esc_attr( $fts_language_months ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_year"><?php echo esc_html( 'year' ); ?></label>
+												<label for="fts_language_year"><?php echo esc_html__( 'year', 'feed-them-social' ); ?></label>
 												<input name="fts_language_year" type="text" value="<?php echo esc_attr( $fts_language_year ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_years"><?php echo esc_html( 'years' ); ?></label>
+												<label for="fts_language_years"><?php echo esc_html__( 'years', 'feed-them-social' ); ?></label>
 												<input name="fts_language_years" type="text" value="<?php echo esc_attr( $fts_language_years ); ?>" size="25"/>
 												<br/>
-												<label for="fts_language_ago"><?php echo esc_html( 'ago' ); ?></label>
+												<label for="fts_language_ago"><?php echo esc_html__( 'ago', 'feed-them-social' ); ?></label>
 												<input name="fts_language_ago" type="text" value="<?php echo esc_attr( $fts_language_ago ); ?>" size="25"/>
 
 											</div>
@@ -372,7 +372,7 @@ class FTS_Settings_Page {
 												});
 
 											</script>
-											<h2 style="border-top:0px; margin-bottom:4px !important;"><?php echo esc_html( 'Custom Date and Time', 'feed-them-social' ); ?></h2>
+											<h2 style="border-top:0px; margin-bottom:4px !important;"><?php echo esc_html__( 'Custom Date and Time', 'feed-them-social' ); ?></h2>
 											<div>
 												<?php echo ! empty( $fts_custom_date ) || ! empty( $fts_custom_time ) ? esc_html( date( get_option( 'fts-custom-date' ) . ' ' . get_option( 'fts-custom-time' ) ) ) : ''; ?>
 											</div>

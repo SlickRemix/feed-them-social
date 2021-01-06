@@ -141,7 +141,7 @@ class feed_them_social_functions {
 
 		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'access_token' ) ) {
 
-			$auth_obj  = $_GET['access_token'];
+			$auth_obj  = $_GET['code'];
 			$feed_type = $_GET['feed_type'];
 			$user_id   = $_GET['user_id'];
 
@@ -162,7 +162,7 @@ class feed_them_social_functions {
 							url: ftsAjax.ajaxurl,
 							success: function (response) {
 								<?php
-								$auth_obj = $_GET['access_token'];
+								$auth_obj = $_GET['code'];
 								if ( 'instagram_basic' === $feed_type ) {
 									$insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $auth_obj );
 								} else {
@@ -180,7 +180,7 @@ class feed_them_social_functions {
 								}
 								if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) || isset( $test_app_token_response->meta->error_message ) && 'This client has not been approved to access this resource.' === $test_app_token_response->meta->error_message ) {
 									$fts_instagram_message = sprintf(
-										esc_html( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
+										esc_html__( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
 										'<div class="fts-successful-api-token">',
 										'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
 										'</a></div>'
@@ -195,7 +195,7 @@ class feed_them_social_functions {
 								} elseif ( isset( $test_app_token_response->meta->error_message ) || isset( $test_app_token_response->error_message ) ) {
 									$text                  = isset( $test_app_token_response->meta->error_message ) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
 									$fts_instagram_message = sprintf(
-										esc_html( '%1$sOh No something\'s wrong. %2$s. Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s.', 'feed-them-social' ),
+										esc_html__( '%1$sOh No something\'s wrong. %2$s. Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s.', 'feed-them-social' ),
 										'<div class="fts-failed-api-token">',
 										esc_html( $text ),
 										'</div>'
@@ -260,7 +260,7 @@ class feed_them_social_functions {
 
 			// The share wrap and links
 			$output  = '<div class="fts-share-wrap">';
-			$output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html( 'Social Share Options', 'feed-them-social' ) . '">' . esc_html( '', 'feed-them-social' ) . '</a>';
+			$output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html__( 'Social Share Options', 'feed-them-social' ) . '">' . esc_html( '', 'feed-them-social' ) . '</a>';
 			$output .= '<div class="ft-gallery-share-wrap">';
 			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
 			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
@@ -294,7 +294,7 @@ class feed_them_social_functions {
 			ob_start();
 
 			if ( ! isset( $_GET['locations'] ) ) {
-				$fb_url                     = 'fts-facebook-feed-styles-submenu-page' == $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['access_token'] . '&limit=25' );
+				$fb_url                     = 'fts-facebook-feed-styles-submenu-page' == $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=25' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=25' );
 				$fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : $fb_url;
 				$test_fb_app_token_response = json_decode( $fb_token_response );
 				$_REQUEST['next_url']       = isset( $test_fb_app_token_response->paging->next ) ? esc_url_raw( $test_fb_app_token_response->paging->next ) : '';
@@ -324,7 +324,7 @@ class feed_them_social_functions {
 				$reviews_token = isset( $_GET['reviews_token'] ) ? 'yes' : 'no';
 				?>
 			<div id="fb-list-wrap">
-				<div class="fts-pages-info"> <?php echo esc_html( 'Click on a page in the list below and it will add the Page ID and Access Token above, then click save.', 'feed-them-social' ); ?></div>
+				<div class="fts-pages-info"> <?php echo esc_html__( 'Click on a page in the list below and it will add the Page ID and Access Token above, then click save.', 'feed-them-social' ); ?></div>
 				<ul class="fb-page-list fb-page-master-list">
 					<?php
 			} //End make sure it's not ajaxing!
@@ -352,7 +352,7 @@ class feed_them_social_functions {
 									</span></div>
 								<div class="fb-other-wrap">
 									<small>
-								<?php echo esc_html( 'ID: ', 'feed-them-social' ); ?>
+								<?php echo esc_html__( 'ID: ', 'feed-them-social' ); ?>
 										<span class="fts-api-facebook-id"><?php echo esc_html( $data_id ); ?></span>
 								<?php echo isset( $data->store_number ) ? esc_html( '| Location: ' . $data->store_number, 'feed-them-social' ) : ''; ?>
 									</small>
@@ -377,7 +377,7 @@ class feed_them_social_functions {
 							if ( isset( $data->locations->data ) ) {
 								$location_count     = count( $data->locations->data );
 								$location_plus_sign = isset( $data->locations->paging->next ) ? '+' : '';
-								$location_text      = 1 === $location_count ? esc_html( $location_count . ' ' . esc_html( 'Location for', 'feed-them-social' ) ) : esc_html( $location_count . $location_plus_sign . ' ' . esc_html( 'Locations for', 'feed-them-social' ) );
+								$location_text      = 1 === $location_count ? esc_html( $location_count . ' ' . esc_html__( 'Location for', 'feed-them-social' ) ) : esc_html( $location_count . $location_plus_sign . ' ' . esc_html__( 'Locations for', 'feed-them-social' ) );
 								// if the locations equal 3 or less we will set the location container height to auto so the scroll loadmore does not fire.
 								$location_scroll_loadmore_needed_check = $location_count <= 3 ? 'height:auto !important' : 'height: 200px !important;';
 							}
@@ -412,12 +412,12 @@ class feed_them_social_functions {
 													</span></div>
 															<div class="fb-other-wrap">
 																<small>
-																	<?php echo esc_html( 'ID: ', 'feed-them-social' ); ?>
+																	<?php echo esc_html__( 'ID: ', 'feed-them-social' ); ?>
 																	<span class="fts-api-facebook-id"><?php echo esc_html( $loc_data_id ); ?></span>
 																	<?php
 																	if ( isset( $location->store_number ) ) {
 																		print '| ';
-																		esc_html( 'Location:', 'feed-them-social' );
+																		esc_html__( 'Location:', 'feed-them-social' );
 																		print ' ' . esc_html( $location->store_number );
 																	}
 																	?>
@@ -451,7 +451,7 @@ class feed_them_social_functions {
 								<?php
 								// Make sure it's not ajaxing locations!
 								if ( ! isset( $_GET['locations'] ) && isset( $data->locations->paging->next ) ) {
-									echo '<div id="loadMore_' . esc_attr( $data_id ) . '_location" class="fts-fb-load-more" style="background:none !Important;">' . esc_html( 'Scroll to view more Locations', 'feed-them-instagram' ) . '</div>';
+									echo '<div id="loadMore_' . esc_attr( $data_id ) . '_location" class="fts-fb-load-more" style="background:none !Important;">' . esc_html__( 'Scroll to view more Locations', 'feed-them-instagram' ) . '</div>';
 								}//End Check
 
 								// Make sure it's not ajaxing locations!
@@ -945,7 +945,7 @@ class feed_them_social_functions {
 			array( $twitter_options_page, 'feed_them_twitter_options_page' )
 		);
 		// Pinterest Options Page!
-		$pinterest_options_page = new FTS_Pinterest_Options_Page();
+		/* $pinterest_options_page = new FTS_Pinterest_Options_Page();
 		add_submenu_page(
 			'feed-them-settings-page',
 			esc_html( 'Pinterest Options', 'feed-them-social' ),
@@ -953,7 +953,7 @@ class feed_them_social_functions {
 			'manage_options',
 			'fts-pinterest-feed-styles-submenu-page',
 			array( $pinterest_options_page, 'feed_them_pinterest_options_page' )
-		);
+		); */
 		// Youtube Options Page!
 		$youtube_options_page = new FTS_Youtube_Options_Page();
 		add_submenu_page(

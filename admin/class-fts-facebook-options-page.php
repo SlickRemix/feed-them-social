@@ -89,7 +89,7 @@ class FTS_Facebook_Options_Page {
 							<p>
 								<?php
 								echo sprintf(
-									esc_html( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
+									esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
 									'<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . admin_url( 'admin.php?page=fts-facebook-feed-styles-submenu-page' ) . '&scope=pages_show_list,pages_read_engagement' ) . '" class="fts-facebook-get-access-token">',
 									'</a>'
 								);
@@ -150,7 +150,7 @@ class FTS_Facebook_Options_Page {
 									}
 
 									echo sprintf(
-										esc_html( 'Your Access Token is now working! Generate your shortcode on the %1$sSettings Page%2$s', 'feed-them-social' ),
+										esc_html__( 'Your Access Token is now working! Generate your shortcode on the %1$sSettings Page%2$s', 'feed-them-social' ),
 										'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page#feed_type=facebook' ) . '">',
 										'</a>'
 									);
@@ -160,7 +160,7 @@ class FTS_Facebook_Options_Page {
 								if ( isset( $test_app_token_response->data->error->message ) && ! empty( $test_app_token_id ) || isset( $test_app_token_response->error->message ) && ! empty( $test_app_token_id ) && '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' !== $test_app_token_response->error->message ) {
 									if ( isset( $test_app_token_response->data->error->message ) ) {
 										echo sprintf(
-											esc_html( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
+											esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
 											'<div class="fts-failed-api-token">',
 											esc_html( $test_app_token_response->data->error->message ),
 											'</div>'
@@ -168,7 +168,7 @@ class FTS_Facebook_Options_Page {
 									}
 									if ( isset( $test_app_token_response->error->message ) ) {
 										echo sprintf(
-											esc_html( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
+											esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
 											'<div class="fts-failed-api-token">',
 											esc_html( $test_app_token_response->error->message ),
 											'</div>'
@@ -177,7 +177,7 @@ class FTS_Facebook_Options_Page {
 
 									if ( isset( $test_app_token_response->data->error->message ) && empty( $test_app_token_id ) || isset( $test_app_token_response->error->message ) && empty( $test_app_token_id ) ) {
 										echo sprintf(
-											esc_html( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
+											esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
 											'<div class="fts-failed-api-token get-started-message">',
 											'</div>'
 										);
@@ -186,7 +186,7 @@ class FTS_Facebook_Options_Page {
 							} else {
 								if ( ! isset( $_GET['return_long_lived_token'] ) || isset( $_GET['reviews_token'] ) ) {
 									echo sprintf(
-										esc_html( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
+										esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
 										'<div class="fts-failed-api-token get-started-message">',
 										'</div>'
 									);
@@ -221,7 +221,7 @@ class FTS_Facebook_Options_Page {
 								<p>
 									<?php
 									echo sprintf(
-										esc_html( '%1$sLogin and get my Reviews Access Token%2$s', 'feed-them-social' ),
+										esc_html__( '%1$sLogin and get my Reviews Access Token%2$s', 'feed-them-social' ),
 										'<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . admin_url( 'admin.php?page=fts-facebook-feed-styles-submenu-page' ) . '%26reviews_token=yes&scope=pages_show_list,pages_read_engagement' ) . '" class="fts-facebook-get-access-token">',
 										'</a>'
 									);
@@ -297,7 +297,7 @@ class FTS_Facebook_Options_Page {
 							<div class="feed-them-social-admin-input-label fb-events-title-color-label">
 								<?php
 								echo sprintf(
-									esc_html( 'Stars Background Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
+									esc_html__( 'Stars Background Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 									'<br/><small>',
 									'</small>'
 								);
@@ -312,7 +312,7 @@ class FTS_Facebook_Options_Page {
 							<div class="feed-them-social-admin-input-label fb-events-map-link-color-label">
 								<?php
 								echo sprintf(
-									esc_html( 'Stars & Text Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
+									esc_html__( 'Stars & Text Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 									'<br/><small>',
 									'</small>'
 								);
@@ -460,7 +460,7 @@ class FTS_Facebook_Options_Page {
 							<?php
 
 							echo sprintf(
-								esc_html( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the FB Titles and Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
+								esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the FB Titles and Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
 								'<a href="' . esc_url( 'options-general.php' ) . '" target="_blank">',
 								'</a>',
 								'<a href="' . esc_url( 'http://translate.slickremix.com/glotpress/projects/feed-them-social/' ) . '" target="_blank">',
@@ -496,7 +496,7 @@ class FTS_Facebook_Options_Page {
 							</h3>
 							<?php
 							echo sprintf(
-								esc_html( '%1$sWARNING, PLEASE READ CAREFULLY!%2$s DO NOT use this field to set your facebook posts. If you are getting the message "Please go to the Facebook Options page of our plugin and look for the "Change Limit" option and add the number 7 or more." then adjust the number below so posts will show in your feed. Generally adding at least %3$s7%4$s is a good idea if you are getting that notice. This is only for Pages and Groups. We filter certain posts that do not have a story or message or if the shared content is not available via the API.', 'feed-them-social' ),
+								esc_html__( '%1$sWARNING, PLEASE READ CAREFULLY!%2$s DO NOT use this field to set your facebook posts. If you are getting the message "Please go to the Facebook Options page of our plugin and look for the "Change Limit" option and add the number 7 or more." then adjust the number below so posts will show in your feed. Generally adding at least %3$s7%4$s is a good idea if you are getting that notice. This is only for Pages and Groups. We filter certain posts that do not have a story or message or if the shared content is not available via the API.', 'feed-them-social' ),
 								'<strong style="color:red">',
 								'</strong>',
 								'<strong>',
@@ -663,7 +663,7 @@ class FTS_Facebook_Options_Page {
 						<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
 							<?php
 							echo sprintf(
-								esc_html( 'Page Title Tag %1$s %2$s', 'feed-them-social' ),
+								esc_html__( 'Page Title Tag %1$s %2$s', 'feed-them-social' ),
 								'<br/><small>',
 								'</small>'
 							);

@@ -161,7 +161,6 @@ Twitter Consumer Key:       <?php echo esc_html( $twitter_options1 ) . "\n"; ?>
 Twitter Secret:             <?php echo esc_html( $twitter_options2 ) . "\n"; ?>
 Twitter Token:              <?php echo esc_html( $twitter_options3 ) . "\n"; ?>
 Twitter Token Secret:       <?php echo esc_html( $twitter_options4 ) . "\n"; ?>
-Pinterest Token:            <?php echo esc_html( $pinterest_token ) . "\n"; ?>
 Instagram Basic Token:      <?php echo esc_html( $instagram_basic_token ) . "\n"; ?>
 Instagram Business Token:   <?php echo esc_html( $instagram_business_token ) . "\n";
 		$youtube_options                               = get_option( 'youtube_custom_api_token' ) || get_option( 'youtube_custom_access_token' ) && get_option( 'youtube_custom_refresh_token' ) && get_option( 'youtube_custom_token_exp_time' ) ? 'Yes' : 'No';
@@ -226,3 +225,6 @@ Facebook Reviews Active: <?php echo isset( $fb_reviews_token ) && '' !== $fb_rev
 	}
 
 }//end class
+
+
+https://feedthemsocial.com/staging2/wp-admin/admin.php?page=fts-youtube-feed-styles-submenu-page&refresh_token=1%2F%2F041QAR9YNEJJwCgYIARAAGAQSNwF-L9IrXbwtTr2QRQRbRpvBG6esNTxqXGOJWQ2xVsZnfVmc59Ld3hFbuj4OgKOz9oS2hQBUP2k&access_token=ya29.a0AfH6SMCS8ZaAqjsqa9BhL_4nTOFPDbE3WRThhoDId_dMtB7nbdgznIlTYssaQx7sFvNkt10xWftOCxBYHKyrzWjZ5P4A_hKfcB6klt-rDvZrZ95rI6OulObYW82Mm3Z9rNo-Okg2sqdBWbiGa2ucln3HV7QcDdW0fZfODmA7o_o&expires_in=3599

@@ -263,7 +263,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 	 * @since 1.9.6
 	 */
 	public function fts_view_on_instagram_link( $post_data ) {
-		return '<a href="' . esc_url( $this->fts_view_on_instagram_url( $post_data ) ) . '" class="fts-view-on-instagram-link" target="_blank" rel="noreferrer">' . esc_html( 'View on Instagram', 'feed-them-social' ) . '</a>';
+		return '<a href="' . esc_url( $this->fts_view_on_instagram_url( $post_data ) ) . '" class="fts-view-on-instagram-link" target="_blank" rel="noreferrer">' . esc_html__( 'View on Instagram', 'feed-them-social' ) . '</a>';
 	}
 
 	/**
@@ -598,23 +598,23 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				if ( false !== $this->fts_check_feed_cache_exists( $cache ) && ! isset( $_GET['load_more_ajaxing'] ) && 'user' !== $type ) {
 					$response   = $this->fts_get_feed_cache( $cache );
 					$insta_data = isset( $type ) && 'basic' === $type || 'business' === $type ? $insta_fb_data : json_decode( $response['data'] );
-					$note       = esc_html( 'Cached', 'feed-them-social' );
+					$note       = esc_html__( 'Cached', 'feed-them-social' );
 
 				} elseif ( isset( $error_check->error_message ) || isset( $error_check->meta->error_message ) || empty( $error_check ) || 'user' === $type || !isset( $type )  ) {
 					// If the Instagram API array returns any error messages we check for them here and return the corresponding error message!
 					if ( current_user_can( 'administrator' ) ) {
 
 						if ( 'user' === $type || !isset( $type )  ) {
-                                $error = esc_html( 'The Legacy API is depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please go to the instagram Options page of our plugin and reconnect your account and generate a new shortcode and replace your existing one.', 'feed-them-social' );
+                                $error = esc_html__( 'The Legacy API is depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please go to the instagram Options page of our plugin and reconnect your account and generate a new shortcode and replace your existing one.', 'feed-them-social' );
 						} elseif ( isset( $error_check->error_message ) ) {
 							$error = $error_check->error_message;
 						} elseif ( isset( $error_check->meta->error_message ) ) {
 							$error = $error_check->meta->error_message;
 						} else {
-							$error = esc_html( 'Please go to the Feed Them > Instagram Options page of our Feed Them Social plugin a double check your Instagram ID matches the one used in your shortcode on this page.', 'feed-them-social' );
+							$error = esc_html__( 'Please go to the Feed Them > Instagram Options page of our Feed Them Social plugin a double check your Instagram ID matches the one used in your shortcode on this page.', 'feed-them-social' );
 						}
 
-						return esc_html( 'Feed Them Social (Notice visible to Admin only). Instagram returned:', 'feed-them-social' ) . ' ' . $error;
+						return esc_html__( 'Feed Them Social (Notice visible to Admin only). Instagram returned:', 'feed-them-social' ) . ' ' . $error;
 					} else {
 						return;
 					}
@@ -623,7 +623,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 					// if Error DON'T Cache.
 					if ( ! isset( $error_check->meta->error_message ) && ! isset( $_GET['load_more_ajaxing'] ) || ! isset( $error_check->error_message ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 										$this->fts_create_feed_cache( $cache, $response );
-										$note = esc_html( 'Not Cached', 'feed-them-social' );
+										$note = esc_html__( 'Not Cached', 'feed-them-social' );
 					}
 				}
 			}

@@ -3304,10 +3304,10 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
 			// Used some methods from this link http://ieg.wnet.org/2015/09/using-oauth-in-wordpress-plugins-part-2-persistence/
 			// save all 3 get options: happens when clicking the get access token button on the youtube options page!
-			if ( isset( $_GET['refresh_token'], $_GET['access_token'] ) && isset( $_GET['expires_in'] ) ) {
+			if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) {
 				$button_pushed                     = 'yes';
 				$clienttoken_post['refresh_token'] = sanitize_text_field( wp_unslash( $_GET['refresh_token'] ) );
-				$auth_obj['access_token']          = sanitize_text_field( wp_unslash( $_GET['access_token'] ) );
+				$auth_obj['access_token']          = sanitize_text_field( wp_unslash( $_GET['code'] ) );
 				$auth_obj['expires_in']            = sanitize_key( wp_unslash( $_GET['expires_in'] ) );
 			} else {
 				// refresh token!
@@ -3377,7 +3377,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 								?>
 							jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
 
-								<?php if ( isset( $_GET['refresh_token'], $_GET['access_token'] ) && isset( $_GET['expires_in'] ) ) { ?>
+								<?php if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) { ?>
 							jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>');
 							jQuery('.fts-failed-api-token').hide();
 

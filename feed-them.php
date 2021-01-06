@@ -4,23 +4,23 @@
  *
  * This class is what initiates the Feed Them Social class
  *
- * Plugin Name: Feed Them Social - for Twitter feed, Youtube, Pinterest and more
+ * Plugin Name: Feed Them Social - for Twitter feed, Youtube, and more
  * Plugin URI: https://feedthemsocial.com/
- * Description: Display a Custom Facebook feed, Instagram feed, Twitter feed, Pinterest feed & YouTube feed on pages, posts or widgets.
- * Version: 2.9.1
+ * Description: Display a Custom Facebook feed, Instagram feed, Twitter feed and YouTube feed on pages, posts or widgets.
+ * Version: 2.9.2
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
  * Tested up to: WordPress 5.6.0
- * Stable tag: 2.9.1
+ * Stable tag: 2.9.2
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.9.1
+ * @version    2.9.2
  * @package    FeedThemSocial/Core
- * @copyright  Copyright (c) 2012-2020 SlickRemix
+ * @copyright  Copyright (c) 2012-2021 SlickRemix
  *
  * Need Support: https://wordpress.org/support/plugin/feed-them-social
  * Paid Extension Support: https://www.slickremix.com/my-account/#tab-support
@@ -31,7 +31,7 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '2.9.1' );
+define( 'FTS_CURRENT_VERSION', '2.9.2' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 
@@ -127,7 +127,7 @@ final class Feed_Them_Social {
             self::$instance->instagram_feed = new feedthemsocial\FTS_Instagram_Feed();
 
             // Pinterest!
-            self::$instance->pinterest_feed = new feedthemsocial\FTS_Pinterest_Feed();
+            // self::$instance->pinterest_feed = new feedthemsocial\FTS_Pinterest_Feed();
 
             // Youtube!
             self::$instance->youtube_feed = new feedthemsocial\FTS_Youtube_Feed_Free();
@@ -169,7 +169,7 @@ final class Feed_Them_Social {
     public function fts_update_notice() {
         // Check the transient to see if we've just updated the plugin!
         if ( get_transient( 'fts_updated' ) ) {
-            echo '<div class="notice notice-success updated is-dismissible"><p>' . esc_html( 'Thanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.', 'feed-them-social' ) . '</p></div>';
+            echo '<div class="notice notice-success updated is-dismissible"><p>' . esc_html__( 'Thanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.', 'feed-them-social' ) . '</p></div>';
             delete_transient( 'fts_updated' );
         }
     }
@@ -185,7 +185,7 @@ final class Feed_Them_Social {
         if ( get_transient( 'fts_activated' ) ) {
             echo '<div class="notice notice-success updated is-dismissible"><p>';
             echo sprintf(
-                esc_html( 'Thanks for installing Feed Them Social. To get started please view our %1$sSettings%2$s page.', 'feed-them-social' ),
+                esc_html__( 'Thanks for installing Feed Them Social. To get started please view our %1$sSettings%2$s page.', 'feed-them-social' ),
                 '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
                 '</a>'
             );
@@ -324,7 +324,7 @@ final class Feed_Them_Social {
     public function fts_required_php_check1() {
         echo '<div class="error"><p>';
         echo sprintf(
-            esc_html( '%1$s Feed Them Social Warning:%2$s Your php version is %1$s%3$s%2$s. You need to be running at least %1$s5.3%2$s or greater to use this plugin. Please upgrade the php by contacting your host provider. Some host providers will allow you to change this yourself in the hosting control panel too. %4$s If you are hosting with BlueHost or Godaddy and the php version above is saying you are running %1$s5.2.17%2$s but you are really running something higher please %5$sclick here for the fix%6$s. If you cannot get it to work using the method described in the link please contact your host provider and explain the problem so they can fix it.', 'feed-them-social' ),
+            esc_html__( '%1$s Feed Them Social Warning:%2$s Your php version is %1$s%3$s%2$s. You need to be running at least %1$s5.3%2$s or greater to use this plugin. Please upgrade the php by contacting your host provider. Some host providers will allow you to change this yourself in the hosting control panel too. %4$s If you are hosting with BlueHost or Godaddy and the php version above is saying you are running %1$s5.2.17%2$s but you are really running something higher please %5$sclick here for the fix%6$s. If you cannot get it to work using the method described in the link please contact your host provider and explain the problem so they can fix it.', 'feed-them-social' ),
             '<strong>',
             '</strong>',
             phpversion(),
@@ -350,7 +350,7 @@ final class Feed_Them_Social {
     public function fts_free_plugin_actions( $actions, $plugin_file, $plugin_data, $context ) {
         array_unshift(
             $actions,
-            '<a href="admin.php?page=feed-them-settings-page">' . esc_html( 'Settings', 'feed-them-social' ) . '</a> | <a href="' . esc_url( 'https://www.slickremix.com/support/', 'feed-them-social' ) . '">' . esc_html( 'Support' ) . '</a>'
+            '<a href="admin.php?page=feed-them-settings-page">' . esc_html__( 'Settings', 'feed-them-social' ) . '</a> | <a href="' . esc_url( 'https://www.slickremix.com/support/', 'feed-them-social' ) . '">' . esc_html__( 'Support', 'feed-them-social' ) . '</a>'
         );
         return $actions;
     }
@@ -367,7 +367,7 @@ final class Feed_Them_Social {
      */
     public function fts_leave_feedback_link( $links, $file ) {
         if ( plugin_basename( __FILE__ ) === $file ) {
-            $links['feedback'] = '<a href="' . esc_url( 'https://wordpress.org/support/view/plugin-reviews/feed-them-social', 'feed-them-social' ) . '" target="_blank">' . esc_html( 'Rate Plugin', 'feed-them-social' ) . '</a>';
+            $links['feedback'] = '<a href="' . esc_url( 'https://wordpress.org/support/view/plugin-reviews/feed-them-social', 'feed-them-social' ) . '" target="_blank">' . esc_html__( 'Rate Plugin', 'feed-them-social' ) . '</a>';
         }
         return $links;
     }
@@ -497,13 +497,13 @@ final class Feed_Them_Social {
                 <div class="fts_notice fts_review_notice">
                     <img src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/images/feed-them-social-logo.png' ) ); ?>" alt="Feed Them Social">
                     <div class="fts-notice-text">
-                        <p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed-them-social' ); ?></p>
+                        <p><?php echo esc_html__( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed-them-social' ); ?></p>
                         <p class="fts-links">
-                            <a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Sure, I\'d love to', 'feed-them-social' ); ?></a>
-                            <a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', '1' ) ); ?>"><?php echo esc_html( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
-                            <a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', 'later' ) ); ?>"><?php echo esc_html( 'Ask me later', 'feed-them-social' ); ?></a>
-                            <a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html( 'Not working, I need support', 'feed-them-social' ); ?></a>
-                            <a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', '1' ) ); ?>"><?php echo esc_html( 'No thanks', 'feed-them-social' ); ?></a>
+                            <a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Sure, I\'d love to', 'feed-them-social' ); ?></a>
+                            <a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
+                            <a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', 'later' ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed-them-social' ); ?></a>
+                            <a class="fts_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Not working, I need support', 'feed-them-social' ); ?></a>
+                            <a class="fts_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'rating_fts_slick_ignore_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed-them-social' ); ?></a>
                         </p>
                     </div>
                 </div>

@@ -81,7 +81,7 @@ class updater_check_class {
 			<p>
 			<?php
 				echo sprintf(
-					esc_html( '%1$s needs a valid License Key! %2$sClick here to add one%4$s or you will not receive update notices in WordPress. - %3$sGet your License Key Here%4$s.', 'feed-them-social' ),
+					esc_html__( '%1$s needs a valid License Key! %2$sClick here to add one%4$s or you will not receive update notices in WordPress. - %3$sGet your License Key Here%4$s.', 'feed-them-social' ),
 					esc_html( $this->plugin_name ),
 					'<a href="' . esc_url( 'admin.php?page=fts-license-page' ) . '">',
 					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/' ) . '" target="_blank">',
@@ -106,7 +106,7 @@ class updater_check_class {
 			<p>
 				<?php
 				echo sprintf(
-					esc_html( '%1$s - Your License Key is not active, expired, or is invalid. %2$sClick here to add one%4$s or you will not receive update notices in WordPress. - %3$sGet your License Key Here%4$s.', 'feed-them-social' ),
+					esc_html__( '%1$s - Your License Key is not active, expired, or is invalid. %2$sClick here to add one%4$s or you will not receive update notices in WordPress. - %3$sGet your License Key Here%4$s.', 'feed-them-social' ),
 					esc_html( $this->plugin_name ),
 					'<a href="' . esc_url( 'admin.php?page=fts-license-page' ) . '">',
 					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/' ) . '" target="_blank">',
@@ -278,7 +278,7 @@ class updater_check_class {
 
 			if ( empty( $version_info->download_link ) ) {
 				printf(
-					esc_html( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'feed-them-social' ),
+					esc_html__( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'feed-them-social' ),
 					esc_html( $version_info->name ),
 					'<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
 					esc_html( $version_info->new_version ),
@@ -286,7 +286,7 @@ class updater_check_class {
 				);
 			} else {
 				printf(
-					esc_html( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'feed-them-social' ),
+					esc_html__( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'feed-them-social' ),
 					esc_html( $version_info->name ),
 					'<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
 					esc_html( $version_info->new_version ),
@@ -450,7 +450,7 @@ class updater_check_class {
 		}
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( esc_html( 'You do not have permission to install plugin updates', 'feed-them-social' ), esc_html( 'Error', 'feed-them-social' ), array( 'response' => 403 ) );
+			wp_die( esc_html__( 'You do not have permission to install plugin updates', 'feed-them-social' ), esc_html__( 'Error', 'feed-them-social' ), array( 'response' => 403 ) );
 		}
 
 		$data         = $edd_plugin_data[ $_REQUEST['slug'] ];

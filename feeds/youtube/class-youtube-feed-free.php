@@ -419,7 +419,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 						$this->fts_youtube_single_video_info( $video_id_or_link, $youtube_api_key_or_token, $youtube_access_token_new );
 
 						echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
-						echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html( 'View on YouTube', 'feed-them-premium' ) . '</a>';
+						echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 						if ( '0' !== $comments_count && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 							$this->fts_youtube_commentThreads( $video_id_or_link, $youtube_api_key_or_token, $comments_count );
 						}
@@ -508,7 +508,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 										)
 									) . '</div>';
 									echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
-									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html( 'View on YouTube', 'feed-them-premium' ) . '</a>';
+									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 									if ( isset( $comments_count ) && '0' !== $comments_count && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 										$this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $comments_count );
 									}
@@ -544,7 +544,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 										)
 									) . '</div>';
 									echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
-									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html( 'View on YouTube', 'feed-them-premium' ) . '</a>';
+									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 									if ( isset( $comments_count ) && '0' !== $comments_count && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 										$this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $comments_count );
 									}

@@ -75,7 +75,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.9.2 Wednesday, January 6th, 2020 =
+= Version 2.9.2 Wednesday, January 6th, 2021 =
   * NOTE: Pinterest Feed: Removed options until Pinterest starts approving apps for the new API.
   * NEW: A feed-them-social.pot file is in the languages folder of our plugin along with our latest translatable strings.
   * FIX: FACEBOOK, INSTAGRAM & YOUTUBE OPTIONS PAGE: access_token in the url was causing some websites to return a "The link you followed has expired" message making it impossible to get an access token.

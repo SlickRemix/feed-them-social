@@ -77,7 +77,8 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 == Changelog ==
 = Version 2.9.2 Wednesday, January 6th, 2020 =
   * NOTE: Pinterest Feed: Removed options until Pinterest starts approving apps for the new API.
-  * FIX: FACEBOOK, INSTAGRAM & YOUTUBE OPTIONS PAGE: access_token in the url was causing some sites pages to return a "The link you followed has expired" making it impossible to get an access token.
+  * NEW: A feed-them-social.pot file is in the languages folder of our plugin.
+  * FIX: FACEBOOK, INSTAGRAM & YOUTUBE OPTIONS PAGE: access_token in the url was causing some websites to return a "The link you followed has expired" message making it impossible to get an access token.
 
 = Version 2.9.1 Wednesday, December 9th, 2020 =
   * NOTE: Pinterest Feed: We will be removing this feed and options page on our next update temporarily until they get the API complete.

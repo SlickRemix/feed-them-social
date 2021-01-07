@@ -6,10 +6,10 @@ Tested up to: 5.6.0
 Stable tag: 2.9.2
 License: GPLv2 or later
 
-Display a Custom Facebook feed, Instagram feed, Twitter feed, Pinterest feed & YouTube feed on pages, posts or widgets.
+Display a Custom Facebook feed, Instagram feed, Twitter feed, and YouTube feed on pages, posts or widgets.
 
 == Description ==
-Create and Display Responsive Social Feeds for your Facebook Pages, Instagram, Twitter, Pinterest and YouTube feeds while keeping people on your website!
+Create and Display Responsive Social Feeds for your Facebook Pages, Instagram, Twitter, and YouTube feeds while keeping people on your website.
 
 = Features include the following: =
  * Easy to Install and Setup.
@@ -19,7 +19,7 @@ Create and Display Responsive Social Feeds for your Facebook Pages, Instagram, T
  * Easily generate all the shortcodes you need for any feed with our SUPER SIMPLE shortcode generator.
  * Responsive Social Feeds.
  * Customize Font Colors.
- * Share options for the Facebook, Instagram, Twitter, Pinterest and YouTube Feeds.
+ * Share options for the Facebook, Instagram, Twitter, and YouTube Feeds.
  * Add Like and/or Follow Buttons above or below any feeds.
  * With our [Premium Extension](https://www.slickremix.com/product/feed-them-social-premium-extension/) you can set how many posts, pictures, tweets, or videos for each individual social feed. [See Example Demo](https://feedthemsocial.com/)
  * Facebook, Instagram, Twitter and YouTube feeds have a Load More Button option and Auto Load more posts when you get done scrolling to the end of the feed. These features and much more are available in the Premium Version and they are mobile friendly.
@@ -40,9 +40,6 @@ Create and Display Responsive Social Feeds for your Facebook Pages, Instagram, T
  * [Facebook Album Covers Feed Demo](https://feedthemsocial.com/facebook-album-covers/)
  * [Instagram Feed Demo](https://feedthemsocial.com/instagram-feed-demo/)
  * [Twitter Feed Demo](https://feedthemsocial.com/twitter-feed-demo/)
- * [Pinterest Boards Demo](https://feedthemsocial.com/pinterest/)
- * [Pinterest Pins from a single Board](https://feedthemsocial.com/pinterest-pins-from-a-single-board/)
- * [Pinterest Latest Pins from a User](https://feedthemsocial.com/instagram-feed-demo/)
  * [YouTube Feed Demo](https://feedthemsocial.com/youtube-feed-demo/)
 
 = PREMIUM Demos =

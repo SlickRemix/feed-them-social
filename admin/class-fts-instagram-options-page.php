@@ -274,7 +274,7 @@ class FTS_Instagram_Options_Page {
                         <div class="clear"></div>
                         <?php
                         if ( ! empty( $test_app_token_response ) && ! empty( $test_app_token_id ) ) {
-                            if ( isset( $test_app_token_response->data->is_valid ) || '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' === $test_app_token_response->error->message ) {
+                            if ( isset( $test_app_token_response->data->is_valid ) || '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' === $test_app_token_response->error->message ) {
                                 $fb_id   = get_option( 'fts_facebook_instagram_custom_api_token_user_id' );
                                 $fb_name = get_option( 'fts_facebook_instagram_custom_api_token_user_name' );
                                 echo '<div class="fts-successful-api-token fts-special-working-wrap">';
@@ -298,7 +298,7 @@ class FTS_Instagram_Options_Page {
 
                                 echo '</div>';
                             }
-                            if ( isset( $test_app_token_response->data->error->message ) && ! empty( $test_app_token_id ) || isset( $test_app_token_response->error->message ) && ! empty( $test_app_token_id ) && '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' !== $test_app_token_response->error->message ) {
+                            if ( isset( $test_app_token_response->data->error->message ) && ! empty( $test_app_token_id ) || isset( $test_app_token_response->error->message ) && ! empty( $test_app_token_id ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $test_app_token_response->error->message ) {
                                 if ( isset( $test_app_token_response->data->error->message ) ) {
                                     echo sprintf(
                                         esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),

@@ -3,7 +3,7 @@ Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.6.0
-Stable tag: 2.9.2
+Stable tag: 2.9.3
 License: GPLv2 or later
 
 Display a Custom Facebook feed, Instagram feed, Twitter feed, and YouTube feed on pages, posts or widgets.
@@ -72,6 +72,13 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.9.3 Wednesday, January 27th, 2021 =
+  * FIX: INSTAGRAM & FACEBOOK OPTIONS PAGE: #100 error was returning on tokens even though they were valid. FB changed the error text which resulted in the error message showing up instead of the success message.
+  * FIX: GLOBAL OPTIONS: Date Time was not working proper for Instagram if you chose something other than the 'One Day Ago' option. The text Minute or Minutes was not returning either for the 'One Day Ago' option.
+  * PREMIUM NEW: INSTAGRAM HASHTAG FEED: Timestamp is now added to media.
+  * PREMIUM FIX: INSTAGRAM HASHTAG FEED: Better caching.
+  * PREMIUM FIX: INSTAGRAM HASHTAG FEED: Video image was not displaying correctly.
+
 = Version 2.9.2 Wednesday, January 6th, 2021 =
   * NOTE: Pinterest Feed: Removed options until Pinterest starts approving apps for the new API.
   * NEW: A feed-them-social.pot file is in the languages folder of our plugin along with our latest translatable strings.

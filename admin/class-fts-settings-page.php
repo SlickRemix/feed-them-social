@@ -237,7 +237,7 @@ class FTS_Settings_Page {
 
 										?>
 										<div style="float:left; max-width:400px; margin-right:30px;">
-											<h2><?php echo esc_html__( 'FaceBook & Twitter Date Format', 'feed-them-social' ); ?></h2>
+											<h2><?php echo esc_html__( 'Date Format', 'feed-them-social' ); ?></h2>
 
 											<fieldset>
 												<select id="fts-date-and-time-format" name="fts-date-and-time-format">

@@ -140,7 +140,7 @@ class FTS_Facebook_Options_Page {
 							<div class="clear"></div>
 							<?php
 							if ( ! empty( $test_app_token_response ) && ! empty( $test_app_token_id ) ) {
-								if ( isset( $test_app_token_response->data->is_valid ) || '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' === $test_app_token_response->error->message ) {
+								if ( isset( $test_app_token_response->data->is_valid ) || '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' === $test_app_token_response->error->message ) {
 									$fb_id   = get_option( 'fts_facebook_custom_api_token_user_id' );
 									$fb_name = get_option( 'fts_facebook_custom_api_token_user_name' );
 									echo '<div class="fts-successful-api-token fts-special-working-wrap">';
@@ -157,7 +157,7 @@ class FTS_Facebook_Options_Page {
 
 									echo '</div>';
 								}
-								if ( isset( $test_app_token_response->data->error->message ) && ! empty( $test_app_token_id ) || isset( $test_app_token_response->error->message ) && ! empty( $test_app_token_id ) && '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' !== $test_app_token_response->error->message ) {
+								if ( isset( $test_app_token_response->data->error->message ) && ! empty( $test_app_token_id ) || isset( $test_app_token_response->error->message ) && ! empty( $test_app_token_id ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $test_app_token_response->error->message ) {
 									if ( isset( $test_app_token_response->data->error->message ) ) {
 										echo sprintf(
 											esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
@@ -251,7 +251,7 @@ class FTS_Facebook_Options_Page {
 							if ( ! empty( $test_app_token_response_biz ) && ! empty( $test_app_token_id_biz ) ) {
 								$fb_name_biz = get_option( 'fts_facebook_custom_api_token_user_name_biz' );
 								$fb_id_biz   = get_option( 'fts_facebook_custom_api_token_user_id_biz' );
-								if ( isset( $test_app_token_response_biz->data->is_valid ) || $test_app_token_response_biz->error->message == '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' ) {
+								if ( isset( $test_app_token_response_biz->data->is_valid ) || $test_app_token_response_biz->error->message == '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' ) {
 									echo '<div class="fts-successful-api-token fts-special-working-wrap">';
 
 									// https://graph.facebook.com/' . $fb_id_biz . '/picture
@@ -262,12 +262,12 @@ class FTS_Facebook_Options_Page {
 
 								}
 
-								if ( isset( $test_app_token_response_biz->data->error->message ) && ! empty( $test_app_token_id_biz ) || isset( $test_app_token_response_biz->error->message ) && ! empty( $test_app_token_id ) && $test_app_token_response_biz->error->message !== '(#100) You must provide an app access token or a user access token that is an owner or developer of the app' ) {
+								if ( isset( $test_app_token_response_biz->data->error->message ) && ! empty( $test_app_token_id_biz ) || isset( $test_app_token_response_biz->error->message ) && ! empty( $test_app_token_id ) && $test_app_token_response_biz->error->message !== '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' ) {
 									if ( isset( $test_app_token_response_biz->data->error->message ) ) {
-										echo '<div class="fts-failed-api-token">' . __( 'Oh No something\'s wrong.', 'feed-them-social' ) . ' ' . $test_app_token_response_biz->data->error->message . ' ' . __( 'Please click the button above to retreive a new Access Token.', 'feed-them-social' ) . '</div>';
+										echo '<div class="fts-failed-api-token">' . __( 'Oh No something\'s wrong.', 'feed-them-social' ) . ' ' . $test_app_token_response_biz->data->error->message . ' ' . __( 'Please click the button above to retrieve a new Access Token.', 'feed-them-social' ) . '</div>';
 									}
 									if ( isset( $test_app_token_response_biz->error->message ) && ! empty( $test_app_token_id_biz ) && ! isset( $_GET['return_long_lived_token'] ) ) {
-										echo '<div class="fts-failed-api-token">' . __( 'Oh No something\'s wrong.', 'feed-them-social' ) . ' ' . $test_app_token_response_biz->error->message . ' ' . __( 'Please click the button above to retreive a new Access Token.', 'feed-them-social' ) . '</div>';
+										echo '<div class="fts-failed-api-token">' . __( 'Oh No something\'s wrong.', 'feed-them-social' ) . ' ' . $test_app_token_response_biz->error->message . ' ' . __( 'Please click the button above to retrieve a new Access Token.', 'feed-them-social' ) . '</div>';
 									}
 								}
 							}

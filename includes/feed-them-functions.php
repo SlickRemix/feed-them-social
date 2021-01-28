@@ -3067,8 +3067,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$fts_language_minute = esc_html__( 'minute', 'feed-them-social' );
 		}
 		$fts_language_minutes = get_option( 'fts_language_minutes' );
-		if ( empty( $fts_language_minute ) ) {
-			$fts_language_minute = esc_html__( 'minutes', 'feed-them-social' );
+		if ( empty( $fts_language_minutes ) ) {
+            $fts_language_minutes = esc_html__( 'minutes', 'feed-them-social' );
 		}
 		$fts_language_hour = get_option( 'fts_language_hour' );
 		if ( empty( $fts_language_hour ) ) {
@@ -3197,7 +3197,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			if ( 'one-day-ago' === $custom_date_check ) {
 				$u_time = $this->fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, $created_time ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
 			}
 		}
 		// Youtube and Pinterest date time!

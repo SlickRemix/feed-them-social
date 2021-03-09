@@ -2,7 +2,7 @@
 Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.6.2
+Tested up to: 5.7.0
 Stable tag: 2.9.4
 License: GPLv2 or later
 

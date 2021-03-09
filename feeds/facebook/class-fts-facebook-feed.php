@@ -501,7 +501,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 				} elseif ( isset( $fb_shortcode['slider'] ) && 'yes' !== $fb_shortcode['slider'] && 'yes' === $fb_shortcode['image_stack_animation'] || isset( $fb_shortcode['grid'] ) && 'yes' === $fb_shortcode['grid'] || isset( $fb_shortcode['image_stack_animation'] ) && 'yes' === $fb_shortcode['image_stack_animation'] ) {
 					wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 					echo '<script>';
-					echo 'jQuery(window).load(function(){';
+					echo 'jQuery(window).on(\'load\', function(){';
 					echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").masonry({';
 					echo 'itemSelector: ".fts-jal-single-fb-post"';
 					echo '});';

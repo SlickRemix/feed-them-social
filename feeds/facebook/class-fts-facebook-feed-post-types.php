@@ -190,8 +190,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 		$lcs_array = $this->get_likes_shares_comments( $response_post_array, $post_data_key, $fb_post_share_count );
 
 		// echo '<pre>';
-		// print_r($lcs_array);
+		// print_r($fb_post_share_count);
 		// echo '</pre>';
+
 		// $fb_location  = isset( $post_data->location ) ? $post_data->location : '';
 		$fb_embed_vid = isset( $post_data->embed_html ) ? $post_data->embed_html : '';
 		$fb_from_name = isset( $post_data->from->name ) ? $post_data->from->name : '';
@@ -321,7 +322,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 				if ( 'albums' !== $fb_shortcode['type'] ) {
 					echo '<div class="fts-jal-fb-user-thumb">';
 
-					$avatar_id                  = plugin_dir_url( dirname( __FILE__ ) ) . 'images/slick-comment-pic.png';
+					$avatar_id                  = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';
 					$profile_photo_exists_check = isset( $post_data->fts_profile_pic_url ) && strpos( $post_data->fts_profile_pic_url, 'profilepic' ) !== false ? $post_data->fts_profile_pic_url : $avatar_id;
 
 					echo ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_attr( $post_data->reviewer->name ) : esc_attr( $post_data->from->name ) ) . '" src="' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : 'https://graph.facebook.com/' . esc_attr( $from_id_picture ) ) . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '/picture"/></a>' );
@@ -1095,7 +1096,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 						// User Profile Img.
 						// Not having page public content access persmission anymore is not allowing us to get profile pics anymore, and the link to personal accounts won't work anymore either for people posting to our page.
 						// $avatar_id = isset( $comment->from->id ) ? 'https://graph.facebook.com/'.$comment->from->id.'/picture?redirect=1&type=square' : plugin_dir_url( dirname( __FILE__ ) ) . 'images/slick-comment-pic.png';
-						$avatar_id = plugin_dir_url( dirname( __FILE__ ) ) . 'images/slick-comment-pic.png';
+						$avatar_id = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';
 						echo '<img class="fts-fb-comment-user-pic" src="' . esc_url( $avatar_id ) . '"/>';
 						echo '<div class="fts-fb-comment-msg">';
 						if ( isset( $comment->from->name ) ) {
@@ -1129,8 +1130,11 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
 			}
 			echo '<div class="fts-jal-fb-top-wrap ' . esc_attr( $hide_date_likes_comments ) . '" style="display:block !important;">';
 			echo '<div class="fts-jal-fb-user-thumb">';
-			echo ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '<a href="' . esc_url( 'https://www.facebook.com/' . $from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_attr( $post_data->reviewer->name ) : esc_attr( $post_data->from->name ) ) . '" src="' . esc_url( 'https://graph.facebook.com/' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? $post_data->reviewer->id : $from_id_picture ) . '/picture' ) . '"/></a>' . ( 'reviews' === $fb_shortcode['type'] ? '' : '</a>' );
-			echo '</div>';
+
+	        $avatar_id                  = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';
+            $profile_photo_exists_check = isset( $post_data->fts_profile_pic_url ) && strpos( $post_data->fts_profile_pic_url, 'profilepic' ) !== false ? $post_data->fts_profile_pic_url : $avatar_id;
+			echo ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '<a href="' . esc_url( 'https://www.facebook.com/' . $from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_attr( $post_data->reviewer->name ) : esc_attr( $post_data->from->name ) ) . '" src="' . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : 'https://graph.facebook.com/' . esc_attr( $from_id_picture ) ) . ( 'reviews' === esc_attr( $fb_shortcode['type'] ) ? '' : '/picture"/></a>' );
+            echo '</div>';
 
 			// UserName.
 			echo '<span class="fts-jal-fb-user-name"><a href="' . esc_url( 'https://www.facebook.com/' . $from_id_picture ) . '" target="_blank" rel="noreferrer">' . esc_html( $post_data->from->name ) . '</a>' . esc_html( $fb_hide_shared_by_etc_text ) . '</span>';

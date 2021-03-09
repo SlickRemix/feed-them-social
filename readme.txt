@@ -72,7 +72,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-== Version 2.9.4 Tuesday, March 9th, 2021 =
+= Version 2.9.4 Tuesday, March 9th, 2021 =
    * FIX: FACEBOOK FEED: Change .load(function()... call to .on('load', function(). Thanks to @thewebtailors for the fix.
    * PREMIUM FIX: FACEBOOK FEED: Stray closing a tag for the profile photo when setting show_media=top Thanks to @thewebtailors for the fix.. Also change profile pic call from plugin_dir_url( dirname( __FILE__ ) ) to plugin_dir_url( __DIR__ )
 

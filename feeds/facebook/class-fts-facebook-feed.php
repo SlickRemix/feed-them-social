@@ -950,7 +950,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @since 1.9.6
 	 */
 	public function fts_facebook_post_desc( $fb_description, $fb_shortcode, $fb_type, $fb_post_id = null, $fb_by = null ) {
-		$trunacate_words = new \ FeedThemSocialTruncateHTML();
+		$trunacate_words = new \FeedThemSocialTruncateHTML();
 
 		$fb_description = $this->fts_facebook_tag_filter( $fb_description );
 		$more           = isset( $more ) ? $more : '...';
@@ -1168,7 +1168,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
 	 * @since 1.9.6
 	 */
 	public function fts_facebook_post_cap( $fb_caption, $fb_shortcode, $fb_type, $fb_post_id = null ) {
-		$trunacate_words = new \ FeedThemSocialTruncateHTML();
+		$trunacate_words = new \FeedThemSocialTruncateHTML();
 		switch ( $fb_type ) {
 			case 'video':
 				$fb_caption = $this->fts_facebook_tag_filter( str_replace( 'www.', '', $fb_caption ) );

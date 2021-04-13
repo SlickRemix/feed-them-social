@@ -1,6 +1,6 @@
 <?php
 
-namespace feed_them_social;
+namespace feedthemsocial;
 
 // Exit if accessed directly
 if (!defined('ABSPATH')) exit;
@@ -287,7 +287,7 @@ class updater_license_page {
 
             $response[$plugin_key] = 'https://www.slickremix.com/wp-json/slick-license/v2/get-license-info?license_key=' . $license_key;
 
-            $fts_functions = new feed_them_social_functions();
+            $fts_functions = new FTS_Functions();
 
             $response = $fts_functions->fts_get_feed_json($response);
 

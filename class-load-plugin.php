@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Feed Them Social
  *
@@ -39,63 +40,64 @@ class Feed_Them_Social {
 		$plugin_loaded->add_actions_filters();
 
 		// Gallery Options.
-		$gallery_options = feed_them_social\Gallery_Options::get_all_options();
+		$gallery_options = feedthemsocial\Gallery_Options::get_all_options();
 
 		// Settings Page.
-		feed_them_social\Settings_Page::load();
+		feedthemsocial\Settings_Page::load();
 
 		// System Info.
-		feed_them_social\System_Info::load();
+		feedthemsocial\System_Info::load();
 
 		// Setup Plugin functions.
-		feed_them_social\Setup_Functions::load();
+		feedthemsocial\Setup_Functions::load();
 
 		// Core.
-		feed_them_social\Core_Functions::load();
+		feedthemsocial\Core_Functions::load();
 
 		// Display Gallery.
-		feed_them_social\Display_Gallery::load();
+		feedthemsocial\Display_Gallery::load();
+
+		// Twitter Feed.
+		feedthemsocial\FTS_Twitter_Feed::load();
 
 		// Galleries.
-		feed_them_social\Gallery::load( $gallery_options, $gallery_main_post_type );
+		feedthemsocial\Gallery::load( $gallery_options, $gallery_main_post_type );
 
 			// Load in Premium Gallery glasses if premium is loaded.
 		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 
-			$ftgp_current_version = defined( 'FTGP_CURRENT_VERSION' ) ? FTGP_CURRENT_VERSION : '';
+			$ftgp_current_version = defined( 'FTS_CURRENT_VERSION' ) ? FTS_CURRENT_VERSION : '';
 
 			if ( $ftgp_current_version > '1.0.5' ) {
 				// Template Settings Options.
-				$template_settings_options = feed_them_social\Template_Settings_Options::get_all_options();
+				$template_settings_options = feedthemsocial\Template_Settings_Options::get_all_options();
 
 				// Template Settings Page.
-				feed_them_social\Template_Settings_Page::load( $template_settings_options, $gallery_main_post_type );
+				feedthemsocial\Template_Settings_Page::load( $template_settings_options, $gallery_main_post_type );
 
 				// Media Taxonomies.
-				feed_them_social\Media_Taxonomies::load();
+				feedthemsocial\Media_Taxonomies::load();
 
 				// Album Options.
-				$gallery_options = feed_them_social\Album_Options::get_all_options();
-
+				// $gallery_options = feed_them_social\Album_Options::get_all_options();
 				// Albums.
-				feed_them_social\Albums::load( $gallery_options, $albums_main_post_type );
-
+				// feed_them_social\Albums::load( $gallery_options, $albums_main_post_type );
 			}
 			// Gallery to Woocommerce.
-			new feed_them_social\Gallery_to_Woocommerce();
+			new feedthemsocial\Gallery_to_Woocommerce();
 
 			// Zip Gallery.
-			new feed_them_social\Zip_Gallery();
+			new feedthemsocial\Zip_Gallery();
 		}
 
 		// Shortcode Button for Admin page, posts and cpt's.
-		feed_them_social\Shortcode_Button::load();
+		feedthemsocial\Shortcode_Button::load();
 
 		// Shortcodes.
-		new feed_them_social\Shortcodes();
+		new feedthemsocial\Shortcodes();
 
 		// Updater Init.
-		new feed_them_social\updater_init();
+		new feedthemsocial\updater_init();
 
 		// Variables to define specific terms!
 		$transient = 'ftg_slick_rating_notice_waiting5';
@@ -135,7 +137,7 @@ class Feed_Them_Social {
 			add_action( 'wp_ajax_nopriv_woocommerce_add_to_cart_variable_rc', array( $this, 'woocommerce_add_to_cart_variable_rc_callback_ftg' ) );
 		}
 
-		//  Activation Function.
+		// Activation Function.
 		register_activation_hook( __FILE__, array( $this, 'fts_plugin_activation' ) );
 
 		// Load plugin options.
@@ -332,13 +334,13 @@ class Feed_Them_Social {
 			define( 'FEED_THEM_GALLERY_PLUGIN_PATH', plugins_url() );
 		}
 		// Plugin Directory Path.
-		if ( ! defined( 'FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR' ) ) {
-			define( 'FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
+		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
+			define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
 		}
 
 		// Premium Plugin Directoy Path.
-		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) && ! defined( 'FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR' ) ) {
-			define( 'FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR', WP_PLUGIN_DIR . '/feed_them_social-premium/feed_them_social-premium.php' );
+		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) && ! defined( 'FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR' ) ) {
+			define( 'FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR', WP_PLUGIN_DIR . '/feed_them_social-premium/feed_them_social-premium.php' );
 		}
 
 	}
@@ -353,27 +355,33 @@ class Feed_Them_Social {
 	private static function includes() {
 
 		// Admin Pages.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'admin/system-info.php';
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'metabox-settings/metabox-settings-class.php';
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'admin/settings-page.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/system-info.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox-settings/metabox-settings-class.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings-page.php';
 
 		// Setup Functions Class.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'includes/setup-functions-class.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/setup-functions-class.php';
 
 		// Core Functions Class.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'includes/core-functions-class.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/core-functions-class.php';
+
+		// FTS Functions Class.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
 
 		// Gallery Options.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'includes/galleries/gallery-options.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/galleries/gallery-options.php';
 
 		// Galleries (Custom Post Type).
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'includes/galleries/gallery-class.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/galleries/gallery-class.php';
 
 		// Display Gallery.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'includes/display-gallery/display-gallery-class.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/display-gallery/display-gallery-class.php';
+
+		// Twitter Feed.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-fts-twitter-feed.php';
 
 		// Create Image.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'includes/galleries/create-image.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/galleries/create-image.php';
 
 		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 
@@ -381,42 +389,42 @@ class Feed_Them_Social {
 
 			if ( FTGP_CURRENT_VERSION > '1.0.5' ) {
 				// Tags/Taxonomies for images.
-				include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/taxonomies/media-taxonomies.php';
+				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/taxonomies/media-taxonomies.php';
 				// Album Options.
-				include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/albums/album-options.php';
+				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/albums/album-options.php';
 
 				// Albums.
-				include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/albums/albums-class.php';
+				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/albums/albums-class.php';
 
 				// Template Settings Options.
-				include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-options.php';
+				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-options.php';
 
 				// Template Settings Page.
-				include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-page-class.php';
+				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-page-class.php';
 			}
 
 			// Zip Gallery.
-			include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/galleries/download.php';
-			include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/galleries/zip-gallery-class.php';
+			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/galleries/download.php';
+			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/galleries/zip-gallery-class.php';
 
 			// Gallery to Woocommerce.
-			include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/woocommerce/gallery_to_woo.php';
+			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/woocommerce/gallery_to_woo.php';
 
 			// Watermark.
-			include FEED_THEM_GALLERY_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/watermark/ajax.php';
+			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/watermark/ajax.php';
 
 		}
 
 		// Shortcode Button.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'includes/shortcode-button/shortcode-button.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/shortcode-button/shortcode-button.php';
 
 		// Include Shortcodes.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . '/shortcodes.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/shortcodes.php';
 
 		// Updater Classes.
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php';
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php';
-		include FEED_THEM_GALLERY_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php';
 	}
 
 	/**
@@ -590,18 +598,17 @@ class Feed_Them_Social {
 	 * @param string $transient Check the transient exists or not.
 	 * @since 1.0.8
 	 */
-	public function set_review_status( $option, $transient )
-    {
-        $notice_status = get_option( $option, false );
-        // Only display the notice if the time offset has passed and the user hasn't already dismissed it!.
-        if ( 'ftg-review-waiting' !== get_transient( $transient ) && 'dismissed' !== $notice_status ) {
-            add_action( 'admin_notices', array($this, 'ftg_rating_notice_html') );
-        }
+	public function set_review_status( $option, $transient ) {
+		$notice_status = get_option( $option, false );
+		// Only display the notice if the time offset has passed and the user hasn't already dismissed it!.
+		if ( 'ftg-review-waiting' !== get_transient( $transient ) && 'dismissed' !== $notice_status ) {
+			add_action( 'admin_notices', array( $this, 'ftg_rating_notice_html' ) );
+		}
 
-        // Uncomment this for testing the notice.
-       // if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag'] ) ) {
-       //    add_action( 'admin_notices', array($this, 'ftg_rating_notice_html') );
-       // }.
+		// Uncomment this for testing the notice.
+		// if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag'] ) ) {
+		// add_action( 'admin_notices', array($this, 'ftg_rating_notice_html') );
+		// }.
 	}
 
 	/**

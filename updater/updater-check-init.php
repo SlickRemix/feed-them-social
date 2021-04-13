@@ -1,6 +1,6 @@
 <?php
 
-namespace feed_them_social;
+namespace feedthemsocial;
 
 // uncomment this line for testing
 //set_site_transient( 'update_plugins', null );

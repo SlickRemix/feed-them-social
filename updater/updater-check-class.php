@@ -46,11 +46,11 @@ class updater_check_class {
 
         $edd_plugin_data[$this->slug] = $this->api_data;
 
-        if (empty($_api_data['license']) && $_api_data['status'] !== 'valid') {
-            add_action('admin_notices', array($this, 'plugin_key_empty_admin_notice'));
-        } elseif ((!empty($_api_data['license']) && $_api_data['status'] !== 'valid')) {
-            add_action('admin_notices', array($this, 'plugin_key_not_valid_admin_notice'));
-        }
+		if ( empty( $_api_data['license'] ) && 'valid' !== $_api_data['status'] ) {
+			add_action( 'admin_notices', array( $this, 'plugin_key_empty_admin_notice' ) );
+		} elseif ( ( ! empty( $_api_data['license'] ) && 'valid' !== $_api_data['status'] ) ) {
+			add_action( 'admin_notices', array( $this, 'plugin_key_not_valid_admin_notice' ) );
+		}
 
 
         // Set up hooks.
@@ -66,9 +66,19 @@ class updater_check_class {
     function plugin_key_empty_admin_notice() {
         ?>
 
-        <div class="error notice">
-            <p><?php _e($this->plugin_name . ' needs a valid License Key! <a href="edit.php?post_type=fts&page=ft-gallery-license-page">Click here to add one</a> or you won\'t recieve updates. - <a href="https://www.slickremix.com/my-account/" target="_blank">You can get License Key Here.</a>', 'feed-them-social'); ?></p>
-        </div>
+		<div class="error notice">
+			<p>
+			<?php
+				echo sprintf(
+					esc_html__( '%1$s needs a valid License Key! %2$sClick here to add one%4$s or you will not receive update notices in WordPress. - %3$sGet your License Key Here%4$s.', 'feed-them-social' ),
+					esc_html( $this->plugin_name ),
+					'<a href="' . esc_url( 'admin.php?page=fts-license-page' ) . '">',
+					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/' ) . '" target="_blank">',
+					'</a>'
+				);
+			?>
+			</p>
+		</div>
 
         <?php
     }
@@ -81,9 +91,19 @@ class updater_check_class {
     function plugin_key_not_valid_admin_notice() {
         ?>
 
-        <div class="error notice">
-            <p><?php _e($this->plugin_name . ' - Your License Key is not active, expired, or is invalid. <a href="edit.php?post_type=fts&page=ft-gallery-license-page">Click here to add one</a> or you won\'t recieve updates. - <a href="https://www.slickremix.com/my-account/" target="_blank">You can get License Key Here.</a>', 'feed-them-social'); ?></p>
-        </div>
+		<div class="error notice">
+			<p>
+				<?php
+				echo sprintf(
+					esc_html__( '%1$s - Your License Key is not active, expired, or is invalid. %2$sClick here to add one%4$s or you will not receive update notices in WordPress. - %3$sGet your License Key Here%4$s.', 'feed-them-social' ),
+					esc_html( $this->plugin_name ),
+					'<a href="' . esc_url( 'admin.php?page=fts-license-page' ) . '">',
+					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/' ) . '" target="_blank">',
+					'</a>'
+				);
+				?>
+			</p>
+		</div>
 
         <?php
     }
@@ -245,12 +265,11 @@ class updater_check_class {
 
         if (!empty($update_cache->response[$this->name]) && version_compare($this->version, $version_info->new_version, '<')) {
 
-            // build a plugin list row, with update notification
-            $wp_list_table = _get_list_table('WP_Plugins_List_Table');
-            # <tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange">
-            echo '<tr class="plugin-update-tr" id="' . $this->slug . '-update" data-slug="' . $this->slug . '" data-plugin="' . $this->slug . '/' . $file . '">';
-            echo '<td colspan="3" class="plugin-update colspanchange">';
-            echo '<div class="update-message notice inline notice-warning notice-alt">';
+			// build a plugin list row, with update notification!
+			$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
+			echo '<tr class="plugin-update-tr" id="' . esc_url( $this->slug ) . '-update" data-slug="' . esc_url( $this->slug ) . '" data-plugin="' . esc_url( $this->slug . '/' . $file ) . '">';
+			echo '<td colspan="3" class="plugin-update colspanchange">';
+			echo '<div class="update-message notice inline notice-warning notice-alt">';
 
             $changelog_link = self_admin_url('index.php?edd_sl_action=view_plugin_changelog&plugin=' . $this->name . '&slug=' . $this->slug . '&TB_iframe=true&width=772&height=911');
 
@@ -292,7 +311,7 @@ class updater_check_class {
      */
     public function plugins_api_filter($_data, $_action = '', $_args = null) {
 
-        if ($_action != 'plugin_information') {
+		if ( 'plugin_information' !== $_action ) {
 
             return $_data;
 
@@ -371,9 +390,9 @@ class updater_check_class {
             return;
         }
 
-        if ($this->api_url == trailingslashit(home_url())) {
-            return false; // Don't allow a plugin to ping itself
-        }
+		if ( trailingslashit( home_url() ) === $this->api_url ) {
+			return false; // Don't allow a plugin to ping itself!
+		}
 
         $api_params = array(
             'edd_action' => 'get_version',
@@ -385,7 +404,14 @@ class updater_check_class {
             'url' => home_url()
         );
 
-        $request = wp_remote_post($this->api_url, array('timeout' => 15, 'sslverify' => false, 'body' => $api_params));
+		$request = wp_remote_post(
+			$this->api_url,
+			array(
+				'timeout'   => 15,
+				'sslverify' => false,
+				'body'      => $api_params,
+			)
+		);
 
         if (!is_wp_error($request)) {
             $request = json_decode(wp_remote_retrieve_body($request));
@@ -456,9 +482,9 @@ class updater_check_class {
 
         }
 
-        if (!empty($version_info) && isset($version_info->sections['changelog'])) {
-            echo '<div style="background:#fff;padding:10px;">' . $version_info->sections['changelog'] . '</div>';
-        }
+		if ( ! empty( $version_info ) && isset( $version_info->sections['changelog'] ) ) {
+			echo '<div style="background:#fff;padding:10px;">' . esc_html( $version_info->sections['changelog'] ) . '</div>';
+		}
 
         exit;
     }

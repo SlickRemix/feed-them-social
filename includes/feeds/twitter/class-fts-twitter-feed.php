@@ -366,6 +366,7 @@ class FTS_Twitter_Feed {
 	 */
 	public function fts_twitter_func( $inputed_atts ) {
 
+
 		$fts_twitter_feed_nonce = wp_create_nonce( 'fts-twitter-feed-nonce' );
 
 		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
@@ -543,7 +544,7 @@ class FTS_Twitter_Feed {
 
 					$connection_user_array = array(
 						'tweet_mode'      => 'extended',
-						'screen_name'     => $name,
+						'screen_name'     => 'slickremix',
 						'count'           => $total_to_fetch,
 						'exclude_replies' => $exclude_replies,
 						'images'          => $description_image,

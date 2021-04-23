@@ -131,13 +131,18 @@ Max Input Vars: <?php echo esc_html( ini_get( 'max_input_vars' ) . "\n" ); ?>
 Allow URL File Open: <?php echo esc_html( ini_get( 'allow_url_fopen' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ); ?><?php echo "\n"; ?>
 Display Erros: <?php echo esc_html( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ); ?><?php echo "\n"; ?>
 
- -- PHP Extensions:
+-- PHP Extensions:
+json:                     <?php echo ( extension_loaded( 'json' ) ) ? 'Your server supports json.' : 'Your server does not support json. Please contact your host to activate or install this php extension.'; ?><?php echo "\n"; ?>
+FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? 'Your server supports fsockopen.' : 'Your server does not support fsockopen. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
+cURL:                     <?php echo ( function_exists( 'curl_init' ) ) ? 'Your server supports cURL.' : 'Your server does not support cURL. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
+curl_multi:               <?php echo ( function_exists( 'curl_multi_select' ) ) ? 'Your server supports curl_multi_select.' : 'Your server does not support curl_multi_select. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
 
-FSOCKOPEN: <?php echo function_exists( 'fsockopen' ) ? 'Your server supports fsockopen.' : 'Your server does not support fsockopen.'; ?><?php echo "\n"; ?>
-cURL: <?php echo function_exists( 'curl_init' ) ? 'Your server supports cURL.' : 'Your server does not support cURL.'; ?><?php echo "\n"; ?>
+
+-- FTS Settings->Global Options: <?php $fts_cachetime = get_option( 'fts_clear_cache_developer_mode' ) ? get_option( 'fts_clear_cache_developer_mode' ) : '86400'; ?>
+
+Cache time: <?php echo esc_html( $this->fts_cachetime_amount( $fts_cachetime ) ) . "\n"; ?>
 
 -- Active Plugins:
-
 <?php
 		$plugins        = get_plugins();
 		$active_plugins = get_option( 'active_plugins', array() );

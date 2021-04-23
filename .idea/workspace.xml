@@ -1,74 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/feed-them-social CPT REFACTOR.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CONTRIBUTING.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SUPPORT.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/admin-settings.css" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/admin-settings.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/admin.css" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/admin.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.eot" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.eot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.svg" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.woff" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/settings-page.css" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/settings-page.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin/js/admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/class-load-plugin.php" beforeDir="false" afterPath="$PROJECT_DIR$/class-load-plugin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feed-them.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/css/font/FontAwesome.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/css/font/fontawesome-webfont.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/css/font/fontawesome-webfont.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/css/font/fontawesome-webfont.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/css/font/fontawesome-webfont.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/css/magnific-popup.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/css/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/facebook/class-fts-facebook-feed-post-types.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/facebook/class-fts-facebook-feed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/images/comments-instagram.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/images/fts-fb-location.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/images/hearts-instagram.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/images/pinterest-icons.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/images/slick-comment-pic.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/images/video-play-btn.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/instagram/class-fts-instagram-feed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/js/fts-global-full.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/js/fts-global.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/js/imagesloaded.pkgd.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/js/jquery.longurl.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/js/magnific-popup-full.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/js/magnific-popup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/js/masonry.pkgd.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/js/powered-by.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/pinterest/class-fts-pinterest-feed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/twitter/class-fts-twitter-feed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/twitter/twitteroauth/OAuth.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/twitter/twitteroauth/twitteroauth.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feeds/youtube/class-youtube-feed-free.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-da_DK.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-da_DK.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-de_CH.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-de_CH.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-de_DE.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-de_DE.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-es_ES.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-es_ES.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-es_MX.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-es_MX.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-fr_FR.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-fr_FR.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-it_IT.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-it_IT.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-nl_NL.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-nl_NL.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-pt_BR.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-pt_BR.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-ru_RU.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-ru_RU.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-ru_UA.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-ru_UA.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-sv_SE.mo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/languages/feed-them-social-sv_SE.po" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" />
+    <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="3.0.0 - CPT Refactor Branch!">
+      <change afterPath="$PROJECT_DIR$/includes/error-handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/system-info.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/system-info.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feed-them-functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feed-them-functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/FontAwesome.otf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/css/magnific-popup.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/css/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/facebook/class-fts-facebook-feed-post-types.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/facebook/class-fts-facebook-feed.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/images/comments-instagram.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/images/fts-fb-location.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/images/hearts-instagram.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/images/pinterest-icons.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/images/slick-comment-pic.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/images/video-play-btn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/instagram/class-fts-instagram-feed.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/js/add-to-cart-ajax-full.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/js/add-to-cart-ajax.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/js/imagesloaded.pkgd.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/js/magnific-popup-click-full.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/js/magnific-popup-click.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/js/magnific-popup.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/js/masonry.pkgd.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/pinterest/class-fts-pinterest-feed.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/youtube/class-youtube-feed-free.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/trim-words.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/trim-words.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/updater/updater-check-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/updater/updater-check-class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/updater/updater-check-init.php" beforeDir="false" afterPath="$PROJECT_DIR$/updater/updater-check-init.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/updater/updater-license-page.php" beforeDir="false" afterPath="$PROJECT_DIR$/updater/updater-license-page.php" afterDir="false" />
@@ -89,6 +54,15 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="746b94c9-492a-4d87-b8e7-d09b497ec58e" />
+  </component>
+  <component name="PhpDebugGeneral" listening_started="true" />
+  <component name="PhpServers">
+    <servers>
+      <server host="fts-cpt-refactor.local" id="acb04482-b4f9-42a6-9221-aff5ca0f1fe4" name="fts-cpt-refactor.local" port="10018" />
+    </servers>
+  </component>
   <component name="ProjectId" id="1r5qjRGvDFRyfJUH9UYqkzIhbw8" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -101,8 +75,25 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/admin" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
+    <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/feed-them-social/updater/updater-license-page.php" />
+    <property name="two.files.diff.last.used.folder" value="$USER_HOME$/Downloads/feed-them-social" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/admin" />
+      <recent name="$PROJECT_DIR$/updater" />
+      <recent name="$PROJECT_DIR$/includes" />
+      <recent name="$PROJECT_DIR$/includes/feeds" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -113,8 +104,25 @@
       <option name="presentableId" value="Default" />
       <updated>1618276432893</updated>
       <workItem from="1618276435839" duration="15000" />
-      <workItem from="1618276453069" duration="1106000" />
+      <workItem from="1618276453069" duration="3291000" />
+      <workItem from="1618851652211" duration="975000" />
+      <workItem from="1619113945914" duration="8748000" />
     </task>
+    <task id="LOCAL-00001" summary="3.0.0 - CPT Refactor Branch!">
+      <created>1618278949335</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1618278949335</updated>
+    </task>
+    <task id="LOCAL-00002" summary="3.0.0 - CPT Refactor Branch!">
+      <created>1618279037954</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1618279037954</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,5 +138,30 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="3.0.0 - CPT Refactor Branch!" />
+    <option name="LAST_COMMIT_MESSAGE" value="3.0.0 - CPT Refactor Branch!" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/metabox-settings/metabox-settings-class.php</url>
+          <line>847</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php-line-method">
+          <url>file://$PROJECT_DIR$/metabox-settings/metabox-settings-class.php</url>
+          <line>808</line>
+          <properties>
+            <option name="className" value="\feedthemsocial\Metabox_Settings" />
+            <option name="methodName" value="save_meta_box" />
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

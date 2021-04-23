@@ -1,12 +1,23 @@
 <?php
+/**
+ * Feed Them Social - Updater Check Init
+ *
+ * In the Free Version this is NOT an updater but displays the license page for users to see they can extend the Free plugin with Extensions
+ *
+ * @package     feedthemsocial
+ * @copyright   Copyright (c) 2012-2018, SlickRemix
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0.0
+ */
 
 namespace feedthemsocial;
 
 // uncomment this line for testing
-//set_site_transient( 'update_plugins', null );
-
-// Exit if accessed directly
-if (!defined('ABSPATH')) exit;
+// set_site_transient( 'update_plugins', null );
+// Exit if accessed directly!
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Allows plugins to use their own update API.
@@ -14,20 +25,35 @@ if (!defined('ABSPATH')) exit;
  * (sample plugin version 1.6.5)
  *
  * @author Pippin Williamson
- * @since 1.0.2
+ * @version 1.6.5
  */
 class updater_init {
+	/**
+	 * Updater Options Info
+	 *
+	 * This info is for creating the updater license page and updater license options
+	 *
+	 * @var array
+	 */
+	public $updater_options_info = array();
 
-    //This info is for creating the updater license page and updater license options
-    public $updater_options_info = array();
-    //List of Premium Plugins
-    public $prem_plugins_list = array();
+	/**
+	 * Premium Plugin List
+	 *
+	 * List of Premium Plugins!
+	 *
+	 * @var array
+	 */
+	public $prem_plugins_list = array();
 
-    public function __construct() {
-        //Ensure is_plugin_active is available
-        if (!function_exists('is_plugin_active')) {
-            require_once(ABSPATH . '/wp-admin/includes/plugin.php');
-        }
+	/**
+	 * Updater_init constructor.
+	 */
+	public function __construct() {
+		// New Updater! - This is the URL our updater / license checker pings. This should be the URL of the site with EDD installed!
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		}
 
         $this->updater_options_info = array(
             //Plugins
@@ -44,15 +70,40 @@ class updater_init {
             'setting_option_name' => 'feed_them_social_license_keys',
         );
 
-        //List of Plugins! Used for License check and Plugin License page.
-        $this->prem_plugins_list = array(
-            'feed_them_social_premium' => array(
-                'title' => 'Feed Them Social Premium',
-                'plugin_url' => 'feed_them_social-premium/feed_them_social-premium.php',
-                'demo_url' => 'https://feedthemgallery.com/',
-                'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social/',
-            ),
-        );
+		// List of Plugins! Used for License check and Plugin License page.
+		$this->prem_plugins_list = array(
+			'feed_them_social_premium'          => array(
+				// Title MUST match title of product in EDD store on site plugin is being sold!
+				'title'        => 'Feed Them Social Premium',
+				'plugin_url'   => 'feed-them-premium/feed-them-premium.php',
+				'demo_url'     => 'https://feedthemsocial.com/facebook-page-feed-demo/',
+				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/',
+			),
+			'feed_them_social_combined_streams' => array(
+				'title'        => 'Feed Them Social Combined Streams',
+				'plugin_url'   => 'feed-them-social-combined-streams/feed-them-social-combined-streams.php',
+				'demo_url'     => 'https://feedthemsocial.com/feed-them-social-combined-streams/',
+				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-combined-streams/',
+			),
+			'feed_them_social_facebook_reviews' => array(
+				'title'        => 'Feed Them Social Facebook Reviews',
+				'plugin_url'   => 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php',
+				'demo_url'     => 'https://feedthemsocial.com/facebook-page-reviews-demo/',
+				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-facebook-reviews/',
+			),
+			'feed_them_carousel_premium'        => array(
+				'title'        => 'Feed Them Carousel Premium',
+				'plugin_url'   => 'feed-them-carousel-premium/feed-them-carousel-premium.php',
+				'demo_url'     => 'https://feedthemsocial.com/facebook-carousels-or-sliders/',
+				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-carousel-premium/',
+			),
+			'fts_bar'                           => array(
+				'title'        => 'Feed Them Social Bar',
+				'plugin_url'   => 'fts-bar/fts-bar.php',
+				'demo_url'     => 'https://feedthemsocial.com/fts-bar/',
+				'purchase_url' => 'https://www.slickremix.com/downloads/fts-bar/',
+			),
+		);
 
         //Create License Page for main plugin.
         new updater_license_page($this->updater_options_info, $this->prem_plugins_list);
@@ -63,26 +114,26 @@ class updater_init {
         add_action('plugins_loaded', array($this, 'plugin_updater_check_init'), 11, 1);
     }
 
-    /**
-     * Update old License Keys Check
-     *
-     * Check if the old License Keys options need to be converted to new array method. (Backwards Compatibility)
-     *
-     * @param $settings_array
-     * @since 1.0.2
-     */
-    function update_old_license_keys_check($settings_array) {
-        $option_update_needed = false;
+	/**
+	 * Update old License Keys Check
+	 *
+	 * Check if the old License Keys options need to be converted to new array method. (Backwards Compatibility)
+	 *
+	 * @param array $settings_array the settings array!
+	 * @since 1.6.5
+	 */
+	public function update_old_license_keys_check( $settings_array ) {
+		$option_update_needed = false;
 
         //If Setting array is not set then set to array
         if (!$settings_array) {
             $settings_array = array();
         }
 
-        //Remove Old Updater Actions
-        foreach ($this->prem_plugins_list as $plugin_key => $prem_plugin) {
-            //Set Old Key (for EDD sample remove this code. This is only here because we messed up originally)
-            //$old_plugin_key = ($plugin_key == 'feed_them_social_facebook_reviews') ? 'feed-them-social-facebook-reviews' : $plugin_key;
+		// Remove Old Updater Actions!
+		foreach ( $this->prem_plugins_list as $plugin_key => $prem_plugin ) {
+			// Set Old Key (for EDD sample remove this code. This is only here because we messed up originally)!
+			$old_plugin_key = ( 'feed_them_social_facebook_reviews' === $plugin_key ) ? 'feed-them-social-facebook-reviews' : $plugin_key;
 
             //Backwards Compatibility for Pre-1-click license page will get removed on first save in Sanitize function.
             $old_license = get_option($plugin_key . '_license_key');
@@ -107,26 +158,26 @@ class updater_init {
             }
         }
 
-        //Re-save Settings array with new options
-        if ($option_update_needed == true) {
-            update_option($this->updater_options_info['setting_option_name'], $settings_array);
-        }
-    }
+		// Re-save Settings array with new options!
+		if ( true === $option_update_needed ) {
+			update_option( $this->updater_options_info['setting_option_name'], $settings_array );
+		}
+	}
 
-    /**
-     * Remove Old Updater Actions
-     *
-     * Removes any actions previous set by old updaters
-     *
-     * @since 1.0.2
-     */
-    function remove_old_updater_actions() {
-        //Remove Old Updater Actions
-        foreach ($this->prem_plugins_list as $plugin_key => $prem_plugin) {
-            if (has_action('plugins_loaded', $plugin_key . '_plugin_updater')) {
-                remove_action('plugins_loaded', $plugin_key . '_plugin_updater', 10);
-            }
-        }
+	/**
+	 * Remove Old Updater Actions
+	 *
+	 * Removes any actions previous set by old updaters
+	 *
+	 * @since 1.5.6
+	 */
+	public function remove_old_updater_actions() {
+		// Remove Old Updater Actions!
+		foreach ( $this->prem_plugins_list as $plugin_key => $prem_plugin ) {
+			if ( has_action( 'plugins_loaded', $plugin_key . '_plugin_updater' ) ) {
+				remove_action( 'plugins_loaded', $plugin_key . '_plugin_updater', 10 );
+			}
+		}
 
         //License Key Array Option
         $settings_array = get_option($this->updater_options_info['setting_option_name']);
@@ -138,14 +189,14 @@ class updater_init {
         }
     }
 
-    /**
-     * Premium Plugin Updater Check Initialize
-     *
-     * Licensing and update code
-     *
-     * @since 1.0.2
-     */
-    function plugin_updater_check_init() {
+	/**
+	 * Premium Plugin Updater Check Initialize
+	 *
+	 * Licensing and update code
+	 *
+	 * @since 1.5.6
+	 */
+	public function plugin_updater_check_init() {
 
         $installed_plugins = get_plugins();
 

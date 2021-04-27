@@ -2,41 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="3.0.0 - CPT Refactor Branch!">
-      <change afterPath="$PROJECT_DIR$/includes/error-handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/system-info.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/system-info.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feed-them-functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feed-them-functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/FontAwesome.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/css/font/fontawesome-webfont.woff2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/css/magnific-popup.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/css/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/facebook/class-fts-facebook-feed-post-types.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/facebook/class-fts-facebook-feed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/images/comments-instagram.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/images/fts-fb-location.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/images/hearts-instagram.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/images/pinterest-icons.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/images/slick-comment-pic.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/images/video-play-btn.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/instagram/class-fts-instagram-feed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/js/add-to-cart-ajax-full.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/js/add-to-cart-ajax.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/js/imagesloaded.pkgd.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/js/magnific-popup-click-full.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/js/magnific-popup-click.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/js/magnific-popup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/js/masonry.pkgd.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/pinterest/class-fts-pinterest-feed.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/youtube/class-youtube-feed-free.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/trim-words.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/trim-words.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/updater/updater-check-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/updater/updater-check-class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/updater/updater-check-init.php" beforeDir="false" afterPath="$PROJECT_DIR$/updater/updater-check-init.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/updater/updater-license-page.php" beforeDir="false" afterPath="$PROJECT_DIR$/updater/updater-license-page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/display-gallery/display-gallery-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/display-gallery/display-gallery-class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/shortcode-button/shortcode-button.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/shortcode-button/shortcode-button.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +18,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="FTS-CPT-refactor" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -74,6 +43,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/admin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -122,7 +96,14 @@
       <option name="project" value="LOCAL" />
       <updated>1618279037954</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="3.0.0 - CPT Refactor Branch!">
+      <created>1619545961534</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1619545961534</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

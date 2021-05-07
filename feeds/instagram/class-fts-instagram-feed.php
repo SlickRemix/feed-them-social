@@ -523,7 +523,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				    $business_cache = 'instagram_business_cache' . $instagram_id . '_num' . $pics_count . '';
 
 				    // this is not getting cached currently
-					$instagram_data_array['user_info'] = 'https://graph.facebook.com/v3.2/' . $instagram_id . '?fields=biography%2Cid%2Cig_id%2Cfollowers_count%2Cfollows_count%2Cmedia_count%2Cname%2Cprofile_picture_url%2Cusername%2Cwebsite&access_token=' . $fts_instagram_access_token_final;
+					$instagram_data_array['user_info'] = 'https://graph.facebook.com/v3.3/' . $instagram_id . '?fields=biography%2Cid%2Cig_id%2Cfollowers_count%2Cfollows_count%2Cmedia_count%2Cname%2Cprofile_picture_url%2Cusername%2Cwebsite&access_token=' . $fts_instagram_access_token_final;
 
 					// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
 					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $instagram_id . '/media?limit=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;

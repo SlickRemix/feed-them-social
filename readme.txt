@@ -72,7 +72,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.9.6 Monday, May 7th, 2021 =
+= Version 2.9.6 Friday, May 7th, 2021 =
   * FIX: FACEBOOK FEED: 3.2 API depreciation
 
 = Version 2.9.5 Monday, April 12th, 2021 =

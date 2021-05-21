@@ -75,6 +75,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 = Version 2.9.6.1 Friday, May 21st, 2021 =
   * FIX: FACEBOOK ALBUMS FEED: The View on Facebook link was not going to the album.
   * PREMIUM NEW: FACEBOOK ALBUMS FEED: Additional album photos in the popup go to its respective image on Facebook now instead of the main album page.
+  * PREMIUM NEW: FACEBOOK FEEDS: The X (close) button is now on the inside, top right, of the popup on smaller devices.
 
 = Version 2.9.6 Friday, May 7th, 2021 =
   * FIX: FACEBOOK FEED: 3.2 API depreciation

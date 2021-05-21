@@ -253,7 +253,7 @@ class feed_them_social_functions {
 			$link                      = $fb_link;
 			$description               = wp_strip_all_tags( $description );
 			$ft_gallery_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link;
-			$ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
+			$ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' ' . $description;
 			$ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
 			$ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
 			$ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;

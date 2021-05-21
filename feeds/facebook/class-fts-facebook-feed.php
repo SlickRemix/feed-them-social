@@ -1410,26 +1410,29 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
                 $params        = parse_str( $url_parsed, $params );
                 $new_album_url = str_replace( 'album.php?fbid=' . $params['fbid'] . '&id=' . $params['id'] . '&aid=' . $params['aid'], 'media/set/?set=a.' . $params['fbid'] . '.' . $params['aid'] . '.' . $params['id'], $fb_link );
 
-                echo '<div class="fts-likes-shares-etc-wrap">';
-                echo $share_this->fts_share_option( $new_album_url, $description );
-                echo '<a href="' . esc_url( $new_album_url ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
-                if ( 'albums' === $fb_shortcode['type'] && 'yes' === $fb_shortcode['hide_date_likes_comments'] ) {
-                } else {
 
-                    echo '' . wp_kses(
-                            $lcs_array['likes'] . ' ' . $lcs_array['comments'],
-                            array(
-                                'a' => array(
-                                    'href'  => array(),
-                                    'title' => array(),
-                                ),
-                                'i' => array(
-                                    'class' => array(),
-                                ),
-                            )
-                        ) . ' &nbsp;&nbsp;';
-                }
-                echo '&nbsp;' . esc_html( $view_on_facebook ) . '</a></div>';
+
+                echo '<div class="fts-likes-shares-etc-wrap fts-albums-single-image">';
+                    echo '<div class="fts-albums-hide-main-album-link-in-popup">';
+                        echo $share_this->fts_share_option( $fb_link, $description );
+                        echo '<a href="' . esc_url( $new_album_url ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
+                        if ( 'albums' === $fb_shortcode['type'] && 'yes' === $fb_shortcode['hide_date_likes_comments'] ) {
+                        } else {
+
+                            echo '' . wp_kses(
+                                    $lcs_array['likes'] . ' ' . $lcs_array['comments'],
+                                    array(
+                                        'a' => array(
+                                            'href'  => array(),
+                                            'title' => array(),
+                                        ),
+                                        'i' => array(
+                                            'class' => array(),
+                                        ),
+                                    )
+                                ) . ' &nbsp;&nbsp;';
+                        }
+                    echo '&nbsp;' . esc_html( $view_on_facebook ) . '</a></div></div>';
                 break;
             default:
                 if ( 'yes' !== get_option( 'fb_reviews_remove_see_reviews_link' ) ) {

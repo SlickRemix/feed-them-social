@@ -99,10 +99,8 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             $video_photo = $post_data->format[3]->picture;
         } elseif ( isset( $post_data->format[2]->picture ) ) {
             $video_photo = $post_data->format[2]->picture;
-        } elseif ( isset( $post_data->format[1]->picture ) ) {
-            $video_photo = $post_data->format[1]->picture;
-        } elseif ( isset( $post_data->format[0]->picture ) ) {
-            $video_photo = $post_data->format[0]->picture;
+        } elseif ( isset( $post_data->picture )   ) {
+            $video_photo = $post_data->picture;
         } else {
             $video_photo = '';
         }
@@ -149,9 +147,9 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
             $fts_view_fb_videos_btn = 'fts-view-fb-videos-btn';
 
         } else {
-            $embed_html             = $video_photo;
-            $fts_view_fb_videos_btn = '';
-            $data_height            = '';
+            $embed_html             = isset( $post_data->source ) ? $post_data->source : $video_photo;
+            $fts_view_fb_videos_btn = 'fts-view-fb-videos-btn';
+            $data_height            = 'fts-equal-width-height';
         }
 
         $fb_video         = isset( $post_data->embed_html ) ? $post_data->embed_html : '';

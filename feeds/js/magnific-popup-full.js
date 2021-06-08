@@ -1,251 +1,246 @@
-/*! Magnific Popup - v1.1.0 - 2016-02-20
- * http://dimsemenov.com/plugins/magnific-popup/
- * Copyright (c) 2016 Dmitry Semenov; */
-! function(a) {
-    "function" == typeof define && define.amd ? define(["jquery"], a) : a("object" == typeof exports ? require("jquery") : window.jQuery || window.Zepto)
-}(function(a) {
-    var b, c, d, e, f, g, h = "Close",
-        i = "BeforeClose",
-        j = "AfterClose",
-        k = "BeforeAppend",
+! function(e) {
+    "function" == typeof define && define.amd ? define(["jquery"], e) : e("object" == typeof exports ? require("jquery") : window.jQuery || window.Zepto)
+}(function(e) {
+    var t, o, i, s, a, r, n = "Close",
+        p = "BeforeClose",
         l = "MarkupParse",
-        m = "Open",
-        n = "Change",
-        o = "mfp",
-        p = "." + o,
-        q = "mfp-ready",
-        r = "mfp-removing",
-        s = "mfp-prevent-close",
-        t = function() {},
-        u = !!window.jQuery,
-        v = a(window),
-        w = function(a, c) {
-            b.ev.on(o + a + p, c)
+        f = "Open",
+        c = "Change",
+        u = "mfp",
+        d = "." + u,
+        m = "mfp-ready",
+        h = "mfp-removing",
+        g = "mfp-prevent-close",
+        v = function() {},
+        y = !!window.jQuery,
+        b = e(window),
+        w = function(e, o) {
+            t.ev.on(u + e + d, o)
         },
-        x = function(b, c, d, e) {
-            var f = document.createElement("div");
-            return f.className = "mfp-" + b, d && (f.innerHTML = d), e ? c && c.appendChild(f) : (f = a(f), c && f.appendTo(c)), f
+        j = function(t, o, i, s) {
+            var a = document.createElement("div");
+            return a.className = "mfp-" + t, i && (a.innerHTML = i), s ? o && o.appendChild(a) : (a = e(a), o && a.appendTo(o)), a
         },
-        y = function(c, d) {
-            b.ev.triggerHandler(o + c, d), b.st.callbacks && (c = c.charAt(0).toLowerCase() + c.slice(1), b.st.callbacks[c] && b.st.callbacks[c].apply(b, a.isArray(d) ? d : [d]))
+        C = function(o, i) {
+            t.ev.triggerHandler(u + o, i), t.st.callbacks && (o = o.charAt(0).toLowerCase() + o.slice(1), t.st.callbacks[o] && t.st.callbacks[o].apply(t, e.isArray(i) ? i : [i]))
         },
-        z = function(c) {
-            return c === g && b.currTemplate.closeBtn || (b.currTemplate.closeBtn = a(b.st.closeMarkup.replace("%title%", b.st.tClose)), g = c), b.currTemplate.closeBtn
+        Q = function(o) {
+            return o === r && t.currTemplate.closeBtn || (t.currTemplate.closeBtn = e(t.st.closeMarkup.replace("%title%", t.st.tClose)), r = o), t.currTemplate.closeBtn
         },
-        A = function() {
-            a.magnificPopup.instance || (b = new t, b.init(), a.magnificPopup.instance = b)
-        },
-        B = function() {
-            var a = document.createElement("p").style,
-                b = ["ms", "O", "Moz", "Webkit"];
-            if (void 0 !== a.transition) return !0;
-            for (; b.length;)
-                if (b.pop() + "Transition" in a) return !0;
-            return !1
+        k = function() {
+            e.magnificPopup.instance || ((t = new v).init(), e.magnificPopup.instance = t)
         };
-    t.prototype = {
-        constructor: t,
+    v.prototype = {
+        constructor: v,
         init: function() {
-            var c = navigator.appVersion;
-            b.isLowIE = b.isIE8 = document.all && !document.addEventListener, b.isAndroid = /android/gi.test(c), b.isIOS = /iphone|ipad|ipod/gi.test(c), b.supportsTransition = B(), b.probablyMobile = b.isAndroid || b.isIOS || /(Opera Mini)|Kindle|webOS|BlackBerry|(Opera Mobi)|(Windows Phone)|IEMobile/i.test(navigator.userAgent), d = a(document), b.popupsCache = {}
+            var o = navigator.appVersion;
+            t.isLowIE = t.isIE8 = document.all && !document.addEventListener, t.isAndroid = /android/gi.test(o), t.isIOS = /iphone|ipad|ipod/gi.test(o), t.supportsTransition = function() {
+                var e = document.createElement("p").style,
+                    t = ["ms", "O", "Moz", "Webkit"];
+                if (void 0 !== e.transition) return !0;
+                for (; t.length;)
+                    if (t.pop() + "Transition" in e) return !0;
+                return !1
+            }(), t.probablyMobile = t.isAndroid || t.isIOS || /(Opera Mini)|Kindle|webOS|BlackBerry|(Opera Mobi)|(Windows Phone)|IEMobile/i.test(navigator.userAgent), i = e(document), t.popupsCache = {}
         },
-        open: function(c) {
-            var e;
-            if (c.isObj === !1) {
-                b.items = c.items.toArray(), b.index = 0;
-                var g, h = c.items;
-                for (e = 0; e < h.length; e++)
-                    if (g = h[e], g.parsed && (g = g.el[0]), g === c.el[0]) {
-                        b.index = e;
+        open: function(o) {
+            var s;
+            if (!1 === o.isObj) {
+                t.items = o.items.toArray(), t.index = 0;
+                var r, n = o.items;
+                for (s = 0; s < n.length; s++)
+                    if ((r = n[s]).parsed && (r = r.el[0]), r === o.el[0]) {
+                        t.index = s;
                         break
                     }
-            } else b.items = a.isArray(c.items) ? c.items : [c.items], b.index = c.index || 0;
-            if (b.isOpen) return void b.updateItemHTML();
-            b.types = [], f = "", c.mainEl && c.mainEl.length ? b.ev = c.mainEl.eq(0) : b.ev = d, c.key ? (b.popupsCache[c.key] || (b.popupsCache[c.key] = {}), b.currTemplate = b.popupsCache[c.key]) : b.currTemplate = {}, b.st = a.extend(!0, {}, a.magnificPopup.defaults, c), b.fixedContentPos = "auto" === b.st.fixedContentPos ? !b.probablyMobile : b.st.fixedContentPos, b.st.modal && (b.st.closeOnContentClick = !1, b.st.closeOnBgClick = !1, b.st.showCloseBtn = !1, b.st.enableEscapeKey = !1), b.bgOverlay || (b.bgOverlay = x("bg").on("click" + p, function() {
-                b.close()
-            }), b.wrap = x("wrap").attr("tabindex", -1).on("click" + p, function(a) {
-                b._checkIfClose(a.target) && b.close()
-            }), b.container = x("container", b.wrap)), b.contentContainer = x("content"), b.st.preloader && (b.preloader = x("preloader", b.container, b.st.tLoading));
-            var i = a.magnificPopup.modules;
-            for (e = 0; e < i.length; e++) {
-                var j = i[e];
-                j = j.charAt(0).toUpperCase() + j.slice(1), b["init" + j].call(b)
+            } else t.items = e.isArray(o.items) ? o.items : [o.items], t.index = o.index || 0;
+            if (!t.isOpen) {
+                t.types = [], a = "", o.mainEl && o.mainEl.length ? t.ev = o.mainEl.eq(0) : t.ev = i, o.key ? (t.popupsCache[o.key] || (t.popupsCache[o.key] = {}), t.currTemplate = t.popupsCache[o.key]) : t.currTemplate = {}, t.st = e.extend(!0, {}, e.magnificPopup.defaults, o), t.fixedContentPos = "auto" === t.st.fixedContentPos ? !t.probablyMobile : t.st.fixedContentPos, t.st.modal && (t.st.closeOnContentClick = !1, t.st.closeOnBgClick = !1, t.st.showCloseBtn = !1, t.st.enableEscapeKey = !1), t.bgOverlay || (t.bgOverlay = j("bg").on("click" + d, function() {
+                    t.close()
+                }), t.wrap = j("wrap").attr("tabindex", -1).on("click" + d, function(e) {
+                    t._checkIfClose(e.target) && t.close()
+                }), t.container = j("container", t.wrap)), t.contentContainer = j("content"), t.st.preloader && (t.preloader = j("preloader", t.container, t.st.tLoading));
+                var p = e.magnificPopup.modules;
+                for (s = 0; s < p.length; s++) {
+                    var c = p[s];
+                    c = c.charAt(0).toUpperCase() + c.slice(1), t["init" + c].call(t)
+                }
+                C("BeforeOpen"), t.st.showCloseBtn && (t.st.closeBtnInside ? (w(l, function(e, t, o, i) {
+                    o.close_replaceWith = Q(i.type)
+                }), a += " mfp-close-btn-in") : t.wrap.append(Q())), t.st.alignTop && (a += " mfp-align-top"), t.fixedContentPos ? t.wrap.css({
+                    overflow: t.st.overflowY,
+                    overflowX: "hidden",
+                    overflowY: t.st.overflowY
+                }) : t.wrap.css({
+                    top: b.scrollTop(),
+                    position: "absolute"
+                }), (!1 === t.st.fixedBgPos || "auto" === t.st.fixedBgPos && !t.fixedContentPos) && t.bgOverlay.css({
+                    height: i.height(),
+                    position: "absolute"
+                }), t.st.enableEscapeKey && i.on("keyup" + d, function(e) {
+                    27 === e.keyCode && t.close()
+                }), b.on("resize" + d, function() {
+                    t.updateSize()
+                }), t.st.closeOnContentClick || (a += " mfp-auto-cursor"), a && t.wrap.addClass(a);
+                var u = t.wH = b.height(),
+                    h = {};
+                if (t.fixedContentPos && t._hasScrollBar(u)) {
+                    var g = t._getScrollbarSize();
+                    g && (h.marginRight = g)
+                }
+                t.fixedContentPos && (t.isIE7 ? e("body, html").css("overflow", "hidden") : h.overflow = "hidden");
+                var v = t.st.mainClass;
+                return t.isIE7 && (v += " mfp-ie7"), v && t._addClassToMFP(v), t.updateItemHTML(), C("BuildControls"), e("html").css(h), t.bgOverlay.add(t.wrap).prependTo(t.st.prependTo || e(document.body)), t._lastFocusedEl = document.activeElement, setTimeout(function() {
+                    t.content ? (t._addClassToMFP(m), t._setFocus()) : t.bgOverlay.addClass(m), i.on("focusin" + d, t._onFocusIn)
+                }, 16), t.isOpen = !0, t.updateSize(u), C(f), o
             }
-            y("BeforeOpen"), b.st.showCloseBtn && (b.st.closeBtnInside ? (w(l, function(a, b, c, d) {
-                c.close_replaceWith = z(d.type)
-            }), f += " mfp-close-btn-in") : b.wrap.append(z())), b.st.alignTop && (f += " mfp-align-top"), b.fixedContentPos ? b.wrap.css({
-                overflow: b.st.overflowY,
-                overflowX: "hidden",
-                overflowY: b.st.overflowY
-            }) : b.wrap.css({
-                top: v.scrollTop(),
-                position: "absolute"
-            }), (b.st.fixedBgPos === !1 || "auto" === b.st.fixedBgPos && !b.fixedContentPos) && b.bgOverlay.css({
-                height: d.height(),
-                position: "absolute"
-            }), b.st.enableEscapeKey && d.on("keyup" + p, function(a) {
-                27 === a.keyCode && b.close()
-            }), v.on("resize" + p, function() {
-                b.updateSize()
-            }), b.st.closeOnContentClick || (f += " mfp-auto-cursor"), f && b.wrap.addClass(f);
-            var k = b.wH = v.height(),
-                n = {};
-            if (b.fixedContentPos && b._hasScrollBar(k)) {
-                var o = b._getScrollbarSize();
-                o && (n.marginRight = o)
-            }
-            b.fixedContentPos && (b.isIE7 ? a("body, html").css("overflow", "hidden") : n.overflow = "hidden");
-            var r = b.st.mainClass;
-            return b.isIE7 && (r += " mfp-ie7"), r && b._addClassToMFP(r), b.updateItemHTML(), y("BuildControls"), a("html").css(n), b.bgOverlay.add(b.wrap).prependTo(b.st.prependTo || a(document.body)), b._lastFocusedEl = document.activeElement, setTimeout(function() {
-                b.content ? (b._addClassToMFP(q), b._setFocus()) : b.bgOverlay.addClass(q), d.on("focusin" + p, b._onFocusIn)
-            }, 16), b.isOpen = !0, b.updateSize(k), y(m), c
+            t.updateItemHTML()
         },
         close: function() {
-            b.isOpen && (y(i), b.isOpen = !1, b.st.removalDelay && !b.isLowIE && b.supportsTransition ? (b._addClassToMFP(r), setTimeout(function() {
-                b._close()
-            }, b.st.removalDelay)) : b._close())
+            t.isOpen && (C(p), t.isOpen = !1, t.st.removalDelay && !t.isLowIE && t.supportsTransition ? (t._addClassToMFP(h), setTimeout(function() {
+                t._close()
+            }, t.st.removalDelay)) : t._close())
         },
         _close: function() {
-            y(h);
-            var c = r + " " + q + " ";
-            if (b.bgOverlay.detach(), b.wrap.detach(), b.container.empty(), b.st.mainClass && (c += b.st.mainClass + " "), b._removeClassFromMFP(c), b.fixedContentPos) {
-                var e = {
+            C(n);
+            var o = h + " " + m + " ";
+            if (t.bgOverlay.detach(), t.wrap.detach(), t.container.empty(), t.st.mainClass && (o += t.st.mainClass + " "), t._removeClassFromMFP(o), t.fixedContentPos) {
+                var s = {
                     marginRight: ""
                 };
-                b.isIE7 ? a("body, html").css("overflow", "") : e.overflow = "", a("html").css(e)
+                t.isIE7 ? e("body, html").css("overflow", "") : s.overflow = "", e("html").css(s)
             }
-            d.off("keyup" + p + " focusin" + p), b.ev.off(p), b.wrap.attr("class", "mfp-wrap").removeAttr("style"), b.bgOverlay.attr("class", "mfp-bg"), b.container.attr("class", "mfp-container"), !b.st.showCloseBtn || b.st.closeBtnInside && b.currTemplate[b.currItem.type] !== !0 || b.currTemplate.closeBtn && b.currTemplate.closeBtn.detach(), b.st.autoFocusLast && b._lastFocusedEl && a(b._lastFocusedEl).focus(), b.currItem = null, b.content = null, b.currTemplate = null, b.prevHeight = 0, y(j)
+            i.off("keyup.mfp focusin" + d), t.ev.off(d), t.wrap.attr("class", "mfp-wrap").removeAttr("style"), t.bgOverlay.attr("class", "mfp-bg"), t.container.attr("class", "mfp-container"), !t.st.showCloseBtn || t.st.closeBtnInside && !0 !== t.currTemplate[t.currItem.type] || t.currTemplate.closeBtn && t.currTemplate.closeBtn.detach(), t.st.autoFocusLast && t._lastFocusedEl && e(t._lastFocusedEl).focus(), t.currItem = null, t.content = null, t.currTemplate = null, t.prevHeight = 0, C("AfterClose")
         },
-        updateSize: function(a) {
-            if (b.isIOS) {
-                var c = document.documentElement.clientWidth / window.innerWidth,
-                    d = window.innerHeight * c;
-                b.wrap.css("height", d), b.wH = d
-            } else b.wH = a || v.height();
-            b.fixedContentPos || b.wrap.css("height", b.wH), y("Resize")
+        updateSize: function(e) {
+            if (t.isIOS) {
+                var o = document.documentElement.clientWidth / window.innerWidth,
+                    i = window.innerHeight * o;
+                t.wrap.css("height", i), t.wH = i
+            } else t.wH = e || b.height();
+            t.fixedContentPos || t.wrap.css("height", t.wH), C("Resize")
         },
         updateItemHTML: function() {
-            var c = b.items[b.index];
-            b.contentContainer.detach(), b.content && b.content.detach(), c.parsed || (c = b.parseEl(b.index));
-            var d = c.type;
-            if (y("BeforeChange", [b.currItem ? b.currItem.type : "", d]), b.currItem = c, !b.currTemplate[d]) {
-                var f = b.st[d] ? b.st[d].markup : !1;
-                y("FirstMarkupParse", f), f ? b.currTemplate[d] = a(f) : b.currTemplate[d] = !0
+            var o = t.items[t.index];
+            t.contentContainer.detach(), t.content && t.content.detach(), o.parsed || (o = t.parseEl(t.index));
+            var i = o.type;
+            if (C("BeforeChange", [t.currItem ? t.currItem.type : "", i]), t.currItem = o, !t.currTemplate[i]) {
+                var a = !!t.st[i] && t.st[i].markup;
+                C("FirstMarkupParse", a), t.currTemplate[i] = !a || e(a)
             }
-            e && e !== c.type && b.container.removeClass("mfp-" + e + "-holder");
-            var g = b["get" + d.charAt(0).toUpperCase() + d.slice(1)](c, b.currTemplate[d]);
-            b.appendContent(g, d), c.preloaded = !0, y(n, c), e = c.type, b.container.prepend(b.contentContainer), y("AfterChange")
+            s && s !== o.type && t.container.removeClass("mfp-" + s + "-holder");
+            var r = t["get" + i.charAt(0).toUpperCase() + i.slice(1)](o, t.currTemplate[i]);
+            t.appendContent(r, i), o.preloaded = !0, C(c, o), s = o.type, t.container.prepend(t.contentContainer), C("AfterChange")
         },
-        appendContent: function(a, c) {
-            b.content = a, a ? b.st.showCloseBtn && b.st.closeBtnInside && b.currTemplate[c] === !0 ? b.content.find(".mfp-close").length || b.content.append(z()) : b.content = a : b.content = "", y(k), b.container.addClass("mfp-" + c + "-holder"), b.contentContainer.append(b.content)
+        appendContent: function(e, o) {
+            t.content = e, e ? t.st.showCloseBtn && t.st.closeBtnInside && !0 === t.currTemplate[o] ? t.content.find(".mfp-close").length || t.content.append(Q()) : t.content = e : t.content = "", C("BeforeAppend"), t.container.addClass("mfp-" + o + "-holder"), t.contentContainer.append(t.content)
         },
-        parseEl: function(c) {
-            var d, e = b.items[c];
-            if (e.tagName ? e = {
-                    el: a(e)
-                } : (d = e.type, e = {
-                    data: e,
-                    src: e.src
-                }), e.el) {
-                for (var f = b.types, g = 0; g < f.length; g++)
-                    if (e.el.hasClass("mfp-" + f[g])) {
-                        d = f[g];
+        parseEl: function(o) {
+            var i, s = t.items[o];
+            if (s.tagName ? s = {
+                el: e(s)
+            } : (i = s.type, s = {
+                data: s,
+                src: s.src
+            }), s.el) {
+                for (var a = t.types, r = 0; r < a.length; r++)
+                    if (s.el.hasClass("mfp-" + a[r])) {
+                        i = a[r];
                         break
                     }
-                e.src = e.el.attr("data-mfp-src"), e.src || (e.src = e.el.attr("href"))
+                s.src = s.el.attr("data-mfp-src"), s.src || (s.src = s.el.attr("href"))
             }
-            return e.type = d || b.st.type || "inline", e.index = c, e.parsed = !0, b.items[c] = e, y("ElementParse", e), b.items[c]
+            return s.type = i || t.st.type || "inline", s.index = o, s.parsed = !0, t.items[o] = s, C("ElementParse", s), t.items[o]
         },
-        addGroup: function(a, c) {
-            var d = function(d) {
-                d.mfpEl = this, b._openClick(d, a, c)
+        addGroup: function(e, o) {
+            var i = function(i) {
+                i.mfpEl = this, t._openClick(i, e, o)
             };
-            c || (c = {});
-            var e = "click.magnificPopup";
-            c.mainEl = a, c.items ? (c.isObj = !0, a.off(e).on(e, d)) : (c.isObj = !1, c.delegate ? a.off(e).on(e, c.delegate, d) : (c.items = a, a.off(e).on(e, d)))
+            o || (o = {});
+            var s = "click.magnificPopup";
+            o.mainEl = e, o.items ? (o.isObj = !0, e.off(s).on(s, i)) : (o.isObj = !1, o.delegate ? e.off(s).on(s, o.delegate, i) : (o.items = e, e.off(s).on(s, i)))
         },
-        _openClick: function(c, d, e) {
-            var f = void 0 !== e.midClick ? e.midClick : a.magnificPopup.defaults.midClick;
-            if (f || !(2 === c.which || c.ctrlKey || c.metaKey || c.altKey || c.shiftKey)) {
-                var g = void 0 !== e.disableOn ? e.disableOn : a.magnificPopup.defaults.disableOn;
-                if (g)
-                    if (a.isFunction(g)) {
-                        if (!g.call(b)) return !0
-                    } else if (v.width() < g) return !0;
-                c.type && (c.preventDefault(), b.isOpen && c.stopPropagation()), e.el = a(c.mfpEl), e.delegate && (e.items = d.find(e.delegate)), b.open(e)
+        _openClick: function(o, i, s) {
+            if ((void 0 !== s.midClick ? s.midClick : e.magnificPopup.defaults.midClick) || !(2 === o.which || o.ctrlKey || o.metaKey || o.altKey || o.shiftKey)) {
+                var a = void 0 !== s.disableOn ? s.disableOn : e.magnificPopup.defaults.disableOn;
+                if (a)
+                    if (e.isFunction(a)) {
+                        if (!a.call(t)) return !0
+                    } else if (b.width() < a) return !0;
+                o.type && (o.preventDefault(), t.isOpen && o.stopPropagation()), s.el = e(o.mfpEl), s.delegate && (s.items = i.find(s.delegate)), t.open(s)
             }
         },
-        updateStatus: function(a, d) {
-            if (b.preloader) {
-                c !== a && b.container.removeClass("mfp-s-" + c), d || "loading" !== a || (d = b.st.tLoading);
-                var e = {
-                    status: a,
-                    text: d
+        updateStatus: function(e, i) {
+            if (t.preloader) {
+                o !== e && t.container.removeClass("mfp-s-" + o), i || "loading" !== e || (i = t.st.tLoading);
+                var s = {
+                    status: e,
+                    text: i
                 };
-                y("UpdateStatus", e), a = e.status, d = e.text, b.preloader.html(d), b.preloader.find("a").on("click", function(a) {
-                    a.stopImmediatePropagation()
-                }), b.container.addClass("mfp-s-" + a), c = a
+                C("UpdateStatus", s), e = s.status, i = s.text, t.preloader.html(i), t.preloader.find("a").on("click", function(e) {
+                    e.stopImmediatePropagation()
+                }), t.container.addClass("mfp-s-" + e), o = e
             }
         },
-        _checkIfClose: function(c) {
-            if (!a(c).hasClass(s)) {
-                var d = b.st.closeOnContentClick,
-                    e = b.st.closeOnBgClick;
-                if (d && e) return !0;
-                if (!b.content || a(c).hasClass("mfp-close") || b.preloader && c === b.preloader[0]) return !0;
-                if (c === b.content[0] || a.contains(b.content[0], c)) {
-                    if (d) return !0
-                } else if (e && a.contains(document, c)) return !0;
+        _checkIfClose: function(o) {
+            if (!e(o).hasClass(g)) {
+                var i = t.st.closeOnContentClick,
+                    s = t.st.closeOnBgClick;
+                if (i && s) return !0;
+                if (!t.content || e(o).hasClass("mfp-close") || t.preloader && o === t.preloader[0]) return !0;
+                if (o === t.content[0] || e.contains(t.content[0], o)) {
+                    if (i) return !0
+                } else if (s && e.contains(document, o)) return !0;
                 return !1
             }
         },
-        _addClassToMFP: function(a) {
-            b.bgOverlay.addClass(a), b.wrap.addClass(a)
+        _addClassToMFP: function(e) {
+            t.bgOverlay.addClass(e), t.wrap.addClass(e)
         },
-        _removeClassFromMFP: function(a) {
-            this.bgOverlay.removeClass(a), b.wrap.removeClass(a)
+        _removeClassFromMFP: function(e) {
+            this.bgOverlay.removeClass(e), t.wrap.removeClass(e)
         },
-        _hasScrollBar: function(a) {
-            return (b.isIE7 ? d.height() : document.body.scrollHeight) > (a || v.height())
+        _hasScrollBar: function(e) {
+            return (t.isIE7 ? i.height() : document.body.scrollHeight) > (e || b.height())
         },
         _setFocus: function() {
-            (b.st.focus ? b.content.find(b.st.focus).eq(0) : b.wrap).focus()
+            (t.st.focus ? t.content.find(t.st.focus).eq(0) : t.wrap).focus()
         },
-        _onFocusIn: function(c) {
-            return c.target === b.wrap[0] || a.contains(b.wrap[0], c.target) ? void 0 : (b._setFocus(), !1)
+        _onFocusIn: function(o) {
+            return o.target === t.wrap[0] || e.contains(t.wrap[0], o.target) ? void 0 : (t._setFocus(), !1)
         },
-        _parseMarkup: function(b, c, d) {
-            var e;
-            d.data && (c = a.extend(d.data, c)), y(l, [b, c, d]), a.each(c, function(c, d) {
-                if (void 0 === d || d === !1) return !0;
-                if (e = c.split("_"), e.length > 1) {
-                    var f = b.find(p + "-" + e[0]);
-                    if (f.length > 0) {
-                        var g = e[1];
-                        "replaceWith" === g ? f[0] !== d[0] && f.replaceWith(d) : "img" === g ? f.is("img") ? f.attr("src", d) : f.replaceWith(a("<img>").attr("src", d).attr("class", f.attr("class"))) : f.attr(e[1], d)
+        _parseMarkup: function(t, o, i) {
+            var s;
+            i.data && (o = e.extend(i.data, o)), C(l, [t, o, i]), e.each(o, function(o, i) {
+                if (void 0 === i || !1 === i) return !0;
+                if ((s = o.split("_")).length > 1) {
+                    var a = t.find(d + "-" + s[0]);
+                    if (a.length > 0) {
+                        var r = s[1];
+                        "replaceWith" === r ? a[0] !== i[0] && a.replaceWith(i) : "img" === r ? a.is("img") ? a.attr("src", i) : a.replaceWith(e("<img>").attr("src", i).attr("class", a.attr("class"))) : a.attr(s[1], i)
                     }
-                } else b.find(p + "-" + c).html(d)
+                } else t.find(d + "-" + o).html(i)
             })
         },
         _getScrollbarSize: function() {
-            if (void 0 === b.scrollbarSize) {
-                var a = document.createElement("div");
-                a.style.cssText = "width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;", document.body.appendChild(a), b.scrollbarSize = a.offsetWidth - a.clientWidth, document.body.removeChild(a)
+            if (void 0 === t.scrollbarSize) {
+                var e = document.createElement("div");
+                e.style.cssText = "width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;", document.body.appendChild(e), t.scrollbarSize = e.offsetWidth - e.clientWidth, document.body.removeChild(e)
             }
-            return b.scrollbarSize
+            return t.scrollbarSize
         }
-    }, a.magnificPopup = {
+    }, e.magnificPopup = {
         instance: null,
-        proto: t.prototype,
+        proto: v.prototype,
         modules: [],
-        open: function(b, c) {
-            return A(), b = b ? a.extend(!0, {}, b) : {}, b.isObj = !0, b.index = c || 0, this.instance.open(b)
+        open: function(t, o) {
+            return k(), (t = t ? e.extend(!0, {}, t) : {}).isObj = !0, t.index = o || 0, this.instance.open(t)
         },
         close: function() {
-            return a.magnificPopup.instance && a.magnificPopup.instance.close()
+            return e.magnificPopup.instance && e.magnificPopup.instance.close()
         },
-        registerModule: function(b, c) {
-            c.options && (a.magnificPopup.defaults[b] = c.options), a.extend(this.proto, c.proto), this.modules.push(b)
+        registerModule: function(t, o) {
+            o.options && (e.magnificPopup.defaults[t] = o.options), e.extend(this.proto, o.proto), this.modules.push(t)
         },
         defaults: {
             disableOn: 0,
@@ -271,25 +266,25 @@
             tLoading: "Loading...",
             autoFocusLast: !0
         }
-    }, a.fn.magnificPopup = function(c) {
-        A();
-        var d = a(this);
-        if ("string" == typeof c)
-            if ("open" === c) {
-                var e, f = u ? d.data("magnificPopup") : d[0].magnificPopup,
-                    g = parseInt(arguments[1], 10) || 0;
-                f.items ? e = f.items[g] : (e = d, f.delegate && (e = e.find(f.delegate)), e = e.eq(g)), b._openClick({
-                    mfpEl: e
-                }, d, f)
-            } else b.isOpen && b[c].apply(b, Array.prototype.slice.call(arguments, 1));
-        else c = a.extend(!0, {}, c), u ? d.data("magnificPopup", c) : d[0].magnificPopup = c, b.addGroup(d, c);
-        return d
+    }, e.fn.magnificPopup = function(o) {
+        k();
+        var i = e(this);
+        if ("string" == typeof o)
+            if ("open" === o) {
+                var s, a = y ? i.data("magnificPopup") : i[0].magnificPopup,
+                    r = parseInt(arguments[1], 10) || 0;
+                a.items ? s = a.items[r] : (s = i, a.delegate && (s = s.find(a.delegate)), s = s.eq(r)), t._openClick({
+                    mfpEl: s
+                }, i, a)
+            } else t.isOpen && t[o].apply(t, Array.prototype.slice.call(arguments, 1));
+        else o = e.extend(!0, {}, o), y ? i.data("magnificPopup", o) : i[0].magnificPopup = o, t.addGroup(i, o);
+        return i
     };
-    var C, D, E, F = "inline",
-        G = function() {
-            E && (D.after(E.addClass(C)).detach(), E = null)
+    var x, I, P, T = "inline",
+        S = function() {
+            P && (I.after(P.addClass(x)).detach(), P = null)
         };
-    a.magnificPopup.registerModule(F, {
+    e.magnificPopup.registerModule(T, {
         options: {
             hiddenClass: "hide",
             markup: "",
@@ -297,32 +292,32 @@
         },
         proto: {
             initInline: function() {
-                b.types.push(F), w(h + "." + F, function() {
-                    G()
+                t.types.push(T), w(n + "." + T, function() {
+                    S()
                 })
             },
-            getInline: function(c, d) {
-                if (G(), c.src) {
-                    var e = b.st.inline,
-                        f = a(c.src);
-                    if (f.length) {
-                        var g = f[0].parentNode;
-                        g && g.tagName && (D || (C = e.hiddenClass, D = x(C), C = "mfp-" + C), E = f.after(D).detach().removeClass(C)), b.updateStatus("ready")
-                    } else b.updateStatus("error", e.tNotFound), f = a("<div>");
-                    return c.inlineElement = f, f
+            getInline: function(o, i) {
+                if (S(), o.src) {
+                    var s = t.st.inline,
+                        a = e(o.src);
+                    if (a.length) {
+                        var r = a[0].parentNode;
+                        r && r.tagName && (I || (x = s.hiddenClass, I = j(x), x = "mfp-" + x), P = a.after(I).detach().removeClass(x)), t.updateStatus("ready")
+                    } else t.updateStatus("error", s.tNotFound), a = e("<div>");
+                    return o.inlineElement = a, a
                 }
-                return b.updateStatus("ready"), b._parseMarkup(d, {}, c), d
+                return t.updateStatus("ready"), t._parseMarkup(i, {}, o), i
             }
         }
     });
-    var H, I = "ajax",
-        J = function() {
-            H && a(document.body).removeClass(H)
+    var _, O = "ajax",
+        z = function() {
+            _ && e(document.body).removeClass(_)
         },
-        K = function() {
-            J(), b.req && b.req.abort()
+        E = function() {
+            z(), t.req && t.req.abort()
         };
-    a.magnificPopup.registerModule(I, {
+    e.magnificPopup.registerModule(O, {
         options: {
             settings: null,
             cursor: "mfp-ajax-cur",
@@ -330,39 +325,39 @@
         },
         proto: {
             initAjax: function() {
-                b.types.push(I), H = b.st.ajax.cursor, w(h + "." + I, K), w("BeforeChange." + I, K)
+                t.types.push(O), _ = t.st.ajax.cursor, w(n + "." + O, E), w("BeforeChange." + O, E)
             },
-            getAjax: function(c) {
-                H && a(document.body).addClass(H), b.updateStatus("loading");
-                var d = a.extend({
-                    url: c.src,
-                    success: function(d, e, f) {
-                        var g = {
-                            data: d,
-                            xhr: f
+            getAjax: function(o) {
+                _ && e(document.body).addClass(_), t.updateStatus("loading");
+                var i = e.extend({
+                    url: o.src,
+                    success: function(i, s, a) {
+                        var r = {
+                            data: i,
+                            xhr: a
                         };
-                        y("ParseAjax", g), b.appendContent(a(g.data), I), c.finished = !0, J(), b._setFocus(), setTimeout(function() {
-                            b.wrap.addClass(q)
-                        }, 16), b.updateStatus("ready"), y("AjaxContentAdded")
+                        C("ParseAjax", r), t.appendContent(e(r.data), O), o.finished = !0, z(), t._setFocus(), setTimeout(function() {
+                            t.wrap.addClass(m)
+                        }, 16), t.updateStatus("ready"), C("AjaxContentAdded")
                     },
                     error: function() {
-                        J(), c.finished = c.loadError = !0, b.updateStatus("error", b.st.ajax.tError.replace("%url%", c.src))
+                        z(), o.finished = o.loadError = !0, t.updateStatus("error", t.st.ajax.tError.replace("%url%", o.src))
                     }
-                }, b.st.ajax.settings);
-                return b.req = a.ajax(d), ""
+                }, t.st.ajax.settings);
+                return t.req = e.ajax(i), ""
             }
         }
     });
-    var L, M = function(c) {
-        if (c.data && void 0 !== c.data.title) return c.data.title;
-        var d = b.st.image.titleSrc;
-        if (d) {
-            if (a.isFunction(d)) return d.call(b, c);
-            if (c.el) return c.el.attr(d) || ""
+    var B, F = function(o) {
+        if (o.data && void 0 !== o.data.title) return o.data.title;
+        var i = t.st.image.titleSrc;
+        if (i) {
+            if (e.isFunction(i)) return i.call(t, o);
+            if (o.el) return o.el.attr(i) || ""
         }
         return ""
     };
-    a.magnificPopup.registerModule("image", {
+    e.magnificPopup.registerModule("image", {
         options: {
             markup: '<div class="mfp-figure"><div class="mfp-close"></div><figure><div class="mfp-img"></div><figcaption><div class="mfp-bottom-bar"><div class="mfp-title"></div><div class="mfp-counter"></div></div></figcaption></figure></div>',
             cursor: "mfp-zoom-out-cur",
@@ -372,145 +367,140 @@
         },
         proto: {
             initImage: function() {
-                var c = b.st.image,
-                    d = ".image";
-                b.types.push("image"), w(m + d, function() {
-                    "image" === b.currItem.type && c.cursor && a(document.body).addClass(c.cursor)
-                }), w(h + d, function() {
-                    c.cursor && a(document.body).removeClass(c.cursor), v.off("resize" + p)
-                }), w("Resize" + d, b.resizeImage), b.isLowIE && w("AfterChange", b.resizeImage)
+                var o = t.st.image,
+                    i = ".image";
+                t.types.push("image"), w(f + i, function() {
+                    "image" === t.currItem.type && o.cursor && e(document.body).addClass(o.cursor)
+                }), w(n + i, function() {
+                    o.cursor && e(document.body).removeClass(o.cursor), b.off("resize" + d)
+                }), w("Resize" + i, t.resizeImage), t.isLowIE && w("AfterChange", t.resizeImage)
             },
             resizeImage: function() {
-                var a = b.currItem;
-                if (a && a.img && b.st.image.verticalFit) {
-                    var c = 0;
-                    b.isLowIE && (c = parseInt(a.img.css("padding-top"), 10) + parseInt(a.img.css("padding-bottom"), 10)), a.img.css("max-height", b.wH - c)
+                var e = t.currItem;
+                if (e && e.img && t.st.image.verticalFit) {
+                    var o = 0;
+                    t.isLowIE && (o = parseInt(e.img.css("padding-top"), 10) + parseInt(e.img.css("padding-bottom"), 10)), e.img.css("max-height", t.wH - o)
                 }
             },
-            _onImageHasSize: function(a) {
-                a.img && (a.hasSize = !0, L && clearInterval(L), a.isCheckingImgSize = !1, y("ImageHasSize", a), a.imgHidden && (b.content && b.content.removeClass("mfp-loading"), a.imgHidden = !1))
+            _onImageHasSize: function(e) {
+                e.img && (e.hasSize = !0, B && clearInterval(B), e.isCheckingImgSize = !1, C("ImageHasSize", e), e.imgHidden && (t.content && t.content.removeClass("mfp-loading"), e.imgHidden = !1))
             },
-            findImageSize: function(a) {
-                var c = 0,
-                    d = a.img[0],
-                    e = function(f) {
-                        L && clearInterval(L), L = setInterval(function() {
-                            return d.naturalWidth > 0 ? void b._onImageHasSize(a) : (c > 200 && clearInterval(L), c++, void(3 === c ? e(10) : 40 === c ? e(50) : 100 === c && e(500)))
-                        }, f)
+            findImageSize: function(e) {
+                var o = 0,
+                    i = e.img[0],
+                    s = function(a) {
+                        B && clearInterval(B), B = setInterval(function() {
+                            return i.naturalWidth > 0 ? void t._onImageHasSize(e) : (o > 200 && clearInterval(B), void(3 === ++o ? s(10) : 40 === o ? s(50) : 100 === o && s(500)))
+                        }, a)
                     };
-                e(1)
+                s(1)
             },
-            getImage: function(c, d) {
-                var e = 0,
-                    f = function() {
-                        c && (c.img[0].complete ? (c.img.off(".mfploader"), c === b.currItem && (b._onImageHasSize(c), b.updateStatus("ready")), c.hasSize = !0, c.loaded = !0, y("ImageLoadComplete")) : (e++, 200 > e ? setTimeout(f, 100) : g()))
+            getImage: function(o, i) {
+                var s = 0,
+                    a = function() {
+                        o && (o.img[0].complete ? (o.img.off(".mfploader"), o === t.currItem && (t._onImageHasSize(o), t.updateStatus("ready")), o.hasSize = !0, o.loaded = !0, C("ImageLoadComplete")) : 200 > ++s ? setTimeout(a, 100) : r())
                     },
-                    g = function() {
-                        c && (c.img.off(".mfploader"), c === b.currItem && (b._onImageHasSize(c), b.updateStatus("error", h.tError.replace("%url%", c.src))), c.hasSize = !0, c.loaded = !0, c.loadError = !0)
+                    r = function() {
+                        o && (o.img.off(".mfploader"), o === t.currItem && (t._onImageHasSize(o), t.updateStatus("error", n.tError.replace("%url%", o.src))), o.hasSize = !0, o.loaded = !0, o.loadError = !0)
                     },
-                    h = b.st.image,
-                    i = d.find(".mfp-img");
-                if (i.length) {
-                    var j = document.createElement("img");
-                    j.className = "mfp-img", c.el && c.el.find("img").length && (j.alt = c.el.find("img").attr("alt")), c.img = a(j).on("load.mfploader", f).on("error.mfploader", g), j.src = c.src, i.is("img") && (c.img = c.img.clone()), j = c.img[0], j.naturalWidth > 0 ? c.hasSize = !0 : j.width || (c.hasSize = !1)
+                    n = t.st.image,
+                    p = i.find(".mfp-img");
+                if (p.length) {
+                    var l = document.createElement("img");
+                    l.className = "mfp-img", o.el && o.el.find("img").length && (l.alt = o.el.find("img").attr("alt")), o.img = e(l).on("load.mfploader", a).on("error.mfploader", r), l.src = o.src, p.is("img") && (o.img = o.img.clone()), (l = o.img[0]).naturalWidth > 0 ? o.hasSize = !0 : l.width || (o.hasSize = !1)
                 }
-                return b._parseMarkup(d, {
-                    title: M(c),
-                    img_replaceWith: c.img
-                }, c), b.resizeImage(), c.hasSize ? (L && clearInterval(L), c.loadError ? (d.addClass("mfp-loading"), b.updateStatus("error", h.tError.replace("%url%", c.src))) : (d.removeClass("mfp-loading"), b.updateStatus("ready")), d) : (b.updateStatus("loading"), c.loading = !0, c.hasSize || (c.imgHidden = !0, d.addClass("mfp-loading"), b.findImageSize(c)), d)
+                return t._parseMarkup(i, {
+                    title: F(o),
+                    img_replaceWith: o.img
+                }, o), t.resizeImage(), o.hasSize ? (B && clearInterval(B), o.loadError ? (i.addClass("mfp-loading"), t.updateStatus("error", n.tError.replace("%url%", o.src))) : (i.removeClass("mfp-loading"), t.updateStatus("ready")), i) : (t.updateStatus("loading"), o.loading = !0, o.hasSize || (o.imgHidden = !0, i.addClass("mfp-loading"), t.findImageSize(o)), i)
             }
         }
     });
-    var N, O = function() {
-        return void 0 === N && (N = void 0 !== document.createElement("p").style.MozTransform), N
-    };
-    a.magnificPopup.registerModule("zoom", {
+    var M;
+    e.magnificPopup.registerModule("zoom", {
         options: {
             enabled: !1,
             easing: "ease-in-out",
             duration: 300,
-            opener: function(a) {
-                return a.is("img") ? a : a.find("img")
+            opener: function(e) {
+                return e.is("img") ? e : e.find("img")
             }
         },
         proto: {
             initZoom: function() {
-                var a, c = b.st.zoom,
-                    d = ".zoom";
-                if (c.enabled && b.supportsTransition) {
-                    var e, f, g = c.duration,
-                        j = function(a) {
-                            var b = a.clone().removeAttr("style").removeAttr("class").addClass("mfp-animated-image"),
-                                d = "all " + c.duration / 1e3 + "s " + c.easing,
-                                e = {
+                var e, o = t.st.zoom,
+                    i = ".zoom";
+                if (o.enabled && t.supportsTransition) {
+                    var s, a, r = o.duration,
+                        l = function(e) {
+                            var t = e.clone().removeAttr("style").removeAttr("class").addClass("mfp-animated-image"),
+                                i = "all " + o.duration / 1e3 + "s " + o.easing,
+                                s = {
                                     position: "fixed",
                                     zIndex: 9999,
                                     left: 0,
                                     top: 0,
                                     "-webkit-backface-visibility": "hidden"
                                 },
-                                f = "transition";
-                            return e["-webkit-" + f] = e["-moz-" + f] = e["-o-" + f] = e[f] = d, b.css(e), b
+                                a = "transition";
+                            return s["-webkit-" + a] = s["-moz-" + a] = s["-o-" + a] = s[a] = i, t.css(s), t
                         },
-                        k = function() {
-                            b.content.css("visibility", "visible")
+                        f = function() {
+                            t.content.css("visibility", "visible")
                         };
-                    w("BuildControls" + d, function() {
-                        if (b._allowZoom()) {
-                            if (clearTimeout(e), b.content.css("visibility", "hidden"), a = b._getItemToZoom(), !a) return void k();
-                            f = j(a), f.css(b._getOffset()), b.wrap.append(f), e = setTimeout(function() {
-                                f.css(b._getOffset(!0)), e = setTimeout(function() {
-                                    k(), setTimeout(function() {
-                                        f.remove(), a = f = null, y("ZoomAnimationEnded")
+                    w("BuildControls" + i, function() {
+                        if (t._allowZoom()) {
+                            if (clearTimeout(s), t.content.css("visibility", "hidden"), !(e = t._getItemToZoom())) return void f();
+                            (a = l(e)).css(t._getOffset()), t.wrap.append(a), s = setTimeout(function() {
+                                a.css(t._getOffset(!0)), s = setTimeout(function() {
+                                    f(), setTimeout(function() {
+                                        a.remove(), e = a = null, C("ZoomAnimationEnded")
                                     }, 16)
-                                }, g)
+                                }, r)
                             }, 16)
                         }
-                    }), w(i + d, function() {
-                        if (b._allowZoom()) {
-                            if (clearTimeout(e), b.st.removalDelay = g, !a) {
-                                if (a = b._getItemToZoom(), !a) return;
-                                f = j(a)
+                    }), w(p + i, function() {
+                        if (t._allowZoom()) {
+                            if (clearTimeout(s), t.st.removalDelay = r, !e) {
+                                if (!(e = t._getItemToZoom())) return;
+                                a = l(e)
                             }
-                            f.css(b._getOffset(!0)), b.wrap.append(f), b.content.css("visibility", "hidden"), setTimeout(function() {
-                                f.css(b._getOffset())
+                            a.css(t._getOffset(!0)), t.wrap.append(a), t.content.css("visibility", "hidden"), setTimeout(function() {
+                                a.css(t._getOffset())
                             }, 16)
                         }
-                    }), w(h + d, function() {
-                        b._allowZoom() && (k(), f && f.remove(), a = null)
+                    }), w(n + i, function() {
+                        t._allowZoom() && (f(), a && a.remove(), e = null)
                     })
                 }
             },
             _allowZoom: function() {
-                return "image" === b.currItem.type
+                return "image" === t.currItem.type
             },
             _getItemToZoom: function() {
-                return b.currItem.hasSize ? b.currItem.img : !1
+                return !!t.currItem.hasSize && t.currItem.img
             },
-            _getOffset: function(c) {
-                var d;
-                d = c ? b.currItem.img : b.st.zoom.opener(b.currItem.el || b.currItem);
-                var e = d.offset(),
-                    f = parseInt(d.css("padding-top"), 10),
-                    g = parseInt(d.css("padding-bottom"), 10);
-                e.top -= a(window).scrollTop() - f;
-                var h = {
-                    width: d.width(),
-                    height: (u ? d.innerHeight() : d[0].offsetHeight) - g - f
+            _getOffset: function(o) {
+                var i, s = (i = o ? t.currItem.img : t.st.zoom.opener(t.currItem.el || t.currItem)).offset(),
+                    a = parseInt(i.css("padding-top"), 10),
+                    r = parseInt(i.css("padding-bottom"), 10);
+                s.top -= e(window).scrollTop() - a;
+                var n = {
+                    width: i.width(),
+                    height: (y ? i.innerHeight() : i[0].offsetHeight) - r - a
                 };
-                return O() ? h["-moz-transform"] = h.transform = "translate(" + e.left + "px," + e.top + "px)" : (h.left = e.left, h.top = e.top), h
+                return void 0 === M && (M = void 0 !== document.createElement("p").style.MozTransform), M ? n["-moz-transform"] = n.transform = "translate(" + s.left + "px," + s.top + "px)" : (n.left = s.left, n.top = s.top), n
             }
         }
     });
-    var P = "iframe",
-        Q = "//about:blank",
-        R = function(a) {
-            if (b.currTemplate[P]) {
-                var c = b.currTemplate[P].find("iframe");
-                c.length && (a || (c[0].src = Q), b.isIE8 && c.css("display", a ? "block" : "none"))
+    var L = "iframe",
+        A = function(e) {
+            if (t.currTemplate[L]) {
+                var o = t.currTemplate[L].find("iframe");
+                o.length && (e || (o[0].src = "//about:blank"), t.isIE8 && o.css("display", e ? "block" : "none"))
             }
         };
-    a.magnificPopup.registerModule(P, {
+    e.magnificPopup.registerModule(L, {
         options: {
             markup: '<div class="mfp-iframe-scaler"><div class="mfp-close"></div><iframe class="mfp-iframe" src="//about:blank" frameborder="0" allowfullscreen></iframe></div>',
             srcAction: "iframe_src",
@@ -533,31 +523,31 @@
         },
         proto: {
             initIframe: function() {
-                b.types.push(P), w("BeforeChange", function(a, b, c) {
-                    b !== c && (b === P ? R() : c === P && R(!0))
-                }), w(h + "." + P, function() {
-                    R()
+                t.types.push(L), w("BeforeChange", function(e, t, o) {
+                    t !== o && (t === L ? A() : o === L && A(!0))
+                }), w(n + "." + L, function() {
+                    A()
                 })
             },
-            getIframe: function(c, d) {
-                var e = c.src,
-                    f = b.st.iframe;
-                a.each(f.patterns, function() {
-                    return e.indexOf(this.index) > -1 ? (this.id && (e = "string" == typeof this.id ? e.substr(e.lastIndexOf(this.id) + this.id.length, e.length) : this.id.call(this, e)), e = this.src.replace("%id%", e), !1) : void 0
+            getIframe: function(o, i) {
+                var s = o.src,
+                    a = t.st.iframe;
+                e.each(a.patterns, function() {
+                    return s.indexOf(this.index) > -1 ? (this.id && (s = "string" == typeof this.id ? s.substr(s.lastIndexOf(this.id) + this.id.length, s.length) : this.id.call(this, s)), s = this.src.replace("%id%", s), !1) : void 0
                 });
-                var g = {};
-                return f.srcAction && (g[f.srcAction] = e), b._parseMarkup(d, g, c), b.updateStatus("ready"), d
+                var r = {};
+                return a.srcAction && (r[a.srcAction] = s), t._parseMarkup(i, r, o), t.updateStatus("ready"), i
             }
         }
     });
-    var S = function(a) {
-            var c = b.items.length;
-            return a > c - 1 ? a - c : 0 > a ? c + a : a
+    var H = function(e) {
+            var o = t.items.length;
+            return e > o - 1 ? e - o : 0 > e ? o + e : e
         },
-        T = function(a, b, c) {
-            return a.replace(/%curr%/gi, b + 1).replace(/%total%/gi, c)
+        N = function(e, t, o) {
+            return e.replace(/%curr%/gi, t + 1).replace(/%total%/gi, o)
         };
-    a.magnificPopup.registerModule("gallery", {
+    e.magnificPopup.registerModule("gallery", {
         options: {
             enabled: !1,
             arrowMarkup: '<button title="%title%" type="button" class="mfp-arrow mfp-arrow-%dir%"></button>',
@@ -570,72 +560,72 @@
         },
         proto: {
             initGallery: function() {
-                var c = b.st.gallery,
-                    e = ".mfp-gallery";
-                return b.direction = !0, c && c.enabled ? (f += " mfp-gallery", w(m + e, function() {
-                    c.navigateByImgClick && b.wrap.on("click" + e, ".mfp-img", function() {
-                        return b.items.length > 1 ? (b.next(), !1) : void 0
-                    }), d.on("keydown" + e, function(a) {
-                        37 === a.keyCode ? b.prev() : 39 === a.keyCode && b.next()
+                var o = t.st.gallery,
+                    s = ".mfp-gallery";
+                return t.direction = !0, !(!o || !o.enabled) && (a += " mfp-gallery", w(f + s, function() {
+                    o.navigateByImgClick && t.wrap.on("click" + s, ".mfp-img", function() {
+                        return t.items.length > 1 ? (t.next(), !1) : void 0
+                    }), i.on("keydown" + s, function(e) {
+                        37 === e.keyCode ? t.prev() : 39 === e.keyCode && t.next()
                     })
-                }), w("UpdateStatus" + e, function(a, c) {
-                    c.text && (c.text = T(c.text, b.currItem.index, b.items.length))
-                }), w(l + e, function(a, d, e, f) {
-                    var g = b.items.length;
-                    e.counter = g > 1 ? T(c.tCounter, f.index, g) : ""
-                }), w("BuildControls" + e, function() {
-                    if (b.items.length > 1 && c.arrows && !b.arrowLeft) {
-                        var d = c.arrowMarkup,
-                            e = b.arrowLeft = a(d.replace(/%title%/gi, c.tPrev).replace(/%dir%/gi, "left")).addClass(s),
-                            f = b.arrowRight = a(d.replace(/%title%/gi, c.tNext).replace(/%dir%/gi, "right")).addClass(s);
-                        e.click(function() {
-                            b.prev()
-                        }), f.click(function() {
-                            b.next()
-                        }), b.container.append(e.add(f))
+                }), w("UpdateStatus" + s, function(e, o) {
+                    o.text && (o.text = N(o.text, t.currItem.index, t.items.length))
+                }), w(l + s, function(e, i, s, a) {
+                    var r = t.items.length;
+                    s.counter = r > 1 ? N(o.tCounter, a.index, r) : ""
+                }), w("BuildControls" + s, function() {
+                    if (t.items.length > 1 && o.arrows && !t.arrowLeft) {
+                        var i = o.arrowMarkup,
+                            s = t.arrowLeft = e(i.replace(/%title%/gi, o.tPrev).replace(/%dir%/gi, "left")).addClass(g),
+                            a = t.arrowRight = e(i.replace(/%title%/gi, o.tNext).replace(/%dir%/gi, "right")).addClass(g);
+                        s.click(function() {
+                            t.prev()
+                        }), a.click(function() {
+                            t.next()
+                        }), t.container.append(s.add(a))
                     }
-                }), w(n + e, function() {
-                    b._preloadTimeout && clearTimeout(b._preloadTimeout), b._preloadTimeout = setTimeout(function() {
-                        b.preloadNearbyImages(), b._preloadTimeout = null
+                }), w(c + s, function() {
+                    t._preloadTimeout && clearTimeout(t._preloadTimeout), t._preloadTimeout = setTimeout(function() {
+                        t.preloadNearbyImages(), t._preloadTimeout = null
                     }, 16)
-                }), void w(h + e, function() {
-                    d.off(e), b.wrap.off("click" + e), b.arrowRight = b.arrowLeft = null
-                })) : !1
+                }), void w(n + s, function() {
+                    i.off(s), t.wrap.off("click" + s), t.arrowRight = t.arrowLeft = null
+                }))
             },
             next: function() {
-                b.direction = !0, b.index = S(b.index + 1), b.updateItemHTML()
+                t.direction = !0, t.index = H(t.index + 1), t.updateItemHTML()
             },
             prev: function() {
-                b.direction = !1, b.index = S(b.index - 1), b.updateItemHTML()
+                t.direction = !1, t.index = H(t.index - 1), t.updateItemHTML()
             },
-            goTo: function(a) {
-                b.direction = a >= b.index, b.index = a, b.updateItemHTML()
+            goTo: function(e) {
+                t.direction = e >= t.index, t.index = e, t.updateItemHTML()
             },
             preloadNearbyImages: function() {
-                var a, c = b.st.gallery.preload,
-                    d = Math.min(c[0], b.items.length),
-                    e = Math.min(c[1], b.items.length);
-                for (a = 1; a <= (b.direction ? e : d); a++) b._preloadItem(b.index + a);
-                for (a = 1; a <= (b.direction ? d : e); a++) b._preloadItem(b.index - a)
+                var e, o = t.st.gallery.preload,
+                    i = Math.min(o[0], t.items.length),
+                    s = Math.min(o[1], t.items.length);
+                for (e = 1; e <= (t.direction ? s : i); e++) t._preloadItem(t.index + e);
+                for (e = 1; e <= (t.direction ? i : s); e++) t._preloadItem(t.index - e)
             },
-            _preloadItem: function(c) {
-                if (c = S(c), !b.items[c].preloaded) {
-                    var d = b.items[c];
-                    d.parsed || (d = b.parseEl(c)), y("LazyLoad", d), "image" === d.type && (d.img = a('<img class="mfp-img" />').on("load.mfploader", function() {
-                        d.hasSize = !0
+            _preloadItem: function(o) {
+                if (o = H(o), !t.items[o].preloaded) {
+                    var i = t.items[o];
+                    i.parsed || (i = t.parseEl(o)), C("LazyLoad", i), "image" === i.type && (i.img = e('<img class="mfp-img" />').on("load.mfploader", function() {
+                        i.hasSize = !0
                     }).on("error.mfploader", function() {
-                        d.hasSize = !0, d.loadError = !0, y("LazyLoadError", d)
-                    }).attr("src", d.src)), d.preloaded = !0
+                        i.hasSize = !0, i.loadError = !0, C("LazyLoadError", i)
+                    }).attr("src", i.src)), i.preloaded = !0
                 }
             }
         }
     });
-    var U = "retina";
-    a.magnificPopup.registerModule(U, {
+    var W = "retina";
+    e.magnificPopup.registerModule(W, {
         options: {
-            replaceSrc: function(a) {
-                return a.src.replace(/\.\w+$/, function(a) {
-                    return "@2x" + a
+            replaceSrc: function(e) {
+                return e.src.replace(/\.\w+$/, function(e) {
+                    return "@2x" + e
                 })
             },
             ratio: 1
@@ -643,22 +633,21 @@
         proto: {
             initRetina: function() {
                 if (window.devicePixelRatio > 1) {
-                    var a = b.st.retina,
-                        c = a.ratio;
-                    c = isNaN(c) ? c() : c, c > 1 && (w("ImageHasSize." + U, function(a, b) {
-                        b.img.css({
-                            "max-width": b.img[0].naturalWidth / c,
+                    var e = t.st.retina,
+                        o = e.ratio;
+                    (o = isNaN(o) ? o() : o) > 1 && (w("ImageHasSize." + W, function(e, t) {
+                        t.img.css({
+                            "max-width": t.img[0].naturalWidth / o,
                             width: "100%"
                         })
-                    }), w("ElementParse." + U, function(b, d) {
-                        d.src = a.replaceSrc(d, c)
+                    }), w("ElementParse." + W, function(t, i) {
+                        i.src = e.replaceSrc(i, o)
                     }))
                 }
             }
         }
-    }), A()
-}); //SLICKREMIX START OUR CUSTOM POPUPS
-jQuery(document).ready(function() {
+    }), k()
+}), jQuery(document).ready(function() {
     jQuery(".popup-gallery-twitter").each(function() {
         jQuery(this).magnificPopup({
             delegate: "a.fts-twitter-link-image",
@@ -680,414 +669,134 @@ jQuery(document).ready(function() {
             }
         })
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    var magnificPopup = jQuery.magnificPopup.instance;
-
-
-// SLICKREMIX: MUST HAVE THIS IN PLACE TO ADJUST THE HEIGHT OF THE POPUP
-    // When clicked on, it will only adjust the height of the popup based on if the image is higher than the last, otherwise we just leave it and hoz. and vert. align the image.
-
-    jQuery('body').on('click', '#fts-photo-prev', function() {
-        magnificPopup.prev();
-        if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
-            jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-            // alert('ok don\'t change');
-        }
-        else {
-            jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
-            //  alert('change');
-        }
-        // alert('change');
-    });
-
-    jQuery('body').on('click', '#fts-photo-next', function() {
-        magnificPopup.next();
-        if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
-            jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-            //  alert('ok don\'t change');
-        }
-        else {
-            //      jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
-            //  alert('change');
-        }
-
-
-    });
-
-    jQuery('body').on('click', '.fts-facebook-popup .mfp-image-holder .fts-popup-image-position', function() {
-        magnificPopup.next();
-        if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
-            jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-            //  alert('ok don\'t change');
-        }
-        else {
-            //      jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
-            //  alert('change');
-        }
-    });
-
-    // SLICKREMIX: MUST HAVE THIS IN PLACE TO BE ABLE TO CHECK WHAT KIND OF VIDEOS ARE BEING CLICKED ON
-    jQuery('body').on('click', '#fts-photo-prev, #fts-photo-next, .fts-facebook-popup .mfp-image-holder .fts-popup-image-position', function(e) {
-        // alert('test');
-        jQuery("body").addClass("fts-using-arrows");
-
-        setTimeout(function(){
-
-            // Reload the share each funcion otherwise you can't open share option.
-            jQuery.fn.ftsShare();
-
-            if (/fbcdn.net/i.test(jQuery(".fts-iframe-popup-element").attr("src")) || /scontent.cdninstagram.com/i.test(jQuery(".fts-iframe-popup-element").attr("src"))) {
-
-                // alert(jQuery(".fts-iframe-popup-element").attr("src"));
-                jQuery("body").addClass("fts-video-iframe-choice");
-                jQuery(".fts-video-popup-element").show();
-                jQuery(".fts-iframe-popup-element").attr("src", "").hide();
-
-            }
-            else {
-                //  alert('wtf');
-                jQuery("body").removeClass("fts-video-iframe-choice, .fts-using-arrows");
-                jQuery(".fts-video-popup-element").attr("src", "").hide();
-                jQuery(".fts-iframe-popup-element").show();
-            }
-
-
-            //  if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
-            //      jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-            //  alert('ok don\'t change');
-            //  }
-            //  else {
-            //     jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
-            //  alert('change');
-            //   }
-
-
-
-            if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
-                jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-                //  alert('ok don\'t change');
-            }
-            else {
-                //  jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
-                //  alert('change');
-            }
-
-
-            // EMBED HTML CASE: We do this so we can adjust the height of the iframe as the popup scales in size
-            if(jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0]){
-                console.log('Arrows: Open Callback: Irregular size');
-                jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : jQuery( ".fts-popup-half" ).height()});
-                jQuery( ".fts-popup-image-position" ).css({"height" : "100%", "min-height" : "auto"});
-                jQuery( ".mfp-iframe-scaler" ).css("padding-top", "100%");
-
-            }
-            else if(jQuery(".fts-popup-second-half .fts-equal-width-height")[0]){
-                console.log('Arrows: Open Callback: Square size');
-                jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : jQuery( ".fts-popup-half" ).height()});
-                jQuery( ".mfp-iframe-scaler" ).css("padding-top", "");
-
-            }
-            else {
-                console.log('Arrows: Open Callback: Regular size');
-                jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : "100%"});
-                jQuery( ".mfp-iframe-scaler" ).css("padding-top", "56.0%");
-                jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-half" ).height());
-            }
-
-        }, 10);
-    });
-    // CLOSE SLICKREMIX
-
-
-// Facebook Posts
-    jQuery.fn.slickFacebookPopUpFunction = function() {
-
-        jQuery('.popup-gallery-fb-posts, .popup-gallery-fb, .popup-video-gallery-fb').each(function () {
-            var $container = jQuery(this);
-            var $imageLinks = $container.find('a.fts-facebook-link-target, a.fts-fb-large-photo, a.fts-view-album-photos-large, a.fts-view-fb-videos-large, a.fts-view-fb-videos-btn, a.fts-jal-fb-vid-html5video');
-
-            var items = [];
-            $imageLinks.each(function () {
-                var $item = jQuery(this);
-                var type = 'image';
-                if ($item.hasClass('fts-jal-fb-vid-image') || $item.hasClass('fts-view-fb-videos-btn')) {
-                    var type = 'iframe';
-                    var video_check_me = jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-fb-embed-iframe-check-used-for-popup').html();
-                    if(video_check_me){
-                        var video_check = video_check_me;
-                    }
-                    else {
-                        var video_check = '';
-                    }
-                }
-                else {
-                    var video_check = '';
-                }
-                var magItem = {
-                    src: $item.attr('href'),
-                    type: type
+    var e = jQuery.magnificPopup.instance;
+    jQuery("body").on("click", "#fts-photo-prev", function() {
+        e.prev(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
+    }), jQuery("body").on("click", "#fts-photo-next", function() {
+        e.next(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() && jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height())
+    }), jQuery("body").on("click", ".fts-facebook-popup .mfp-image-holder .fts-popup-image-position", function() {
+        e.next(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() && jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height())
+    }), jQuery("body").on("click", "#fts-photo-prev, #fts-photo-next, .fts-facebook-popup .mfp-image-holder .fts-popup-image-position", function(e) {
+        jQuery("body").addClass("fts-using-arrows"), setTimeout(function() {
+            jQuery.fn.ftsShare(), /fbcdn.net/i.test(jQuery(".fts-iframe-popup-element").attr("src")) || /scontent.cdninstagram.com/i.test(jQuery(".fts-iframe-popup-element").attr("src")) ? (jQuery("body").addClass("fts-video-iframe-choice"), jQuery(".fts-video-popup-element").show(), jQuery(".fts-iframe-popup-element").attr("src", "").hide()) : (jQuery("body").removeClass("fts-video-iframe-choice, .fts-using-arrows"), jQuery(".fts-video-popup-element").attr("src", "").hide(), jQuery(".fts-iframe-popup-element").show()), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() && jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Arrows: Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                "max-width": "100%",
+                width: jQuery(".fts-popup-half").height()
+            }), jQuery(".fts-popup-image-position").css({
+                height: "100%",
+                "min-height": "auto"
+            }), jQuery(".mfp-iframe-scaler").css("padding-top", "100%")) : jQuery(".fts-popup-second-half .fts-equal-width-height")[0] ? (console.log("Arrows: Open Callback: Square size"), jQuery("iframe.fts-iframe-popup-element").css({
+                "max-width": "100%",
+                width: jQuery(".fts-popup-half").height()
+            }), jQuery(".mfp-iframe-scaler").css("padding-top", "")) : (console.log("Arrows: Open Callback: Regular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                "max-width": "100%",
+                width: "100%"
+            }), jQuery(".mfp-iframe-scaler").css("padding-top", "56.0%"), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-half").height()))
+        }, 10)
+    }), jQuery.fn.slickFacebookPopUpFunction = function() {
+        jQuery(".popup-gallery-fb-posts, .popup-gallery-fb, .popup-video-gallery-fb").each(function() {
+            var e = jQuery(this).find("a.fts-facebook-link-target, a.fts-fb-large-photo, a.fts-view-album-photos-large, a.fts-view-fb-videos-large, a.fts-view-fb-videos-btn, a.fts-jal-fb-vid-html5video"),
+                t = [];
+            e.each(function() {
+                var e = jQuery(this),
+                    o = "image";
+                if (e.hasClass("fts-jal-fb-vid-image") || e.hasClass("fts-view-fb-videos-btn")) {
+                    o = "iframe";
+                    var i = jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-fb-embed-iframe-check-used-for-popup").html();
+                    if (i) var s = i;
+                    else s = ""
+                } else s = "";
+                var a = {
+                    src: e.attr("href"),
+                    type: o
                 };
-
-                // SLICKREMIX: THIS ADDS THE LIKES, COMMENTS, DESCRIPTION, DATES ETC TO THE POPUP
-                magItem.title = jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-jal-fb-top-wrap').html() + jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-likes-shares-etc-wrap').html() + jQuery(this).parents('.fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post').find('.fts-fb-comments-wrap').html() + video_check;
-
-                items.push(magItem);
-            });
-            $imageLinks.magnificPopup({
-                mainClass: 'fts-facebook-popup fts-facebook-styles-popup',
-                items: items,
+                r = jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-fb-album-additional-pics-description-wrap").html() ? jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-fb-album-additional-pics-description-wrap").html() : "",
+                    n = jQuery(this).parents(".fts-jal-fb-post-time-album").find(".fts-jal-fb-post-time-album").html() ? jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-jal-fb-post-time-album").html() : "";
+                a.title = jQuery(this).parents(".fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-jal-fb-top-wrap").html() + r + n + jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-likes-shares-etc-wrap").html() + jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-fb-comments-wrap").html() + s, t.push(a)
+            }), e.magnificPopup({
+                mainClass: "fts-facebook-popup fts-facebook-styles-popup",
+                items: t,
                 removalDelay: 150,
-                preloader: false,
-                closeOnContentClick: false,
-                closeOnBgClick: true,
-                closeBtnInside: true,
-                showCloseBtn: false,
-                enableEscapeKey: true,
-                autoFocusLast: false,
-                gallery:{
-                    enabled: true,
-                    navigateByImgClick: false,
-                    tCounter: '<span class="mfp-counter">%curr% of %total%</span>', // markup of counter
-                    preload: [0,1], // Will preload 0 - before current, and 1 after the current
-                    arrowMarkup: '' // markup of an arrow button (slickremix = leave blank so we can show our custom buttons inside the framework)
+                preloader: !1,
+                closeOnContentClick: !1,
+                closeOnBgClick: !0,
+                closeBtnInside: !0,
+                showCloseBtn: !1,
+                enableEscapeKey: !0,
+                autoFocusLast: !1,
+                gallery: {
+                    enabled: !0,
+                    navigateByImgClick: !1,
+                    tCounter: '<span class="mfp-counter">%curr% of %total%</span>',
+                    preload: [0, 1],
+                    arrowMarkup: ""
                 },
-                type: 'image',
+                type: "image",
                 callbacks: {
                     beforeOpen: function() {
-                        var index = $imageLinks.index(this.st.el);
-                        if (-1 !== index) {
-                            this.goTo(index);
-                        }
+                        var t = e.index(this.st.el); - 1 !== t && this.goTo(t)
                     },
                     open: function() {
-                        console.log('Popup is opened');
-
-                        // Reload the share each funcion otherwise you can't open share option.
-                        jQuery.fn.ftsShare();
-
-
-
-                        //   jQuery(window).resize(function() {
-
-                        if(jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).height() < jQuery( ".mfp-img" ).height()){
-                            jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".mfp-img" ).height());
-                            //  alert('ok don\'t change');
+                        if (console.log("Popup is opened"), jQuery.fn.ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                            "max-width": "100%",
+                            width: jQuery(".fts-popup-half").height()
+                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "100%")) : jQuery(".fts-popup-second-half .fts-equal-width-height")[0] ? (console.log("Open Callback: Square size"), jQuery("iframe.fts-iframe-popup-element").css({
+                            "max-width": "100%",
+                            width: jQuery(".fts-popup-half").height()
+                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "")) : (console.log("Open Callback: Regular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                            "max-width": "100%",
+                            width: "100%"
+                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "56.0%"), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-half").height())), matchMedia("only screen and (max-device-width: 736px)").matches) {
+                            var e = event.target.id,
+                                t = jQuery("#" + e).data("poster");
+                            jQuery(".fts-fb-vid-popup video").attr("poster", t), console.log(t)
                         }
-                        else {
-                            jQuery( ".fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-image-position" ).height());
-                            //  alert('change');
-                        }
-
-
-                        // EMBED HTML CASE: We do this so we can adjust the height of the iframe as the popup scales in size
-                        if(jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0]){
-                            console.log('Open Callback: Irregular size');
-                            jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : jQuery( ".fts-popup-half" ).height()});
-                            jQuery( ".mfp-iframe-scaler" ).css("padding-top", "100%");
-
-                        }
-                        else if(jQuery(".fts-popup-second-half .fts-equal-width-height")[0]){
-                            console.log('Open Callback: Square size');
-                            jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : jQuery( ".fts-popup-half" ).height()});
-                            jQuery( ".mfp-iframe-scaler" ).css("padding-top", "");
-
-                        }
-                        else {
-                            console.log('Open Callback: Regular size');
-                            jQuery( "iframe.fts-iframe-popup-element" ).css({"max-width" : "100%", "width" : "100%"});
-                            jQuery( ".mfp-iframe-scaler" ).css("padding-top", "56.0%");
-                            jQuery( ".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar" ).css("height", jQuery( ".fts-popup-half" ).height());
-                        }
-                        //  });
-
-                        //  jQuery(window).trigger('resize');
-
-
-                        // slickremix trick to get the poster url from a tag we are clicking and pass it to the video player.
-                        // We only want to load the poster if the size is mobile because tablets and desktops can/will play video automatically on popup
-                        if (matchMedia('only screen and (max-device-width: 736px)').matches) {
-                            var atagvideo = event.target.id;
-                            var videoposter = jQuery('#'+atagvideo).data('poster');
-                            var video = jQuery('.fts-fb-vid-popup video');
-                            video.attr('poster', videoposter);
-                            //	alert(videoposter);
-                            console.log(videoposter);
-                        }
-                        // SLICKREMIX: MUST HAVE THIS IN PLACE TO BE ABLE TO ADD THE CLASS TO BODY SO WE CAN DO ACTIONS ON OUR CUSTOM PREV AND NEXT BUTTONS
-                        // alert('added fts-using-arrows class on popup open')
-                        jQuery("body").addClass("fts-using-arrows");
-
-
+                        jQuery("body").addClass("fts-using-arrows")
                     },
                     change: function() {
-
-
-                        // Reload the share each funcion otherwise you can't open share option.
-                        jQuery.fn.ftsShare();
-
-
-
-                        jQuery(window).trigger('resize');
-
-
-                        console.log('Content changed');
-                        // console.log(this.content); // Direct reference to your popup element
-                        if(jQuery("body").hasClass("fts-using-arrows")) {
-
-                        }
-
-
+                        jQuery.fn.ftsShare(), jQuery(window).trigger("resize"), console.log("Content changed"), jQuery("body").hasClass("fts-using-arrows")
                     },
-
-                    imageLoadComplete: function() {
-                        // fires when image in current popup finished loading
-                        // avaiable since v0.9.0
-
-
-                    },
-                    markupParse: function(template, values, item) {
-                        // Triggers each time when content of popup changes 
-                        console.log('Parsing:', template, values, item);
-
-
-
-                        // SLICKREMIX: MUST HAVE THIS IN PLACE TO BE ABLE TO CHECK WHAT KIND OF VIDEOS ARE BEING CLICKED ON
-                        if(!jQuery("body").hasClass("fts-using-arrows")) {
-
-                            var ftsLinkCheck = item.src;
-
-                            if (/fbcdn.net/i.test(ftsLinkCheck) && item.type !== 'image') {
-                                // alert('FB Video Change photo Trigger from MP');
-                                jQuery("body").addClass("fts-video-iframe-choice");
-                            }
-                            else if (!jQuery("body").hasClass("fts-using-arrows")) {
-                                //  alert('Not using arrows open photo Trigger from MP');
-                                jQuery("body").removeClass("fts-video-iframe-choice");
-                            }
-
+                    imageLoadComplete: function() {},
+                    markupParse: function(e, t, o) {
+                        if (console.log("Parsing:", e, t, o), !jQuery("body").hasClass("fts-using-arrows")) {
+                            var i = o.src;
+                            /fbcdn.net/i.test(i) && "image" !== o.type ? jQuery("body").addClass("fts-video-iframe-choice") : jQuery("body").hasClass("fts-using-arrows") || jQuery("body").removeClass("fts-video-iframe-choice")
                         }
-                        // CLOSE SLICKREMIX
-
                     },
                     afterClose: function() {
-                        jQuery("body").removeClass("fts-using-arrows");
-                        console.log('Popup is completely closed');
+                        jQuery("body").removeClass("fts-using-arrows"), console.log("Popup is completely closed")
                     }
                 },
                 image: {
-                    markup: '' +
-                    '<div class="mfp-figure"><div class="mfp-close">X</div>'+
-                    '<div class="fts-popup-wrap">' +
-                    '    <div class="fts-popup-half ">' +
-                    '               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>' +
-                    '           <div class="fts-popup-image-position" style="height:591px;">' +
-                    '                   <span class="fts-position-helper"></span><div class="mfp-img"></div>' +
-                    '       </div>' +
-                    '               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>' +
-                    '    </div>'+
-                    '<div class="fts-popup-second-half">' +
-                    '<div class="mfp-bottom-bar">'+
-                    '<div class="mfp-title"></div>' +
-                    '<a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a>'+
-                    '<div class="mfp-counter"></div>'+
-                    '</div>' +
-                    '</div>' +
-                    '</div>'+
-                    '</div>', // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
-
+                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position" style="height:591px;">                   <span class="fts-position-helper"></span><div class="mfp-img"></div>       </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
                     tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-
                 },
                 iframe: {
-                    markup: '' +
-                    '<div class="mfp-figure"><div class="mfp-close">X</div>'+
-                    '<div class="fts-popup-wrap">' +
-                    '    <div class="fts-popup-half ">' +
-                    '               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>' +
-                    '           <div class="fts-popup-image-position">' +
-                    '<div class="fts-fb-embed-iframe-check-used-for-popup"></div>' +
-                    '                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" align="middle" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>' +
-                    '                           </div>' +
-                    '               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>' +
-                    '<script>' +
-                    // SLICKREMIX: MUST HAVE THIS IN PLACE TO BE ABLE TO CHECK WHAT KIND OF VIDEOS ARE BEING CLICKED ON WHEN FIRST LOADED, AFTER THEY ARE LOADED REFER TO THE CLICK FUNCTION FOR THE ERRORS ABOVE
-                    'if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); </script>' +
-                    '       </div>' +
-                    '    </div>'+
-                    '<div class="fts-popup-second-half">' +
-                    '<div class="mfp-bottom-bar">'+
-                    '<div class="mfp-title"></div>' +
-                    '<a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a>'+
-                    '<div class="mfp-counter"></div>'+
-                    '</div>' +
-                    '</div>' +
-                    '</div>'+
-                    '</div>', // Popup HTML markup. `.mfp-img` div will be replaced with img tag, `.mfp-close` by close button
-
-                    srcAction: 'iframe_src' // Templating object key. First part defines CSS selector, second attribute. "iframe_src" means: find "iframe" and set attribute "src".  
+                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position"><div class="fts-fb-embed-iframe-check-used-for-popup"></div>                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" align="middle" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                    srcAction: "iframe_src"
                 }
-            });
-
-        });
-    };
-//Return the function right away
-    jQuery.fn.slickFacebookPopUpFunction();
-
-
-
-    jQuery.fn.slickInstagramPopUpFunction = function() {
+            })
+        })
+    }, jQuery.fn.slickFacebookPopUpFunction(), jQuery.fn.slickInstagramPopUpFunction = function() {
         jQuery(".popup-gallery").each(function() {
-            var e = jQuery(this),
-                t = e.find(".fts-instagram-link-target"),
-                s = [];
-            t.each(function() {
+            var e = jQuery(this).find(".fts-instagram-link-target"),
+                t = [];
+            e.each(function() {
                 var e = jQuery(this);
-                if (e.hasClass("fts-jal-fb-vid-image")) t = "iframe";
-                else if (e.hasClass("fts-instagram-video-link")) t = "inline";
-                else var t = "image";
-                if ("inline" == t) var o = "",
-                    p = '<video controls width="100%;" style="max-width:100%;" allowfullscreen  controls><source src="' + e.attr("href") + '" type="video/mp4"></video><script>jQuery(".fts-instagram-styles-popup video").get(0).play();jQuery(".fts-instagram-styles-popup video").click(function(){ jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause") });</script>';
-                else var o = e.attr("href"),
-                    p = "";
-                var i = {
-                    src: o,
-                    type: t,
-                    html5videolink: p
+                if (e.hasClass("fts-jal-fb-vid-image")) o = "iframe";
+                else if (e.hasClass("fts-instagram-video-link")) o = "inline";
+                else var o = "image";
+                if ("inline" == o) var i = "",
+                    s = '<video controls width="100%;" style="max-width:100%;" allowfullscreen  controls><source src="' + e.attr("href") + '" type="video/mp4"></video><script>jQuery(".fts-instagram-styles-popup video").get(0).play();jQuery(".fts-instagram-styles-popup video").click(function(){ jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause") });<\/script>';
+                else i = e.attr("href"), s = "";
+                var a = {
+                    src: i,
+                    type: o,
+                    html5videolink: s
                 };
-                i.title = jQuery(this).parents(".fts-instagram-wrapper").find(".fts-instagram-popup-profile-wrap").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".slicker-date").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".fts-insta-likes-comments-grab-popup").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".fts-instagram-caption").html(), s.push(i)
-            }), t.magnificPopup({
+                a.title = jQuery(this).parents(".fts-instagram-wrapper").find(".fts-instagram-popup-profile-wrap").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".slicker-date").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".fts-insta-likes-comments-grab-popup").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".fts-instagram-caption").html(), t.push(a)
+            }), e.magnificPopup({
                 mainClass: "fts-facebook-popup fts-instagram-styles-popup",
-                items: s,
+                items: t,
                 removalDelay: 150,
                 preloader: !1,
                 closeOnContentClick: !1,
@@ -1105,7 +814,7 @@ jQuery(document).ready(function() {
                 },
                 callbacks: {
                     beforeOpen: function() {
-                        var e = t.index(this.st.el); - 1 !== e && this.goTo(e)
+                        var t = e.index(this.st.el); - 1 !== t && this.goTo(t)
                     },
                     open: function() {
                         console.log("Popup is opened"), jQuery.fn.ftsShare(), jQuery(window).resize(function() {
@@ -1118,8 +827,8 @@ jQuery(document).ready(function() {
                     imageLoadComplete: function() {
                         jQuery.fn.ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
                     },
-                    markupParse: function(e, t, s) {
-                        console.log("Parsing:", e, t, s)
+                    markupParse: function(e, t, o) {
+                        console.log("Parsing:", e, t, o)
                     },
                     afterClose: function() {
                         jQuery("body").removeClass("fts-using-arrows"), console.log("Popup is completely closed")
@@ -1133,27 +842,26 @@ jQuery(document).ready(function() {
                     tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
                 },
                 iframe: {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half fts-instagram-popup-half">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")});</script>       </div>    </div><div class="fts-popup-second-half fts-instagram-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://feedthemsocial.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half fts-instagram-popup-half">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")});<\/script>       </div>    </div><div class="fts-popup-second-half fts-instagram-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://feedthemsocial.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
                     srcAction: "iframe_src"
                 }
             })
         })
     }, jQuery.fn.slickInstagramPopUpFunction(), jQuery.fn.slickYoutubePopUpFunction = function() {
         jQuery(".fts-youtube-popup-gallery").each(function() {
-            var e = jQuery(this),
-                t = e.find("a.fts-yt-popup-open"),
-                s = [];
-            t.each(function() {
+            var e = jQuery(this).find("a.fts-yt-popup-open"),
+                t = [];
+            e.each(function() {
                 var e = jQuery(this);
                 type = "iframe";
-                var t = {
+                var o = {
                     src: e.attr("href"),
                     type: type
                 };
-                t.title = jQuery(this).parents(".slicker-youtube-placeholder").find(".youtube-social-btn-top").html() || jQuery(this).parents(".slicker-youtube-placeholder").find(".entriestitle").html(), s.push(t)
-            }), t.magnificPopup({
+                o.title = jQuery(this).parents(".slicker-youtube-placeholder").find(".youtube-social-btn-top").html() || jQuery(this).parents(".slicker-youtube-placeholder").find(".entriestitle").html(), t.push(o)
+            }), e.magnificPopup({
                 mainClass: "fts-facebook-popup fts-facebook-styles-popup fts-youtube-popup",
-                items: s,
+                items: t,
                 removalDelay: 150,
                 preloader: !1,
                 closeOnContentClick: !1,
@@ -1171,7 +879,7 @@ jQuery(document).ready(function() {
                 },
                 callbacks: {
                     beforeOpen: function() {
-                        var e = t.index(this.st.el); - 1 !== e && this.goTo(e)
+                        var t = e.index(this.st.el); - 1 !== t && this.goTo(t)
                     },
                     open: function() {
                         console.log("Popup is opened"), jQuery.fn.ftsShare(), jQuery(window).resize(function() {
@@ -1184,15 +892,15 @@ jQuery(document).ready(function() {
                     imageLoadComplete: function() {
                         jQuery.fn.ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
                     },
-                    markupParse: function(e, t, s) {
-                        console.log("Parsing:", e, t, s)
+                    markupParse: function(e, t, o) {
+                        console.log("Parsing:", e, t, o)
                     },
                     afterClose: function() {
                         jQuery("body").removeClass("fts-using-arrows"), console.log("Popup is completely closed")
                     }
                 },
                 iframe: {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide();  } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); </script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide();  } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
                     srcAction: "iframe_src"
                 }
             })

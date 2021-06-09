@@ -15,7 +15,7 @@ function ftgallerycopy(id)
     {
         alert(e);
     }
-};
+}
 
 jQuery(window).on("load",function() {
 

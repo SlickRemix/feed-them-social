@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="3.0.0 - CPT Refactor Branch!">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+    <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="3.0.0 - Get 3.0.0 caught up with current version 2.9.5 of FTS">
+      <change afterPath="$PROJECT_DIR$/includes/feed-cache.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/includes/js/powered-by.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/js/admin-full.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin/js/admin-full.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/class-load-plugin.php" beforeDir="false" afterPath="$PROJECT_DIR$/class-load-plugin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/core-functions-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/core-functions-class.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/display-gallery/display-gallery-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/display-gallery/display-gallery-class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/shortcode-button/shortcode-button.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/shortcode-button/shortcode-button.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feed-them-functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feed-them-functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/galleries/gallery-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/galleries/gallery-class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/js/front-end-full.js" beforeDir="false" afterPath="$PROJECT_DIR$/includes/js/front-end-full.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shortcodes.php" beforeDir="false" afterPath="$PROJECT_DIR$/shortcodes.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +30,14 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="746b94c9-492a-4d87-b8e7-d09b497ec58e" />
@@ -81,6 +97,7 @@
       <workItem from="1618276453069" duration="3291000" />
       <workItem from="1618851652211" duration="975000" />
       <workItem from="1619113945914" duration="8748000" />
+      <workItem from="1622656980734" duration="20000" />
     </task>
     <task id="LOCAL-00001" summary="3.0.0 - CPT Refactor Branch!">
       <created>1618278949335</created>
@@ -129,18 +146,19 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/metabox-settings/metabox-settings-class.php</url>
-          <line>847</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/includes/galleries/gallery-class.php</url>
+          <line>335</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="php-line-method">
-          <url>file://$PROJECT_DIR$/metabox-settings/metabox-settings-class.php</url>
-          <line>808</line>
-          <properties>
-            <option name="className" value="\feedthemsocial\Metabox_Settings" />
-            <option name="methodName" value="save_meta_box" />
-          </properties>
-          <option name="timeStamp" value="2" />
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php</url>
+          <line>411</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php</url>
+          <line>414</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

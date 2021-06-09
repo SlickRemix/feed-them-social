@@ -42,6 +42,9 @@ class Feed_Them_Social {
 		// Gallery Options.
 		$gallery_options = feedthemsocial\Gallery_Options::get_all_options();
 
+        //Feed Them Functions core!
+        feedthemsocial\FTS_Functions::load();
+
 		// Settings Page.
 		feedthemsocial\Settings_Page::load();
 
@@ -54,11 +57,9 @@ class Feed_Them_Social {
 		// Core.
 		feedthemsocial\Core_Functions::load();
 
+
 		// Display Gallery.
 		feedthemsocial\Display_Gallery::load();
-
-		// Twitter Feed.
-		feedthemsocial\FTS_Twitter_Feed::load();
 
 		// Galleries.
 		feedthemsocial\Gallery::load( $gallery_options, $gallery_main_post_type );
@@ -93,8 +94,11 @@ class Feed_Them_Social {
 		// Shortcode Button for Admin page, posts and cpt's.
 		feedthemsocial\Shortcode_Button::load();
 
+		// Feed Cache.
+		$feed_cache = new \feedthemsocial\Feed_Cache();
+
 		// Shortcodes.
-		new feedthemsocial\Shortcodes();
+		new feedthemsocial\Shortcodes( $feed_cache );
 
 		// Updater Init.
 		new feedthemsocial\updater_init();
@@ -377,6 +381,8 @@ class Feed_Them_Social {
 		// Display Gallery.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/display-gallery/display-gallery-class.php';
 
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
+
 		// Twitter Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-fts-twitter-feed.php';
 
@@ -414,6 +420,9 @@ class Feed_Them_Social {
 			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/watermark/ajax.php';
 
 		}
+
+		// Feed Cache
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';
 
 		// Shortcode Button.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/shortcode-button/shortcode-button.php';

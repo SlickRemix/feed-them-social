@@ -3,63 +3,85 @@
 /**
  * Shortcodes for Feed Them Social
  */
-class Shortcodes extends Gallery {
+class Shortcodes {
+
+	public $feed_cache;
 
 	/**
 	 * Shortcodes constructor.
 	 */
-	public function __construct(){ }
+	public function __construct( Feed_Cache $feed_cache ){
+		$this->add_actions_filters();
+		$this->feed_cache = $feed_cache;
+	}
+
+    /**
+     * Add Actions & Filters
+     *
+     * Adds the Actions and filters for the class.
+     *
+     * @since 3.0.0
+     */
+    public function add_actions_filters(){
+        add_shortcode( 'feed_them_social', array( $this, 'fts_shortcode_filter' ) );
+    }
+
+    /**
+     * FTS ShortCode Filter
+     *
+     * Chooses which feed function to use.
+     *
+     * @since 3.0.0
+     */
+    public function fts_shortcode_filter( $inputted_atts ){
+
+	    $cpt_id = $this->cpt_check($inputted_atts);
+
+
+    	//Check the CPT ID exists in Shortcode
+    	if ($cpt_id){
+			new FTS_Functions();
+    		$this->get_feed_type($cpt_id);
+
+		    // Twitter Feed.
+		    $twitter_feed = new FTS_Twitter_Feed( $this->feed_cache );
+		    echo $twitter_feed->display_twitter( $inputted_atts );
+	    }
+    }
+
 
 	/**
-	 * Gallery Album Shortcode
+	 * Get Feed Type
 	 *
-	 * @param $atts
-	 * @since 1.0.8
+	 * Get the feed type from option set in the CPT.
+	 *
+	 * @param $cpt_id string
 	 */
-	public function fts_album( $atts ) {
+	public function get_feed_type( string $cpt_id ){
+		$cpt_post = get_post( $cpt_id ) ;
 
-		$shortcode_atts = shortcode_atts(
-			array(
-				// All We need is ID of Gallery Post the rest will be passed through a rest call!
-				'id' => '',
-			),
-			$atts
-		);
-
-		$album_gallery_ids = get_post_meta( $shortcode_atts['id'], 'fts_album_gallery_ids', true );
-
-		if ( isset( $album_gallery_ids ) && ! empty( $album_gallery_ids ) ) {
-
-			$albums_class = new Albums();
-
-			?>
-			<div class="ftg-album-wrap">
-			<?php
-
-			foreach ( $album_gallery_ids as $key => $gallery ) {
-
-				$gallery_meta = get_post( $gallery );
-
-				if ( $gallery_meta ) {
-					$gallery_img_url = $albums_class->gallery_featured_first( $gallery_meta->ID );
-
-					$gallery_edit_url          = get_edit_post_link( $gallery_meta->ID );
-					$gallery_post_link         = get_post_permalink( $gallery_meta->ID );
-					$gallery_attachments_count = $albums_class->fts_count_gallery_attachments( $gallery_meta->ID );
-					$attachments_count         = ! empty( $gallery_attachments_count ) ? '(' . $gallery_attachments_count . ')' : '';
-					?>
-					<div class="ftg-album-item-wrap">
-						<a href="<?php echo esc_url( $gallery_post_link ); ?>"><img src="<?php echo esc_url( $gallery_img_url ); ?>"/></a>
-						<a href="<?php echo esc_url( $gallery_post_link ); ?>"><span><?php echo esc_html( $gallery_meta->post_title ); ?> <?php echo esc_html( $attachments_count ); ?></span></a>
-					</div>
-					<?php
-				}
-			}
-			?>
-			</div>
-			<?php
-		} else {
-			echo esc_html__( 'No Galleries in this Album. Please attach Galleries to use this feature', 'feed_them_social' );
+		if( $cpt_post && isset($cpt_post['feed_type']) && !empty($cpt_post['feed_type'])){
+			return $cpt_post['feed_type'];
 		}
+		return false;
+	}
+
+
+	/**
+	 * Custom Post Type Check
+	 *
+	 * Check to see if CPT ID attribute exists.
+	 *
+	 * @param array $inputted_atts
+	 * @return array|bool
+	 * @since 3.0.0
+	 */
+	public function cpt_check( array $inputted_atts ) {
+
+		if ( is_array( $inputted_atts ) && isset( $inputted_atts['cpt_id'] ) && ! empty( $inputted_atts['cpt_id'] ) ) {
+			return $inputted_atts['cpt_id'];
+		}
+
+		return false;
 	}
 }

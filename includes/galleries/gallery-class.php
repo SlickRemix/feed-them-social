@@ -290,7 +290,7 @@ class Gallery {
 			'/gallery-options',
 			array(
 				'methods'  => \WP_REST_Server::READABLE,
-				'callback' => array( $this, 'fts_get_gallery_options' ),
+                'callback' => array( $this, 'get_cpt_post_options' ),
 			)
 		);
 	}
@@ -323,22 +323,22 @@ class Gallery {
 	}
 
 	/**
-	 *  Get Gallery Options
+	 *  Get CPT Post Options
 	 *
 	 * Get options set for a gallery
 	 *
-	 * @param array $gallery_id Gallery ID.
-	 * @return array
+	 * @param mixed $cpt_post_id Gallery ID.
+	 * @return mixed
 	 * @since 1.0.0
 	 */
-	public function fts_get_gallery_options( $gallery_id ) {
+	public function get_cpt_post_options( $cpt_post_id ) {
 
-		$post_info = get_post( $gallery_id['gallery_id'] );
+        // Convert array or string
+	    $cpt_post_id = is_array( $cpt_post_id ) ? $cpt_post_id['cpt_id'] : $cpt_post_id;
 
-		// echo '<pre>';
-		// print_r($post_info);
-		// echo '</pre>';
-		$old_options   = get_post_meta( $gallery_id['gallery_id'], 'fts_settings_options', true );
+        $post_info = get_post( $cpt_post_id ) ;
+
+		$old_options   = get_post_meta( $cpt_post_id, 'fts_settings_options', true );
 		$options_array = isset( $old_options ) && ! empty( $old_options ) ? $old_options : array();
 
 		if ( ! $options_array ) {
@@ -825,7 +825,7 @@ class Gallery {
 			<?php } ?>
 
 			<div class="ft-submit-wrap"><a class="ft-gallery-edit-img-ajax button button-primary button-large"
-										   id="ft-gallery-edit-img-ajax" href="javascript:;"
+										   id="ft-gallery-edit-img-ajax" href="javascript:"
 										   data-nonce="<?php echo esc_attr( wp_create_nonce( 'fts_edit_image_nonce' ) ); ?>"> <?php esc_html_e( 'Save', 'feed_them_social' ); ?> </a>
 			</div>
 		</div>
@@ -1051,8 +1051,8 @@ class Gallery {
 									<div class="drag-drop-buttons">
 									<?php if ( $wp_version >= 35 ) : ?>
 											<!--<a href="#" id="dgd_library_button" class="button insert-media add_media" data-editor="content" title="Add Media">-->
-											<a href="javascript:;" id="dgd_library_button"
-											   class="button" title="Add Media">
+											<a href="javascript:" id="dgd_library_button"
+                                               class="button" title="Add Media">
 												<span class="wp-media-buttons-icon"></span><?php esc_attr_e( 'Media Library', 'feed_them_social' ); ?>
 											</a>
 											<?php
@@ -1155,7 +1155,7 @@ class Gallery {
 						$orderby_all          = isset( $_GET['images'] ) && '-1' === $_GET['images'] ? ' selected="selected"' : '';
 						?>
 						<div class="ftg-images-amount-wrap">
-							<select name="images" class="ftg-images-amount" onchange="javascript:reloadPage(this)">
+							<select name="images" class="ftg-images-amount" onchange="reloadPage(this)">
 								<option value="50" <?php echo esc_html( $orderby_ten ); ?>><?php echo esc_html__( '50 Images', 'feed_them_social' ); ?></option>
 								<option value="100"<?php echo esc_html( $orderby_hundred ); ?>><?php echo esc_html__( '100 Images', 'feed_them_social' ); ?></option>
 								<option value="500"<?php echo esc_html( $orderby_five_hundred ); ?>><?php echo esc_html__( '500 Images', 'feed_them_social' ); ?></option>
@@ -1263,7 +1263,7 @@ class Gallery {
 									type="button"
 									class="ft-gallery-download-gallery fts_download_button_icon button button-primary button-larg"
 									onclick="fts_create_zip('<?php echo $gallery_class->parent_post_id; ?>', 'yes','false')"><?php esc_html_e( 'Zip Gallery & Download', 'feed_them_social' ); ?></button>
-							<a class="gallery-edit-button-question-one" href="javascript:;"
+							<a class="gallery-edit-button-question-one" href="javascript:"
 							   rel="gallery-edit-question-download-gallery">?</a>
 						</div>
 							<?php
@@ -1275,14 +1275,14 @@ class Gallery {
 							<button disabled type="button"
 									class="ft-gallery-zip-gallery fts_download_button_icon button button-primary button-larg"
 									onclick="fts_create_zip('<?php esc_html_e( $object->ID ); ?>', 'no', 'yes', 'no')"><?php esc_html_e( 'Create Digital Gallery Product', 'feed_them_social' ); ?></button>
-							<a class="gallery-edit-button-question-two" href="javascript:;"
+							<a class="gallery-edit-button-question-two" href="javascript:"
 							   rel="gallery-edit-question-digital-gallery-product">?</a>
 						</div>
 						<div class="gallery-edit-button-wrap">
 							<button type="button" disabled="disabled"
 									class="ft-gallery-create-woo fts_download_button_icon button button-primary button-larg"
 									onclick="fts_image_to_woo('<?php esc_html_e( $gallery_class->parent_post_id ); ?>')"><?php esc_html_e( 'Create individual Image Product(s)', 'feed_them_social' ); ?></button>
-							<a class="gallery-edit-button-question-three" href="javascript:;"
+							<a class="gallery-edit-button-question-three" href="javascript:"
 							   rel="gallery-edit-question-individual-image-product">?</a>
 						</div>
 						<?php // } ?>
@@ -1475,8 +1475,8 @@ class Gallery {
 										<?php
 									}
 									?>
-								 <div class="ft-gallery-remove-thumb-btn"><a title="Remove Image from this Gallery" class="ft-gallery-remove-img-ajax" data-ft-gallery-img-remove="true" data-id="<?php echo esc_attr( $image['id'] ); ?>" data-nonce="<?php echo esc_html( wp_create_nonce( 'fts_update_image_nonce' ) ); ?>" href="javascript:;"></a></div>
-								 <div class="ft-gallery-delete-thumb-btn"><a title="Delete Image Completely" class="ft-gallery-force-delete-img-ajax" data-id="<?php echo esc_attr( $image['id'] ); ?>" data-nonce="<?php echo esc_html( wp_create_nonce( 'fts_delete_image_nonce' ) ); ?>" href="javascript:;"></a></div> <div class="clear"></div>
+								 <div class="ft-gallery-remove-thumb-btn"><a title="Remove Image from this Gallery" class="ft-gallery-remove-img-ajax" data-ft-gallery-img-remove="true" data-id="<?php echo esc_attr( $image['id'] ); ?>" data-nonce="<?php echo esc_html( wp_create_nonce( 'fts_update_image_nonce' ) ); ?>" href="javascript:"></a></div>
+								 <div class="ft-gallery-delete-thumb-btn"><a title="Delete Image Completely" class="ft-gallery-force-delete-img-ajax" data-id="<?php echo esc_attr( $image['id'] ); ?>" data-nonce="<?php echo esc_html( wp_create_nonce( 'fts_delete_image_nonce' ) ); ?>" href="javascript:"></a></div> <div class="clear"></div>
 									 <?php
 
 										if ( ! empty( $image_post_meta ) && is_plugin_active( 'woocommerce/woocommerce.php' ) && is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
@@ -1726,7 +1726,7 @@ class Gallery {
 						<ul id="ft-gallery-zip-list" class="ftg-free-list">
 							<li class="ft-gallery-zip zip-list-item-24527">
 								<div class="ft-gallery-file-name">
-									<a href="javascript:;"
+									<a href="javascript:"
 									   title="Download"><?php esc_html_e( 'Example-Gallery-Name' ); ?></a>
 								</div>
 								<div class="ft-gallery-file-time"><?php esc_html_e( 'October 14, 2020 - 2:45pm' ); ?></div>
@@ -2115,7 +2115,7 @@ class Gallery {
 			?>
 			<p>
 				<label><label><?php echo esc_html__( 'Copy and Paste this shortcode to any page, post or widget.', 'feed_them_social' ); ?></label>
-					<input readonly="readonly" value="[feed_them_social id=<?php echo esc_html( $gallery_id ); ?>]" onclick="this.select();"/>
+					<input readonly="readonly" value="[feed_them_social cpt_id=<?php echo esc_html( $gallery_id ); ?>]" onclick="this.select();"/>
 			</p>
 						<?php
 		}

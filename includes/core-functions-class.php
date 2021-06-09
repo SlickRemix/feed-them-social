@@ -134,9 +134,9 @@ class Core_Functions {
 	}
 
 	/**
-	 *  Required Plugins
+	 * Locate Template
 	 *
-	 * Return an array of required plugins.
+	 * Locate Template for
 	 *
 	 * @param string $located Location of the template files.
 	 * @return string

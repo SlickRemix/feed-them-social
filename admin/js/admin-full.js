@@ -153,7 +153,7 @@ jQuery( document ).ready(
             function (event) {
                 event.preventDefault(); // stop post action
                 jQuery( '#img1plupload-thumbs input:checkbox' ).attr( 'checked', 'checked' );
-                jQuery( this ).html( 'Clear All' )
+                jQuery( this ).html( 'Clear All' );
                 jQuery( ".wp-core-ui .button-primary.ft-gallery-download-selection-option" ).show();
                 var ftgGlobalValue           = jQuery( "select#fts_image_to_woo_model_prod" ).val();
                 var ftgLandscapeValue        = jQuery( "select#fts_landscape_to_woo_model_prod" ).val();
@@ -518,7 +518,7 @@ jQuery( document ).ready(
                                 '               <button title="next" type="button" id="ftg-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>' +
                                 '<script>' +
                                 // SLICKREMIX: MUST HAVE THIS IN PLACE TO BE ABLE TO CHECK WHAT KIND OF VIDEOS ARE BEING CLICKED ON WHEN FIRST LOADED, AFTER THEY ARE LOADED REFER TO THE CLICK FUNCTION FOR THE ERRORS ABOVE
-                                'if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); };  jQuery(".ft-gallery-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")});</script>' +
+                                'if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".ft-gallery-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")});</script>' +
                                 '       </div>' +
                                 '    </div>' +
                                 '<div class="fts-popup-second-half">' +

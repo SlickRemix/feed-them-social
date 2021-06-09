@@ -299,9 +299,9 @@ class Display_Gallery {
         }
 
         if ( 'one-day-ago' === $custom_date_check ) {
-            $u_time = $this->fts_ago( $created_time );
+            $u_time = FTS_Functions::fts_ago( $created_time );
         } else {
-            $u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_format, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
+            $u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_format, strtotime( $created_time ) ) : FTS_Functions::fts_ago( $created_time );
         }
 
         // Return the time.
@@ -1737,7 +1737,7 @@ class Display_Gallery {
                     $fts_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link . '&title=' . wp_strip_all_tags( $image_description );
                     $fts_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . wp_strip_all_tags( $image_description );
 
-                    $ftg_final_date = $this->fts_custom_date( $date, $feed_type );
+                    $ftg_final_date = FTS_Functions::fts_custom_date( $date, $feed_type );
 
                     // date_i18n( get_option( 'date_format' ), strtotime( '11/15-1976' ) );.
                     // All text for img(s) on the page, this does not apply to image background gallery types.
@@ -2386,7 +2386,7 @@ class Display_Gallery {
                                                 <div class="ft-gallery-clear"></div>
                                                 <div class="ftg-share-text"><?php esc_html_e( 'Use link to share image', 'feed_them_social' ) ?></div>
                                                 <div class="ftg-text-copied"><?php esc_html_e( 'Copied to Clipboard', 'feed_them_social' ) ?></div>
-                                                <a href='javascript:;'
+                                                <a href="javascript:"
                                                    class='ft-gallerylink-icon' onclick="ftgallerycopy('ftg-image-link<?php echo $key + 1 ?>');"><i class='fa fa-link'></i></a> <input id="ftg-image-link<?php echo $key + 1 ?>" onclick="this.select()" value="<?php echo $link ?>">
                                             <?php } ?>
                                         </div>
@@ -2555,7 +2555,7 @@ class Display_Gallery {
 
                                                     ?>
                                                     if (fts_posts<?php echo sanitize_text_field( wp_unslash( $my_request['fts_dynamic_name'] ) ); ?> >=  <?php echo esc_js( $final_post_count ); ?>) {
-                                                        jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<?php
+                                                        jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith(';<?php
                                                         print '<div style="';
                                                         if ( isset( $loadmore_btn_maxwidth ) && '' !== $loadmore_btn_maxwidth ) {
                                                             print 'max-width:' . esc_js( $loadmore_btn_maxwidth ) . ';';
@@ -2568,9 +2568,9 @@ class Display_Gallery {
                                                         }
                                                         print 'margin:' . esc_js( $loadmore_btn_margin ) . ' auto ' . esc_js( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( 'No More Photos', 'feed_them_social' ) . '</div>';
                                                         ?>
-                                                        '
+                                                        ';
                                                     )
-                                                        ;
+
                                                         //  jQuery('.ft-wp-gallery-scrollable').removeAttr('class');
                                                         jQuery('.<?php echo esc_js( $feed_name_rand_string ); ?>-scrollable').unbind('scroll');
                                                     }

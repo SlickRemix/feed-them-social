@@ -14,13 +14,10 @@ class FTS_Functions {
 	*
 	* Function to initiate class loading.
 	*
-	* @param array  $all_options All options.
-	* @param string $main_post_type Main Post Type.
 	* @since 1.1.8
 	*/
-	public static function load( $all_options, $main_post_type ) {
+	public static function load( ) {
 		$instance = new self();
-		$instance->set_class_vars( $all_options, $main_post_type );
 		$instance->add_actions_filters();
 	}
 
@@ -41,14 +38,6 @@ class FTS_Functions {
 		register_deactivation_hook( __FILE__, array( $this, 'fts_get_check_plugin_version' ) );
 		// Widget Code!
 		add_filter( 'widget_text', 'do_shortcode' );
-		// This is for the fts_clear_cache_ajax submission!
-		if ( 'show-admin-bar-menu' === get_option( 'fts_admin_bar_menu' ) ) {
-			add_action( 'init', array( $this, 'fts_clear_cache_script' ) );
-			add_action( 'wp_head', array( $this, 'my_fts_ajaxurl' ) );
-			add_action( 'wp_ajax_fts_clear_cache_ajax', array( $this, 'fts_clear_cache_ajax' ) );
-		}
-		add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
-		add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
 
 		if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
 			// Load More Options!
@@ -70,16 +59,16 @@ class FTS_Functions {
 	public function add_actions_filters() {
 		if ( is_admin() ) {
 			// Register Settings!
-			add_action( 'admin_init', array( $this, 'fts_settings_page_register_settings' ) );
-			add_action( 'admin_init', array( $this, 'fts_facebook_style_options_page' ) );
-			add_action( 'admin_init', array( $this, 'fts_twitter_style_options_page' ) );
-			add_action( 'admin_init', array( $this, 'fts_instagram_style_options_page' ) );
-			add_action( 'admin_init', array( $this, 'fts_pinterest_style_options_page' ) );
-			add_action( 'admin_init', array( $this, 'fts_youtube_style_options_page' ) );
+			//add_action( 'admin_init', array( $this, 'fts_settings_page_register_settings' ) );
+			//add_action( 'admin_init', array( $this, 'fts_facebook_style_options_page' ) );
+			//add_action( 'admin_init', array( $this, 'fts_twitter_style_options_page' ) );
+			//add_action( 'admin_init', array( $this, 'fts_instagram_style_options_page' ) );
+			//add_action( 'admin_init', array( $this, 'fts_pinterest_style_options_page' ) );
+			//add_action( 'admin_init', array( $this, 'fts_youtube_style_options_page' ) );
 
 			// Adds setting page to FTS menu!
-			add_action( 'admin_menu', array( $this, 'feed_them_main_menu' ) );
-			add_action( 'admin_menu', array( $this, 'feed_them_submenu_pages' ) );
+			//add_action( 'admin_menu', array( $this, 'feed_them_main_menu' ) );
+			//add_action( 'admin_menu', array( $this, 'feed_them_submenu_pages' ) );
 			// THIS GIVES US SOME OPTIONS FOR STYLING THE ADMIN AREA!
 			add_action( 'admin_enqueue_scripts', array( $this, 'feed_them_admin_css' ) );
 			// Main Settings Page!
@@ -117,36 +106,6 @@ class FTS_Functions {
 		if ( is_plugin_active( 'jetpack/jetpack.php' ) ) {
 			add_filter( 'jetpack_photon_skip_image', array( $this, 'fts_jetpack_photon_exception' ), 10, 3 );
 		}
-	}
-
-	/**
-	 * Parse Shortcode
-	 *
-	 * Parses shortcode into useable array.
-	 *
-	 * @param array|string $default_atts
-	 * @param array|string $default_atts
-	 * @since 3.0.0
-	 */
-	public function parse_shortcode( $default_atts, $inputed_atts ) {
-		return shortcode_atts( $default_atts, $inputed_atts );
-	}
-
-	/**
-	 * Shortcode CPT Check
-	 *
-	 * Check to see if CPT ID attribute exists.
-	 *
-	 * @param array|string $atts
-	 * @return string|boolean
-	 * @since 3.0.0
-	 */
-	public function shortcode_cpt_check( $atts ) {
-		if ( isset( $atts['cpt_id'] ) && ! empty( $atts['cpt_id'] ) ) {
-			return $atts['cpt_id'];
-		}
-
-		return false;
 	}
 
 	/**
@@ -907,35 +866,6 @@ class FTS_Functions {
 			exit( esc_html( 'That is not an FTS shortcode!' ) );
 		}
 		die();
-	}
-
-	/**
-	 * FTS Clear Cache Script
-	 *
-	 * This is for the fts_clear_cache_ajax submission.
-	 *
-	 * @since 1.9.6
-	 */
-	public function fts_clear_cache_script() {
-
-		$fts_admin_activation_clear_cache = get_option( 'Feed_Them_Social_Activated_Plugin' );
-		$fts_dev_mode_cache               = get_option( 'fts_clear_cache_developer_mode' );
-		if ( '1' === $fts_dev_mode_cache || 'feed-them-social' === $fts_admin_activation_clear_cache ) {
-			wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-			wp_localize_script( 'fts_clear_cache_script', 'ftsAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-			wp_enqueue_script( 'jquery' );
-			wp_enqueue_script( 'fts_clear_cache_script' );
-		}
-		if ( 'hide-admin-bar-menu' !== $fts_dev_mode_cache && '1' !== $fts_dev_mode_cache ) {
-			wp_enqueue_script( 'jquery' );
-			wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/admin.js' ), array(), FTS_CURRENT_VERSION, false );
-			wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-			wp_localize_script( 'fts_clear_cache_script', 'ftsAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-			wp_enqueue_script( 'fts_clear_cache_script' );
-		}
-
-		// we delete this option if found so we only empty the cache once when the plugin is ever activated or updated!
-		delete_option( 'Feed_Them_Social_Activated_Plugin' );
 	}
 
 	/**
@@ -1836,7 +1766,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 * @since 1.9.6
 	 */
 	public function fts_powered_by_js() {
-		wp_enqueue_script( 'fts_powered_by_js', plugins_url( 'feeds/js/powered-by.js', dirname( __FILE__ ) ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+		wp_enqueue_script( 'fts_powered_by_js', plugins_url( 'includes/feeds/js/powered-by.js', dirname( __FILE__ ) ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 	}
 
 	/**
@@ -2842,127 +2772,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		return $data;
 	}
 
-	/**
-	 * FTS Create Feed Cache
-	 *
-	 * Create Feed Cache. This is also where the previous cache is deleted and replace with new cache.
-	 *
-	 * @param string $transient_name transient name.
-	 * @param array  $response Data returned from response.
-	 * @since 1.9.6
-	 */
-	public function fts_create_feed_cache( $transient_name, $response ) {
-
-		// Is there old Cache? If so Delete it!
-		if ( true === $this->fts_check_feed_cache_exists( $transient_name ) ) {
-			// Make Sure to delete old permanent cache before setting up new cache!
-			$this->delete_permanent_feed_cache( $transient_name );
-		}
-		// Cache Time set on Settings Page under FTS Tab.
-		$cache_time_limit = true === get_option( 'fts_clear_cache_developer_mode' ) && '1' !== get_option( 'fts_clear_cache_developer_mode' ) ? get_option( 'fts_clear_cache_developer_mode' ) : '900';
-
-		// Timed Cache.
-		set_transient( 'fts_t_' . $transient_name, $response, $cache_time_limit );
-
-		// Permanent Feed cache. NOTE set to 0.
-		set_transient( 'fts_p_' . $transient_name, $response, 0 );
-	}
-
-	/**
-	 * FTS Get Feed Cache
-	 *
-	 * @param string  $transient_name Transient name.
-	 * @param boolean $errored Error Check.
-	 * @return mixed
-	 * @since 1.9.6
-	 */
-	public function fts_get_feed_cache( $transient_name, $errored = null ) {
-
-		// If Error use Permanent Cache!
-		if ( true === $errored ) {
-			return get_transient( 'fts_p_' . $transient_name );
-		}
-
-		// If no error use Timed Cache!
-		return get_transient( 'fts_t_' . $transient_name );
-	}
-
-	/**
-	 * FTS Check Feed Cache Exists
-	 *
-	 * @param string  $transient_name transient name.
-	 * @param boolean $errored Error Check.
-	 * @return bool
-	 * @since 1.9.6
-	 */
-	public function fts_check_feed_cache_exists( $transient_name, $errored = null ) {
-
-		$transient_permanent_check = get_transient( 'fts_p_' . $transient_name );
-		$transient_time_check      = get_transient( 'fts_t_' . $transient_name );
-
-		// If error exists is set and old cache still exists.
-		if ( true === $errored && false !== $transient_permanent_check ) {
-			return true;
-		}
-		if ( true !== $errored && false !== $transient_permanent_check && false !== $transient_time_check ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * FTS Clear ALL FTS Cache Ajax
-	 *
-	 * @since 1.9.6
-	 */
-	public function fts_clear_cache_ajax() {
-		global $wpdb;
-
-		// Clear UnExpired Timed Cache!
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_t_%' ) );
-		// Clear Expired Timed Cache!
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
-
-		wp_reset_query();
-	}
-
-	/**
-	 * Feed Them Clear Cache
-	 *
-	 * Clear ALL FTS Cache.
-	 *
-	 * @return string
-	 * @since 1.9.6
-	 */
-	public function feed_them_clear_cache() {
-		global $wpdb;
-		// Clear UnExpired Timed Cache!
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_t_%' ) );
-		// Clear Expired Timed Cache!
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
-		wp_reset_query();
-		return 'Cache for ALL FTS Feeds cleared!';
-	}
-
-	/**
-	 * Delete permanent feed Cache
-	 *
-	 * Clear ONLY permanent feed's cache.
-	 *
-	 * @return string
-	 * @since 1.9.6
-	 */
-	public function delete_permanent_feed_cache( $transient_name ) {
-		global $wpdb;
-
-		// Clear ONLY Specfic Feeds Cache!
-		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_p_' . $transient_name ) );
-
-		wp_reset_query();
-		return 'Cache for this feed cleared!';
-	}
-
 
 	/**
 	 * FTS Admin Bar Menu
@@ -3097,7 +2906,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 * @return string
 	 * @since 1.9.6
 	 */
-	function fts_ago( $timestamp ) {
+	public static function fts_ago( $timestamp ) {
 		// not setting isset'ing anything because you have to save the settings page to even enable this feature
 		$fts_language_second = get_option( 'fts_language_second' );
 		if ( empty( $fts_language_second ) ) {
@@ -3205,7 +3014,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 * @return string
 	 * @since 1.9.6
 	 */
-	public function fts_custom_date( $created_time, $feed_type ) {
+	public static function fts_custom_date( $created_time, $feed_type ) {
+
+
 		$fts_custom_date         = get_option( 'fts-custom-date' );
 		$fts_custom_time         = get_option( 'fts-custom-time' );
 		$custom_date_check       = get_option( 'fts-date-and-time-format' );
@@ -3231,34 +3042,34 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$fts_twitter_offset_time_final = 1 === $fts_twitter_offset_time ? strtotime( $created_time ) : strtotime( $created_time ) - 3 * 3600;
 
 			if ( 'one-day-ago' === $custom_date_check ) {
-				$u_time = $this->fts_ago( $created_time );
+				$u_time = FTS_Functions::fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, $fts_twitter_offset_time_final ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, $fts_twitter_offset_time_final ) : FTS_Functions::fts_ago( $created_time );
 			}
 		}
 
 		// Instagram date time!
 		if ( 'instagram' === $feed_type ) {
 			if ( 'one-day-ago' === $custom_date_check ) {
-				$u_time = $this->fts_ago( $created_time );
+				$u_time = FTS_Functions::fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : FTS_Functions::fts_ago( $created_time );
 			}
 		}
 		// Youtube and Pinterest date time!
 		if ( 'pinterest' === $feed_type ) {
 			if ( 'one-day-ago' === $custom_date_check ) {
-				$u_time = $this->fts_ago( $created_time );
+				$u_time = FTS_Functions::fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : FTS_Functions::fts_ago( $created_time );
 			}
 		}
 		// WP Gallery and Pinterest date time!
 		if ( 'wp_gallery' === $feed_type ) {
 			if ( 'one-day-ago' === $custom_date_check ) {
-				$u_time = $this->fts_ago( $created_time );
+				$u_time = FTS_Functions::fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : FTS_Functions::fts_ago( $created_time );
 			}
 		}
 		// Facebook date time!
@@ -3268,17 +3079,17 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			date_default_timezone_set( $time_set_check );
 
 			if ( 'one-day-ago' === $custom_date_check ) {
-				$u_time = $this->fts_ago( $created_time );
+				$u_time = FTS_Functions::fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, $created_time ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, $created_time ) : FTS_Functions::fts_ago( $created_time );
 			}
 		}
 		// Instagram date time!
 		if ( 'youtube' === $feed_type ) {
 			if ( 'one-day-ago' === $custom_date_check ) {
-				$u_time = $this->fts_ago( $created_time );
+				$u_time = FTS_Functions::fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : FTS_Functions::fts_ago( $created_time );
 			}
 		}
 

@@ -72,26 +72,16 @@ class Feeds_CPT {
 	 */
 	public $metabox_settings_class = '';
 
-
 	/**
-	 * Load Class
-	 *
-	 * Function to initiate class loading.
-	 *
-	 * @param array  $all_options All options.
+	 * Feeds_CPT constructor.
+     *
+     * @param array  $all_options All options.
 	 * @param string $main_post_type Main Post Type.
-	 * @since 1.1.8
 	 */
-	public static function load( $all_options, $main_post_type ) {
-		$instance = new self();
-		$instance->set_class_vars( $all_options, $main_post_type );
-		$instance->add_actions_filters();
-	}
-
-	/**
-	 * Gallery constructor.
-	 */
-	public function __construct() { }
+	public function __construct( $all_options, $main_post_type ) {
+		$this->set_class_vars( $all_options, $main_post_type );
+		$this->add_actions_filters();
+    }
 
 
 	/**

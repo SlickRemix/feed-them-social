@@ -62,7 +62,7 @@ class Feed_Them_Social {
 		feedthemsocial\Display_Gallery::load();
 
 		// Galleries.
-		feedthemsocial\Feeds_CPT::load( $gallery_options, $gallery_main_post_type );
+        new \feedthemsocial\Feeds_CPT( $gallery_options, $gallery_main_post_type );
 
 			// Load in Premium Gallery glasses if premium is loaded.
 		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {

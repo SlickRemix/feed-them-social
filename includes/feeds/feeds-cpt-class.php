@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package FeedThemSocial/Core
  */
-class Gallery {
+class Feeds_CPT {
 
 	/**
 	 * Parent Post ID

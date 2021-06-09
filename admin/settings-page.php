@@ -393,7 +393,7 @@ class Settings_Page {
 
 						<div class="ft-gallery-attch-name-example">
 							<?php
-							$gallery_class = new Gallery();
+							$gallery_class = new Feeds_CPT();
 							// Output Title Example.
 							echo '<div class="ftg-filename-renaming-example"><strong><em>Example Title:</em></strong> ' . wp_kses(
 								$gallery_class->fts_format_attachment_title( 'Gallery Image Title' ),

@@ -539,7 +539,7 @@ class Display_Gallery {
         } else {
 
             $my_request       = stripslashes_deep( $_REQUEST );
-            $gallery_class    = new Gallery();
+            $gallery_class    = new Feeds_CPT();
             $request          = isset( $my_request['id'] ) ? sanitize_text_field( wp_unslash( $my_request['id'] ) ) : '';
             $attachment_array = $gallery_class->fts_get_attachment_info( $request );
 
@@ -595,7 +595,7 @@ class Display_Gallery {
 
                 $this->fts_update_media_rest( $request_id, $args );
 
-                $gallery_class = new Gallery();
+                $gallery_class = new Feeds_CPT();
 
                 // Get Attachment Info.
                 $attachment_array = $gallery_class->fts_get_attachment_info( $request_id );
@@ -689,7 +689,7 @@ class Display_Gallery {
 
         $per_page = $option['fts_pagination_photo_count'];
 
-        $gallery_class = new Gallery();
+        $gallery_class = new Feeds_CPT();
 
         if ( isset( $is_album ) && 'yes' === $is_album ) {
 
@@ -884,7 +884,7 @@ class Display_Gallery {
             $atts
         );
 
-        $gallery_class = new Gallery();
+        $gallery_class = new Feeds_CPT();
 
         $option = $this->fts_get_option_or_get_postmeta( $ftg['id'] );
 

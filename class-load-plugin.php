@@ -62,7 +62,7 @@ class Feed_Them_Social {
 		feedthemsocial\Display_Gallery::load();
 
 		// Galleries.
-		feedthemsocial\Gallery::load( $gallery_options, $gallery_main_post_type );
+		feedthemsocial\Feeds_CPT::load( $gallery_options, $gallery_main_post_type );
 
 			// Load in Premium Gallery glasses if premium is loaded.
 		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
@@ -372,11 +372,11 @@ class Feed_Them_Social {
 		// FTS Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
 
-		// Gallery Options.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/galleries/gallery-options.php';
+		// Feeds CPT Options.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-options.php';
 
-		// Galleries (Custom Post Type).
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/galleries/gallery-class.php';
+		// Feeds CPT Class.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-class.php';
 
 		// Display Gallery.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/display-gallery/display-gallery-class.php';

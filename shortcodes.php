@@ -67,6 +67,7 @@ class Shortcodes {
 	public function get_feed_type( string $cpt_id ){
 		$cpt_post = get_post( $cpt_id ) ;
 
+		$this->feed_functions->
 
 		if( $cpt_post && isset($cpt_post['feed_type']) && !empty($cpt_post['feed_type'])){
 			return $cpt_post['feed_type'];

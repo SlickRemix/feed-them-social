@@ -16,6 +16,8 @@ class FTS_Twitter_Feed {
 
     public $feed_functions;
 
+    public $feed_CPT;
+
     public $feed_cache;
 
 	/**
@@ -26,11 +28,14 @@ class FTS_Twitter_Feed {
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct( $feed_functions, $feed_cache ) {
+	public function __construct( $feed_functions, $feed_cpt, $feed_cache ) {
 		$this->add_actions_filters();
 
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
+
+		// Set Feed CPT object.
+		$this->feed_cpt = $feed_cpt;
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
@@ -362,11 +367,6 @@ class FTS_Twitter_Feed {
 				}
 			} else {
 
-			    // Check if cpt_id is being used in shortcode.
-                $cpt_id_check = $this->feed_functions->shortcode_cpt_check( $inputted_atts);
-
-
-			    if ( $cpt_id_check ) {
                     $feed_cpt_class = new Feeds_CPT();
                     $returned_options = $feed_cpt_class->get_cpt_post_options( $cpt_id_check );
 
@@ -401,27 +401,6 @@ class FTS_Twitter_Feed {
 
                     // Show Replies!
                     $show_replies = isset( $returned_options['show_replies'] ) ? $returned_options['show_replies'] : '';
-
-                }
-			    else{
-			        extract(
-                        shortcode_atts(
-                            array(
-                                'twitter_name'      => '',
-                                'twitter_height'    => '',
-                                'tweets_count'      => '',
-                                'description_image' => '',
-                                'search'            => '',
-                                'show_retweets'     => '',
-                                'cover_photo'       => '',
-                                'stats_bar'         => '',
-                                'show_replies'      => '',
-                            ),
-                            $atts
-                        )
-                    );
-			    }
-
 			}
 
 

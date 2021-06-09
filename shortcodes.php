@@ -5,20 +5,25 @@
  */
 class Shortcodes {
 
-
 	public $feed_functions;
 
+	public $feeds_cpt;
+
 	public $feed_cache;
-
-
 
 	/**
 	 * Shortcodes constructor.
 	 */
-	public function __construct( $feed_functions, $feed_cache ){
+	public function __construct( $feed_functions, $feed_cpt, $feed_cache ){
 		$this->add_actions_filters();
 
+		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
+
+		// Set Feeds CPT object.
+		$this->feeds_cpt = $feeds_cpt;
+
+		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
 	}
 
@@ -51,7 +56,7 @@ class Shortcodes {
     		$this->get_feed_type($cpt_id);
 
 		    // Twitter Feed.
-		    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feed_cache );
+		    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
 		    echo $twitter_feed->display_twitter( $inputted_atts );
 	    }
     }
@@ -67,12 +72,12 @@ class Shortcodes {
 	public function get_feed_type( string $cpt_id ){
 		$cpt_post = get_post( $cpt_id ) ;
 
-		$this->feed_functions->
+		//$this->feed_functions->
 
-		if( $cpt_post && isset($cpt_post['feed_type']) && !empty($cpt_post['feed_type'])){
-			return $cpt_post['feed_type'];
-		}
-		return false;
+		//if( $cpt_post && isset($cpt_post['feed_type']) && !empty($cpt_post['feed_type'])){
+		//	return $cpt_post['feed_type'];
+		//}
+		//return false;
 	}
 
 

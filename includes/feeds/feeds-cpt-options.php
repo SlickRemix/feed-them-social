@@ -6,7 +6,7 @@
  *
  * This class has the options for building and saving on the Custom Meta Boxes
  *
- * @class    Gallery_Options
+ * @class    Feed_CPT_Options
  * @version  1.0.0
  * @package  FeedThemSocial/Admin
  * @category Class
@@ -21,9 +21,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Gallery_Options
+ * Class Feed_CPT_Options
  */
-class Gallery_Options {
+class Feed_CPT_Options {
 
 	/**
 	 * All Gallery Options
@@ -33,7 +33,7 @@ class Gallery_Options {
 	public $all_options;
 
 	/**
-	 * Gallery_Options constructor.
+	 * Feed_CPT_Options constructor.
 	 */
 	public function __construct() { }
 

@@ -26,7 +26,7 @@ class Feed_Them_Social {
 
 		$plugin_loaded->pre_plugin_checks();
 
-		$gallery_main_post_type = 'fts';
+		$main_post_type = 'fts';
 
 		$albums_main_post_type = 'fts_albums';
 
@@ -40,7 +40,7 @@ class Feed_Them_Social {
 		$plugin_loaded->add_actions_filters();
 
 		// Gallery Options.
-		$gallery_options = feedthemsocial\Gallery_Options::get_all_options();
+		$gallery_options = feedthemsocial\Feed_CPT_Options::get_all_options();
 
         //Feed Them Functions core!
         $feed_functions = new \feedthemsocial\FTS_Functions();
@@ -61,8 +61,8 @@ class Feed_Them_Social {
 		// Display Gallery.
 		feedthemsocial\Display_Gallery::load();
 
-		// Galleries.
-        new \feedthemsocial\Feeds_CPT( $gallery_options, $gallery_main_post_type );
+		// Feeds CPT.
+        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $gallery_options, $main_post_type );
 
 			// Load in Premium Gallery glasses if premium is loaded.
 		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
@@ -74,7 +74,7 @@ class Feed_Them_Social {
 				$template_settings_options = feedthemsocial\Template_Settings_Options::get_all_options();
 
 				// Template Settings Page.
-				feedthemsocial\Template_Settings_Page::load( $template_settings_options, $gallery_main_post_type );
+				feedthemsocial\Template_Settings_Page::load( $template_settings_options, $main_post_type );
 
 				// Media Taxonomies.
 				feedthemsocial\Media_Taxonomies::load();
@@ -98,7 +98,7 @@ class Feed_Them_Social {
 		$feed_cache = new \feedthemsocial\Feed_Cache();
 
 		// Shortcodes.
-		new feedthemsocial\Shortcodes( $feed_cache, $feed_functions );
+		new feedthemsocial\Shortcodes( $feed_cache, $feeds_cpt, $feed_functions );
 
 		// Updater Init.
 		new feedthemsocial\updater_init();

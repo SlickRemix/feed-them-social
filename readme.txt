@@ -72,7 +72,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.9.6.2 Monday, June 7th, 2021 =
+= Version 2.9.6.2 Wednesday, June 9th, 2021 =
   * FIX: INSTAGRAM FEED: Remove blank spaces on hrefs causing issues with URLs
   * PREMIUM FIX: FACEBOOK VIDEOS FEED: Some videos when clicked on were loading an image in the popup instead of the video and some video thumbnails were blurry.
 

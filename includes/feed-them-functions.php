@@ -9,18 +9,6 @@ namespace feedthemsocial;
  */
 class FTS_Functions {
 
-	/*
-	 Load Class
-	*
-	* Function to initiate class loading.
-	*
-	* @since 1.1.8
-	*/
-	public static function load( ) {
-		$instance = new self();
-		$instance->add_actions_filters();
-	}
-
 	/**
 	 * Construct
 	 *
@@ -47,6 +35,8 @@ class FTS_Functions {
 		}
 
 		add_shortcode( 'fts_fb_page_token', array( $this, 'fts_fb_page_token_func' ) );
+
+		$this->add_actions_filters();
 	}
 
 	/**

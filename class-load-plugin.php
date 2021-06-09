@@ -43,7 +43,7 @@ class Feed_Them_Social {
 		$gallery_options = feedthemsocial\Gallery_Options::get_all_options();
 
         //Feed Them Functions core!
-        feedthemsocial\FTS_Functions::load();
+        $feed_functions = new \feedthemsocial\FTS_Functions();
 
 		// Settings Page.
 		feedthemsocial\Settings_Page::load();
@@ -98,7 +98,7 @@ class Feed_Them_Social {
 		$feed_cache = new \feedthemsocial\Feed_Cache();
 
 		// Shortcodes.
-		new feedthemsocial\Shortcodes( $feed_cache );
+		new feedthemsocial\Shortcodes( $feed_cache, $feed_functions );
 
 		// Updater Init.
 		new feedthemsocial\updater_init();

@@ -63,7 +63,6 @@ class Shortcode_Button {
 	 * @since 1.0.0
 	 */
 	public function add_actions_filters() {
-		add_action( 'wp_ajax_fts_editor_get_galleries', array( $this, 'fts_editor_get_galleries' ) );
 		add_filter( 'media_buttons_context', array( $this, 'fts_shortcode_media_button' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'fts_shortcode_get_all_options' ) );
 		add_action( 'print_media_templates', array( $this, 'fts_print_media_templates' ) );
@@ -204,115 +203,6 @@ class Shortcode_Button {
 		return $ret;
 	}
 
-	/**
-	 *  Editor Get Galleries
-	 *
-	 * Returns Galleries, with an optional search term
-	 *
-	 * @since 1.0.0
-	 */
-	public function fts_editor_get_galleries() {
-		global $post;
-
-		// Check nonce.
-		check_admin_referer( 'ft-gallery-editor-get-galleries', 'nonce' );
-
-		// Get POSTed fields.
-		$my_post      = stripslashes_deep( $_POST );
-		$search       = (bool) sanitize_text_field( wp_unslash( $my_post['search'] ) );
-		$search_terms = sanitize_text_field( wp_unslash( $my_post['search_terms'] ) );
-		$prepend_ids  = stripslashes( $my_post['prepend_ids'] );
-		$results      = array();
-
-		// Get galleries.
-		$galleries = $this->fts_get_galleries( false, true, ( $search ? $search_terms : '' ) );
-
-		$display_gallery = new Display_Gallery();
-		// Build array of just the data we need.
-		foreach ( (array) $galleries as $gallery ) {
-			// Get the thumbnail of the first image.
-			$image_list = $display_gallery->fts_get_media_rest( $gallery['id'], '1' );
-			$thumbnail  = $image_list[0]['media_details']['sizes']['medium']['source_url'];
-			// error_log( $thumbnail );.
-			// Instead of pulling the title from config, attempt to pull it from the gallery post first.
-			if ( isset( $gallery['id'] ) ) {
-				$gallery_post = get_post( $gallery['id'] );
-			} else {
-				$gallery_post = false;
-			}
-
-			$temp_title = false;
-			if ( isset( $gallery_post->post_title ) ) {
-				$temp_title = trim( $gallery_post->post_title );
-			}
-
-			if ( ! empty( $temp_title ) ) {
-				$gallery_title = $gallery_post->post_title;
-			} elseif ( isset( $gallery['config']['title'] ) ) {
-				$gallery_title = $gallery['config']['title'];
-			} else {
-				$gallery_title = false;
-			}
-
-			// Check to make sure variables are there.
-			$gallery_id          = false;
-			$gallery_config_slug = false;
-
-			if ( isset( $gallery['id'] ) ) {
-				$gallery_id = $gallery['id'];
-			}
-			if ( isset( $gallery['config']['slug'] ) ) {
-				$gallery_config_slug = $gallery['config']['slug'];
-			}
-
-			// Add gallery to results.
-			$results[] = array(
-				'id'        => $gallery_id,
-				'slug'      => $gallery_config_slug,
-				'title'     => $gallery_title,
-				'thumbnail' => $thumbnail,
-				// Tells the editor modal whether this is a Gallery or Album for the shortcode output.
-				'action'    => 'gallery',
-			);
-		}
-
-		// If any prepended Gallery IDs were specified, get them now
-		// These will typically be a Defaults Gallery, which wouldn't be included in the above fts_get_galleries() call.
-		if ( is_array( $prepend_ids ) && count( $prepend_ids ) > 0 ) {
-			$prepend_results = array();
-
-			// Get each Gallery.
-			foreach ( $prepend_ids as $gallery_id ) {
-				// Get gallery.
-				$gallery = get_post_meta( $gallery_id, '_eg_gallery_data', true );
-
-				// Get gallery first image.
-				if ( isset( $gallery['gallery'] ) && ! empty( $gallery['gallery'] ) ) {
-					$display_gallery = new Display_Gallery();
-					$image_list      = $display_gallery->fts_get_media_rest( $gallery['id'], '1' );
-					$thumbnail       = $image_list[0]['media_details']['sizes']['thumbnail']['source_url'];
-				}
-
-				// Add gallery to results.
-				$prepend_results[] = array(
-					'id'        => $gallery['id'],
-					'slug'      => $gallery['config']['slug'],
-					'title'     => $gallery['config']['title'],
-					'thumbnail' => ( ( isset( $thumbnail ) && is_array( $thumbnail ) ) ? $thumbnail[0] : '' ),
-					'action'    => 'gallery', // Tells the editor modal whether this is a Gallery or Album for the shortcode output.
-				);
-			}
-
-			// Add to results.
-			if ( is_array( $prepend_results ) && count( $prepend_results ) > 0 ) {
-				$results = array_merge( $prepend_results, $results );
-			}
-		}
-
-		// Return galleries.
-		wp_send_json_success( $results );
-
-	}
 
 	/**
 	 *  Print Media Templates

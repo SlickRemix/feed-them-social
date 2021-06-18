@@ -42,7 +42,7 @@ class Feed_Them_Social {
 		// Gallery Options.
 		$gallery_options = feedthemsocial\Feed_CPT_Options::get_all_options();
 
-        //Feed Them Functions core!
+        //Feed Them Functions!
         $feed_functions = new \feedthemsocial\FTS_Functions();
 
 		// Settings Page.
@@ -54,12 +54,8 @@ class Feed_Them_Social {
 		// Setup Plugin functions.
 		feedthemsocial\Setup_Functions::load();
 
-		// Core.
-		feedthemsocial\Core_Functions::load();
-
-
-		// Display Gallery.
-		feedthemsocial\Display_Gallery::load();
+		//Core Functions!
+		$core_functions = new \feedthemsocial\Core_Functions();
 
 		// Feeds CPT.
         $feeds_cpt = new \feedthemsocial\Feeds_CPT( $gallery_options, $main_post_type );
@@ -378,8 +374,6 @@ class Feed_Them_Social {
 		// Feeds CPT Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-class.php';
 
-		// Display Gallery.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/display-gallery/display-gallery-class.php';
 
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
 

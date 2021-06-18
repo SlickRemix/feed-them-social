@@ -109,7 +109,7 @@ class Metabox_Settings {
 	 * Constructor.
 	 *
 	 * @param string $current_this Current this.
-	 * @param string $settings_array All the settings.
+	 * @param array $settings_array All the settings.
 	 * @param string $is_page What page.
 	 * @since 1.0
 	 */

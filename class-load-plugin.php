@@ -131,12 +131,6 @@ class Feed_Them_Social {
 		// Include Leave feedback, Get support and Plugin info links to plugin activation and update page.
 		add_filter( 'plugin_row_meta', array( $this, 'fts_leave_feedback_link' ), 10, 2 );
 
-		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) && is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-			/* AJAX add to cart variable  */
-			add_action( 'wp_ajax_woocommerce_add_to_cart_variable_rc', array( $this, 'woocommerce_add_to_cart_variable_rc_callback_ftg' ) );
-			add_action( 'wp_ajax_nopriv_woocommerce_add_to_cart_variable_rc', array( $this, 'woocommerce_add_to_cart_variable_rc_callback_ftg' ) );
-		}
-
 		// Activation Function.
 		register_activation_hook( __FILE__, array( $this, 'fts_plugin_activation' ) );
 
@@ -174,49 +168,6 @@ class Feed_Them_Social {
 
 		// Uncomment this to test. PHP check.
 		// add_action( 'admin_notices', array( $this, 'fts_required_php_check1' ) );.
-	}
-
-	/**
-	 * WooCommerce add to cart variable rc callback ftg
-	 *
-	 * Variation Options.
-	 *
-	 * @since 1.0.0
-	 */
-	public function woocommerce_add_to_cart_variable_rc_callback_ftg() {
-		ob_start();
-
-		$my_post           = stripslashes_deep( $_POST );
-		$product_id        = apply_filters( 'woocommerce_add_to_cart_product_id', absint( $my_post['product_id'] ) );
-		$quantity          = empty( $my_post['quantity'] ) ? 1 : apply_filters( 'woocommerce_stock_amount', $my_post['quantity'] );
-		$variation_id      = $my_post['variation_id'];
-		$variation         = $my_post['variation'];
-		$passed_validation = apply_filters( 'woocommerce_add_to_cart_validation', true, $product_id, $quantity );
-
-		if ( $passed_validation && WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variation ) ) {
-			do_action( 'woocommerce_ajax_added_to_cart', $product_id );
-			if ( 'yes' === get_option( 'woocommerce_cart_redirect_after_add' ) ) {
-				wc_add_to_cart_message( $product_id );
-			}
-			// Return fragments.
-			WC_AJAX::get_refreshed_fragments();
-		} elseif ( WC()->cart->add_to_cart( $product_id, $quantity ) && '' === $variation ) {
-			do_action( 'woocommerce_ajax_added_to_cart', $product_id );
-			if ( 'yes' === get_option( 'woocommerce_cart_redirect_after_add' ) ) {
-				wc_add_to_cart_message( $product_id );
-			}
-			// Return fragments.
-			WC_AJAX::get_refreshed_fragments();
-		} else {
-			echo 'Not on our watch';
-			// If there was an error adding to the cart, redirect to the product page to show any errors.
-			$data = array(
-				'error'       => true,
-				'product_url' => apply_filters( 'woocommerce_cart_redirect_after_error', get_permalink( $product_id ), $product_id ),
-			);
-			echo json_encode( $data );
-		}
-		die();
 	}
 
 	/**
@@ -393,7 +344,6 @@ class Feed_Them_Social {
 				// Template Settings Page.
 				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-page-class.php';
 			}
-
 		}
 
 		// Feed Cache

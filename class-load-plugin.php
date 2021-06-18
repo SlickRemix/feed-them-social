@@ -380,21 +380,12 @@ class Feed_Them_Social {
 		// Twitter Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-fts-twitter-feed.php';
 
-		// Create Image.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/galleries/create-image.php';
 
 		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 
 			$ftgp_current_version = defined( 'FTGP_CURRENT_VERSION' ) ? FTGP_CURRENT_VERSION : '';
 
 			if ( FTGP_CURRENT_VERSION > '1.0.5' ) {
-				// Tags/Taxonomies for images.
-				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/taxonomies/media-taxonomies.php';
-				// Album Options.
-				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/albums/album-options.php';
-
-				// Albums.
-				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/albums/albums-class.php';
 
 				// Template Settings Options.
 				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-options.php';
@@ -402,16 +393,6 @@ class Feed_Them_Social {
 				// Template Settings Page.
 				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-page-class.php';
 			}
-
-			// Zip Gallery.
-			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/galleries/download.php';
-			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/galleries/zip-gallery-class.php';
-
-			// Gallery to Woocommerce.
-			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/woocommerce/gallery_to_woo.php';
-
-			// Watermark.
-			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/watermark/ajax.php';
 
 		}
 

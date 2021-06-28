@@ -28,8 +28,6 @@ class Feed_Them_Social {
 
 		$main_post_type = 'fts';
 
-		$albums_main_post_type = 'fts_albums';
-
 		// Setup Constants for Feed Them Social.
 		self::setup_constants();
 
@@ -39,8 +37,8 @@ class Feed_Them_Social {
 		// Add Actions and Filters.
 		$plugin_loaded->add_actions_filters();
 
-		// Gallery Options.
-		$gallery_options = feedthemsocial\Feed_CPT_Options::get_all_options();
+		// Feed Options.
+		$feed_cpt_options = feedthemsocial\Feed_CPT_Options::get_all_options();
 
         //Feed Them Functions!
         $feed_functions = new \feedthemsocial\FTS_Functions();
@@ -58,7 +56,7 @@ class Feed_Them_Social {
 		$core_functions = new \feedthemsocial\Core_Functions();
 
 		// Feeds CPT.
-        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $gallery_options, $main_post_type );
+        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_cpt_options, $main_post_type );
 
 			// Load in Premium Gallery glasses if premium is loaded.
 		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
@@ -71,20 +69,7 @@ class Feed_Them_Social {
 
 				// Template Settings Page.
 				feedthemsocial\Template_Settings_Page::load( $template_settings_options, $main_post_type );
-
-				// Media Taxonomies.
-				feedthemsocial\Media_Taxonomies::load();
-
-				// Album Options.
-				// $gallery_options = feed_them_social\Album_Options::get_all_options();
-				// Albums.
-				// feed_them_social\Albums::load( $gallery_options, $albums_main_post_type );
 			}
-			// Gallery to Woocommerce.
-			new feedthemsocial\Gallery_to_Woocommerce();
-
-			// Zip Gallery.
-			new feedthemsocial\Zip_Gallery();
 		}
 
 		// Shortcode Button for Admin page, posts and cpt's.

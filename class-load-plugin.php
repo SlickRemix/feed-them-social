@@ -304,6 +304,9 @@ class Feed_Them_Social {
 		// FTS Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
 
+		// FTS Feed Settings Options.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feed-settings-options.php';
+
 		// Feeds CPT Options.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-options.php';
 
@@ -436,7 +439,6 @@ class Feed_Them_Social {
 		// we add an db option to check then delete the db option after activation and the cache has emptied.
 		// the delete_option is on the feed-them-functions.php file at the bottom of the function ftg_clear_cache_script.
 		add_option( 'Feed_Them_Social_Activated_Plugin', 'feed_them_social' );
-
 	}
 
 	/**

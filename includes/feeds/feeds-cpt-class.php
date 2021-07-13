@@ -119,7 +119,7 @@ class Feeds_CPT {
 
 			// If Premium add Functionality!
 		if ( is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
-			$this->zip_gallery_class = new Zip_Gallery();
+			//Premium Features here.
 		}
 	}
 
@@ -160,8 +160,6 @@ class Feeds_CPT {
 		// Add Shortcode!
 		add_shortcode( 'fts_list', array( $this, 'fts_display_list' ) );
 
-		// Drag and Drop, buttons etc for media!
-		add_action( 'wp_ajax_plupload_action', array( $this, 'fts_plupload_action' ) );
 
 		add_action( 'current_screen', array( $this, 'fts_check_page' ) );
 
@@ -170,13 +168,6 @@ class Feeds_CPT {
 
 		// Add API Endpoint!
 		add_action( 'rest_api_init', array( $this, 'ft_galley_register_gallery_options_route' ) );
-
-		add_action( 'wp_ajax_list_update_order', array( $this, 'fts_order_list' ) );
-
-		// Create another image size for our gallery edit pages!
-		add_image_size( 'fts_thumb', 150, 150, true );
-		// Add the image name to the media library so we can get a clean version when showing thumbnail on the page for the first time!
-		add_filter( 'image_size_names_choose', array( $this, 'fts_custom_thumb_sizes' ) );
 
 		if ( '' === get_option( 'fts_duplicate_post_show' ) ) {
 
@@ -204,44 +195,6 @@ class Feeds_CPT {
 			'</a>',
 			'</div>'
 		);
-	}
-
-	/**
-	 *  Custom Thumb Sizes
-	 *
-	 * Adds Custom sizes too
-	 *
-	 * @param array $sizes Thumbnail Sizes.
-	 * @return array
-	 * @since
-	 */
-	public function fts_custom_thumb_sizes( $sizes ) {
-		return array_merge(
-			$sizes,
-			array(
-				'fts_thumb' => esc_html__( 'Feed Them Social Thumb', 'feed_them_social' ),
-			)
-		);
-	}
-
-	/**
-	 *  Order List
-	 *
-	 * Attachment order list
-	 *
-	 * @since 1.0.0
-	 */
-	public function fts_order_list() {
-		// we use the list_item (id="list_item_23880") which then finds the ID right after list_item and we use the id from there.
-		$attachment_id = $_POST['list_item'];
-
-		foreach ( $attachment_id as $img_index => $img_id ) {
-			$a = array(
-				'ID'         => esc_html( $img_id ),
-				'menu_order' => esc_html( $img_index ),
-			);
-			wp_update_post( $a );
-		}
 	}
 
 	/**
@@ -493,19 +446,19 @@ class Feeds_CPT {
 		// global $post, $post_ID;
 		$messages['fts'] = array(
 			0  => '', // Unused. Messages start at index 1.
-			1  => esc_html__( 'Gallery updated.', 'feed_them_social' ),
+			1  => esc_html__( 'Feed updated.', 'feed_them_social' ),
 			2  => esc_html__( 'Custom field updated.', 'feed_them_social' ),
 			3  => esc_html__( 'Custom field deleted.', 'feed_them_social' ),
-			4  => esc_html__( 'Gallery updated.', 'feed_them_social' ),
+			4  => esc_html__( 'Feed updated.', 'feed_them_social' ),
 			/* translators: %s: date and time of the revision */
 			5  => isset( $_GET['revision'] ) ? sprintf( esc_html__( 'Response restored to revision from %s', 'feed_them_social' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-			6  => esc_html__( 'Gallery created.', 'feed_them_social' ),
-			7  => esc_html__( 'Gallery saved.', 'feed_them_social' ),
-			8  => esc_html__( 'Gallery submitted.', 'feed_them_social' ),
-			9  => esc_html__( 'Gallery scheduled for:', 'feed_them_social' ),
+			6  => esc_html__( 'Feed created.', 'feed_them_social' ),
+			7  => esc_html__( 'Feed saved.', 'feed_them_social' ),
+			8  => esc_html__( 'Feed submitted.', 'feed_them_social' ),
+			9  => esc_html__( 'Feed scheduled for:', 'feed_them_social' ),
 			// translators: Publish box date format, see http://php.net/date
 			// date_i18n( ( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink($post_ID) ) ),
-			10 => esc_html__( 'Gallery draft updated.', 'feed_them_social' ),
+			10 => esc_html__( 'Feed draft updated.', 'feed_them_social' ),
 		);
 
 		return $messages;
@@ -528,15 +481,7 @@ class Feeds_CPT {
 			// when we find the date column.
 			if ( 'title' === $key ) {
 				$new[ $key ] = $value;
-				$new['gallery_shortcode'] = esc_html__( 'Gallery Shortcode', 'feed_them_social' );
-
-				if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-					$text = esc_html__( 'Gallery ZIP', 'feed_them_social' );
-				} else {
-					$text = '';
-				}
-
-				$new['gallery_zip'] = $text;
+				$new['feed_shortcode'] = esc_html__( 'Feed Shortcode', 'feed_them_social' );
 
 			} else {
 				$new[ $key ] = $value;
@@ -544,38 +489,6 @@ class Feeds_CPT {
 		}
 
 		return $new;
-	}
-
-	/**
-	 *  Count Post Images
-	 * Return a count of images for our gallery list column.
-	 *
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function fts_count_post_images( $post_id ) {
-		$attachments = get_children(
-			array(
-				'post_parent'    => $post_id,
-				'post_mime_type' => 'image',
-			)
-		);
-
-		return count( $attachments );
-	}
-
-	/**
-	 * FT Albums Gallery Count
-	 * Return a count of galleries in our album.
-	 *
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function ft_album_count_post_galleries( $post_id ) {
-
-		$number_of_galleries_in_ablum = get_post_meta( $post_id, 'fts_album_gallery_ids', true );
-
-		return count( $number_of_galleries_in_ablum );
 	}
 
 	/**
@@ -588,44 +501,11 @@ class Feeds_CPT {
 	 */
 	public function fts_custom_edit_column( $column, $post_id ) {
 		switch ( $column ) {
-			case 'gallery_thumb':
-				$thumb_text      = $this->fts_count_post_images( $post_id ) . ' ' . esc_html__( 'Images', 'feed_them_social' );
-				$edit_post_url   = get_edit_post_link( $post_id );
-
-				if ( $image_list ) {
-					?>
-					<a href="<?php echo esc_url( $edit_post_url ); ?>"><img src="<?php echo esc_url( $image_list[0]['media_details']['sizes']['thumbnail']['source_url'] ); ?>" alt="" /><?php echo esc_html( $thumb_text ); ?></a>
-					<?php
-				}
-				break;
 			// display a thumbnail photo!
-			case 'gallery_shortcode':
+			case 'feed_shortcode':
 				?>
 				<input value="[feed_them_social id=<?php echo esc_html( $post_id ); ?>]" onclick="this.select()"/>
 				<?php
-				break;
-
-			case 'gallery_zip':
-				// Add Premium Coloumns!
-				if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-					$newest_zip = get_post_meta( $post_id, 'fts_newest_zip_id', true );
-
-					if ( $newest_zip ) {
-						$newest_zip_check = $this->fts_zip_exists_check( $newest_zip );
-
-						if ( 'true' === $newest_zip_check ) {
-							$fts_get_attachment_info = $this->fts_get_attachment_info( $newest_zip );
-							?>
-							<a class="fts_download_button_icon" href="<?php echo esc_url( $fts_get_attachment_info['download_url'] ); ?>"><span class="dashicons dashicons-download"></span></a>
-							<?php
-
-						} else {
-							esc_html_e( 'No ZIP created.', 'feed_them_social' );
-						}
-					} else {
-						esc_html_e( 'No ZIP created.', 'feed_them_social' );
-					}
-				}
 				break;
 
 		}
@@ -633,7 +513,7 @@ class Feeds_CPT {
 
 	/**
 	 *  Set Button Text
-	 * Set Edit Post buttons for Galleries custom post type
+	 * Set Edit Post buttons for Feed custom post type
 	 *
 	 * @param $translated_text
 	 * @param $text
@@ -647,16 +527,16 @@ class Feeds_CPT {
 		if ( ! empty( $post_id ) && 'fts_responses' === $custom_post_type ) {
 			switch ( $translated_text ) {
 				case 'Publish':
-					$translated_text = esc_html__( 'Save Gallery', 'feed_them_social' );
+					$translated_text = esc_html__( 'Save Feed', 'feed_them_social' );
 					break;
 				case 'Update':
-					$translated_text = esc_html__( 'Update Gallery', 'feed_them_social' );
+					$translated_text = esc_html__( 'Update Feed', 'feed_them_social' );
 					break;
 				case 'Save Draft':
-					$translated_text = esc_html__( 'Save Gallery Draft', 'feed_them_social' );
+					$translated_text = esc_html__( 'Save Feed Draft', 'feed_them_social' );
 					break;
 				case 'Edit Payment':
-					$translated_text = esc_html__( 'Edit Gallery', 'feed_them_social' );
+					$translated_text = esc_html__( 'Edit Feed', 'feed_them_social' );
 					break;
 			}
 		}
@@ -667,7 +547,7 @@ class Feeds_CPT {
 	/**
 	 *  Scripts
 	 *
-	 * Create Gallery custom post type
+	 * Create Feed custom post type
 	 *
 	 * @since 1.0.0
 	 */
@@ -694,36 +574,11 @@ class Feeds_CPT {
 			// Enqueue Magnific Popup JS.
 			wp_enqueue_script( 'magnific-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION );
 
-			// Updates the attachments when saving
-			// add_filter( 'wp_insert_post_data', array( $this, 'fts_sort_images_meta_save' ), 99, 2 );
 			wp_enqueue_style( 'ft-gallery-admin-ui-css', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css', array(), FTS_CURRENT_VERSION );
 
 		} else {
 			return;
 		}
-	}
-
-	/**
-	 *  Sort Images Meta Save
-	 *
-	 * Sort images for meta save
-	 *
-	 * @param $post_data
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function fts_sort_images_meta_save( $post_data ) {
-
-		$attach_id = $this->fts_get_attachment_info( $post_data['ID'] );
-
-		foreach ( $attach_id as $img_index => $img_id ) {
-			$a = array(
-				'ID'         => $img_id,
-				'menu_order' => $img_index,
-			);
-			// wp_update_post( $a );
-		}
-		return $post_data;
 	}
 
 	/**
@@ -741,84 +596,10 @@ class Feeds_CPT {
 		}
 
 		// Image Uploader and Gallery area in admin.
-		add_meta_box( 'ft-galleries-upload-mb', esc_html__( 'Feed Them Social Settings', 'feed_them_social' ), array( $this, 'fts_tab_menu_metabox' ), 'fts', 'normal', 'high', null );
+		add_meta_box( 'ft-galleries-upload-mb', esc_html__( 'Feed Settings', 'feed_them_social' ), array( $this, 'fts_tab_menu_metabox' ), 'fts', 'normal', 'high', null );
 
 		// Link Settings Meta Box.
-		add_meta_box( 'ft-galleries-shortcode-side-mb', esc_html__( 'Feed Them Social Shortcode', 'feed_them_social' ), array( $this, 'fts_shortcode_meta_box' ), 'fts', 'side', 'high', null );
-	}
-
-	/**
-	 *  Format Bytes
-	 *
-	 * Creates a human readable size for return
-	 *
-	 * @param $bytes
-	 * @param int   $precision
-	 * @return float
-	 * @since 1.0.0
-	 */
-	public function fts_format_bytes( $bytes, $precision = 2 ) {
-		$units  = array( 'B', 'KB', 'MB', 'GB', 'TB' );
-		$bytes  = max( $bytes, 0 );
-		$pow    = floor( ( $bytes ? log( $bytes ) : 0 ) / log( 1024 ) );
-		$pow    = min( $pow, count( $units ) - 1 );
-		$bytes /= pow( 1024, $pow );
-
-		return round( $bytes, $precision );
-	}
-
-	/**
-	 *  Edit Page Popup
-	 *
-	 * Outputs the edit page popup html
-	 *
-	 * @param $gallery_id
-	 * @since 1.1.6
-	 */
-	public function fts_edit_page_popup( $gallery_id ) {
-		?>
-		<div class="ft-gallery-popup-form <?php echo $premium_active = is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ? 'ftg-premium-active' : 'ftg-premium-not-active' ?>" style="display:none">
-
-			<label><?php esc_html_e( 'Title of image', 'feed_them_social' ); ?></label>
-			<input value="" class="fts-gallery-title"/>
-			<label><?php esc_html_e( 'Alt text for image', 'feed_them_social' ); ?></label>
-			<input value="" class="fts-gallery-alttext"/>
-			<label><?php esc_html_e( 'Description of image', 'feed_them_social' ); ?></label>
-			<textarea class="fts-gallery-description"></textarea><br/>
-
-            <?php if( 'ftg-premium-active' === $premium_active ) {?>
-			<div class="tagsdiv popup-ftg-tags" id="ftg-tags" data-id="<?php echo esc_attr( $gallery_id ); ?>"
-				 data-taxonomy="ftg-tags">
-				<div class="jaxtag">
-
-					<div class="ajaxtag hide-if-no-js">
-						<label class="screen-reader-text"
-							   for="new-tag-ftg-tags"><?php esc_html_e( 'Add New Tags', 'feed_them_social' ); ?></label>
-						<p><input data-wp-taxonomy="ftg-tags" type="text" id="new-tag-ftg-tags" name="newtag[ftg-tags]"
-								  class="tax-input-ftg-tags newtag form-input-tip" size="16" autocomplete="off"
-								  aria-describedby="new-tag-ftg-tags-desc" value=""/>
-							<button class="button save-media-term" data-taxonomy="ftg-tags" data-id="<?php echo esc_attr( $gallery_id ); ?>"><?php esc_html_e( 'Add ', 'feed_them_social' ); ?></button>
-						</p>
-					</div>
-					<p class="howto" id="new-tag-ftg-tags-desc"><?php esc_html_e( 'Separate tags with commas', 'feed_them_social' ); ?></p>
-
-				</div>
-				<p class="ftg-tags-none"><?php esc_html_e( 'No Tags found for this Image.', 'feed_them_social' ); ?></p>
-				<ul class="tagchecklist" role="list"></ul>
-			</div>
-
-			<div class="fts-gallery-tags-edit-wrap"></div>
-			<?php } ?>
-
-			<div class="ft-submit-wrap"><a class="ft-gallery-edit-img-ajax button button-primary button-large"
-										   id="ft-gallery-edit-img-ajax" href="javascript:"
-										   data-nonce="<?php echo esc_attr( wp_create_nonce( 'fts_edit_image_nonce' ) ); ?>"> <?php esc_html_e( 'Save', 'feed_them_social' ); ?> </a>
-			</div>
-		</div>
-		<div class="clear"></div>
-
-		<?php
-
+		add_meta_box( 'ft-galleries-shortcode-side-mb', esc_html__( 'Feed Shortcode', 'feed_them_social' ), array( $this, 'fts_shortcode_meta_box' ), 'fts', 'side', 'high', null );
 	}
 
 	/**
@@ -834,32 +615,32 @@ class Feeds_CPT {
 		$metabox_tabs_list = array(
 			// Base of each tab! The array keys are the base name and the array value is a list of tab keys.
 			'base_tabs' => array(
-				'post' => array( 'images', 'layout', 'colors', 'zips', 'woocommerce', 'watermark', 'pagination', 'tags' ),
+				'post' => array( 'feed_type', 'api_token', 'colors', 'zips', 'woocommerce', 'watermark', 'pagination', 'tags' ),
 			),
 			// Tabs List! The cont_func item is relative the the Function name for that tabs content. The array Keys for each tab are also relative to classes and ID on wraps of display_metabox_content function.
 			'tabs_list' => array(
 				// Images Tab!
-				'images'      => array(
+				'feed_type'      => array(
 					'menu_li_class'      => 'tab1',
-					'menu_a_text'        => esc_html__( 'Images', 'feed_them_social' ),
+					'menu_a_text'        => esc_html__( 'Feed Selection', 'feed_them_social' ),
 					'menu_a_class'       => 'account-tab-highlight',
 					'menu_aria_expanded' => 'true',
 					'cont_wrap_id'       => 'ftg-tab-content1',
-					'cont_func'          => 'tab_upload_content',
+					'cont_func'          => 'tab_feed_type_content',
+				),
+				// API Token Tab!
+				'api_token'      => array(
+					'menu_li_class' => 'tab2',
+					'menu_a_text'   => esc_html__( 'API Token', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content2',
+					'cont_func'     => 'tab_api_token_content',
 				),
 				// Layout Tab!
-				'layout'      => array(
-					'menu_li_class' => 'tab2',
-					'menu_a_text'   => esc_html__( 'Layout', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content2',
-					'cont_func'     => 'tab_layout_content',
-				),
-				// Colors Tab!
 				'colors'      => array(
 					'menu_li_class' => 'tab3',
-					'menu_a_text'   => esc_html__( 'Colors', 'feed_them_social' ),
+					'menu_a_text'   => esc_html__( 'Layout', 'feed_them_social' ),
 					'cont_wrap_id'  => 'ftg-tab-content3',
-					'cont_func'     => 'tab_colors_content',
+					'cont_func'     => 'tab_layout_content',
 				),
 				// Zips Tab!
 				'zips'        => array(
@@ -871,9 +652,9 @@ class Feeds_CPT {
 				// WooCommerce Tab!
 				'woocommerce' => array(
 					'menu_li_class' => 'tab5',
-					'menu_a_text'   => esc_html__( 'WooCommerce', 'feed_them_social' ),
+					'menu_a_text'   => esc_html__( 'Feed Settings', 'feed_them_social' ),
 					'cont_wrap_id'  => 'ftg-tab-content5',
-					'cont_func'     => 'tab_woocommerce_content',
+					'cont_func'     => 'tab_feed_settings_content',
 				),
 				// Watermark Tab!
 				'watermark'   => array(
@@ -912,9 +693,6 @@ class Feeds_CPT {
 	 */
 	public function fts_tab_menu_metabox( $object ) {
 
-		// Popup HTML.
-		$this->fts_edit_page_popup( $this->parent_post_id );
-
 		$params['object'] = $object;
 
 		$this->metabox_settings_class->display_metabox_content( $this->fts_metabox_tabs_list(), $params );
@@ -935,14 +713,14 @@ class Feeds_CPT {
 	}
 
 	/**
-	 * Tab Upload Content
+	 * Tab Feed Type Content
 	 *
-	 * Outputs Upload tab's content for metabox.
+	 * Outputs Feed Type Selection tab's content for metabox.
 	 *
 	 * @param $params
 	 * @since 1.1.6
 	 */
-	public function tab_upload_content( $params ) {
+	public function tab_feed_type_content( $params ) {
 
 		global $wp_version;
 
@@ -952,62 +730,69 @@ class Feeds_CPT {
 		$object        = $params['object'];
 		$gallery_class = $params['this'];
 
-		/*
-		$Settings_options = get_post_meta( $_GET['post'], 'fts_settings_options', true );
-
-		echo '<pre>';
-		print_r( $Settings_options );
-		echo '</pre>';*/
 
 		?>
-			<div class="ftg-section">
 
-				<div id="uploadContainer" style="margin-top: 10px;">
+        <div id="fts-tab-content1" class="fts-tab-content fts-hide-me <?php echo isset( $_GET['tab'] ) && 'general_options' === $_GET['tab'] || ! isset( $_GET['tab'] ) ? 'pane-active' : ''; ?>">
+            <section>
 
-				</div>
+                <h2 class="fts-logo-subheader"><?php echo esc_html__( 'Create Shortcode for Social Network', 'feed-them-social' ); ?></h2>
+                <div class="use-of-plugin"><?php echo esc_html__( 'Please select what type of feed you would like using the select option below. After setting your options click the green Generate Shortcode button, then copy and paste the shortcode to a page, post or widget.', 'feed-them-social' ); ?></div>
 
-				<div class="ftg-clear"></div>
+                <form class="feed-them-social-admin-form" id="feed-selector-form">
+                    <select id="shortcode-form-selector">
+                        <option value=""><?php echo esc_html__( 'Select a Social Network', 'feed-them-social' ); ?> </option>
+                        <option value="fts-fb-page-shortcode-form"><?php echo esc_html__( 'Facebook Feed', 'feed-them-social' ); ?></option>
+                        <option value="combine-steams-shortcode-form"><?php echo esc_html__( 'Combine Streams Feed', 'feed-them-social' ); ?></option>
+                        <option value="twitter-shortcode-form"><?php echo esc_html__( 'Twitter Feed', 'feed-them-social' ); ?></option>
+                        <option value="instagram-shortcode-form"><?php echo esc_html__( 'Instagram Feed', 'feed-them-social' ); ?></option>
+                        <option value="youtube-shortcode-form"><?php echo esc_html__( 'YouTube Feed', 'feed-them-social' ); ?></option>
+                        <!--/ <option value="pinterest-shortcode-form"><?php echo esc_html__( 'Pinterest Feed', 'feed-them-social' ); ?></option>  -->
+                    </select>
+                </form><!--/feed-them-social-admin-form-->
 
-                <?php
-                    // Happens in JS file
-                    $this->core_functions_class->fts_tab_notice_html(); ?>
+            </section>
+        </div> <!-- #fts-tab-content1 -->
+        <?php
 
-				<script>
-					jQuery('.metabox_submit').click(function (e) {
-						e.preventDefault();
-						//  jQuery('#publish').click();
-						jQuery('#post').click();
-					});
+		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['feed_type'], null, $gallery_class->parent_post_id );
 
-				</script>
-
-		</div>
-					<?php
 	}
 
-				/**
-				 *  Tab Layout Content
-				 *
-				 * Outputs Layout tab's content for metabox.
-				 *
-				 * @since 1.0.0
-				 */
+    /**
+     *  Tab API Token
+     *
+     * API token settings Tab of Token
+     *
+     * @since 1.0.0
+     */
+	public function tab_api_token_content( $params ) {
+
+	}
+
+	/**
+	 *  Tab Layout Content
+	 *
+	 * Outputs Layout tab's content for metabox.
+	 *
+	 * @since 1.0.0
+	 */
 	public function tab_layout_content( $params ) {
 		$gallery_class = $params['this'];
 
-		 echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['layout'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['layout'], null, $gallery_class->parent_post_id );
 		?>
-			<div class="clear"></div>
-			<div class="ft-gallery-note ft-gallery-note-footer">
-				<?php
-				echo sprintf(
-					esc_html__( 'Additional Global options available on the %1$sSettings Page%2$s', 'feed_them_social' ),
-					'<a href="' . esc_url( 'edit.php?post_type=fts&page=ft-gallery-settings-page' ) . '" >',
-					'</a>'
-				);
-				?>
-			</div>
-					<?php
+        <div class="clear"></div>
+        <div class="ft-gallery-note ft-gallery-note-footer">
+			<?php
+			echo sprintf(
+				esc_html__( 'Additional Global options available on the %1$sSettings Page%2$s', 'feed_them_social' ),
+				'<a href="' . esc_url( 'edit.php?post_type=fts&page=ft-gallery-settings-page' ) . '" >',
+				'</a>'
+			);
+			?>
+        </div>
+		<?php
 	}
 
 	/**
@@ -1037,76 +822,16 @@ class Feeds_CPT {
 					<?php
 	}
 
+
+
 	/**
-	 * Tab ZIPS Content
+	 * Tab Feed Settings Content
 	 *
-	 * Outputs ZIPS tab's content for metabox.
+	 * Outputs Feed's settings tab's content for metabox.
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_zips_content( $params ) {
-		$gallery_class = $params['this'];
-				// If Premium add Functionality
-		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-			echo '<div class="ftg-section">' . $gallery_class->fts_tab_premium_msg() . '</div>';
-
-		}
-				// If Premium add Functionality
-		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-			// Happens in JS file
-			$this->core_functions_class->fts_tab_notice_html();
-		}
-		?>
-				<div class="ftg-section">
-
-					<h3><?php _e( 'Gallery Digital Zip History List', 'feed_them_social' ); ?></h3>
-					<?php
-					// If Premium add Functionality
-					if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-						?>
-
-						<ul id="ft-gallery-zip-list" class="ftg-free-list">
-							<li class="ft-gallery-zip zip-list-item-24527">
-								<div class="ft-gallery-file-name">
-									<a href="javascript:"
-									   title="Download"><?php esc_html_e( 'Example-Gallery-Name' ); ?></a>
-								</div>
-								<div class="ft-gallery-file-time"><?php esc_html_e( 'October 14, 2020 - 2:45pm' ); ?></div>
-								<div class="ft-gallery-file-delete">
-									<a class="fts_delete_zip_button"><?php esc_html_e( 'Delete' ); ?></a>
-								</div>
-								<div class="ft-gallery-file-delete ft-gallery-file-zip-to-woo">
-									<a class="fts_create_woo_prod_button"><?php esc_html_e( 'Create product' ); ?></a>
-								</div>
-								<div class="ft-gallery-file-view">
-									<a class="fts_view_zip_button"><?php esc_html_e( 'View Contents' ); ?></a>
-								</div>
-								<ol class="zipcontents_list"></ol>
-							</li>
-						</ul>
-						<?php
-					}
-
-					// If Premium add Functionality
-					if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-						// Happens in JS file
-						echo $gallery_class->zip_gallery_class->fts_list_zip_files( $gallery_class->parent_post_id );
-					}
-					?>
-
-				</div>
-				<div class="clear"></div>
-					<?php
-	}
-
-	/**
-	 * Tab Woocommerce Content
-	 *
-	 * Outputs WooCommerce tab's content for metabox.
-	 *
-	 * @since 1.0.0
-	 */
-	public function tab_woocommerce_content( $params ) {
+	public function tab_feed_settings_content( $params ) {
 		$gallery_class = $params['this'];
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
@@ -1117,9 +842,6 @@ class Feeds_CPT {
 				<?php } ?>
 
 					<?php
-					// echo '<pre>';
-					// print_r(wp_prepare_attachment_for_js('21529'));
-					// echo '</pre>';
 					echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
 					?>
 
@@ -1253,190 +975,14 @@ class Feeds_CPT {
 }
 	}
 
-				/**
-				 *  Uploader Action
-				 *
-				 * File upload handler. Inserts Attachments info. Generates attachment info. May auto-generate WooCommerce Products
-				 *
-				 * @since 1.0.0
-				 */
-	public function fts_plupload_action() {
-
-		// check ajax noonce
-		$imgid = $_POST['imgid'];
-
-		check_ajax_referer( $imgid . 'pluploadan' );
-
-		// Fetch post ID:
-		$post_id = $_POST['postID'];
-		// $file = $_FILES['async-upload'];
-		// handle file upload
-		$status = wp_handle_upload(
-			$_FILES[ $imgid . 'async-upload' ],
-			array(
-				'gallery_form' => true,
-				'action'       => 'plupload_action',
-			)
-		);
-
-		// Insert uploaded file as attachment:
-		$attach_id = wp_insert_attachment(
-			array(
-				'post_mime_type' => $status['type'],
-				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $status['url'] ) ),
-				'post_content'   => '',
-				'post_status'    => 'inherit',
-			),
-			$status['file'],
-			sanitize_text_field( $post_id )
-		);
-
-		// Include the image handler library:
-		require_once ABSPATH . 'wp-admin/includes/image.php';
-
-		// Generate meta data and update attachment:
-		$attach_data = wp_generate_attachment_metadata( $attach_id, $status['file'] );
-
-		wp_update_attachment_metadata( $attach_id, $attach_data );
-
-		// Use File & Title renaming
-		if ( '1' == get_option( 'ft-gallery-use-attachment-naming' ) ) {
-			$file_name = preg_replace( '/\.[^.]+$/', '', basename( $status['url'] ) );
-			$this->fts_rename_attachment( $post_id, $attach_id, $file_name );
-			$this->fts_generate_new_attachment_name( $post_id, $attach_id, $file_name );
-		} else {
-			$this->fts_format_attachment_title( preg_replace( '/\.[^.]+$/', '', basename( $status['url'] ) ), $attach_id, true );
-		}
-
-		$date = date_i18n( 'Y-m-d H:i:s' );
-
-		$attachment_date = array(
-			'ID'        => sanitize_text_field( $attach_id ),
-			'post_date' => sanitize_text_field( $date ),
-		);
-		wp_update_post( $attachment_date );
-
-		$pre_array = wp_get_attachment_image_src( $attach_id, $size = 'fts_thumb' );
-		// We create an array and send the thumbnail url and also the attachment id so we can sort the gallery before the page is even refreshed with our ajax 'response' js var in the metabox.js file
-		$return = array(
-			'url' => $pre_array[0],
-			'id'  => $attach_id,
-		);
-		// json_encode response so we can get the array of results and use them in our ajax 'response' js var in the metabox.js file too....ie* response['url'] response['id']
-		echo json_encode( $return );
-		exit;
-	}
-
-				/**
-				 *  Create Thumb
-				 *
-				 * Create a 150x150 thumbnail for our gallery edit page
-				 *
-				 * @param $image_source
-				 * @since 1.0.0
-				 */
-	public function fts_create_thumb( $image_source ) {
-		$image = $image_source;
-		// error_log($image_source . ' Full FILE NAME WITH HTTP<br/><br/>');
-		$instance_common = new FTGallery_Create_Image();
-		$force_overwrite = true;
-		// Generate the new cropped gallery image.
-		$instance_common->resize_image( $image, '150', '150', false, 'c', '100', false, null, $force_overwrite );
-	}
-
-				/**
-				 *  Generate new Attachment Name
-				 *
-				 * Generates a new attachment name (used in upload action)
-				 *
-				 * @param $gallery_id
-				 * @param $attachment_ID
-				 * @since 1.0.0
-				 */
-	public function fts_generate_new_attachment_name( $gallery_id, $attachment_ID, $file_name ) {
-		$final_title = '';
-
-		// Include Gallery Title
-		if ( '1' === get_option( 'fts_attch_title_gallery_name' ) ) {
-			$final_title .= get_the_title( $gallery_id ) . ' ';
-		}
-		// Include Gallery ID
-		if ( ! empty( $gallery_id ) && '1' === get_option( 'fts_attch_title_post_id' ) ) {
-			$final_title .= $gallery_id . ' ';
-		}
-		// include Date Uploaded
-		if ( isset( $_POST['postID'] ) && '1' === get_option( 'fts_attch_title_date' ) ) {
-			$final_title .= date_i18n( 'F jS, Y' ) . ' ';
-		}
-		// Include File Name
-		if ( '1' === get_option( 'fts_attch_title_file_name' ) ) {
-			$final_title .= $file_name . ' ';
-		}
-		// Include Attch ID
-		if ( '1' === get_option( 'fts_attch_title_attch_id' ) ) {
-			$final_title .= $attachment_ID . ' ';
-		}
-
-		if ( '1' !== get_option( 'fts_attch_title_gallery_name' ) && '1' !== get_option( 'fts_attch_title_post_id' ) && '1' !== get_option( 'fts_attch_title_date' ) && '1' !== get_option( 'fts_attch_title_attch_id' ) ) {
-			$final_title .= $file_name . ' ';
-		}
-
-		$this->fts_format_attachment_title( $final_title, $attachment_ID, 'true' );
-	}
-
-				/**
-				 *  Rename Attachment
-				 *
-				 * Renames attachment (used for File Re-name settings option)
-				 *
-				 * @param $gallery_id
-				 * @param $attachment_ID
-				 * @since 1.0.0
-				 */
-	public function fts_rename_attachment( $gallery_id, $attachment_ID, $file_name ) {
-
-		$file = get_attached_file( $attachment_ID );
-		$path = pathinfo( $file );
-
-		$final_filename = '';
-
-		// Include Gallery Title
-		if ( '1' === get_option( 'fts_attch_name_gallery_name' ) ) {
-			$final_filename .= get_the_title( $gallery_id ) . '-';
-		}
-		// Include Gallery ID
-		if ( ! empty( $gallery_id ) && '1' === get_option( 'fts_attch_name_post_id' ) ) {
-			$final_filename .= $gallery_id . '-';
-		}
-		// include Date Uploaded
-		if ( isset( $_POST['postID'] ) && '1' === get_option( 'fts_attch_name_date' ) ) {
-			$final_filename .= date_i18n( 'F jS, Y' ) . '-';
-		}
-		// Include File Name
-		if ( '1' === get_option( 'fts_attch_name_file_name' ) ) {
-			$final_filename .= $file_name . ' ';
-		}
-		// Include Attch ID
-		if ( '1' === get_option( 'fts_attch_name_attch_id' ) ) {
-			$final_filename .= $attachment_ID . ' ';
-		}
-
-		$final_filename = sanitize_file_name( $final_filename );
-
-		$newfile = $path['dirname'] . '/' . $final_filename . '.' . $path['extension'];
-
-		rename( $file, $newfile );
-		update_attached_file( $attachment_ID, esc_url_raw( $newfile ) );
-	}
-
-				/**
-				 *  Shortcode Meta Box
-				 *
-				 *  copy & paste shortcode input box
-				 *
-				 * @param $object
-				 * @since 1.0.0
-				 */
+	/**
+     *  Shortcode Meta Box
+     *
+     *  copy & paste shortcode input box
+     *
+     * @param $object
+     * @since 1.0.0
+     */
 	public function fts_shortcode_meta_box( $object ) {
 		?>
 		<div class="ft-gallery-meta-wrap">
@@ -1467,67 +1013,16 @@ class Feeds_CPT {
 		<?php
 	}
 
-				/**
-				 * Get Attachment Info
-				 * Combines get_post and wp_get_attachment_metadata to create some clean attachment info
-				 *
-				 * @param $attachment_id
-				 * @param bool          $include_meta_data (True || False) Default: False
-				 * @return array
-				 * @since 1.0.0
-				 */
-	public function fts_get_attachment_info( $attachment_id, $include_meta_data = false ) {
-		// Get all of the Attachment info!
-		$attach_array = wp_prepare_attachment_for_js( $attachment_id );
-
-		$path_parts = pathinfo( $attach_array['filename'] );
-
-		$attachment_terms = get_the_terms( $attach_array['id'], 'ftg-tags' );
-
-		$attachment_info = array(
-			'ID'           => $attach_array['id'],
-
-			// these 2 items needed for the set_downloads woocommerce function check
-			'download_id'  => $attach_array['id'],
-			'name'         => $attach_array['title'],
-
-			'title'        => $attach_array['title'],
-			'type'         => $attach_array['type'],
-			'subtype'      => $attach_array['type'],
-			'alt'          => $attach_array['alt'],
-			'caption'      => $attach_array['caption'],
-			'description'  => $attach_array['description'],
-			'href'         => $attach_array['link'],
-			'src'          => $attach_array['url'],
-			'mime-type'    => $attach_array['mime'],
-			'file'         => $attach_array['url'],
-			'slug'         => $path_parts['filename'],
-			'download_url' => get_permalink( $attach_array['uploadedTo'] ) . '?attachment_name=' . $attach_array['id'] . '&download_file=1',
-
-			// Tags
-			'tags'         => false !== $attachment_terms ? $attachment_terms : 'no tags',
-		);
-
-		// IF Exif data is set to return and is set in Meta Data.
-		// if($include_meta_data){
-		$meta_data = wp_get_attachment_metadata( $attachment_id );
-
-		$attachment_info['meta_data'] = isset( $meta_data ) ? $meta_data : '';
-
-		// }
-		return $attachment_info;
-	}
-
-				/**
-				 *  Format Attachment Title
-				 * Format the title for attachments to ensure awesome titles (options on settings page)
-				 *
-				 * @param $title
-				 * @param null  $attachment_id
-				 * @param null  $update_post
-				 * @return mixed|string
-				 * @since 1.0.0
-				 */
+    /**
+     *  Format Attachment Title
+     * Format the title for attachments to ensure awesome titles (options on settings page)
+     *
+     * @param $title
+     * @param null  $attachment_id
+     * @param null  $update_post
+     * @return mixed|string
+     * @since 1.0.0
+     */
 	public function fts_format_attachment_title( $title, $attachment_id = null, $update_post = null ) {
 
 		$options     = get_option( 'fts_format_attachment_titles_options' );
@@ -1612,21 +1107,6 @@ class Feeds_CPT {
 		wp_update_post( $uploaded_post );
 
 		return $title;
-	}
-
-				/**
-				 *  ZIP exists check
-				 * Check if ZIP still exists
-				 *
-				 * @param $id_to_check
-				 * @return bool
-				 * @since 1.0.0
-				 */
-	public function fts_zip_exists_check( $id_to_check ) {
-		$fts_zip_status = get_post_status( $id_to_check );
-
-		// Check the Status if False or in Trash return false
-		return false == $fts_zip_status || 'trash' === $fts_zip_status ? 'false' : 'true';
 	}
 
 	/**
@@ -1736,7 +1216,7 @@ class Feeds_CPT {
 	/**
 	 * Metabox Specific Form Inputs
 	 *
-	 * This adds to the ouput of the metabox output forms for settings_html_form function in the Metabox Settings class.
+	 * This adds to the output of the metabox output forms for settings_html_form function in the Metabox Settings class.
 	 *
 	 * @param $params
 	 * @param $input_option
@@ -1758,16 +1238,6 @@ class Feeds_CPT {
 		if ( isset( $option['option_type'] ) ) {
 			switch ( $option['option_type'] ) {
 
-				// Checkbox for image sizes COMMENTING OUT BUT LEAVING FOR FUTURE QUICK USE
-				// case 'checkbox-image-sizes':
-				// $final_value_images = array('thumbnailzzz','mediummmm', 'large', 'full');
-				// Get Gallery Options via the Rest API
-				// $final_value_images = $gallery_options_returned['ft_watermark_image_sizes']['image_sizes'];
-				// print_r($final_value_images);
-				// array('thumbnailzzz','mediummmm', 'largeee', 'fullll');
-				// $output .= '<label for="'. $option['id'] . '"><input type="checkbox" val="' . $option['default_value'] . '" name="ft_watermark_image_sizes[image_sizes][' . $option['default_value'] . ']" id="'.$option['id'] . '" '. ( array_key_exists($option['default_value'], $final_value_images) ? ' checked="checked"' : '') .'/>';
-				// $output .= '' . $option['default_value'] . '</label>';
-				// break;
 				// Checkbox for image sizes used so you can check the image sizes you want to be water marked after you save the page.
 				case 'checkbox-dynamic-image-sizes':
 					$final_value_images = isset( $gallery_options_returned['ft_watermark_image_sizes']['image_sizes'] ) ? $gallery_options_returned['ft_watermark_image_sizes']['image_sizes'] : array();
@@ -1800,102 +1270,6 @@ class Feeds_CPT {
 					// echo '</pre>';
 					break;
 
-				// Image sizes for page.
-				case 'ft-images-sizes-page':
-					$final_value_images = isset( $gallery_options_returned['fts_images_sizes_page'] ) ? $gallery_options_returned['fts_images_sizes_page'] : '';
-					$output            .= '<select name="' . esc_attr( $option['name'] ) . '" id="' . esc_attr( $option['id'] ) . '"  class="feed_them_social-admin-input">';
-
-					global $_wp_additional_image_sizes;
-
-					$sizes   = array();
-					$output .= '<option val="Choose an option" ' . ( 'not_set' === $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_html__( 'Choose an option', 'feed_them_social' ) . '</option>';
-					foreach ( get_intermediate_image_sizes() as $_size ) {
-						if ( in_array( $_size, array( 'thumbnail', 'medium', 'medium_large', 'large' ) ) ) {
-							$sizes[ $_size ]['width']  = get_option( "{$_size}_size_w" );
-							$sizes[ $_size ]['height'] = get_option( "{$_size}_size_h" );
-							$sizes[ $_size ]['crop']   = (bool) get_option( "{$_size}_crop" );
-						} elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
-							$sizes[ $_size ] = array(
-								'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
-								'height' => $_wp_additional_image_sizes[ $_size ]['height'],
-								'crop'   => $_wp_additional_image_sizes[ $_size ]['crop'],
-							);
-						}
-						$output .= '<option val="' . esc_attr( $_size ) . '" ' . ( esc_attr( $_size ) . ' ' . esc_attr( $sizes[ $_size ]['width'] ) . ' x ' . $sizes[ $_size ]['height'] === $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_html( $_size ) . ' ' . esc_html( $sizes[ $_size ]['width'] ) . ' x ' . esc_html( $sizes[ $_size ]['height'] ) . '</option>';
-					}
-					$output .= '<option val="full" ' . ( 'full' === $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_html__( 'full', 'feed_them_social' ) . '</option>';
-					// TESTING AREA
-					// echo $final_value_images;
-					// echo '<pre>';
-					// print_r($sizes);
-					// echo '</pre>';
-					$output .= '</select>';
-					break;
-
-				// Image sizes for popup.
-				case 'ft-images-sizes-popup':
-					$final_value_images = isset( $gallery_options_returned['fts_images_sizes_popup'] ) ? $gallery_options_returned['fts_images_sizes_popup'] : '';
-					$output            .= '<select name="' . esc_attr( $option['name'] ) . '" id="' . esc_attr( $option['id'] ) . '"  class="feed_them_social-admin-input">';
-
-					global $_wp_additional_image_sizes;
-
-					$sizes = array();
-
-					$output .= '<option val="Choose an option" ' . ( 'not_set' === $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_html__( 'Choose an option', 'feed_them_social' ) . '</option>';
-					foreach ( get_intermediate_image_sizes() as $_size ) {
-						if ( in_array( $_size, array( 'thumbnail', 'medium', 'medium_large', 'large' ) ) ) {
-							$sizes[ $_size ]['width']  = get_option( "{$_size}_size_w" );
-							$sizes[ $_size ]['height'] = get_option( "{$_size}_size_h" );
-							$sizes[ $_size ]['crop']   = (bool) get_option( "{$_size}_crop" );
-						} elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
-							$sizes[ $_size ] = array(
-								'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
-								'height' => $_wp_additional_image_sizes[ $_size ]['height'],
-								'crop'   => $_wp_additional_image_sizes[ $_size ]['crop'],
-							);
-						}
-						$output .= '<option val="' . esc_attr( $_size ) . '" ' . ( esc_attr( $_size ) . ' ' . esc_attr( $sizes[ $_size ]['width'] ) . ' x ' . $sizes[ $_size ]['height'] == $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_attr( $_size ) . ' ' . esc_attr( $sizes[ $_size ]['width'] ) . ' x ' . esc_attr( $sizes[ $_size ]['height'] ) . '</option>';
-					}
-					$output .= '<option val="full" ' . ( 'full' === $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_html__( 'full', 'feed_them_social' ) . '</option>';
-					// TESTING AREA
-					// echo $final_value_images;
-					// echo '<pre>';
-					// print_r($sizes);
-					// echo '</pre>';
-					$output .= '</select>';
-					break;
-
-				// Image sizes for Free download icon.
-				case 'ftg-free-download-size':
-					$final_value_images = isset( $gallery_options_returned['ftg_free_download_size'] ) ? $gallery_options_returned['ftg_free_download_size'] : '';
-					$output            .= '<select name="' . esc_attr( $option['name'] ) . '" id="' . esc_attr( $option['id'] ) . '"  class="feed_them_social-admin-input">';
-
-					global $_wp_additional_image_sizes;
-
-					$sizes   = array();
-					$output .= '<option val="Choose an option" ' . ( 'not_set' === $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_html__( 'Choose an option', 'feed_them_social' ) . '</option>';
-					foreach ( get_intermediate_image_sizes() as $_size ) {
-						if ( in_array( $_size, array( 'thumbnail', 'medium', 'medium_large', 'large' ) ) ) {
-							$sizes[ $_size ]['width']  = get_option( "{$_size}_size_w" );
-							$sizes[ $_size ]['height'] = get_option( "{$_size}_size_h" );
-							$sizes[ $_size ]['crop']   = (bool) get_option( "{$_size}_crop" );
-						} elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
-							$sizes[ $_size ] = array(
-								'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
-								'height' => $_wp_additional_image_sizes[ $_size ]['height'],
-								'crop'   => $_wp_additional_image_sizes[ $_size ]['crop'],
-							);
-						}
-						$output .= '<option val="' . esc_attr( $_size ) . '" ' . ( esc_attr( $_size ) . ' ' . esc_attr( $sizes[ $_size ]['width'] ) . ' x ' . $sizes[ $_size ]['height'] == $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_attr( $_size ) . ' ' . esc_attr( $sizes[ $_size ]['width'] ) . ' x ' . esc_attr( $sizes[ $_size ]['height'] ) . '</option>';
-					}
-					$output .= '<option val="full" ' . ( 'full' === $final_value_images ? 'selected="selected"' : '' ) . '>' . esc_html__( 'full', 'feed_them_social' ) . '</option>';
-					// TESTING AREA
-					// echo $final_value_images;
-					// echo '<pre>';
-					// print_r($sizes);
-					// echo '</pre>';
-					$output .= '</select>';
-					break;
 			}
 		}
 

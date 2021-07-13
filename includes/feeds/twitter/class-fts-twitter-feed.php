@@ -367,8 +367,7 @@ class FTS_Twitter_Feed {
 				}
 			} else {
 
-                    $feed_cpt_class = new Feeds_CPT();
-                    $returned_options = $feed_cpt_class->get_cpt_post_options( $cpt_id_check );
+                    $returned_options = $this->feed_cpt->get_cpt_post_options( $cpt_id_check );
 
                     //echo '<pre>';
                     //print_r($returned_options);

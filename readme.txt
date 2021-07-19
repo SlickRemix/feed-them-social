@@ -73,6 +73,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.9.6.3 Monday, July 19th, 2021 =
+  * FIX: FACEBOOK FEED: Profile, Cover photo and Address change posts have been removed from displaying in the feed.
   * PREMIUM FIX: TWITTER FEED: remove _blank target when using the popup option.
   * FB REVIEWS FIX: Admins added to Facebook Pages can now retrieve a working access token.
   * NOTE: Added notation about upcoming update to 3.0

@@ -202,7 +202,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
             // SHOW THE REGULAR FEEDS PRINT_R
             //  echo '<pre>';
             //  print_r($feed_data_check);
-            // echo '</pre>';
+            //  echo '</pre>';
             // $idNew = array();
             // $idNew = explode(',', $fb_shortcode['id']);
             // Testing options before foreach loop
@@ -243,7 +243,7 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
 
                     // This is the method to skip empty posts or posts that are simply about changing settings or other non important post types
                     // We will count all the ones that are like this and add that number to the output of posts to offset the posts we are filtering out. Line 278 needs the same treatment of if options.
-                    if ( 'status' === $fb_type && empty( $fb_message ) && empty( $fb_story ) || 'event' === $fb_type || 'event' === $fb_type && false !== strpos( $fb_story, 'shared their event' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'changed the name of the event to' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'changed the privacy setting' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'an admin of the group' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'created the group' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'added an event' ) || 'event' === $fb_type && false !== strpos( $fb_story, 'added an event' ) ) {
+                    if ( false !== strpos( $fb_story, 'updated their website address' ) || 'profile_media' === $fb_type && false !== strpos( $fb_story, 'updated their profile picture' ) || 'cover_photo' === $fb_type && false !== strpos( $fb_story, 'updated their cover photo' ) || 'status' === $fb_type && empty( $fb_message ) && empty( $fb_story ) || 'event' === $fb_type || 'event' === $fb_type && false !== strpos( $fb_story, 'shared their event' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'changed the name of the event to' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'changed the privacy setting' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'an admin of the group' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'created the group' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'added an event' ) || 'event' === $fb_type && false !== strpos( $fb_story, 'added an event' ) ) {
                         $set_zero++;
                     } elseif ( '0' === $feed_data_check->data ) {
                         // If more than the 5 posts(default in free) or the post= from shortcode is set to the amount of posts that are being filtered above we will add 7 to the post count to try and get at some posts.
@@ -264,9 +264,9 @@ class FTS_Facebook_Feed extends feed_them_social_functions {
                 }
 
                 // SHOW THE $feed_data_check PRINT_R
-                // echo '<pre>';
-                // print_r($feed_data_check);
-                // echo '</pre>, ';.
+                /* echo '<pre>';
+                 print_r($feed_data_check);
+                 echo '</pre>, ';*/
             }
             // END.
         }
@@ -682,7 +682,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
             }
 
             // This is the method to skip empty posts or posts that are simply about changing settings or other non important post types.
-            if ( 'status' === $fb_type && empty( $fb_message ) && empty( $fb_story ) || 'event' === $fb_type || 'event' === $fb_type && false !== strpos( $fb_story, 'shared their event' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'changed the name of the event to' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'changed the privacy setting' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'an admin of the group' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'created the group' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'added an event' ) || 'event' === $fb_type && false !== strpos( $fb_story, 'added an event' ) ) {
+            if ( false !== strpos( $fb_story, 'updated their website address' ) ||  'profile_media' === $fb_type && false !== strpos( $fb_story, 'updated their profile picture' ) || 'cover_photo' === $fb_type && false !== strpos( $fb_story, 'updated their cover photo' ) || 'status' === $fb_type && empty( $fb_message ) && empty( $fb_story ) || 'event' === $fb_type || 'event' === $fb_type && false !== strpos( $fb_story, 'shared their event' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'changed the name of the event to' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'changed the privacy setting' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'an admin of the group' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'created the group' ) || 'status' === $fb_type && false !== strpos( $fb_story, 'added an event' ) || 'event' === $fb_type && false !== strpos( $fb_story, 'added an event' ) ) {
             } else {
                 // define type note also affects load more fucntion call.
                 if ( ! $fb_type && 'album_photos' === $fb_shortcode['type'] ) {

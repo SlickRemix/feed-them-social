@@ -3,7 +3,7 @@ Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.7.2
-Stable tag: 2.9.6.2
+Stable tag: 2.9.6.3
 License: GPLv2 or later
 
 Display a Custom Facebook feed, Instagram feed, Twitter feed, and YouTube feed on pages, posts or widgets.
@@ -72,6 +72,12 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.9.6.3 Tuesday, July 20th, 2021 =
+  * FIX: FACEBOOK FEED: Profile, Cover photo and Address change posts have been removed from displaying in the feed.
+  * PREMIUM FIX: TWITTER FEED: remove _blank target when using the popup option.
+  * FB REVIEWS FIX: Admins added to Facebook Pages can now retrieve a working access token.
+  * NOTE: Added notation about upcoming update to 3.0
+
 = Version 2.9.6.2 Wednesday, June 9th, 2021 =
   * FIX: INSTAGRAM FEED: Remove blank spaces on hrefs causing issues with URLs
   * PREMIUM FIX: FACEBOOK VIDEOS FEED: Some videos when clicked on were loading an image in the popup instead of the video and some video thumbnails were blurry.
@@ -1104,11 +1110,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 == Frequently Asked Questions ==
 
 = Are there Extensions for this plugin? =
-
 Yes. We have the Premium Extension which also includes Youtube. Then we also have Facebook Reviews, Facebook Carousel and the Combined Stream extension. [Premium Extensions and Bundles](https://www.slickremix.com/downloads/category/feed-them-social/)
 
 == Screenshots ==
-
 1. Facebook Feed. All Feeds Work on Pages, posts or Text Widgets. Adjust the height to make it a scrolling feed too. [Demo](https://feedthemsocial.com/facebook-page-feed-demo/)
 2. Facebook Popup with comments. All popups for feeds except Vine are available in the [Premium Extension](https://www.slickremix.com/downloads/feed-them-social-premium-extension/). [Demo](https://feedthemsocial.com/facebook-page-feed-demo/)
 3. Facebook Popup example showing a video. [Demo](https://feedthemsocial.com/facebook-page-feed-demo/)

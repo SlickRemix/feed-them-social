@@ -220,9 +220,10 @@ class FTS_Facebook_Options_Page {
 								<?php esc_html_e( 'This Facebook Access Token works for the Reviews feed only and is simply used to display the feed. You must be an admin of the page to get your token.', 'feed-them-social' ); ?>
 								<p>
 									<?php
+                                    // https://developers.facebook.com/docs/graph-api/reference/page/ratings/
 									echo sprintf(
 										esc_html__( '%1$sLogin and get my Reviews Access Token%2$s', 'feed-them-social' ),
-										'<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . admin_url( 'admin.php?page=fts-facebook-feed-styles-submenu-page' ) . '%26reviews_token=yes&scope=pages_show_list,pages_read_engagement' ) . '" class="fts-facebook-get-access-token">',
+										'<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . admin_url( 'admin.php?page=fts-facebook-feed-styles-submenu-page' ) . '%26reviews_token=yes&scope=pages_show_list,pages_read_engagement,pages_read_user_content' ) . '" class="fts-facebook-get-access-token">',
 										'</a>'
 									);
 									?>

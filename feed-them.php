@@ -7,18 +7,18 @@
  * Plugin Name: Feed Them Social - for Twitter feed, Youtube, and more
  * Plugin URI: https://feedthemsocial.com/
  * Description: Display a Custom Facebook feed, Instagram feed, Twitter feed and YouTube feed on pages, posts or widgets.
- * Version: 2.9.6.2
+ * Version: 2.9.6.3
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
  * Tested up to: WordPress 5.7.2
- * Stable tag: 2.9.6.2
+ * Stable tag: 2.9.6.3
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.9.6.2
+ * @version    2.9.6.3
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2021 SlickRemix
  *
@@ -31,7 +31,7 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '2.9.6.2' );
+define( 'FTS_CURRENT_VERSION', '2.9.6.3' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 
@@ -84,6 +84,8 @@ final class Feed_Them_Social {
             add_action( 'admin_notices', array( self::$instance, 'fts_install_notice' ) );
             add_action( 'admin_notices', array( self::$instance, 'fts_update_notice' ) );
             add_action( 'upgrader_process_complete', array( self::$instance, 'fts_upgrade_completed' ), 10, 2 );
+            // Inlcude our custom message letting users know of Major Changes to Feed Them Social 3.0
+            add_action( 'in_plugin_update_message-feed-them-social/feed-them.php', array( self::$instance, 'prefix_plugin_update_message' ), 10, 2 );
 
             // Include our own Settings link to plugin activation and update page.
             add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( self::$instance, 'fts_free_plugin_actions' ), 10, 4 );
@@ -169,7 +171,22 @@ final class Feed_Them_Social {
     public function fts_update_notice() {
         // Check the transient to see if we've just updated the plugin!
         if ( get_transient( 'fts_updated' ) ) {
-            echo '<div class="notice notice-success updated is-dismissible"><p>' . esc_html__( 'Thanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.', 'feed-them-social' ) . '</p></div>';
+            echo '<div class="notice notice-success updated is-dismissible">';
+            echo sprintf(
+                    esc_html__( '%10$sThanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.%11$s %8$s%6$sNOTE%7$s: Feed Them Social 3.0 will have some amazing changes in the coming months. Please take a moment and %4$s read them here%5$s.%9$s', 'feed-them-social' ),
+                    '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
+                    '</a>',
+                    '<br/><br/>',
+                    '<a href="' . esc_url( 'https://www.slickremix.com/feed-them-social-3-0-major-changes/' ) . '" target="_blank">',
+                    '</a>',
+                    '<strong>',
+                    '</strong>',
+                    '<div class="fts-update-message">',
+                    '</div>',
+                    '<p>',
+                    '</p>'
+                );
+            echo '</div>';
             delete_transient( 'fts_updated' );
         }
     }
@@ -183,18 +200,42 @@ final class Feed_Them_Social {
     public function fts_install_notice() {
         // Check the transient to see if we've just activated the plugin!
         if ( get_transient( 'fts_activated' ) ) {
-            echo '<div class="notice notice-success updated is-dismissible"><p>';
+            echo '<div class="notice notice-success updated is-dismissible">';
             echo sprintf(
-                esc_html__( 'Thanks for installing Feed Them Social. To get started please view our %1$sSettings%2$s page.', 'feed-them-social' ),
+                esc_html__( '%10$sThanks for installing Feed Them Social. To get started please view our %1$sSettings%2$s page.%11$s %8$s%6$sNOTE%7$s: Feed Them Social 3.0 will have some amazing changes in the coming months. Please take a moment and %4$s read them here%5$s.%9$s', 'feed-them-social' ),
                 '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
-                '</a>'
+                '</a>',
+                '<br/><br/>',
+                '<a href="' . esc_url( 'https://www.slickremix.com/feed-them-social-3-0-major-changes/' ) . '" target="_blank">',
+                '</a>',
+                '<strong>',
+                '</strong>',
+                '<div class="fts-update-message">',
+                '</div>',
+                '<p>',
+                '</p>'
             );
-            echo '</p></div>';
+            echo '</div>';
             // Delete the transient so we don't keep displaying the activation message!
             delete_transient( 'fts_activated' );
         }
 
     }
+
+   function prefix_plugin_update_message( $plugin_data, $new_data ) {
+       echo '<div class="fts-update-message">';
+       echo sprintf(
+           esc_html__( 'Feed Them Social 3.0 will have some amazing changes in the coming months. Please take a moment and %4$s read them here%5$s.', 'feed-them-social' ),
+           '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
+           '</a>',
+           '<br/><br/>',
+           '<a href="' . esc_url( 'https://www.slickremix.com/feed-them-social-3-0-major-changes/' ) . '" target="_blank">',
+           '</a>',
+           '<strong>',
+           '</strong>'
+       );
+       echo '</div>';
+   }
 
     /**
      * Run this on activation

@@ -1799,7 +1799,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
 		// Start creation of fields for each Feed!
 		foreach ( $feed_settings_array as $section => $section_info ) {
-			$output .= '<div class="' . esc_attr( $section_info['section_wrap_class'] ) . '">';
+			$output .= '<div id="' . esc_attr( $section_info['section_wrap_id'] ) . '" class="' . esc_attr( $section_info['section_wrap_class'] ) . '">';
 			$output .= '<form class="feed-them-social-admin-form shortcode-generator-form ' . esc_attr( $section_info['form_wrap_classes'] ) . '" id="' . esc_attr( $section_info['form_wrap_id'] ) . '">';
 
 			// Check to see if token is in place otherwise show a message letting person no what they need to do!

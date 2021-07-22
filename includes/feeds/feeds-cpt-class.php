@@ -65,6 +65,16 @@ class Feeds_CPT {
 	public $gallery_options_class = '';
 
 	/**
+	 * Twitter API Token
+	 * initiates Twitter API Token Class
+	 *
+	 * @var string
+	 */
+	public $twitter_api_token;
+
+
+
+	/**
 	 * Metabox Settings Class
 	 * initiates Metabox Settings Class
 	 *
@@ -78,9 +88,12 @@ class Feeds_CPT {
      * @param array  $all_options All options.
 	 * @param string $main_post_type Main Post Type.
 	 */
-	public function __construct( $all_options, $main_post_type ) {
+	public function __construct( $all_options, $main_post_type, $twitter_api_token ) {
 		$this->set_class_vars( $all_options, $main_post_type );
 		$this->add_actions_filters();
+
+		//API Tokens
+		$this->twitter_api_token = $twitter_api_token;
     }
 
 
@@ -612,11 +625,22 @@ class Feeds_CPT {
 	 */
 	public function fts_metabox_tabs_list() {
 
-		$metabox_tabs_list = array(
+		/*$metabox_tabs_list = array(
 			// Base of each tab! The array keys are the base name and the array value is a list of tab keys.
 			'base_tabs' => array(
-				'post' => array( 'feed_type', 'api_token', 'colors', 'zips', 'woocommerce', 'watermark', 'pagination', 'tags' ),
+				'post' => array( 'feed_type', 'api_token', 'colors', 'feed_settings', 'watermark', 'pagination', 'tags' ),
 			),
+
+			//'post' => array( 'feed_type', 'api_token', 'colors', 'feed_settings', 'watermark', 'pagination', 'tags' ),
+
+			// Zips Tab!
+			'zips'        => array(
+				'menu_li_class' => 'tab4',
+				'menu_a_text'   => esc_html__( 'Zips', 'feed_them_social' ),
+				'cont_wrap_id'  => 'ftg-tab-content6',
+				'cont_func'     => 'tab_zips_content',
+			),
+
 			// Tabs List! The cont_func item is relative the the Function name for that tabs content. The array Keys for each tab are also relative to classes and ID on wraps of display_metabox_content function.
 			'tabs_list' => array(
 				// Images Tab!
@@ -628,29 +652,22 @@ class Feeds_CPT {
 					'cont_wrap_id'       => 'ftg-tab-content1',
 					'cont_func'          => 'tab_feed_type_content',
 				),
-				// API Token Tab!
-				'api_token'      => array(
-					'menu_li_class' => 'tab2',
-					'menu_a_text'   => esc_html__( 'API Token', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content2',
-					'cont_func'     => 'tab_api_token_content',
-				),
 				// Layout Tab!
-				'colors'      => array(
-					'menu_li_class' => 'tab3',
+				'layout'      => array(
+					'menu_li_class' => 'tab2',
 					'menu_a_text'   => esc_html__( 'Layout', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content3',
+					'cont_wrap_id'  => 'ftg-tab-content2',
 					'cont_func'     => 'tab_layout_content',
 				),
-				// Zips Tab!
-				'zips'        => array(
+				// Color Tab!
+				'colors'      => array(
 					'menu_li_class' => 'tab4',
-					'menu_a_text'   => esc_html__( 'Zips', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content6',
-					'cont_func'     => 'tab_zips_content',
+					'menu_a_text'   => esc_html__( 'colors', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content4',
+					'cont_func'     => 'tab_colors_content',
 				),
-				// WooCommerce Tab!
-				'woocommerce' => array(
+				// Feed Settings Tab!
+				'feed_settings' => array(
 					'menu_li_class' => 'tab5',
 					'menu_a_text'   => esc_html__( 'Feed Settings', 'feed_them_social' ),
 					'cont_wrap_id'  => 'ftg-tab-content5',
@@ -678,7 +695,82 @@ class Feeds_CPT {
 					'cont_func'     => 'tab_tags_content',
 				),
 			),
+		);*/
+
+
+
+
+		$metabox_tabs_list = array(
+			// Base of each tab! The array keys are the base name and the array value is a list of tab keys.
+			'base_tabs' => array(
+				'post' => array( 'feed_setup', 'layout', 'colors', 'facebook_feed', 'instagram_feed', 'twitter_feed', 'youtube_feed', 'combined_streams_feed' ),
+			),
+			// Tabs List! The cont_func item is relative the the Function name for that tabs content. The array Keys for each tab are also relative to classes and ID on wraps of display_metabox_content function.
+			'tabs_list' => array(
+				// Images Tab!
+				'feed_setup'      => array(
+					'menu_li_class'      => 'tab1',
+					'menu_a_text'        => esc_html__( 'Feed Setup', 'feed_them_social' ),
+					'menu_a_class'       => 'account-tab-highlight',
+					'menu_aria_expanded' => 'true',
+					'cont_wrap_id'       => 'ftg-tab-content1',
+					'cont_func'          => 'tab_feed_setup',
+				),
+				// Layout Tab!
+				'layout'      => array(
+					'menu_li_class' => 'tab2',
+					'menu_a_text'   => esc_html__( 'Layout', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content2',
+					'cont_func'     => 'tab_layout_content',
+				),
+				// Colors Tab!
+				'colors'      => array(
+					'menu_li_class' => 'tab3',
+					'menu_a_text'   => esc_html__( 'Colors', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content3',
+					'cont_func'     => 'tab_colors_content',
+				),
+				// Facebook Feed Settings Tab!
+				'facebook_feed'        => array(
+					'menu_li_class' => 'tab4',
+					'menu_a_text'   => esc_html__( 'Facebook', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content6',
+					'cont_func'     => 'tab_facebook_feed',
+				),
+				// Instagram Feed Settings Tab!
+				'instagram_feed' => array(
+					'menu_li_class' => 'tab5',
+					'menu_a_text'   => esc_html__( 'Instagram', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content5',
+					'cont_func'     => 'tab_instagram_feed',
+				),
+				// Twitter Feed Settings Tab!
+				'twitter_feed'   => array(
+					'menu_li_class' => 'tab6',
+					'menu_a_text'   => esc_html__( 'Twitter', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content7',
+					'cont_func'     => 'tab_twitter_feed',
+				),
+				// Youtube Feed Settings Tab!
+				'youtube_feed'  => array(
+					'menu_li_class' => 'tab7',
+					'menu_a_text'   => esc_html__( 'Youtube', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content8',
+					'cont_func'     => 'tab_youtube_feed',
+				),
+				// Combined Streams Feed Settings Tab!
+				'combined_streams_feed'        => array(
+					'menu_li_class' => 'tab8',
+					'menu_a_text'   => esc_html__( 'Combined Streams', 'feed_them_social' ),
+					'cont_wrap_id'  => 'ftg-tab-content9',
+					'cont_func'     => 'tab_combined_streams_feed',
+				),
+			),
 		);
+
+
+
+
 
 		return $metabox_tabs_list;
 	}
@@ -720,7 +812,7 @@ class Feeds_CPT {
 	 * @param $params
 	 * @since 1.1.6
 	 */
-	public function tab_feed_type_content( $params ) {
+	public function tab_feed_setup( $params ) {
 
 		global $wp_version;
 
@@ -730,44 +822,28 @@ class Feeds_CPT {
 		$object        = $params['object'];
 		$gallery_class = $params['this'];
 
-
-		?>
-
-        <div id="fts-tab-content1" class="fts-tab-content fts-hide-me <?php echo isset( $_GET['tab'] ) && 'general_options' === $_GET['tab'] || ! isset( $_GET['tab'] ) ? 'pane-active' : ''; ?>">
-            <section>
-
-                <h2 class="fts-logo-subheader"><?php echo esc_html__( 'Create Shortcode for Social Network', 'feed-them-social' ); ?></h2>
-                <div class="use-of-plugin"><?php echo esc_html__( 'Please select what type of feed you would like using the select option below. After setting your options click the green Generate Shortcode button, then copy and paste the shortcode to a page, post or widget.', 'feed-them-social' ); ?></div>
-
-                <form class="feed-them-social-admin-form" id="feed-selector-form">
-                    <select id="shortcode-form-selector">
-                        <option value=""><?php echo esc_html__( 'Select a Social Network', 'feed-them-social' ); ?> </option>
-                        <option value="fts-fb-page-shortcode-form"><?php echo esc_html__( 'Facebook Feed', 'feed-them-social' ); ?></option>
-                        <option value="combine-steams-shortcode-form"><?php echo esc_html__( 'Combine Streams Feed', 'feed-them-social' ); ?></option>
-                        <option value="twitter-shortcode-form"><?php echo esc_html__( 'Twitter Feed', 'feed-them-social' ); ?></option>
-                        <option value="instagram-shortcode-form"><?php echo esc_html__( 'Instagram Feed', 'feed-them-social' ); ?></option>
-                        <option value="youtube-shortcode-form"><?php echo esc_html__( 'YouTube Feed', 'feed-them-social' ); ?></option>
-                        <!--/ <option value="pinterest-shortcode-form"><?php echo esc_html__( 'Pinterest Feed', 'feed-them-social' ); ?></option>  -->
-                    </select>
-                </form><!--/feed-them-social-admin-form-->
-
-            </section>
-        </div> <!-- #fts-tab-content1 -->
-        <?php
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['feed_type_options'], null, $gallery_class->parent_post_id );
 
 		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['feed_type'], null, $gallery_class->parent_post_id );
 
-	}
+		?>
+			<div class="ftg-section">
 
-    /**
-     *  Tab API Token
-     *
-     * API token settings Tab of Token
-     *
-     * @since 1.0.0
-     */
-	public function tab_api_token_content( $params ) {
+                <?php
+                    // Happens in JS file
+                    $this->core_functions_class->fts_tab_notice_html(); ?>
 
+				<script>
+					jQuery('.metabox_submit').click(function (e) {
+						e.preventDefault();
+						//  jQuery('#publish').click();
+						jQuery('#post').click();
+					});
+
+				</script>
+
+		    </div>
+        <?php
 	}
 
 	/**
@@ -822,16 +898,93 @@ class Feeds_CPT {
 					<?php
 	}
 
-
-
 	/**
-	 * Tab Feed Settings Content
+	 * Tab Facebook Feed
 	 *
 	 * Outputs Feed's settings tab's content for metabox.
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_feed_settings_content( $params ) {
+	public function tab_facebook_feed( $params ) {
+		$gallery_class = $params['this'];
+		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+			?>
+
+            <div class="ftg-section">
+				<?php $gallery_class->fts_tab_premium_msg(); ?>
+            </div>
+		<?php }
+
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		?>
+        <div class="tab-5-extra-options">
+
+        </div>
+
+		<?php
+	}
+
+	/**
+	 * Tab Instagram Feed
+	 *
+	 * Outputs Feed's settings tab's content for metabox.
+	 *
+	 * @since 1.0.0
+	 */
+	public function tab_instagram_feed( $params ) {
+		$gallery_class = $params['this'];
+		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+			?>
+
+            <div class="ftg-section">
+				<?php $gallery_class->fts_tab_premium_msg(); ?>
+            </div>
+		<?php }
+
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		?>
+        <div class="tab-5-extra-options">
+
+        </div>
+
+		<?php
+	}
+
+	/**
+	 * Tab Twitter Feed
+	 *
+	 * Outputs Feed's settings tab's content for metabox.
+	 *
+	 * @since 1.0.0
+	 */
+	public function tab_twitter_feed( $params ) {
+		$gallery_class = $params['this'];
+		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+			?>
+
+            <div class="ftg-section">
+				<?php $gallery_class->fts_tab_premium_msg(); ?>
+            </div>
+		<?php }
+
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		?>
+        <div class="tab-5-extra-options">
+
+        </div>
+
+		<?php
+	}
+
+
+	/**
+	 * Tab Youtube Feed
+	 *
+	 * Outputs Feed's settings tab's content for metabox.
+	 *
+	 * @since 1.0.0
+	 */
+	public function tab_youtube_feed( $params ) {
 		$gallery_class = $params['this'];
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
@@ -839,12 +992,10 @@ class Feeds_CPT {
 					<div class="ftg-section">
 				<?php $gallery_class->fts_tab_premium_msg(); ?>
 					</div>
-				<?php } ?>
+				<?php }
 
-					<?php
-					echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
-					?>
-
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		        ?>
 				<div class="tab-5-extra-options">
 
 			</div>
@@ -853,127 +1004,31 @@ class Feeds_CPT {
 	}
 
 	/**
-	 * Tab Watermark Content
+	 * Tab Combined Streams Feed
 	 *
-	 * Outputs Watermark tab's content for metabox.
-	 *
-	 * @since 1.0.0
-	 */
-	public function tab_watermark_content( $params ) {
-		$gallery_class = $params['this'];
-		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-			?>
-					<div class="ftg-section">
-			<?php $gallery_class->fts_tab_premium_msg(); ?>
-					</div>
-						<?php
-		}
-				echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['watermark'], null, $gallery_class->parent_post_id );
-		?>
-				<div class="clear"></div>
-
-				<div class="ft-gallery-note ft-gallery-note-footer">
-				<?php
-
-				// echo '<pre>';
-				// print_r( $gallery_class->metabox_settings_class->get_saved_settings_array( $gallery_class->parent_post_id ) );
-				// echo '</pre>';
-				echo sprintf(
-					esc_html__( 'Please %1$screate a ticket%2$s if you are experiencing trouble and one of our team members will be happy to assist you.', 'feed_them_social' ),
-					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/#tab-support' ) . '" target="_blank">',
-					'</a>'
-				);
-				?>
-			</div>
-		<?php if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) { ?>
-			<script>
-				jQuery('#ftg-tab-content7 input, #ftg-tab-content7 select').attr('disabled', 'disabled');
-				jQuery('#ftg-tab-content7 input').val('Premium Required');
-				jQuery('#ftg-tab-content7 select option').text('Premium Required');
-			</script>
-			<?php
-}
-	}
-
-	/**
-	 * Tab Pagination Content
-	 *
-	 * Outputs Watermark tab's content for metabox.
+	 * Outputs Feed's settings tab's content for metabox.
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_pagination_content( $params ) {
+	public function tab_combined_streams_feed( $params ) {
 		$gallery_class = $params['this'];
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
-				<div class="ftg-section">
-					<?php $gallery_class->fts_tab_premium_msg(); ?>
-				</div>
-						<?php
-		}
-				echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['pagination'], null, $gallery_class->parent_post_id );
+
+            <div class="ftg-section">
+				<?php $gallery_class->fts_tab_premium_msg(); ?>
+            </div>
+		<?php }
+
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
 		?>
+        <div class="tab-5-extra-options">
 
-			<div class="clear"></div>
+        </div>
 
-			<div class="ft-gallery-note ft-gallery-note-footer">
-				<?php
-				echo sprintf(
-					esc_html__( 'Please %1$screate a ticket%2$s if you are experiencing trouble and one of our team members will be happy to assist you.', 'feed_them_social' ),
-					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/#tab-support' ) . '" target="_blank">',
-					'</a>'
-				);
-				?>
-			</div>
-		<?php if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) { ?>
-			<script>
-				jQuery('#ftg-tab-content8 input, #ftg-tab-content8 select').attr('disabled', 'disabled');
-				jQuery('#ftg-tab-content8 input').val('Premium Required');
-				jQuery('#ftg-tab-content8 select option').text('Premium Required');
-			</script>
-			<?php
-}
+		<?php
 	}
 
-	/**
-	 * Tab Tags Content
-	 *
-	 * Outputs Tags tab's content for metabox.
-	 *
-	 * @since 1.0.0
-	 */
-	public function tab_tags_content( $params ) {
-		$gallery_class = $params['this'];
-		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-			?>
-				<div class="ftg-section">
-					<?php $gallery_class->fts_tab_premium_msg(); ?>
-				</div>
-						<?php
-		}
-				echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['tags'], null, $gallery_class->parent_post_id );
-		?>
-
-				<div class="clear"></div>
-
-				<div class="ft-gallery-note ft-gallery-note-footer">
-				<?php
-				echo sprintf(
-					esc_html__( 'Please %1$screate a ticket%2$s if you are experiencing trouble and one of our team members will be happy to assist you.', 'feed_them_social' ),
-					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/#tab-support' ) . '" target="_blank">',
-					'</a>'
-				);
-				?>
-			</div>
-		<?php if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) { ?>
-			<script>
-				jQuery('#ftg-tab-content9 input, #ftg-tab-content9 select').attr('disabled', 'disabled');
-				jQuery('#ftg-tab-content9 input').val('Premium Required');
-				jQuery('#ftg-tab-content9 select option').text('Premium Required');
-			</script>
-			<?php
-}
-	}
 
 	/**
      *  Shortcode Meta Box

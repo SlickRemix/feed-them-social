@@ -71,85 +71,55 @@ class Feed_CPT_Options {
 	public function feed_type_options() {
 		$this->all_options['feed_type_options'] = array(
 			'section_attr_key'   => 'facebook_',
-			'section_title'      => esc_html__( 'Feed Color Options', 'feed_them_social' ),
-			'section_wrap_class' => 'ftg-section-options',
+			'section_title'      => esc_html__( 'Select Social Network', 'feed_them_social' ),
+			'section_wrap_id' => 'fts-tab-content1',
+			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			'main_options'       => array(
 
-				// Feed Background Color.
+				// Gallery Type.
 				array(
-					'option_type'   => 'input',
-					'label'         => esc_html__( 'Background Color', 'feed_them_social' ),
-					'class'         => 'ft-gallery-feed-background-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
-					'type'          => 'text',
-					'id'            => 'ft-gallery-feed-background-color-input',
-					'name'          => 'fts_feed_background_color',
-					'default_value' => '',
-					'placeholder'   => esc_html__( '#ddd', 'feed_them_social' ),
-					'autocomplete'  => 'off',
-				),
-				// Feed Grid Background Color.
-				array(
-					'option_type'   => 'input',
-					'label'         => esc_html__( 'Grid Posts Background Color', 'feed_them_social' ),
-					'class'         => 'fb-feed-grid-posts-background-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
-					'type'          => 'text',
-					'id'            => 'ft-gallery-grid-posts-background-color-input',
-					'name'          => 'fts_grid_posts_background_color',
-					'default_value' => '',
-					'placeholder'   => esc_html__( '#ddd', 'feed_them_social' ),
-					'autocomplete'  => 'off',
-				),
-				// Border Bottom Color.
-				array(
-					'option_type'   => 'input',
-					'label'         => esc_html__( 'Border Bottom Color', 'feed_them_social' ),
-					'class'         => 'fb-border-bottom-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
-					'type'          => 'text',
-					'id'            => 'ft-gallery-border-bottom-color-input',
-					'name'          => 'fts_border_bottom_color',
-					'default_value' => '',
-					'placeholder'   => esc_html__( '#ddd', 'feed_them_social' ),
-					'autocomplete'  => 'off',
-				),
-				// Loadmore background Color.
-				array(
-					'grouped_options_title' => esc_html__( 'Loadmore Button', 'feed_them_social' ),
-					'option_type'           => 'input',
-					'label'                 => esc_html__( 'Background Color', 'feed_them_social' ),
-					'class'                 => 'fb-border-bottom-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
-					'type'                  => 'text',
-					'id'                    => 'ft-gallery-loadmore-background-color-input',
-					'name'                  => 'fts_loadmore_background_color',
-					'default_value'         => '',
-					'placeholder'           => esc_html__( '#ddd', 'feed_them_social' ),
-					'autocomplete'          => 'off',
-				),
-				// Loadmore background Color.
-				array(
-					'option_type'   => 'input',
-					'label'         => esc_html__( 'Text Color', 'feed_them_social' ),
-					'class'         => 'fb-border-bottom-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
-					'type'          => 'text',
-					'id'            => 'ft-gallery-loadmore-text-color-input',
-					'name'          => 'fts_loadmore_text_color',
-					'default_value' => '',
-					'placeholder'   => esc_html__( '#ddd', 'feed_them_social' ),
-					'autocomplete'  => 'off',
-				),
-				// Loadmore Count Color.
-				array(
-					'option_type'   => 'input',
-					'label'         => esc_html__( 'Image Count Text Color', 'feed_them_social' ),
-					'class'         => 'fb-border-bottom-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
-					'type'          => 'text',
-					'id'            => 'ft-gallery-loadmore-count-text-color-input',
-					'name'          => 'fts_loadmore_count_text_color',
-					'default_value' => '',
-					'placeholder'   => esc_html__( '#ddd', 'feed_them_social' ),
-					'autocomplete'  => 'off',
+					'input_wrap_class' => 'ft-wp-gallery-type',
+					'option_type'      => 'select',
+					'label'            => trim(
+						sprintf(
+							esc_html__( 'Choose a Social Network: ', 'feed_them_social' ),
+							'<br/><small>',
+							'</small>'
+						)
+					),
+					'type'             => 'text',
+					'id'               => 'fts_type',
+					'name'             => 'fts_type',
+					'default_value'    => '',
+					'options'          => array(
+						array(
+							'label' => esc_html__( 'Select a Social Network', 'feed-them-social' ),
+							'value' => '',
+						),
+						array(
+							'label' => esc_html__( 'Facebook Feed', 'feed-them-social' ),
+							'value' => 'fts-fb-page-shortcode-form',
+						),
+						array(
+							'label' => esc_html__( 'Combine Streams Feed', 'feed-them-social' ),
+							'value' => 'combine-steams-shortcode-form',
+						),
+						array(
+							'label' => esc_html__( 'Twitter Feed', 'feed-them-social' ),
+							'value' => 'twitter-shortcode-form',
+						),
+						array(
+							'label' => esc_html__( 'Instagram Feed', 'feed-them-social' ),
+							'value' => 'instagram-shortcode-form',
+						),
+						array(
+							'label' => esc_html__( 'YouTube Feed', 'feed-them-social' ),
+							'value' => 'youtube-shortcode-form',
+						),
+					),
 				),
 
 			),

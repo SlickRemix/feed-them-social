@@ -611,7 +611,7 @@ class Metabox_Settings {
 		$section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $prem_required_plugins[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? 'active' : '';
 
 		// Start creation of fields for each Feed.
-		$output = '<div class="ftg-section" class="' . $section_info['section_wrap_class'] . '">';
+		$output = '<div id="' . esc_attr( $section_info['section_wrap_id'] ) . '" class="ftg-section ' . $section_info['section_wrap_class'] . '">';
 
 		// Section Title.
 		$output .= isset( $section_info['section_title'] ) ? '<h3>' . $section_info['section_title'] . '</h3>' : '';

@@ -1,9 +1,8 @@
 <?php
-/**
- * Feed Them Social - Twitter Options Page
+ /**
+ * Feed Them Social - Twitter API Token
  *
- * This page is used to create the general options for Twitter Feeds
- * including setting access tokens.
+ * This page is used to retrieve and set access tokens.
  *
  * @package     feedthemsocial
  * @copyright   Copyright (c) 2012-2018, SlickRemix
@@ -14,12 +13,12 @@
 namespace feedthemsocial;
 
 /**
- * Class FTS Twitter Options Page
+ * Class Twitter_API_Token
  *
  * @package feedthemsocial
  * @since 1.9.6
  */
-class FTS_Twitter_Options_Page {
+class Twitter_Access_Token {
 
 
 	/**
@@ -52,11 +51,11 @@ class FTS_Twitter_Options_Page {
 	}
 
 	/**
-	 * Feed Them Twitter Options Page
+	 * Twitter API Token Options
 	 *
 	 * @since 1.9.6
 	 */
-	public function feed_them_twitter_options_page() {
+	public function twitter_access_token_options() {
 
 		// Check if new tokens have been returned.
 		$this->set_new_access_tokens();
@@ -78,14 +77,6 @@ class FTS_Twitter_Options_Page {
 
 				// get our registered settings from the fts functions!
 				settings_fields( 'fts-twitter-feed-style-options' );
-
-				$twitter_full_width                 = get_option( 'twitter_full_width' );
-				$twitter_allow_videos               = get_option( 'twitter_allow_videos' );
-				$twitter_allow_shortlink_conversion = get_option( 'twitter_allow_shortlink_conversion' );
-				$twitter_show_follow_btn            = get_option( 'twitter_show_follow_btn' );
-				$twitter_show_follow_count          = get_option( 'twitter_show_follow_count' );
-				$twitter_show_follow_btn_where      = get_option( 'twitter_show_follow_btn_where' );
-				$fts_twitter_hide_images_in_posts   = get_option( 'fts_twitter_hide_images_in_posts' );
 
 				$fts_twitter_custom_consumer_key    = get_option( 'fts_twitter_custom_consumer_key' );
 				$fts_twitter_custom_consumer_secret = get_option( 'fts_twitter_custom_consumer_secret' );
@@ -266,335 +257,8 @@ class FTS_Twitter_Options_Page {
 					<div class="fts-clear"></div>
 				</div>
 
-
-				<div class="feed-them-social-admin-input-wrap">
-					<div class="fts-title-description-settings-page">
-						<h3>
-							<?php echo esc_html__( 'Follow Button Options', 'feed-them-social' ); ?>
-						</h3>
-						<?php echo esc_html__( 'This will only show on regular feeds not combined feeds.', 'feed-them-social' ); ?>
-					</div>
-					<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
-						<?php echo esc_html__( 'Show Follow Count', 'feed-them-social' ); ?>
-					</div>
-					<select name="twitter_show_follow_count" id="twitter-show-follow-count" class="feed-them-social-admin-input">
-						<option <?php echo selected( $twitter_show_follow_count, 'no', false ); ?> value=" <?php echo esc_attr( 'no' ); ?>">
-							<?php echo esc_html__( 'No', 'feed-them-social' ); ?>
-						</option>
-						<option <?php echo selected( $twitter_show_follow_count, 'yes', false ); ?> value="<?php echo esc_attr( 'yes' ); ?>">
-							<?php echo esc_html__( 'Yes', 'feed-them-social' ); ?>
-						</option>
-					</select>
-					<div class="fts-clear"></div>
-				</div>
-				<!--/fts-twitter-feed-styles-input-wrap-->
-
-				<div class="feed-them-social-admin-input-wrap">
-					<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
-						<?php echo esc_html__( 'Show Follow Button', 'feed-them-social' ); ?>
-					</div>
-					<select name="twitter_show_follow_btn" id="twitter-show-follow-btn" class="feed-them-social-admin-input">
-						<option <?php echo selected( $twitter_show_follow_btn, 'no', false ); ?> value="<?php echo esc_attr( 'no' ); ?>">
-							<?php echo esc_html__( 'No', 'feed-them-social' ); ?>
-						</option>
-						<option <?php echo selected( $twitter_show_follow_btn, 'yes', false ); ?> value="<?php echo esc_attr( 'yes' ); ?>">
-							<?php echo esc_html__( 'Yes', 'feed-them-social' ); ?>
-						</option>
-					</select>
-					<div class="fts-clear"></div>
-				</div>
-				<!--/fts-twitter-feed-styles-input-wrap-->
-
-				<div class="feed-them-social-admin-input-wrap">
-					<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
-						<?php echo esc_html__( 'Placement of Follow Button', 'feed-them-social' ); ?>
-					</div>
-					<select name="twitter_show_follow_btn_where" id="twitter-show-follow-btn-where" class="feed-them-social-admin-input">
-						<option>
-							<?php echo esc_html__( 'Please Select Option', 'feed-them-social' ); ?>
-						</option>
-						<option <?php echo selected( $twitter_show_follow_btn_where, 'twitter-follow-above', false ); ?> value="<?php echo esc_attr( 'twitter-follow-above' ); ?>">
-							<?php echo esc_html__( 'Show Above Feed', 'feed-them-social' ); ?>
-						</option>
-						<option <?php echo selected( $twitter_show_follow_btn_where, 'twitter-follow-below', false ); ?> value="<?php echo esc_attr( 'twitter-follow-below' ); ?>">
-							<?php echo esc_html__( 'Show Below Feed', 'feed-them-social' ); ?>
-						</option>
-					</select>
-					<div class="fts-clear"></div>
-				</div>
-				<!--/fts-twitter-feed-styles-input-wrap-->
-
-				<div class="feed-them-social-admin-input-wrap">
-					<div class="fts-title-description-settings-page">
-						<h3>
-							<?php echo esc_html__( 'Video Player Options', 'feed-them-social' ); ?>
-						</h3>
-					</div>
-					<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
-						<?php echo esc_html__( 'Show videos', 'feed-them-social' ); ?>
-					</div>
-					<select name="twitter_allow_videos" id="twitter-allow-videos" class="feed-them-social-admin-input">
-						<option <?php echo selected( $twitter_allow_videos, 'no', false ); ?> value="<?php echo esc_attr( 'no' ); ?>">
-							<?php echo esc_html__( 'No', 'feed-them-social' ); ?>
-						</option>
-						<option <?php echo selected( $twitter_allow_videos, 'yes', false ); ?> value="<?php echo esc_attr( 'yes' ); ?>">
-							<?php echo esc_html__( 'Yes', 'feed-them-social' ); ?>
-						</option>
-					</select>
-					<div class="fts-clear"></div>
-				</div>
-				<!--/fts-twitter-feed-styles-input-wrap-->
-
-				<div class="feed-them-social-admin-input-wrap" style="display: none">
-					<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
-						<?php
-						echo sprintf(
-							esc_html__( 'Convert shortlinks for video%1$sLike bitly etc. May slow load time slightly%2$s.', 'feed-them-social' ),
-							'<br/><small>',
-							'</small>'
-						);
-						?>
-					</div>
-					<select name="twitter_allow_shortlink_conversion" id="twitter-allow-shortlink-conversion" class="feed-them-social-admin-input">
-						<option
-							<?php echo selected( $twitter_allow_shortlink_conversion, 'no', false ); ?> value="<?php echo esc_attr( 'no' ); ?>">
-							<?php echo esc_html__( 'No', 'feed-them-social' ); ?>
-						</option>
-						<option <?php echo selected( $twitter_allow_shortlink_conversion, 'yes', false ); ?> value="<?php echo esc_attr( 'yes' ); ?>">
-							<?php echo esc_html__( 'Yes', 'feed-them-social' ); ?>
-						</option>
-					</select>
-					<div class="fts-clear"></div>
-				</div>
-				<!--/fts-twitter-feed-styles-input-wrap-->
-
-				<div class="feed-them-social-admin-input-wrap">
-					<div class="fts-title-description-settings-page">
-						<h3>
-							<?php echo esc_html__( 'Profile Photo Option', 'feed-them-social' ); ?>
-						</h3>
-					</div>
-					<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
-						<?php echo esc_html__( 'Hide Profile Photo', 'feed-them-social' ); ?>
-					</div>
-					<select name="twitter_full_width" id="twitter-full-width" class="feed-them-social-admin-input">
-						<option
-							<?php echo selected( $twitter_full_width, 'no', false ); ?> value="<?php echo esc_attr( 'no' ); ?>">
-							<?php echo esc_html__( 'No', 'feed-them-social' ); ?>
-						</option>
-						<option <?php echo selected( $twitter_full_width, 'yes', false ); ?> value="<?php echo esc_attr( 'yes' ); ?>">
-							<?php echo esc_html__( 'Yes', 'feed-them-social' ); ?>
-						</option>
-					</select>
-					<div class="fts-clear"></div>
-				</div>
-				<!--/fts-twitter-feed-styles-input-wrap-->
-
-				<div class="feed-them-social-admin-input-wrap">
-					<div class="fts-title-description-settings-page">
-						<h3>
-							<?php echo esc_html__( 'Style Options', 'feed-them-social' ); ?>
-						</h3>
-					</div>
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
-							<?php echo esc_html__( 'Hide Images in Posts', 'feed-them-social' ); ?>
-						</div>
-						<select name="fts_twitter_hide_images_in_posts" id="fts_twitter_hide_images_in_posts" class="feed-them-social-admin-input">
-							<option value="">
-								<?php echo esc_html__( 'Please Select Option', 'feed-them-social' ); ?>
-							</option>
-							<option <?php echo selected( $fts_twitter_hide_images_in_posts, 'no', false ); ?> value="<?php echo esc_attr( 'no' ); ?>">
-								<?php echo esc_html__( 'No', 'feed-them-social' ); ?>
-							</option>
-							<option <?php echo selected( $fts_twitter_hide_images_in_posts, 'yes', false ); ?> value="<?php echo esc_attr( 'yes' ); ?>">
-								<?php echo esc_html__( 'Yes', 'feed-them-social' ); ?>
-							</option>
-						</select>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label">
-							<?php echo esc_html__( 'Max-width for Feed Images', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_max_image_width" class="feed-them-social-admin-input" placeholder="500px" value="<?php echo esc_attr( get_option( 'twitter_max_image_width' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-text-size-label">
-							<?php echo esc_html__( 'Feed Description Text Size', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_text_size" class="feed-them-social-admin-input twitter-text-size-input" id="twitter-text-size-input" placeholder="12px" value="<?php echo esc_attr( get_option( 'twitter_text_size' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-text-color-label">
-							<?php echo esc_html__( 'Feed Text Color', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_text_color" class="feed-them-social-admin-input twitter-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-text-color-input" placeholder="#222" value="<?php echo esc_attr( get_option( 'twitter_text_color' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-link-color-label">
-							<?php echo esc_html__( 'Feed Link Color', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_link_color" class="feed-them-social-admin-input twitter-link-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-link-color-input" placeholder="#222" value="<?php echo esc_attr( get_option( 'twitter_link_color' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-link-color-hover-label">
-							<?php echo esc_html__( 'Feed Link Color Hover', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_link_color_hover" class="feed-them-social-admin-input twitter-link-color-hover-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-link-color-hover-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'twitter_link_color_hover' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-feed-width-label">
-							<?php echo esc_html__( 'Feed Width', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_feed_width" class="feed-them-social-admin-input twitter-feed-width-input" id="twitter-feed-width-input" placeholder="500px" value="<?php echo esc_attr( get_option( 'twitter_feed_width' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-feed-margin-label">
-							<?php
-							echo sprintf(
-								esc_html__( 'Feed Margin %1$sTo center feed type auto%2$s', 'feed-them-social' ),
-								'<br/><small>',
-								'</small>'
-							);
-							?>
-						</div>
-						<input type="text" name="twitter_feed_margin" class="feed-them-social-admin-input twitter-feed-margin-input" id="twitter-feed-margin-input" placeholder="10px" value="<?php echo esc_attr( get_option( 'twitter_feed_margin' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-feed-padding-label">
-							<?php echo esc_html__( 'Feed Padding', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_feed_padding" class="feed-them-social-admin-input twitter-feed-padding-input" id="twitter-feed-padding-input" placeholder="10px" value="<?php echo esc_attr( get_option( 'twitter_feed_padding' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-feed-background-color-label">
-							<?php echo esc_html( 'Feed Background Color', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_feed_background_color" class="feed-them-social-admin-input twitter-feed-background-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-feed-background-color-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'twitter_feed_background_color' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
-							<?php echo esc_html( 'Feed Border Bottom Color', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_border_bottom_color" class="feed-them-social-admin-input twitter-border-bottom-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-border-bottom-color-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'twitter_border_bottom_color' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-					<?php if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) { ?>
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="fts-title-description-settings-page">
-							<h3>
-								<?php echo esc_html( 'Grid Styles', 'feed-them-social' ); ?>
-							</h3>
-						</div>
-						<div class="feed-them-social-admin-input-label fts-fb-grid-posts-background-color-label">
-							<?php echo esc_html( 'Posts Background Color', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_grid_posts_background_color" class="feed-them-social-admin-input fb-grid-posts-background-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-grid-posts-background-color-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'twitter_grid_posts_background_color' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="feed-them-social-admin-input-label fts-fb-border-bottom-color-label">
-							<?php echo esc_html( 'Border Bottom Color', 'feed-them-social' ); ?>
-						</div>
-						<input type="text" name="twitter_grid_border_bottom_color" class="feed-them-social-admin-input fb-border-bottom-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-border-bottom-color-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'twitter_grid_border_bottom_color' ) ); ?>"/>
-						<div class="fts-clear"></div>
-					</div>
-					<!--/fts-twitter-feed-styles-input-wrap-->
-
-					<div class="feed-them-social-admin-input-wrap">
-						<div class="fts-title-description-settings-page">
-							<h3>
-								<?php echo esc_html( 'Load More Button Styles & Options', 'feed-them-social' ); ?>
-							</h3>
-						</div>
-						<div class="feed-them-social-admin-input-wrap">
-							<div class="feed-them-social-admin-input-label fts-fb-loadmore-background-color-label">
-								<?php echo esc_html( 'Button Color', 'feed-them-social' ); ?>
-							</div>
-							<input type="text" name="twitter_loadmore_background_color" class="feed-them-social-admin-input fb-loadmore-background-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-loadmore-background-color-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'twitter_loadmore_background_color' ) ); ?>"/>
-							<div class="fts-clear"></div>
-						</div>
-						<!--/fts-twitter-feed-styles-input-wrap-->
-
-						<div class="feed-them-social-admin-input-wrap">
-							<div class="feed-them-social-admin-input-label fts-fb-border-bottom-color-label">
-								<?php echo esc_html( 'Text Color', 'feed-them-social' ); ?>
-							</div>
-							<input type="text" name="twitter_loadmore_text_color" class="feed-them-social-admin-input fb-loadmore-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="twitter-loadmore-text-color-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'twitter_loadmore_text_color' ) ); ?>"/>
-							<div class="fts-clear"></div>
-						</div>
-						<!--/fts-twitter-feed-styles-input-wrap-->
-
-						<div class="feed-them-social-admin-input-wrap">
-							<div class="feed-them-social-admin-input-label">
-								<?php echo esc_html( '"Load More" Text', 'feed-them-social' ); ?>
-							</div>
-							<input type="text" name="twitter_load_more_text" class="feed-them-social-admin-input" id="twitter_load_more_text" placeholder="Load More" value="<?php echo esc_attr( get_option( 'twitter_load_more_text' ) ); ?>"/>
-							<div class="clear"></div>
-						</div>
-						<!--/fts-twitter-feed-styles-input-wrap-->
-
-						<div class="feed-them-social-admin-input-wrap">
-							<div class="feed-them-social-admin-input-label">
-								<?php echo esc_html( '"No More Tweets" Text', 'feed-them-social' ); ?>
-							</div>
-							<input type="text" name="twitter_no_more_tweets_text" class="feed-them-social-admin-input" id="twitter_no_more_tweets_text" placeholder="No More Photos" value="<?php echo esc_attr( get_option( 'twitter_no_more_tweets_text' ) ); ?>"/>
-							<div class="clear"></div>
-						</div>
-						<!--/fts-twitter-feed-styles-input-wrap-->
-
-						<div class="feed-them-social-admin-input-wrap" style="display: none;">
-							<div class="feed-them-social-admin-input-label fts-fb-border-bottom-color-label">
-								<?php
-								echo sprintf(
-									esc_html( 'Fix Post Count %1$sType 2 or 3 if your feed is skipping posts when using the loadmore option.%2$s', 'feed-them-social' ),
-									'<br/><small>',
-									'</small>'
-								);
-								?>
-							</div>
-							<input type="text" name="twitter_replies_offset" class="feed-them-social-admin-input" id="twitter-replies-offset" placeholder="1" value="<?php echo esc_attr( get_option( 'twitter_replies_offset' ) ); ?>"/>
-							<div class="fts-clear"></div>
-						</div>
-						<!--/fts-twitter-feed-styles-input-wrap-->
-						<?php } ?>
-						<input type="submit" class="feed-them-social-admin-submit-btn" value="<?php echo esc_html( 'Save All Changes' ); ?>"/>
-						<?php } ?>
+                <input type="submit" class="feed-them-social-admin-submit-btn" value="<?php echo esc_html( 'Save All Changes' ); ?>"/>
+                <?php } ?>
 			</form>
 		</div>
 		<!--/feed-them-social-admin-wrap-->

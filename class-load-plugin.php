@@ -55,8 +55,11 @@ class Feed_Them_Social {
 		//Core Functions!
 		$core_functions = new \feedthemsocial\Core_Functions();
 
+		//Twitter Access Token
+        $twitter_access_token = new \feedthemsocial\Twitter_Access_Token();
+
 		// Feeds CPT.
-        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_cpt_options, $main_post_type );
+        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_cpt_options, $main_post_type, $twitter_access_token  );
 
 			// Load in Premium Gallery glasses if premium is loaded.
 		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
@@ -306,6 +309,9 @@ class Feed_Them_Social {
 
 		// FTS Feed Settings Options.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feed-settings-options.php';
+
+		//Twitter API Token
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitter-access-token.php';
 
 		// Feeds CPT Options.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-options.php';

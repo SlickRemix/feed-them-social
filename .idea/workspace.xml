@@ -2,18 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="3.0.0 - Get 3.0.0 caught up with current version 2.9.5 of FTS">
-      <change afterPath="$PROJECT_DIR$/includes/feed-cache.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/includes/js/powered-by.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.eot" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.woff2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/js/admin-full.js" beforeDir="false" afterPath="$PROJECT_DIR$/admin/js/admin-full.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/class-load-plugin.php" beforeDir="false" afterPath="$PROJECT_DIR$/class-load-plugin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/core-functions-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/core-functions-class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/display-gallery/display-gallery-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/display-gallery/display-gallery-class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feed-them-functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feed-them-functions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/galleries/gallery-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/galleries/gallery-class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/js/front-end-full.js" beforeDir="false" afterPath="$PROJECT_DIR$/includes/js/front-end-full.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shortcodes.php" beforeDir="false" afterPath="$PROJECT_DIR$/shortcodes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.eot" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.eot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.svg" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.woff" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.woff" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/cpt/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/includes/cpt/css/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/feeds/feeds-cpt-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feeds/feeds-cpt-class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metabox-settings/css/admin-pages.css" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/css/admin-pages.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metabox-settings/css/metabox.css" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/css/metabox.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metabox-settings/js/metabox.js" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/js/metabox.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metabox-settings/metabox-settings-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/metabox-settings-class.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +69,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/includes/cpt/css/font" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -77,6 +82,9 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/includes/cpt/css/font" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/admin" />

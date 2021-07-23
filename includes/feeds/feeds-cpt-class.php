@@ -582,12 +582,12 @@ class Feeds_CPT {
 			add_filter( 'plupload_init', array( $this, 'plupload_init' ) );
 
 			// Enqueue Magnific Popup CSS.
-			wp_enqueue_style( 'magnific-popup-css', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION );
+			// wp_enqueue_style( 'magnific-popup-css', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION );
 
 			// Enqueue Magnific Popup JS.
-			wp_enqueue_script( 'magnific-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION );
+			// wp_enqueue_script( 'magnific-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION );
 
-			wp_enqueue_style( 'ft-gallery-admin-ui-css', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css', array(), FTS_CURRENT_VERSION );
+			// wp_enqueue_style( 'ft-gallery-admin-ui-css', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css', array(), FTS_CURRENT_VERSION );
 
 		} else {
 			return;
@@ -761,7 +761,7 @@ class Feeds_CPT {
 				// Combined Streams Feed Settings Tab!
 				'combined_streams_feed'        => array(
 					'menu_li_class' => 'tab8',
-					'menu_a_text'   => esc_html__( 'Combined Streams', 'feed_them_social' ),
+					'menu_a_text'   => esc_html__( 'Combined', 'feed_them_social' ),
 					'cont_wrap_id'  => 'ftg-tab-content9',
 					'cont_func'     => 'tab_combined_streams_feed',
 				),

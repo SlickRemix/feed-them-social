@@ -203,13 +203,13 @@ class Metabox_Settings {
 			wp_enqueue_script( 'jquery-form' );
 
 			// Enqueue jQuery UI Progressbar JS. (Registered in WordPress Core)!
-			wp_enqueue_script( 'jquery-ui-progressbar' );
+			// wp_enqueue_script( 'jquery-ui-progressbar' );
 
 			// Enqueue JS Color JS.
 			wp_enqueue_script( 'js_color', plugins_url( '/feed-them-social/metabox-settings/js/jscolor/jscolor.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
 
 			// Register Metabox JS.
-			wp_register_script( 'slick-metabox-js', plugins_url( 'feed-them-social/metabox-settings/js/metabox.js' ), array(), FTS_CURRENT_VERSION, true );
+			// wp_register_script( 'slick-metabox-js', plugins_url( 'feed-them-social/metabox-settings/js/metabox.js' ), array(), FTS_CURRENT_VERSION, true );
 
 			// Localize Metabox JS.
 			wp_localize_script(

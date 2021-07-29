@@ -1,9 +1,24 @@
 <?php
-
+/**
+ * Settings Options JS
+ *
+ * This class is for creating a metabox settings pages/sections!
+ *
+ * @version  3.0.0
+ * @package  FeedThemGalley/Core
+ * @author   SlickRemix
+ */
 
 namespace feedthemsocial;
 
 
+/**
+ * Class Settings_Options_JS
+ *
+ * Class for adding JS to specific feed metabox options.
+ *
+ * @package feedthemsocial
+ */
 class Settings_Options_JS {
 
 	public function facebook_js(){

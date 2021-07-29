@@ -101,7 +101,7 @@ class Metabox_Settings {
 	 *
 	 * @var string
 	 */
-	public $settings_array = array();
+	public $saved_settings_array = array();
 
 	/**
 	 * Metabox_Settings constructor.
@@ -501,8 +501,8 @@ class Metabox_Settings {
 	 *
 	 * Display the Metabox content for each tab based on menu key 'cont_func'!
 	 *
-	 * @param string $tabs_list The tabs list.
-	 * @param string $params The parameters.
+	 * @param array $tabs_list The tabs list.
+	 * @param array $params The parameters.
 	 * @since 1.1.6
 	 */
 	public function display_metabox_content( $tabs_list, $params = null ) {
@@ -590,8 +590,8 @@ class Metabox_Settings {
 	 *
 	 * Used to return settings form fields output for Settings Options
 	 *
-	 * @param string $section_info The section info.
-	 * @param string $required_plugins The Required plugins.
+	 * @param array $section_info The section info.
+	 * @param array $required_plugins The Required plugins.
 	 * @param string $current_post_id Current post id.
 	 * @return string
 	 * @since @since 1.0.0
@@ -842,7 +842,6 @@ class Metabox_Settings {
 					foreach ( $settings as $option ) {
 
 						// Set Option name. Use Prefix? (commented line below is from prefix methodology.
-						// $option_name = isset( $this->option_prefix ) ? $this->option_prefix . $option['name'] : $option['name'];.
 						$option_name = isset( $option['name'] ) ? $option['name'] : '';
 
 						$option_type = $option['option_type'];
@@ -881,11 +880,6 @@ class Metabox_Settings {
 
 		// If not doing Page stuff Update options for a Post.
 		update_post_meta( $post_id, $current_info['post_type'] . '_settings_options', $array_to_save );
-
-		// REFACTOR NEEDED.
-		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/watermark/save.php';
-		}
 
 		return $array_to_save;
 	}

@@ -65,6 +65,14 @@ class Feeds_CPT {
 	public $gallery_options_class = '';
 
 	/**
+	 * Setting Options JS
+	 * initiates Setting Options JS Class
+	 *
+	 * @var object
+	 */
+    public $setting_options_js;
+
+	/**
 	 * Twitter API Token
 	 * initiates Twitter API Token Class
 	 *
@@ -88,12 +96,12 @@ class Feeds_CPT {
      * @param array  $all_options All options.
 	 * @param string $main_post_type Main Post Type.
 	 */
-	public function __construct( $all_options, $main_post_type, $twitter_api_token ) {
-		$this->set_class_vars( $all_options, $main_post_type );
+	public function __construct( $all_options, $main_post_type, $setting_options_js, $twitter_api_token ) {
+		$this->set_class_vars( $all_options, $main_post_type, $setting_options_js );
 		$this->add_actions_filters();
 
 		//API Tokens
-		$this->twitter_api_token = $twitter_api_token;
+		//$this->twitter_api_token = $twitter_api_token;
     }
 
 
@@ -106,10 +114,12 @@ class Feeds_CPT {
 	 * @param string $main_post_type Main Post Type.
 	 * @since 1.1.8
 	 */
-	public function set_class_vars( $all_options, $main_post_type ) {
+	public function set_class_vars( $all_options, $main_post_type, $setting_options_js  ) {
 			$this->core_functions_class = new Core_Functions();
 
 			$this->saved_settings_array = $all_options;
+
+			$this->setting_options_js = $setting_options_js;
 
 		// we set current_user_can so our backend functions don't get loaded to the front end.
 		// this came about after a ticket we received about our plugin being active and
@@ -824,8 +834,8 @@ class Feeds_CPT {
 
 		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['feed_type_options'], null, $gallery_class->parent_post_id );
 
-		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['feed_type'], null, $gallery_class->parent_post_id );
 
+		//twitter_access_token_options();
 		?>
 			<div class="ftg-section">
 
@@ -915,7 +925,7 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
 		?>
         <div class="tab-5-extra-options">
 
@@ -941,7 +951,7 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
 		?>
         <div class="tab-5-extra-options">
 
@@ -968,6 +978,9 @@ class Feeds_CPT {
 		<?php }
 
 		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+
+        //JS for Twitter Options.
+		$this->setting_options_js->twitter_js();
 		?>
         <div class="tab-5-extra-options">
 
@@ -994,7 +1007,7 @@ class Feeds_CPT {
 					</div>
 				<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
 		        ?>
 				<div class="tab-5-extra-options">
 
@@ -1020,7 +1033,7 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
 		?>
         <div class="tab-5-extra-options">
 

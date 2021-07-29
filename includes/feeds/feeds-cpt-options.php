@@ -70,7 +70,7 @@ class Feed_CPT_Options {
 	 */
 	public function feed_type_options() {
 		$this->all_options['feed_type_options'] = array(
-			'section_attr_key'   => 'facebook_',
+			'section_attr_key'   => 'feed_type_',
 			'section_title'      => esc_html__( 'Select Social Network', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
@@ -91,8 +91,8 @@ class Feed_CPT_Options {
 						)
 					),
 					'type'             => 'text',
-					'id'               => 'fts_type',
-					'name'             => 'fts_type',
+					'id'               => 'feed_type',
+					'name'             => 'feed_type',
 					'default_value'    => '',
 					'options'          => array(
 						array(
@@ -101,23 +101,23 @@ class Feed_CPT_Options {
 						),
 						array(
 							'label' => esc_html__( 'Facebook Feed', 'feed-them-social' ),
-							'value' => 'fts-fb-page-shortcode-form',
-						),
-						array(
-							'label' => esc_html__( 'Combine Streams Feed', 'feed-them-social' ),
-							'value' => 'combine-steams-shortcode-form',
-						),
-						array(
-							'label' => esc_html__( 'Twitter Feed', 'feed-them-social' ),
-							'value' => 'twitter-shortcode-form',
+							'value' => 'facebook-feed-type',
 						),
 						array(
 							'label' => esc_html__( 'Instagram Feed', 'feed-them-social' ),
-							'value' => 'instagram-shortcode-form',
+							'value' => 'instagram-feed-type',
+						),
+						array(
+							'label' => esc_html__( 'Twitter Feed', 'feed-them-social' ),
+							'value' => 'twitter-feed-type',
 						),
 						array(
 							'label' => esc_html__( 'YouTube Feed', 'feed-them-social' ),
-							'value' => 'youtube-shortcode-form',
+							'value' => 'youtube-feed-type',
+						),
+						array(
+							'label' => esc_html__( 'Combine Streams Feed', 'feed-them-social' ),
+							'value' => 'combine-streams-feed-type',
 						),
 					),
 				),
@@ -1159,6 +1159,27 @@ class Feed_CPT_Options {
 
             // Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
             'main_options'       => array(
+
+	            // Show Cover Photo
+	            array(
+		            'option_type' => 'select',
+		            'label'       => __( 'Feed Type', 'feed-them-social' ),
+		            'type'        => 'text',
+		            'id'          => 'twitter-messages-selector',
+		            'name'        => 'twitter-messages-selector',
+		            'default_value'    => '',
+		            'options'     => array(
+			            array(
+				            'label' => __( 'User Feed', 'feed-them-social' ),
+				            'value' => 'user',
+			            ),
+			            array(
+				            'label' => __( 'Hashtag, Search and more Feed', 'feed-them-social' ),
+				            'value' => 'hashtag',
+			            ),
+		            ),
+	            ),
+
 
                 // Twitter Search Name
                 array(

@@ -16,7 +16,7 @@ class FTS_Twitter_Feed {
 
     public $feed_functions;
 
-    public $feed_CPT;
+    public $feed_cpt;
 
     public $feed_cache;
 
@@ -334,8 +334,8 @@ class FTS_Twitter_Feed {
 	 *
 	 * Display Twitter Feed.
 	 *
-	 * @param string $inputted_atts The shortcode attributes.
-	 * @return mixed
+	 * @param array $inputted_atts The shortcode attributes.
+	 * @return array
 	 * @since 1.9.6
 	 */
 	public function display_twitter( $inputted_atts ) {
@@ -367,12 +367,7 @@ class FTS_Twitter_Feed {
 				}
 			} else {
 
-                    $returned_options = $this->feed_cpt->get_cpt_post_options( $cpt_id_check );
-
-                    //echo '<pre>';
-                    //print_r($returned_options);
-                    //echo '</pre>';
-
+                            $returned_options = $this->feed_cpt->get_cpt_post_options( $inputted_atts['cpt_id'] );
 
                      // Twitter Username!
                     $twitter_name =  isset( $returned_options['twitter_name'] ) ? $returned_options['twitter_name'] : '';
@@ -437,9 +432,6 @@ class FTS_Twitter_Feed {
 
 			//TEST Access Secret!
 			$fts_twitter_custom_access_token_secret = '2kT4ZvF9MUzIs5hIdrcqXcWaNkC06i87KahmkOWFA5bZ7';
-
-            //Initiate FTS_d
-
 
 			// Check Cache.
 			if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {

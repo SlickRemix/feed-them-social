@@ -14,7 +14,7 @@ class Shortcodes {
 	/**
 	 * Shortcodes constructor.
 	 */
-	public function __construct( $feed_functions, $feed_cpt, $feed_cache ){
+	public function __construct( $feed_functions, $feeds_cpt, $feed_cache ){
 		$this->add_actions_filters();
 
 		// Set Feed Functions object.
@@ -58,6 +58,8 @@ class Shortcodes {
 		    // Twitter Feed.
 		    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
 		    echo $twitter_feed->display_twitter( $inputted_atts );
+
+		    echo print_r($inputted_atts);
 	    }
     }
 
@@ -71,6 +73,8 @@ class Shortcodes {
 	 */
 	public function get_feed_type( string $cpt_id ){
 		$cpt_post = get_post( $cpt_id ) ;
+
+
 
 		//$this->feed_functions->
 

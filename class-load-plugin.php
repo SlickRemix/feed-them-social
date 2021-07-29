@@ -55,14 +55,17 @@ class Feed_Them_Social {
 		//Core Functions!
 		$core_functions = new \feedthemsocial\Core_Functions();
 
-		//Twitter Access Token
-        $twitter_access_token = new \feedthemsocial\Twitter_Access_Token();
+		//Access Token API.
+        //$access_token_api = new \feedthemsocial\Access_Token_API();
+
+		//Setting Options JS.
+		$setting_options_js = new \feedthemsocial\Settings_Options_JS();
 
 		// Feeds CPT.
-        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_cpt_options, $main_post_type, $twitter_access_token  );
+        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_cpt_options, $main_post_type, $setting_options_js, $access_token_api  );
 
 			// Load in Premium Gallery glasses if premium is loaded.
-		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+		/*if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 
 			$ftgp_current_version = defined( 'FTS_CURRENT_VERSION' ) ? FTS_CURRENT_VERSION : '';
 
@@ -73,16 +76,16 @@ class Feed_Them_Social {
 				// Template Settings Page.
 				feedthemsocial\Template_Settings_Page::load( $template_settings_options, $main_post_type );
 			}
-		}
+		}*/
 
 		// Shortcode Button for Admin page, posts and cpt's.
 		feedthemsocial\Shortcode_Button::load();
 
 		// Feed Cache.
-		$feed_cache = new \feedthemsocial\Feed_Cache();
+		$feed_cache = new feedthemsocial\Feed_Cache();
 
 		// Shortcodes.
-		new feedthemsocial\Shortcodes( $feed_cache, $feeds_cpt, $feed_functions );
+		new feedthemsocial\Shortcodes( $feed_functions, $feeds_cpt, $feed_cache );
 
 		// Updater Init.
 		new feedthemsocial\updater_init();
@@ -310,8 +313,11 @@ class Feed_Them_Social {
 		// FTS Feed Settings Options.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feed-settings-options.php';
 
-		//Twitter API Token
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitter-access-token.php';
+		//Setting Options Js.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings-options-js.php';
+
+		//Access Token API.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/access-token-api-options.php';
 
 		// Feeds CPT Options.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-options.php';
@@ -319,7 +325,7 @@ class Feed_Them_Social {
 		// Feeds CPT Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-class.php';
 
-
+        // Twitter OAuth.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
 
 		// Twitter Feed.

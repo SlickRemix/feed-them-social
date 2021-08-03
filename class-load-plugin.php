@@ -310,9 +310,6 @@ class Feed_Them_Social {
 		// FTS Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
 
-		// FTS Feed Settings Options.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feed-settings-options.php';
-
 		//Setting Options Js.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings-options-js.php';
 

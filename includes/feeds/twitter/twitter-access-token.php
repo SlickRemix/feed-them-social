@@ -39,6 +39,19 @@ class Twitter_Access_Token {
 	 *
 	 * @since 2.7.1
 	 */
+	public function get_access_tokens() {
+		$fts_twitter_custom_consumer_key    = get_option( 'fts_twitter_custom_consumer_key' );
+		$fts_twitter_custom_consumer_secret = get_option( 'fts_twitter_custom_consumer_secret' );
+	}
+
+
+	/**
+	 * Set New Access Tokens
+	 *
+	 * Set the Tokens from Twitter on return.
+	 *
+	 * @since 2.7.1
+	 */
 	public function set_new_access_tokens() {
 		// Set New Access Tokens!
 		if ( isset( $_GET['oauth_token'], $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token_secret'] ) ) {

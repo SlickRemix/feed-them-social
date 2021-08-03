@@ -419,25 +419,16 @@ class FTS_Twitter_Feed {
 			// Data Cache Name!
 			$data_cache = ! empty( $search ) ? 'twitter_data_cache_' . $search . '_num' . $tweets_count : 'twitter_data_cache_' . $twitter_name . '_num' . $tweets_count ;
 
-			// Access Token!
-			//$fts_twitter_custom_access_token        = get_option( 'fts_twitter_custom_access_token' );
-
-			// Access Secret!
-			//$fts_twitter_custom_access_token_secret = get_option( 'fts_twitter_custom_access_token_secret' );
-
-
-
-			// TEST Access Token!
-			$fts_twitter_custom_access_token        = '1311022248334184448-LwhCLqz8jn6q6WTFpfH3EgWtimmYq5';
-
-			//TEST Access Secret!
-			$fts_twitter_custom_access_token_secret = '2kT4ZvF9MUzIs5hIdrcqXcWaNkC06i87KahmkOWFA5bZ7';
 
 			// Check Cache.
 			if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$fetched_tweets = $this->feed_cache->fts_get_feed_cache( $data_cache );
 				$cache_used     = true;
 			} else {
+
+
+
+
 
 				$fts_twitter_custom_consumer_key    = get_option( 'fts_twitter_custom_consumer_key' );
 				$fts_twitter_custom_consumer_secret = get_option( 'fts_twitter_custom_consumer_secret' );

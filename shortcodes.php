@@ -53,8 +53,12 @@ class Shortcodes {
     	//Check the CPT ID exists in Shortcode
     	if ($cpt_id){
 			new FTS_Functions();
-    		$this->get_feed_type($cpt_id);
+    		$feed_type = $this->get_feed_type($cpt_id);
 
+    		switch ( $feed_type ){
+			    case 'twitter':
+			    	break;
+		    }
 		    // Twitter Feed.
 		    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
 		    echo $twitter_feed->display_twitter( $inputted_atts );

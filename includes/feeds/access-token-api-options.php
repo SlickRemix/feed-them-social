@@ -53,11 +53,6 @@ class Access_Token_Options {
 			update_option( 'fts_twitter_custom_access_token', $new_oath_token );
 			update_option( 'fts_twitter_custom_access_token_secret', $new_oauth_token_secret );
 		}
-
-		switch ($feed_type){
-            case '':
-                break;
-        }
 	}
 
 	/**
@@ -102,7 +97,7 @@ class Access_Token_Options {
 
 					if ( isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] ) {
 
-						include WP_PLUGIN_DIR . '/feed-them-social/feeds/twitter/twitteroauth/twitteroauth.php';
+						include WP_PLUGIN_DIR . '/feed-them-social/includes/feeds/twitter/twitteroauth/twitteroauth.php';
 
 						$test_connection = new TwitterOAuthFTS(
 						// Consumer Key!

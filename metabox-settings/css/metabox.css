@@ -1256,3 +1256,6 @@ button.ft-gallery-edit-img-popup {
 .ftg-page-title-description-placement-option-hide {
     display: none
 }
+.twitter-hashtag-etc-wrap h3 {
+    padding-top:100px;
+}

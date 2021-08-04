@@ -623,7 +623,10 @@ class Feeds_CPT {
 
 		// Link Settings Meta Box.
 		add_meta_box( 'ft-galleries-shortcode-side-mb', esc_html__( 'Feed Shortcode', 'feed_them_social' ), array( $this, 'fts_shortcode_meta_box' ), 'fts', 'side', 'high', null );
-	}
+
+        // Old Shortcode Meta Box.
+        add_meta_box( 'ft-galleries-old-shortcode-side-mb', esc_html__( 'Convert Old Shortcode', 'feed_them_social' ), array( $this, 'fts_old_shortcode_meta_box' ), 'fts', 'side', 'high', null );
+    }
 
 	/**
 	 *  Metabox Tabs List
@@ -1041,6 +1044,45 @@ class Feeds_CPT {
 
 		<?php
 	}
+
+    /**
+     *  Old Shortcode Meta Box
+     *
+     *  copy & paste shortcode input box
+     *
+     * @param $object
+     * @since 1.0.0
+     */
+    public function fts_old_shortcode_meta_box( $object ) {
+        ?>
+        <div class="ft-gallery-meta-wrap">
+            <?php
+
+            $gallery_id = isset( $_GET['post'] ) ? $_GET['post'] : '';
+
+            $screen = get_current_screen();
+
+            if ( 'edit.php?post_type=fts' === $screen->parent_file && 'add' === $screen->action ) {
+                ?>
+                <p>
+                    <label><label><?php echo esc_html__( 'Save or Publish this Gallery to be able to copy this Gallery\'s Shortcode.', 'feed_them_social' ); ?></label>
+                </p>
+                <?php
+            } else {
+                // Copy Shortcode
+                ?>
+                <p>
+                    <label><label><?php echo esc_html__( 'Paste your Old shortcode here and click the blue Convert button. This will map your old options to the new input fields.', 'feed_them_social' ); ?></label>
+                        <input value="[fts_twitter twitter_name=gopro tweets_count=6 search=from:user_name%#YourHashtag twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes popup=yes loadmore=button loadmore_btn_margin='10px 5px 3px' loadmore_btn_maxwidth=20px loadmore_count=7 grid=yes colmn_width=23px space_between_posts='4px 10px']" />
+                </p><div class="publishing-action" style="text-align: right;"><div id="fts-convert-old-shortcode" class="button-primary button-large">Convert</div></div>
+
+                <?php
+            }
+
+            ?>
+        </div>
+        <?php
+    }
 
 
 	/**

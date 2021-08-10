@@ -1,8 +1,8 @@
 @charset "UTF-8"; /* If you think we have to many !important rules you have to consider that we are fighting with the themes CSS which in most cases overrides a plugins CSS. So if you see an !important rule and are having trouble overriding it make sure and target the body, html or a wrapper ID before the CSS class you are trying to override. */
 @font-face {
     font-family: FontAwesomeSlick;
-    src: url(../css/font/fa-brands-400.eot?v=3.2.1);
-    src: url(../css/font/fa-brands-400.eot?#iefix&v=3.2.1) format("embedded-opentype"), url(../css/font/fa-brands-400.woff?v=3.2.1) format("woff"), url(../css/font/fa-brands-400.ttf?v=3.2.1) format("truetype"), url(../css/font/fa-brands-400.svg#fontawesomeregular?v=3.2.1) format("svg")
+    src: url(font/fa-brands-400.eot?v=3.2.1);
+    src: url(font/fa-brands-400.eot?#iefix&v=3.2.1) format("embedded-opentype"), url(font/fa-brands-400.woff?v=3.2.1) format("woff"), url(font/fa-brands-400.ttf?v=3.2.1) format("truetype"), url(font/fa-brands-400.svg#fontawesomeregular?v=3.2.1) format("svg")
 }
 
 .ft-gallery-share-wrap {

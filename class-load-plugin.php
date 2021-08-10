@@ -85,7 +85,7 @@ class Feed_Them_Social {
 		$feed_cache = new feedthemsocial\Feed_Cache();
 
 		// Shortcodes.
-		new feedthemsocial\Shortcodes( $feed_functions, $feeds_cpt, $feed_cache );
+		new feedthemsocial\Shortcodes( $main_post_type, $feed_functions, $feeds_cpt, $feed_cache );
 
 		// Updater Init.
 		new feedthemsocial\updater_init();

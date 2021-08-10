@@ -428,8 +428,6 @@ class FTS_Twitter_Feed {
 
 
 
-
-
 				$fts_twitter_custom_consumer_key    = get_option( 'fts_twitter_custom_consumer_key' );
 				$fts_twitter_custom_consumer_secret = get_option( 'fts_twitter_custom_consumer_secret' );
 

@@ -80,14 +80,6 @@ class Metabox_Settings {
 	public $core_functions_class = '';
 
 	/**
-	 * Option Prefix
-	 * Set for pages this way options have prefix so no options names get set the same. Set in Construct.
-	 *
-	 * @var string
-	 */
-	public $option_prefix = '';
-
-	/**
 	 * Specific Form Options
 	 * This allows us to add Specific Metabox Inputs from the constructing class using '' function we add to that class.
 	 *
@@ -108,7 +100,7 @@ class Metabox_Settings {
 	 *
 	 * Constructor.
 	 *
-	 * @param string $current_this Current this.
+	 * @param object $current_this Current this.
 	 * @param array $settings_array All the settings.
 	 * @param string $is_page What page.
 	 * @since 1.0
@@ -308,19 +300,6 @@ class Metabox_Settings {
 	}
 
 	/**
-	 * Set Option Prefix
-	 *
-	 * Set the option Prefix
-	 *
-	 * @param string $option_prefix Get the option prefix.
-	 * @since 1.0
-	 */
-	public function set_option_prefix( $option_prefix ) {
-		// Option Prefix. (needed if is_page = true). Posts don't need this because ID is used to set option name.
-		$this->option_prefix = $option_prefix;
-	}
-
-	/**
 	 * Set Metabox Specific Form Inputs
 	 *
 	 * Set the specific form inputs
@@ -368,20 +347,19 @@ class Metabox_Settings {
 	 * Get the saved settings array.
 	 *
 	 * @param string $post_id The post ID.
-	 * @return array
+     *  * @param string $cpt The post type
+	 * @return array | string
 	 * @since 1.0
 	 */
-	public function get_saved_settings_array( $post_id = null ) {
-		// Get Current info.
-		$current_info = $this->current_info_array();
-		// Saved Settings!
-		$old_settings_page = get_option( $this->hook_id . '_settings_options' );
-		$old_settings_post = get_post_meta( $post_id, $current_info['post_type'] . '_settings_options', true );
+	public function get_saved_settings_array( $post_id, $cpt ) {
 
-		// Get Old Settings Array if set.
-		$old_settings = true == $this->is_page ? $old_settings_page : $old_settings_post;
+		$old_settings = get_post_meta( $post_id, $cpt . '_settings_options', true );
 
-		return isset( $old_settings ) && ! empty( $old_settings ) ? $old_settings : esc_html__( 'No Settings Saved.', 'feed_them_social' );
+		echo '<pre>';
+		print_r($old_settings);
+		echo '</pre>';
+
+		return isset( $old_settings ) && ! empty( $old_settings ) && is_array( $old_settings ) ? $old_settings : esc_html__( 'No Settings Saved.', 'feed_them_social' );
 	}
 
 	/**
@@ -603,6 +581,7 @@ class Metabox_Settings {
 		$old_settings_page = get_option( $this->hook_id . '_settings_options' );
 		$old_settings_post = get_post_meta( $current_post_id, $current_info['post_type'] . '_settings_options', true );
 
+
 		// Get Old Settings Array if set.
 		$old_settings = true == $this->is_page ? $old_settings_page : $old_settings_post;
 
@@ -656,11 +635,9 @@ class Metabox_Settings {
 				}
 
 				// Set Option name. Use Prefix?
-				// $option_name = isset( $this->option_prefix ) ? $this->option_prefix . $option['name'] : $option['name'];.
 				$option_name = $option['name'];
 
 				// Set Option ID. Use Prefix?
-				// $option_id = isset( $this->option_prefix ) ? $this->option_prefix . $option['id'] : $option['id'];.
 				$option_id = $option['id'];
 
 				$final_value = isset( $old_settings[ $option_name ] ) && ! empty( $old_settings[ $option_name ] ) ? $old_settings[ $option_name ] : $option['default_value'];

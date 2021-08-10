@@ -51,7 +51,7 @@ class Feed_CPT_Options {
 		$instance->feed_type_options();
 		$instance->layout_options();
 		$instance->color_options();
-		$instance->watermark_options();
+		$instance->facebook_options();
 		$instance->twitter_options();
 		$instance->woocommerce_extra_options();
 		$instance->pagination_options();
@@ -1104,6 +1104,1712 @@ class Feed_CPT_Options {
 		return $this->all_options['colors'];
 	} //END LAYOUT OPTIONS
 
+
+
+	/**
+	 * Facebook Options
+	 *
+	 * Options for the Watermark Tab
+	 *
+	 * @return mixed
+	 * @since 1.0.0
+	 */
+	public function facebook_options() {
+		$this->all_options['facebook'] = array(
+			'section_attr_key'   => 'facebook_',
+			'section_title'      => __( 'Facebook Page Shortcode Generator', 'feed-them-social' ),
+			'section_wrap_class' => 'fts-facebook_page-shortcode-form',
+
+			// Form Info
+			'form_wrap_classes'  => 'fts-fb-page-shortcode-form',
+			'form_wrap_id'       => 'fts-fb-page-form',
+
+			// Token Check
+			'token_check'        => $facebookReviewsTokenCheck,
+
+			'premium_msg_boxes'  => array(
+				'album_videos' => array(
+					'req_plugin' => 'fts_premium',
+					'msg'        => 'The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your WordPress site! <a href="https://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br /><br />Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too! <a href="https://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a>',
+				),
+				'reviews'      => array(
+					'req_plugin' => 'facebook_reviews',
+					'msg'        => 'The Facebook Reviews feed allows you to view all of the reviews people have made on your Facebook Page. See these great examples and options of all the different ways you can display your Facebook Page Reviews on your website. <a href="https://feedthemsocial.com/facebook-page-reviews-demo/" target="_blank">View Demo</a>',
+				),
+			),
+			'short_attr_final'   => 'yes',
+			'main_options'       => array(
+
+
+				// Show Description below image or video Name
+				array(
+					'input_wrap_class' => 'fts-social-selector',
+					'option_type' => 'select',
+					'label'       => __( 'Feed Type', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'facebook-messages-selector',
+					'name'        => 'facebook-messages-selector',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'options'     => array(
+						array(
+							'label' => __( 'Facebook Page', 'feed-them-social' ),
+							'value' => 'page',
+						),
+
+						// Facebook Page List of Events
+						// array(
+						// 'label' => __('Facebook Page List of Events', 'feed-them-social'),
+						// 'value' => 'events',
+						// ),
+						// Facebook Page Single Event Posts
+						// array(
+						// 'label' => __('Facebook Page Single Event Posts', 'feed-them-social'),
+						// 'value' => 'event',
+						// ),
+						// Facebook Group
+						// array(
+						// 'label' => __('Facebook Group', 'feed-them-social'),
+						// 'value' => 'group',
+						// ),
+						// Facebook Album Photos
+						array(
+							'label' => __( 'Facebook Album Photos', 'feed-them-social' ),
+							'value' => 'album_photos',
+						),
+
+						// Facebook Album Covers
+						array(
+							'label' => __( 'Facebook Album Covers', 'feed-them-social' ),
+							'value' => 'albums',
+						),
+
+						// Facebook Videos
+						array(
+							'label' => __( 'Facebook Videos', 'feed-them-social' ),
+							'value' => 'album_videos',
+						),
+
+						// Facebook Page Reviews
+						array(
+							'label' => __( 'Facebook Page Reviews', 'feed-them-social' ),
+							'value' => 'reviews',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'show_media',
+					),
+				),
+
+				// Facebook ID
+				array(
+					'option_type' => 'input',
+					'input_wrap_class' => 'fb_page_id',
+					'label'       => __( 'Facebook ID (required)', 'feed-them-social' ),
+					'instructional-text' => array(
+						array(
+							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
+							'class' => 'facebook-message-generator page inst-text-facebook-page',
+						),
+						array(
+							'text' => __( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-group-id/" target="_blank">' . __( 'Facebook Group ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ),
+							'class' => 'facebook-message-generator group inst-text-facebook-group',
+						),
+						array(
+							'text' => __( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-page-vanity-url/" target="_blank">' . __( 'Facebook Page ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below. PLEASE NOTE: This will only work with Facebook Page Events and you cannot have more than 25 events on Facebook.', 'feed-them-social' ),
+							'class' => 'facebook-message-generator event-list inst-text-facebook-event-list',
+						),
+						array(
+							'text' => __( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . __( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ),
+							'class' => 'facebook-message-generator event inst-text-facebook-event',
+						),
+						array(
+							'text' => __( 'To show a specific Album copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . __( 'Facebook Album ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the third input below. If you want to show all your uploaded photos leave the Album ID input blank.', 'feed-them-social' ),
+							'class' => 'facebook-message-generator album_photos inst-text-facebook-album-photos',
+						),
+						array(
+							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
+							'class' => 'facebook-message-generator albums inst-text-facebook-albums',
+						),
+						array(
+							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
+							'class' => 'facebook-message-generator video inst-text-facebook-video',
+						),
+						array(
+							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
+							'class' => 'facebook-message-generator reviews inst-text-facebook-reviews',
+						),
+					),
+					'type'        => 'text',
+					'id'          => 'fb_page_id',
+					'name'        => 'fb_page_id',
+					'value'       => '',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name'    => 'id',
+						'var_final_if' => 'no',
+						'empty_error'  => 'yes',
+					),
+				),
+
+				// Access Token
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fb_access_token',
+					'name'        => 'fb_access_token',
+
+					// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
+					'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
+					'placeholder' => __( '', 'feed-them-social' ),
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name'    => 'access_token',
+						'var_final_if' => 'yes',
+						'empty_error'  => 'set',
+						'empty_error_value' => '',
+					),
+				),
+
+				// Facebook Album ID
+				array(
+					'option_type' => 'input',
+					'input_wrap_class' => 'fb_album_photos_id',
+					'label'       => __( 'Album ID ', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank to show all uploaded photos', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fb_album_id',
+					'name'        => 'fb_album_id',
+					'value'       => '',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'album_id',
+						'var_final_if' => 'yes',
+						'empty_error' => 'set',
+						'empty_error_value' => 'album_id=photo_stream',
+						'empty_error_if' => array(
+							'attribute' => 'select#facebook-messages-selector',
+							'operator' => '==',
+							'value'    => 'album_photos',
+						),
+						'ifs' => 'album_photos',
+					),
+				),
+
+				// Facebook Page Post Type Visible
+				array(
+					'input_wrap_class' => 'facebook-post-type-visible',
+					'option_type' => 'select',
+					'label'       => __( 'Post Type Visible', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fb_page_posts_displayed',
+					'name'        => 'fb_page_posts_displayed',
+					'options'     => array(
+						array(
+							'label' => __( 'Display Posts made by Page only', 'feed-them-social' ),
+							'value' => 'page_only',
+						),
+						array(
+							'label' => __( 'Display Posts made by Page and Others', 'feed-them-social' ),
+							'value' => 'page_and_others',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'posts_displayed',
+						'ifs' => 'page',
+					),
+				),
+
+				// Facebook page # of Posts
+				array(
+					'option_type' => 'input',
+					'label'       => __( '# of Posts', 'feed-them-social' ) . $limitforpremium,
+					'type'        => 'text',
+					'id'          => 'fb_page_post_count',
+					'name'        => 'fb_page_post_count',
+					'value'       => '',
+					'placeholder' => __( '6 is the default number', 'feed-them-social' ),
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name'    => 'posts',
+						'var_final_if' => 'yes',
+						'empty_error'  => 'set',
+						'empty_error_value' => 'posts=6',
+					),
+				),
+
+				// Facebook Page Facebook Fixed Height
+				array(
+					'input_wrap_class' => 'fixed_height_option',
+					'option_type' => 'input',
+					'label'       => __( 'Facebook Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto height', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'facebook_page_height',
+					'name'        => 'facebook_page_height',
+					'value'       => '',
+					'placeholder' => '450px ' . __( 'for example', 'feed-them-social' ),
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name'    => 'height',
+						'var_final_if' => 'yes',
+						'empty_error'  => 'set',
+						'empty_error_value' => '',
+					),
+				),
+
+				// Facebook Page Show Page Title (Premium)
+				array(
+					'input_wrap_class' => 'fb-page-title-option-hide',
+					'option_type' => 'select',
+					'label'       => __( 'Show Page Title', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fb_page_title_option',
+					'name'        => 'fb_page_title_option',
+					'options'     => array(
+						array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'short_attr'  => array(
+						'attr_name' => 'title',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'facebook-title-options-wrap',
+					),
+				),
+
+				// Facebook Page Align Title (Premium)
+				array(
+					'input_wrap_class' => 'fb-page-title-align',
+					'option_type' => 'select',
+					'label'       => __( 'Align Title', 'feed-them-social' ) . '<br/><small>' . __( 'Left, Center or Right', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fb_page_title_align',
+					'name'        => 'fb_page_title_align',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Left', 'feed-them-social' ),
+							'value' => 'left',
+						),
+						2 => array(
+							'label' => __( 'Center', 'feed-them-social' ),
+							'value' => 'center',
+						),
+						3 => array(
+							'label' => __( 'Right', 'feed-them-social' ),
+							'value' => 'right',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'short_attr'  => array(
+						'attr_name' => 'title_align',
+					),
+				),
+
+				// Facebook Page Show Page Description (Premium)
+				array(
+					'input_wrap_class' => 'fb-page-description-option-hide',
+					'option_type' => 'select',
+					'label'       => __( 'Show Page Description', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fb_page_description_option',
+					'name'        => 'fb_page_description_option',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						2 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'description',
+					),
+					'sub_options_end' => true,
+				),
+
+				// Show Description below image or video Name
+				array(
+					'input_wrap_class' => 'facebook_show_media',
+					'option_type' => 'select',
+					'label'       => __( 'Show Image/Video', 'feed-them-social' ) . '<br/><small>' . __( 'Bottom or Top of Post', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'facebook_show_media',
+					'name'        => 'facebook_show_media',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'options'     => array(
+						array(
+							'label' => __( 'Below Username, Date & Description', 'feed-them-social' ),
+							'value' => 'bottom',
+						),
+						array(
+							'label' => __( 'Above Username, Date & Description', 'feed-them-social' ),
+							'value' => 'top',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'show_media',
+					),
+				),
+
+				// Show Thumbnail
+				array(
+					'input_wrap_class' => 'facebook_hide_thumbnail',
+					'option_type' => 'select',
+					'label'       => __( 'Show User Thumbnail', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'facebook_hide_thumbnail',
+					'name'        => 'facebook_hide_thumbnail',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'options'     => array(
+						array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'show_thumbnail',
+					),
+				),
+
+				// Show Username
+				array(
+					'input_wrap_class' => 'facebook_hide_date',
+					'option_type' => 'select',
+					'label'       => __( 'Show Username', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'facebook_hide_date',
+					'name'        => 'facebook_hide_date',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'options'     => array(
+						array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'show_date',
+					),
+				),
+
+				// Show Date
+				array(
+					'input_wrap_class' => 'facebook_hide_name',
+					'option_type' => 'select',
+					'label'       => __( 'Show Date', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'facebook_hide_name',
+					'name'        => 'facebook_hide_name',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'options'     => array(
+						array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'show_name',
+					),
+				),
+
+				// Facebook Amount of words
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Amount of words per post', 'feed-them-social' ) . '<br/><small>' . __( 'Type 0 to remove the posts description', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fb_page_word_count_option',
+					'name'        => 'fb_page_word_count_option',
+					'placeholder' => '45 ' . __( 'is the default number', 'feed-them-social' ),
+					'value'       => '',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'or_req_plugin_three' => 'facebook_reviews',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name'   => 'words',
+						'empty_error' => 'set',
+						'empty_error_value' => 'words=45',
+					),
+				),
+
+				// Facebook Image Width
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Facebook Image Width', 'feed-them-social' ) . '<br/><small>' . __( 'Max width is 640px', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fts-slicker-facebook-container-image-width',
+					'name'        => 'fts-slicker-facebook-container-image-width',
+					'placeholder' => '250px',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'image_width',
+						'empty_error' => 'set',
+						'empty_error_value' => 'image_width=250px',
+						'ifs' => 'album_photos,albums,album_videos',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'fts-super-facebook-options-wrap',
+					),
+				),
+
+				// Facebook Image Height
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Facebook Image Height', 'feed-them-social' ) . '<br/><small>' . __( 'Max width is 640px', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fts-slicker-facebook-container-image-height',
+					'name'        => 'fts-slicker-facebook-container-image-height',
+					'placeholder' => '250px',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'image_height',
+						'empty_error' => 'set',
+						'empty_error_value' => 'image_height=250px',
+						'ifs' => 'album_photos,albums,album_videos',
+					),
+				),
+
+				// Facebook The space between photos
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'The space between photos', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fts-slicker-facebook-container-margin',
+					'name'        => 'fts-slicker-facebook-container-margin',
+					'placeholder' => '1px',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'space_between_photos',
+						'empty_error' => 'set',
+						'empty_error_value' => 'space_between_photos=1px',
+						'ifs' => 'album_photos,albums,album_videos',
+					),
+				),
+
+				// Hide Date, Likes and Comments
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Hide Date, Likes and Comments', 'feed-them-social' ),
+					'label_note'  => __( 'Good for image sizes under 120px', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fts-slicker-facebook-container-hide-date-likes-comments',
+					'name'        => 'fts-slicker-facebook-container-hide-date-likes-comments',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'hide_date_likes_comments',
+						'ifs' => 'album_photos,albums,album_videos',
+					),
+				),
+
+				// Center Facebook Container
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Center Facebook Container', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fts-slicker-facebook-container-position',
+					'name'        => 'fts-slicker-facebook-container-position',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						2 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'center_container',
+						'ifs' => 'album_photos,albums,album_videos',
+					),
+					'sub_options_end' => true,
+				),
+
+				// Image Stacking Animation NOT USING THIS ANYMORE
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Image Stacking Animation On', 'feed-them-social' ),
+					'label_note'  => __( 'This happens when resizing browser', 'feed-them-social' ),
+					'type'        => 'hidden',
+
+					// used to trick is Visible in JS
+					'class'       => 'non-visible',
+					'id'          => 'fts-slicker-facebook-container-animation',
+					'name'        => 'fts-slicker-facebook-container-animation',
+					'value'       => 'no',
+					'short_attr'  => array(
+						'attr_name' => 'image_stack_animation',
+						'empty_error' => 'set',
+						'empty_error_value' => 'image_stack_animation=no',
+						'ifs' => 'grid',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'facebook-image-animation-option-wrap',
+					),
+					'sub_options_end' => true,
+				),
+
+				// Align Images non-grid
+				array(
+					'input_wrap_id' => 'facebook_align_images_wrapper',
+					'option_type' => 'select',
+					'label'       => __( 'Align Images', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'facebook_align_images',
+					'name'        => 'facebook_align_images',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Left', 'feed-them-social' ),
+							'value' => 'left',
+						),
+						2 => array(
+							'label' => __( 'Center', 'feed-them-social' ),
+							'value' => 'center',
+						),
+						3 => array(
+							'label' => __( 'Right', 'feed-them-social' ),
+							'value' => 'right',
+						),
+					),
+					'short_attr'  => array(
+						'attr_name' => 'images_align',
+						'ifs' => 'page',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'align-images-wrap',
+					),
+					'sub_options_end' => true,
+				),
+
+				// ******************************************
+				// Facebook Review Options
+				// ******************************************
+				// Reviews to Show
+				array(
+					'grouped_options_title' => __( 'Reviews', 'feed-them-social' ),
+					'option_type' => 'select',
+					'label'       => __( 'Reviews to Show', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'reviews_type_to_show',
+					'name'        => 'reviews_type_to_show',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Show all Reviews', 'feed-them-social' ),
+							'value' => '1',
+						),
+						2 => array(
+							'label' => __( '5 Star Reviews only', 'feed-them-social' ),
+							'value' => '5',
+						),
+						3 => array(
+							'label' => __( '4 and 5 Stars Reviews only', 'feed-them-social' ),
+							'value' => '4',
+						),
+						4 => array(
+							'label' => __( '3, 4 and 5 Star Reviews only', 'feed-them-social' ),
+							'value' => '3',
+						),
+						5 => array(
+							'label' => __( '2, 3, 4, and 5 Star Reviews only', 'feed-them-social' ),
+							'value' => '2',
+						),
+					),
+					'req_plugin'  => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'reviews_type_to_show',
+						'ifs' => 'reviews',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'facebook-reviews-wrap',
+					),
+				),
+
+				// Rating Format
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Rating Format', 'feed-them-social' ) . '<br/><small>' . __( '8/17/2018: Facebook has moved to what are called "recommendations" so for some people this option may not be necessary.', 'feed-them-premium' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'reviews_rating_format',
+					'name'        => 'reviews_rating_format',
+					'options'     => array(
+						1 => array(
+							'label' => __( '5 star - &#9733;&#9733;&#9733;&#9733;&#9733;', 'feed-them-social' ),
+							'value' => '1',
+						),
+						2 => array(
+							'label' => __( '5 star &#9733;', 'feed-them-social' ),
+							'value' => '2',
+						),
+						3 => array(
+							'label' => __( '5 star', 'feed-them-social' ),
+							'value' => '3',
+						),
+						4 => array(
+							'label' => __( '5 &#9733;', 'feed-them-social' ),
+							'value' => '4',
+						),
+						5 => array(
+							'label' => __( '&#9733;&#9733;&#9733;&#9733;&#9733;', 'feed-them-social' ),
+							'value' => '5',
+						),
+					),
+					'req_plugin'  => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'reviews_rating_format',
+						'ifs' => 'reviews',
+					),
+				),
+
+				// Overall Rating
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Overall Rating above Feed', 'feed-them-social' ) . '<br/><small>' . __( 'More settings: <a href="admin.php?page=fts-facebook-feed-styles-submenu-page#overall-rating-options">Facebook Options</a> page.', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'reviews_overall_rating_show',
+					'name'        => 'reviews_overall_rating_show',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						2 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'req_plugin'  => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'overall_rating',
+						'ifs' => 'reviews',
+					),
+				),
+
+				// Hide Reviews with no Text
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Hide Reviews with no description', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'reviews_with_no_text',
+					'name'        => 'reviews_with_no_text',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'remove_reviews_no_description',
+						'ifs' => 'reviews',
+					),
+				),
+
+				// Hide Reviews the text link, "See More Reviews"
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Hide the text "See More Reviews"', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'hide_see_more_reviews_link',
+					'name'        => 'hide_see_more_reviews_link',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'hide_see_more_reviews_link',
+						'ifs' => 'reviews',
+					),
+					'sub_options_end' => true,
+				),
+
+				// ******************************************
+				// Like Box Options
+				// ******************************************
+				// Facebook Hide Like Box or Button (Premium)
+				array(
+					'grouped_options_title' => __( 'Like Box', 'feed-them-social' ),
+					'option_type' => 'select',
+					'label'       => __( 'Hide Like Box or Button', 'feed-them-social' ) . '<br/><small>' . __( 'Turn on from <a href="admin.php?page=fts-facebook-feed-styles-submenu-page">Facebook Options</a> page', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'fb_hide_like_box_button',
+					'name'        => 'fb_hide_like_box_button',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						2 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'or_req_plugin_three' => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'hide_like_option',
+						'ifs' => 'not_group',
+						'empty_error' => 'set',
+						'set_operator' => '==',
+						'set_equals' => 'no',
+						'empty_error_value' => '',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'main-like-box-wrap',
+					),
+				),
+
+				// Position of Like Box or Button (Premium)
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Position of Like Box or Button', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fb_position_likebox',
+					'name'        => 'fb_position_likebox',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Above Title', 'feed-them-social' ),
+							'value' => 'above_title',
+						),
+						2 => array(
+							'label' => __( 'Below Title', 'feed-them-social' ),
+							'value' => 'below_title',
+						),
+						3 => array(
+							'label' => __( 'Bottom of Feed', 'feed-them-social' ),
+							'value' => 'bottom',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'or_req_plugin_three' => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'show_follow_btn_where',
+						'ifs'     => 'not_group',
+						'and_ifs' => 'like_box',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'like-box-wrap',
+					),
+				),
+
+				// Facebook Page Align Like Box or Button (Premium)
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Align Like Box or Button', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fb_align_likebox',
+					'name'        => 'fb_align_likebox',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Left', 'feed-them-social' ),
+							'value' => 'left',
+						),
+						2 => array(
+							'label' => __( 'Center', 'feed-them-social' ),
+							'value' => 'center',
+						),
+						3 => array(
+							'label' => __( 'Right', 'feed-them-social' ),
+							'value' => 'right',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'or_req_plugin_three' => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'like_option_align',
+						'ifs'     => 'not_group',
+						'and_ifs' => 'like_box',
+					),
+				),
+
+				// Facebook Page Width of Like Box
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Width of Like Box', 'feed-them-social' ) . '<br/><small>' . __( 'This only works for the Like Box', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'like_box_width',
+					'name'        => 'like_box_width',
+					'placeholder' => __( '500px max', 'feed-them-social' ),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'or_req_plugin_three' => 'facebook_reviews',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'like_box_width',
+						'empty_error' => 'set',
+						'empty_error_value' => 'like_box_width=500px',
+						'ifs'     => 'not_group',
+						'and_ifs' => 'like_box',
+					),
+					'sub_options_end' => 2,
+				),
+
+				// ******************************************
+				// Popup
+				// ******************************************
+				// Facebook Page Display Photos in Popup
+				array(
+					'grouped_options_title' => __( 'Popup', 'feed-them-social' ),
+					'option_type' => 'select',
+					'label'       => __( 'Display Photos in Popup', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'facebook_popup',
+					'name'        => 'facebook_popup',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'short_attr'  => array(
+						'attr_name' => 'popup',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'facebook-popup-wrap',
+					),
+					'sub_options_end' => true,
+				),
+
+				// Facebook Comments in Popup
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Hide Comments in Popup', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'facebook_popup_comments',
+					'name'        => 'facebook_popup_comments',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'short_attr'  => array(
+						'attr_name' => 'hide_comments_popup',
+						'ifs' => 'popup',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'display-comments-wrap',
+					),
+					'sub_options_end' => true,
+				),
+
+				// ******************************************
+				// Facebook Load More Options
+				// ******************************************
+				// Facebook Page Load More Button
+				array(
+					'grouped_options_title' => __( 'Load More', 'feed-them-social' ),
+					'option_type' => 'select',
+					'label'       => __( 'Load More Button', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fb_load_more_option',
+					'name'        => 'fb_load_more_option',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => '',
+						'empty_error_value' => '',
+						'no_attribute' => 'yes',
+						'ifs' => 'not_events',
+					),
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'facebook-loadmore-wrap',
+
+						// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+					),
+				),
+
+				// Facebook Page Load More Style
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Load More Style', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fb_load_more_style',
+					'name'        => 'fb_load_more_style',
+					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option will show a "Load More Posts" button under your feed. The AutoScroll option will load more posts when you reach the bottom of the feed. AutoScroll ONLY works if you\'ve filled in a Fixed Height for your feed.', 'feed-them-social' ),
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Button', 'feed-them-social' ),
+							'value' => 'button',
+						),
+						2 => array(
+							'label' => __( 'AutoScroll', 'feed-them-social' ),
+							'value' => 'autoscroll',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name' => 'loadmore',
+						'ifs' => 'load_more',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'fts-facebook-load-more-options-wrap',
+
+						// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+					),
+					'sub_options_end' => true,
+				),
+
+				// Facebook Page Load more Button Width
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Load more Button Width', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto width', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'loadmore_button_width',
+					'name'        => 'loadmore_button_width',
+					'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
+					'value'       => '',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'facebook_reviews',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'loadmore_btn_maxwidth',
+						'empty_error' => 'set',
+						'empty_error_value' => 'loadmore_btn_maxwidth=300px',
+						'ifs' => 'load_more',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'fts-facebook-load-more-options2-wrap',
+
+						// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+					),
+				),
+
+				// Facebook Page Load more Button Margin
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Load more Button Margin', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'loadmore_button_margin',
+					'name'        => 'loadmore_button_margin',
+					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
+					'value'       => '',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'facebook_reviews',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'loadmore_btn_margin',
+						'empty_error' => 'set',
+						'empty_error_value' => 'loadmore_btn_margin=10px',
+						'ifs' => 'load_more',
+					),
+					'sub_options_end' => 2,
+				),
+
+				// ******************************************
+				// Facebook Grid Options
+				// ******************************************
+				// Facebook Page Display Posts in Grid
+				array(
+					'grouped_options_title' => __( 'Grid', 'feed-them-social' ),
+					'input_wrap_class' => 'fb-posts-in-grid-option-wrap',
+					'option_type' => 'select',
+					'label'       => __( 'Display Posts in Grid', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fb-grid-option',
+					'name'        => 'fb-grid-option',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'or_req_plugin_three' => 'facebook_reviews',
+					'short_attr'  => array(
+						'attr_name'    => 'grid',
+						'empty_error'  => 'set',
+						'set_operator' => '==',
+						'set_equals'   => 'yes',
+						'empty_error_value' => '',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'main-grid-options-wrap',
+					),
+				),
+
+				// Grid Column Width
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Grid Column Width', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'facebook_grid_column_width',
+					'name'        => 'facebook_grid_column_width',
+					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
+					'placeholder' => '310px ' . __( 'for example', 'feed-them-social' ),
+					'value'       => '',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'or_req_plugin_three' => 'facebook_reviews',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'colmn_width',
+						'empty_error' => 'set',
+						'empty_error_value' => 'colmn_width=310px',
+						'ifs' => 'grid',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'fts-facebook-grid-options-wrap',
+
+						// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
+					),
+				),
+
+				// Grid Spaces Between Posts
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Grid Spaces Between Posts', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'facebook_grid_space_between_posts',
+					'name'        => 'facebook_grid_space_between_posts',
+					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
+					'value'       => '',
+					'req_plugin'  => 'fts_premium',
+					'or_req_plugin' => 'combine_streams',
+					'or_req_plugin_three' => 'facebook_reviews',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'space_between_posts',
+						'empty_error' => 'set',
+						'empty_error_value' => 'space_between_posts=10px',
+						'ifs' => 'grid',
+					),
+					'sub_options_end' => 2,
+				),
+
+				// ******************************************
+				// Facebook Video Options
+				// ******************************************
+				// Video Play Button
+				array(
+					'grouped_options_title' => __( 'Video Button Options', 'feed-them-social' ),
+					'option_type' => 'select',
+					'label'       => __( 'Video Play Button', 'feed-them-social' ) . '<br/><small>' . __( 'Displays over Video Thumbnail', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'facebook_show_video_button',
+					'name'        => 'facebook_show_video_button',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'short_attr'  => array(
+						'attr_name' => 'play_btn',
+						'empty_error' => 'set',
+						'set_operator' => '==',
+						'set_equals' => 'yes',
+						'ifs' => 'album_videos',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'fb-video-play-btn-options-wrap',
+					),
+				),
+
+				// Size of the Play Button
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'Size of the Play Button', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'facebook_size_video_play_btn',
+					'name'        => 'facebook_size_video_play_btn',
+					'placeholder' => '40px ' . __( 'for example', 'feed-them-social' ),
+					'req_plugin'  => 'fts_premium',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'play_btn_size',
+						'empty_error' => 'set',
+						'empty_error_value' => 'play_btn_size=40px',
+						'ifs'     => 'album_videos',
+						'and_ifs' => 'video',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'fb-video-play-btn-options-content',
+					),
+				),
+
+				// Show Play Button in Front
+				array(
+					'option_type' => 'select',
+					'label'       => __( 'Show Play Button in Front', 'feed-them-social' ) . '<br/><small>' . __( 'Displays before hovering over thumbnail', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'facebook_show_video_button_in_front',
+					'name'        => 'facebook_show_video_button_in_front',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'fts_premium',
+					'short_attr'  => array(
+						'attr_name' => 'play_btn_visible',
+						'ifs'     => 'album_videos',
+						'and_ifs' => 'video',
+					),
+					'sub_options_end' => 2,
+				),
+
+				// ******************************************
+				// Facebook Carousel
+				// ******************************************
+				// Carousel/Slideshow
+				array(
+					'grouped_options_title' => __( 'Carousel/Slider', 'feed-them-social' ),
+					'input_wrap_id' => 'facebook_slider',
+					'instructional-text' => __( 'Create a Carousel or Slideshow with these options.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/facebook-carousels-or-sliders/" target="_blank">' . __( 'View Demos', 'feed-them-social' ) . '</a> ' . __( 'and copy easy to use shortcode examples.', 'feed-them-social' ),
+					'option_type' => 'select',
+					'label'       => __( 'Carousel/Slideshow', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'fts-slider',
+					'name'        => 'fts-slider',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Off', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'On', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'req_plugin'  => 'fts_carousel',
+					'short_attr'  => array(
+						'attr_name' => 'slider',
+						'empty_error' => 'set',
+						'set_operator' => '==',
+						'set_equals' => 'yes',
+						'ifs' => 'album_photos,album_videos',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'slideshow-wrap',
+					),
+				),
+
+				// Carousel/Slideshow Type
+				array(
+					'input_wrap_id' => 'facebook_scrollhorz_or_carousel',
+					'option_type' => 'select',
+					'label'       => __( 'Type', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'scrollhorz_or_carousel',
+					'name'        => 'scrollhorz_or_carousel',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Slideshow', 'feed-them-social' ),
+							'value' => 'scrollhorz',
+						),
+						2 => array(
+							'label' => __( 'Carousel', 'feed-them-social' ),
+							'value' => 'carousel',
+						),
+					),
+					'req_plugin'  => 'fts_carousel',
+					'short_attr'  => array(
+						'attr_name' => 'scrollhorz_or_carousel',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'slider_options_wrap',
+					),
+				),
+
+				// Carousel Slides Visible
+				array(
+					'input_wrap_id' => 'facebook_slides_visible',
+					'option_type' => 'input',
+					'label'       => __( 'Carousel Slides Visible', 'feed-them-social' ) . '<br/><small>' . __( 'Not for Slideshow. Example: 1-500', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slides_visible',
+					'name'        => 'slides_visible',
+					'placeholder' => __( '3 is the default number', 'feed-them-social' ),
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slides_visible',
+						'empty_error' => 'set',
+						'empty_error_value' => 'slides_visible=3',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options' => array(
+						'sub_options_wrap_class' => 'slider_carousel_wrap',
+					),
+				),
+
+				// Carousel Spacing in between Slides
+				array(
+					'input_wrap_id' => 'facebook_slider_spacing',
+					'option_type' => 'input',
+					'label'       => __( 'Spacing in between Slides', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slider_spacing',
+					'name'        => 'slider_spacing',
+					'value'       => '',
+					'placeholder' => __( '2px', 'feed-them-social' ),
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slider_spacing',
+						'empty_error' => 'set',
+						'empty_error_value' => 'slider_spacing=2px',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+					'sub_options_end' => true,
+				),
+
+				// Carousel/Slideshow Margin
+				array(
+					'input_wrap_id' => 'facebook_slider_margin',
+					'option_type' => 'input',
+					'label'       => __( 'Carousel/Slideshow Margin', 'feed-them-social' ) . '<br/><small>' . __( 'Center feed. Add space above/below.', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slider_margin',
+					'name'        => 'slider_margin',
+					'value'       => '',
+					'placeholder' => __( '-6px auto 1px auto', 'feed-them-social' ),
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slider_margin',
+						'empty_error' => 'set',
+						'empty_error_value' => 'slider_margin="-6px auto 1px auto"',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+				),
+
+				// Carousel/Slideshow Slider Speed
+				array(
+					'input_wrap_id' => 'facebook_slider_speed',
+					'option_type' => 'input',
+					'label'       => __( 'Slider Speed', 'feed-them-social' ) . '<br/><small>' . __( 'How fast the slider changes', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slider_speed',
+					'name'        => 'slider_speed',
+					'value'       => '',
+					'placeholder' => __( '0-10000', 'feed-them-social' ),
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slider_speed',
+						'empty_error' => 'set',
+						'empty_error_value' => 'slider_speed=1000',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+				),
+
+				// Carousel/Slideshow Slider Timeout
+				array(
+					'input_wrap_id' => 'facebook_slider_timeout',
+					'option_type' => 'input',
+					'label'       => __( 'Slider Timeout', 'feed-them-social' ) . '<br/><small>' . __( 'Amount of Time before the next slide.', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slider_timeout',
+					'name'        => 'slider_timeout',
+					'value'       => '',
+					'placeholder' => __( '0-10000', 'feed-them-social' ),
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slider_timeout',
+						'empty_error' => 'set',
+						'empty_error_value' => 'slider_timeout=1000',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+				),
+
+				// Carousel/Slideshow
+				array(
+					'input_wrap_id' => 'facebook_slider_controls',
+					'option_type' => 'select',
+					'label'       => __( 'Slider Controls', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slider_controls',
+					'name'        => 'slider_controls',
+					'options'     => array(
+						1 => array(
+							'label' => __( 'Dots above Feed', 'feed-them-social' ),
+							'value' => 'dots_above_feed',
+						),
+						2 => array(
+							'label' => __( 'Dots and Arrows above Feed', 'feed-them-social' ),
+							'value' => 'dots_and_arrows_above_feed',
+						),
+						3 => array(
+							'label' => __( 'Dots and Numbers above Feed', 'feed-them-social' ),
+							'value' => 'dots_and_numbers_above_feed',
+						),
+						4 => array(
+							'label' => __( 'Dots, Arrows and Numbers above Feed', 'feed-them-social' ),
+							'value' => 'dots_arrows_and_numbers_above_feed',
+						),
+						5 => array(
+							'label' => __( 'Arrows and Numbers above feed', 'feed-them-social' ),
+							'value' => 'arrows_and_numbers_above_feed',
+						),
+						6 => array(
+							'label' => __( 'Arrows above Feed', 'feed-them-social' ),
+							'value' => 'arrows_above_feed',
+						),
+						7 => array(
+							'label' => __( 'Numbers above Feed', 'feed-them-social' ),
+							'value' => 'numbers_above_feed',
+						),
+						8 => array(
+							'label' => __( 'Dots below Feed', 'feed-them-social' ),
+							'value' => 'dots_below_feed',
+						),
+						array(
+							'label' => __( 'Dots and Arrows below Feed', 'feed-them-social' ),
+							'value' => 'dots_and_arrows_below_feed',
+						),
+						array(
+							'label' => __( 'Dots and Numbers below Feed', 'feed-them-social' ),
+							'value' => 'dots_and_numbers_below_feed',
+						),
+						array(
+							'label' => __( 'Dots, Arrows and Numbers below Feed', 'feed-them-social' ),
+							'value' => 'dots_arrows_and_numbers_below_feed',
+						),
+						array(
+							'label' => __( 'Arrows below Feed', 'feed-them-social' ),
+							'value' => 'arrows_below_feed',
+						),
+						array(
+							'label' => __( 'Numbers Below Feed', 'feed-them-social' ),
+							'value' => 'numbers_below_feed',
+						),
+					),
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slider_controls',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+				),
+
+				// Carousel/Slideshow Slider Controls Text Color
+				array(
+					'input_wrap_id' => 'facebook_slider_controls_text_color',
+					'option_type' => 'input',
+					'label'       => __( 'Slider Controls Text Color', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slider_controls_text_color',
+					'name'        => 'slider_controls_text_color',
+					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
+					'value'       => '',
+					'placeholder' => '#FFF',
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slider_controls_text_color',
+						'empty_error' => 'set',
+						'empty_error_value' => 'slider_controls_text_color=#FFF',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+				),
+
+				// Carousel/Slideshow Slider Controls Bar Color
+				array(
+					'input_wrap_id' => 'facebook_slider_controls_bar_color',
+					'option_type' => 'input',
+					'label'       => __( 'Slider Controls Bar Color', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slider_controls_bar_color',
+					'name'        => 'slider_controls_bar_color',
+					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
+					'value'       => '',
+					'placeholder' => '#000',
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slider_controls_bar_color',
+						'empty_error' => 'set',
+						'empty_error_value' => 'slider_controls_bar_color=320px',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+				),
+
+				// Carousel/Slideshow Slider Controls Bar Color
+				array(
+					'input_wrap_id' => 'facebook_slider_controls_width',
+					'option_type' => 'input',
+					'label'       => __( 'Slider Controls Max Width', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+					'type'        => 'text',
+					'id'          => 'slider_controls_width',
+					'name'        => 'slider_controls_width',
+					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
+					'value'       => '',
+					'placeholder' => '320px',
+					'req_plugin'  => 'fts_carousel',
+
+					// Relative to JS.
+					'short_attr'  => array(
+						'attr_name' => 'slider_controls_width',
+						'empty_error' => 'set',
+						'empty_error_value' => 'slider_controls_width=320px',
+						'ifs'     => 'album_photos,album_videos',
+						'and_ifs' => 'carousel',
+					),
+					'sub_options_end' => 2,
+				),
+			),
+
+			// Final Shortcode ifs
+			'shortcode_ifs'      => array(
+				'page'         => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '==',
+						'value'    => 'page',
+					),
+				),
+				'events'       => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '==',
+						'value'    => 'events',
+					),
+				),
+				'not_events'   => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '!==',
+						'value'    => 'events',
+					),
+				),
+				'event'        => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '==',
+						'value'    => 'event',
+					),
+				),
+				'group'        => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '==',
+						'value'    => 'group',
+					),
+				),
+				'not_group'    => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '!==',
+						'value'    => 'group',
+					),
+				),
+				'album_photos' => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '==',
+						'value'    => 'album_photos',
+					),
+				),
+				'albums'       => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '==',
+						'value'    => 'albums',
+					),
+				),
+				'album_videos' => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '==',
+						'value'    => 'album_videos',
+					),
+				),
+				'reviews'      => array(
+					'if' => array(
+						'class'    => 'select#facebook-messages-selector',
+						'operator' => '==',
+						'value'    => 'reviews',
+					),
+				),
+				'like_box'     => array(
+					'if' => array(
+						'class'    => 'select#fb_hide_like_box_button',
+						'operator' => '==',
+						'value'    => 'no',
+					),
+				),
+				'popup'        => array(
+					'if' => array(
+						'class'    => 'select#facebook_popup',
+						'operator' => '==',
+						'value'    => 'yes',
+					),
+				),
+				'load_more'    => array(
+					'if' => array(
+						'class'    => 'select#fb_load_more_option',
+						'operator' => '==',
+						'value'    => 'yes',
+					),
+				),
+				'video'        => array(
+					'if' => array(
+						'class'    => 'select#facebook_show_video_button',
+						'operator' => '==',
+						'value'    => 'yes',
+					),
+				),
+				'grid'         => array(
+					'if' => array(
+						'class'    => 'select#fb-grid-option',
+						'operator' => '==',
+						'value'    => 'yes',
+					),
+				),
+				'carousel'     => array(
+					'if' => array(
+						'class'    => 'select#fts-slider',
+						'operator' => '==',
+						'value'    => 'yes',
+					),
+				),
+			),
+		);
+
+		return $this->all_options['facebook'];
+	} //END WATERMARK OPTIONS
+
+
+
+
 	/**
 	 * Twitter Options
 	 *
@@ -1718,300 +3424,7 @@ class Feed_CPT_Options {
 		return $this->all_options['woocommerce_exta'];
 	}
 
-	/**
-	 * Watermark Options
-	 *
-	 * Options for the Watermark Tab
-	 *
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function watermark_options() {
-		$this->all_options['watermark'] = array(
-			// required_prem_plugin must match the array key returned in fts_required_plugins function.
-			'required_prem_plugin' => 'feed_them_social_premium',
-			'section_attr_key'     => 'facebook_',
-			'section_title'        => esc_html__( 'Watermark Options', 'feed_them_social' ),
-			'section_wrap_class'   => 'ftg-section-options',
-			// Form Info.
-			'form_wrap_classes'    => 'fb-page-shortcode-form',
-			'form_wrap_id'         => 'fts-fb-page-form',
-			'main_options'         => array(
-				// Disable Right Click.
-				array(
-					'input_wrap_class'   => 'ft-watermark-disable-right-click',
-					'instructional-text' =>
-						sprintf(
-							esc_html__( '%1$sNOTE:%2$s This option will disable the right click option on desktop computers so people cannot look at the source code. This is not fail safe but for the vast majority this is enough to deter people from trying to find the image source.', 'feed_them_social' ),
-							'<strong>',
-							'</strong>'
-						),
-					'option_type'        => 'select',
-					'label'              => esc_html__( 'Disable Right Click', 'feed_them_social' ),
-					'type'               => 'text',
-					'id'                 => 'fts_watermark_disable_right_click',
-					'name'               => 'fts_watermark_disable_right_click',
-					'default_value'      => '',
-					'options'            => array(
-						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
-							'value' => 'no',
-						),
-						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
-							'value' => 'yes',
-						),
-					),
-				),
-				// Use Watermark Options.
-				array(
-					'input_wrap_class' => 'ft-watermark-enable-options',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Use Options Below', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'fts_watermark_enable_options',
-					'name'             => 'fts_watermark_enable_options',
-					'default_value'    => 'no',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
-							'value' => 'no',
-						),
-						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
-							'value' => 'yes',
-						),
-					),
-				),
 
-				// Choose Watermark Image.
-				array(
-					'option_type'        => 'input',
-					'instructional-text' =>
-						sprintf(
-							esc_html__( '%1$sNOTE:%2$s Upload the exact image size you want to display, we will not rescale the image in anyway.', 'feed_them_social' ),
-							'<strong>',
-							'</strong>'
-						),
-					'label'              => esc_html__( 'Watermark Image', 'feed_them_social' ),
-					'id'                 => 'ft-watermark-image',
-					'name'               => 'ft-watermark-image',
-					'class'              => '',
-					'type'               => 'button',
-					'default_value'      => esc_html__( 'Upload or Choose Watermark', 'feed_them_social' ),
-					'placeholder'        => '',
-					'value'              => '',
-					'autocomplete'       => 'off',
-				),
-				// Watermark Image Link for front end if user does not use imagick or GD library method.
-				array(
-					'input_wrap_class' => 'ft-watermark-hide-these-options',
-					'option_type'      => 'input',
-					// 'label' => __('Watermark Image', 'feed_them_social'),
-					// 'class' => 'fb-link-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
-					'type'             => 'hidden',
-					'id'               => 'ft_watermark_image_input',
-					// 'instructional-text' => '<strong>' . __('NOTE:', 'feed_them_social') . '</strong> ' . __('Define the Width of each post and the Space between each post below. You must add px after any number.', 'feed_them_social'),
-					'name'             => 'ft_watermark_image_input',
-					'default_value'    => '',
-					// 'placeholder' => __('', 'feed_them_social'),
-					'autocomplete'     => 'off',
-				),
-				// Watermark Image ID so we can pass it to merge the watermark over images.
-				array(
-					'input_wrap_class' => 'ft-watermark-hide-these-options',
-					'option_type'      => 'input',
-					// 'label' => __('Watermark Image', 'feed_them_social'),
-					// 'class' => 'fb-link-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
-					'type'             => 'hidden',
-					'id'               => 'ft_watermark_image_id',
-					// 'instructional-text' => '<strong>' . __('NOTE:', 'feed_them_social') . '</strong> ' . __('Define the Width of each post and the Space between each post below. You must add px after any number.', 'feed_them_social'),
-					'name'             => 'ft_watermark_image_id',
-					'default_value'    => '',
-					// 'placeholder' => __('', 'feed_them_social'),
-					'autocomplete'     => 'off',
-				),
-
-				// Watermark Options
-				array(
-					'input_wrap_class' => 'ft-watermark-enabled',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Watermark Type', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'fts_watermark',
-					'name'             => 'fts_watermark',
-					'default_value'    => 'yes',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Watermark Overlay Image (Does not Imprint logo on Image)', 'feed_them_social' ),
-							'value' => 'overlay',
-						),
-						array(
-							'label' => esc_html__( 'Watermark Image (Imprint logo on the selected image sizes)', 'feed_them_social' ),
-							'value' => 'imprint',
-						),
-					),
-				),
-
-				// Watermark Options
-				array(
-					'input_wrap_class' => 'ft-watermark-overlay-options',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Overlay Options', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'fts_watermark',
-					'name'             => 'fts_watermark_overlay_enable',
-					'default_value'    => 'popup-only',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Select an Option', 'feed_them_social' ),
-							'value' => '',
-						),
-						array(
-							'label' => esc_html__( 'Watermark in popup only', 'feed_them_social' ),
-							'value' => 'popup-only',
-						),
-						array(
-							'label' => esc_html__( 'Watermark for image on page only', 'feed_them_social' ),
-							'value' => 'page-only',
-						),
-						array(
-							'label' => esc_html__( 'Watermark for image on page and popup', 'feed_them_social' ),
-							'value' => 'page-and-popup',
-						),
-					),
-				),
-
-				// Hidden Input to set array
-				array(
-					'input_wrap_class'   => 'ft-watermark-hidden-options ft-gallery-image-sizes-checkbox-wrap-label',
-					'option_type'        => 'checkbox-image-sizes',
-					'instructional-text' =>
-						sprintf(
-							esc_html__( '%1$sIMPORTANT:%2$s This option will permanently mark your chosen image size once you click the publish button or update button. Set the opacity of your %3$sWatermark Image%4$s before you upload it above for this option. We suggest using a png for the best clarity and not a gif.', 'feed_them_social' ),
-							'<strong>',
-							'</strong>',
-							'<strong>',
-							'</strong>'
-						),
-					'label'              => esc_html__( 'Image Sizes', 'feed_them_social' ),
-					'class'              => 'ft-watermark-opacity',
-					'type'               => 'hidden',
-					'id'                 => 'ft_watermark_image_sizes',
-					'name'               => 'ft_watermark_image_sizes',
-					'default_value'      => '',
-					'value'              => '',
-					'placeholder'        => __( '', 'feed_them_social' ),
-					'autocomplete'       => 'off',
-				),
-
-				// Watermark Image Sizes to convert
-				array(
-					'input_wrap_class' => 'ft-watermark-hidden-options ft-gallery-image-sizes-checkbox-wrap',
-					'option_type'      => 'checkbox-dynamic-image-sizes',
-					'label'            => __( '', 'feed_them_social' ),
-					'class'            => 'ft-watermark-opacity',
-					'type'             => 'checkbox',
-					'id'               => 'ft_watermark_image_',
-					'name'             => '',
-					'default_value'    => '',
-					'placeholder'      => __( '', 'feed_them_social' ),
-					'autocomplete'     => 'off',
-				),
-				// Duplicate Full Image before it is watermarked, usefull if zip option is being used and or selling full image
-				array(
-					'input_wrap_class' => 'ft-watermark-duplicate-image',
-					'option_type'      => 'select',
-					'label'            =>
-						sprintf(
-							esc_html__( 'Duplicate Full Image%1$s before watermarking', 'feed_them_social' ),
-							'<br/>'
-						),
-					'type'             => 'text',
-					'id'               => 'fts_duplicate_image',
-					'name'             => 'fts_duplicate_image',
-					'default_value'    => '',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
-							'value' => 'no',
-						),
-						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
-							'value' => 'yes',
-						),
-					),
-				),
-				// Watermark Opacity
-				array(
-					'input_wrap_class' => 'ft-gallery-watermark-opacity',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Image Opacity', 'feed_them_social' ),
-					'class'            => 'ft-watermark-opacity',
-					'type'             => 'text',
-					'id'               => 'ft_watermark_image_opacity',
-					'name'             => 'ft_watermark_image_opacity',
-					'default_value'    => '',
-					'placeholder'      => esc_html__( '.5 for example', 'feed_them_social' ),
-					'autocomplete'     => 'off',
-				),
-				// Watermark Position
-				array(
-					'input_wrap_class' => 'ft-watermark-position',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Watermark Position', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'fts_position',
-					'name'             => 'fts_position',
-					'default_value'    => 'bottom-right',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Centered', 'feed_them_social' ),
-							'value' => 'center',
-						),
-						array(
-							'label' => esc_html__( 'Top Right', 'feed_them_social' ),
-							'value' => 'top-right',
-						),
-						array(
-							'label' => esc_html__( 'Top Left', 'feed_them_social' ),
-							'value' => 'top-left',
-						),
-						array(
-							'label' => esc_html__( 'Top Center', 'feed_them_social' ),
-							'value' => 'top-center',
-						),
-						array(
-							'label' => esc_html__( 'Bottom Right', 'feed_them_social' ),
-							'value' => 'bottom-right',
-						),
-						array(
-							'label' => esc_html__( 'Bottom Left', 'feed_them_social' ),
-							'value' => 'bottom-left',
-						),
-						array(
-							'label' => esc_html__( 'Bottom Center', 'feed_them_social' ),
-							'value' => 'bottom-center',
-						),
-					),
-				),
-				// watermark Image Margin
-				array(
-					'option_type'   => 'input',
-					'label'         => esc_html__( 'Watermark Margin', 'feed_them_social' ),
-					'class'         => 'ft-watermark-image-margin',
-					'type'          => 'text',
-					'id'            => 'ft_watermark_image_margin',
-					'name'          => 'ft_watermark_image_margin',
-					'default_value' => '10px',
-					'placeholder'   => esc_html__( '10px', 'feed_them_social' ),
-					'autocomplete'  => 'off',
-				),
-			),
-		);
-
-		return $this->all_options['watermark'];
-	} //END WATERMARK OPTIONS
 
 	/**
 	 * Pagination Options

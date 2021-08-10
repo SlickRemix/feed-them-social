@@ -638,81 +638,6 @@ class Feeds_CPT {
 	 */
 	public function fts_metabox_tabs_list() {
 
-		/*$metabox_tabs_list = array(
-			// Base of each tab! The array keys are the base name and the array value is a list of tab keys.
-			'base_tabs' => array(
-				'post' => array( 'feed_type', 'api_token', 'colors', 'feed_settings', 'watermark', 'pagination', 'tags' ),
-			),
-
-			//'post' => array( 'feed_type', 'api_token', 'colors', 'feed_settings', 'watermark', 'pagination', 'tags' ),
-
-			// Zips Tab!
-			'zips'        => array(
-				'menu_li_class' => 'tab4',
-				'menu_a_text'   => esc_html__( 'Zips', 'feed_them_social' ),
-				'cont_wrap_id'  => 'ftg-tab-content6',
-				'cont_func'     => 'tab_zips_content',
-			),
-
-			// Tabs List! The cont_func item is relative the the Function name for that tabs content. The array Keys for each tab are also relative to classes and ID on wraps of display_metabox_content function.
-			'tabs_list' => array(
-				// Images Tab!
-				'feed_type'      => array(
-					'menu_li_class'      => 'tab1',
-					'menu_a_text'        => esc_html__( 'Feed Selection', 'feed_them_social' ),
-					'menu_a_class'       => 'account-tab-highlight',
-					'menu_aria_expanded' => 'true',
-					'cont_wrap_id'       => 'ftg-tab-content1',
-					'cont_func'          => 'tab_feed_type_content',
-				),
-				// Layout Tab!
-				'layout'      => array(
-					'menu_li_class' => 'tab2',
-					'menu_a_text'   => esc_html__( 'Layout', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content2',
-					'cont_func'     => 'tab_layout_content',
-				),
-				// Color Tab!
-				'colors'      => array(
-					'menu_li_class' => 'tab4',
-					'menu_a_text'   => esc_html__( 'colors', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content4',
-					'cont_func'     => 'tab_colors_content',
-				),
-				// Feed Settings Tab!
-				'feed_settings' => array(
-					'menu_li_class' => 'tab5',
-					'menu_a_text'   => esc_html__( 'Feed Settings', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content5',
-					'cont_func'     => 'tab_feed_settings_content',
-				),
-				// Watermark Tab!
-				'watermark'   => array(
-					'menu_li_class' => 'tab6',
-					'menu_a_text'   => esc_html__( 'Watermark', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content7',
-					'cont_func'     => 'tab_watermark_content',
-				),
-				// Pagination Tab!
-				'pagination'  => array(
-					'menu_li_class' => 'tab7',
-					'menu_a_text'   => esc_html__( 'Pagination', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content8',
-					'cont_func'     => 'tab_pagination_content',
-				),
-				// Tags Tab!
-				'tags'        => array(
-					'menu_li_class' => 'tab8',
-					'menu_a_text'   => esc_html__( 'Tags', 'feed_them_social' ),
-					'cont_wrap_id'  => 'ftg-tab-content9',
-					'cont_func'     => 'tab_tags_content',
-				),
-			),
-		);*/
-
-
-
-
 		$metabox_tabs_list = array(
 			// Base of each tab! The array keys are the base name and the array value is a list of tab keys.
 			'base_tabs' => array(
@@ -928,7 +853,9 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['facebook'], null, $gallery_class->parent_post_id );
+
+		$this->setting_options_js->facebook_js();
 		?>
         <div class="tab-5-extra-options">
 

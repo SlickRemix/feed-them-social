@@ -11,10 +11,12 @@ class Shortcodes {
 
 	public $feed_cache;
 
+	public $metabox_settings;
+
 	/**
 	 * Shortcodes constructor.
 	 */
-	public function __construct( $feed_functions, $feeds_cpt, $feed_cache ){
+	public function __construct( $main_post_type, $feed_functions, $feeds_cpt, $feed_cache ){
 		$this->add_actions_filters();
 
 		// Set Feed Functions object.
@@ -25,6 +27,12 @@ class Shortcodes {
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
+
+		// Set Metabox Settings object.
+		$this->metabox_settings = $feeds_cpt->metabox_settings_class;
+
+		// Main Post Type
+		$this->metabox_settings = $feeds_cpt->metabox_settings_class;
 	}
 
     /**
@@ -49,21 +57,30 @@ class Shortcodes {
 
 	    $cpt_id = $this->cpt_check($inputted_atts);
 
+	    $feed_type = $this->get_feed_type($cpt_id);
+
+	    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
+	    echo $twitter_feed->display_twitter( $inputted_atts );
 
     	//Check the CPT ID exists in Shortcode
     	if ($cpt_id){
-			new FTS_Functions();
-    		$feed_type = $this->get_feed_type($cpt_id);
 
+
+    		//Filter by Feed Type
     		switch ( $feed_type ){
-			    case 'twitter':
+			    case 'facebook-feed-type':
+				    break;
+			    case 'instagram-feed-type':
+				    break;
+			    case 'twitter-feed-type':
+				    // Twitter Feed.
+
+				    break;
+			    case 'youtube-feed-type':
+				    break;
+			    case 'combine-streams-feed-type':
 			    	break;
 		    }
-		    // Twitter Feed.
-		    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
-		    echo $twitter_feed->display_twitter( $inputted_atts );
-
-		    echo print_r($inputted_atts);
 	    }
     }
 
@@ -76,16 +93,17 @@ class Shortcodes {
 	 * @param $cpt_id string
 	 */
 	public function get_feed_type( string $cpt_id ){
-		$cpt_post = get_post( $cpt_id ) ;
+		// Get Saved Settings Array.
+		$saved_settings = $this->metabox_settings->get_saved_settings_array( $cpt_id, 'fts');
 
+		echo '<pre>';
+		print_r($saved_settings);
+		echo '</pre>';
 
-
-		//$this->feed_functions->
-
-		//if( $cpt_post && isset($cpt_post['feed_type']) && !empty($cpt_post['feed_type'])){
-		//	return $cpt_post['feed_type'];
-		//}
-		//return false;
+		if( $saved_settings && isset($saved_settings['feed_type']) && !empty($saved_settings['feed_type'])){
+			return $saved_settings['feed_type'];
+		}
+		return false;
 	}
 
 

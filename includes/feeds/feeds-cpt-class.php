@@ -857,6 +857,16 @@ class Feeds_CPT {
 
 		$this->setting_options_js->facebook_js();
 		?>
+
+        <div class="ft-gallery-note ft-gallery-note-footer">
+            <?php
+            echo sprintf(
+                esc_html__( 'Additional Global options available on the %1$sSettings Page%2$s', 'feed_them_social' ),
+                '<a href="' . esc_url( 'edit.php?post_type=fts&page=ft-gallery-settings-page' ) . '" >',
+                '</a>'
+            );
+            ?>
+        </div>
         <div class="tab-5-extra-options">
 
         </div>
@@ -1000,7 +1010,7 @@ class Feeds_CPT {
                 ?>
                 <p>
                     <label><label><?php echo esc_html__( 'Paste your Old shortcode here and click the blue Convert button. This will map your old options to the new input fields.', 'feed_them_social' ); ?></label>
-                        <input value="[fts_twitter twitter_name=gopro tweets_count=6 search=from:user_name%#YourHashtag twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes popup=yes loadmore=button loadmore_btn_margin='10px 5px 3px' loadmore_btn_maxwidth=20px loadmore_count=7 grid=yes colmn_width=23px space_between_posts='4px 10px']" />
+                        <input value="[fts_facebook hide_date_likes_comments=yes type=page id=1562664650673366 access_token=EAAP9hArvboQBAM2dmJtxprnC6XnDeWfkEbgHPnhZBgvQ79OZA3Q9C3dsTTN9RsrvFpSB3MKBjIg4LhT5QWZAntzrL2tgZAjJh8STYCrsIjVqR0j9gM0yZAbW2mkWJUd78sCKxkKCWHKtgOt7kwZCzOwaxZAarvRFZCFSDizEAXpUhqZAOjRTbwRiP posts=6 title=no title_align=center description=no height=350px show_media=top show_thumbnail=no show_date=yes show_name=yes words=45 popup=yes grid=yes posts_displayed=page_only center_container=yes image_stack_animation=no colmn_width=310px images_align=center album_id=photo_stream image_width=250px image_height=250px space_between_photos=1px space_between_posts=10px show_follow_btn_where=below_title like_option_align=center like_box_width=500px hide_like_option=no hide_comments_popup=no loadmore=autoscroll loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]" />
                 </p><div class="publishing-action" style="text-align: right;"><div id="fts-convert-old-shortcode" class="button-primary button-large">Convert</div></div>
 
                 <?php

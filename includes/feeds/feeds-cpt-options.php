@@ -1207,7 +1207,7 @@ class Feed_CPT_Options {
 					'input_wrap_class' => 'fb_page_id',
 					'label'       => __( 'Facebook ID (required)', 'feed-them-social' ),
 					'instructional-text' => array(
-						array(
+						/*array(
 							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator page inst-text-facebook-page',
 						),
@@ -1222,12 +1222,12 @@ class Feed_CPT_Options {
 						array(
 							'text' => __( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . __( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator event inst-text-facebook-event',
-						),
+						),*/
 						array(
 							'text' => __( 'To show a specific Album copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . __( 'Facebook Album ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the third input below. If you want to show all your uploaded photos leave the Album ID input blank.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator album_photos inst-text-facebook-album-photos',
 						),
-						array(
+						/*array(
 							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator albums inst-text-facebook-albums',
 						),
@@ -1238,7 +1238,7 @@ class Feed_CPT_Options {
 						array(
 							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator reviews inst-text-facebook-reviews',
-						),
+						),*/
 					),
 					'type'        => 'text',
 					'id'          => 'fb_page_id',
@@ -1249,12 +1249,12 @@ class Feed_CPT_Options {
 					'short_attr'  => array(
 						'attr_name'    => 'id',
 						'var_final_if' => 'no',
-						'empty_error'  => 'yes',
+						'empty_error'  => 'no',
 					),
 				),
 
 				// Access Token
-				array(
+				/*array(
 					'option_type' => 'input',
 					'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
@@ -1272,7 +1272,7 @@ class Feed_CPT_Options {
 						'empty_error'  => 'set',
 						'empty_error_value' => '',
 					),
-				),
+				),*/
 
 				// Facebook Album ID
 				array(
@@ -1667,29 +1667,6 @@ class Feed_CPT_Options {
 					'sub_options_end' => true,
 				),
 
-				// Image Stacking Animation NOT USING THIS ANYMORE
-				array(
-					'option_type' => 'input',
-					'label'       => __( 'Image Stacking Animation On', 'feed-them-social' ),
-					'label_note'  => __( 'This happens when resizing browser', 'feed-them-social' ),
-					'type'        => 'hidden',
-
-					// used to trick is Visible in JS
-					'class'       => 'non-visible',
-					'id'          => 'fts-slicker-facebook-container-animation',
-					'name'        => 'fts-slicker-facebook-container-animation',
-					'value'       => 'no',
-					'short_attr'  => array(
-						'attr_name' => 'image_stack_animation',
-						'empty_error' => 'set',
-						'empty_error_value' => 'image_stack_animation=no',
-						'ifs' => 'grid',
-					),
-					'sub_options' => array(
-						'sub_options_wrap_class' => 'facebook-image-animation-option-wrap',
-					),
-					'sub_options_end' => true,
-				),
 
 				// Align Images non-grid
 				array(

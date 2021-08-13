@@ -569,7 +569,8 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     margin: 12px 0
 }
 
-.fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap {
+.fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap, .fts-super-facebook-options-wrap,
+#ftg-tab-content6 .align-images-wrap {
     display: none
 }
 
@@ -881,7 +882,7 @@ h3.sectioned-options-title {
     }
 }
 
-#ftg-tab-content2 h3.sectioned-options-title, #ftg-tab-content3 h3.sectioned-options-title, #ftg-tab-content8 h3.sectioned-options-title, #ftg-tab-content9 h3.sectioned-options-title, #ftg-tab-content7 h3.sectioned-options-title, #ftg-tab-content5 h3.sectioned-options-title {
+#ftg-tab-content6 h3.sectioned-options-title,  #ftg-tab-content2 h3.sectioned-options-title, #ftg-tab-content3 h3.sectioned-options-title, #ftg-tab-content8 h3.sectioned-options-title, #ftg-tab-content9 h3.sectioned-options-title, #ftg-tab-content7 h3.sectioned-options-title, #ftg-tab-content5 h3.sectioned-options-title {
     padding-bottom: 0;
     margin-top: 20px !important;
     padding-top: 10px !important;
@@ -916,7 +917,7 @@ h3.sectioned-options-title {
     margin: 5px 0 0 20px
 }
 
-.ft-gallery-woo-btns-wrap-for-popup {
+.ft-gallery-woo-btns-wrap-for-popup, .fb_album_photos_id {
     display: none
 }
 
@@ -1023,8 +1024,11 @@ h3.sectioned-options-title {
     margin: 5px
 }
 
-.ft-gallery-meta-wrap input.readonly, .ft-gallery-meta-wrap input[readonly] {
-    background: rgba(238, 238, 238, .51)
+.ft-gallery-meta-wrap input.readonly, .ft-gallery-meta-wrap input[readonly], #ft-galleries-old-shortcode-side-mb input {
+    background: rgba(238,238,238,.51);
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
 }
 
 .ft-gallery-premium-mesg {
@@ -1258,4 +1262,16 @@ button.ft-gallery-edit-img-popup {
 }
 .twitter-hashtag-etc-wrap h3 {
     padding-top:100px;
+}
+#fb_page_id, .fb_page_id .feed_them_social-admin-input-label  {
+    display:none
+}
+.fb_page_id.feed_them_social-admin-input-wrap {
+    padding: 0 11px 0 0 !important;
+    border: none !important;
+    min-height: auto !important;
+    margin: 0 !important;
+}
+.album_photos.inst-text-facebook-album-photos {
+    margin:20px 20px 0px 20px;
 }

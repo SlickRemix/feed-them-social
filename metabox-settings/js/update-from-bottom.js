@@ -1,6 +1,5 @@
 (function ($) {
     "use strict";
-
     $( document ).ready(function() {
 
         $('<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">Main Options</div><div class="fts-settings-tab">Additional Options</div></div>').insertBefore( '.fts-facebook_page-shortcode-form .fts-social-selector' );

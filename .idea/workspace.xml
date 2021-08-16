@@ -2,22 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="3.0.0 - Get 3.0.0 caught up with current version 2.9.5 of FTS">
-      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.eot" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.woff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/includes/cpt/css/font/fa-brands-400.woff2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.eot" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.eot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.svg" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.woff" beforeDir="false" afterPath="$PROJECT_DIR$/admin/css/fonts/SlickRemix.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/cpt/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/includes/cpt/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/feeds/feeds-cpt-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/feeds/feeds-cpt-class.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metabox-settings/css/admin-pages.css" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/css/admin-pages.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/metabox-settings/css/metabox.css" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/css/metabox.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/metabox-settings/js/metabox.js" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/js/metabox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metabox-settings/metabox-settings-class.php" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/metabox-settings-class.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/metabox-settings/js/update-from-bottom.js" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/js/update-from-bottom.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +42,7 @@
     </servers>
   </component>
   <component name="ProjectId" id="1r5qjRGvDFRyfJUH9UYqkzIhbw8" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -106,6 +96,7 @@
       <workItem from="1618851652211" duration="975000" />
       <workItem from="1619113945914" duration="8748000" />
       <workItem from="1622656980734" duration="20000" />
+      <workItem from="1628620387815" duration="28291000" />
     </task>
     <task id="LOCAL-00001" summary="3.0.0 - CPT Refactor Branch!">
       <created>1618278949335</created>
@@ -128,7 +119,21 @@
       <option name="project" value="LOCAL" />
       <updated>1619545961534</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Shortcode converter">
+      <created>1628115361255</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1628115361255</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Shortcode Converter">
+      <created>1628886062695</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1628886062695</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,7 +153,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="3.0.0 - CPT Refactor Branch!" />
-    <option name="LAST_COMMIT_MESSAGE" value="3.0.0 - CPT Refactor Branch!" />
+    <MESSAGE value="Shortcode converter" />
+    <MESSAGE value="Shortcode Converter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Shortcode Converter" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -167,6 +174,11 @@
           <url>file://$PROJECT_DIR$/includes/feeds/twitter/class-fts-twitter-feed.php</url>
           <line>414</line>
           <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/class-load-plugin.php</url>
+          <line>310</line>
+          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

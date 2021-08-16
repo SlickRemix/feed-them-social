@@ -3,6 +3,20 @@
 
     $( document ).ready(function() {
 
+        $('<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">Main Options</div><div class="fts-settings-tab">Additional Options</div></div>').insertBefore( '.fts-facebook_page-shortcode-form .fts-social-selector' );
+
+        $( '.fts-feed-settings-tabs-wrap div' ).click(
+            function () {
+                $('.fts-feed-settings-tabs-wrap div').removeClass('fts-sub-tab-active');
+                $(this).addClass('fts-sub-tab-active');
+                if( $('.fts-settings-tab').hasClass('fts-sub-tab-active') ){
+                    $('.feed_them_social-admin-input-wrap, .not-active-premium-fields').hide();
+                }
+                else {
+                    $('.feed_them_social-admin-input-wrap, .not-active-premium-fields').show();
+                }
+            }
+        );
        // const name = "[fts_twitter twitter_name=gopro tweets_count=6 search=from:user_name%#YourHashtag twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes popup=yes loadmore=button loadmore_btn_margin='10px 5px 3px' loadmore_btn_maxwidth=20px loadmore_count=7 grid=yes colmn_width=23px space_between_posts='4px 10px']"
        // console.log( name.replace(/\'/g, '"').replace(/\s+(?=(?:[^"]*"[^"]*")*[^"]*"[^"]*$)/gm, '*').replace(/\"/g, "") );
 

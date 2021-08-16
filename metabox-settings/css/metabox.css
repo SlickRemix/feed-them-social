@@ -1275,3 +1275,13 @@ button.ft-gallery-edit-img-popup {
 .album_photos.inst-text-facebook-album-photos {
     margin:20px 20px 0px 20px;
 }
+.fts-feed-settings-tabs-wrap div {
+    padding:10px 15px;
+    display:inline-block;
+    background:#eee;
+    margin:0 1px 0 0;
+    cursor:pointer;
+}
+.fts-feed-settings-tabs-wrap div:hover, div.fts-sub-tab-active {
+    background:#f9f9f9;
+}

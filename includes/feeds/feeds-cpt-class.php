@@ -641,7 +641,7 @@ class Feeds_CPT {
 		$metabox_tabs_list = array(
 			// Base of each tab! The array keys are the base name and the array value is a list of tab keys.
 			'base_tabs' => array(
-				'post' => array( 'feed_setup', 'layout', 'colors', 'facebook_feed', 'instagram_feed', 'twitter_feed', 'youtube_feed', 'combined_streams_feed' ),
+				'post' => array( 'feed_setup', 'layout', 'colors', 'facebook_feed', 'instagram_feed', 'twitter_feed', 'youtube_feed', 'combine_streams_feed' ),
 			),
 			// Tabs List! The cont_func item is relative the the Function name for that tabs content. The array Keys for each tab are also relative to classes and ID on wraps of display_metabox_content function.
 			'tabs_list' => array(
@@ -697,11 +697,11 @@ class Feeds_CPT {
 					'cont_func'     => 'tab_youtube_feed',
 				),
 				// Combined Streams Feed Settings Tab!
-				'combined_streams_feed'        => array(
+				'combine_streams_feed'        => array(
 					'menu_li_class' => 'tab8',
 					'menu_a_text'   => esc_html__( 'Combined', 'feed_them_social' ),
 					'cont_wrap_id'  => 'ftg-tab-content9',
-					'cont_func'     => 'tab_combined_streams_feed',
+					'cont_func'     => 'tab_combine_streams_feed',
 				),
 			),
 		);
@@ -891,7 +891,9 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['instagram'], null, $gallery_class->parent_post_id );
+
+		$this->setting_options_js->instagram_js();
 		?>
         <div class="tab-5-extra-options">
 
@@ -947,7 +949,9 @@ class Feeds_CPT {
 					</div>
 				<?php }
 
-		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		    echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['youtube'], null, $gallery_class->parent_post_id );
+
+		    $this->setting_options_js->youtube_js();
 		        ?>
 				<div class="tab-5-extra-options">
 
@@ -963,7 +967,7 @@ class Feeds_CPT {
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_combined_streams_feed( $params ) {
+	public function tab_combine_streams_feed( $params ) {
 		$gallery_class = $params['this'];
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
@@ -973,7 +977,10 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		//echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['combine'], null, $gallery_class->parent_post_id );
+
+		$this->setting_options_js->combine_js();
+
 		?>
         <div class="tab-5-extra-options">
 

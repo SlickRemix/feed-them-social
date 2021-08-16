@@ -329,7 +329,7 @@ class Settings_Options_JS {
 
 		<?php
 	}
-
+    //Combine JS
 	public function combine_js(){
 		?>
 		<script>

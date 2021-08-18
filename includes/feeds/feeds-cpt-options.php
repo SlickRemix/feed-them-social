@@ -3497,8 +3497,6 @@ class Feed_CPT_Options {
             // Feed Type Selection
             'feed_type_select'   => array(
                 'label'          => __( 'Feed Type', 'feed-them-social' ),
-                'select_wrap_classes' => 'twitter-gen-selection',
-                'select_classes' => '',
                 'select_name'    => 'twitter-messages-selector',
                 'select_id'      => 'twitter-messages-selector',
             ),
@@ -3528,6 +3526,7 @@ class Feed_CPT_Options {
 		            'option_type' => 'select',
 		            'label'       => __( 'Feed Type', 'feed-them-social' ),
 		            'type'        => 'text',
+                    'input_wrap_class' => 'twitter-messages-selector',
 		            'id'          => 'twitter-messages-selector',
 		            'name'        => 'twitter-messages-selector',
 		            'default_value'    => '',
@@ -4753,8 +4752,8 @@ class Feed_CPT_Options {
 
 				// Combined Total # of Posts
 				array(
-					'grouped_options_title' => __( 'Combined Stream', 'feed-them-social' ),
 					'option_type' => 'input',
+                    'input_wrap_class' => 'combine_post_count',
 					'label'       => __( 'Combined Total # of Posts', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'combine_post_count',
@@ -4930,7 +4929,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'combine_hide_date',
 					'option_type' => 'select',
-					'label'       => __( 'Show Username', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Show Date', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'combine_hide_date',
 					'name'        => 'combine_hide_date',
@@ -4954,7 +4953,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'combine_hide_name',
 					'option_type' => 'select',
-					'label'       => __( 'Show Date', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Show Username', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'combine_hide_name',
 					'name'        => 'combine_hide_name',

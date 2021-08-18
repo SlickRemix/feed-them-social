@@ -2,7 +2,8 @@
     "use strict";
     $( document ).ready(function() {
 
-        $('<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">Main Options</div><div class="fts-settings-tab">Additional Options</div></div>').insertBefore( '.fts-facebook_page-shortcode-form .fts-social-selector' );
+        var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';
+        $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-social-selector, .fts-instagram-shortcode-form .instagram_name, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube_name, .fts-combine-steams-shortcode-form .combine_post_count' );
 
         $( '.fts-feed-settings-tabs-wrap div' ).click(
             function () {
@@ -16,9 +17,10 @@
                 }
             }
         );
-       // const name = "[fts_twitter twitter_name=gopro tweets_count=6 search=from:user_name%#YourHashtag twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes popup=yes loadmore=button loadmore_btn_margin='10px 5px 3px' loadmore_btn_maxwidth=20px loadmore_count=7 grid=yes colmn_width=23px space_between_posts='4px 10px']"
-       // console.log( name.replace(/\'/g, '"').replace(/\s+(?=(?:[^"]*"[^"]*")*[^"]*"[^"]*$)/gm, '*').replace(/\"/g, "") );
+        // const name = "[fts_twitter twitter_name=gopro tweets_count=6 search=from:user_name%#YourHashtag twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes popup=yes loadmore=button loadmore_btn_margin='10px 5px 3px' loadmore_btn_maxwidth=20px loadmore_count=7 grid=yes colmn_width=23px space_between_posts='4px 10px']"
+        // console.log( name.replace(/\'/g, '"').replace(/\s+(?=(?:[^"]*"[^"]*")*[^"]*"[^"]*$)/gm, '*').replace(/\"/g, "") );
 
+        // Convert Old Shortcode click function
         $( '#fts-convert-old-shortcode' ).click(
             function () {
 
@@ -146,6 +148,18 @@
                             else if ( 'hide_date_likes_comments' == attribute ){
                                 $( id + '#fts-slicker-facebook-container-hide-date-likes-comments option[value=yes]' ).attr('selected','selected');
                             }
+                            else if ( 'hide_see_more_reviews_link' == attribute ){
+                                $( id + '#hide_see_more_reviews_link option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'remove_reviews_no_description' == attribute ){
+                                $( id + '#reviews_with_no_text option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'play_btn' == attribute ){
+                                $( id + '#facebook_show_video_button option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'play_btn_visible' == attribute ){
+                                $( id + '#facebook_show_video_button_in_front option[value=yes]' ).attr('selected','selected');
+                            }
                         }
                         else if ( 'height' == attribute ){
                             $( id + '#facebook_page_height' ).val( value );
@@ -251,6 +265,18 @@
                             $( id + '#fb_load_more_option option[value=yes]' ).attr('selected','selected');
                             $( id + '.fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap' ).show();
                         }
+                        else if ( 'overall_rating' == attribute && 'no' == value ){
+                            $( id + '#reviews_overall_rating_show option[value=no]' ).attr('selected','selected');
+                        }
+                        else if ( 'remove_reviews_no_description' == attribute && 'no' == value ){
+                            $( id + '#reviews_with_no_text option[value=yes]' ).attr('selected','selected');
+                        }
+                        else if ( 'play_btn_size' == attribute ){
+                            $( id + '#facebook_size_video_play_btn' ).val( value );
+                        }
+                        else if ( 'scrollhorz_or_carousel' == attribute ){
+                            $( id + '#fts-slider option[value=yes]' ).attr('selected','selected');
+                        }
                         else {
                             if( 'loadmore_btn_margin' == attribute ){
                                 $( '#loadmore_button_margin' ).val( value );
@@ -272,10 +298,287 @@
                             }
                         }
                     }
+
+                    if( fts_shortcode_fix.includes("fts_youtube") ){
+
+                        var id = '#ftg-tab-content8 ';
+
+                        if( 'yes' == value ){
+                            if ( 'grid' == attribute ){
+                                //alert( 'test' );
+                                $( id + '#twitter-grid-option option[value=yes]' ).attr('selected','selected');
+                                $( id + '.fts-twitter-grid-options-wrap' ).show();
+                            }
+                            else if ( 'large_vid_title' == attribute ){
+                                $( id + '#youtube_large_vid_title option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'large_vid_description' == attribute ){
+                                $( id + '#youtube_large_vid_description option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'omit_first_thumbnail' == attribute ) {
+                                $( id + '#youtube_omit_first_thumbnail option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'force_columns' == attribute ){
+                                $( id + '#fts_youtube_force_columns option[value=yes]' ).attr('selected','selected');
+                            }
+                        }
+                        else {
+                            if ( 'thumbs_play_in_iframe' == attribute ){
+                                $( id + '#youtube_play_thumbs' ).val( value );
+                            }
+                            else if ( 'vids_in_row' == attribute ){
+                                $( id + '#youtube_columns' ).val( value );
+                            }
+                            else if ( 'loadmore' == attribute ){
+                                // alert( 'test' );
+                                if ( 'autoscroll' == value ){
+                                    $( id + '#youtube_load_more_style option[value=autoscroll]' ).attr('selected','selected');
+                                }
+                                $( id + '#youtube_load_more_option option[value=yes]' ).attr('selected','selected');
+                                $( id + '.fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap' ).show();
+                            }
+                            else if ( 'large_vid' == attribute ){
+                                $( id + '#youtube_first_video option[value=no]' ).attr('selected','selected');
+                            }
+                            else if ( 'maxres_thumbnail_images' == attribute ){
+                                $( id + '#youtube_maxres_thumbnail_images option[value=no]' ).attr('selected','selected');
+                            }
+                            else if ( 'wrap' == attribute ){
+                                $( id + '#youtube_thumbs_wrap' ).val( value );
+                            }
+                            else if ( 'wrap_single' == attribute ){
+                                $( id + '#youtube_comments_wrap' ).val( value );
+                            }
+                            else if ( 'video_wrap_display' == attribute ){
+                                $( id + '#youtube_video_thumbs_display' ).val( value );
+                            }
+                            else if ( 'video_wrap_display_single' == attribute ){
+                                $( id + '#youtube_video_comments_display' ).val( value );
+                            }
+                            else if( 'loadmore_btn_margin' == attribute ){
+                                $( '#youtube_loadmore_button_margin' ).val( value );
+                            }
+                            else if ( 'thumbs_wrap_color' == attribute ){
+                                $( '#youtube_thumbs_wrap_color' ).val( value );
+                            }
+                            else if ( 'space_between_videos' == attribute ){
+                                $( '#fts-slicker-youtube-container-margin' ).val( value );
+                            }
+                            else if ( 'channel_id' == attribute ){
+                                $( '#youtube_channelID' ).val( value );
+                            }
+                            else if ( 'vid_count' == attribute ){
+                                $( '#youtube_vid_count' ).val( value );
+                            }
+                            else if ( 'loadmore_btn_maxwidth' == attribute ){
+                                $( '#youtube_loadmore_button_width' ).val( value );
+                            }
+                            else if ( 'loadmore_count' == attribute ){
+                                $( '#youtube_loadmore_count' ).val( value );
+                            }
+                            else if ( 'colmn_width' == attribute ){
+                                $( '#youtube_grid_column_width' ).val( value );
+                            }
+                            else if ( 'space_between_posts' == attribute ){
+                                $( '#youtube_grid_space_between_posts' ).val( value );
+                            }
+                            else if ( 'comments_count' == attribute ){
+                                $( '#youtube_comments_count' ).val( value );
+                            }
+                            else {
+                                $(attribute_id).val(value);
+                            }
+                        }
+                    }
+
+                    if( fts_shortcode_fix.includes("fts_instagram") ){
+
+                        var id = '#ftg-tab-content5 ';
+
+                        if( 'yes' == value ){
+                            if ( 'grid' == attribute ){
+                                //alert( 'test' );
+                                $( id + '#twitter-grid-option option[value=yes]' ).attr('selected','selected');
+                                $( id + '.fts-twitter-grid-options-wrap' ).show();
+                            }
+                            else if( 'popup' == attribute ){
+                                $( '#instagram_popup_option option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if( 'hide_date_likes_comments' == attribute ){
+                                $( '#fts-slicker-instagram-container-hide-date-likes-comments option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if( 'force_columns' == attribute ){
+                                $( '#fts_instagram_force_columns option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'profile_wrap' == attribute ){
+                                $( '#instagram-profile-wrap option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'profile_photo' == attribute ){
+                                $( '#instagram-profile-photo option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'profile_stats' == attribute ){
+                                $( '#instagram-profile-stats option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'profile_name' == attribute ){
+                                $( '#instagram-profile-name option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'profile_description' == attribute ){
+                                $( '#instagram-profile-description option[value=yes]' ).attr('selected','selected');
+                            }
+                        }
+                        else {
+                            if ( 'loadmore' == attribute ){
+                                // alert( 'test' );
+                                if ( 'autoscroll' == value ){
+                                    $( id + '#instagram_load_more_style option[value=autoscroll]' ).attr('selected','selected');
+                                }
+                                $( id + '#instagram_load_more_option option[value=yes]' ).attr('selected','selected');
+                                $( id + '.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap' ).show();
+                            }
+                            else if ( 'hashtag' == attribute ){
+                                $( '#instagram_hashtag' ).val( value );
+                            }
+                            else if( 'search' == attribute ){
+                                $( '#instagram_hashtag_type' ).val( value );
+                            }
+                            else if( 'columns' == attribute ){
+                                $( '#fts_instagram_columns' ).val( value );
+                            }
+                            else if( 'loadmore_btn_margin' == attribute ){
+                                $( '#instagram_loadmore_button_margin' ).val( value );
+                            }
+                            else if ( 'loadmore_btn_maxwidth' == attribute ){
+                                $( '#instagram_loadmore_button_width' ).val( value );
+                            }
+                            else if ( 'loadmore_count' == attribute ){
+                                $( '#instagram_loadmore_count' ).val( value );
+                            }
+                            else if ( 'colmn_width' == attribute ){
+                                $( '#instagramgrid_column_width' ).val( value );
+                            }
+                            else if ( 'space_between_posts' == attribute ){
+                                $( '#instagram_grid_space_between_posts' ).val( value );
+                            }
+                            else if ( 'width' == attribute ){
+                                $( '#instagram_page_width' ).val( value );
+                            }
+                            else if ( 'height' == attribute ){
+                                $( '#instagram_page_height' ).val( value );
+                            }
+                            else {
+                                $(attribute_id).val(value);
+                            }
+                        }
+                    }
+
+                    if( fts_shortcode_fix.includes("fts_mashup") ){
+
+                        var id = '#ftg-tab-content9 ';
+
+                        if( 'yes' == value ){
+                            if ( 'grid' == attribute ){
+                                //alert( 'test' );
+                                $( id + '#combine_grid_option option[value=yes]' ).attr('selected','selected');
+                                $( id + '.fts-combine-grid-options-wrap' ).show();
+                            }
+                            else if( 'popup' == attribute ){
+                                $( '#instagram_popup_option option[value=yes]' ).attr('selected','selected');
+                            }
+                        }
+                        else {
+                            if ( 'posts' == attribute ){
+                                $( '#combine_post_count' ).val( value );
+                            }
+                            else if( 'facebook_name' == attribute ){
+                                $( id + '#combine_facebook option[value=yes]' ).attr('selected','selected');
+                                $( id + '#combine_facebook_name' ).val( value );
+                            }
+                            else if( 'twitter_name' == attribute ){
+                                $( id + '#combine_twitter option[value=yes]' ).attr('selected','selected');
+                                $( id + '#combine_twitter_name' ).val( value );
+                            }
+                            else if( 'instagram_name' == attribute ){
+                                $( id + '#combine_instagram option[value=yes]' ).attr('selected','selected');
+                                $( id + '#combine_instagram_name' ).val( value );
+                            }
+                            else if( 'instagram_type' == attribute ){
+                                $( id + '#combine_instagram_type' ).val( value );
+                            }
+                            else if( 'hashtag' == attribute ){
+                                $( id + '#combine_instagram_hashtag' ).val( value );
+                            }
+                            else if ( 'social_network_posts' == attribute ){
+                                $( '#combine_social_network_post_count' ).val( value );
+                            }
+                            else if ( 'instagram_search' == attribute ){
+                                $( '#combine_instagram_hashtag_type' ).val( value );
+                            }
+                            else if ( 'words' == attribute ){
+                                $( '#combine_word_count_option' ).val( value );
+                            }
+                            else if( 'center_container' == attribute ){
+                                $( '#combine_container_position option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'height' == attribute ){
+                                $( '#combine_height' ).val( value );
+                            }
+                            else if ( 'column_width' == attribute ){
+                                $( '#combine_grid_column_width' ).val( value );
+                            }
+                            else if ( 'space_between_posts' == attribute ){
+                                $( '#combine_grid_space_between_posts' ).val( value );
+                            }
+                            else if ( 'background_color' == attribute ){
+                                $( '#combine_background_color' ).val( value );
+                            }
+                            else if ( 'show_social_icon' == attribute ){
+                                $( '#combine_show_social_icon' ).val( value );
+                            }
+                            else if ( 'show_media' == attribute ){
+                                $( '#combine_show_media' ).val( value );
+                            }
+                            else if( 'show_date' == attribute ){
+                                $( '#combine_hide_date option[value=no]' ).attr('selected','selected');
+                            }
+                            else if( 'show_name' == attribute ){
+                                $( '#combine_hide_name option[value=no]' ).attr('selected','selected');
+                            }
+                            else if ( 'padding' == attribute ){
+                                $( '#combine_padding' ).val( value );
+                            }
+                            else if ( 'youtube_name' == attribute ){
+                                $( '#combine_youtube_name' ).val( value );
+                                $( '#combine_youtube option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'channel_id' == attribute ){
+                                $( '#combine_channel_id' ).val( value );
+                                $( '#combine_youtube option[value=yes]' ).attr('selected','selected');
+                            }
+                            else if ( 'playlist_id' == attribute ){
+                                $( '#combine_playlist_id' ).val( value );
+                                $( '#combine_youtube option[value=yes]' ).attr('selected','selected');
+                            }
+                            else {
+                                $(attribute_id).val(value);
+                            }
+                        }
+                    }
+                }
+                // This is outside the foreach loop because of it's complicated nature.
+                if ( $( '#combine_youtube_name').val() && ! $( '#combine_playlist_id' ).val() ) {
+                    $( '#combine_youtube_type option[value=username]' ).attr('selected','selected');
+                }
+                else if ( $( '#combine_youtube_name').val() && $( '#combine_playlist_id' ).val() ) {
+                    $( '#combine_youtube_type option[value=userPlaylist]' ).attr('selected','selected');
+                }
+                else if ( $( '#combine_channel_id').val() && ! $( '#combine_playlist_id' ).val() ) {
+                    $( '#combine_youtube_type option[value=channelID]' ).attr('selected','selected');
+                }
+                else if ( $( '#combine_channel_id').val() && $( '#combine_playlist_id' ).val() ) {
+                    $( '#combine_youtube_type option[value=playlistID]' ).attr('selected','selected');
                 }
             }
         );
-
 
         // Button markup depending on post/page status
         if($('#publish, #publishing-action input[type=submit]').val() == updatefrombottomParams.publish) {

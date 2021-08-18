@@ -260,7 +260,10 @@ class Metabox_Settings {
 					'publish'                        => esc_html__( 'Publish', 'feed_them_social' ),
 					'publishing'                     => esc_html__( 'Publishing...', 'feed_them_social' ),
 					'updating'                       => esc_html__( 'Updating...', 'feed_them_social' ),
-					'totop'                          => esc_html__( 'To top', 'feed_them_social' ),
+					'totop'                          => esc_html__( 'To topeeeee', 'feed_them_social' ),
+                    // These next 2 options where added for the Main Options and Additional Options sub tabs under each feed.
+                    'mainoptions'                    => esc_html__( 'Main Options', 'feed_them_social' ),
+                    'additionaloptions'            => esc_html__( 'Additional Options', 'feed_them_social' ),
 					// used in the success message for when images have been completely uploaded in the drag and drop are or file add button.
 					'images_complete_on_auto_upload' => esc_html__( 'The Image(s) are done uploading. Please click the Publish or Update button now to edit your image(s).', 'feed_them_social' ),
 				)

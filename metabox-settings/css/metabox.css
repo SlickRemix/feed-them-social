@@ -1056,10 +1056,6 @@ ul.ftg-free-list {
     pointer-events: none
 }
 
-#ft-galleries-upload-mb {
-    min-height: 476px
-}
-
 #ftg-tab-content5 .ft-gallery-premium-mesg {
     margin-bottom: 25px !important
 }
@@ -1284,4 +1280,7 @@ button.ft-gallery-edit-img-popup {
 }
 .fts-feed-settings-tabs-wrap div:hover, div.fts-sub-tab-active {
     background:#f9f9f9;
+}
+.not-active-premium-fields {
+    display: block !important;
 }

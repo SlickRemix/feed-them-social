@@ -260,7 +260,7 @@ class Metabox_Settings {
 					'publish'                        => esc_html__( 'Publish', 'feed_them_social' ),
 					'publishing'                     => esc_html__( 'Publishing...', 'feed_them_social' ),
 					'updating'                       => esc_html__( 'Updating...', 'feed_them_social' ),
-					'totop'                          => esc_html__( 'To topeeeee', 'feed_them_social' ),
+					'totop'                          => esc_html__( 'To top', 'feed_them_social' ),
                     // These next 2 options where added for the Main Options and Additional Options sub tabs under each feed.
                     'mainoptions'                    => esc_html__( 'Main Options', 'feed_them_social' ),
                     'additionaloptions'            => esc_html__( 'Additional Options', 'feed_them_social' ),
@@ -741,6 +741,7 @@ class Metabox_Settings {
 			array(
 				'a'      => array(
 					'href'  => array(),
+                    'target'  => array(),
 					'title' => array(),
 					'class' => array(),
 				),

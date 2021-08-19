@@ -277,7 +277,7 @@ class Feed_CPT_Options {
 					'label'              => esc_html__( 'Number of Columns', 'feed_them_social' ),
 					'type'               => 'text',
 					'instructional-text' => sprintf(
-						esc_html__( '%1$sNOTE:%2$s Using the Columns option will make this gallery fully responsive and it will adapt in size to your containers width. Choose the Number of Columns and Space between each image below.', 'feed_them_social' ),
+						esc_html__( '%1$sNOTE:%2$s Choose the Number of Columns and Space between each image below.', 'feed_them_social' ),
 						'<strong>',
 						'</strong>'
 					),
@@ -325,7 +325,7 @@ class Feed_CPT_Options {
 					'label'              => esc_html__( 'Number of Columns', 'feed_them_social' ),
 					'type'               => 'text',
 					'instructional-text' => sprintf(
-						esc_html__( '%1$sNOTE:%2$s Using the Columns option will make this gallery fully responsive and it will adapt in size to your containers width. Choose the Number of Columns and Space between each image below.', 'feed_them_social' ),
+						esc_html__( '%1$sNOTE:%2$s Choose the Number of Columns and Space between each image below.', 'feed_them_social' ),
 						'<strong>',
 						'</strong>'
 					),
@@ -2835,6 +2835,32 @@ class Feed_CPT_Options {
 
 			// Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
 			'main_options'       => array(
+
+                // Feed Type
+                array(
+                    'option_type' => 'select',
+                    'label'       => __( 'Feed Type', 'feed-them-social' ),
+                    'type'        => 'text',
+                    'input_wrap_class' => 'instagram-messages-selector',
+                    'id'          => 'instagram-messages-selector',
+                    'name'        => 'instagram-messages-selector',
+                    'default_value'    => '',
+                    'options'     => array(
+                        array(
+                            'label' => __( 'Basic', 'feed-them-social' ),
+                            'value' => 'basic',
+                        ),
+                        array(
+                            'label' => __( 'Business', 'feed-them-social' ),
+                            'value' => 'business',
+                        ),
+                        array(
+                            'label' => __( 'Hashtag', 'feed-them-social' ),
+                            'value' => 'hashtag',
+                        ),
+                    ),
+                ),
+
 				// Instagram ID
 				array(
 					'option_type' => 'input',
@@ -2843,11 +2869,7 @@ class Feed_CPT_Options {
 						1 => array(
 							'text' => __( 'Instagram ID # (required)', 'feed-them-social' ),
 							'class' => 'instagram-user-option-text',
-						),
-						2 => array(
-							'text' => __( 'Location ID (required)', 'feed-them-social' ),
-							'class' => 'instagram-location-option-text',
-						),
+						)
 					),
 					'type'        => 'text',
 					'id'          => 'instagram_id',
@@ -2857,11 +2879,7 @@ class Feed_CPT_Options {
 						1 => array(
 							'text' => __( '<div class="fts-insta-info-plus-wrapper">If your Access Token is set on the Instagram Options page of our plugin your ID should appear below.</div>', 'feed-them-social' ),
 							'class' => 'instagram-user-option-text',
-						),
-						2 => array(
-							'text' => __( '<strong>NOTE:</strong> The post count may not count proper in some location instances because private instagram photos are in the mix. We cannot pull private accounts photos in any location feed. Add your Location ID below.', 'feed-them-social' ),
-							'class' => 'instagram-location-option-text',
-						),
+						)
 					),
 
 					// Relative to JS.
@@ -2980,6 +2998,7 @@ class Feed_CPT_Options {
 						'attr_name' => 'type',
 					),
 				),
+
 
 				// Instagram Width
 				array(
@@ -3171,7 +3190,7 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Number of Columns', 'feed-them-social' ),
 					'type'        => 'text',
-					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong>' . __( 'Using the Columns option will make this gallery fully responsive and it will adapt in size to your containers width. Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
+					'instructional-text' => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
 					'id'          => 'fts_instagram_columns',
 					'name'        => 'fts_instagram_columns',
 					'default_value' => '3',
@@ -3521,7 +3540,7 @@ class Feed_CPT_Options {
             // Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
             'main_options'       => array(
 
-	            // Show Cover Photo
+	            // Feed Type
 	            array(
 		            'option_type' => 'select',
 		            'label'       => __( 'Feed Type', 'feed-them-social' ),
@@ -4013,6 +4032,35 @@ class Feed_CPT_Options {
 
 			'main_options'       => array(
 
+                // Feed Type
+                array(
+                    'option_type' => 'select',
+                    'label'       => __( 'Feed Type', 'feed-them-social' ),
+                    'type'        => 'text',
+                    'input_wrap_class' => 'youtube-messages-selector',
+                    'id'          => 'youtube-messages-selector',
+                    'name'        => 'youtube-messages-selector',
+                    'default_value'    => '',
+                    'options'     => array(
+                        array(
+                            'label' => __( 'Channel Feed', 'feed-them-social' ),
+                            'value' => 'channelID',
+                        ),
+                        array(
+                            'label' => __( 'Channel\'s Specific Playlist', 'feed-them-social' ),
+                            'value' => 'playlistID',
+                        ),
+                        array(
+                            'label' => __( 'User\'s Specific Playlist', 'feed-them-social' ),
+                            'value' => 'userPlaylist',
+                        ),
+                        array(
+                            'label' => __( 'Single Video with title, date & description', 'feed-them-social' ),
+                            'value' => 'singleID',
+                        ),
+                    ),
+                ),
+
 				// Youtube Name
 				array(
 					'option_type' => 'input',
@@ -4224,7 +4272,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'select',
 					'input_wrap_class' => 'youtube_hide_option',
-					'label'       => __( 'Show the Large Video Title', 'feed-them-social' ),
+					'label'       => __( 'Show Large Video Title', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'youtube_large_vid_title',
 					'name'        => 'youtube_large_vid_title',
@@ -4247,7 +4295,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'select',
 					'input_wrap_class' => 'youtube_hide_option',
-					'label'       => __( 'Show the Large Video Description', 'feed-them-social' ),
+					'label'       => __( 'Show Large Video Description', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'youtube_large_vid_description',
 					'name'        => 'youtube_large_vid_description',
@@ -5143,7 +5191,7 @@ class Feed_CPT_Options {
 					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
 					'sub_options' => array(
 						'sub_options_wrap_class' => 'combine-twitter-hashtag-etc-wrap',
-						'sub_options_title' => __( 'Twitter Search', 'feed-them-social' ),
+						// 'sub_options_title' => __( 'Twitter Search', 'feed-them-social' ),
 					),
 					'sub_options_end' => true,
 				),

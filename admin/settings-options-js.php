@@ -208,51 +208,35 @@ class Settings_Options_JS {
 		<script>
             jQuery(document).ready(function () {
 
-                /* Instagram */
-                function getQueryString(Param) {
-                    return decodeURI(
-                        (RegExp('[#|&]' + Param + '=' + '(.+?)(&|$)').exec(location.hash) || [, null])[1]
-                    );
-                }
-
-                if (window.location.hash && getQueryString('feed_type') == 'instagram') {
-                    jQuery('#feed-selector-form').find('option[value=instagram-shortcode-form]').attr('selected', 'selected');
-                    jQuery('.shortcode-generator-form.instagram-shortcode-form').show();
-                    jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_id' ) ); ?>');
-                    jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_api_token' ) ); ?>');
-                }
-
-                jQuery('#shortcode-form-selector, #instagram-messages-selector').bind('change', function (e) {
-                    if (jQuery('#instagram-messages-selector').val() == 'basic') {
-                        jQuery('#instagram_id, #insta_access_token').val('');
-                        jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_id' ) ); ?>');
-                        jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_api_token' ) ); ?>');
-                    }
-                    else if (jQuery('#instagram-messages-selector').val() == 'hashtag' || jQuery('#instagram-messages-selector').val() == 'business') {
-                        jQuery('#instagram_id').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token_user_id' ) ); ?>');
-                        jQuery('#insta_access_token').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token' ) ); ?>');
-                    }
-                    else {
-                        jQuery('#instagram_id').val('');
-                    }
-
-                });
-
-	            <?php if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) { ?>
                 jQuery('#instagram-messages-selector').bind('change', function (e) {
-                    if (jQuery('#instagram-messages-selector').val() == 'location') {
-                        jQuery("#instagram_id").hide();
-                        jQuery('<div class="feed-them-social-admin-input-default fts-custom-premium-required">Must have <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">premium</a> to edit.</div>').insertAfter('.feed-them-social-admin-input-label.instagram-location-option-text');
-                        jQuery(".feed-them-social-admin-submit-btn").hide();
+                    if (jQuery('#instagram-messages-selector').val() == 'business') {
+                        jQuery(".main-instagram-profile-options-wrap").show();
                     }
                     else {
-                        jQuery("#instagram_id").show();
-                        jQuery(".fts-custom-premium-required").hide();
-                        jQuery(".feed-them-social-admin-submit-btn").show();
+                        jQuery(".main-instagram-profile-options-wrap").hide();
+                    }
+                    if (jQuery('#instagram-messages-selector').val() == 'hashtag') {
+                        jQuery(".instagram_hashtag, .instagram_hashtag_type").show();
+                    }
+                    else {
+                        jQuery(".instagram_hashtag, .instagram_hashtag_type").hide();
+                    }
+                });
+
+                //Twitter Load More Options
+                jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide()
+                jQuery('#instagram_load_more_option').bind('change', function (e) {
+                    if (jQuery('#instagram_load_more_option').val() == 'yes') {
+                        jQuery('.fts-instagram-load-more-options-wrap').show();
+                        jQuery('.fts-instagram-load-more-options2-wrap').show();
                     }
 
+                    else {
+                        jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide();
+                    }
                 });
-	            <?php } ?>
+
+
             });
 		</script>
 
@@ -313,6 +297,123 @@ class Settings_Options_JS {
 		?>
 		<script>
             jQuery(document).ready(function () {
+
+                jQuery('select#youtube-messages-selector').bind('change', function (e) {
+                    if (jQuery('#youtube-messages-selector').val() == 'channelID') {
+                        jQuery('.youtube_name, .youtube_playlistID, .youtube_channelID2, .youtube_playlistID2, .youtube_name2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
+                        jQuery('.youtube_channelID, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count, h3.sectioned-options-title').show();
+                    }
+                    else if (jQuery('#youtube-messages-selector').val() == 'userPlaylist') {
+                        jQuery('.youtube_name, .youtube_channelID, .youtube_playlistID, .youtube_channelID, .youtube_channelID2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
+                        jQuery('.youtube_playlistID2, .youtube_name2, .youtube_hide_option, .youtube_video_thumbs_display, h3.sectioned-options-title').show();
+                    }
+                    else if (jQuery('#youtube-messages-selector').val() == 'playlistID') {
+                        jQuery('.youtube_name, .youtube_channelID, .youtube_playlistID2, .youtube_name2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
+                        jQuery('.youtube_playlistID, .youtube_channelID2, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count, h3.sectioned-options-title').show();
+                    }
+                    else if (jQuery('#youtube-messages-selector').val() == 'singleID') {
+                        jQuery('.youtube_name,.youtube_playlistID, .youtube_channelID, .youtube_channelID2, .youtube_playlistID2, .youtube_name2, .youtube_vid_count, .youtube_hide_option, .youtube_video_thumbs_display, h3.sectioned-options-title').hide();
+                        jQuery('.youtube_singleVideoID, .youtube_align_comments_wrap, .youtube_video_single_info_display').show();
+                    }
+                    else if (jQuery('#youtube-messages-selector').val() == 'username') {
+                        jQuery('.youtube_playlistID, .youtube_channelID, .youtube_channelID2, .youtube_playlistID2, .youtube_name2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
+                        jQuery('.youtube_name, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count, h3.sectioned-options-title').show();
+                    }
+                });
+
+
+                jQuery('.youtube_first_video').hide();
+
+                jQuery('select#youtube_columns').change(function () {
+                    var youtube_columns_count = jQuery(this).val();
+
+                    if (youtube_columns_count == '1') {
+                        jQuery('.youtube_first_video').hide();
+                    }
+                    else {
+                        jQuery('.youtube_first_video').show();
+                    }
+                });
+
+
+                jQuery("#youtube_name").change(function () {
+                    var feedID = jQuery("input#youtube_name").val();
+                    if (feedID.indexOf('youtube.com/user') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('/') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#youtube_name').val(newfeedID);
+
+                    }
+                });
+
+                jQuery("#youtube_name2").change(function () {
+                    var feedID = jQuery("input#youtube_name2").val();
+                    if (feedID.indexOf('youtube.com/user') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('/') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#youtube_name2').val(newfeedID);
+
+                    }
+                });
+
+                jQuery("#youtube_channelID").change(function () {
+                    var feedID = jQuery("input#youtube_channelID").val();
+                    if (feedID.indexOf('youtube.com/channel') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('/') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#youtube_channelID').val(newfeedID);
+
+                    }
+                });
+
+                jQuery("#youtube_channelID2").change(function () {
+                    var feedID = jQuery("input#youtube_channelID2").val();
+                    if (feedID.indexOf('youtube.com/channel') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('/') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#youtube_channelID2').val(newfeedID);
+
+                    }
+                });
+
+                jQuery("#youtube_playlistID").change(function () {
+                    var feedID = jQuery("input#youtube_playlistID").val();
+                    if (feedID.indexOf('&list=') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('=') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#youtube_playlistID').val(newfeedID);
+
+                    }
+                });
+
+                jQuery("#youtube_playlistID2").change(function () {
+                    var feedID = jQuery("input#youtube_playlistID2").val();
+                    if (feedID.indexOf('&list=') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('=') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#youtube_playlistID2').val(newfeedID);
+
+                    }
+                });
+
+                jQuery("#youtube_singleVideoID").change(function () {
+                    var feedID = jQuery("input#youtube_singleVideoID").val();
+                    if (feedID.indexOf('watch?v=') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('=') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#youtube_singleVideoID').val(newfeedID);
+
+                    }
+                });
+
+
 				//Youtuve Load More Option
                 jQuery('#youtube_load_more_option').bind('change', function (e) {
                     if (jQuery('#youtube_load_more_option').val() == 'yes') {
@@ -377,6 +478,16 @@ class Settings_Options_JS {
                         if (jQuery('.fts-facebook_page-shortcode-form').hasClass('multiple_facebook')) {
                             jQuery('.fts-facebook_page-shortcode-form').removeClass('multiple_facebook');
                         }
+                    }
+                });
+
+                //Combine Instagram
+                jQuery('#combine_instagram').bind('change', function (e) {
+                    if (jQuery('#combine_instagram').val() == 'yes') {
+                        jQuery('.combine-instagram-wrap').show();
+                    }
+                    else {
+                        jQuery('.combine-instagram-wrap').hide();
                     }
                 });
 
@@ -455,8 +566,64 @@ class Settings_Options_JS {
                 });
 
 
-            });
+                jQuery("#combine_youtube_name").change(function () {
+                    var feedID = jQuery("input#combine_youtube_name").val();
+                    if (feedID.indexOf('youtube.com/user') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('/') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#combine_youtube_name').val(newfeedID);
 
+                    }
+                });
+
+                jQuery("#combine_channel_id").change(function () {
+                    var feedID = jQuery("input#combine_channel_id").val();
+                    if (feedID.indexOf('youtube.com/channel') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('/') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#combine_channel_id').val(newfeedID);
+
+                    }
+                });
+
+                jQuery("#combine_playlist_id").change(function () {
+                    var feedID = jQuery("input#combine_playlist_id").val();
+                    if (feedID.indexOf('&list=') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('=') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#combine_playlist_id').val(newfeedID);
+
+                    }
+                });
+
+                // START: Fix issues when people enter the full url instead of just the ID or Name. We'll truncate this at a later date.
+                jQuery("#combine_facebook_name").change(function () {
+                    var feedID = jQuery("input#combine_facebook_name").val();
+                    if (feedID.indexOf('facebook.com') != -1 || feedID.indexOf('facebook.com') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('/') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#combine_facebook_name').val(newfeedID);
+
+                    }
+                });
+
+
+                jQuery("#combine_twitter_name").change(function () {
+                    var feedID = jQuery("input#combine_twitter_name").val();
+                    if (feedID.indexOf('twitter.com') != -1) {
+                        feedID = feedID.replace(/\/$/, '');
+                        feedID = feedID.substr(feedID.lastIndexOf('/') + 1);
+                        var newfeedID = feedID;
+                        jQuery('#combine_twitter_name').val(newfeedID);
+
+                    }
+                });
+
+            });
 		</script>
 
 		<?php

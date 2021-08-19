@@ -3,7 +3,7 @@
     $( document ).ready(function() {
 
         var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';
-        $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-social-selector, .fts-instagram-shortcode-form .instagram_name, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube_name, .fts-combine-steams-shortcode-form .combine_post_count' );
+        $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-social-selector, .fts-instagram-shortcode-form .instagram-messages-selector, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-steams-shortcode-form .combine_post_count' );
 
         $( '.fts-feed-settings-tabs-wrap div' ).click(
             function () {

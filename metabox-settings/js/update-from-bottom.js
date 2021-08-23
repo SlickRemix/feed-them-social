@@ -2,6 +2,70 @@
     "use strict";
     $( document ).ready(function() {
 
+        // This is for the select a social network tab and controls what tab is selected and visible in the tabs menu,
+        jQuery( '#feed_type' ).on(
+            'change',
+            function (e) {
+                var ftsGlobalValue = jQuery( this ).val();
+                // console.log(ftgGlobalValue);
+                // I know we can figure a way to condense this but for time sake just rolling with this.
+                if ( 'facebook-feed-type' == ftsGlobalValue ) {
+                    jQuery( '.tab4' ).addClass( 'fts-facebook-waiting-color' );
+                    jQuery( '.tab4 a' ).css( { 'pointer-events' : 'all' } );
+                    jQuery( '.tab4 a .fts-click-cover' ).hide();
+                }
+                else  {
+                    jQuery( '.tab4' ).removeClass( 'fts-facebook-waiting-color' );
+                    jQuery( '.tab4 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab4 a .fts-click-cover' ).show();
+                }
+
+                if ( 'instagram-feed-type' == ftsGlobalValue ) {
+                    jQuery( '.tab5' ).addClass( 'fts-instagram-waiting-color' );
+                    jQuery( '.tab5 a' ).css( { 'pointer-events' : 'all' } );
+                    jQuery( '.tab5 a .fts-click-cover' ).hide();
+                }
+                else  {
+                    jQuery( '.tab5' ).removeClass( 'fts-instagram-waiting-color' );
+                    jQuery( '.tab5 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab5 a .fts-click-cover' ).show();
+                }
+
+                if ( 'twitter-feed-type' == ftsGlobalValue ) {
+                    jQuery( '.tab6' ).addClass( 'fts-twitter-waiting-color' );
+                    jQuery( '.tab6 a' ).css( { 'pointer-events' : 'all' } );
+                    jQuery( '.tab6 a .fts-click-cover' ).hide();
+                }
+                else  {
+                    jQuery( '.tab6' ).removeClass( 'fts-twitter-waiting-color' );
+                    jQuery( '.tab6 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab6 a .fts-click-cover' ).show();
+                }
+
+                if ( 'youtube-feed-type' == ftsGlobalValue ) {
+                    jQuery( '.tab7' ).addClass( 'fts-youtube-waiting-color' );
+                    jQuery( '.tab7 a' ).css( { 'pointer-events' : 'all' } );
+                    jQuery( '.tab7 a .fts-click-cover' ).hide();
+                }
+                else  {
+                    jQuery( '.tab7' ).removeClass( 'fts-youtube-waiting-color' );
+                    jQuery( '.tab7 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab7 a .fts-click-cover' ).show();
+                }
+                if ( 'combine-streams-feed-type' == ftsGlobalValue ) {
+                    jQuery( '.tab8' ).addClass( 'fts-combine-waiting-color' );
+                    jQuery( '.tab8 a' ).css( { 'pointer-events' : 'all' } );
+                    jQuery( '.tab8 a .fts-click-cover' ).hide();
+                }
+                else  {
+                    jQuery( '.tab8' ).removeClass( 'fts-combine-waiting-color' );
+                    jQuery( '.tab8 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab8 a .fts-click-cover' ).show();
+                }
+            }
+        ).change(); // The .change is so when the page loads it fires this on change event :) So ez!
+
+        //This is for the sub nav tabs under each social network and controls what is visible.
         var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';
         $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-social-selector, .fts-instagram-shortcode-form .instagram-messages-selector, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-steams-shortcode-form .combine_post_count' );
 
@@ -21,10 +85,20 @@
         // console.log( name.replace(/\'/g, '"').replace(/\s+(?=(?:[^"]*"[^"]*")*[^"]*"[^"]*$)/gm, '*').replace(/\"/g, "") );
 
         // Convert Old Shortcode click function
+
         $( '#fts-convert-old-shortcode' ).click(
             function () {
 
+                console.log( 'Clicked Convert Shortcode Button' );
+
+                window.location.hash.replace('#', '');
+
                 let fts_shortcode = $( '#ft-galleries-old-shortcode-side-mb input' ).val();
+
+                if( !fts_shortcode ){
+                    alert( 'Please add a Feed Them Social shortode to convert.');
+                    return;
+                }
                 var fts_shortcode_fix = fts_shortcode.replace(/\'/g, '"').replace(/\s+(?=(?:[^"]*"[^"]*")*[^"]*"[^"]*$)/gm, '*').replace(/\"/g, "");
                   // take shortcode and extract any spaces that suround a shortcode value. ie padding="20px 10px"
 
@@ -45,6 +119,8 @@
                     // alert( '#' + item.substring(0, item.indexOf("=") ) );
 
                     if( fts_shortcode_fix.includes("fts_twitter") ){
+
+                        $( '#feed_type option[value=twitter-feed-type]' ).attr('selected','selected');
 
                         var id = '#ftg-tab-content7 ';
 
@@ -108,6 +184,8 @@
                     }
 
                     if( fts_shortcode_fix.includes("fts_facebook") ){
+
+                        $( '#feed_type option[value=facebook-feed-type]' ).attr('selected','selected');
 
                         var id = '#ftg-tab-content6 ';
 
@@ -301,6 +379,8 @@
 
                     if( fts_shortcode_fix.includes("fts_youtube") ){
 
+                        $( '#feed_type option[value=youtube-feed-type]' ).attr('selected','selected');
+
                         var id = '#ftg-tab-content8 ';
 
                         if( 'yes' == value ){
@@ -393,6 +473,8 @@
 
                     if( fts_shortcode_fix.includes("fts_instagram") ){
 
+                        $( '#feed_type option[value=instagram-feed-type]' ).attr('selected','selected');
+
                         var id = '#ftg-tab-content5 ';
 
                         if( 'yes' == value ){
@@ -473,6 +555,8 @@
 
                     if( fts_shortcode_fix.includes("fts_mashup") ){
 
+                        $( '#feed_type option[value=combine-streams-feed-type]' ).attr('selected','selected');
+
                         var id = '#ftg-tab-content9 ';
 
                         if( 'yes' == value ){
@@ -490,6 +574,7 @@
                                 $( '#combine_post_count' ).val( value );
                             }
                             else if( 'facebook_name' == attribute ){
+                                alert('test');
                                 $( id + '#combine_facebook option[value=yes]' ).attr('selected','selected');
                                 $( id + '#combine_facebook_name' ).val( value );
                             }
@@ -577,6 +662,11 @@
                 else if ( $( '#combine_channel_id').val() && $( '#combine_playlist_id' ).val() ) {
                     $( '#combine_youtube_type option[value=playlistID]' ).attr('selected','selected');
                 }
+
+                $( "#publish" ).submit();
+
+
+                alert( 'Success! Shortcode Converted. Double check your Access Token(s) are below in the Feed Setup menu tab.');
             }
         );
 

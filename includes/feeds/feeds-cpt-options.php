@@ -91,24 +91,27 @@ class Feed_CPT_Options {
 						)
 					),
 					'type'             => 'text',
-					'id'               => 'feed_type',
+                    'instructional-text' => sprintf(
+                        esc_html__( '1. Select the Social Network you want to create a feed for. %1$s2. Get your access token. %1$s3. Click on the Social Network tab to the left and set your options. %1$s%1$sNote: To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.', 'feed_them_social' ),
+                        '<br/>',
+                        '<a href="post-new.php?post_type=fts" >',
+                        '</a>',
+                    ),
+
+                    'id'               => 'feed_type',
 					'name'             => 'feed_type',
 					'default_value'    => '',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Select a Social Network', 'feed-them-social' ),
-							'value' => '',
-						),
-						array(
-							'label' => esc_html__( 'Facebook Feed', 'feed-them-social' ),
+							'label' => esc_html__( 'Facebook', 'feed-them-social' ),
 							'value' => 'facebook-feed-type',
 						),
 						array(
-							'label' => esc_html__( 'Instagram Feed', 'feed-them-social' ),
+							'label' => esc_html__( 'Instagram', 'feed-them-social' ),
 							'value' => 'instagram-feed-type',
 						),
 						array(
-							'label' => esc_html__( 'Twitter Feed', 'feed-them-social' ),
+							'label' => esc_html__( 'Twitter', 'feed-them-social' ),
 							'value' => 'twitter-feed-type',
 						),
 						array(
@@ -116,7 +119,7 @@ class Feed_CPT_Options {
 							'value' => 'youtube-feed-type',
 						),
 						array(
-							'label' => esc_html__( 'Combine Streams Feed', 'feed-them-social' ),
+							'label' => esc_html__( 'Combine Streams', 'feed-them-social' ),
 							'value' => 'combine-streams-feed-type',
 						),
 					),
@@ -1196,7 +1199,7 @@ class Feed_CPT_Options {
 						),
 					),
 					'short_attr'  => array(
-						'attr_name' => 'show_media',
+						'attr_name' => 'type',
 					),
 				),
 

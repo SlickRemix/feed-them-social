@@ -461,7 +461,8 @@ class Metabox_Settings {
 									?>
 									<li class="tabbed <?php echo esc_attr( $tab_item['menu_li_class'] ); ?>">
 										<a href="#<?php echo esc_attr( $tab_key ); ?>" data-toggle="tab"<?php echo isset( $tab_item['menu_a_class'] ) ? 'class="' . esc_attr( $tab_item['menu_a_class'] ) . '"' : ''; ?><?php echo isset( $tab_item['menu_aria_expanded'] ) ? ' aria-expanded="' . esc_attr( $tab_item['menu_aria_expanded'] ) . '"' : ''; ?>>
-											<div class="ft_icon"></div>
+                                            <div class="fts-click-cover"></div>
+                                            <div class="ft_icon"></div>
 											<span class="das-text"><?php echo esc_html( $tab_item['menu_a_text'] ); ?></span>
 										</a>
 									</li>

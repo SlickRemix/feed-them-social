@@ -32,7 +32,7 @@ class Settings_Options_JS {
 				else {
 					jQuery('.like-box-wrap').hide();
 				}
-			});
+			}).change();
 
 
             //Facebook Display Popup option
@@ -43,7 +43,7 @@ class Settings_Options_JS {
                 else {
                     jQuery('.display-comments-wrap').hide();
                 }
-            });
+            }).change();
 
             // facebook show grid options
             jQuery('#fb-grid-option').bind('change', function (e) {
@@ -54,7 +54,7 @@ class Settings_Options_JS {
                 else {
                     jQuery('.fts-facebook-grid-options-wrap').hide();
                 }
-            });
+            }).change();
 
             // facebook show load more options
             jQuery('#fb_load_more_option').bind('change', function (e) {
@@ -68,7 +68,7 @@ class Settings_Options_JS {
                 else {
                     jQuery('.fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap').hide();
                 }
-            });
+            }).change();
 
 			jQuery('#facebook_show_video_button').change(function () {
 				jQuery('.fb-video-play-btn-options-content').toggle();
@@ -76,127 +76,129 @@ class Settings_Options_JS {
 
 			// change the feed type 'how to' message when a feed type is selected
 			jQuery('#facebook-messages-selector').change(function () {
-			jQuery('.facebook-message-generator').hide();
-			jQuery('.' + jQuery(this).val()).fadeIn('fast');
-			// if the facebook type select is changed we hide the shortcode code so not to confuse people
-			jQuery('.final-shortcode-textarea').hide();
-			// only show the Super Gallery Options if the facebook ablum or album covers feed type is selected
-			var facebooktype = jQuery("select#facebook-messages-selector").val();
+
+                jQuery('.facebook-message-generator').hide();
+                jQuery('.' + jQuery(this).val()).fadeIn('fast');
+                // if the facebook type select is changed we hide the shortcode code so not to confuse people
+                jQuery('.final-shortcode-textarea').hide();
+                // only show the Super Gallery Options if the facebook ablum or album covers feed type is selected
+                var facebooktype = jQuery("select#facebook-messages-selector").val();
 
 
-			if (facebooktype == 'albums' || facebooktype == 'album_photos' || facebooktype == 'album_videos') {
-			jQuery('.fts-super-facebook-options-wrap,.align-images-wrap').show();
-			jQuery('.fixed_height_option,.main-grid-options-wrap').hide();
-			jQuery(".feed-them-social-admin-input-label:contains('<?php echo esc_js( 'Display Posts in Grid', 'feed-them-social' ); ?>')").parent('div').hide();
-			}
-			else {
-			jQuery('.fts-super-facebook-options-wrap,.align-images-wrap ').hide();
-			jQuery('.fixed_height_option,.main-grid-options-wrap').show();
-			jQuery(".feed-them-social-admin-input-label:contains('<?php echo esc_js( 'Display Posts in Grid', 'feed-them-social' ); ?>')").parent('div').show();
-			}
-
-			if (facebooktype == 'page' || facebooktype == 'event' || facebooktype == 'group') {
-			jQuery(".facebook_hide_thumbnail, .facebook_hide_date, .facebook_hide_name, .facebook_show_media ").show();
-			}
-			else {
-			jQuery(".facebook_hide_thumbnail, .facebook_hide_date, .facebook_hide_name, .facebook_show_media ").hide();
-			}
-
-            /* FB Pages, Ablums, Photos etc */
-            jQuery('#shortcode-form-selector, #facebook-messages-selector').bind('change', function (e) {
-                if (jQuery('#facebook-messages-selector').val() == 'page' || jQuery('#facebook-messages-selector').val() == 'album_photos' || jQuery('#facebook-messages-selector').val() == 'albums' || jQuery('#facebook-messages-selector').val() == 'album_videos') {
-                    jQuery('#fb_page_id, #fb_access_token').val('');
-                    jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id' ) ); ?>');
-                    jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token' ) ); ?>');
-                }
-            });
-
-            /* FB Pages, Ablums, Photos etc */
-            jQuery('#shortcode-form-selector, #facebook-messages-selector').bind('change', function (e) {
-                if (jQuery('#facebook-messages-selector').val() == 'reviews') {
-                    jQuery('#fb_page_id, #fb_access_token').val('');
-                    jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id_biz' ) ); ?>');
-                    jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_biz' ) ); ?>');
-                }
-            });
-
-
-
-			// facebook Super Gallery option
-            jQuery('#facebook-custom-gallery').bind('change', function (e) {
-                if (jQuery('#facebook-custom-gallery').val() == 'yes') {
-                    jQuery('.fts-super-facebook-options-wrap').show();
+                if (facebooktype == 'albums' || facebooktype == 'album_photos' || facebooktype == 'album_videos') {
+                jQuery('.fts-super-facebook-options-wrap,.align-images-wrap').show();
+                jQuery('.fixed_height_option,.main-grid-options-wrap').hide();
+                jQuery(".feed-them-social-admin-input-label:contains('<?php echo esc_js( 'Display Posts in Grid', 'feed-them-social' ); ?>')").parent('div').hide();
                 }
                 else {
-                    jQuery('.fts-super-facebook-options-wrap').hide();
+                jQuery('.fts-super-facebook-options-wrap,.align-images-wrap ').hide();
+                jQuery('.fixed_height_option,.main-grid-options-wrap').show();
+                jQuery(".feed-them-social-admin-input-label:contains('<?php echo esc_js( 'Display Posts in Grid', 'feed-them-social' ); ?>')").parent('div').show();
                 }
-            });
 
-				<?php if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) { ?>
-
-                // This is to show all option when prem active if you selected the Facebook Page reviews if not active. Otherwise all other fb-options-wraps are hidden when selecting another fb feed from settings page drop down.
-                jQuery('.fb-options-wrap').show();
-                jQuery('body .fb_album_photos_id, .fts-required-more-posts').hide();
-
-                if (facebooktype == 'album_videos') {
-                    jQuery('.fts-photos-popup, #facebook_super_gallery_container, #facebook_super_gallery_animate').hide();
-                    jQuery('.video, .fb-video-play-btn-options-wrap').show();
-                    jQuery(".feed-them-social-admin-input-label:contains('# of Posts')").html("<?php echo esc_js( '# of Videos', 'feed-them-social' ); ?>");
+                if (facebooktype == 'page' || facebooktype == 'event' || facebooktype == 'group') {
+                jQuery(".facebook_hide_thumbnail, .facebook_hide_date, .facebook_hide_name, .facebook_show_media ").show();
                 }
                 else {
+                jQuery(".facebook_hide_thumbnail, .facebook_hide_date, .facebook_hide_name, .facebook_show_media ").hide();
+                }
+
+                /* FB Pages, Ablums, Photos etc */
+                jQuery('#shortcode-form-selector, #facebook-messages-selector').bind('change', function (e) {
+                    if (jQuery('#facebook-messages-selector').val() == 'page' || jQuery('#facebook-messages-selector').val() == 'album_photos' || jQuery('#facebook-messages-selector').val() == 'albums' || jQuery('#facebook-messages-selector').val() == 'album_videos') {
+                        jQuery('#fb_page_id, #fb_access_token').val('');
+                        jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id' ) ); ?>');
+                        jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token' ) ); ?>');
+                    }
+                });
+
+                /* FB Pages, Ablums, Photos etc */
+                jQuery('#shortcode-form-selector, #facebook-messages-selector').bind('change', function (e) {
+                    if (jQuery('#facebook-messages-selector').val() == 'reviews') {
+                        jQuery('#fb_page_id, #fb_access_token').val('');
+                        jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id_biz' ) ); ?>');
+                        jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_biz' ) ); ?>');
+                    }
+                });
+
+
+
+                // facebook Super Gallery option
+                jQuery('#facebook-custom-gallery').bind('change', function (e) {
+                    if (jQuery('#facebook-custom-gallery').val() == 'yes') {
+                        jQuery('.fts-super-facebook-options-wrap').show();
+                    }
+                    else {
+                        jQuery('.fts-super-facebook-options-wrap').hide();
+                    }
+                });
+
+                    <?php if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) { ?>
+
+                    // This is to show all option when prem active if you selected the Facebook Page reviews if not active. Otherwise all other fb-options-wraps are hidden when selecting another fb feed from settings page drop down.
+                    jQuery('.fb-options-wrap').show();
+                    jQuery('body .fb_album_photos_id, .fts-required-more-posts').hide();
+
+                    if (facebooktype == 'album_videos') {
+                        jQuery('.fts-photos-popup, #facebook_super_gallery_container, #facebook_super_gallery_animate').hide();
+                        jQuery('.video, .fb-video-play-btn-options-wrap').show();
+                        jQuery(".feed-them-social-admin-input-label:contains('# of Posts')").html("<?php echo esc_js( '# of Videos', 'feed-them-social' ); ?>");
+                    }
+                    else {
+                        jQuery('.video, .fb-video-play-btn-options-wrap').hide();
+                        jQuery('.fts-photos-popup, #facebook_super_gallery_container, #facebook_super_gallery_animate').show();
+                        jQuery(".feed-them-social-admin-input-label:contains('# of Videos')").html("<?php echo esc_js( '# of Posts', 'feed-them-social' ); ?>");
+                    }
+                    <?php
+                    } else {
+                    ?>
+
                     jQuery('.video, .fb-video-play-btn-options-wrap').hide();
-                    jQuery('.fts-photos-popup, #facebook_super_gallery_container, #facebook_super_gallery_animate').show();
-                    jQuery(".feed-them-social-admin-input-label:contains('# of Videos')").html("<?php echo esc_js( '# of Posts', 'feed-them-social' ); ?>");
-                }
-				<?php
-				} else {
-				?>
+                    jQuery('body .fb_album_photos_id, .fts-required-more-posts').hide();
 
-                jQuery('.video, .fb-video-play-btn-options-wrap').hide();
-                jQuery('body .fb_album_photos_id, .fts-required-more-posts').hide();
+                    <?php } ?>
 
-				<?php } ?>
+                    if (facebooktype == 'page') {
+                        jQuery('.inst-text-facebook-page').show();
+                    }
+                    else {
+                        jQuery('.inst-text-facebook-page').hide();
+                    }
 
-                if (facebooktype == 'page') {
-                    jQuery('.inst-text-facebook-page').show();
-                }
-                else {
-                    jQuery('.inst-text-facebook-page').hide();
-                }
+                    if (facebooktype == 'events') {
+                        jQuery('.inst-text-facebook-event-list').show();
+                        jQuery('.facebook-loadmore-wrap').hide();
 
-                if (facebooktype == 'events') {
-                    jQuery('.inst-text-facebook-event-list').show();
-                    jQuery('.facebook-loadmore-wrap').hide();
+                    }
+                    else {
+                        jQuery('.inst-text-facebook-event-list').hide();
+                        jQuery('.facebook-loadmore-wrap').show();
+                    }
 
-                }
-                else {
-                    jQuery('.inst-text-facebook-event-list').hide();
-                    jQuery('.facebook-loadmore-wrap').show();
-                }
+                    <?php if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) { ?>
+                    if (facebooktype == 'reviews') {
+                        jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').show();
+                        jQuery('.align-images-wrap,.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts').hide();
+                    } else {
+                        jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').hide();
+                        jQuery('.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts').show();
+                    }
+                    <?php } ?>
 
-				<?php if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) { ?>
-                if (facebooktype == 'reviews') {
-                    jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').show();
-                    jQuery('.align-images-wrap,.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts').hide();
-                } else {
-                    jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').hide();
-                    jQuery('.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts').show();
-                }
-				<?php } ?>
+                    // only show the post type visible if the facebook page feed type is selected
+                    jQuery('.facebook-post-type-visible').hide();
+                    if (facebooktype == 'page') {
+                        jQuery('.facebook-post-type-visible').show();
+                    }
+                    var fb_feed_type_option = jQuery("select#facebook-messages-selector").val();
+                    if (fb_feed_type_option == 'album_photos') {
+                        jQuery('.fb_album_photos_id').show();
+                    }
+                    else {
+                        jQuery('.fb_album_photos_id').hide();
+                    }
 
-                // only show the post type visible if the facebook page feed type is selected
-                jQuery('.facebook-post-type-visible').hide();
-                if (facebooktype == 'page') {
-                    jQuery('.facebook-post-type-visible').show();
-                }
-                var fb_feed_type_option = jQuery("select#facebook-messages-selector").val();
-                if (fb_feed_type_option == 'album_photos') {
-                    jQuery('.fb_album_photos_id').show();
-                }
-                else {
-                    jQuery('.fb_album_photos_id').hide();
-                }
-            });
+            }).change();
 		});
 		</script>
 
@@ -221,7 +223,7 @@ class Settings_Options_JS {
                     else {
                         jQuery(".instagram_hashtag, .instagram_hashtag_type").hide();
                     }
-                });
+                }).change();
 
                 //Twitter Load More Options
                 jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide()
@@ -234,7 +236,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide();
                     }
-                });
+                }).change();
 
 
             });
@@ -261,7 +263,7 @@ class Settings_Options_JS {
                         jQuery(".hashtag-option-not-required, .must-copy-twitter-name").show();
                         jQuery(".twitter-hashtag-etc-wrap,.hashtag-option-small-text").hide();
                     }
-                });
+                }).change();
 
                 //Twitter Load More Options
                 jQuery('.fts-twitter-load-more-options-wrap, .fts-twitter-load-more-options2-wrap').hide()
@@ -274,7 +276,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.fts-twitter-load-more-options-wrap, .fts-twitter-load-more-options2-wrap').hide();
                     }
-                });
+                }).change();
 
                 //Twitter Grid Option
                 jQuery('.fts-twitter-grid-options-wrap').hide();
@@ -286,7 +288,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.fts-twitter-grid-options-wrap').hide();
                     }
-                });
+                }).change();
             });
 		</script>
 
@@ -319,7 +321,7 @@ class Settings_Options_JS {
                         jQuery('.youtube_playlistID, .youtube_channelID, .youtube_channelID2, .youtube_playlistID2, .youtube_name2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
                         jQuery('.youtube_name, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count, h3.sectioned-options-title').show();
                     }
-                });
+                }).change();
 
 
                 jQuery('.youtube_first_video').hide();
@@ -333,7 +335,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.youtube_first_video').show();
                     }
-                });
+                }).change();
 
 
                 jQuery("#youtube_name").change(function () {
@@ -424,7 +426,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap').hide();
                     }
-                });
+                }).change();
             });
 		</script>
 
@@ -444,11 +446,13 @@ class Settings_Options_JS {
                     else {
                         jQuery('.combine-grid-options-wrap ').hide();
                     }
-                });
+                }).change();
 
+                // NEED FIND A WAY TO TRIGGER CHANGE WHEN CONVERTING WITH CONVERT SHORTCODE BUTTON, IF POSSIBLE NOT SUPER BIG DEAL BECAUSE WHEN YOU SAVE
+                // THE PAGE IT WILL SHOW AND HIDE THE PROPER INPUTS OK.
                 // FACEBOOK Combine Options
                 jQuery('#combine_facebook').bind('change', function (e) {
-                    jQuery('#combine_facebook_name').val('');
+                   // jQuery('#combine_facebook_name').val('');
                     jQuery('#combine_facebook_name').val(jQuery('#combine_facebook_name').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id' ) ); ?>');
                 });
 
@@ -459,7 +463,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.combine-facebook-wrap').hide();
                     }
-                });
+                }).change();
 
                 jQuery('select#combine-steams-selector').bind('change', function (e) {
                     if (jQuery('select#combine-steams-selector').val() == 'multiple_facebook') {
@@ -479,7 +483,7 @@ class Settings_Options_JS {
                             jQuery('.fts-facebook_page-shortcode-form').removeClass('multiple_facebook');
                         }
                     }
-                });
+                }).change();
 
                 //Combine Instagram
                 jQuery('#combine_instagram').bind('change', function (e) {
@@ -489,7 +493,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.combine-instagram-wrap').hide();
                     }
-                });
+                }).change();
 
                 //INSTAGRAM Combine Options
                 jQuery('#combine_instagram_type').bind('change', function (e) {
@@ -513,7 +517,7 @@ class Settings_Options_JS {
                         jQuery(".combine-instagram-hashtag-option-text,.combine-instagram-location-option-text, .combine_instagram_hashtag_type, .combine_instagram_hashtag, .fts-instagram-hashtag-location-options-message").hide();
 
                     }
-                });
+                }).change();
 
                 //TWITTER Combine Options
                 jQuery('#combine-twitter-messages-selector').bind('change', function (e) {
@@ -525,7 +529,7 @@ class Settings_Options_JS {
                         jQuery(".combine_twitter_name").show();
                         jQuery(".combine-twitter-hashtag-etc-wrap").hide();
                     }
-                });
+                }).change();
 
                 jQuery('#combine_twitter').bind('change', function (e) {
                     if (jQuery('#combine_twitter').val() == 'yes') {
@@ -534,7 +538,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.combine-twitter-wrap').hide();
                     }
-                });
+                }).change();
 
                 //YOUTUBE Combine Options
                 jQuery('#combine_youtube').bind('change', function (e) {
@@ -544,7 +548,7 @@ class Settings_Options_JS {
                     else {
                         jQuery('.combine-youtube-wrap').hide();
                     }
-                });
+                }).change();
 
                 jQuery('select#combine_youtube_type').bind('change', function (e) {
                     if (jQuery('#combine_youtube_type').val() == 'channelID') {
@@ -563,7 +567,7 @@ class Settings_Options_JS {
                         jQuery('.combine_youtube_name').show();
                         jQuery('.combine_playlist_id, .combine_channel_id').hide();
                     }
-                });
+                }).change();
 
 
                 jQuery("#combine_youtube_name").change(function () {

@@ -845,6 +845,11 @@ class Feeds_CPT {
 	 */
 	public function tab_facebook_feed( $params ) {
 		$gallery_class = $params['this'];
+
+        $facebook_additional_options = new Facebook_Additional_Options();
+
+		$additional_options = $facebook_additional_options->get_all_options();
+
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
 
@@ -868,6 +873,17 @@ class Feeds_CPT {
             ?>
         </div>
         <div class="tab-5-extra-options">
+            <?php
+            //Facebook Reviews text and styles.
+            echo $gallery_class->metabox_settings_class->settings_html_form( $additional_options['facebook_reviews_text_styles'], null, $gallery_class->parent_post_id ); ?>
+
+            <?php
+            //Facebook Reviews and Overall Ratings styles.
+            echo $gallery_class->metabox_settings_class->settings_html_form( $additional_options['facebook_reviews_overall_rating_styles'], null, $gallery_class->parent_post_id ); ?>
+
+            <?php
+            //Facebook Language Options.
+            echo $gallery_class->metabox_settings_class->settings_html_form( $additional_options['facebook_languages_options'], null, $gallery_class->parent_post_id ); ?>
 
         </div>
 

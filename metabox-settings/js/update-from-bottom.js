@@ -74,10 +74,12 @@
                 $('.fts-feed-settings-tabs-wrap div').removeClass('fts-sub-tab-active');
                 $(this).addClass('fts-sub-tab-active');
                 if( $('.fts-settings-tab').hasClass('fts-sub-tab-active') ){
-                    $('.feed_them_social-admin-input-wrap, .not-active-premium-fields').hide();
+                    $('.fts-cpt-main-options, .not-active-premium-fields').hide();
+                    $('.fts-cpt-additional-options').show();
                 }
                 else {
-                    $('.feed_them_social-admin-input-wrap, .not-active-premium-fields').show();
+                    $('.fts-cpt-main-options, .not-active-premium-fields').show();
+                    $('.fts-cpt-additional-options').hide();
                 }
             }
         );

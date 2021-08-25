@@ -77,6 +77,7 @@ class Feed_CPT_Options {
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
+
 			'main_options'       => array(
 
 				// Gallery Type.
@@ -1126,9 +1127,6 @@ class Feed_CPT_Options {
 			'form_wrap_classes'  => 'fts-fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 
-			// Token Check
-			'token_check'        => $facebookReviewsTokenCheck,
-
 			'premium_msg_boxes'  => array(
 				'album_videos' => array(
 					'req_plugin' => 'fts_premium',
@@ -1139,7 +1137,10 @@ class Feed_CPT_Options {
 					'msg'        => 'The Facebook Reviews feed allows you to view all of the reviews people have made on your Facebook Page. See these great examples and options of all the different ways you can display your Facebook Page Reviews on your website. <a href="https://feedthemsocial.com/facebook-page-reviews-demo/" target="_blank">View Demo</a>',
 				),
 			),
-			'short_attr_final'   => 'yes',
+
+			//Options Wrap Class
+			'options_wrap_class'       => 'fts-cpt-main-options',
+
 			'main_options'       => array(
 
 
@@ -3523,23 +3524,6 @@ class Feed_CPT_Options {
                 'select_id'      => 'twitter-messages-selector',
             ),
 
-            // Feed Types and their options
-            'feeds_types'        => array(
-
-                // User Feed
-                array(
-                    'value' => 'user',
-                    'title' => __( 'User Feed', 'feed-them-social' ),
-                ),
-
-                // hastag Feed
-                array(
-                    'value' => 'hashtag',
-                    'title' => __( 'Hashtag, Search and more Feed', 'feed-them-social' ),
-                ),
-            ),
-            'short_attr_final'   => 'yes',
-
             // Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
             'main_options'       => array(
 
@@ -3563,7 +3547,6 @@ class Feed_CPT_Options {
 			            ),
 		            ),
 	            ),
-
 
                 // Twitter Search Name
                 array(

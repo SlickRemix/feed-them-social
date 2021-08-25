@@ -602,6 +602,9 @@ class Metabox_Settings {
 		// Happens in JS file.
 		$this->core_functions_class->fts_tab_notice_html();
 
+		// Section Options Wrap Class.
+		$output .= isset( $section_info['options_wrap_class'] ) ? '<div class="'.$section_info['options_wrap_class'].'">' : '';
+
 		// Create settings fields for Feed OPTIONS.
 		foreach ( (array) $section_info['main_options'] as $option ) {
 			if ( ! isset( $option['no_html'] ) || isset( $option['no_html'] ) && 'yes' !== $option['no_html'] ) {
@@ -734,6 +737,9 @@ class Metabox_Settings {
 				}
 			}
 		}
+
+		//END Section Options Wrap Class.
+		$output .= isset( $section_info['options_wrap_class'] ) ? '</div>' : '';
 
 		$output .= '</div> <!--/Section Wrap Class END -->';
 

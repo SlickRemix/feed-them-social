@@ -1,0 +1,181 @@
+<?php
+/**
+ * Instagram Additional Options Class
+ *
+ * This class has the options for building and saving on the Custom Meta Boxes
+ *
+ * @class    Instagram_Additional_Options
+ * @version  1.0.0
+ * @package  FeedThemSocial/Admin
+ * @category Class
+ * @author   SlickRemix
+ */
+
+namespace feedthemsocial;
+
+// Exit if accessed directly!
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Class Instagram_Add_Options
+ */
+class Instagram_Additional_Options {
+
+	/**
+	 * All Options
+	 *
+	 * @var array
+	 */
+	public $all_options;
+
+	/**
+	 * Instagram_Add_Options constructor.
+	 */
+	public function __construct() { }
+
+	/**
+	 * All Instagram Additional Options
+	 *
+	 * Function to return all Instagram Additional Options
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
+	public function get_all_options() {
+
+		return $this->all_options;
+
+	}
+
+	/**
+	 * Reviews: Style and Text Options
+	 *
+	 * Options for the Reviews: Style and Text Options.
+	 *
+	 * @return mixed
+	 * @since 1.0.0
+	 */
+	public function reviews_text_styles() {
+		$this->all_options['instagram_follow_btn_options'] = array(
+			'section_attr_key'   => 'instagram_follow_btn_options_',
+			'section_title'      => esc_html__( 'Follow Button Options', 'feed_them_social' ),
+			'section_wrap_id' => 'fts-tab-content1',
+			'section_wrap_class' => 'fts-tab-content',
+			// Form Info.
+			'form_wrap_classes'  => 'fb-page-shortcode-form',
+			'form_wrap_id'       => 'fts-fb-page-form',
+			'main_options'       => array(
+				// Show Follow Button.
+				array(
+					'input_wrap_class' => 'instagram_show_follow_btn',
+					'option_type'      => 'select',
+					'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
+					'type'             => 'text',
+					'id'               => 'instagram_show_follow_btn',
+					'name'             => 'instagram_show_follow_btn',
+					'default_value'    => 'no',
+					'options'          => array(
+						array(
+							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'value' => 'no',
+						),
+						array(
+							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'value' => 'yes',
+						),
+					),
+				),
+				// Show Follow Button.
+				array(
+					'input_wrap_class' => 'instagram_show_follow_btn_where',
+					'option_type'      => 'select',
+					'label'            => esc_html__( 'Placement of the Buttons', 'feed_them_social' ),
+					'type'             => 'text',
+					'id'               => 'instagram_show_follow_btn_where',
+					'name'             => 'instagram_show_follow_btn_where',
+					'default_value'    => 'instagram-follow-above',
+					'options'          => array(
+						array(
+							'label' => esc_html__( 'Show Above Feed', 'feed_them_social' ),
+							'value' => 'instagram-follow-above',
+						),
+						array(
+							'label' => esc_html__( 'Show Below Feed', 'feed_them_social' ),
+							'value' => 'instagram-follow-below',
+						),
+					),
+				),
+
+			),
+		);
+
+		return $this->all_options['instagram_follow_btn_options'];
+	} //END Reviews: Style and Text Options.
+
+	/**
+	 * Reviews: Overall Rating Style Options
+	 *
+	 * Options for the Reviews: Overall Rating Style Options.
+	 *
+	 * @return mixed
+	 * @since 1.0.0
+	 */
+	public function reviews_overall_rating_styles() {
+		$this->all_options['instagram_prem_load_more_styles'] = array(
+			'section_attr_key'   => 'instagram_prem_load_more_styles',
+			'section_title'      => esc_html__( 'Load More Button Styles & Options', 'feed_them_social' ),
+			'section_wrap_id' => 'fts-tab-content1',
+			'section_wrap_class' => 'fts-tab-content',
+			// Form Info.
+			'form_wrap_classes'  => 'fb-page-shortcode-form',
+			'form_wrap_id'       => 'fts-fb-page-form',
+			//Options Wrap Class
+			'options_wrap_class'       => '.fts-cpt-additional-options',
+
+
+			'main_options'       => array(
+
+				// Load More Button Color
+				array(
+					'input_wrap_class' => 'instagram_loadmore_background_color',
+					'option_type'      => 'input',
+					'label'            => esc_html__( 'Overall Rating Background Color', 'feed-them-social' ),
+					'type'             => 'text',
+					'id'               => 'instagram_loadmore_background_color',
+					'name'             => 'instagram_loadmore_background_color',
+					'placeholder'      => '#ddd',
+					'default_value'    => '',
+				),
+
+
+				// "Load More" Text
+				array(
+					'input_wrap_class' => 'instagram_load_more_text',
+					'option_type'      => 'input',
+					'label'            => esc_html__( '"Load More" Text', 'feed-them-social' ),
+					'type'             => 'text',
+					'id'               => 'instagram_load_more_text',
+					'name'             => 'instagram_load_more_text',
+					'placeholder'      => 'Load More',
+					'default_value'    => '',
+				),
+
+				// "No More Photos" Text
+				array(
+					'input_wrap_class' => 'instagram_no_more_photos_text',
+					'option_type'      => 'input',
+					'label'            => esc_html__( '"No More Photos" Text', 'feed-them-social' ),
+					'type'             => 'text',
+					'id'               => 'instagram_no_more_photos_text',
+					'name'             => 'instagram_no_more_photos_text',
+					'placeholder'      => 'No More Photos',
+					'default_value'    => '',
+				),
+			),
+		);
+
+		return $this->all_options['instagram_prem_load_more_styles'];
+	} //END Reviews: Overall Rating Style Options
+}

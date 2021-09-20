@@ -846,9 +846,9 @@ class Feeds_CPT {
 	public function tab_facebook_feed( $params ) {
 		$gallery_class = $params['this'];
 
-        $facebook_additional_options = new Facebook_Additional_Options();
 
-		$additional_options = $facebook_additional_options->get_all_options();
+
+		$facebook_additional_options = $facebook_additional_options->get_all_options();
 
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
@@ -875,15 +875,15 @@ class Feeds_CPT {
         <div class="tab-5-extra-options">
             <?php
             //Facebook Reviews text and styles.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $additional_options['facebook_reviews_text_styles'], null, $gallery_class->parent_post_id ); ?>
+            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_additional_options['facebook_reviews_text_styles'], null, $gallery_class->parent_post_id ); ?>
 
             <?php
             //Facebook Reviews and Overall Ratings styles.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $additional_options['facebook_reviews_overall_rating_styles'], null, $gallery_class->parent_post_id ); ?>
+            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_additional_options['facebook_reviews_overall_rating_styles'], null, $gallery_class->parent_post_id ); ?>
 
             <?php
             //Facebook Language Options.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $additional_options['facebook_languages_options'], null, $gallery_class->parent_post_id ); ?>
+            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_additional_options['facebook_languages_options'], null, $gallery_class->parent_post_id ); ?>
 
         </div>
 
@@ -899,6 +899,9 @@ class Feeds_CPT {
 	 */
 	public function tab_instagram_feed( $params ) {
 		$gallery_class = $params['this'];
+
+		$instagram_additional_options = new Instagram_Additional_Options();
+
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
 
@@ -912,6 +915,17 @@ class Feeds_CPT {
 		$this->setting_options_js->instagram_js();
 		?>
         <div class="tab-5-extra-options">
+	        <?php
+	        //Facebook Reviews text and styles.
+	        echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_additional_options['instagram_follow_btn_options'], null, $gallery_class->parent_post_id ); ?>
+
+	        <?php
+
+            if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+	            //Facebook Reviews text and styles.
+	            echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_additional_options['instagram_prem_load_more_styles'], null, $gallery_class->parent_post_id );
+            }?>
+
 
         </div>
 

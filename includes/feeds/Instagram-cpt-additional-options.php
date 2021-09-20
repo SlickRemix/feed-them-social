@@ -115,9 +115,9 @@ class Instagram_Additional_Options {
 	} //END Reviews: Style and Text Options.
 
 	/**
-	 * Reviews: Overall Rating Style Options
+	 * Instagram Premium Load More Styles
 	 *
-	 * Options for the Reviews: Overall Rating Style Options.
+	 * Options for the Load More buttons.
 	 *
 	 * @return mixed
 	 * @since 1.0.0
@@ -145,6 +145,18 @@ class Instagram_Additional_Options {
 					'type'             => 'text',
 					'id'               => 'instagram_loadmore_background_color',
 					'name'             => 'instagram_loadmore_background_color',
+					'placeholder'      => '#ddd',
+					'default_value'    => '',
+				),
+
+				// Load More Button Text Color
+				array(
+					'input_wrap_class' => 'instagram_loadmore_text_color',
+					'option_type'      => 'input',
+					'label'            => esc_html__( 'Load More Button Text Color', 'feed-them-social' ),
+					'type'             => 'text',
+					'id'               => 'instagram_loadmore_text_color',
+					'name'             => 'instagram_loadmore_text_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
 				),

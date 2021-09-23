@@ -60,14 +60,14 @@ class Twitter_Additional_Options {
 	/**
 	 * Twitter Follow Button Options
 	 *
-	 * Options for the Twitter Follow Buttons
+	 * Options for the Twitter Follow Buttons.
 	 *
 	 * @return mixed
 	 * @since 1.0.0
 	 */
 	public function follow_btn_options() {
 		$this->all_options['twitter_follow_btn_options'] = array(
-			'section_attr_key'   => 'instagram_follow_btn_options_',
+			'section_attr_key'   => 'twitter_follow_btn_options_',
 			'section_title'      => esc_html__( 'Follow Button Options', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
@@ -119,7 +119,7 @@ class Twitter_Additional_Options {
 		);
 
 		return $this->all_options['twitter_follow_btn_options'];
-	} //END Reviews: Style and Text Options.
+	} //END Twitter Follow Button Options.
 
 	/**
 	 * Twitter Video Player Options
@@ -131,7 +131,7 @@ class Twitter_Additional_Options {
 	 */
 	public function video_player_options() {
 		$this->all_options['twitter_video_player_options'] = array(
-			'section_attr_key'   => 'twitter_video_player_options',
+			'section_attr_key'   => 'twitter_video_player_options_',
 			'section_title'      => esc_html__( 'Video Player Options', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
@@ -181,7 +181,7 @@ class Twitter_Additional_Options {
 	 */
 	public function profile_photo_options() {
 		$this->all_options['twitter_profile_photo_options'] = array(
-			'section_attr_key'   => 'twitter_profile_photo_options',
+			'section_attr_key'   => 'twitter_profile_photo_options_',
 			'section_title'      => esc_html__( 'Profile Photo Option', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
@@ -231,7 +231,7 @@ class Twitter_Additional_Options {
 	 */
 	public function style_options() {
 		$this->all_options['twitter_style_options'] = array(
-			'section_attr_key'   => 'twitter_style_options',
+			'section_attr_key'   => 'twitter_style_options_',
 			'section_title'      => esc_html__( 'Profile Photo Option', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
@@ -419,7 +419,7 @@ class Twitter_Additional_Options {
 	 */
 	public function grid_style_options() {
 		$this->all_options['twitter_grid_style_options'] = array(
-			'section_attr_key'   => 'twitter_grid_style_options',
+			'section_attr_key'   => 'twitter_grid_style_options_',
 			'section_title'      => esc_html__( 'Grid Styles', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
@@ -471,7 +471,7 @@ class Twitter_Additional_Options {
 	 */
 	public function load_more_options() {
 		$this->all_options['twitter_load_more_options'] = array(
-			'section_attr_key'   => 'twitter_grid_style_options',
+			'section_attr_key'   => 'twitter_grid_style_options_',
 			'section_title'      => esc_html__( 'Load More Button Styles & Options', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',

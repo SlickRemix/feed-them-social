@@ -328,6 +328,9 @@ class Feed_Them_Social {
 		// Twitter Additional Options
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter-cpt-additional-options.php';
 
+		// Youtube Additional Options
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/youtube-cpt-additional-options.php';
+
 		// Feeds CPT Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-class.php';
 

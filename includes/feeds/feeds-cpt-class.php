@@ -919,13 +919,13 @@ class Feeds_CPT {
 
 	        $instagram_add_all_options = $instagram_additional_options->get_all_options();
 
-	        //Facebook Reviews text and styles.
+	        //Instagram Follow Button Options.
 	        echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $gallery_class->parent_post_id );
 
             // FTS Premium ACTIVE
             if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-	            //Facebook Reviews text and styles.
-	            echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_prem_load_more_styles'], null, $gallery_class->parent_post_id );
+	            //Instagram Load More Options
+	            echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $gallery_class->parent_post_id );
             }?>
 
         </div>
@@ -993,9 +993,9 @@ class Feeds_CPT {
 	public function tab_youtube_feed( $params ) {
 		$gallery_class = $params['this'];
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-			?>
+            ?>
 
-					<div class="ftg-section">
+                    <div class="ftg-section">
 				<?php $gallery_class->fts_tab_premium_msg(); ?>
 					</div>
 				<?php }
@@ -1003,9 +1003,21 @@ class Feeds_CPT {
 		    echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['youtube'], null, $gallery_class->parent_post_id );
 
 		    $this->setting_options_js->youtube_js();
-		        ?>
-				<div class="tab-5-extra-options">
+            ?>
+            <div class="tab-5-extra-options">
+	            <?php
+                $youtube_additional_options = new Youtube_Additional_Options();
 
+                $youtube_add_all_options = $youtube_additional_options->get_all_options();
+
+                //Youtube Follow Button Options.
+                echo $gallery_class->metabox_settings_class->settings_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $gallery_class->parent_post_id );
+
+                // FTS Premium ACTIVE
+                if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+                //Youtube Load More Options.
+                echo $gallery_class->metabox_settings_class->settings_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $gallery_class->parent_post_id );
+                }?>
 			</div>
 
             <?php

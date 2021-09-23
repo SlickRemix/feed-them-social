@@ -322,6 +322,12 @@ class Feed_Them_Social {
 		// Facebook Additional Options
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook-cpt-additional-options.php';
 
+		// Instagram Additional Options
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/instagram-cpt-additional-options.php';
+
+		// Twitter Additional Options
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter-cpt-additional-options.php';
+
 		// Feeds CPT Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-class.php';
 

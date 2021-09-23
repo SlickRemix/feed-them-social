@@ -33,7 +33,10 @@ class Instagram_Additional_Options {
 	/**
 	 * Instagram_Add_Options constructor.
 	 */
-	public function __construct() { }
+	public function __construct() {
+		$this->follow_btn_options();
+		$this->prem_load_more_styles();
+	}
 
 	/**
 	 * All Instagram Additional Options
@@ -57,7 +60,7 @@ class Instagram_Additional_Options {
 	 * @return mixed
 	 * @since 1.0.0
 	 */
-	public function reviews_text_styles() {
+	public function follow_btn_options() {
 		$this->all_options['instagram_follow_btn_options'] = array(
 			'section_attr_key'   => 'instagram_follow_btn_options_',
 			'section_title'      => esc_html__( 'Follow Button Options', 'feed_them_social' ),
@@ -122,7 +125,7 @@ class Instagram_Additional_Options {
 	 * @return mixed
 	 * @since 1.0.0
 	 */
-	public function reviews_overall_rating_styles() {
+	public function prem_load_more_styles() {
 		$this->all_options['instagram_prem_load_more_styles'] = array(
 			'section_attr_key'   => 'instagram_prem_load_more_styles',
 			'section_title'      => esc_html__( 'Load More Button Styles & Options', 'feed_them_social' ),

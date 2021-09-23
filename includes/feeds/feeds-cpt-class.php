@@ -846,10 +846,6 @@ class Feeds_CPT {
 	public function tab_facebook_feed( $params ) {
 		$gallery_class = $params['this'];
 
-
-
-		$facebook_additional_options = $facebook_additional_options->get_all_options();
-
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
 
@@ -874,16 +870,21 @@ class Feeds_CPT {
         </div>
         <div class="tab-5-extra-options">
             <?php
+
+            $facebook_additional_options = new Facebook_Additional_Options();
+
+            $facebook_add_all_options = $facebook_additional_options->get_all_options();
+
             //Facebook Reviews text and styles.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_additional_options['facebook_reviews_text_styles'], null, $gallery_class->parent_post_id ); ?>
+            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_reviews_text_styles'], null, $gallery_class->parent_post_id ); ?>
 
             <?php
             //Facebook Reviews and Overall Ratings styles.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_additional_options['facebook_reviews_overall_rating_styles'], null, $gallery_class->parent_post_id ); ?>
+            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_reviews_overall_rating_styles'], null, $gallery_class->parent_post_id ); ?>
 
             <?php
             //Facebook Language Options.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_additional_options['facebook_languages_options'], null, $gallery_class->parent_post_id ); ?>
+            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_languages_options'], null, $gallery_class->parent_post_id ); ?>
 
         </div>
 
@@ -900,8 +901,6 @@ class Feeds_CPT {
 	public function tab_instagram_feed( $params ) {
 		$gallery_class = $params['this'];
 
-		$instagram_additional_options = new Instagram_Additional_Options();
-
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
 
@@ -916,16 +915,18 @@ class Feeds_CPT {
 		?>
         <div class="tab-5-extra-options">
 	        <?php
+	        $instagram_additional_options = new Instagram_Additional_Options();
+
+	        $instagram_add_all_options = $instagram_additional_options->get_all_options();
+
 	        //Facebook Reviews text and styles.
-	        echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_additional_options['instagram_follow_btn_options'], null, $gallery_class->parent_post_id ); ?>
+	        echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $gallery_class->parent_post_id );
 
-	        <?php
-
+            // FTS Premium ACTIVE
             if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 	            //Facebook Reviews text and styles.
-	            echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_additional_options['instagram_prem_load_more_styles'], null, $gallery_class->parent_post_id );
+	            echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_prem_load_more_styles'], null, $gallery_class->parent_post_id );
             }?>
-
 
         </div>
 
@@ -955,7 +956,27 @@ class Feeds_CPT {
 		$this->setting_options_js->twitter_js();
 		?>
         <div class="tab-5-extra-options">
+	        <?php
+	        $twitter_additional_options = new Twitter_Additional_Options();
 
+	        $twitter_add_all_options = $twitter_additional_options->get_all_options();
+
+	        // Twitter Follow Button Options
+	        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_follow_btn_options'], null, $gallery_class->parent_post_id );
+	        // Twitter Video Player Options
+	        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_video_player_options'], null, $gallery_class->parent_post_id );
+	        // Twitter Profile Photo Options
+	        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_profile_photo_options'], null, $gallery_class->parent_post_id );
+	        // Twitter Style Options
+	        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_style_options'], null, $gallery_class->parent_post_id );
+
+	        // FTS Premium ACTIVE
+	        if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+		        // Twitter Grid Styles
+		        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $gallery_class->parent_post_id );
+		        // Twitter Load More Button Styles & Options
+		        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $gallery_class->parent_post_id );
+	        }?>
         </div>
 
 		<?php

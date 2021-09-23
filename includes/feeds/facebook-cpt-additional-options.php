@@ -35,7 +35,11 @@ class Facebook_Additional_Options {
 	 */
 	public function __construct() {
 		$this->reviews_text_styles();
-
+		$this->reviews_overall_rating_styles();
+		$this->language_options();
+		$this->like_button_box_options();
+		$this->global_facebook_style_options();
+		$this->error_messages_options();
 	}
 
 	/**
@@ -796,7 +800,7 @@ class Facebook_Additional_Options {
 	 * @return mixed
 	 * @since 1.0.0
 	 */
-	public function facebook_error_messages_options() {
+	public function error_messages_options() {
 		$this->all_options['facebook_error_messages_options'] = array(
 			'section_attr_key'   => 'facebook_error_messages_options_',
 			'section_title'      => esc_html__( 'Facebook Error Messages', 'feed_them_social' ),
@@ -845,6 +849,6 @@ class Facebook_Additional_Options {
 			),
 		);
 
-		return $this->all_options['facebook_like_button_box_options'];
+		return $this->all_options['facebook_error_messages_options'];
 	} //END Like Button or Box Options.
 }

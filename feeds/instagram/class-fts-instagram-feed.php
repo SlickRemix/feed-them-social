@@ -473,6 +473,9 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 
                                 foreach ( $hashtag_error_check->data as &$media ) {
 
+                                    // Instagram hashtag data returned from the facebook API does not contain a thumbnail_url for videos.
+                                    // We have to use the instagram_oembed feature to grab the thumbnail_url for a video
+                                    // so we can display it in the feed for carousel album posts that contain a video. All posts including hashtag video posts link back to Instagram for that user as well.
                                     if( 'VIDEO' === $media->media_type ){
                                                     $permalink = $media->permalink;
                                                     $instagram_business_data_array['data'] = 'https://graph.facebook.com/v9.0/instagram_oembed?url=' . $permalink . '&fields=thumbnail_url&access_token='.$fts_instagram_access_token_final;

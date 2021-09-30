@@ -116,7 +116,7 @@ jQuery(document).ready(function ($) {
 
                     var hash2 = window.location.hash.replace('#', '');
                     // alert(hash2);
-                    if (hash2 === 'images' || hash2 === 'galleries' || jQuery('.post-type-fts_albums .tab1').hasClass('active') || hash2 === '' && !jQuery('.fts_page_template_settings_page')[0]) {
+                    if (hash2 === 'feed_setup' || hash2 === 'galleries' || jQuery('.post-type-fts_albums .tab1').hasClass('active') || hash2 === '' && !jQuery('.fts_page_template_settings_page')[0]) {
                         location.reload();
                     }
                     // We change the text from Updating... at the bottom of a long page to Update.

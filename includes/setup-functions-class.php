@@ -72,11 +72,11 @@ class Setup_Functions {
 		}
 		add_action( 'wp_enqueue_scripts', array( $this, 'fts_color_options_head_css_front' ) );
 
-		// Settings option. Add Custom CSS to the header of Feed Them Social pages only.
-		$fts_custom_css_checked_css = get_option( 'ft-gallery-options-settings-custom-css-second' );
-		if ( '1' === $fts_custom_css_checked_css ) {
-			add_action( 'wp_head', array( $this, 'fts_head_css' ) );
-		}
+        // Settings option. Add Custom CSS to the header of Feed Them Gallery pages only.
+        add_action( 'wp_head', array( $this, 'fts_head_css' ) );
+
+        // Settings option. Add Custom JS to the front end of the website.
+        add_action( 'wp_head', array( $this, 'fts_head_js' ) );
 
 		// Widget Code to allow shortcodes.
 		add_filter( 'widget_text', 'do_shortcode' );
@@ -84,8 +84,8 @@ class Setup_Functions {
 		// Re-order Sub-Menu Items.
 		// add_action( 'admin_menu', array( $this, 'fts_reorder_admin_sub_menus' ) );
 		// FTG License Page.
-		if ( isset( $_GET['page'] ) && 'ft-gallery-license-page' === $_GET['page'] ) {
-			add_action( 'admin_footer', array( $this, 'ftg_plugin_license' ) );
+        add_action( 'admin_footer', array( $this, 'ftg_plugin_license' ) );
+		if ( isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ) {
 		}
 	}
 
@@ -331,23 +331,51 @@ class Setup_Functions {
 	public function fts_admin_bar_menu() {
 		global $wp_admin_bar;
 
-		$ftg_admin_menu_bar = get_option( 'ft-gallery-admin-bar-menu' );
-		if ( ! is_super_admin() || ! is_admin_bar_showing() || 'hide-admin-bar-menu' === $ftg_admin_menu_bar ) {
-			return;
-		}
+        if ( ! is_super_admin() || ! is_admin_bar_showing() || ! fts_get_option( 'fts_show_admin_bar' ) ) {
+            return;
+        }
+
 		$wp_admin_bar->add_menu(
 			array(
 				'id'    => 'fts_admin_bar',
-				'title' => esc_html__( 'Feed Them Social', 'ft-gallery' ),
+				'title' => esc_html__( 'Feed Them Social', 'feed-them-social' ),
 				'href'  => false,
 			)
 		);
-		// Galleries.
+
+
+            if ( '1' !== fts_get_option('fts_cache_time' ) ) {
+                $wp_admin_bar->add_menu(
+                    array(
+                        'id' => 'fts_admin_bar_admin_set_cache',
+                        'parent' => 'fts_admin_bar',
+                        'title' => __( 'Clear Cache', 'feed-them-social' ),
+                        'href' => '#',
+                    )
+                );
+            }
+
+            $wp_admin_bar->add_menu(
+                array(
+                    'id' => 'fts_admin_bar_set_cache',
+                    'parent' => 'fts_admin_bar',
+                    'title' => sprintf(
+                        __( 'Set Cache Time %1$s%2$s%3$s', 'feed-them-social' ),
+                        '<span>',
+                        $this->fts_cachetime_amount( fts_get_option( 'fts_cache_time' ) ),
+                        '</span>'
+                    ),
+                    'href' => admin_url( 'edit.php?post_type=fts&page=fts-settings-page&tab=general&section=general-main' ),
+
+                )
+            );
+
+        // Galleries.
 		$wp_admin_bar->add_menu(
 			array(
 				'id'     => 'fts_admin_bar_view_galleries',
 				'parent' => 'fts_admin_bar',
-				'title'  => esc_html__( 'Galleries ', 'ft-gallery' ),
+				'title'  => esc_html__( 'Feeds ', 'ft-gallery' ),
 				'href'   => admin_url( 'edit.php?post_type=fts' ),
 			)
 		);
@@ -356,7 +384,7 @@ class Setup_Functions {
 			array(
 				'id'     => 'fts_admin_bar_new_gallery',
 				'parent' => 'fts_admin_bar',
-				'title'  => esc_html__( 'Add Gallery ', 'ft-gallery' ),
+				'title'  => esc_html__( 'Add Feed ', 'ft-gallery' ),
 				'href'   => admin_url( 'post-new.php?post_type=fts' ),
 			)
 		);
@@ -366,7 +394,7 @@ class Setup_Functions {
 				'id'     => 'fts_admin_bar_settings',
 				'parent' => 'fts_admin_bar',
 				'title'  => esc_html__( 'Settings', 'ft-gallery' ),
-				'href'   => admin_url( 'edit.php?post_type=fts&page=ft-gallery-settings-page' ),
+				'href'   => admin_url( 'edit.php?post_type=fts&page=fts-settings-page&tab=general&section=general-main' ),
 			)
 		);
 
@@ -386,11 +414,43 @@ class Setup_Functions {
 					'id'     => 'fts_admin_bar_plugin_license',
 					'parent' => 'fts_admin_bar',
 					'title'  => esc_html__( 'Plugin License', 'ft-gallery' ),
-					'href'   => admin_url( 'edit.php?post_type=fts&page=ft-gallery-license-page' ),
+					'href'   => admin_url( 'edit.php?post_type=fts&page=fts-license-page' ),
 				)
 			);
 		}
 	}
+
+    /**
+     * FTS Cachetime amount
+     *
+     * @param string $fts_cachetime Cache time.
+     * @return mixed
+     * @since
+     */
+    public function fts_cachetime_amount( $fts_cachetime ) {
+        switch ( $fts_cachetime ) {
+            case '1':
+                $fts_display_cache_time = __( 'Clear cache on every page load', 'feed-them-social' );
+                break;
+            default:
+            case '86400':
+                $fts_display_cache_time = __( '1 Day (Default)', 'feed-them-social' );
+                break;
+            case '172800':
+                $fts_display_cache_time = __( '2 Days', 'feed-them-social' );
+                break;
+            case '259200':
+                $fts_display_cache_time = __( '3 Days', 'feed-them-social' );
+                break;
+            case '604800':
+                $fts_display_cache_time = __( '1 Week', 'feed-them-social' );
+                break;
+            case '1209600':
+                $fts_display_cache_time = __( '2 Weeks', 'feed-them-social' );
+                break;
+        }
+        return $fts_display_cache_time;
+    }
 
 	/**
 	 *  Settings Page Options
@@ -483,16 +543,36 @@ class Setup_Functions {
 		$this->fts_register_settings( 'ft-gallery-settings', $settings );
 	}
 
-	/**
-	 * Feed Them Social Head CSS
-	 *
-	 * Add CSS to the WordPress front end Header
-	 *
-	 * @since 1.0.0
-	 */
-	public function fts_head_css() {
-		?>
-		<style type="text/css"><?php echo esc_html( get_option( 'ft-gallery-settings-admin-textarea-css' ) ); ?></style>
-										  <?php
-	}
+    /**
+     * Feed Them Social Head JS
+     *
+     * Add CSS to the WordPress front end Header
+     *
+     * @since 1.0.0
+     */
+    public function fts_head_js() {
+        if ( ! fts_get_option( 'use_custom_js' ) ) {
+            return;
+        }
+
+        ?>
+        <script><?php echo esc_html( fts_get_option( 'custom_js' ) ); ?></script>
+        <?php
+    } // fts_head_js
+
+    /**
+     * Feed Them Social Head CSS
+     *
+     * Add CSS to the WordPress front end Header
+     *
+     * @since 1.0.0
+     */
+    public function fts_head_css() {
+        if ( ! fts_get_option( 'use_custom_css' ) ) {
+           return;
+        }
+        ?>
+        <style type="text/css"><?php echo esc_html( fts_get_option( 'custom_css' ) ); ?></style>
+        <?php
+    } // fts_head_css
 }//end class

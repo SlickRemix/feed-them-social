@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Feed Them Social
  *
@@ -22,6 +21,8 @@ class Feed_Them_Social {
 	 */
 	public static function load_plugin() {
 
+        global $fts_options;
+
 		$plugin_loaded = new self();
 
 		$plugin_loaded->pre_plugin_checks();
@@ -43,8 +44,14 @@ class Feed_Them_Social {
         //Feed Them Functions!
         $feed_functions = new \feedthemsocial\FTS_Functions();
 
+        // Get FTS Settings
+        $fts_options = fts_get_settings();
+
 		// Settings Page.
 		feedthemsocial\Settings_Page::load();
+
+        // Setup Plugin functions.
+        feedthemsocial\Setup_Functions::load();
 
 		// System Info.
 		feedthemsocial\System_Info::load();
@@ -67,9 +74,9 @@ class Feed_Them_Social {
 			// Load in Premium Gallery glasses if premium is loaded.
 		/*if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 
-			$ftgp_current_version = defined( 'FTS_CURRENT_VERSION' ) ? FTS_CURRENT_VERSION : '';
+			$ftg_current_version = defined( 'FTS_CURRENT_VERSION' ) ? FTS_CURRENT_VERSION : '';
 
-			if ( $ftgp_current_version > '1.0.5' ) {
+			if ( $ftg_current_version > '1.0.5' ) {
 				// Template Settings Options.
 				$template_settings_options = feedthemsocial\Template_Settings_Options::get_all_options();
 
@@ -86,6 +93,12 @@ class Feed_Them_Social {
 
 		// Shortcodes.
 		new feedthemsocial\Shortcodes( $main_post_type, $feed_functions, $feeds_cpt, $feed_cache );
+
+        // Backwards compatability
+        feedthemsocial\FTS_Backwards_Compat::load();
+
+        // Upgrades
+        feedthemsocial\FTS_Upgrades::load();
 
 		// Updater Init.
 		new feedthemsocial\updater_init();
@@ -111,13 +124,13 @@ class Feed_Them_Social {
 	 * @since 1.0.0
 	 */
 	public function add_actions_filters() {
-		register_activation_hook( __FILE__, array( $this, 'ftg_activate' ) );
+		register_activation_hook( __FILE__, array( $this, 'fts_activate' ) );
 		add_action( 'admin_notices', array( $this, 'fts_display_install_notice' ) );
 		add_action( 'admin_notices', array( $this, 'fts_display_update_notice' ) );
 		add_action( 'upgrader_process_complete', array( $this, 'fts_upgrade_completed', 10, 2 ) );
 
 		// Include our own Settings link to plugin activation and update page.
-		add_filter( 'plugin_action_links_' . FEED_THEM_GALLERY_PLUGIN_BASENAME, array( $this, 'fts_free_plugin_actions' ), 10, 4 );
+		add_filter( 'plugin_action_links_' . FEED_THEM_SOCIAL_PLUGIN_BASENAME, array( $this, 'fts_free_plugin_actions' ), 10, 4 );
 
 		// Include Leave feedback, Get support and Plugin info links to plugin activation and update page.
 		add_filter( 'plugin_row_meta', array( $this, 'fts_leave_feedback_link' ), 10, 2 );
@@ -172,14 +185,14 @@ class Feed_Them_Social {
 	 */
 	public function fts_upgrade_completed( $upgrader_object, $options ) {
 		// The path to our plugin's main file.
-		$our_plugin = FEED_THEM_GALLERY_PLUGIN_BASENAME;
+		$our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
 		// If an update has taken place and the updated type is plugins and the plugins element exists.
 		if ( 'update' === $options['action'] && 'plugin' === $options['type'] && isset( $options['plugins'] ) ) {
 			// Iterate through the plugins being updated and check if ours is there.
 			foreach ( $options['plugins'] as $plugin ) {
 				if ( $plugin === $our_plugin ) {
 					// Set a transient to record that our plugin has just been updated.
-					set_transient( 'ftgallery_updated', 1 );
+					set_transient( 'fts_updated', 1 );
 				}
 			}
 		}
@@ -194,13 +207,13 @@ class Feed_Them_Social {
 	 */
 	public function fts_display_update_notice() {
 		// Check the transient to see if we've just updated the plugin.
-		if ( get_transient( 'ftgallery_updated' ) ) {
+		if ( get_transient( 'fts_updated' ) ) {
 			echo sprintf(
 				esc_html__( '%1$sThanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.%2$s', 'feed_them_social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
 				'</p></div>'
 			);
-			delete_transient( 'ftgallery_updated' );
+			delete_transient( 'fts_updated' );
 		}
 	}
 
@@ -213,7 +226,7 @@ class Feed_Them_Social {
 	 */
 	public function fts_display_install_notice() {
 		// Check the transient to see if we've just activated the plugin.
-		if ( get_transient( 'ftgallery_activated' ) ) {
+		if ( get_transient( 'fts_activated' ) ) {
 
 			echo sprintf(
 				esc_html__( '%1$sThanks for installing Feed Them Social. To get started please view our %2$sSettings%3$s page.%4$s', 'feed_them_social' ),
@@ -223,7 +236,7 @@ class Feed_Them_Social {
 				'</p></div>'
 			);
 			// Delete the transient so we don't keep displaying the activation message.
-			delete_transient( 'ftgallery_activated' );
+			delete_transient( 'fts_activated' );
 		}
 	}
 
@@ -234,8 +247,9 @@ class Feed_Them_Social {
 	 *
 	 * @since 1.0.0
 	 */
-	public function ftg_activate() {
-		set_transient( 'ftgallery_activated', 1 );
+	public function fts_activate() {
+		set_transient( 'fts_activated', 1 );
+        update_option( 'fts_version', FEED_THEM_SOCIAL_VERSION );
 	}
 
 
@@ -253,27 +267,27 @@ class Feed_Them_Social {
 		}
 
 		// Plugin Basename.
-		if ( ! defined( 'FEED_THEM_GALLERY_PLUGIN_BASENAME' ) ) {
-			define( 'FEED_THEM_GALLERY_PLUGIN_BASENAME', 'feed-them-social/feed-them-social.php' );
+		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_BASENAME' ) ) {
+			define( 'FEED_THEM_SOCIAL_PLUGIN_BASENAME', 'feed-them-social/feed-them-social.php' );
 		}
 
 		// Plugins Absolute Path. (Needs to be after BASENAME constant to work).
-		if ( ! defined( 'FEED_THEM_GALLERY_PLUGIN_ABS_PATH' ) ) {
-			define( 'FEED_THEM_GALLERY_PLUGIN_ABS_PATH', plugin_dir_path( __DIR__ ) . FEED_THEM_GALLERY_PLUGIN_BASENAME );
+		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH' ) ) {
+			define( 'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH', plugin_dir_path( __DIR__ ) . FEED_THEM_SOCIAL_PLUGIN_BASENAME );
 		}
 
 		// Plugin version. (Needs to be after BASENAME and ABS_PATH constants to work).
-		if ( ! defined( 'FEED_THEM_GALLERY_VERSION' ) ) {
+		if ( ! defined( 'FEED_THEM_SOCIAL_VERSION' ) ) {
 
-			$plugin_data    = get_plugin_data( FEED_THEM_GALLERY_PLUGIN_ABS_PATH );
+			$plugin_data    = get_plugin_data( FEED_THEM_SOCIAL_PLUGIN_ABS_PATH );
 			$plugin_version = $plugin_data['Version'];
 
-			define( 'FEED_THEM_GALLERY_VERSION', $plugin_version );
+			define( 'FEED_THEM_SOCIAL_VERSION', $plugin_version );
 		}
 
 		// Plugin Folder Path.
-		if ( ! defined( 'FEED_THEM_GALLERY_PLUGIN_PATH' ) ) {
-			define( 'FEED_THEM_GALLERY_PLUGIN_PATH', plugins_url() );
+		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_PATH' ) ) {
+			define( 'FEED_THEM_SOCIAL_PLUGIN_PATH', plugins_url() );
 		}
 		// Plugin Directory Path.
 		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
@@ -300,6 +314,7 @@ class Feed_Them_Social {
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/system-info.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox-settings/metabox-settings-class.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings-page.php';
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings-functions.php';
 
 		// Setup Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/setup-functions-class.php';
@@ -340,20 +355,17 @@ class Feed_Them_Social {
 		// Twitter Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-fts-twitter-feed.php';
 
+        // SRL NOTE: We don't have any premium settings options but going to leave this in place for future.
+		// if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 
-		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-
-			$ftgp_current_version = defined( 'FTGP_CURRENT_VERSION' ) ? FTGP_CURRENT_VERSION : '';
-
-			if ( FTGP_CURRENT_VERSION > '1.0.5' ) {
+			//$ftg_current_version = defined( 'FTG_CURRENT_VERSION' ) ? FTS_CURRENT_VERSION : '';
 
 				// Template Settings Options.
-				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-options.php';
+			//	include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-options.php';
 
 				// Template Settings Page.
-				include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-page-class.php';
-			}
-		}
+			//	include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-page-class.php';
+		// }
 
 		// Feed Cache
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';
@@ -364,7 +376,13 @@ class Feed_Them_Social {
 		// Include Shortcodes.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/shortcodes.php';
 
-		// Updater Classes.
+        // Backwards compatability
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/includes/backwards-compat/fts-backwards-compat-class.php';
+
+        // Upgraders
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/upgrades/fts-upgrade-class.php';
+
+        // Updater Classes.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php';
@@ -379,7 +397,7 @@ class Feed_Them_Social {
 	 */
 	public function fts_action_init() {
 		// Localization.
-		load_plugin_textdomain( 'feed_them_social', false, FEED_THEM_GALLERY_PLUGIN_BASENAME . '/languages' );
+		load_plugin_textdomain( 'feed_them_social', false, FEED_THEM_SOCIAL_PLUGIN_BASENAME . '/languages' );
 	}
 
 	/**
@@ -436,7 +454,7 @@ class Feed_Them_Social {
 	 * @since 1.0.0
 	 */
 	public function fts_leave_feedback_link( $links, $file ) {
-		if ( FEED_THEM_GALLERY_PLUGIN_BASENAME === $file ) {
+		if ( FEED_THEM_SOCIAL_PLUGIN_BASENAME === $file ) {
 			$links['feedback'] = sprintf(
 				esc_html__( '%1$sRate Plugin%2$s', 'feed_them_social' ),
 				'<a href="' . esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/' ) . '" target="_blank">',
@@ -487,7 +505,7 @@ class Feed_Them_Social {
 	}
 
 	/**
-	 * FTG Set Review Transient
+	 * FTS Set Review Transient
 	 *
 	 * Set a transient if the notice has not been dismissed or has not been set yet
 	 *
@@ -502,13 +520,13 @@ class Feed_Them_Social {
 
 		if ( ! $ftg_rating_notice_waiting && ! ( 'dismissed' === $notice_status || 'pending' === $notice_status ) ) {
 			$time = 2 * WEEK_IN_SECONDS;
-			set_transient( $transient, 'ftg-review-waiting', $time );
+			set_transient( $transient, 'fts-review-waiting', $time );
 			update_option( $option, 'pending' );
 		}
 	}
 
 	/**
-	 * FTG Review Check
+	 * FTS Review Check
 	 *
 	 * Checks $_GET to see if the nag variable is set and what it's value is
 	 *
@@ -525,7 +543,7 @@ class Feed_Them_Social {
 				update_option( $option, 'dismissed' );
 			} elseif ( 'later' === $get[ $nag ] ) {
 				$time = 2 * WEEK_IN_SECONDS;
-				set_transient( $transient, 'ftg-review-waiting', $time );
+				set_transient( $transient, 'fts-review-waiting', $time );
 				update_option( $option, 'pending' );
 			}
 		}
@@ -543,7 +561,7 @@ class Feed_Them_Social {
 	public function set_review_status( $option, $transient ) {
 		$notice_status = get_option( $option, false );
 		// Only display the notice if the time offset has passed and the user hasn't already dismissed it!.
-		if ( 'ftg-review-waiting' !== get_transient( $transient ) && 'dismissed' !== $notice_status ) {
+		if ( 'fts-review-waiting' !== get_transient( $transient ) && 'dismissed' !== $notice_status ) {
 			add_action( 'admin_notices', array( $this, 'ftg_rating_notice_html' ) );
 		}
 
@@ -554,7 +572,7 @@ class Feed_Them_Social {
 	}
 
 	/**
-	 * FTG Ratings Notice
+	 * FTS Ratings Notice
 	 *
 	 * Generates the html for the admin notice
 	 *
@@ -570,9 +588,9 @@ class Feed_Them_Social {
 				?>
 				<div class="ftg_notice ftg_review_notice">
 					<img src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/css/ft-gallery-logo.png' ) ); ?>" alt="Feed Them Social">
-					<div class='ftg-notice-text'>
+					<div class='fts-notice-text'>
 						<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed_them_social' ); ?></p>
-						<p class="ftg-links">
+						<p class="fts-links">
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Sure, I\'d love to', 'feed_them_social' ); ?></a>
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'ftg_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed_them_social' ); ?></a>
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'ftg_slick_ignore_rating_notice_nag', 'later' ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed_them_social' ); ?> </a>
@@ -598,7 +616,7 @@ class Feed_Them_Social {
 	 */
 	public static function fts_check_version() {
 
-		$plugin_data = get_plugin_data( FEED_THEM_GALLERY_PLUGIN_ABS_PATH );
+		$plugin_data = get_plugin_data( FEED_THEM_SOCIAL_PLUGIN_ABS_PATH );
 
 		return $plugin_data['Version'];
 	}

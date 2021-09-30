@@ -896,7 +896,9 @@ h3.sectioned-options-title {
 .ft-gallery-no-zips {
     padding: 0 0 0 2px
 }
-
+.fts-shortcode-location {
+    display:none;
+}
 .feed_them_social-admin-input-wrap {
     padding: 20px 11px 20px 0;
     background: #f9f9f9;
@@ -1342,6 +1344,6 @@ button.ft-gallery-edit-img-popup {
 
 .combine-twitter-hashtag-etc-wrap,.facebook_hide_date,.facebook_hide_name,.facebook_hide_thumbnail,.facebook_show_media,.fts-success,.youtube_video_single_info_display{display:none}
 
-.combine-instagram-hashtag-option-text, .combine_instagram_hashtag, .combine_instagram_hashtag_type, .fb-video-play-btn-options-content, .fb-video-play-btn-options-wrap, .fb_album_photos_id, .fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap, .fts-fb-id, .fts-instagram-load-more-options-wrap, .fts-super-facebook-options-wrap, .fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap, .instagram-location-option-text, .instagram_hashtag_type, .page-token, .pinterest-board-and-name-text, .slider_options_wrap, .slideshow-wrap, .youtube_align_comments_wrap, .youtube_channelID2, .youtube_name, .youtube_name2, .youtube_playlistID, .youtube_playlistID2, .youtube_singleVideoID {
+.tabs-extra-options, .combine-instagram-hashtag-option-text, .combine_instagram_hashtag, .combine_instagram_hashtag_type, .fb-video-play-btn-options-content, .fb-video-play-btn-options-wrap, .fb_album_photos_id, .fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap, .fts-fb-id, .fts-instagram-load-more-options-wrap, .fts-super-facebook-options-wrap, .fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap, .instagram-location-option-text, .instagram_hashtag_type, .page-token, .pinterest-board-and-name-text, .slider_options_wrap, .slideshow-wrap, .youtube_align_comments_wrap, .youtube_channelID2, .youtube_name, .youtube_name2, .youtube_playlistID, .youtube_playlistID2, .youtube_singleVideoID {
     display: none;
 }

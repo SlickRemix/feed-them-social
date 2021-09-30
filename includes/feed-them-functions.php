@@ -39,7 +39,7 @@ class FTS_Functions {
 		$this->add_actions_filters();
 	}
 
-	/**
+    /**
 	 * add_actions_filters
 	 *
 	 * For Loading in the Admin.
@@ -75,8 +75,6 @@ class FTS_Functions {
 			}
 		}
 
-		// FTS Admin Bar!
-		add_action( 'wp_before_admin_bar_render', array( $this, 'fts_admin_bar_menu' ), 999 );
 		// Settings option. Add Custom CSS to the header of FTS pages only!
 		$fts_include_custom_css_checked_css = get_option( 'fts-color-options-settings-custom-css' );
 		if ( '1' === $fts_include_custom_css_checked_css ) {
@@ -1756,7 +1754,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 * @since 1.9.6
 	 */
 	public function fts_powered_by_js() {
-		wp_enqueue_script( 'fts_powered_by_js', plugins_url( 'includes/feeds/js/powered-by.js', dirname( __FILE__ ) ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+		wp_enqueue_script( 'fts_powered_by_js', plugins_url( 'feed-them-social/includes/js/powered-by.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 	}
 
 	/**
@@ -2762,111 +2760,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		return $data;
 	}
 
-
-	/**
-	 * FTS Admin Bar Menu
-	 *
-	 * Create our custom menu in the admin bar.
-	 *
-	 * @since 1.9.6
-	 */
-	public function fts_admin_bar_menu() {
-		global $wp_admin_bar;
-
-		$fts_admin_bar_menu = get_option( 'fts_admin_bar_menu' );
-		$fts_dev_mode_cache = get_option( 'fts_clear_cache_developer_mode' );
-		if ( ! is_super_admin() || ! is_admin_bar_showing() || 'hide-admin-bar-menu' === $fts_admin_bar_menu ) {
-			return;
-		}
-		$wp_admin_bar->add_menu(
-			array(
-				'id'    => 'feed_them_social_admin_bar',
-				'title' => __( 'Feed Them Social', 'feed-them-social' ),
-				'href'  => false,
-			)
-		);
-		if ( '1' === $fts_dev_mode_cache ) {
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'feed_them_social_admin_bar_clear_cache',
-					'parent' => 'feed_them_social_admin_bar',
-					'title'  => __( 'Cache clears on page refresh now', 'feed-them-social' ),
-					'href'   => false,
-				)
-			);
-		} else {
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'feed_them_social_admin_set_cache',
-					'parent' => 'feed_them_social_admin_bar',
-					'title'  => __( 'Clear Cache', 'feed-them-social' ),
-					'href'   => '#',
-				)
-			);
-		}
-		$wp_admin_bar->add_menu(
-			array(
-				'id'     => 'feed_them_social_admin_bar_set_cache',
-				'parent' => 'feed_them_social_admin_bar',
-				'title'  => sprintf(
-					__( 'Set Cache Time %1$s%2$s%3$s', 'feed-them-social' ),
-					'<span>',
-					$this->fts_cachetime_amount( get_option( 'fts_clear_cache_developer_mode' ) ),
-					'</span>'
-				),
-				'href'   => admin_url( 'admin.php?page=feed-them-settings-page&tab=global_options' ),
-
-			)
-		);
-		$wp_admin_bar->add_menu(
-			array(
-				'id'     => 'feed_them_social_admin_bar_settings',
-				'parent' => 'feed_them_social_admin_bar',
-				'title'  => __( 'Settings', 'feed-them-social' ),
-				'href'   => admin_url( 'admin.php?page=feed-them-settings-page' ),
-			)
-		);
-		$wp_admin_bar->add_menu(
-			array(
-				'id'     => 'feed_them_social_admin_bar_global_options',
-				'parent' => 'feed_them_social_admin_bar',
-				'title'  => __( 'Global Options', 'feed-them-social' ),
-				'href'   => admin_url( 'admin.php?page=feed-them-settings-page&tab=global_options' ),
-			)
-		);
-	}
-
-	/**
-	 * FTS Cachetime amount
-	 *
-	 * @param string $fts_cachetime Cache time.
-	 * @return mixed
-	 * @since
-	 */
-	public function fts_cachetime_amount( $fts_cachetime ) {
-		switch ( $fts_cachetime ) {
-			case '1':
-				$fts_display_cache_time = __( 'Clear cache on every page load', 'feed-them-social' );
-				break;
-			default:
-			case '86400':
-				$fts_display_cache_time = __( '1 Day (Default)', 'feed-them-social' );
-				break;
-			case '172800':
-				$fts_display_cache_time = __( '2 Days', 'feed-them-social' );
-				break;
-			case '259200':
-				$fts_display_cache_time = __( '3 Days', 'feed-them-social' );
-				break;
-			case '604800':
-				$fts_display_cache_time = __( '1 Week', 'feed-them-social' );
-				break;
-			case '1209600':
-				$fts_display_cache_time = __( '2 Weeks', 'feed-them-social' );
-				break;
-		}
-		return $fts_display_cache_time;
-	}
 
 	/**
 	 * XML json Parse

@@ -505,6 +505,8 @@ class Feeds_CPT {
 			if ( 'title' === $key ) {
 				$new[ $key ] = $value;
 				$new['feed_shortcode'] = esc_html__( 'Feed Shortcode', 'feed_them_social' );
+                $new[ $key ] = $value;
+                $new['shortcode_location'] = esc_html__( 'Shortcode Location', 'feed_them_social' );
 
 			} else {
 				$new[ $key ] = $value;
@@ -523,15 +525,41 @@ class Feeds_CPT {
 	 * @since 1.0.0
 	 */
 	public function fts_custom_edit_column( $column, $post_id ) {
+
 		switch ( $column ) {
-			// display a thumbnail photo!
+
+			// Display the Shortcode.
 			case 'feed_shortcode':
 				?>
-				<input value="[feed_them_social id=<?php echo esc_html( $post_id ); ?>]" onclick="this.select()"/>
+				<input value="[feed_them_social cpt_id=<?php echo esc_html( $post_id ); ?>]" onclick="this.select()" readonly="readonly" />
 				<?php
 				break;
+			// Display the Shortcode Location.
+            case 'shortcode_location':
 
-		}
+                // Things to make exceptions and checks for still.
+                // 1. What if the shortcode is added to a widget not on a page or post?
+
+                // We take the ID that we store in the fts_shortcode_location post meta key and return the page title and permalink
+                // so users can click to the page the shortcode is on and replace it or remove it.
+                $shortcode_location_id = get_post_meta( $post_id, 'fts_shortcode_location', true );
+
+                // Get the post content so we can double check to see if it has a specific shortcode.
+                $post = get_post( $shortcode_location_id );
+                $the_content = $post->post_content;
+                $shortcode = '[feed_them_social cpt_id=' . $post_id .']';
+
+                // Check to see if the shortcode_location_id has been set with an ID and if so lets double check that content has a shortcode in it.
+                // IF so then we will display a page title and link to it so the user can see where there shortcode is being used.
+                if( strpos($the_content, $shortcode) !== false && !empty( $shortcode_location_id ) ){
+                    $shortcode_location = '<a href="' . get_the_permalink( $shortcode_location_id )  . '" target="_blank">' . get_the_title( $shortcode_location_id ) . '</a>';
+                    echo $shortcode_location;
+                }
+                else {
+                    echo __( 'Not Set', 'feed-them-social' );
+                }
+                break;
+        }
 	}
 
 	/**
@@ -856,19 +884,8 @@ class Feeds_CPT {
 
 		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['facebook'], null, $gallery_class->parent_post_id );
 
-		$this->setting_options_js->facebook_js();
 		?>
-
-        <div class="ft-gallery-note ft-gallery-note-footer">
-            <?php
-            echo sprintf(
-                esc_html__( 'Additional Global options available on the %1$sSettings Page%2$s', 'feed_them_social' ),
-                '<a href="' . esc_url( 'edit.php?post_type=fts&page=ft-gallery-settings-page' ) . '" >',
-                '</a>'
-            );
-            ?>
-        </div>
-        <div class="tab-5-extra-options">
+        <div class="tab-5-extra-options tabs-extra-options">
             <?php
 
             $facebook_additional_options = new Facebook_Additional_Options();
@@ -885,7 +902,23 @@ class Feeds_CPT {
             <?php
             //Facebook Language Options.
             echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_languages_options'], null, $gallery_class->parent_post_id ); ?>
+            <div class="clear"></div>
+        </div>
+        <?php
 
+		$this->setting_options_js->facebook_js();
+
+
+		?>
+
+        <div class="ft-gallery-note ft-gallery-note-footer">
+            <?php
+            echo sprintf(
+                esc_html__( 'Additional Global options available on the %1$sSettings Page%2$s', 'feed_them_social' ),
+                '<a href="' . esc_url( 'edit.php?post_type=fts&page=ft-gallery-settings-page' ) . '" >',
+                '</a>'
+            );
+            ?>
         </div>
 
 		<?php

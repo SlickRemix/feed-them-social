@@ -67,7 +67,6 @@ class Facebook_Additional_Options {
 	public function reviews_text_styles() {
 		$this->all_options['facebook_reviews_text_styles'] = array(
 			'section_attr_key'   => 'facebook_reviews_text_styles_',
-			'section_title'      => esc_html__( 'Reviews: Style and Text Options', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.

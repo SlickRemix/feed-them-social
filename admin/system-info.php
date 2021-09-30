@@ -65,7 +65,7 @@ class System_Info {
 			__( 'System Info', 'feed_them_social' ),
 			__( 'System Info', 'feed_them_social' ),
 			'manage_options',
-			'ft-gallery-system-info-submenu-page',
+			'fts-system-info-submenu-page',
 			array( $this, 'fts_system_info_page' )
 		);
 	}
@@ -104,7 +104,6 @@ SITE_URL: <?php echo esc_url( site_url() ) . "\n"; ?>
 Feed Them Social Version: <?php echo esc_html( \Feed_Them_Social::fts_check_version() ) . "\n"; ?>
 
 -- WordPress Configuration:
-
 WordPress Version: <?php echo esc_html( get_bloginfo( 'version' ) ) . "\n"; ?>
 Multisite: <?php echo is_multisite() ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Permalink Structure: <?php echo esc_html( get_option( 'permalink_structure' ) ) . "\n"; ?>
@@ -113,7 +112,6 @@ PHP Memory Limit: <?php echo esc_html( ini_get( 'memory_limit' ) ) . "\n"; ?>
 WP_DEBUG: <?php echo esc_html( defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' . "\n" : 'Disabled' . "\n" : 'Not set' . "\n" ); ?>
 
 -- Webserver Configuration:
-
 PHP Version: <?php
 		echo PHP_VERSION . "\n";
 		$my_request = stripslashes_deep( $_SERVER );
@@ -121,7 +119,6 @@ PHP Version: <?php
 Web Server Info: <?php echo esc_html( $my_request['SERVER_SOFTWARE'] ) . "\n"; ?>
 
 -- PHP Configuration:
-
 Safe Mode: <?php echo esc_html( ini_get( 'safe_mode' ) ? 'Yes' : "No\n" ); ?>
 Upload Max Size: <?php echo esc_html( ini_get( 'upload_max_filesize' ) . "\n" ); ?>
 Post Max Size: <?php echo esc_html( ini_get( 'post_max_size' ) . "\n" ); ?>
@@ -137,10 +134,9 @@ FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? 'Your 
 cURL:                     <?php echo ( function_exists( 'curl_init' ) ) ? 'Your server supports cURL.' : 'Your server does not support cURL. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
 curl_multi:               <?php echo ( function_exists( 'curl_multi_select' ) ) ? 'Your server supports curl_multi_select.' : 'Your server does not support curl_multi_select. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
 
+-- FTS Settings->Global Options: <?php $fts_cachetime = fts_get_option( 'fts_cache_time' ) ? fts_get_option( 'fts_cache_time' ) : '86400'; ?>
 
--- FTS Settings->Global Options: <?php $fts_cachetime = get_option( 'fts_clear_cache_developer_mode' ) ? get_option( 'fts_clear_cache_developer_mode' ) : '86400'; ?>
-
-Cache time: <?php echo esc_html( $this->fts_cachetime_amount( $fts_cachetime ) ) . "\n"; ?>
+Cache time: <?php $setup_functions = new Setup_Functions; echo esc_html( $setup_functions->fts_cachetime_amount( $fts_cachetime ) ) . "\n"; ?>
 
 -- Active Plugins:
 <?php
@@ -156,7 +152,6 @@ Cache time: <?php echo esc_html( $this->fts_cachetime_amount( $fts_cachetime ) )
 		if ( is_multisite() ) :
 			?>
 -- Network Active Plugins:
-
 <?php
 				$plugins        = wp_get_active_network_plugins();
 				$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
@@ -181,7 +176,6 @@ Cache time: <?php echo esc_html( $this->fts_cachetime_amount( $fts_cachetime ) )
 			?>
 
 -- License
-
 License Active: <?php
 			echo isset( $feed_them_social_license_key ) && '' !== $feed_them_social_license_key ? 'Yes' . "\n" : 'No' . "\n";
 		}

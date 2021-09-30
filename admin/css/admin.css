@@ -181,7 +181,7 @@
     margin-left: 5px !important
 }
 
-.ft-gallery-no-license-overlay {
+.fts-no-license-overlay {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -193,7 +193,7 @@
     vertical-align: middle
 }
 
-.ft-gallery-no-license-button-wrap {
+.fts-no-license-button-wrap {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -202,7 +202,7 @@
     min-width: 200px
 }
 
-.ft-gallery-no-license-overlay a {
+.fts-no-license-overlay a {
     padding: 9px 15px;
     background: #0073aa;
     color: #fff;
@@ -212,7 +212,7 @@
     display: inline-block
 }
 
-.ft-gallery-no-license-overlay a:hover {
+.fts-no-license-overlay a:hover {
     background: rgba(0, 115, 170, .88)
 }
 
@@ -285,4 +285,214 @@
     border-radius: 50%;
     color: #0073aa;
     line-height: 1.28
+}
+
+#fts-clear-cache {
+    background:#2270b1;
+    display:inline-block;
+    margin-left:8px;
+    border-radius:2px;
+    padding:7px 10px;
+    color:#fff;
+    font-size:13px;
+    cursor:pointer;
+    margin-top:-4px;
+}
+#fts-clear-cache {
+    margin-top:-2px;
+}
+
+.fts_page_fts-settings-page  .css label, .fts_page_fts-settings-page .js label {
+    line-height:25px;
+    display:block;
+    font-style: italic;
+}
+
+
+.fts_page_fts-settings-page .form-table td {
+    position:relative;
+    height:28px !important;
+}
+.fts-help-tip {
+    position: absolute;
+    left:-15px;
+    display:inline-block;
+    top:20px;
+}
+.fts_page_fts-settings-page .form-table tr:FIRST-CHILD .fts-help-tip {
+    position:relative !important;
+    left:-25px;
+    top:2px;
+}
+.fts-not-first-header.fts-help-tip {
+    top:41px;
+}
+.fts-cache-time-tooltip {
+    top:20px;
+}
+.fts-help-tip {
+    cursor: help;
+}
+.fts-checkbox-tooltip-no-margin-top, .fts-checkbox-tooltip {
+    margin:0px;
+    top:20px;
+}
+.form-table input[type=checkbox] {
+    margin:0 !important;
+    top:22px;
+    position:absolute;
+}
+
+.fts_page_fts-settings-page h2 {
+    font-size:20px;
+}
+.fts_page_fts-settings-page .general-main tr:last-child .fts-help-tip,
+.fts_page_fts-settings-page .css tr:first-child .fts-help-tip,
+.fts_page_fts-settings-page .js tr:first-child .fts-help-tip {
+    /* margin-top:1px; */
+}
+
+.fts_page_fts-settings-page .css tr:first-child .fts-help-tip,
+.fts_page_fts-settings-page .js tr:first-child .fts-help-tip {
+    /* margin-left:-25px !important; */
+    top:1px;
+}
+.fts_page_fts-settings-page small {
+    font-weight:normal;
+}
+.fts_page_fts-settings-page .ui-tooltip {
+    position: absolute;
+    background: #333!important;
+    border-width: 1px!important;
+    border-radius: 3px!important;
+    box-shadow: 1px 1px 2px 1px rgba(214, 214, 214, .5)!important;
+    color: #dedede!important;
+    max-width: 300px!important;
+    padding: 12px !important;
+    font-size:13px;
+    text-rendering: optimizeLegibility;
+    text-shadow: none!important;
+    z-index: 9999!important;
+    word-wrap: break-word;
+}
+
+
+
+
+@media (max-width:780px){
+    #pgr_settings\[pgr_show_admin_bar\] {
+        margin-top:5px !important;
+    }
+    .pgr_communities_page_pgr-settings-page .css tr:first-child th, .pgr_communities_page_pgr-settings-page .js tr:first-child th {
+        margin-left: 8px !important;
+        margin-bottom:9px;
+    }
+    .pgr_communities_page_pgr-settings-page .css tr:last-child th {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        margin-top:10px;
+    }
+    .pgr_communities_page_pgr-settings-page .css tr:first-child .pgr-help-tip, .pgr_communities_page_pgr-settings-page .js tr:first-child .pgr-help-tip {
+        margin-left: -30px !important;
+    }
+    .pgr-checkbox-tooltip {
+        margin-top:5px !important;
+    }
+    #fts-clear-cache {
+        margin:5px 0;
+    }
+    .pgr_communities_page_pgr-settings-page .form-table th br {
+        display:none;
+    }
+    .pgr_communities_page_pgr-settings-page .form-table th small {
+        padding-left:8px
+    }
+    .pgr-not-first-header.pgr-help-tip {
+        top:-27px;
+    }
+    #pg-fetch-projects {
+        margin:8px 0 0;
+    }
+    .pgr-help-tip {
+        position:absolute;
+        left:0px;
+        top:-23px;
+        display:inline-block;
+    }
+    .pgr_communities_page_pgr-settings-page .form-table th {
+        padding-left:23px !important;
+    }
+    .pgr_communities_page_pgr-settings-page .form-table h2 {
+        margin:0px !important;
+    }
+    .pgr_communities_page_pgr-settings-page .form-table tr:FIRST-CHILD th {
+        padding-left:22px !important;
+        padding-bottom:0px !important;
+    }
+    .pgr_communities_page_pgr-settings-page .form-table tr:FIRST-CHILD td .pgr-help-tip {
+        left:0px !important;
+        top:-28px;
+    }
+    .pgr_communities_page_pgr-settings-page .form-table tr:FIRST-CHILD th {
+        padding-left:22px !important;
+        padding-bottom:0px !important;
+    }
+    .pgr_communities_page_pgr-settings-page .form-table tr:FIRST-CHILD td {
+        padding:0 !important;
+    }
+
+}
+#wp-admin-bar-fts_admin_bar_set_cache {
+    height:40px;;
+}
+#wp-admin-bar-fts_admin_bar span {
+    line-height: 10px;
+    font-size: 12px;
+    display: block;
+    color: rgba(221,221,221,.57);
+}
+
+
+.fts_page_fts-settings-page .ui-tooltip {
+    position: absolute;
+    background: #333!important;
+    border-width: 1px!important;
+    border-radius: 3px!important;
+    box-shadow: 1px 1px 2px 1px rgba(214, 214, 214, .5)!important;
+    color: #dedede!important;
+    max-width: 300px!important;
+    padding: 12px !important;
+    font-size:13px;
+    text-rendering: optimizeLegibility;
+    text-shadow: none!important;
+    z-index: 9999!important;
+    word-wrap: break-word;
+}
+.fts-cache-messages {
+    min-width: 279px;
+    max-width: 301px;
+    background: #FFF;
+    color: #333;
+    font-size:13px;
+    padding: 9px 20px 9px 10px;
+    border-left: 3px solid limegreen;
+    display: none;
+    margin-top:10px;
+    width:100%;
+    margin-bottom: -10px;
+}
+.custom_time_ago_wrap td, .custom_time_ago_wrap th {
+    padding-bottom:0;
+}
+.fts-ago td, .fts-ago th {
+    padding-bottom:20px !important;
+}
+.custom_date_time_wrap p {
+    padding:4px 0 0 4px !important;
+}
+.post-type-fts .feed_shortcode.column-feed_shortcode input {
+    padding: 7px;
+    background: #f1f1f180;
+    border: 1px solid #cccccce3;
+    color: #777;
 }

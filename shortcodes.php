@@ -47,6 +47,40 @@ class Shortcodes {
     }
 
     /**
+     * Shortcode_location
+     *
+     * When a page containing a shortcode is viewed on the front end we
+     * then update the post meta key fts_shortcode_location with the ID of the page.
+     *
+     * @since 3.0
+     */
+    public function shortcode_location( $cpt_id ) {
+        if ( is_admin() ) {
+            return;
+        }
+
+        global $post;
+        // Used for testing.
+        //echo get_the_title( $post->ID );
+
+        // Get args for fts custom post type.
+        $args = array(
+            'posts_per_page' => -1,
+            'post_type' => 'fts',
+            'post_status'    => 'publish',
+            'suppress_filters' => true
+        );
+
+        $posts_array = get_posts( $args );
+
+        foreach($posts_array as $post_array) {
+            $shortcode_location_id = $post->ID;
+            update_post_meta( $cpt_id, 'fts_shortcode_location', $shortcode_location_id );
+        }
+
+    }
+
+    /**
      * FTS ShortCode Filter
      *
      * Chooses which feed function to use.
@@ -62,9 +96,10 @@ class Shortcodes {
 	    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
 	    echo $twitter_feed->display_twitter( $inputted_atts );
 
+	   $this->shortcode_location( $cpt_id );
+
     	//Check the CPT ID exists in Shortcode
     	if ($cpt_id){
-
 
     		//Filter by Feed Type
     		switch ( $feed_type ){
@@ -74,7 +109,6 @@ class Shortcodes {
 				    break;
 			    case 'twitter-feed-type':
 				    // Twitter Feed.
-
 				    break;
 			    case 'youtube-feed-type':
 				    break;
@@ -92,13 +126,13 @@ class Shortcodes {
 	 *
 	 * @param $cpt_id string
 	 */
-	public function get_feed_type( string $cpt_id ){
+	public function get_feed_type( $cpt_id ){
 		// Get Saved Settings Array.
 		$saved_settings = $this->metabox_settings->get_saved_settings_array( $cpt_id, 'fts');
 
-		echo '<pre>';
-		print_r($saved_settings);
-		echo '</pre>';
+        echo '<pre>';
+        print_r($saved_settings);
+        echo '</pre>';
 
 		if( $saved_settings && isset($saved_settings['feed_type']) && !empty($saved_settings['feed_type'])){
 			return $saved_settings['feed_type'];
@@ -116,7 +150,7 @@ class Shortcodes {
 	 * @return array|bool
 	 * @since 3.0.0
 	 */
-	public function cpt_check( array $inputted_atts ) {
+	public function cpt_check( $inputted_atts ) {
 
 		if ( is_array( $inputted_atts ) && isset( $inputted_atts['cpt_id'] ) && ! empty( $inputted_atts['cpt_id'] ) ) {
 			return $inputted_atts['cpt_id'];

@@ -1,10 +1,10 @@
 <?php
 /**
- * Settings Page
+ * System Info
  *
- * Class Feed Them Social Settings Page
+ * This class is for loading up the Settings Page
  *
- * @class    Settings_Page
+ * @class    Settings
  * @version  1.0.0
  * @package  FeedThemSocial/Admin
  * @category Class
@@ -14,1089 +14,1147 @@
 namespace feedthemsocial;
 
 /**
- * Class Settings_Page
+ * Class Settings
  */
 class Settings_Page {
+    /**
+     * Settings constructor.
+     */
+    public function __construct() {
 
-	/**
-	 * Load Function
-	 *
-	 * Load up all our actions and filters.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function load() {
-		$instance = new self();
-
-		// Add Actions and Filters.
-		$instance->add_actions_filters();
-	}
-
-	/**
-	 * Add Action Filters
-	 *
-	 * Add Settings to our menu.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_actions_filters() {
-		if ( is_admin() ) {
-			// Adds setting page to Feed Them Social menu.
-			add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
-		}
-	}
-
-	/**
-	 * Settings_Page constructor.
-	 */
-	public function __construct() {}
-
-	/**
-	 *  Submenu Pages
-	 *
-	 * Admin Submenu buttons.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_submenu_page() {
-		// Settings Page.
-		add_submenu_page(
-			'edit.php?post_type=fts',
-			esc_html__( 'Settings', 'feed_them_social' ),
-			esc_html__( 'Settings', 'feed_them_social' ),
-			'manage_options',
-			'ft-gallery-settings-page',
-			array( $this, 'Settings_Page' )
-		);
-	}
-
-	/**
-	 * Settings Page
-	 *
-	 * Feed Them Social Settings Page
-	 *
-	 * @since 1.0.0
-	 */
-	public function Settings_Page() {
-		// Feed Them Social Functions Class.
-		// Enqueue JS Color JS.
-		wp_enqueue_script( 'js_color', plugins_url( '/feed-them-social/metabox-settings/js/jscolor/jscolor.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
-
-		?>
-		<div class="ft-gallery-main-template-wrapper-all">
-
-
-			<div class="ft-gallery-settings-admin-wrap" id="theme-settings-wrap">
-				<h2><img src="<?php echo esc_url( plugins_url( 'css/ft-gallery-logo.png', __FILE__ ) ); ?>" /></h2>
-				<a class="buy-extensions-btn" href="<?php echo esc_url( 'https://www.slickremix.com/ft-gallery-documentation/' ); ?>" target="_blank"><?php esc_html_e( 'Setup Documentation', 'feed_them_social' ); ?></a>
-
-				<div class="ft-gallery-settings-admin-input-wrap company-info-style ft-gallery-cache-wrap" style="padding-bottom: 0px;">
-					<?php
-					$ss_admin_bar_menu = get_option( 'ft-gallery-admin-bar-menu' );
-					?>
-					<div class="clear"></div>
-				</div>
-				<!--/ft-gallery-settings-admin-input-wrap-->
-
-				<form method="post" class="ft-gallery-settings-admin-form wp-core-ui" action="options.php">
-					<?php
-					// get our registered settings from the gq theme functions.
-					settings_fields( 'ft-gallery-settings' );
-					?>
-
-					<div class="ft-rename-options-wrap">
-						<h4 style="margin-top: 10px;  border:none;padding: 0 0 20px 0;"><?php esc_html_e( 'Attachment File & Title Renaming [on upload]', 'feed_them_social' ); ?></h4>
-
-
-						<?php esc_html_e( 'Use attachment renaming when importing/uploading attachments. This will overwrite original Filename.', 'feed_them_social' ); ?>
-						<br />
-						<strong><?php esc_html_e( 'Below are examples of what the attachment filenames and Titles will look like after uploading:', 'feed_them_social' ); ?></strong> <?php esc_html_e( '(Click "Save All Changes" to view Examples)', 'feed_them_social' ); ?>
-						<br /><br />
-						<input name="ft-gallery-use-attachment-naming" type="checkbox" id="ft-gallery-attachment-naming" value="1" <?php echo checked( '1', get_option( 'ft-gallery-use-attachment-naming' ) ); ?>/>
-						<?php
-						if ( '1' === get_option( 'ft-gallery-use-attachment-naming' ) ) {
-							?>
-							<strong><?php esc_html_e( 'Checked:', 'feed_them_social' ); ?></strong>
-													  <?php
-														esc_html_e( 'You are using Attachment File and Title Renaming when uploading each image.', 'feed_them_social' );
-
-						} else {
-							?>
-							<strong><?php esc_html_e( 'Not Checked:', 'feed_them_social' ); ?></strong>
-													  <?php
-														esc_html_e( 'You are using the Original filename for Attachment names and Titles that is uploaded with each file.', 'feed_them_social' );
-						}
-						?>
-						<br /><br />
-						<div class="clear"></div>
-
-						<div class="settings-sub-wrap">
-							<h5><?php esc_html_e( 'Filename', 'feed_them_social' ); ?></h5>
-
-							<label><input name="fts_attch_name_gallery_name" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_name_gallery_name' ) ); ?>/> <?php esc_html_e( 'Include Gallery Name', 'feed_them_social' ); ?>
-								( Example: this-gallery-name )</label>
-
-							<label><input name="fts_attch_name_post_id" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_name_post_id' ) ); ?>/> <?php esc_html_e( 'Include Gallery ID Number', 'feed_them_social' ); ?>
-								( Example: 20311 )</label>
-
-							<label><input name="fts_attch_name_date" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_name_date' ) ); ?>/> <?php esc_html_e( 'Include Date', 'feed_them_social' ); ?>
-								( Example: 08-11-17 )</label>
-
-							<label><input name="fts_attch_name_file_name" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_name_file_name' ) ); ?>/> <?php esc_html_e( 'Include File Name', 'feed_them_social' ); ?>
-								( Example: my-image-name )</label>
-
-							<label><input name="fts_attch_name_attch_id" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_name_attch_id' ) ); ?>/> <?php esc_html_e( 'Include Attachment ID', 'feed_them_social' ); ?>
-								( Example: 1234 )</label>
-
-							<div class="ft-gallery-attch-name-example">
-								<?php
-								$attch_name_output = '';
-								// Attachment Filename Gallery Name.
-								if ( '1' === get_option( 'fts_attch_name_gallery_name' ) ) {
-									$attch_name_output .= '<span class="fts_attch_name_gallery_name">this-gallery-name</span>-';
-								}
-								// Attachment Filename Gallery ID.
-								if ( '1' === get_option( 'fts_attch_name_post_id' ) ) {
-									$attch_name_output .= '<span class="fts_attch_name_post_id">20311</span>-';
-								}
-								// Attachment Filename Date.
-								if ( '1' === get_option( 'fts_attch_name_date' ) ) {
-									$attch_name_output .= '<span class="fts_attch_name_date">08-11-17</span>-';
-								}
-								// Attachment Filename Date.
-								if ( '1' === get_option( 'fts_attch_name_file_name' ) ) {
-									$attch_name_output .= '<span class="fts_attch_name_file_name">my-image-name</span>-';
-								}
-								// Attachment Filename Date.
-								if ( '1' === get_option( 'fts_attch_name_attch_id' ) ) {
-									$attch_name_output .= '<span class="fts_attch_name_attch_id">1234</span>';
-								}
-								$final_output = $attch_name_output . '.jpg';
-								// Output Filename Example.
-								echo '<div class="clear"></div><div class="ftg-filename-renaming-example"><strong><em>Example Filename:</em></strong> ' . wp_kses(
-									str_replace( '-.jpg', '.jpg', $final_output ),
-									array(
-										'span' => array(
-											'class' => array(),
-										),
-									)
-								) . '</div>';
-								?>
-							</div>
-						</div>
-
-						<div class="settings-sub-wrap">
-							<h5><?php esc_html_e( 'Title', 'feed_them_social' ); ?></h5>
-
-							<label><input name="fts_attch_title_gallery_name" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_title_gallery_name' ) ); ?>/> <?php esc_html_e( 'Include Gallery Name', 'feed_them_social' ); ?>
-								( Example: This Gallery Name )</label>
-
-							<label><input name="fts_attch_title_post_id" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_title_post_id' ) ); ?>/> <?php esc_html_e( 'Include Gallery ID Number', 'feed_them_social' ); ?>
-								( Example: 20311 )</label>
-
-							<label><input name="fts_attch_title_date" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_title_date' ) ); ?>/> <?php esc_html_e( 'Include Date', 'feed_them_social' ); ?>
-								( Example: 08-11-17 )</label>
-
-							<label><input name="fts_attch_title_file_name" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_title_file_name' ) ); ?>/> <?php esc_html_e( 'Include File Name', 'feed_them_social' ); ?>
-								( Example: My Image Name )</label>
-
-							<label><input name="fts_attch_title_attch_id" type="checkbox" value="1" <?php echo checked( '1', get_option( 'fts_attch_title_attch_id' ) ); ?>/> <?php esc_html_e( 'Include Attachment ID', 'feed_them_social' ); ?>
-								( Example: 1234 )</label>
-
-							<div class="clear"></div>
-
-							<div class="ft-gallery-attch-name-example">
-								<?php
-								$attch_title_output = '';
-								// Attachment Title Gallery Name.
-								if ( '1' === get_option( 'fts_attch_title_gallery_name' ) ) {
-									$attch_title_output .= '<span class="fts_attch_title_gallery_name">This Gallery Name </span>';
-								}
-								// Attachment Title Gallery ID.
-								if ( '1' === get_option( 'fts_attch_title_post_id' ) ) {
-									$attch_title_output .= '<span class="fts_attch_title_post_id">20311 </span>';
-								}
-								// Attachment Title Date.
-								if ( '1' === get_option( 'fts_attch_title_date' ) ) {
-									$attch_title_output .= '<span class="fts_attch_title_date">08-11-17 </span>';
-								}
-								// Attachment Title File Name.
-								if ( '1' === get_option( 'fts_attch_title_file_name' ) ) {
-									$attch_title_output .= '<span class="fts_attch_title_file_name">My Image Name </span>';
-								}
-								// Attachment Filename Date.
-								if ( '1' === get_option( 'fts_attch_title_attch_id' ) ) {
-									$attch_title_output .= '<span class="fts_attch_title_attch_id">1234</span>';
-								}
-
-								if ( '1' !== get_option( 'fts_attch_title_gallery_name' ) && '1' !== get_option( 'fts_attch_title_post_id' ) && '1' !== get_option( 'fts_attch_title_date' ) && '1' !== get_option( 'fts_attch_title_file_name' ) && '1' !== get_option( 'fts_attch_title_attch_id' ) ) {
-									$attch_title_output .= '<span class="fts_attch_title_attch_id">My Image Name</span>';
-								}
-
-								// Output Filename Example.
-								$final_output = $attch_title_output;
-
-								// Output Filename Example.
-								echo '<div class="clear"></div><div class="ftg-title-renaming-example"><strong><em>Example Title:</em></strong> ' . wp_kses(
-									$final_output,
-									array(
-										'span' => array(
-											'class' => array(),
-										),
-									)
-								) . '</div>';
-								?>
-							</div>
-
-						</div>
-
-						<div class="clear"></div>
-						<h4><?php esc_html_e( 'Format Attachment Titles', 'feed_them_social' ); ?></h4>
-
-						<?php $options = get_option( 'fts_format_attachment_titles_options' ); ?>
-
-						<div class="settings-sub-wrap">
-							<h5><?php esc_html_e( 'Remove Characters', 'feed_them_social' ); ?></h5>
-							<label><input name="fts_format_attachment_titles_options[fts_fat_hyphen]" type="checkbox" value="1"
-							<?php
-							if ( isset( $options['fts_fat_hyphen'] ) ) {
-									checked( '1', $options['fts_fat_hyphen'] );
-							}
-							?>
-								> <?php esc_html_e( 'Hyphen', 'feed_them_social' ); ?> (-)</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_fat_underscore]" type="checkbox" value="1"
-							<?php
-							if ( isset( $options['fts_fat_underscore'] ) ) {
-									checked( '1', $options['fts_fat_underscore'] );
-							}
-							?>
-								> <?php esc_html_e( 'Underscore', 'feed_them_social' ); ?> (_)</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_fat_period]" type="checkbox" value="1"
-							<?php
-							if ( isset( $options['fts_fat_period'] ) ) {
-									checked( '1', $options['fts_fat_period'] );
-							}
-							?>
-								> <?php esc_html_e( 'Period', 'feed_them_social' ); ?> (.)</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_fat_tilde]" type="checkbox" value="1"
-							<?php
-							if ( isset( $options['fts_fat_title'] ) ) {
-									checked( '1', $options['fts_fat_title'] );
-							}
-							?>
-								> <?php esc_html_e( 'Tilde', 'feed_them_social' ); ?> (~)</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_fat_plus]" type="checkbox" value="1"
-							<?php
-							if ( isset( $options['fts_fat_plus'] ) ) {
-									checked( '1', $options['fts_fat_plus'] );
-							}
-							?>
-								> <?php esc_html_e( 'Plus', 'feed_them_social' ); ?> (+)</label>
-
-							<div class="clear"></div>
-							<div class="description"><?php esc_html_e( 'This is only for the image title the image file will still contain a hyphen - in the file name.', 'feed_them_social' ); ?></div>
-
-						</div>
-
-
-						<div class="settings-sub-wrap">
-							<h5><?php esc_html_e( 'Capitalization Method', 'feed_them_social' ); ?></h5>
-
-							<label><input name="fts_format_attachment_titles_options[fts_cap_options]" type="radio" value="cap_all"
-							<?php
-							if ( isset( $options['fts_cap_options'] ) ) {
-								checked( 'cap_all', $options['fts_cap_options'] );}
-							?>
-							> <?php esc_html_e( 'Capitalize All Words', 'feed_them_social' ); ?>
-							</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_cap_options]" type="radio" value="cap_first"
-							<?php
-							if ( isset( $options['fts_cap_options'] ) ) {
-								checked( 'cap_first', $options['fts_cap_options'] );}
-							?>
-							> <?php esc_html_e( 'Capitalize First Word Only', 'feed_them_social' ); ?>
-							</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_cap_options]" type="radio" value="all_lower"
-							<?php
-							if ( isset( $options['fts_cap_options'] ) ) {
-								checked( 'all_lower', $options['fts_cap_options'] );}
-							?>
-							> <?php esc_html_e( 'All Words Lower Case', 'feed_them_social' ); ?>
-							</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_cap_options]" type="radio" value="all_upper"
-							<?php
-							if ( isset( $options['fts_cap_options'] ) ) {
-								checked( 'all_upper', $options['fts_cap_options'] );}
-							?>
-							> <?php esc_html_e( 'All Words Upper Case', 'feed_them_social' ); ?>
-							</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_cap_options]" type="radio" value="dont_alter"
-							<?php
-							if ( isset( $options['fts_cap_options'] ) ) {
-								checked( 'dont_alter', $options['fts_cap_options'] );}
-							?>
-							> <?php esc_html_e( 'Don\'t Alter (title text isn\'t modified in any way)', 'feed_them_social' ); ?>
-							</label>
-							<div class="clear"></div>
-							<div class="description"><?php esc_html_e( 'Capitalization works on individual words separated by spaces. If the title contains NO spaces after formatting then only the first letter will be capitalized.', 'feed_them_social' ); ?></div>
-						</div>
-						<div class="settings-sub-wrap">
-
-							<div class="clear"></div>
-
-							<h5><?php esc_html_e( 'Misc. Options', 'feed_them_social' ); ?></h5>
-							<label><input name="fts_format_attachment_titles_options[fts_fat_alt]" type="checkbox" value="1"
-							<?php
-							if ( isset( $options['fts_fat_alt'] ) ) {
-									checked( '1', $options['fts_fat_alt'] );
-							}
-							?>
-								> <?php esc_html_e( 'Add Title to \'Alternative Text\' Field?', 'feed_them_social' ); ?>
-							</label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_fat_caption]" type="checkbox" value="1"
-							<?php
-							if ( isset( $options['fts_fat_caption'] ) ) {
-									checked( '1', $options['fts_fat_caption'] );
-							}
-							?>
-								> <?php esc_html_e( 'Add Title to \'Caption\' Field?', 'feed_them_social' ); ?></label>
-
-							<label><input name="fts_format_attachment_titles_options[fts_fat_description]" type="checkbox" value="1"
-							<?php
-							if ( isset( $options['fts_fat_description'] ) ) {
-									checked( '1', $options['fts_fat_description'] );
-							}
-							?>
-								> <?php esc_html_e( 'Add Title to \'Description\' Field?', 'feed_them_social' ); ?></label>
-							<div class="clear"></div>
-						</div>
-
-						<div class="clear"></div>
-						<div class="settings-example-block" style="margin-top: 25px;">
-							<strong>Below is an example of what the attachment Titles will look like after
-								uploading:</strong> (Click "Save All Changes" to view Example)<br />
-							<em>
-								<small>NOTE: Title will come from Filename of uploaded attachment. You may still set
-									a custom name for each photo after uploaded.
-								</small>
-							</em>
-						</div>
-
-						<div class="ft-gallery-attch-name-example">
-							<?php
-							$gallery_class = new Feeds_CPT();
-							// Output Title Example.
-							echo '<div class="ftg-filename-renaming-example"><strong><em>Example Title:</em></strong> ' . wp_kses(
-								$gallery_class->fts_format_attachment_title( 'Gallery Image Title' ),
-								array(
-									'span' => array(
-										'class' => array(),
-									),
-								)
-							) . '</div>';
-							?>
-						</div>
-					</div>
-					<div class="clear"></div>
-
-					<h4><?php esc_html_e( 'Custom CSS Option', 'feed_them_social' ); ?></h4>
-					<p class="special">
-						<input name="ft-gallery-options-settings-custom-css-second" type="checkbox" id="ft-gallery-options-settings-custom-css-second" value="1" <?php echo checked( '1', get_option( 'ft-gallery-options-settings-custom-css-second' ) ); ?>/>
-						<?php
-						if ( '1' === get_option( 'ft-gallery-options-settings-custom-css-second' ) ) {
-							?>
-							<strong><?php esc_html_e( 'Checked: ', 'feed_them_social' ); ?></strong>
-													  <?php
-														esc_html_e( 'Custom CSS option is being used now.', 'feed_them_social' );
-						} else {
-							?>
-							<strong><?php esc_html_e( 'Not Checked: ', 'feed_them_social' ); ?></strong>
-													  <?php
-														esc_html_e( 'You are using the default CSS.', 'feed_them_social' );
-						}
-						?>
-					</p>
-
-					<label class="toggle-custom-textarea-show button"><span><?php esc_html_e( 'Show', 'feed_them_social' ); ?></span><span class="toggle-custom-textarea-hide"><?php esc_html_e( 'Hide', 'feed_them_social' ); ?></span> <?php esc_html_e( 'custom CSS', 'feed_them_social' ); ?>
-					</label>
-					<div class="ft-gallery-custom-css-text"><?php esc_html_e( '<p>Add Your Custom CSS Code below.</p>', 'feed_them_social' ); ?></div>
-					<textarea name="ft-gallery-settings-admin-textarea-css" class="ft-gallery-settings-admin-textarea-css" id="ft-gallery-main-wrapper-css-input"><?php echo esc_html( get_option( 'ft-gallery-settings-admin-textarea-css' ) ); ?></textarea>
-
-
-					<h4><?php esc_html_e( 'Gallery Image Color & Size Options', 'feed_them_social' ); ?></h4>
-
-					<p><label><?php esc_html_e( 'Title', 'feed_them_social' ); ?></label>
-						<input type="text" name="fts_text_color" class="feed-them-social-admin-input fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="fb-text-color-input" placeholder="#222" value="<?php echo esc_attr( get_option( 'fts_text_color' ) ); ?>" />
-					</p>
-
-					<p><label><?php esc_html_e( 'Title Size', 'feed_them_social' ); ?></label>
-						<input type="text" name="fts_text_size" class="feed-them-social-admin-input" id="fb-text-size-input" placeholder="14px" value="<?php echo esc_attr( get_option( 'fts_text_size' ) ); ?>" />
-					</p>
-
-					<p><label><?php esc_html_e( 'Description', 'feed_them_social' ); ?></label>
-						<input type="text" name="fts_description_color" class="feed-them-social-admin-input fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="fb-text-color-input" placeholder="#222" value="<?php echo esc_attr( get_option( 'fts_description_color' ) ); ?>" />
-					</p>
-
-					<p><label><?php esc_html_e( 'Description Size', 'feed_them_social' ); ?></label>
-						<input type="text" name="fts_description_size" class="feed-them-social-admin-input" id="fb-description-size-input" placeholder="14px" value="<?php echo esc_attr( get_option( 'fts_description_size' ) ); ?>" />
-					</p>
-
-					<p><label><?php esc_html_e( 'Link', 'feed_them_social' ); ?></label>
-						<input type="text" name="fts_link_color" class="feed-them-social-admin-input fb-link-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="fb-link-color-input" placeholder="#222" value="<?php echo esc_attr( get_option( 'fts_link_color' ) ); ?>" />
-					</p>
-
-					<p>
-						<label><?php esc_html_e( 'Link Hover', 'feed_them_social' ); ?></label>
-						<input type="text" name="fts_link_color_hover" class="feed-them-social-admin-input fb-link-color-hover-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="fb-link-color-hover-input" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'fts_link_color_hover' ) ); ?>" />
-					</p>
-					<p>
-						<label><?php esc_html_e( 'Date', 'feed_them_social' ); ?></label>
-						<input type="text" name="fts_post_time" class="feed-them-social-admin-input fb-date-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:'#eee',pickerFace:3,pickerBorder:0,pickerInsetColor:'white'}" id="ft-gallery-post-time" placeholder="#ddd" value="<?php echo esc_attr( get_option( 'fts_post_time' ) ); ?>" />
-					</p>
-
-
-
-					<div class="clear"></div>
-
-					<div class="ft-gallery-date-settings-options-wrap">
-						<h4><?php esc_html_e( 'Date Options for Images', 'feed_them_social' ); ?></h4>
-						<?php
-
-						isset( $fts_date_time_format ) ? $fts_date_time_format : '';
-						isset( $fts_timezone ) ? $fts_timezone : '';
-						isset( $fts_custom_date ) ? $fts_custom_date : '';
-						isset( $fts_custom_time ) ? $fts_custom_time : '';
-						$fts_date_time_format = get_option( 'ft-gallery-date-and-time-format' );
-						$fts_timezone         = get_option( 'ft-gallery-timezone' );
-						$fts_custom_date      = get_option( 'ft-gallery-date_format' );
-						$fts_custom_time      = get_option( 'ft-gallery-time-format' );
-						$fts_custom_timezone  = get_option( 'ft-gallery-timezone' ) ? get_option( 'ft-gallery-timezone' ) : 'America/Los_Angeles';
-						date_default_timezone_set( $fts_custom_timezone );
-
-						?>
-						<div style="float:left; max-width:400px; margin-right:30px;">
-							<h5><?php esc_html_e( 'Image Date Format', 'feed_them_social' ); ?></h5>
-
-							<fieldset>
-								<select id="ft-gallery-date-and-time-format" name="ft-gallery-date-and-time-format">
-									<option value="l, F jS, Y \a\t g:ia"
-									<?php
-									if ( 'l, F jS, Y \a\t g:ia' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'l, F jS, Y \a\t g:ia' ) ); ?></option>
-									<option value="F j, Y \a\t g:ia"
-									<?php
-									if ( 'F j, Y \a\t g:ia' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'F j, Y \a\t g:ia' ) ); ?></option>
-									<option value="F j, Y g:ia"
-									<?php
-									if ( 'F j, Y g:ia' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'F j, Y g:ia' ) ); ?></option>
-									<option value="F, Y \a\t g:ia"
-									<?php
-									if ( 'F, Y \a\t g:ia' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'F, Y \a\t g:ia' ) ); ?></option>
-									<option value="M j, Y @ g:ia"
-									<?php
-									if ( 'M j, Y @ g:ia' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'M j, Y @ g:ia' ) ); ?></option>
-									<option value="M j, Y @ G:i"
-									<?php
-									if ( 'M j, Y @ G:i' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'M j, Y @ G:i' ) ); ?></option>
-									<option value="m/d/Y \a\t g:ia"
-									<?php
-									if ( 'm/d/Y \a\t g:ia' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'm/d/Y \a\t g:ia' ) ); ?></option>
-									<option value="m/d/Y @ G:i"
-									<?php
-									if ( 'm/d/Y @ G:i' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'm/d/Y @ G:i' ) ); ?></option>
-									<option value="d/m/Y \a\t g:ia"
-									<?php
-									if ( 'd/m/Y \a\t g:ia' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'd/m/Y \a\t g:ia' ) ); ?></option>
-									<option value="d/m/Y @ G:i"
-									<?php
-									if ( 'd/m/Y @ G:i' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'd/m/Y @ G:i' ) ); ?></option>
-									<option value="Y/m/d \a\t g:ia"
-									<?php
-									if ( 'Y/m/d \a\t g:ia' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'Y/m/d \a\t g:ia' ) ); ?></option>
-									<option value="Y/m/d @ G:i"
-									<?php
-									if ( 'Y/m/d @ G:i' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php echo esc_html( date( 'Y/m/d @ G:i' ) ); ?></option>
-									<option value="one-day-ago"
-									<?php
-									if ( 'one-day-ago' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php esc_html_e( '1 day ago', 'feed_them_social' ); ?></option>
-									<option value="fts-custom-date"
-									<?php
-									if ( 'fts-custom-date' === $fts_date_time_format ) {
-										echo 'selected="selected"';}
-									?>
-									><?php esc_html_e( 'Use Custom Date and Time Option Below', 'feed_them_social' ); ?></option>
-								</select>
-							</fieldset>
-
-							<?php
-							// Date translate.
-							$fts_language_second  = get_option( 'fts_language_second', 'second' );
-							$fts_language_seconds = get_option( 'fts_language_seconds', 'seconds' );
-							$fts_language_minute  = get_option( 'fts_language_minute', 'minute' );
-							$fts_language_minutes = get_option( 'fts_language_minutes', 'minutes' );
-							$fts_language_hour    = get_option( 'fts_language_hour', 'hour' );
-							$fts_language_hours   = get_option( 'fts_language_hours', 'hours' );
-							$fts_language_day     = get_option( 'fts_language_day', 'day' );
-							$fts_language_days    = get_option( 'fts_language_days', 'days' );
-							$fts_language_week    = get_option( 'fts_language_week', 'week' );
-							$fts_language_weeks   = get_option( 'fts_language_weeks', 'weeks' );
-							$fts_language_month   = get_option( 'fts_language_month', 'month' );
-							$fts_language_months  = get_option( 'fts_language_months', 'months' );
-							$fts_language_year    = get_option( 'fts_language_year', 'year' );
-							$fts_language_years   = get_option( 'fts_language_years', 'years' );
-							$fts_language_ago     = get_option( 'fts_language_ago', 'ago' );
-							?>
-
-							<div class="custom_time_ago_wrap" style="display:none;">
-								<h5><?php esc_html_e( 'Translate words for 1 day ago option.', 'feed_them_social' ); ?></h5>
-								<label for="fts_language_second"><?php esc_html_e( 'second' ); ?></label>
-								<input name="fts_language_second" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_second ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_seconds"><?php esc_html_e( 'seconds' ); ?></label>
-								<input name="fts_language_seconds" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_seconds ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_minute"><?php esc_html_e( 'minute' ); ?></label>
-								<input name="fts_language_minute" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_minute ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_minutes"><?php esc_html_e( 'minutes' ); ?></label>
-								<input name="fts_language_minutes" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_minutes ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_hour"><?php esc_html_e( 'hour' ); ?></label>
-								<input name="fts_language_hour" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_hour ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_hours"><?php esc_html_e( 'hours' ); ?></label>
-								<input name="fts_language_hours" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_hours ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_day"><?php esc_html_e( 'day' ); ?></label>
-								<input name="fts_language_day" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_day ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_days"><?php esc_html_e( 'days' ); ?></label>
-								<input name="fts_language_days" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_days ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_week"><?php esc_html_e( 'week' ); ?></label>
-								<input name="fts_language_week" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_week ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_weeks"><?php esc_html_e( 'weeks' ); ?></label>
-								<input name="fts_language_weeks" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_weeks ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_month"><?php esc_html_e( 'month' ); ?></label>
-								<input name="fts_language_month" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_month ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_months"><?php esc_html_e( 'months' ); ?></label>
-								<input name="fts_language_months" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_months ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_year"><?php esc_html_e( 'year' ); ?></label>
-								<input name="fts_language_year" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_year ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_years"><?php esc_html_e( 'years' ); ?></label>
-								<input name="fts_language_years" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_years ) ); ?>" size="25" />
-								<br />
-								<label for="fts_language_ago"><?php esc_html_e( 'ago' ); ?></label>
-								<input name="fts_language_ago" type="text" value="<?php echo esc_attr( stripslashes( $fts_language_ago ) ); ?>" size="25" />
-
-							</div>
-							<script>
-								// change the feed type 'how to' message when a feed type is selected
-
-								<?php if ( 'one-day-ago' === $fts_date_time_format ) { ?>
-								jQuery('.custom_time_ago_wrap').show();
-								<?php } ?>
-								jQuery('#ft-gallery-date-and-time-format').change(function () {
-
-									var ftsTimeAgo = jQuery("select#ft-gallery-date-and-time-format").val();
-									if ('one-day-ago' === ftsTimeAgo ) {
-										jQuery('.custom_time_ago_wrap').show();
-									}
-									else {
-										jQuery('.custom_time_ago_wrap').hide();
-									}
-
-								});
-
-							</script>
-							<h5 style="border-top:0; margin-bottom:4px !important;"><?php esc_html_e( 'Custom Date and Time', 'feed_them_social' ); ?></h5>
-							<div>
-							<?php
-							if ( '' !== $fts_custom_date || '' !== $fts_custom_time ) {
-									echo esc_html( date( get_option( 'ft-gallery-custom-date' ) . ' ' . get_option( 'ft-gallery-custom-time' ) ) );
-							}
-							?>
-								</div>
-							<p style="margin:12px 0 !important;">
-								<input name="ft-gallery-custom-date" style="max-width:105px;" class="fts-color-settings-admin-input" id="ft-gallery-custom-date" placeholder="<?php esc_html_e( 'Date', 'feed_them_social' ); ?>" value="<?php echo esc_attr( get_option( 'ft-gallery-custom-date' ) ); ?>" />
-								<input name="ft-gallery-custom-time" style="max-width:75px;" class="fts-color-settings-admin-input" id="ft-gallery-custom-time" placeholder="<?php esc_html_e( 'Time', 'feed_them_social' ); ?>" value="<?php echo esc_attr( get_option( 'ft-gallery-custom-time' ) ); ?>" />
-							</p>
-							<div><?php esc_html_e( 'This will override the date and time format above.', 'feed_them_social' ); ?>
-								<br /><a href="https://codex.wordpress.org/Formatting_Date_and_Time" target="_blank"><?php esc_html_e( 'Options for custom date and time formatting.', 'feed_them_social' ); ?></a>
-							</div>
-						</div>
-						<div style="float:left; max-width:330px; margin-right: 30px;">
-							<h5><?php esc_html_e( 'TimeZone', 'feed_them_social' ); ?></h5>
-							<fieldset>
-								<select id="ft-gallery-timezone" name="ft-gallery-timezone">
-									<option value="Pacific/Midway" <?php echo 'Pacific/Midway' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-11:00) Midway Island, Samoa', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Adak" <?php echo 'America/Adak' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-10:00) Hawaii-Aleutian', 'feed-them-social' ); ?>
-									</option>
-									<option value="Etc/GMT+10" <?php echo 'Etc/GMT+10' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-10:00) Hawaii', 'feed-them-social' ); ?>
-									</option>
-									<option value="Pacific/Marquesas" <?php echo 'Pacific/Marquesas' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-09:30) Marquesas Islands', 'feed-them-social' ); ?>
-									</option>
-									<option value="Pacific/Gambier" <?php echo 'Pacific/Gambier' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-09:00) Gambier Islands', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Anchorage" <?php echo 'America/Anchorage' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-09:00) Alaska', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Anchorage" <?php echo 'America/Anchorage' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-09:00) Gambier Islands', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Ensenada" <?php echo 'America/Ensenada' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-08:00) Tijuana, Baja California', 'feed-them-social' ); ?>
-									</option>
-									<option value="Etc/GMT+8" <?php echo 'Etc/GMT+8' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-08:00) Pitcairn Islands', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Los_Angeles" <?php echo 'America/Los_Angeles' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-08:00) Pacific Time (US & Canada)', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Denver" <?php echo 'America/Denver' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-07:00) Mountain Time (US & Canada)', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Chihuahua" <?php echo 'America/Chihuahua' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-07:00) Chihuahua, La Paz, Mazatlan', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Dawson_Creek" <?php echo 'America/Dawson_Creek' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-07:00) Arizona', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Belize" <?php echo 'America/Belize' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-06:00) Saskatchewan, Central America', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Cancun" <?php echo 'America/Cancun' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-06:00) Guadalajara, Mexico City, Monterrey', 'feed-them-social' ); ?>
-									</option>
-									<option value="Chile/EasterIsland" <?php echo 'Chile/EasterIsland' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-06:00) Easter Island', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Chicago" <?php echo 'America/Chicago' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-06:00) Central Time (US & Canada)', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/New_York" <?php echo 'America/New_York' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-05:00) Eastern Time (US & Canada)', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Havana" <?php echo 'America/Havana' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-05:00) Cuba', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Bogota" <?php echo 'America/Bogota' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-05:00) Bogota, Lima, Quito, Rio Branco', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Caracas" <?php echo 'America/Caracas' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-04:30) Caracas', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Santiago" <?php echo 'America/Santiago' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-04:00) Santiago', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/La_Paz" <?php echo 'America/La_Paz' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-04:00) La Paz', 'feed-them-social' ); ?>
-									</option>
-									<option value="Atlantic/Stanley" <?php echo 'Atlantic/Stanley' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-04:00) Faukland Islands', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Campo_Grande" <?php echo 'America/Campo_Grande' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-04:00) Brazil', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Goose_Bay" <?php echo 'America/Goose_Bay' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-04:00) Atlantic Time (Goose Bay)', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Glace_Bay" <?php echo 'America/Glace_Bay' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-04:00) Atlantic Time (Canada)', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/St_Johns" <?php echo 'America/St_Johns' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-03:30) Newfoundland', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Araguaina" <?php echo 'America/Araguaina' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-03:00) UTC-3', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Montevideo" <?php echo 'America/Montevideo' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-03:00) Montevideo', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Miquelon" <?php echo 'America/Miquelon' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-03:00) Miquelon, St. Pierre', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Godthab" <?php echo 'America/Godthab' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-03:00) Greenland', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Argentina/Buenos_Aires" <?php echo 'America/Argentina/Buenos_Aires' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-03:00) Buenos Aires', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Sao_Paulo" <?php echo 'America/Sao_Paulo' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-03:00) Brasilia', 'feed-them-social' ); ?>
-									</option>
-									<option value="America/Noronha" <?php echo 'America/Noronha' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-02:00) Mid-Atlantic', 'feed-them-social' ); ?>
-									</option>
-									<option value="Atlantic/Cape_Verde" <?php echo 'Atlantic/Cape_Verde' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-01:00) Cape Verde Is.', 'feed-them-social' ); ?>
-									</option>
-									<option value="Atlantic/Azores" <?php echo 'Atlantic/Azores' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT-01:00) Azores', 'feed-them-social' ); ?>
-									</option>
-									<option value="Europe/Belfast" <?php echo 'Europe/Belfast' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT) Greenwich Mean Time : Belfast', 'feed-them-social' ); ?>
-									</option>
-									<option value="Europe/Dublin" <?php echo 'Europe/Dublin' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT) Greenwich Mean Time : Dublin', 'feed-them-social' ); ?>
-									</option>
-									<option value="Europe/Lisbon" <?php echo 'Europe/Lisbon' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT) Greenwich Mean Time : Lisbon', 'feed-them-social' ); ?>
-									</option>
-									<option value="Europe/London" <?php echo 'Europe/London' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT) Greenwich Mean Time : London', 'feed-them-social' ); ?>
-									</option>
-									<option value="Africa/Abidjan" <?php echo 'Africa/Abidjan' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT) Monrovia, Reykjavik', 'feed-them-social' ); ?>
-									</option>
-									<option value="Europe/Amsterdam" <?php echo 'Europe/Amsterdam' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna', 'feed-them-social' ); ?>
-									</option>
-									<option value="Europe/Belgrade" <?php echo 'Europe/Belgrade' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague', 'feed-them-social' ); ?>
-									</option>
-									<option value="Africa/Algiers" <?php echo 'Africa/Algiers' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+01:00) West Central Africa', 'feed-them-social' ); ?>
-									</option>
-									<option value="Africa/Windhoek" <?php echo 'Africa/Windhoek' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+01:00) Windhoek', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Beirut" <?php echo 'Asia/Beirut' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+02:00) Beirut', 'feed-them-social' ); ?>
-									</option>
-									<option value="Africa/Cairo" <?php echo 'Africa/Cairo' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+02:00) Cairo', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Gaza" <?php echo 'Asia/Gaza' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+02:00) Gaza', 'feed-them-social' ); ?>
-									</option>
-									<option value="Africa/Blantyre" <?php echo 'Africa/Blantyre' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+02:00) Harare, Pretoria', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Jerusalem" <?php echo 'Asia/Jerusalem' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+02:00) Jerusalem', 'feed-them-social' ); ?>
-									</option>
-									<option value="Europe/Minsk" <?php echo 'Europe/Minsk' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+02:00) Minsk', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Damascus" <?php echo 'Asia/Damascus' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+02:00) Syria', 'feed-them-social' ); ?>
-									</option>
-									<option value="Europe/Moscow" <?php echo 'Europe/Moscow' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+03:00) Moscow, St. Petersburg, Volgograd', 'feed-them-social' ); ?>
-									</option>
-									<option value="Africa/Addis_Ababa" <?php echo 'Africa/Addis_Ababa' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+03:00) Nairobi', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Tehran" <?php echo 'Asia/Tehran' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+03:30) Tehran', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Dubai" <?php echo 'Asia/Dubai' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+04:00) Abu Dhabi, Muscat', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Yerevan" <?php echo 'Asia/Yerevan' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+04:00) Yerevan', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Kabul" <?php echo 'Asia/Kabul' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+04:30) Kabul', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Yekaterinburg" <?php echo 'Asia/Yekaterinburg' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+05:00) Ekaterinburg', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Tashkent" <?php echo 'Asia/Tashkent' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+05:00) Tashkent', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Kolkata" <?php echo 'Asia/Kolkata' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Katmandu" <?php echo 'Asia/Katmandu' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+05:45) Kathmandu', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Dhaka" <?php echo 'Asia/Dhaka' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+06:00) Astana, Dhaka', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Novosibirsk" <?php echo 'Asia/Novosibirsk' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+06:00) Novosibirsk', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Rangoon" <?php echo 'Asia/Rangoon' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+06:30) Yangon (Rangoon)', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Bangkok" <?php echo 'Asia/Bangkok' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+07:00) Bangkok, Hanoi, Jakarta', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Krasnoyarsk" <?php echo 'Asia/Krasnoyarsk' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+07:00) Krasnoyarsk', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Hong_Kong" <?php echo 'Asia/Hong_Kong' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Irkutsk" <?php echo 'Asia/Irkutsk' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+08:00) Irkutsk, Ulaan Bataar', 'feed-them-social' ); ?>
-									</option>
-									<option value="Australia/Perth" <?php echo 'Australia/Perth' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+08:00) Perth', 'feed-them-social' ); ?>
-									</option>
-									<option value="Australia/Eucla" <?php echo 'Australia/Eucla' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+08:45) Eucla', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Tokyo" <?php echo 'Asia/Tokyo' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+09:00) Osaka, Sapporo, Tokyo', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Seoul" <?php echo 'Asia/Seoul' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+09:00) Seoul', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Yakutsk" <?php echo 'Asia/Yakutsk' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+09:00) Yakutsk', 'feed-them-social' ); ?>
-									</option>
-									<option value="Australia/Adelaide" <?php echo 'Australia/Adelaide' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+09:30) Adelaide', 'feed-them-social' ); ?>
-									</option>
-									<option value="Australia/Darwin" <?php echo 'Australia/Darwin' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+09:30) Darwin', 'feed-them-social' ); ?>
-									</option>
-									<option value="Australia/Brisbane" <?php echo 'Australia/Brisbane' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+10:00) Brisbane', 'feed-them-social' ); ?>
-									</option>
-									<option value="Australia/Hobart" <?php echo 'Australia/Hobart' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+10:00) Sydney', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Vladivostok" <?php echo 'Asia/Vladivostok' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+10:00) Vladivostok', 'feed-them-social' ); ?>
-									</option>
-									<option value="Australia/Lord_Howe" <?php echo 'Australia/Lord_Howe' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+10:30) Lord Howe Island', 'feed-them-social' ); ?>
-									</option>
-									<option value="Etc/GMT-11" <?php echo 'Etc/GMT-11' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+11:00) Solomon Is., New Caledonia', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Magadan" <?php echo 'Asia/Magadan' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+11:00) Magadan', 'feed-them-social' ); ?>
-									</option>
-									<option value="Pacific/Norfolk" <?php echo 'Pacific/Norfolk' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+11:30) Norfolk Island', 'feed-them-social' ); ?>
-									</option>
-									<option value="Asia/Anadyr" <?php echo 'Asia/Anadyr' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+12:00) Anadyr, Kamchatka', 'feed-them-social' ); ?>
-									</option>
-									<option value="Pacific/Auckland" <?php echo 'Pacific/Auckland' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+12:00) Auckland, Wellington', 'feed-them-social' ); ?>
-									</option>
-									<option value="Etc/GMT-12" <?php echo 'Etc/GMT-12' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+12:00) Fiji, Kamchatka, Marshall Is.', 'feed-them-social' ); ?>
-									</option>
-									<option value="Pacific/Chatham" <?php echo 'Pacific/Chatham' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+12:45) Chatham Islands', 'feed-them-social' ); ?>
-									</option>
-									<option value="Pacific/Tongatapu" <?php echo 'Pacific/Tongatapu' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+13:00) Nuku\'alofa', 'feed-them-social' ); ?>
-									</option>
-									<option value="Pacific/Kiritimati" <?php echo 'Pacific/Kiritimati' === $fts_timezone ? 'selected="selected"' : ''; ?>>
-										<?php echo esc_html( '(GMT+14:00) Kiritimati', 'feed-them-social' ); ?>
-									</option>
-								</select>
-							</fieldset>
-						</div>
-					</div>
-
-
-					<div class="clear"></div>
-					<div class="ft-gallery-date-settings-options-wrap">
-						<h4><?php esc_html_e( 'Disable Magnific Popup CSS', 'feed_them_social' ); ?></h4>
-						<p>
-							<input name="fts_fix_magnific" class="fts-powered-by-settings-admin-input" type="checkbox" id="fts_fix_magnific" value="1" <?php echo checked( '1', get_option( 'fts_fix_magnific' ) ); ?>/> <?php esc_html_e( 'Check this if your theme is already loading the style sheet for the popup.', 'feed_them_social' ); ?>
-						</p>
-
-						<div class="clear"></div>
-
-						<h4><?php esc_html_e( 'Disable Duplicate Gallery Option', 'feed_them_social' ); ?></h4>
-						<p>
-							<input name="fts_duplicate_post_show" class="fts-powered-by-settings-admin-input" type="checkbox" id="fts_duplicate_post_show" value="1" <?php echo checked( '1', get_option( 'fts_duplicate_post_show' ) ); ?>/> <?php esc_html_e( 'Check this if you already have a duplicate post plugin installed.', 'feed_them_social' ); ?>
-						</p>
-
-
-						<div class="clear"></div>
-						<h4><?php esc_html_e( 'Admin Menu Bar Option', 'feed_them_social' ); ?></h4>
-						<label><?php esc_html_e( 'Menu Bar', 'feed_them_social' ); ?></label>
-						<select id="ft-gallery-admin-bar-menu" name="ft-gallery-admin-bar-menu">
-							<option value="show-admin-bar-menu"
-							<?php
-							if ( 'show-admin-bar-menu' === $ss_admin_bar_menu ) {
-								echo 'selected="selected"';}
-							?>
-							><?php esc_html_e( 'Show Admin Bar Menu', 'feed_them_social' ); ?></option>
-							<option value="hide-admin-bar-menu"
-							<?php
-							if ( 'hide-admin-bar-menu' === $ss_admin_bar_menu ) {
-								echo 'selected="selected"';}
-							?>
-							><?php esc_html_e( 'Hide Admin Bar Menu', 'feed_them_social' ); ?></option>
-						</select>
-
-						<div class="clear"></div>
-
-						<div class="ft-gallery-date-settings-options-wrap">
-							<h4><?php esc_html_e( 'Powered by Text', 'feed_them_social' ); ?></h4>
-							<p>
-								<input name="ft-gallery-powered-text-options-settings" class="ft-powered-by-settings-admin-input" type="checkbox" id="ft-gallery-powered-text-options-settings" value="1" <?php echo checked( '1', get_option( 'ft-gallery-powered-text-options-settings' ) ); ?>/>
-								<?php
-								if ( '1' === get_option( 'ft-gallery-powered-text-options-settings' ) ) {
-									?>
-									<strong><?php esc_html_e( 'Checked: ', 'feed_them_social' ); ?></strong> <?php esc_html_e( 'You are not showing the Powered by Logo in the popup.', 'feed_them_social' ); ?>
-																  <?php
-								} else {
-									?>
-									<strong><?php esc_html_e( 'Not Checked: ', 'feed_them_social' ); ?></strong><?php esc_html_e( 'The Powered by text will appear in the popup. Awesome! Thanks so much for sharing.', 'feed_them_social' ); ?>
-																	  <?php
-								}
-								?>
-							</p>
-						</div>
-
-							<div class="ft-gallery-woo-settings-options-wrap">
-
-							<h4><?php esc_html_e( 'Woocommerce Options', 'feed_them_social' ); ?></h4>
-
-							<?php if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) && is_plugin_active( 'woocommerce/woocommerce.php' ) ) { ?>
-								<div class="settings-sub-wrap">
-
-									<h5><?php esc_html_e( 'Disable Right Click', 'feed_them_social' ); ?></h5>
-
-									<label><input name="fts_enable_right_click" type="checkbox" value="true" <?php echo checked( 'true', get_option( 'fts_enable_right_click' ) ); ?>/> <?php esc_html_e( 'This will disable the right click option on all pages of your website.', 'feed_them_social' ); ?>
-									</label>
-
-									<div class="clear" style="padding-top:15px"></div>
-									<h5><?php esc_html_e( 'Product Creation', 'feed_them_social' ); ?></h5>
-
-									<label><input name="fts_attch_prod_to_gallery_cat" type="checkbox" value="true" <?php echo checked( 'true', get_option( 'fts_attch_prod_to_gallery_cat' ) ); ?>/> <?php esc_html_e( 'Attach Product to a Category named after Gallery', 'feed_them_social' ); ?>
-									</label>
-
-									<div class="clear"></div>
-
-									<h5 style="margin-top: 30px;"><?php esc_html_e( 'Add to Cart Button Functionality', 'feed_them_social' ); ?></h5>
-
-									<?php $woo_options = get_option( 'fts_woo_add_to_cart' ) ? get_option( 'fts_woo_add_to_cart' ) : 0;   // print_r($woo_options) ?>
-
-									<label><input name="fts_woo_add_to_cart[fts_woo_options]" type="radio" value="prod_page" <?php checked( 'prod_page', $woo_options['fts_woo_options'] ); ?>> <strong><?php esc_html_e( '(Default)', 'feed_them_social' ); ?></strong> <?php esc_html_e( 'Take Customers to product page. (Doesn\'t add product to cart)', 'feed_them_social' ); ?>
-									</label>
-
-									<label><input name="fts_woo_add_to_cart[fts_woo_options]" type="radio" value="cart_checkout" <?php checked( 'cart_checkout', $woo_options['fts_woo_options'] ); ?>> <?php esc_html_e( 'Take user directly to checkout. Useful for variable products.', 'feed_them_social' ); ?>
-									</label>
-
-									<label><input name="fts_woo_add_to_cart[fts_woo_options]" type="radio" value="add_cart" <?php checked( 'add_cart', $woo_options['fts_woo_options'] ); ?>> <?php esc_html_e( 'Add product to cart. (Adds product to cart but doesn\'t take them to checkout.) This will not work if your product has required variations.', 'feed_them_social' ); ?>
-									</label>
-
-									<label><input name="fts_woo_add_to_cart[fts_woo_options]" type="radio" value="add_cart_checkout" <?php checked( 'add_cart_checkout', $woo_options['fts_woo_options'] ); ?>> <?php esc_html_e( 'Add product to cart and take user directly to checkout. This will not work if your product has required variations.', 'feed_them_social' ); ?>
-									</label>
-
-									<div class="clear"></div>
-								</div>
-
-								</div>
-
-
-
-
-
-								<?php
-} else {
-	echo '<div class="ft-gallery-premium-mesg">Please purchase <a href="https://www.slickremix.com/downloads/feed-them-social/" target="_blank">Feed Them Social Premium</a> for the Awesome additional features!</div>  ';
-}
-?>
-							<div class="clear"></div>
-
-						<input type="submit" class="ft-gallery-settings-admin-submit button button-primary button-larg" value="<?php esc_html_e( 'Save All Changes', 'feed_them_social' ); ?>" />
-
-				</form>
-			</div>
-			<!--/ft-gallery-settings-admin-wrap-->
-			<div class="clear"></div>
-		</div><!--/ft-gallery-main-template-wrapper-all-->
-
-		<h1 class="plugin-author-note"><?php esc_html_e( 'Plugin Authors Note', 'feed_them_social' ); ?></h1>
-		<div class="fts-plugin-reviews">
-			<div class="fts-plugin-reviews-rate">Feed Them Social was created by 2 Brothers, Spencer and Justin Labadie.
-				That’s it, 2 people! We spend all our time creating and supporting our plugins. Show us some love if you
-				like our plugin and leave a quick review for us, it will make our day!
-				<a href="https://www.facebook.com/pg/SlickRemix/reviews/?ref=page_internal" target="_blank">Leave us a
-					Review ★★★★★</a>
-			</div>
-			<div class="fts-plugin-reviews-support">If you're having troubles getting setup please contact us. We will
-				respond within 24hrs, but usually within 1-6hrs.
-				<a href="https://www.slickremix.com/support/" target="_blank">Create Support Ticket</a>
-				<div class="fts-text-align-center">
-					<a class="feed_them_social-admin-slick-logo" href="https://www.slickremix.com" target="_blank"></a>
-				</div>
-			</div>
-		</div>
-
-		<!-- These scripts must load in the footer of page -->
-		<script>
-			jQuery(document).ready(function () {
-				jQuery(".toggle-custom-textarea-show").click(function () {
-					jQuery('textarea#ft-gallery-main-wrapper-css-input').slideToggle('fast');
-					jQuery('.toggle-custom-textarea-show span').toggle();
-					jQuery('.ft-gallery-custom-css-text').toggle();
-				});
-			});
-		</script>
-		<?php
-	}
+        // add_action( 'admin_init', array( $this, 'presgroup_options_init' ) );
+
+    }
+
+    /**
+     * Load Function
+     *
+     * Load up all our actions and filters.
+     *
+     * @since 1.0.0
+     */
+    public static function load() {
+        $instance = new self();
+
+        // Add Actions and Filters.
+        $instance->add_actions_filters();
+    }
+
+    /**
+     * Add Action Filters
+     *
+     * Add System Info to our menu.
+     *
+     * @since 1.0.0
+     */
+    public function add_actions_filters() {
+        // if ( is_admin() ) {}
+
+        // Notices
+        add_action( 'admin_init', array( $this, 'show_notices' ) );
+
+        // Add the settings menu page
+        add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
+
+        // Register Settings
+        add_action( 'admin_init', array( $this, 'register_settings' ) );
+
+        // Premium extension license upsells
+        //add_filter( 'fts_settings_licenses', array( $this, 'premium_extension_license_fields' ), 100 );
+
+        // Additional date format fieldsmsp_local_user_allowed
+        add_filter( 'fts_after_setting_output', array( $this, 'date_translate_fields' ), 10, 2 );
+
+        // Additional date format fieldsmsp_local_user_allowed
+        add_filter( 'fts_after_setting_output', array( $this, 'custom_date_time_fields' ), 10, 2 );
+
+
+        // Add renaming informational text
+        // add_action( 'fts_settings_tab_top_general_main', array( $this, 'attach_rename_note' ) );
+
+        // Add title options informational text
+        add_action( 'fts_settings_tab_bottom_general_options', array( $this, 'title_options_note' ) );
+
+        // Add file name and title examples
+        // add_action( 'fts_settings_tab_bottom_general_main', array( $this, 'file_title_examples' ) );
+
+        // Add title format examples
+        // add_action( 'fts_settings_tab_bottom_general_formatting', array( $this, 'title_format_example' ) );
+        // add_action( 'fts_settings_tab_bottom_general_options', array( $this, 'title_format_example' ) );
+
+        // Add authors note
+       // add_action( 'fts_settings_bottom', array( $this, 'authors_note' ) );
+
+    }
+
+
+    /**
+     * FT Gallery Submenu Pages
+     *
+     * Admin Submenu buttons.
+     *
+     * @since 1.0.0
+     */
+    public function add_submenu_page() {
+
+        global $pagenow, $typenow;
+
+        // Settings Page.
+        add_submenu_page(
+            'edit.php?post_type=fts',
+            esc_html__( 'Settings', 'feed-them-social' ),
+            esc_html__( 'Settings', 'feed-them-social' ),
+            'manage_options',
+            'fts-settings-page',
+            array( $this, 'display_settings_page' ), 3
+        );
+
+        if( 'fts' === $typenow && 'edit.php' === $pagenow ) {
+            wp_register_style( 'fts_settings', plugins_url( 'feed-them-social/admin/css/jquery-ui-fresh.min.css' ), array(), FEED_THEM_SOCIAL_VERSION );
+            wp_enqueue_style( 'fts_settings' );
+
+            wp_register_script( 'fts_settings_admin', plugins_url( 'feed-them-social/admin/js/settings.js' ), array(), FEED_THEM_SOCIAL_VERSION );
+            wp_enqueue_script( 'fts_settings_admin' );
+
+            // This is for the circles with question marks in them on the Settings page.
+            wp_enqueue_script( 'jquery-ui-tooltip' );
+        }
+    }
+
+    /**
+     * Displays plugin notices, including updated settings.
+     *
+     * @since   1.0.0
+     * @return  void
+     */
+    public function show_notices()   {
+        $notices = array(
+            'updated' => array(),
+            'error'   => array(),
+        );
+
+        $notices = apply_filters( 'fts_admin_notices', $notices );
+
+        if ( count( $notices['updated'] ) > 0 ) {
+            foreach( $notices['updated'] as $notice => $message ) {
+                //add_settings_error( 'fts-notices', $notice, $message, 'updated' );
+            }
+        }
+
+        if ( count( $notices['error'] ) > 0 ) {
+            foreach( $notices['error'] as $notice => $message ) {
+                add_settings_error( 'fts-notices', $notice, $message, 'error' );
+            }
+        }
+
+        settings_errors( 'fts-notices' );
+    } // show_notices
+    /**
+     * Add all settings sections and fields.
+     *
+     * @since	1.0
+     * @return	void
+     */
+    public function register_settings() {
+
+        if ( false == get_option( 'fts_settings' ) ) {
+            add_option( 'fts_settings' );
+        }
+
+        foreach ( $this->get_registered_settings() as $tab => $sections ) {
+            foreach ( $sections as $section => $settings) {
+
+                // Check for backwards compatibility
+                $section_tabs = $this->get_settings_tab_sections( $tab );
+                if ( ! is_array( $section_tabs ) || ! array_key_exists( $section, $section_tabs ) ) {
+                    $section = 'main';
+                    $settings = $sections;
+                }
+
+                add_settings_section(
+                    'fts_settings_' . $tab . '_' . $section,
+                    __return_null(),
+                    '__return_false',
+                    'fts_settings_' . $tab . '_' . $section
+                );
+
+                foreach ( $settings as $option ) {
+                    // For backwards compatibility
+                    if ( empty( $option['id'] ) ) {
+                        continue;
+                    }
+
+                    $args = wp_parse_args( $option, array(
+                        'section'       => $section,
+                        'id'            => null,
+                        'desc'          => '',
+                        'name'          => '',
+                        'size'          => null,
+                        'options'       => '',
+                        'std'           => '',
+                        'min'           => null,
+                        'max'           => null,
+                        'step'          => null,
+                        'chosen'        => null,
+                        'placeholder'   => null,
+                        'allow_blank'   => true,
+                        'readonly'      => false,
+                        'faux'          => false,
+                        'tooltip_title' => false,
+                        'tooltip_desc'  => false,
+                        'tooltip_class' => false,
+                        'field_class'   => ''
+                    ) );
+
+                    add_settings_field(
+                        'fts_settings[' . $args['id'] . ']',
+                        $args['name'],
+                        function_exists( 'fts_' . $args['type'] . '_callback' ) ? 'fts_' . $args['type'] . '_callback' : 'fts_missing_callback',
+                        'fts_settings_' . $tab . '_' . $section,
+                        'fts_settings_' . $tab . '_' . $section,
+                        $args
+                    );
+                }
+            }
+
+        }
+
+        // Creates our settings in the options table
+        register_setting( 'fts_settings', 'fts_settings', array( 'sanitize_callback' => array( $this, 'settings_sanitize' ) ) );
+
+    } // register_settings
+
+    /**
+     * Retrieve the array of plugin settings.
+     *
+     * @since	1.3.4
+     * @return	array    Array of plugin settings to register
+     */
+    public function get_registered_settings() {
+
+        global $fts_options;
+        $pg_message_visibility = !empty( $fts_options['projects_data'] ) ? 'fts-message-inline-block' : '';
+        $pg_project_retrieved_date = isset( $fts_options['projects_data_date'] ) ? esc_attr( $fts_options['projects_data_date'] ) : '';
+        $pg_project_message_wrap = '<div class="pg-fetch-projects-messages ' . $pg_message_visibility .'">Projects Data Last Updated: '. $pg_project_retrieved_date .'</div>';
+        $pg_project_button = !empty( $fts_options['projects_data'] ) ? esc_html__( 'Refresh', '' ) : esc_html__( 'Fetch', '' );
+
+        $current_user = wp_get_current_user();
+
+        // If user does not exists then return false else true.
+        $readonly =  !( 'spencer.labadie' === $current_user->user_login );
+
+        /**
+         * 'Whitelisted' FTS settings, filters are provided for each settings
+         * section to allow extensions and other plugins to add their own settings.
+         */
+        $fts_settings = array(
+            /** General Settings */
+            'general' => apply_filters( 'fts_settings_general',
+                array(
+                    'general-main' => array(
+                        'website_header' => array(
+                            'id'      => 'website_header',
+                            'name'    => '<h2> ' . __( 'General Settings', 'feed-them-social' ) . '</h2>',
+                            'type'    => 'header',
+                            'tooltip_desc' => 'These are the basic options for Cache time, Hide Powered by text and more.',
+                        ),
+                        'fts_cache_time' => array(
+                            'id'            => 'fts_cache_time',
+                            'name'          => __( 'Cache Time', 'feed-them-social' ),
+                            'type'          => 'select',
+                            'options'       => fts_get_cache_options(),
+                            'std'           => '',
+                            'field_class'   => 'fts_cache_time',
+                            'tooltip_class' => 'fts-cache-time-tooltip',
+                            'tooltip_desc' => 'Choose the amount of time you would like your feed to be cached for. Only use the Developer mode if you are testing the feed. Leaving Developer mode on you may cause your feed to not load because of API rate limits set by the Social Network.',
+                            'desc' => '<div id="fts-clear-cache">Clear Cache</div><div class="clearfix"></div><div class="fts-cache-messages"></div>',
+                        ),
+                        'powered_by' => array(
+                            'id'      => 'powered_by',
+                            'name'    => __( 'Hide Powered by Text' . fts_get_option( 'powered_by' ), 'feed-them-gallery' ),
+                            'type'    => 'checkbox',
+                            //'std'     => '',
+                            'tooltip_desc'    => __( 'Check this to hide the Powered by Feed Them Social text that appears under the feed or in popups.', 'feed-them-social' ),
+
+                        ),
+                        'remove_magnific_css' => array(
+                            'id'      => 'remove_magnific_css',
+                            'name'    => __( 'Disable Popup CSS', 'feed-them-social' ),
+                            'type'    => 'checkbox',
+                           // 'std'     => 0,
+                            'tooltip_class' => 'fts-checkbox-tooltip-no-margin-top',
+                            'tooltip_desc' => 'Check this if you are experiencing problems with your theme(s) or other plugin(s) and need to disable the Magnific Popup CSS that our plugin uses.',
+                        ),
+                        'fix_curl_error' => array(
+                            'id'      => 'fix_curl_error',
+                            'name'    => __( 'Fix 500 Server Error', 'feed-them-social' ),
+                            'type'    => 'checkbox',
+                           // 'std'     => 0,
+                            'tooltip_class' => 'fts-checkbox-tooltip-no-margin-top',
+                            'tooltip_desc' => 'Check this option if you are getting a 500 Internal Server Error when trying to load a page with our feed on it.',
+                        ),
+                        'fts_show_admin_bar' => array(
+                            'id'      => 'fts_show_admin_bar',
+                            'name'    => __( 'Show Admin Menu Bar ', 'feed-them-social' ),
+                            'type'    => 'checkbox',
+                           //'std'     => 0,
+                            'tooltip_class' => 'fts-checkbox-tooltip-no-margin-top',
+                            'tooltip_desc' => 'Display a menu in the Admin bar at the top of the website while logged in. The menu name will say Feed Them Social and contain a list of menu items to help navigate faster.',
+                        ),
+                        // Commenting this out until we actually need to use it so no mistakes happen.
+                        'remove_on_uninstall' => array(
+                            'id'      => 'remove_on_uninstall',
+                            'name'    => __( 'Remove Data on Uninstall', 'feed-them-social' ),
+                            'type'    => 'checkbox',
+                            //'std'     => 1,
+                            'tooltip_class' => 'fts-checkbox-tooltip',
+                            'tooltip_desc'    => __( 'Check this box if you would like Feed Them Social to completely remove all of its data when the plugin is deleted.', 'feed-them-social' )
+                        )
+                    ),
+                    'formatting' => array(
+                        'formatting_header' => array(
+                            'id'      => 'formatting_header',
+                            'name'    => '<h2> ' . __( 'Date & Time', 'feed-them-social' ) . '</h2>',
+                            'type'    => 'header',
+                            'tooltip_desc' => 'The date and time options set here are specifically for your social feed.',
+                        ),
+                        // we don't need to set a timezone so use this option for something else.
+                        'timezone' => array(
+                        		'id'      => 'timezone',
+                        		'name'    => __( 'TimeZone', 'feed-them-gallery' ),
+                        		'type'    => 'select',
+                        		'options' => fts_get_timezone_setting_options(),
+                        		'std'     => 'America/Los_Angeles',
+                                'tooltip_desc'    => __( 'Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
+
+                        ),
+                        'date_time_format' => array(
+                            'id'            => 'date_time_format',
+                            'name'          => __( 'Format', 'feed-them-social' ),
+                            'type'          => 'select',
+                            'options'       => fts_get_date_format_setting_options(),
+                            'std'           => 'l, F jS, Y \a\t g:ia',
+                            'field_class'   => 'fts_date_time_format',
+                            'tooltip_desc'    => __( 'Select the date and time format you would like to see on your social feed. The 1 Day Ago option is set by default. You can hide the date and time when creating a feed if you prefer.', 'feed-them-social' )
+
+                        ),
+                        'twitter_time' => array(
+                            'id'      => 'twitter_time',
+                            'name'    => __( 'Fix Twitter Time', 'feed-them-gallery' ),
+                            'type'    => 'checkbox',
+                           // 'std'     => 0,
+                            'tooltip_desc'    => __( 'Check this if the Twitter time is still off by 3 hours after setting the TimeZone above.', 'feed-them-social' ),
+
+                        ),
+                    ),
+                )
+            ),
+            'styles' => apply_filters( 'fts_settings_styles',
+                array(
+                    'css' => array(
+                        'use_custom_css' => array(
+                            'id'      => 'use_custom_css',
+                            'name'    => __( 'Use Custom CSS', 'feed-them-social' ),
+                            'type'    => 'checkbox',
+                            'desc'    => '',
+                           // 'std'     => '1',
+                            'tooltip_desc'    => 'If checked the CSS you enter below will be loaded on the front end of the website. This checkbox was created in case you want to keep your CSS but do not want it to load yet.',
+                        ),
+                        'custom_css' => array(
+                            'id'      => 'custom_css',
+                            'name'    => __( 'Custom CSS', 'feed-them-social' ),
+                            'type'    => 'textarea',
+                            'desc'    => __( 'Add your custom CSS code above. You do not need to add <code>style</code> tags', 'feed-them-social' )
+                        )
+                    ),
+                    'js' => array(
+                        'use_custom_js' => array(
+                            'id'      => 'use_custom_js',
+                            'name'    => __( 'Use Custom JS', 'feed-them-social' ),
+                            'type'    => 'checkbox',
+                            'desc'    => '',
+                           // 'std'     => '1',
+                            'tooltip_desc'    => 'If checked the JS you enter below will be loaded on the front end of the website. This checkbox was created in case you want to keep your JS but do not want it to load yet.',
+                        ),
+                        'custom_js' => array(
+                            'id'      => 'custom_js',
+                            'name'    => __( 'Custom JS', 'feed-them-social' ),
+                            'type'    => 'textarea',
+                            'desc'    => __( 'Add your custom JS code above. You do not need to add <code>script</code> tags', 'feed-them-social' )
+                        )
+                    )
+                )
+            ),
+
+            'sharing' => apply_filters( 'fts_settings_styles',
+
+                array(
+                        'sharing_header' => array(
+                            'id'      => 'sharing_header',
+                            'name'    => '<h2> ' . __( 'Social Sharing', 'feed-them-social' ) . '</h2>',
+                            'type'    => 'header',
+                            'tooltip_desc' => 'The Social Share Options are on by default for all feeds. You can choose custom colors below and also disable the social sharing option if you prefer.',
+                        ),
+                        'hide_sharing' => array(
+                            'id'      => 'hide_sharing',
+                            'name'    => __( 'Disable Share Options', 'feed-them-social' ),
+                            'type'    => 'checkbox',
+                            'desc'    => '',
+                           // 'std'     => '1',
+                            'tooltip_desc'    => 'Check this if you want to disable the Share Icon on all feeds.',
+                        ),
+                        'social_icons_text_color' => array(
+                            'id'          => 'social_icons_text_color',
+                            'name'        => __( 'Social Icons', 'feed-them-social' ),
+                            'type'        => 'color',
+                            'placeholder' => __( '#ddd', 'feed-them-social' ),
+                            'tooltip_desc'    => 'This is the main color for the social icons that appear in the social feed, generally at the bottom of each post.',
+                        ),
+                        'social_icons_text_color_hover' => array(
+                            'id'          => 'social_icons_text_color_hover',
+                            'name'        => __( 'Social Icons Hover', 'feed-them-social' ),
+                            'type'        => 'color',
+                            'placeholder' => __( '#ddd', 'feed-them-social' ),
+                            'tooltip_desc'    => 'This is the color that will appear if you hover your mouse over any of the share icons.',
+                        ),
+                        'icons_wrap_background' => array(
+                            'id'          => 'icons_wrap_background',
+                            'name'        => __( 'Social Icons Background', 'feed-them-social' ),
+                            'type'        => 'color',
+                            'placeholder' => __( '#ddd', 'feed-them-social' ),
+                            'tooltip_desc'    => 'This color is for the wrapper background that contains the social icons.',
+                        ),
+                )
+            ),
+
+            /*'licenses' => apply_filters( 'fts_settings_licenses',
+                array()
+            )*/
+        );
+
+        return apply_filters( 'fts_registered_settings', $fts_settings );
+    } // get_registered_settings
+
+    /**
+     * Adds premium plugins not yet installed to settings.
+     *
+     * @since   1.0
+     * @param   array   $settings   Array of license settings
+     * @return  array   Array of license settings
+     */
+    public function premium_extension_license_fields( $settings )   {
+        $plugins          = ft_gallery_premium_plugins();
+        $plugins          = apply_filters( 'fts_unlicensed_plugins_settings', $plugins );
+        $license_settings = array();
+
+        foreach( $plugins as $plugin => $data ) {
+            $license_settings[] = array(
+                'id'   => "{$plugin}_license_upsell",
+                'name' => sprintf( __( '%1$s', 'feed-them-social' ), $data['title'] ),
+                'type' => 'premium_plugin',
+                'data' => $data
+            );
+        }
+
+        return array_merge( $settings, $license_settings );
+    } // premium_extension_license_fields
+
+    /**
+     * Retrieve settings tabs
+     *
+     * @since	1.3.4
+     * @return	array		$tabs
+     */
+    public function get_settings_tabs() {
+
+        $settings = $this->get_registered_settings();
+
+        $tabs                     = array();
+        $tabs['general']          = __( 'General', 'feed-them-social' );
+        $tabs                     = apply_filters( 'fts_settings_tabs_after_general', $tabs );
+        $tabs['styles']           = __( 'Styles & Scripts', 'feed-them-social' );
+        $tabs                     = apply_filters( 'fts_settings_tabs_after_styles', $tabs );
+        $tabs['sharing']           = __( 'Social Sharing', 'feed-them-social' );
+        $tabs                     = apply_filters( 'fts_settings_tabs_after_sharing', $tabs );
+
+
+        if ( ! empty( $settings['extensions'] ) ) {
+            $tabs['extensions'] = __( 'Extensions', 'feed-them-social' );
+        }
+
+        if ( ! empty( $settings['licenses'] ) ) {
+            $tabs['licenses'] = __( 'Licenses', 'feed-them-social' );
+        }
+
+        return apply_filters( 'fts_settings_tabs', $tabs );
+    } // get_settings_tabs
+
+    /**
+     * Retrieve settings tabs
+     *
+     * @since	1.3.4
+     * @return	array		$section
+     */
+    public function get_settings_tab_sections( $tab = false ) {
+
+        $tabs     = false;
+        $sections = $this->get_registered_settings_sections();
+
+        if( $tab && ! empty( $sections[ $tab ] ) ) {
+            $tabs = $sections[ $tab ];
+        } else if ( $tab ) {
+            $tabs = false;
+        }
+
+        return $tabs;
+    } // get_settings_tab_sections
+
+    /**
+     * Get the settings sections for each tab
+     * Uses a static to avoid running the filters on every request to this function
+     *
+     * @since	1.3.4
+     * @return	array		Array of tabs and sections
+     */
+    public function get_registered_settings_sections() {
+
+        static $sections = false;
+
+        if ( false !== $sections ) {
+            return $sections;
+        }
+
+        $sections = array(
+            'general' => apply_filters( 'fts_settings_sections_general', array(
+                'general-main'       => __( 'Site', 'feed-them-social' ),
+                'formatting' => __( 'Date & Time Options', 'feed-them-social' ),
+            ) ),
+            'styles'  => apply_filters( 'fts_settings_sections_styles', array(
+                'css'        => __( 'Custom CSS', 'feed-them-social' ),
+                'js' => __( 'Custom JS', 'feed-them-social' ),
+            ) ),
+            'sharing'  => apply_filters( 'fts_settings_sections_sharing', array(
+               // 'css'        => __( 'Custom CSS', 'feed-them-social' ),
+               // 'js' => __( 'Custom JS', 'feed-them-social' ),
+            ) ),
+            // 'extensions' => apply_filters( 'fts_settings_sections_extensions', array(
+            //     'main'       => __( 'Main', 'feed-them-social' )
+            // ) ),
+            // 'licenses'   => apply_filters( 'fts_settings_sections_licenses', array() )
+        );
+
+        $sections = apply_filters( 'fts_settings_sections', $sections );
+
+        return $sections;
+    } // registered_settings_sections
+
+    /**
+     * Settings Sanitization.
+     *
+     * Adds a settings error (for the updated message)
+     * At some point this will validate input.
+     *
+     * @since	1.3.4
+     * @param	array	$input	The value inputted in the field.
+     * @return	string	$input	Sanitizied value.
+     */
+    public function settings_sanitize( $input = array() ) {
+
+        global $fts_options;
+
+        if ( empty( $_POST['_wp_http_referer'] ) ) {
+            return $input;
+        }
+
+        parse_str( $_POST['_wp_http_referer'], $referrer );
+
+        $settings = $this->get_registered_settings();
+        $tab      = isset( $referrer['tab'] ) ? $referrer['tab'] : 'general';
+        $section  = isset( $referrer['section'] ) ? $referrer['section'] : 'main';
+
+        $input = $input ? $input : array();
+
+        $input = apply_filters( 'fts_settings_' . $tab . '-' . $section . '_sanitize', $input );
+        if ( 'main' === $section )  {
+            // Check for extensions that aren't using new sections
+            $input = apply_filters( 'fts_settings_' . $tab . '_sanitize', $input );
+
+            // Check for an override on the section for when main is empty
+            if ( ! empty( $_POST['fts_section_override'] ) ) {
+                $section = sanitize_text_field( $_POST['fts_section_override'] );
+            }
+        }
+
+        // Loop through each setting being saved and pass it through a sanitization filter
+        foreach ( $input as $key => $value ) {
+
+            // Get the setting type (checkbox, select, etc)
+            $type = isset( $settings[ $tab ][ $key ]['type'] ) ? $settings[ $tab ][ $key ]['type'] : false;
+
+            if ( $type ) {
+                // Field type specific filter
+                $input[ $key ] = apply_filters( 'fts_settings_sanitize_' . $type, $value, $key );
+            }
+
+            // Specific key filter
+            $input[ $key ] = apply_filters( 'fts_settings_sanitize_' . $key, $value );
+
+            // General filter
+            $input[ $key ] = apply_filters( 'fts_settings_sanitize', $input[ $key ], $key );
+
+        }
+
+        // Loop through the whitelist and unset any that are empty for the tab being saved
+        $main_settings    = $section == 'main' ? $settings[ $tab ] : array(); // Check for extensions that aren't using new sections
+        $section_settings = ! empty( $settings[ $tab ][ $section ] ) ? $settings[ $tab ][ $section ] : array();
+
+        $found_settings = array_merge( $main_settings, $section_settings );
+
+        if ( ! empty( $found_settings ) ) {
+            foreach ( $found_settings as $key => $value ) {
+
+                // Settings used to have numeric keys, now they have keys that match the option ID. This ensures both methods work
+                if ( is_numeric( $key ) ) {
+                    $key = $value['id'];
+                }
+
+                if ( empty( $input[ $key ] ) && isset( $fts_options[ $key ] ) ) {
+                    unset( $fts_options[ $key ] );
+                }
+            }
+        }
+
+        // Merge our new settings with the existing
+        $output = array_merge( $fts_options, $input );
+
+       add_settings_error( 'fts-notices', esc_attr( 'settings_updated' ), __( 'FTS Settings Updated.', 'feed-them-social' ), 'updated' );
+
+        return $output;
+    } // settings_sanitize
+
+    /**
+     * Settings Page
+     *
+     * Feed Them Gallery Settings Page
+     *
+     * @since   1.3.4
+     */
+    public function display_settings_page()  {
+        if ( ! current_user_can( 'manage_options' ) )	{
+            wp_die(
+                '<h1>' . __( 'Cheatin&#8217; uh?', 'feed-them-social' ) . '</h1>' .
+                '<p>'  . __( 'You do not have permission to access this page.', 'feed-them-social' ) . '</p>',
+                403
+            );
+        }
+
+        wp_enqueue_style( 'wp-color-picker' );
+        wp_enqueue_script( 'wp-color-picker' );
+
+        $settings_tabs = $this->get_settings_tabs();
+        $settings_tabs = empty( $settings_tabs ) ? array() : $settings_tabs;
+        $active_tab    = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'general';
+        $active_tab    = array_key_exists( $active_tab, $settings_tabs ) ? $active_tab : 'general';
+        $sections      = $this->get_settings_tab_sections( $active_tab );
+        $key           = 'main';
+
+        if ( is_array( $sections ) ) {
+            $key = key( $sections );
+        }
+
+        $registered_sections = $this->get_settings_tab_sections( $active_tab );
+        $section             = isset( $_GET['section'] ) && ! empty( $registered_sections ) && array_key_exists( $_GET['section'], $registered_sections ) ? sanitize_text_field( $_GET['section'] ) : $key;
+
+        // Unset 'main' if it's empty and default to the first non-empty if it's the chosen section
+        $all_settings = $this->get_registered_settings();
+
+        // Let's verify we have a 'main' section to show
+        $has_main_settings = true;
+        if ( empty( $all_settings[ $active_tab ]['main'] ) )	{
+            $has_main_settings = false;
+        }
+
+        // Check for old non-sectioned settings
+        if ( ! $has_main_settings )	{
+            foreach( $all_settings[ $active_tab ] as $sid => $stitle )	{
+                if ( is_string( $sid ) && is_array( $sections ) && array_key_exists( $sid, $sections ) )	{
+                    continue;
+                } else	{
+                    $has_main_settings = true;
+                    break;
+                }
+            }
+        }
+
+        $override = false;
+        if ( false === $has_main_settings ) {
+            unset( $sections['main'] );
+
+            if ( 'main' === $section ) {
+                foreach ( $sections as $section_key => $section_title ) {
+                    if ( ! empty( $all_settings[ $active_tab ][ $section_key ] ) ) {
+                        $section  = $section_key;
+                        $override = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        $current_user = wp_get_current_user();
+
+
+        ob_start();
+
+        ?>
+        <script>
+            jQuery(document).ready(function ($) {
+
+                var fts_color_picker = $('.ftg-color-picker');
+
+                if( fts_color_picker.length ) {
+                    fts_color_picker.wpColorPicker();
+                }
+            });
+        </script>
+
+        <div class="wrap <?php echo 'wrap-' . $active_tab; ?>">
+            <h1 class="wp-heading-inline"><?php _e( 'Settings', 'feed-them-social' ); ?></h1>
+            <h1 class="nav-tab-wrapper">
+                <?php
+                foreach( $this->get_settings_tabs() as $tab_id => $tab_name ) {
+
+                    $tab_url = add_query_arg( array(
+                        'post_type'        => 'fts',
+                        'page'             => 'fts-settings-page',
+                        'settings-updated' => false,
+                        'tab'              => $tab_id
+                    ), admin_url( 'edit.php' ) );
+
+                    // Remove the section from the tabs so we always end up at the main section
+                    $tab_url = remove_query_arg( 'section', $tab_url );
+
+                    $active = $active_tab == $tab_id ? ' nav-tab-active' : '';
+
+                    echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab' . $active . '">';
+                    echo esc_html( $tab_name );
+                    echo '</a>';
+                }
+                ?>
+            </h1>
+            <?php
+
+            $number_of_sections = is_array( $sections ) ? count( $sections ) : 0;
+            $number = 0;
+            if ( $number_of_sections > 1 ) {
+                echo '<div><ul class="subsubsub">';
+                foreach( $sections as $section_id => $section_name ) {
+                    echo '<li>';
+                    $number++;
+                    $tab_url = add_query_arg( array(
+                        'post_type'        => 'fts',
+                        'page'             => 'fts-settings-page',
+                        'settings-updated' => false,
+                        'tab'              => $active_tab,
+                        'section'          => $section_id
+                    ), admin_url( 'edit.php' ) );
+
+                    /**
+                     * Allow filtering of the section URL.
+                     *
+                     * Enables plugin authors to insert links to non-setting pages as sections.
+                     *
+                     * @since	1.1.10
+                     * @param	str		The section URL
+                     * @param	str		The section ID (array key)
+                     * @param	str		The current active tab
+                     * @return	str
+                     */
+                    $tab_url = apply_filters( 'fts_options_page_section_url', $tab_url, $section_id, $active_tab );
+
+                    $class = '';
+                    if ( $section == $section_id ) {
+                        $class = 'current';
+                    }
+                    echo '<a class="' . $class . '" href="' . esc_url( $tab_url ) . '">' . $section_name . '</a>';
+
+                    if ( $number != $number_of_sections ) {
+                        echo ' | ';
+                    }
+                    echo '</li>';
+                }
+                echo '</ul></div>';
+            }
+            ?>
+            <div id="tab_container" class="<?php echo $section ?>">
+                <form method="post" action="options.php">
+                    <table class="form-table">
+                        <?php
+
+                        settings_fields( 'fts_settings' );
+
+                        if ( 'main' === $section ) {
+                            do_action( 'fts_settings_tab_top', $active_tab );
+                        }
+
+                        do_action( 'fts_settings_tab_top_' . $active_tab . '_' . $section );
+
+                        do_settings_sections( 'fts_settings_' . $active_tab . '_' . $section );
+
+                        do_action( 'fts_settings_tab_bottom_' . $active_tab . '_' . $section  );
+
+                        // If the main section was empty and we overrode the view with the next subsection, prepare the section for saving
+                        if ( true === $override ) {
+                            ?><input type="hidden" name="fts_section_override" value="<?php echo $section; ?>" /><?php
+                        }
+                        ?>
+                    </table>
+                    <?php submit_button(); ?>
+                </form>
+            </div><!-- #tab_container-->
+            <?php do_action( 'fts_settings_bottom' ); ?>
+        </div><!-- .wrap -->
+        <?php
+        echo ob_get_clean();
+    }
+
+    /**
+     * Adds the translation fields to the image date setting field.
+     *
+     * @since	1.3.4
+     * @param	string	$html	HTML output
+     * @param	array	$args	Array of arguments passed to setting
+     * @return	string	HTML output
+     */
+    public function date_translate_fields( $html, $args )	{
+        if ( 'date_time_format' == $args['id'] )	{
+            ob_start();
+
+            $style = 'one-day-ago' != fts_get_option( 'date_time_format' ) ? ' style="display: none;"' : '';
+            ?>
+
+            <tr class="custom_time_ago_wrap"<?php echo $style; ?>>
+                <th scope="row"><h3><?php _e( 'Customize Translation', 'feed-them-social' ); ?></h3></th>
+                <td>&nbsp;</td>
+            </tr>
+
+            <?php
+            foreach( $this->get_translation_fields() as $field => $value ) : ?>
+                <tr class="custom_time_ago_wrap fts-<?php echo str_replace( 'language_', '', esc_html( $field ) ); ?>"<?php echo $style; ?>>
+                    <th scope="row"><?php echo str_replace( 'language_', '', esc_html( $field ) ); ?></th>
+                    <td>
+                        <?php fts_text_callback( array(
+                            'id'          => $field,
+                            'std'         => $value,
+                            'readonly'    => 'false',
+                            'field_class' => '',
+                            'desc'        => ''
+                        ) ); ?>
+                    </td>
+                </tr>
+
+            <?php endforeach;
+
+            $html .= ob_get_clean();
+        }
+
+        return $html;
+    } // date_translate_fields
+
+    /**
+     * Adds the custom date/time fields to the image date setting field.
+     *
+     * @since	1.3.4
+     * @param	string	$html	HTML output
+     * @param	array	$args	Array of arguments passed to setting
+     * @return	string	HTML output
+     */
+    public function custom_date_time_fields( $html, $args )	{
+        if ( 'date_time_format' == $args['id'] )	{
+            ob_start();
+
+            $style = 'fts-custom-date' !== fts_get_option( 'date_time_format' ) ? ' style="display: none;"' : '';
+            ?>
+
+
+                <tr class="custom_date_time_wrap"<?php echo $style; ?>>
+                    <th scope="row"><?php echo esc_html__( 'Custom Date', 'feed-them-social' ); ?></th>
+                    <td>
+                        <?php fts_text_callback( array(
+                            'id'          => 'custom_date',
+                            'std'         => '',
+                            'readonly'    => 'false',
+                            'field_class' => '',
+                            'desc'        => '',
+                            'placeholder' => 'F j, Y'
+                        ) ); ?>
+                    </td>
+                </tr>
+
+
+                <tr class="custom_date_time_wrap"<?php echo $style; ?>>
+                    <th scope="row"><?php echo esc_html__( 'Custom Time', 'feed-them-social' ); ?></th>
+                    <td>
+                        <?php fts_text_callback( array(
+                            'id'          => 'custom_time',
+                            'std'         => '',
+                            'readonly'    => 'false',
+                            'field_class' => '',
+                            'desc'        => '',
+                            'placeholder' => 'g:i a'
+                        ) ); ?>
+                        <p>
+                            <?php
+                            echo sprintf(
+                        __( 'Add your own custom date or time format.', 'feed-them-social' ) . '<br>' .
+                        '<a href="%s" target="_blank">%s.</a>',
+                        'https://wordpress.org/support/article/formatting-date-and-time/#format-string-examples',
+                        __( 'Documentation on date and time formatting', 'feed-them-social' )
+                        );
+
+                            ?>
+                        </p>
+                    </td>
+                </tr>
+
+            <?php
+
+            $html .= ob_get_clean();
+        }
+
+        return $html;
+    } // custom_date_time_fields
+
+    /**
+     * Retrieve the translation fields.
+     *
+     * @since	1.3.4
+     * @return	array	Array of fields and defaults
+     */
+    public function get_translation_fields()	{
+        $fields = array(
+            'language_second'  => fts_get_option( 'language_second', __( 'second', 'feed-them-social' ) ),
+            'language_seconds' => fts_get_option( 'language_seconds', __( 'seconds', 'feed-them-social' ) ),
+            'language_minute'  => fts_get_option( 'language_minute', __( 'minute', 'feed-them-social' ) ),
+            'language_minutes' => fts_get_option( 'language_minutes', __( 'minutes', 'feed-them-social' ) ),
+            'language_hour'    => fts_get_option( 'language_hour', __( 'hour', 'feed-them-social' ) ),
+            'language_hours'   => fts_get_option( 'language_hours', __( 'hours', 'feed-them-social' ) ),
+            'language_day'     => fts_get_option( 'language_day', __( 'day', 'feed-them-social' ) ),
+            'language_days'    => fts_get_option( 'language_days', __( 'days', 'feed-them-social' ) ),
+            'language_week'    => fts_get_option( 'language_week', __( 'week', 'feed-them-social' ) ),
+            'language_weeks'   => fts_get_option( 'language_weeks', __( 'weeks', 'feed-them-social' ) ),
+            'language_month'   => fts_get_option( 'language_month', __( 'month', 'feed-them-social' ) ),
+            'language_months'  => fts_get_option( 'language_months', __( 'months', 'feed-them-social' ) ),
+            'language_year'    => fts_get_option( 'language_year', __( 'year', 'feed-them-social' ) ),
+            'language_years'   => fts_get_option( 'language_years', __( 'years', 'feed-them-social' ) ),
+            'language_ago'     => fts_get_option( 'language_ago', __( 'ago', 'feed-them-social' ) ),
+        );
+
+        return $fields;
+    } // get_translation_fields
+
+    /**
+     * Adds the translation fields to the image date setting field.
+     *
+     * @since	1.3.4
+     * @param	string	$html	HTML output
+     * @param	array	$args	Array of arguments passed to setting
+     * @return	string	HTML output
+     */
+    public function custom_date_fields( $html, $args )	{
+        if ( 'date_time_format' == $args['id'] )	{
+            ob_start();
+
+            $style = 'fts-custom-date' != fts_get_option( 'date_time_format' ) ? ' style="display: none;"' : '';
+            ?>
+
+            <tr class="custom_time_ago_wrap"<?php echo $style; ?>>
+                <th scope="row"><?php _e( 'Custom Date & Time Options', 'feed-them-social' ); ?></th>
+                <td>&nbsp;</td>
+            </tr>
+
+            <?php
+            foreach( $this->get_translation_fields() as $field => $value ) : ?>
+                <tr class="custom_date_time_wrap">
+                    <th scope="row"><?php echo str_replace( 'language_', '', esc_html( $field ) ); ?></th>
+                    <td>
+                        <?php fts_text_callback( array(
+                            'id'          => $field,
+                            'std'         => $value,
+                            'readonly'    => 'false',
+                            'field_class' => '',
+                            'desc'        => ''
+                        ) ); ?>
+                    </td>
+                </tr>
+
+            <?php endforeach;
+
+            $html .= ob_get_clean();
+        }
+
+        return $html;
+    } // date_translate_fields
+
+    /**
+     * Adds the renaming notes to the top of the Attachments Renaming/Titles sections.
+     *
+     * @since	1.3.4
+     * @return	void
+     */
+    public function attach_rename_note()	{
+        ob_start(); ?>
+        <div class="clear"></div>
+        <p>
+            <?php
+            _e( 'Use attachment renaming when importing/uploading attachments. This will overwrite original Filename.', 'feed-them-social' ); ?>
+            <br>
+            <?php
+            _e( '<strong>Below are examples of what the attachment filenames and titles will look like after uploading</strong>: (Click "Save All Changes" to view Examples)', 'feed-them-social' ); ?>
+        </p>
+        <?php echo ob_get_clean();
+    } // attach_rename_note
+
+    /**
+     * Adds the notes to the bottom of the Title Options sections.
+     *
+     * @since	1.3.4
+     * @return	void
+     */
+    public function title_options_note()	{
+        ob_start(); ?>
+        <div class="clear"></div>
+        <p>
+            <?php
+            _e( '<strong>Below is an example of what the attachment titles will look like after uploading</strong>: (Click "Save All Changes" to view Examples)', 'feed-them-social' ); ?>
+            <br>
+            <span style="font-color: #666; font-style: italic;"><?php _e( 'Note: Title will come from filename of uploaded attachment. You may still set a custom name for each photo after uploaded.', 'feed-them-social' ); ?></span>
+        </p>
+        <?php echo ob_get_clean();
+    } // title_options_note
+
+    /**
+     * Outputs the file name and title examples.
+     *
+     * @since	1.3.4
+     * @return	void
+     */
+    public function file_title_examples()	{
+        global $name_example, $title_example;
+
+        ob_start(); ?>
+        <table class="form-table">
+            <tr>
+                <th scope="row"><?php _e( 'Example Filename:', 'feed-them-social' ); ?></th>
+                <td><code><em><?php echo implode( '-', $name_example ); ?>.jpg</em></code></td>
+            </tr>
+            <tr>
+                <th scope="row"><?php _e( 'Example Title:', 'feed-them-social' ); ?></th>
+                <td><code><em><?php echo implode( ' ', $title_example ); ?></em></code></td>
+            </tr>
+        </table>
+        <?php echo ob_get_clean();
+    } // file_title_examples
+
+    /**
+     * Outputs the title format example.
+     *
+     * @since	1.3.4
+     * @return	void
+     */
+    public function title_format_example()	{
+        $gallery = new Gallery();
+
+        ob_start(); ?>
+        <table class="form-table">
+            <tr>
+                <th scope="row"><?php _e( 'Example Title:', 'feed-them-social' ); ?></th>
+                <td><code><em><?php echo $gallery->ft_gallery_format_attachment_title( 'Gallery Image Title' ); ?></em></code></td>
+            </tr>
+        </table>
+        <?php echo ob_get_clean();
+    } // title_format_example
+
+    /**
+     * Adds the authors note to the bottom of all FTS settings pages.
+     *
+     * @since   1.3.4
+     * @return  string
+     */
+    public function authors_note()  {
+        ob_start(); ?>
+
+        <h1 class="plugin-author-note"><?php echo esc_html( 'Plugin Authors Note', 'feed-them-social' ); ?></h1>
+        <div class="fts-plugin-reviews">
+            <div class="fts-plugin-reviews-rate"><?php echo esc_html( ' Feed Them Social was created by 2 Brothers, Spencer and Justin Labadie. That’s it, 2 people! We spend all our time creating and supporting this plugin. Show us some love if you like our plugin and leave a quick review for us, it will make our day!', 'feed-them-social' ); ?>
+                <a href="https://wordpress.org/support/view/plugin-reviews/feed-them-social" target="_blank"><?php echo esc_html( 'Leave us a Review', 'feed-them-social' ); ?>
+                    ★★★★★</a>
+            </div>
+            <div class="fts-plugin-reviews-support">
+                <?php
+                // Free Support Message!
+                echo sprintf(
+                    esc_html( 'If you\'re using the Free plugin and are having troubles getting setup please contact us on the %1$sFree WordPress Support Forum%2$s. We will respond within 24hrs during weekdays.', 'feed-them-social' ),
+                    '<a href="' . esc_url( 'https://wordpress.org/support/plugin/feed-them-social' ) . '" target="_blank">',
+                    '</a>'
+                );
+                // Paid Support Message!
+                echo sprintf(
+                    esc_html( 'If you have a paid extensions from us please use our %1$sPaid Extension Support Ticket System%2$s', 'feed-them-social' ),
+                    '<a href="' . esc_url( 'https://www.slickremix.com/my-account/#tab-support' ) . '" target="_blank">',
+                    '</a>'
+                );
+                ?>
+
+                <div class="fts-text-align-center">
+                    <a class="feed-them-social-admin-slick-logo" href="https://www.slickremix.com" target="_blank"></a>
+                </div>
+            </div>
+        </div>
+
+        <?php echo ob_get_clean();
+    } // authors_note
+
+    public function msp_api_full_url ( $endpoint ){
+
+        global $fts_options;
+
+        $current_user = wp_get_current_user();
+        $url = site_url();
+
+        $dev_strpos = !empty( $fts_options['site_dev'] ) ? $fts_options['site_dev'] : '';
+
+        if( 'interaction' === $endpoint ){
+            $endpoint = !empty( $fts_options['api_interaction'] ) ? $fts_options['api_interaction'] : '';
+        }
+        elseif ( 'register' === $endpoint){
+            $endpoint = !empty( $fts_options['api_register'] ) ? $fts_options['api_register'] : '';
+        }
+        elseif ( 'login' === $endpoint){
+            $endpoint = !empty( $fts_options['api_login'] ) ? $fts_options['api_login'] : '';
+        }
+        elseif ( 'projects' === $endpoint){
+            $endpoint = !empty( $fts_options['api_projects'] ) ? $fts_options['api_projects'] : '';
+        }
+        elseif ( 'media_sources' === $endpoint){
+            $endpoint = !empty( $fts_options['api_media_sources'] ) ? $fts_options['api_media_sources'] : '';
+        }
+
+        // Check to see if we are on a dev site and also check to make sure the current user id matches the pre-selected user allowed from the settings page.
+        if ( strpos( $url, $dev_strpos )  && !empty( $fts_options['msp_local_user_allowed'] ) && $fts_options['msp_local_user_allowed'] == $current_user->ID ) {
+            // This url is only used for MSP API calls to a local server.
+            $dev_or_live = ! empty( $fts_options['msp_local_url'] ) ? $fts_options['msp_local_url'] . $endpoint : '';
+            // error_log( 'Local API url: ' . $dev_or_live );
+        }
+        else {
+            // Check to see if we are on the dev site, if so then show the test API url if not then show the Production url.
+            $dev_url = !empty( $fts_options['msp_dev_url'] ) ? $fts_options['msp_dev_url'] : '';
+            $production_url = !empty( $fts_options['msp_production_url'] ) ? $fts_options['msp_production_url'] : '';
+            $dev_or_live = false !== strpos( $url, $dev_strpos ) ? $dev_url . $endpoint : $production_url . $endpoint;
+            // error_log( 'API url: ' . $dev_or_live );
+        }
+
+        // return '<div class="pg-clearfix"></div><p class="pg-dev-live-url-spacing"><a href="' . $dev_or_live . '" target="_blank">' . $dev_or_live . '</a></p>';
+        return $dev_or_live;
+    }
 }//end class

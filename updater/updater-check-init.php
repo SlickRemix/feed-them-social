@@ -63,7 +63,7 @@ class updater_init {
             //Menu Slug for the plugin the update license page will be added to.
             'main_menu_slug' => 'edit.php?post_type=fts',
             //Slug to be used for license page
-            'license_page_slug' => 'ft-gallery-license-page',
+            'license_page_slug' => 'fts-license-page',
             //Settings Section name for license page options
             'setting_section_name' => 'fts_license_options',
             //Settings Option name (This will house an array of options but save it as one 'option' in WordPress database)

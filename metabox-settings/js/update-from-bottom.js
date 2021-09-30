@@ -67,7 +67,7 @@
 
         //This is for the sub nav tabs under each social network and controls what is visible.
         var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';
-        $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-social-selector, .fts-instagram-shortcode-form .instagram-messages-selector, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-steams-shortcode-form .combine_post_count' );
+        $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-cpt-main-options, .fts-instagram-shortcode-form .instagram-messages-selector, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-steams-shortcode-form .combine_post_count' );
 
         $( '.fts-feed-settings-tabs-wrap div' ).click(
             function () {

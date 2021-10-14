@@ -260,7 +260,8 @@ class feed_them_social_functions {
 
 			// The share wrap and links
 			$output  = '<div class="fts-share-wrap">';
-			$output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html__( 'Social Share Options', 'feed-them-social' ) . '">' . esc_html( '', 'feed-them-social' ) . '</a>';
+			$output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html__( 'Social Share Options', 'feed-them-social' ) . '">
+<svg viewBox="0 0 24 24" aria-hidden="true" class="svg-inline--fa r-4qtqp9 r-yyyyoo r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue"><g><path d="M17.53 7.47l-5-5c-.293-.293-.768-.293-1.06 0l-5 5c-.294.293-.294.768 0 1.06s.767.294 1.06 0l3.72-3.72V15c0 .414.336.75.75.75s.75-.336.75-.75V4.81l3.72 3.72c.146.147.338.22.53.22s.384-.072.53-.22c.293-.293.293-.767 0-1.06z"></path><path d="M19.708 21.944H4.292C3.028 21.944 2 20.916 2 19.652V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 .437.355.792.792.792h15.416c.437 0 .792-.355.792-.792V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 1.264-1.028 2.292-2.292 2.292z"></path></g></svg></a>';
 			$output .= '<div class="ft-gallery-share-wrap">';
 			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
 			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
@@ -1648,12 +1649,13 @@ class feed_them_social_functions {
 			}
 
 			<?php }if ( ! empty( $twitter_link_color ) ) { ?>
-			.tweeter-info .fts-twitter-text a, .tweeter-info .fts-twitter-text .time a, .fts-twitter-reply-wrap a, .tweeter-info a, .twitter-followers-fts a, body.fts-twitter-reply-wrap a {
+			.fts-twitter-reply-wrap  svg, .tweeter-info .fts-twitter-text a, .tweeter-info .fts-twitter-text .time a, .fts-twitter-reply-wrap a, .tweeter-info a, .twitter-followers-fts a, body.fts-twitter-reply-wrap a, body.fts-twitter-reply-wrap svg {
 				color: <?php echo esc_html( $twitter_link_color ); ?> !important;
 			}
 
+
 			<?php }if ( ! empty( $twitter_link_color_hover ) ) { ?>
-			.tweeter-info a:hover, .tweeter-info:hover .fts-twitter-reply, body.fts-twitter-reply-wrap a:hover {
+            .fts-tweeter-wrap:hover i:before, body.fts-twitter-reply-wrap a:hover svg, .tweeter-info a:hover, .tweeter-info:hover .fts-twitter-reply, body.fts-twitter-reply-wrap a:hover {
 				color: <?php echo esc_html( $twitter_link_color_hover ); ?> !important;
 			}
 

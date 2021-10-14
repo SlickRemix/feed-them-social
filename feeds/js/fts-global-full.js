@@ -1,5 +1,7 @@
 jQuery(document).ready(function() {
 
+    // Run our funtion after the page has finished loading to retrieve our external urls meta tag details.
+    fts_external_link_meta_content();
 
     jQuery('.fts-youtube-scrollable, .youtube-comments-wrap-premium, .youtube-comments-thumbs').hover(function() {
         jQuery("body").css("overflow","hidden");
@@ -17,8 +19,6 @@ jQuery(document).ready(function() {
             slickremixImageResizing();
         }
     });
-
-
 
     jQuery.fn.ftsShare = function() {
         jQuery('.fts-share-wrap').each(function() {
@@ -164,26 +164,6 @@ function slickremixImageResizing() {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // https://www.w3schools.com/js/js_comparisons.asp
 // >	greater than   x > 8	true
 // <	less than      x < 8	true
@@ -259,8 +239,6 @@ function slickremixImageResizingFacebook() {
     }
 }
 
-
-
 function slickremixImageResizingFacebook2() {
     var e = jQuery(".fts-more-photos-2-or-3-photos a"),
         t = "calc(49.88888888% - 1px)";
@@ -288,23 +266,6 @@ function slickremixImageResizingFacebook3() {
         margin: "1px"
     })
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // https://www.w3schools.com/js/js_comparisons.asp
 // >	greater than   x > 8	true
@@ -412,3 +373,105 @@ function slickremixImageResizingYouTube() {
 
     }
 }
+
+// Check each post for an external link and if so then run our function to get the image, title and
+// description from the website and return it and format it nicely.
+function fts_external_link_meta_content () {
+
+    jQuery('.fts-tweeter-wrap').each(function () {
+
+        var fts_url_wrap = jQuery( this ).find( '.fts-twitter-external-url-wrap' );
+        if ( fts_url_wrap[0] ) {
+            // alert( fts_url_wrap );
+            var fts_security = fts_url_wrap.attr('data-twitter-security');
+            var fts_time = fts_url_wrap.attr('data-twitter-time');
+
+            var fts_url = fts_url_wrap.attr('data-twitter-url');
+            var fts_image_exists = fts_url_wrap.attr('data-image-exists-check');
+            var fts_no_video_image = fts_url_wrap.attr('data-no-video-image-check');
+            var fts_popup = fts_url_wrap.attr('data-twitter-popup');
+
+            console.log('url: ' + fts_url + ' Image exists: ' + fts_image_exists + ' No video image exists: ' + fts_no_video_image);
+
+            jQuery.ajax({
+                    data: {
+                        action: "fts_twitter_share_url_check",
+                        fts_security: fts_security,
+                        fts_time: fts_time,
+                        fts_url: fts_url,
+                        fts_image_exists: fts_image_exists,
+                        fts_no_video_image: fts_no_video_image,
+                        fts_popup: fts_popup,
+                    },
+                    type: 'POST',
+                    url: fts_twitter_ajax.ajax_url,
+                    success: function (data) {
+                        fts_twitter = data;
+                        fts_url_wrap.removeAttr( 'class data-twitter-security data-twitter-time' );
+
+                        console.log("FTS Twitter external link success");
+                        // console.log( data );
+
+                        if( 'missing_info' === data ){
+                            // Add a Error message to the attr data-error on the div. This way if people ask why the extra info is not
+                            // showing we can look at the div and see if there is an error message :).
+                            jQuery(fts_url_wrap).attr( 'data-error', 'Do not return any content, image, title or description missing' ).hide();
+                        }
+                        else {
+                            jQuery(fts_url_wrap).html( data );
+                        }
+
+                        // Must be second to last so we can adjust the height of the image to the container if larger than our css min height.
+                        ftsRetweetHeight();
+
+                        // Lastly check to see if masonry is a function before we reloadItems and Layout.
+                        // We need to do this when the grid is being used because the content takes a moment
+                        // to load and sometimes the grid layout can overlap making the feed look like dukey.
+                        // fts-slicker-twitter-posts is the class applied when grd=yes so we know masonry is loading.
+                        if ( jQuery(".fts-slicker-twitter-posts")[0] ) {
+                            jQuery(".fts-slicker-twitter-posts").masonry("reloadItems");
+                            setTimeout(function () {
+                                jQuery(".fts-slicker-twitter-posts").masonry("layout");
+                            }, 500);
+                        }
+                    },
+                    error: function (data, status, error) {
+                        console.log(data);
+                        console.log("AJAX errors: " + error);
+                    },
+                }
+            );
+        }
+    });
+
+    return true;
+}
+
+// Find the height of the external link text wrapper and adjust the background image height
+// so it always matches and the image and fits perfectly all the time.
+function ftsRetweetHeight() {
+    if( jQuery('div').hasClass( 'fts-tweeter-wrap' ) ) {
+
+        var twitter_wrap = jQuery('.fts-tweeter-wrap');
+        if( '475' < twitter_wrap.width() ) {
+            console.log( 'Wrap width: ' + twitter_wrap.width() );
+            jQuery( '.fts-twitter-div' ).addClass( 'fts-twitter-wrap-below-width-450' );
+            jQuery( 'span.fts-twitter-external-backg-image' ).css({ 'background-size' : 'cover' } );
+
+
+        }
+        else {
+            jQuery( '.fts-twitter-div' ).removeClass( 'fts-twitter-wrap-below-width-450' );
+            jQuery( 'span.fts-twitter-external-backg-image' ).css({ 'background-size' : '0' } );
+        }
+
+        jQuery('.fts-twitter-quoted-text').each(function () {
+            var retweet_height = jQuery(this).height() + 20;
+            jQuery(this).parent().find('.fts-twitter-external-backg-image').css({'height': retweet_height + 'px'});
+            //alert( jQuery(this).find( '.fts-twitter-quoted-text' ).height() );
+        });
+    }
+}
+// Return our ftsRetweetHeight function after page has loaded to speed things up. Plus this way we can recall it in the loadmore areas of each feed instead of duplicating all the js.
+jQuery(document).ready(ftsRetweetHeight);
+jQuery(window).on('resize', ftsRetweetHeight);

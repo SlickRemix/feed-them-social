@@ -383,10 +383,8 @@ function fts_external_link_meta_content () {
         var fts_url_wrap = jQuery( this ).find( '.fts-twitter-external-url-wrap' );
         if ( fts_url_wrap[0] ) {
             // alert( fts_url_wrap );
-            var fts_security = fts_twitter_ajax.fts_twitter_security;
-            var fts_time = fts_twitter_ajax.fts_twitter_time;
-
-            //alert(fts_url_wrap.attr('data-twitter-url'));
+            var fts_security = fts_url_wrap.attr('data-twitter-security');
+            var fts_time = fts_url_wrap.attr('data-twitter-time');
 
             var fts_url = fts_url_wrap.attr('data-twitter-url');
             var fts_image_exists = fts_url_wrap.attr('data-image-exists-check');
@@ -409,7 +407,7 @@ function fts_external_link_meta_content () {
                     url: fts_twitter_ajax.ajax_url,
                     success: function (data) {
                         fts_twitter = data;
-                        fts_url_wrap.removeClass( 'fts-twitter-external-url-wrap' );// check for any external urls
+                        fts_url_wrap.removeAttr( 'class data-twitter-security data-twitter-time' );
 
                         console.log("FTS Twitter external link success");
                         // console.log( data );
@@ -450,7 +448,7 @@ function fts_external_link_meta_content () {
 }
 
 // Find the height of the external link text wrapper and adjust the background image height
-// so it always matches and the image fits perfectly all the time.
+// so it always matches and the image and fits perfectly all the time.
 function ftsRetweetHeight() {
     if( jQuery('div').hasClass( 'fts-tweeter-wrap' ) ) {
 
@@ -458,9 +456,13 @@ function ftsRetweetHeight() {
         if( '475' < twitter_wrap.width() ) {
             console.log( 'Wrap width: ' + twitter_wrap.width() );
             jQuery( '.fts-twitter-div' ).addClass( 'fts-twitter-wrap-below-width-450' );
+            jQuery( 'span.fts-twitter-external-backg-image' ).css({ 'background-size' : 'cover' } );
+
+
         }
         else {
             jQuery( '.fts-twitter-div' ).removeClass( 'fts-twitter-wrap-below-width-450' );
+            jQuery( 'span.fts-twitter-external-backg-image' ).css({ 'background-size' : '0' } );
         }
 
         jQuery('.fts-twitter-quoted-text').each(function () {

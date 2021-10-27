@@ -80,8 +80,6 @@ class Feeds_CPT {
 	 */
 	public $twitter_api_token;
 
-
-
 	/**
 	 * Metabox Settings Class
 	 * initiates Metabox Settings Class
@@ -93,31 +91,30 @@ class Feeds_CPT {
 	/**
 	 * Feeds_CPT constructor.
      *
-     * @param array  $all_options All options.
+     * @param object  $feed_cpt_options All options.
 	 * @param string $main_post_type Main Post Type.
 	 */
-	public function __construct( $all_options, $main_post_type, $setting_options_js, $twitter_api_token ) {
-		$this->set_class_vars( $all_options, $main_post_type, $setting_options_js );
+	public function __construct( $feed_cpt_options, $main_post_type, $setting_options_js ) {
+
+
+		$this->set_class_vars( $feed_cpt_options, $main_post_type, $setting_options_js );
 		$this->add_actions_filters();
 
 		//API Tokens
 		//$this->twitter_api_token = $twitter_api_token;
     }
 
-
 	/**
 	 * Set Class Variables
 	 *
 	 *  Sets the variables for this class
 	 *
-	 * @param array  $all_options All options.
+	 * @param object  $feed_cpt_options All options.
 	 * @param string $main_post_type Main Post Type.
 	 * @since 1.1.8
 	 */
-	public function set_class_vars( $all_options, $main_post_type, $setting_options_js  ) {
-			$this->core_functions_class = new Core_Functions();
-
-			$this->saved_settings_array = $all_options;
+	public function set_class_vars( $feed_cpt_options, $main_post_type, $setting_options_js  ) {
+			$this->saved_settings_array = $feed_cpt_options->get_all_options();
 
 			$this->setting_options_js = $setting_options_js;
 
@@ -146,7 +143,6 @@ class Feeds_CPT {
 		}
 	}
 
-
 	/**
 	 * Add Actions & Filters
 	 *
@@ -159,7 +155,7 @@ class Feeds_CPT {
 		// Scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'fts_scripts' ) );
 
-		// Set local variables:!
+		// Set local variables!
 		$this->plugin_locale = 'feed_them_social';
 
 		// Register Gallery CPT!
@@ -770,6 +766,31 @@ class Feeds_CPT {
 		<?php
 	}
 
+
+    /**
+	 * Tab Feed Type Content
+	 *
+	 * Outputs Feed Type Selection tab's content for metabox.
+	 *
+	 * @param $params
+	 * @since 1.1.6
+	 */
+	public function get_access_token_options( $feed_type ) {
+        if($feed_type){
+	        switch ($feed_type){
+		        // Facebook Access Options Class.
+		        case 'facebook-feed-type':
+			        $facebook_access_options = new Facebook_Access_Options();
+
+			        $access_options = $facebook_access_options->access_options();
+                break;
+	        }
+
+	        return $access_options;
+        }
+        return;
+	}
+
 	/**
 	 * Tab Feed Type Content
 	 *
@@ -790,14 +811,12 @@ class Feeds_CPT {
 
 		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['feed_type_options'], null, $gallery_class->parent_post_id );
 
-
-		//twitter_access_token_options();
 		?>
 			<div class="ftg-section">
 
                 <?php
                     // Happens in JS file
-                    $this->core_functions_class->fts_tab_notice_html(); ?>
+                echo '<div class="ft-gallery-notice"></div>'; ?>
 
 				<script>
 					jQuery('.metabox_submit').click(function (e) {
@@ -809,6 +828,21 @@ class Feeds_CPT {
 				</script>
 
 		    </div>
+
+
+            <div class="ftg-access-token">
+	            <?php
+	            // Happens in JS file
+	            echo '<div class="ft-gallery-notice"></div>';
+
+	            echo $this->get_access_token_options();
+
+
+                ?>
+
+
+
+            </div>
         <?php
 	}
 

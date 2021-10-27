@@ -21,8 +21,6 @@ class Feed_Them_Social {
 	 */
 	public static function load_plugin() {
 
-        global $fts_options;
-
 		$plugin_loaded = new self();
 
 		$plugin_loaded->pre_plugin_checks();
@@ -38,29 +36,20 @@ class Feed_Them_Social {
 		// Add Actions and Filters.
 		$plugin_loaded->add_actions_filters();
 
-		// Feed Options.
-		$feed_cpt_options = feedthemsocial\Feed_CPT_Options::get_all_options();
-
         //Feed Them Functions!
         $feed_functions = new \feedthemsocial\FTS_Functions();
 
-        // Get FTS Settings
-        $fts_options = fts_get_settings();
+		// Settings Functions.
+		$settings_functions = new \feedthemsocial\Settings_Functions();
 
 		// Settings Page.
-		feedthemsocial\Settings_Page::load();
+        new \feedthemsocial\Settings_Page( $settings_functions );
 
-        // Setup Plugin functions.
-        feedthemsocial\Setup_Functions::load();
+		// Setup Plugin Functions.
+		$setup_functions = new \feedthemsocial\Setup_Functions( $settings_functions );
 
 		// System Info.
-		feedthemsocial\System_Info::load();
-
-		// Setup Plugin functions.
-		feedthemsocial\Setup_Functions::load();
-
-		//Core Functions!
-		$core_functions = new \feedthemsocial\Core_Functions();
+		new \feedthemsocial\System_Info( $setup_functions );
 
 		//Access Token API.
         //$access_token_api = new \feedthemsocial\Access_Token_API();
@@ -68,40 +57,29 @@ class Feed_Them_Social {
 		//Setting Options JS.
 		$setting_options_js = new \feedthemsocial\Settings_Options_JS();
 
+		// Feed Options.
+		$feed_cpt_options = new \feedthemsocial\Feed_CPT_Options();
+
 		// Feeds CPT.
         $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_cpt_options, $main_post_type, $setting_options_js, $access_token_api  );
 
-			// Load in Premium Gallery glasses if premium is loaded.
-		/*if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-
-			$ftg_current_version = defined( 'FTS_CURRENT_VERSION' ) ? FTS_CURRENT_VERSION : '';
-
-			if ( $ftg_current_version > '1.0.5' ) {
-				// Template Settings Options.
-				$template_settings_options = feedthemsocial\Template_Settings_Options::get_all_options();
-
-				// Template Settings Page.
-				feedthemsocial\Template_Settings_Page::load( $template_settings_options, $main_post_type );
-			}
-		}*/
-
-		// Shortcode Button for Admin page, posts and cpt's.
-		feedthemsocial\Shortcode_Button::load();
+		// Shortcode Button for Admin page, posts and CPTs.
+		new \feedthemsocial\Shortcode_Button();
 
 		// Feed Cache.
-		$feed_cache = new feedthemsocial\Feed_Cache();
+		$feed_cache = new \feedthemsocial\Feed_Cache( $settings_functions );
 
 		// Shortcodes.
-		new feedthemsocial\Shortcodes( $main_post_type, $feed_functions, $feeds_cpt, $feed_cache );
+		new \feedthemsocial\Shortcodes( $main_post_type, $feed_functions, $feeds_cpt, $feed_cache );
 
-        // Backwards compatability
-        feedthemsocial\FTS_Backwards_Compat::load();
+        // Backwards compatability.
+        new \feedthemsocial\FTS_Backwards_Compat( $settings_functions );
 
-        // Upgrades
-        feedthemsocial\FTS_Upgrades::load();
+        // Upgrades.
+        new \feedthemsocial\FTS_Upgrades();
 
 		// Updater Init.
-		new feedthemsocial\updater_init();
+		new \feedthemsocial\updater_init();
 
 		// Variables to define specific terms!
 		$transient = 'ftg_slick_rating_notice_waiting5';
@@ -313,59 +291,56 @@ class Feed_Them_Social {
 		// Admin Pages.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/system-info.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox-settings/metabox-settings-class.php';
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings-page.php';
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings-functions.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-functions.php';
 
 		// Setup Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/setup-functions-class.php';
-
-		// Core Functions Class.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/core-functions-class.php';
 
 		// FTS Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
 
 		//Setting Options Js.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings-options-js.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/cpt-settings-options-js.php';
+
+		//Facebook Access Token API.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/facebook-access-token.php';
+
+		//Instagram Access Token API.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-access-token.php';
+
+		//Twitter Access Token API.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/twitter-access-token.php';
+
+		//Youtube Access Token API.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/youtube-access-token.php';
 
 		//Access Token API.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/access-token-api-options.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/access-token-api-options.php';
 
 		// Feeds CPT Options.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-options.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/feeds-cpt-options.php';
 
 		// Facebook Additional Options
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook-cpt-additional-options.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/facebook-cpt-additional-options.php';
 
 		// Instagram Additional Options
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/instagram-cpt-additional-options.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/instagram-cpt-additional-options.php';
 
 		// Twitter Additional Options
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter-cpt-additional-options.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/twitter-cpt-additional-options.php';
 
 		// Youtube Additional Options
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/youtube-cpt-additional-options.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/youtube-cpt-additional-options.php';
 
 		// Feeds CPT Class.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/feeds-cpt-class.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feeds-cpt-class.php';
 
         // Twitter OAuth.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
 
 		// Twitter Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-fts-twitter-feed.php';
-
-        // SRL NOTE: We don't have any premium settings options but going to leave this in place for future.
-		// if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-
-			//$ftg_current_version = defined( 'FTG_CURRENT_VERSION' ) ? FTS_CURRENT_VERSION : '';
-
-				// Template Settings Options.
-			//	include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-options.php';
-
-				// Template Settings Page.
-			//	include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'admin/template-settings-page-class.php';
-		// }
 
 		// Feed Cache
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';
@@ -376,8 +351,8 @@ class Feed_Them_Social {
 		// Include Shortcodes.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/shortcodes.php';
 
-        // Backwards compatability
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/includes/backwards-compat/fts-backwards-compat-class.php';
+        // Backwards compatability.
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/cpt/options/backwards-compat/fts-backwards-compat-class.php';
 
         // Upgraders
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/upgrades/fts-upgrade-class.php';
@@ -425,7 +400,7 @@ class Feed_Them_Social {
 	 *
 	 * Loads links in the Plugins page in WordPress Dashboard
 	 *
-	 * @param string $actions What action to take.
+	 * @param array $actions What action to take.
 	 * @return mixed
 	 * @since 1.0.0
 	 */
@@ -460,9 +435,6 @@ class Feed_Them_Social {
 				'<a href="' . esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/' ) . '" target="_blank">',
 				'</a>'
 			);
-
-			// $links['support'] = '<a href="http://www.slickremix.com/support-forum/forum/feed_them_social-2/" target="_blank">' . __('Get support', 'feed-them-premium') . '</a>';
-			// $links['plugininfo']  = '<a href="plugin-install.php?tab=plugin-information&plugin=feed-them-premium&section=changelog&TB_iframe=true&width=640&height=423" class="thickbox">' . __( 'Plugin info', 'gd_quicksetup' ) . '</a>';
 		}
 		return $links;
 	}

@@ -1,8 +1,8 @@
 <?php
  /**
- * Feed Them Social - Twitter API Token
+ * Feed Them Social - Twitter Access Options
  *
- * This page is used to retrieve and set access tokens.
+ * This page is used to retrieve and set access tokens for Twitter.
  *
  * @package     feedthemsocial
  * @copyright   Copyright (c) 2012-2018, SlickRemix
@@ -13,12 +13,12 @@
 namespace feedthemsocial;
 
 /**
- * Class Twitter_API_Token
+ * Class Twitter_Access_Options
  *
  * @package feedthemsocial
  * @since 1.9.6
  */
-class Twitter_Access_Token {
+class Twitter_Access_Options {
 
 
 	/**

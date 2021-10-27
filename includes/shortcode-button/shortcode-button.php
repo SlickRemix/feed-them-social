@@ -34,26 +34,16 @@ class Shortcode_Button {
 	public $all_options = '';
 
 	/**
-	 * Load
-	 *
-	 * Load up our actions and filters.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function load() {
-		$instance = new self();
-
-		// Initiate Shortcode_media_button.
-		$instance->fts_shortcode_media_button();
-		$instance->add_actions_filters();
-	}
-
-	/**
 	 * Primary class constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct() {}
+	public function __construct() {
+		// Initiate Shortcode_media_button.
+		$this->fts_shortcode_media_button();
+		// Add Actions and Filters.
+		$this->add_actions_filters();
+    }
 
 	/**
 	 * Add Action Filters

@@ -32,53 +32,64 @@ class FTS_Backwards_Compat {
 	 */
 	public $old_options;
 
-    /**
-	 * Load Function
+	/**
+	 * Settings Functions
 	 *
-	 * Load up all our actions and filters.
+	 * The settings Functions class.
 	 *
-	 * @since 1.3.4
+	 * @var object
 	 */
-	public static function load() {
-		$instance = new self();
+	public $settings_functions;
 
-		$instance->old_options = array(
-            'fts_clear_cache_developer_mode',
-            'fts_fix_magnific',
-            'fts-powered-text-options-settings',
-            'fts_curl_option',
-            'fts_admin_bar_menu',
-            'fts-date-and-time-format',
-            'fts-timezone',
-            'fts_language_second',
-            'fts_language_seconds',
-            'fts_language_minute',
-            'fts_language_minutes',
-            'fts_language_hour',
-            'fts_language_hours',
-            'fts_language_day',
-            'fts_language_days',
-            'fts_language_week',
-            'fts_language_weeks',
-            'fts_language_month',
-            'fts_language_months',
-            'fts_language_year',
-            'fts_language_years',
-            'fts_language_ago',
-            'fts-custom-date',
-            'fts-custom-time',
-            'fts_twitter_time_offset',
-            'fts-color-options-settings-custom-css',
-            'fts-color-options-main-wrapper-css-input',
-            'fts_disable_share_button',
-            'fts_social_icons_color',
-            'fts_social_icons_hover_color',
-            'fts_social_icons_back_color',
-		);
+	/**
+	 * Construct
+	 *
+	 * Functions constructor.
+	 *
+	 * @since 1.9.6
+	 */
+	public function __construct( $settings_functions ) {
+
+		// Settings Functions Class.
+		$this->settings_functions = $settings_functions;
 
 		// Add Actions and Filters.
-		$instance->add_actions_filters();
-	} // load
+		$this->add_actions_filters();
+
+		$this->old_options = array(
+			'fts_clear_cache_developer_mode',
+			'fts_fix_magnific',
+			'fts-powered-text-options-settings',
+			'fts_curl_option',
+			'fts_admin_bar_menu',
+			'fts-date-and-time-format',
+			'fts-timezone',
+			'fts_language_second',
+			'fts_language_seconds',
+			'fts_language_minute',
+			'fts_language_minutes',
+			'fts_language_hour',
+			'fts_language_hours',
+			'fts_language_day',
+			'fts_language_days',
+			'fts_language_week',
+			'fts_language_weeks',
+			'fts_language_month',
+			'fts_language_months',
+			'fts_language_year',
+			'fts_language_years',
+			'fts_language_ago',
+			'fts-custom-date',
+			'fts-custom-time',
+			'fts_twitter_time_offset',
+			'fts-color-options-settings-custom-css',
+			'fts-color-options-main-wrapper-css-input',
+			'fts_disable_share_button',
+			'fts_social_icons_color',
+			'fts_social_icons_hover_color',
+			'fts_social_icons_back_color',
+		);
+	}
 
 	/**
 	 * Add Action Filters
@@ -119,48 +130,17 @@ class FTS_Backwards_Compat {
      *
      *
      *
-     *   'fts_clear_cache_developer_mode',
-    'fts_fix_magnific',
-    'fts-powered-text-options-settings',
-    'fts_curl_option',
-    'fts_admin_bar_menu',
-    'fts-date-and-time-format',
-    'fts-timezone',
-    'fts_language_second',
-    'fts_language_seconds',
-    'fts_language_minute',
-    'fts_language_minutes',
-    'fts_language_hour',
-    'fts_language_hours',
-    'fts_language_day',
-    'fts_language_days',
-    'fts_language_week',
-    'fts_language_weeks',
-    'fts_language_month',
-    'fts_language_months',
-    'fts_language_year',
-    'fts_language_years',
-    'fts_language_ago',
-    'fts-custom-date',
-    'fts-custom-time',
-    'fts_twitter_time_offset',
-    'fts-color-options-settings-custom-css',
-    'fts-color-options-main-wrapper-css-input',
-    'fts_disable_share_button',
-    'fts_social_icons_color',
-    'fts_social_icons_hover_color',
-    'fts_social_icons_back_color',
 	 */
 	public function filter_option_values( $value, $option, $default )	{
 		switch( $option )	{
             case 'fts_clear_cache_developer_mode':
-                $value = fts_get_option( 'fts_cache_time' );
+                $value = $this->settings_functions->fts_get_option( 'fts_cache_time' );
                 break;
             case 'fts_admin_bar_menu':
-                $value = fts_get_option( 'fts_show_admin_bar' );
+                $value = $this->settings_functions->fts_get_option( 'fts_show_admin_bar' );
                 break;
             case 'fts-date-and-time-format':
-                $value = fts_get_option( 'date_time_format' );
+                $value = $this->settings_functions->fts_get_option( 'date_time_format' );
                 break;
             case 'fts_language_second':
             case 'fts_language_seconds':
@@ -178,55 +158,53 @@ class FTS_Backwards_Compat {
             case 'fts_language_years':
             case 'fts_language_ago':
                 $key   = str_replace( 'fts_', '', $option );
-                $value = fts_get_option( $key );
+                $value = $this->settings_functions->fts_get_option( $key );
                 break;
             case 'fts-custom-date':
-                $value = fts_get_option( 'custom_date' );
+                $value = $this->settings_functions->fts_get_option( 'custom_date' );
                 break;
             case 'fts-custom-time':
-                $value = fts_get_option( 'custom_time' );
+                $value = $this->settings_functions->fts_get_option( 'custom_time' );
                 break;
             case 'fts-timezone':
-                $value = fts_get_option( 'timezone' );
+                $value = $this->settings_functions->fts_get_option( 'timezone' );
                 break;
             case 'fts-color-options-settings-custom-css':
-				$value = fts_get_option( 'use_custom_css' );
+				$value = $this->settings_functions->fts_get_option( 'use_custom_css' );
 				break;
 			case 'fts-color-options-main-wrapper-css-input':
-				$value = fts_get_option( 'custom_css' );
+				$value = $this->settings_functions->fts_get_option( 'custom_css' );
 				break;
 
 
 
 
             case 'fts_disable_share_button':
-                $value = fts_get_option( 'hide_sharing' );
+                $value = $this->settings_functions->fts_get_option( 'hide_sharing' );
                 break;
             case 'fts_social_icons_color':
-                $value = fts_get_option( 'social_icons_text_color' );
+                $value = $this->settings_functions->fts_get_option( 'social_icons_text_color' );
                 break;
             case 'fts_social_icons_hover_color':
-                $value = fts_get_option( 'social_icons_text_color_hover' );
+                $value = $this->settings_functions->fts_get_option( 'social_icons_text_color_hover' );
                 break;
             case 'fts_social_icons_back_color':
-                $value = fts_get_option( 'icons_wrap_background' );
+                $value = $this->settings_functions->fts_get_option( 'icons_wrap_background' );
                 break;
 
 
 			case 'fts_fix_magnific':
-			    $value = fts_get_option( 'remove_magnific_css' );
+			    $value = $this->settings_functions->fts_get_option( 'remove_magnific_css' );
                 break;
             case 'fts_twitter_time_offset':
-                $value = fts_get_option( 'twitter_time' );
+                $value = $this->settings_functions->fts_get_option( 'twitter_time' );
                 break;
             case 'fts_curl_option':
-                $value = fts_get_option( 'fix_curl_error' );
+                $value = $this->settings_functions->fts_get_option( 'fix_curl_error' );
                 break;
 			case 'fts-powered-text-options-settings':
-				$value = fts_get_option( 'powered_by' );
+				$value = $this->settings_functions->fts_get_option( 'powered_by' );
 				break;
-			default:
-				$value = $value;
 		}
 
 		return $value;

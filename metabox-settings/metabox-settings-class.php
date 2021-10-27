@@ -72,14 +72,6 @@ class Metabox_Settings {
 	public $parent_post_id = '';
 
 	/**
-	 * Core Functions Class
-	 * initiates Core Functions Class
-	 *
-	 * @var \feed_them_social\Core_Functions|string
-	 */
-	public $core_functions_class = '';
-
-	/**
 	 * Specific Form Options
 	 * This allows us to add Specific Metabox Inputs from the constructing class using '' function we add to that class.
 	 *
@@ -106,9 +98,6 @@ class Metabox_Settings {
 	 * @since 1.0
 	 */
 	public function __construct( $current_this, $settings_array, $is_page = null ) {
-
-		$this->core_functions_class = new Core_Functions();
-
 		// Set Class Variables.
 		$this->current_this = $current_this;
 
@@ -599,8 +588,8 @@ class Metabox_Settings {
 		// Section Title.
 		$output .= isset( $section_info['section_title'] ) ? '<h3>' . $section_info['section_title'] . '</h3>' : '';
 
-		// Happens in JS file.
-		$this->core_functions_class->fts_tab_notice_html();
+		// Errors Notice Div.
+		$output .= '<div class="ft-gallery-notice"></div>';
 
 		// Section Options Wrap Class.
 		$output .= isset( $section_info['options_wrap_class'] ) ? '<div class="'.$section_info['options_wrap_class'].'">' : '';

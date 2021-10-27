@@ -12,12 +12,21 @@
 
 namespace feedthemsocial;
 
-
 /**
  * Class Feed_Cache
  * @package feedthemsocial
  */
 class Feed_Cache {
+
+	/**
+	 * Settings Functions
+	 *
+	 * The settings Functions class.
+	 *
+	 * @var object
+	 */
+	public $settings_functions;
+
 	/**
 	 * Construct
 	 *
@@ -25,7 +34,10 @@ class Feed_Cache {
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct() {
+	public function __construct( $settings_functions ) {
+		// Settings Functions Class.
+		$this->settings_functions = $settings_functions;
+		// Add Actions and Filters.
 		$this->add_actions_filters();
 	}
 
@@ -37,7 +49,6 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function add_actions_filters() {
-
 	    add_action( 'init', array( $this, 'fts_clear_cache_script' ) );
 	    add_action( 'wp_ajax_fts_clear_cache_ajax', array( $this, 'fts_clear_cache_ajax' ) );
 
@@ -61,7 +72,7 @@ class Feed_Cache {
 			$this->delete_permanent_feed_cache( $transient_name );
 		}
 		// Cache Time set on Settings Page under FTS Tab.
-		$cache_time_limit = true === fts_get_option( 'fts_cache_time' ) && '1' !== fts_get_option( 'fts_cache_time' ) ? fts_get_option( 'fts_cache_time' ) : '900';
+		$cache_time_limit = true === $this->settings_functions->fts_get_option( 'fts_cache_time' ) && '1' !== $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '900';
 
 		// Timed Cache.
 		set_transient( 'fts_t_' . $transient_name, $response, $cache_time_limit );
@@ -79,7 +90,6 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function fts_get_feed_cache( $transient_name, $errored = null ) {
-
 		// If Error use Permanent Cache!
 		if ( true === $errored ) {
 			return get_transient( 'fts_p_' . $transient_name );
@@ -98,7 +108,6 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function fts_check_feed_cache_exists( $transient_name, $errored = null ) {
-
 		$transient_permanent_check = get_transient( 'fts_p_' . $transient_name );
 		$transient_time_check      = get_transient( 'fts_t_' . $transient_name );
 
@@ -165,7 +174,6 @@ class Feed_Cache {
 		return 'Cache for this feed cleared!';
 	}
 
-
 	/**
 	 * FTS Clear Cache Script
 	 *
@@ -174,9 +182,8 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function fts_clear_cache_script() {
-
 		$fts_admin_activation_clear_cache = get_option( 'Feed_Them_Social_Activated_Plugin' );
-		$fts_dev_mode_cache               = fts_get_option( 'fts_cache_time' );
+		$fts_dev_mode_cache               = $this->settings_functions->fts_get_option( 'fts_cache_time' );
         if ( '1' === $fts_dev_mode_cache || 'feed_them_social' === $fts_admin_activation_clear_cache ) {
             wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
             wp_localize_script( 'fts_clear_cache_script', 'ftsAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );

@@ -26,23 +26,23 @@ class Setup_Functions {
 	public $global_prefix = 'global_';
 
 	/**
-	 * Load Function
+	 * Settings Functions
 	 *
-	 * Load up all our actions and filters.
+	 * The settings Functions class.
 	 *
-	 * @since 1.0.0
+	 * @var object
 	 */
-	public static function load() {
-		$instance = new self();
-
-		// Add Actions and Filters.
-		$instance->add_actions_filters();
-	}
+	public $settings_functions;
 
 	/**
 	 * Core_Functions constructor.
 	 */
-	public function __construct() { }
+	public function __construct( $settings_functions ) {
+		// Settings Functions Class.
+		$this->settings_functions = $settings_functions;
+		// Add Actions and Filters.
+		$this->add_actions_filters();
+    }
 
 	/**
 	 * Add Action Filters
@@ -85,8 +85,6 @@ class Setup_Functions {
 		// add_action( 'admin_menu', array( $this, 'fts_reorder_admin_sub_menus' ) );
 		// FTG License Page.
         add_action( 'admin_footer', array( $this, 'ftg_plugin_license' ) );
-		if ( isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ) {
-		}
 	}
 
 	/**
@@ -219,7 +217,9 @@ class Setup_Functions {
 	 * @since 1.0.0
 	 */
 	public function fts_admin_css() {
+        // Register Admin Styles
 		wp_register_style( 'fts_admin', plugins_url( 'feed-them-social/admin/css/admin.css' ), array(), FTS_CURRENT_VERSION );
+        // Enqueue Admin Styles.
 		wp_enqueue_style( 'fts_admin' );
 	}
 
@@ -331,7 +331,7 @@ class Setup_Functions {
 	public function fts_admin_bar_menu() {
 		global $wp_admin_bar;
 
-        if ( ! is_super_admin() || ! is_admin_bar_showing() || ! fts_get_option( 'fts_show_admin_bar' ) ) {
+        if ( ! is_super_admin() || ! is_admin_bar_showing() || ! $this->settings_functions->fts_get_option( 'fts_show_admin_bar' ) ) {
             return;
         }
 
@@ -344,7 +344,7 @@ class Setup_Functions {
 		);
 
 
-            if ( '1' !== fts_get_option('fts_cache_time' ) ) {
+            if ( '1' !== $this->settings_functions->fts_get_option('fts_cache_time' ) ) {
                 $wp_admin_bar->add_menu(
                     array(
                         'id' => 'fts_admin_bar_admin_set_cache',
@@ -362,7 +362,7 @@ class Setup_Functions {
                     'title' => sprintf(
                         __( 'Set Cache Time %1$s%2$s%3$s', 'feed-them-social' ),
                         '<span>',
-                        $this->fts_cachetime_amount( fts_get_option( 'fts_cache_time' ) ),
+                        $this->fts_cachetime_amount( $this->settings_functions->fts_get_option( 'fts_cache_time' ) ),
                         '</span>'
                     ),
                     'href' => admin_url( 'edit.php?post_type=fts&page=fts-settings-page&tab=general&section=general-main' ),
@@ -551,12 +551,12 @@ class Setup_Functions {
      * @since 1.0.0
      */
     public function fts_head_js() {
-        if ( ! fts_get_option( 'use_custom_js' ) ) {
+        if ( ! $this->settings_functions->fts_get_option( 'use_custom_js' ) ) {
             return;
         }
 
         ?>
-        <script><?php echo esc_html( fts_get_option( 'custom_js' ) ); ?></script>
+        <script><?php echo esc_html( $this->settings_functions->fts_get_option( 'custom_js' ) ); ?></script>
         <?php
     } // fts_head_js
 
@@ -568,11 +568,11 @@ class Setup_Functions {
      * @since 1.0.0
      */
     public function fts_head_css() {
-        if ( ! fts_get_option( 'use_custom_css' ) ) {
+        if ( ! $this->settings_functions->fts_get_option( 'use_custom_css' ) ) {
            return;
         }
         ?>
-        <style type="text/css"><?php echo esc_html( fts_get_option( 'custom_css' ) ); ?></style>
+        <style type="text/css"><?php echo esc_html( $this->settings_functions->fts_get_option( 'custom_css' ) ); ?></style>
         <?php
     } // fts_head_css
 }//end class

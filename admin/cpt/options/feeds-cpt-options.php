@@ -45,19 +45,17 @@ class Feed_CPT_Options {
 	 * @return array
 	 * @since 1.0.0
 	 */
-	public static function get_all_options() {
-		$instance = new self();
+	public function get_all_options() {
+		$this->feed_type_options();
+		$this->layout_options();
+		$this->color_options();
+		$this->facebook_options();
+		$this->instagram_options();
+		$this->twitter_options();
+		$this->youtube_options();
+		$this->combine_options();
 
-		$instance->feed_type_options();
-		$instance->layout_options();
-		$instance->color_options();
-		$instance->facebook_options();
-		$instance->instagram_options();
-		$instance->twitter_options();
-		$instance->youtube_options();
-		$instance->combine_options();
-
-		return $instance->all_options;
+		return $this->all_options;
 	}
 
 	/**

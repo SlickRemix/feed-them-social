@@ -17,24 +17,25 @@ namespace feedthemsocial;
  * Class System_Info
  */
 class System_Info {
+
+	/**
+	 * Setup Functions
+	 *
+	 * Functions used for setup of plugin.
+	 *
+	 * @var object
+	 */
+	public $setup_functions;
+
 	/**
 	 * System_Info constructor.
 	 */
-	public function __construct() { }
-
-	/**
-	 * Load Function
-	 *
-	 * Load up all our actions and filters.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function load() {
-		$instance = new self();
-
+	public function __construct( $setup_functions ) {
+        // Setup Functions Class.
+        $this->setup_functions = $setup_functions;
 		// Add Actions and Filters.
-		$instance->add_actions_filters();
-	}
+		$this->add_actions_filters();
+    }
 
 	/**
 	 * Add Action Filters
@@ -134,7 +135,7 @@ FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? 'Your 
 cURL:                     <?php echo ( function_exists( 'curl_init' ) ) ? 'Your server supports cURL.' : 'Your server does not support cURL. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
 curl_multi:               <?php echo ( function_exists( 'curl_multi_select' ) ) ? 'Your server supports curl_multi_select.' : 'Your server does not support curl_multi_select. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
 
--- FTS Settings->Global Options: <?php $fts_cachetime = fts_get_option( 'fts_cache_time' ) ? fts_get_option( 'fts_cache_time' ) : '86400'; ?>
+-- FTS Settings->Global Options: <?php $fts_cachetime = $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '86400'; ?>
 
 Cache time: <?php $setup_functions = new Setup_Functions; echo esc_html( $setup_functions->fts_cachetime_amount( $fts_cachetime ) ) . "\n"; ?>
 

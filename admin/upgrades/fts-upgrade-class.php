@@ -29,18 +29,14 @@ if ( ! defined( 'ABSPATH' ) )
  * Class Settings_Page
  */
 class FTS_Upgrades {
-    /**
-	 * Load Function
+	/**
+	 * Primary class constructor.
 	 *
-	 * Load up all our actions and filters.
-	 *
-	 * @since 1.3.4
+	 * @since 1.0.0
 	 */
-	public static function load() {
-		$instance = new self();
-
+	public function __construct() {
 		// Add Actions and Filters.
-		$instance->add_actions_filters();
+		$this->add_actions_filters();
 	}
 
 	/**
@@ -240,6 +236,5 @@ class FTS_Upgrades {
         // delete_option( 'fts_settings' );
 
     } // v2963_upgrades
-
 
 } // FTS_Upgrades

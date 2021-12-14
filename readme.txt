@@ -2,8 +2,8 @@
 Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.8.1
-Stable tag: 2.9.6.5
+Tested up to: 5.8.2
+Stable tag: 2.9.7
 License: GPLv2 or later
 
 Display a Custom Facebook feed, Instagram feed, Twitter feed, and YouTube feed on pages, posts or widgets.
@@ -72,6 +72,10 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
+= Version 2.9.7 Tuesday, December 14th, 2021 =
+  * FIX: Facebook & Instagram Options: Problem getting access token if you were running the New Page Experience.
+  * NEW: Facebook & Instagram Options: Revised description text for users to make it more clear what permissions we are requesting.
+
 = Version 2.9.6.5 Thursday, October 14th, 2021 =
   * NEW: [Twitter Feed](https://feedthemsocial.com/twitter-feed-demo/): Brand New Styles. Images from externally shared posts now appear and retweeted text also now appears along with images or videos if present.
   * PREMIUM NEW: [Twitter Feed Grid](https://feedthemsocial.com/twitter-feed-grid-demo/): The grid format now has all the new styles and additions as the regular feed.
@@ -163,7 +167,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 = Version 2.8.3.3 Tuesday, April 28th, 2020 =
   * DISABLED: Pinterest Feed: Without notice or warning the Pinterest API has become unavailable. Once the API is available to us again we will make an update to correct the issue. For the time being we are going to disable the access token button.
-  * NEW: System Info: Added Instgram Basic and Business token checks to aid in support.
+  * NEW: System Info: Added Instagram Basic and Business token checks to aid in support.
 
 = Version 2.8.3.2 Wednesday, April 8th, 2020 =
   * FIXED: Instagram Feed: Profile info options not showing on the Settings page shortcode generator, follow button was not displaying and misspelling of Instagram name on legacy API error message.
@@ -197,7 +201,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * FIX: Instagram Feed: Multiple feeds problem.
 
 = Version 2.7.6.2 Thursday, October 31th, 2019 =
-  * HAPPY HOLLOWEEN!
+  * HAPPY HALLOWEEN!
   * FIX: Facebook Options: Issue with Instagram Pages getting included in the return.
   * FIX: Twitter Feed: Now the Date has a title so it is accessible.
   * FIX: All Feeds: Now the share links are accessible.
@@ -278,7 +282,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Facebook Options: Translate the text, View on Facebook.
    * FIX: Pinterest & Instagram Options: Some plugins stripping out the hashtag we used to pass the access token in the browser url. Now we use &access_token instead.
    * FIX: Instagram hashtag feed: The set image count was not responding.
-   * FIX: YoutTube Options: Access token not being saved properly.
+   * FIX: YouTube Options: Access token not being saved properly.
    * FIX: Misc style updates.
    * COMBINED STREAMS NEW: Version 1.1.8: More rigorous error check in place to make sure if one social network fails the rest of the feed does not go down. Also admin notices will appear for social networks that are not working and give you instructions on what to check for to fix the problem.
 
@@ -350,7 +354,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 = Version 2.4.2 Wednesday, June 13th, 2018 =
    * FIX: Instagram Feed: User data was not getting cached probably cause API usage even if the feed was cached. Additional error check in place should also make sure cached feed is used if error found.
-   * FIX: Instagram Options: Message under Access Token will now show if your Access Token has hit an API limit and what the total consuption is. 200 calls per hour is the general limit, Instagram says. This does not mean 200 page loads or visitors, this means how much information is called from Instagram to create your feed. That is why extended cache times are best now.
+   * FIX: Instagram Options: Message under Access Token will now show if your Access Token has hit an API limit and what the total consumption is. 200 calls per hour is the general limit, Instagram says. This does not mean 200 page loads or visitors, this means how much information is called from Instagram to create your feed. That is why extended cache times are best now.
    * FIX: Facebook Options: Added an option to hide the Facebook error handler.
    * EDIT: Remove all mention of Facebook Group feeds and edited site documentation until further notice.
    * EDIT: Settings > Global Options - Cache Times: Remove all but 1 Day, 2 Days, 1 Week, 2 Weeks and Developer empty cache on reload select options.
@@ -365,7 +369,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NOTE: Facebook Event Feed: Facebook now requires you use a page access token to view this feed type. The page access token must be for that facebook page for it to work. An APP ID will not work anymore.
    * FIX: Instagram Feed: The convert Instagram name option has been removed now that instagram as removed access for this option. Set your Access Token from the Instagram Options page to get your Instagram ID now. [Read More](https://www.slickremix.com/instagram-api-change-on-april-4th-2018/).
    * POPUP FIX: Instagram Hashtag or Location Feed: Because of the resent privacy change by Instagram we replaced the missing profile photo with an Instagram Icon and the persons Actual Name replaced with Handle name.
-   * FIX: Instagram Feed: To create additional Instragram Feeds we have now added access_token= to the shortcode generator on the Settings page of our plugin.
+   * FIX: Instagram Feed: To create additional Instagram Feeds we have now added access_token= to the shortcode generator on the Settings page of our plugin.
    * FIX: Settings Page: View Extensions and Demo link not working properly.
    * FIX: Plugins Page: Settings link not working properly.
    * IMPROVED: Plugin License Page is now only takes 1 click to save ALL license keys and activate them. (Backwards Compatible)
@@ -376,7 +380,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIX: Facebook Feed: https:// missing on some outgoing facebook links.
    * FIX: Twitter Feed: Some images and videos not appearing for some tweets
    * FIX: Twitter Feed: Links not working properly for hashtags and @ links
-   * FIX: Twitter Feed: Reply or retweeted tweets did not have a cirlce profile image instead they were still square
+   * FIX: Twitter Feed: Reply or retweeted tweets did not have a circle profile image instead they were still square
    * FIX: Twitter Feed: Extra closing div causing layout problems.
    * FYI: Facebook Event Feed: Default and or custom text if no current events available.
 
@@ -397,7 +401,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Added Set Cache Time link in the admin menu along with the actual cache time that is currently set.
    * NEW: YouTube Feed: Hide the first thumbnail in the list. Useful if displaying videos on the page. omit_first_thumbnail=yes
    * FIX: YouTube Feed: Show videos in a row with title and description. Actual iframe is displayed and not thumbnails.
-   * FIX: YouTube Feed: Foreach loop error if 51 or more was entered as the number of vids. YouTube API is 50 per page max and to loadmore you need the premium version.
+   * FIX: YouTube Feed: Foreach loop error if 51 or more was entered as the number of videos. YouTube API is 50 per page max and to loadmore you need the premium version.
    * FIX: YouTube Feed: API/Access Token Issue where page would not return the feed after a certain amount of time and you would have to refresh the page to get it to work again.
    * FIX: Facebook Options: Facebook, and Facebook Reviews Get Access Token: If you had more than 25 pages and clicked the loadmore button it would not return anymore results.
    * FIX: YouTube, Instagram and FB Feed: Fix image/js issue if you had 2 or more of these feeds on a page.
@@ -424,7 +428,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * MOVED: All the buttons used to connect to your social media account have been moved to the top of each of our options pages to make getting started a little quicker.
    * REMOVED: Settings Page: Vine Icon and Feed Shortcode Options.
    * PREMIUM NEW: YouTube Options: New Load More Button Styles & Options
-   * PREMIUM NEW: YouTube Feed: Loadmore Button and Autoscoll shortcode options added.
+   * PREMIUM NEW: YouTube Feed: Loadmore Button and Autoscroll shortcode options added.
    * PREMIUM NEW: YouTube Feed: Tons of new options and a new popup where you can show the video description and comments if you want.
    * PREMIUM NEW: Facebook Feed: Now you can display the photos/videos above the date, description etc. works in grid format and regular.
    * PREMIUM NEW: Facebook Feed: Hide your Profile Thumbnail.
@@ -481,10 +485,10 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 = Version 2.2.5 Wednesday, June 28th, 2017 =
    * FIXED: Themes not pre installed with masonry.js getting error. This has been corrected now on the fts-global.js file to do a function check first.
    * FIXED: Twitter: Icons not aligning proper on some themes.
-   * FIXED: CSS: Misc tweeks to override other theme CSS for our feeds. If you think we have to many !important rules in our CSS you have to consider that we are fighting with the themes CSS which in most cases overrides a plugins CSS. So if you see an !important rule and are having trouble overriding it make sure and target the body, html or an ID before the CSS class you are trying to override.
+   * FIXED: CSS: Misc tweaks to override other theme CSS for our feeds. If you think we have to many !important rules in our CSS you have to consider that we are fighting with the themes CSS which in most cases overrides a plugins CSS. So if you see an !important rule and are having trouble overriding it make sure and target the body, html or an ID before the CSS class you are trying to override.
 
 = Version 2.2.4 Saturday, June 24th, 2017 =
-   * NEW: Facebook: Now photo posts that contain more than one photo will be showm similar to facebook.
+   * NEW: Facebook: Now photo posts that contain more than one photo will be shown similar to facebook.
    * NEW: Settings->Global Options: 1 day cache is now set by default for new installs along with the 1 day ago time setting.
    * NEW: Settings->Global Options: Change the color of the share background and the social icons active state and hover state.
    * NEW: Facebook Options: Font size option for Description.
@@ -499,14 +503,14 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * FIXED: Facebook: Fix FB Translate XML file not loading properly because facebook removed it, so we are using a new XML list.
    * FIXED: Facebook Albums: Likes and comments not showing if 2 album_photo shortcodes on page with same id. Needed to create a type=album_photos create cache statement.
    * FIXED: Facebook Feeds: Profile name not going to proper profile for some users.
-   * FIXED: Twitter Feeds: p tag getting added to reply, retweat and love links. Closed spaces so themes or other plugins won't try and add p tags anymore.
+   * FIXED: Twitter Feeds: p tag getting added to reply, retweet and love links. Closed spaces so themes or other plugins won't try and add p tags anymore.
    * FIXED: Words option not working if using combined stream for multiple facebook feeds.
    * FIXED: Settings Page: Column width issue on settings page for Twitter.
    * FIXED: Fatal Error coming from Free plugin license page on some installs.
    * COMBINED FEEDS NEW: If you have the combined streams extension you will see share icons on the Facebook, Instagram, Twitter, Pinterest and Youtube posts.
 
 = Version 2.1.9 Thursday, April 27th, 2017 =
-   * FIXED: Facebook: Type ablum_photos not caching proper if more than one of the same album on the page with different album_id's. The likes, comments, share options area was not displaying.
+   * FIXED: Facebook: Type album_photos not caching proper if more than one of the same album on the page with different album_id's. The likes, comments, share options area was not displaying.
    * FIXED: Combined Facebook Feeds words option not working.
 
 = Version 2.1.7 - 2.1.8 Friday, March 24th, 2017 =
@@ -516,7 +520,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Facebook Event feed now had Ticket Info link next to the Get Directions link on each post if you filled out the ticket info option on facebook when creating an event.
    * NEW: Adjusted author note at the bottom of the Settings page to include premium support ticket system link as well.
    * NEW: Plugin License page now shows the Extensions available for Feed Them Social if you don't already have one installed. And if you do it will show you upgrade license options should you ever need them.
-   * NEW: Settings, Global Options: Additinoal Timezone options.
+   * NEW: Settings, Global Options: Additional Timezone options.
    * FIXED: Pinterest: Boards not displaying properly in text widgets.
    * FIXED: Facebook: Spacing and alignment issues for likeboxes, buttons etc.
    * FIXED: Facebook Combined: Post limit was stuck at 6.
@@ -533,7 +537,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Facebook Options page: Load more button will appear if you are admin of more than 25 pages so you can choose the proper access token.
    * FIXED: Facebook: Video thumbnail not showing video if clicked.
    * FIXED: Instagram: Issue with image opening in new window instead of the post.
-   * PREMIUM NEW: Twitter: Load more button and auto scroll load more option availble. Also new grid format options on settings page when creating a shortcode and Grid Style color options on the Twitter Options page.
+   * PREMIUM NEW: Twitter: Load more button and auto scroll load more option available. Also new grid format options on settings page when creating a shortcode and Grid Style color options on the Twitter Options page.
    * PREMIUM NEW: Twitter Options, Facebook Options & Instagram Options pages: Load more button color and text color options.
    * PREMIUM NEW: Plugin License: Now the activate license button will not appear unless you add your license and click save all changes first.
    * FB REVIEWS NEW: Overall Rating option now available when creating a FB Reviews shortcode, plus many more style options on the Facebook Options page. We also now created a select option on the Facebook Options page to show or hide the Show More reviews link in posts. Additionally the itemprop="aggregateRating" meta information is being used on the overall rating bit. Google will track that and display the rating under your site information in search results.
@@ -558,8 +562,8 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Twitter: Includes the proper thumbnail and name for the retweets and replies. New name/date style format.
    * NEW: Pinterest: Links are now clickable in the description for User Pins and Pins from a Board.
    * NEW: Instagram: Now you can show your profile photo, name, description and the count for your posts, followers and following. [View Demo](https://feedthemsocial.com/instagram-feed-demo/)
-   * NEW: Instagram, Twitter and Pinterest: Truncated specfic calls into functions.
-   * PREMIUM NEW: YouTube: Truncated specfic calls into functions.
+   * NEW: Instagram, Twitter and Pinterest: Truncated specific calls into functions.
+   * PREMIUM NEW: YouTube: Truncated specific calls into functions.
    * NEW EXTENSION: [Feed Them Social Combined Streams](https://www.slickremix.com/downloads/feed-them-social-combined-streams/). With this extension you can combine your facebook feeds or you can combine Facebook, Instagram, Twitter, Pinterest or Youtube into one feed.
 
 = Version 2.0.9 Tuesday, October 4th, 2016 =
@@ -575,7 +579,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 = Version 2.0.6 Tuesday, August 30th, 2016 =
    * VERY IMPORTANT: Pinterest: All users must now go to the Pinterest Options page and create and Access Token. It's very simple to generate the token. [https://www.slickremix.com/docs/how-to-create-a-pinterest-access-token/](https://www.slickremix.com/docs/how-to-create-a-pinterest-access-token/)
    * FIXED: Pinterest: The Boards feed was not working because the existing API was closed suddenly.
-   * FIXED: Jetpack Photon filter had a ) in wrong possition causing a warning message that would not go away.
+   * FIXED: Jetpack Photon filter had a ) in wrong position causing a warning message that would not go away.
    * FIXED: Vine: Overlapping hover cover on some themes.
    * FIXED: Twitter: Now video posters will be the full with of video on the page.
    * FIXED: Instagram: now when you set image_stack_animation=no the masonry effect and scripts will not be used.
@@ -594,7 +598,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Instagram: Photos in Super Instagram feed do not have white borders anymore.
 
 = Version 2.0.2 & 2.0.3 Wednesday, July 13th, 2016 =
-   * FIXED: Facebook Event: Feed was not showing properly do to a misslabeled edge.
+   * FIXED: Facebook Event: Feed was not showing properly do to a mislabeled edge.
    * NEW: Facebook Event: Full size photo in feeds now and this should resolve most ? mark images.
    * NEW: Facebook: Notes post types had been added to the feed now.
    * NEW: Facebook: View on Facebook link now shows in popup if no message is found.
@@ -623,7 +627,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 = Version 1.9.6 Tuesday, April 26th, 2016 =
    * NEW: Now you can set the post count for Facebook, Twitter, Instagram and Vine feeds. Limit 1-6. Vine feeds have no limit.
-   * NEW: Facebook Options: Created an option to Change Post Limit so we can ommit posts that have no content from page or group feeds.
+   * NEW: Facebook Options: Created an option to Change Post Limit so we can omit posts that have no content from page or group feeds.
    * NEW: Facebook Options: Added option to remove the images.
    * NEW: Twitter Options: Added option to remove the images.
    * NEW: Twitter: Shortcode option to show retweets along with your tweets or just your tweets. Add show_retweets=yes to our shortcode or Regenerate your shortcode from the settings page to see this new select option.
@@ -631,7 +635,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
    * NEW: Settings Page shortcode generator will automatically add any missing px after values requiring it when proceeding to copy the shortcode.
    * ADDED: Facebook Events: Note on settings page before generating the shortcode letting users know about the 25 event limit.
    * FIXED: Facebook: Certain facebook videos links not returning properly.
-   * FIXED: Facebook: Title and description dissapearing when premium is activated.
+   * FIXED: Facebook: Title and description disappearing when premium is activated.
    * FIXED: Facebook: Links without http:// get the full site prepended. ie ww.mysite.com
    * FIXED: Facebook: Default Date and Time not showing unless the Settings page was saved.
    * TESTED: Facebook: App ID for API version 2.6
@@ -656,7 +660,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 = Version 1.9.3 Wednesday, December 9th, 2015 =
    * FIXED: Shortcodes not working because of WP4.4 update. No space without underscores(_) allowed anymore.
-   * FIXED: Facebook: Fixed error handeling return issue. Thanks to [alieneila](https://wordpress.org/support/topic/please-fix-error-output?replies=1) for bringing this to our attention.
+   * FIXED: Facebook: Fixed error handling return issue. Thanks to [alieneila](https://wordpress.org/support/topic/please-fix-error-output?replies=1) for bringing this to our attention.
    * NEW: Facebook Settings Page and Twitter Settings Page: Option to Hide Images in Posts.
    * NEW: Twitter: Add alt tag with name to images.
    * NOTE: All Premium users will be required to update as well to fix this issue. Very sorry for the inconvenience.
@@ -724,7 +728,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * FIXED: Decrease font size for share icon slightly and make sure the font-style is normal so other themes don't override it.
 
 = Version 1.8.5 Wednesday, July 8th, 2015 =
-  * FIXED: Fatal error on install for users under php 5.3 due to new namespace name overiding our initial php version error check.
+  * FIXED: Fatal error on install for users under php 5.3 due to new namespace name overriding our initial php version error check.
   * FIXED: Misc cleanup on files to speed things up.
   * PREMIUM USERS: The below new options can be found on the settings page when you generate your shortcode for the facebook feed you need.
   * NEW: Facebook Video Feed. Now you can add a feed of your Facebook page's uploaded videos. Only Works with Facebook Pages. Not user accounts or groups etc. See example here: [https://feedthemsocial.com/facebook-videos-demo/](hhttps://feedthemsocial.com/facebook-videos-demo/)
@@ -746,7 +750,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
  * NEW: Facebook Option: Hide the text that appears after your facebook name for instance... added a new video, or shared something or added a new album. Most of these things are apparent when viewing the post anyway.
  * NEW: System Info: Now we are gathering more of the info we need in order to speed up support requests.
  * FIXED: Removed Serialize from our caching process as it was not needed and was causing some people errors when logged out and trying to view any feeds.
- * FIXED: Removed uneeded ajax file from facebook feed and truncated some more scripts from feeds to speed up load time.
+ * FIXED: Removed unneeded ajax file from facebook feed and truncated some more scripts from feeds to speed up load time.
  * FIXED: Instagram Feed: js error with Classic gallery when using loadmore.
  * EDIT: Moved plugin license menu to our plugin's menu
 
@@ -834,7 +838,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 = Version 1.6.8 Sunday, January 18th, 2015 =
  * FIXED: Twitter feed now uses your custom API token to make the connection where as before it was still using the default Tokens even if you had entered custom ones.
- * FIXED: Feeds from Cacheing if errors for Facebook, Twitter, Instagram.
+ * FIXED: Feeds from Caching if errors for Facebook, Twitter, Instagram.
  * FIXED: Trim words= for Facebook feed breaking themes if a url or br tag is the last element.
  * FIXED: Default App Tokens for randomizer fixed so no more error from like or comment posts in feed. With our default tokens you should not see those posts in the feed anymore either.
  * UPDATED: Facebook Styles.
@@ -925,7 +929,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
  * NEW: You can now add Shortcodes to Text Widgets in the FREE Version
  * FIXED: View on Facebook link works on post made from Twitter
  * IMPROVED: Faster loading time on all Feeds
- * NOTE/WARNING: Our custom facebook, twitter and instagram widgets will be removed in the next update because it's just as simple to generate the shortcode from our settings page and paste to a text widget and adjust the options. These 'NEW' options in this update are not available in our widgets. If you would like to use the latest features you will need to generate a new shortcode and paste that into a text widget. The nice thing is each option for the shortcode is cleary named so you can change the option very quickly.
+ * NOTE/WARNING: Our custom facebook, twitter and instagram widgets will be removed in the next update because it's just as simple to generate the shortcode from our settings page and paste to a text widget and adjust the options. These 'NEW' options in this update are not available in our widgets. If you would like to use the latest features you will need to generate a new shortcode and paste that into a text widget. The nice thing is each option for the shortcode is clearly named so you can change the option very quickly.
 
 = Version 1.5.4 Wednesday, September 3rd, 2014 =
  * UPDATED: FTS framework to now work on non root installs. **note** Feed Them Premium and FTS Bar will also be getting this update
@@ -997,7 +1001,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 = Version 1.3.8 Sunday, February 16th, 2014 =
  * Added: 20% off coupon option in the settings page for users who wanted to upgrade to the premium version. Limited Time only!
- * Added: New Facbook icons for like, share and comments on all facebook feeds.
+ * Added: New Facebook icons for like, share and comments on all facebook feeds.
  * Added: Facebook posts with only image show the image larger, not just small thumbnail anymore.
  * Fixed: Powered by text is on by default now.
 
@@ -1014,7 +1018,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
  * NEW: Facebook Page Feed now had option to filter posts by everyone or just by the page owner.
  * NEW: Caching system for twitter.
  * NEW: Now you can easily adjust any of our feeds styles using the Custom CSS box on the settings page.
- * NEW: Add Powered by option for all those who want to help promote Feed Them Social. Simple text with link will apear at the bottom of your feeds when this is checked on the settings page.
+ * NEW: Add Powered by option for all those who want to help promote Feed Them Social. Simple text with link will appear at the bottom of your feeds when this is checked on the settings page.
  * Fixed, Premium Version: Instagram post count not spitting out correctly.
  * Fixed, Premium Version: Facebook Event Feed widget has now been created.
 
@@ -1024,7 +1028,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 = Version 1.3.4 Tuesday, February 11th, 2014 =
  * NEW FEED: Facebook Event Feed. Now you can take your group or page Event ID and enter it on our settings page to create a FB event feed. Promote those events now!
  * Fixed: Twitter function error with multiple feeds on a page.
- * NEW: Facebook feeds now have a wordcount limit.
+ * NEW: Facebook feeds now have a word count limit.
 
 = Version 1.3.3 Friday, January 10th, 2014 =
  * Updated: UI and new icons for wordpress 3.8 update.

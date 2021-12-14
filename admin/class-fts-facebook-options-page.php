@@ -45,6 +45,13 @@ class FTS_Facebook_Options_Page {
 			</h1>
 			<div class="use-of-plugin">
 				<?php esc_html_e( 'Change the language, color and more for your facebook feed using the options below.', 'feed-them-social' ); ?>
+                <?php
+                echo sprintf(
+                    esc_html__( 'Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed-them-social' ),
+                    '<a href="' . esc_url( 'https://developers.facebook.com/terms/' ) . '" target="_blank">',
+                    '</a>'
+                );
+                ?>
 			</div>
 			<!-- custom option for padding -->
 			<form method="post" class="fts-facebook-feed-options-form" action="options.php" id="fts-facebook-feed-options-form">
@@ -86,7 +93,15 @@ class FTS_Facebook_Options_Page {
 								<?php esc_html_e( 'Facebook API Token', 'feed-them-social' ); ?>
 							</h3>
 							<?php esc_html_e( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups. ', 'feed-them-social' ); ?>
-							<p>
+
+                            <?php echo sprintf(
+                                esc_html__( '%1$sClick the button below to get an access token. This gives us read-only access to get your Facebook posts.%2$s', 'feed-them-social' ),
+                                '<p>',
+                                '</p>'
+                            );
+                            ?>
+
+                            <p>
 								<?php
 								echo sprintf(
 									esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
@@ -101,18 +116,12 @@ class FTS_Facebook_Options_Page {
 						$test_app_token_id     = get_option( 'fts_facebook_custom_api_token' );
 						$test_app_token_id_biz = get_option( 'fts_facebook_custom_api_token_biz' );
 						if ( ! empty( $test_app_token_id ) || ! empty( $test_app_token_id_biz ) ) {
-							$fts_fb_access_token    = '226916994002335|ks3AFvyAOckiTA1u_aDoI4HYuuw';
 							$test_app_token_url     = array(
 								'app_token_id' => 'https://graph.facebook.com/debug_token?input_token=' . $test_app_token_id . '&access_token=' . $test_app_token_id,
 							);
 							$test_app_token_url_biz = array(
 								'app_token_id_biz' => 'https://graph.facebook.com/debug_token?input_token=' . $test_app_token_id_biz . '&access_token=' . $test_app_token_id_biz . '&',
-								/*'app_token_id' => 'https://graph.facebook.com/oauth/access_token?client_id=7054444020102908771&client_secret=7016612gg8c6a7b5424856282a5358f47b&grant_type=fb_exchange_token&fb_exchange_token=CAAKBNkjL3G2MBAK5jVUp1ZBCYCiLB8ZAdALWTEI4CesM8h3DeI4Jotngv4TKUsQZBwnbw9jiZCgyg0eEmlpiVauTsReKJWBgHe31xWCsbug1Tv3JhXZBEZBOdOIaz8iSZC6JVs4uc9RVjmyUq5H52w7IJVnxzcMuZBx4PThN3CfgKC5E4acJ9RnblrbKB37TBa1yumiPXDt72yiISKci7sqds0WFR3XsnkwQZD'*/
 							);
-							// Test App ID
-							// Leave these for reference:
-							// App token for FTS APP2: 358962200939086|lyXQ5-zqXjvYSIgEf8mEhE9gZ_M
-							// App token for FTS APP3: 705020102908771|rdaGxW9NK2caHCtFrulCZwJNPyY!
 							$test_app_token_response     = $fts_functions->fts_get_feed_json( $test_app_token_url );
 							$test_app_token_response     = json_decode( $test_app_token_response['app_token_id'] );
 							$test_app_token_response_biz = $fts_functions->fts_get_feed_json( $test_app_token_url_biz );
@@ -218,7 +227,14 @@ class FTS_Facebook_Options_Page {
 									<?php esc_html_e( 'Facebook Page Reviews Access Token', 'feed-them-social' ); ?>
 								</h3>
 								<?php esc_html_e( 'This Facebook Access Token works for the Reviews feed only and is simply used to display the feed. You must be an admin of the page to get your token.', 'feed-them-social' ); ?>
-								<p>
+
+                                <?php echo sprintf(
+                                    esc_html__( '%1$sClick the button below to get an access token. This gives us read-only access to get your Facebook reviews.%2$s', 'feed-them-social' ),
+                                    '<p>',
+                                    '</p>'
+                                );
+                                ?>
+                                <p>
 									<?php
                                     // https://developers.facebook.com/docs/graph-api/reference/page/ratings/
 									echo sprintf(

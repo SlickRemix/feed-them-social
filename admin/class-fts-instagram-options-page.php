@@ -71,8 +71,16 @@ class FTS_Instagram_Options_Page {
                 <?php esc_html_e( 'Instagram Feed Options', 'feed-them-social' ); ?>
             </h1>
             <div class="use-of-plugin">
-                <?php esc_html_e( 'Get your Access Token and add a follow button and position it using the options below.', 'feed-them-social' ); ?>
+                <?php esc_html_e( 'Get your Access Token and more below. Instagram Basic connections do not allow you to show Profile info or Heart/Comment counts, please use the Instagram Business option to achieve that.', 'feed-them-social' ); ?>
+                <?php
+                echo sprintf(
+                    esc_html__( 'Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed-them-social' ),
+                    '<a href="' . esc_url( 'https://developers.facebook.com/terms/' ) . '" target="_blank">',
+                    '</a>'
+                );
+                ?>
             </div>
+
             <!-- custom option for padding -->
             <form method="post" class="fts-facebook-feed-options-form" action="options.php" id="fts-instagram-feed-options-form">
                 <?php
@@ -88,7 +96,7 @@ class FTS_Instagram_Options_Page {
                         settings_fields( 'fts-instagram-feed-style-options' );
                         ?>
                         <h3>
-                            <?php esc_html_e( 'Instagram Basic API Token', 'feed-them-social' ); ?>
+                            <?php esc_html_e( 'Instagram Basic', 'feed-them-social' ); ?>
                         </h3>
                         <?php
 
@@ -106,25 +114,26 @@ class FTS_Instagram_Options_Page {
                         //    print_r( $test_app_token_response );
                         //   echo '</pre>';
 
-                        ?>
-                        <p>
-                            <?php
-                            echo esc_html__( 'This is required to make the Instagram Feed work. Click the button below and it will connect to your Instagram Account to get an access token. It will then return to this page and save it in the inputs below. After it finishes you will be able to generate your Instagram feed. Instagram Basic connections do not allow you to show Profile info or Heart/Comment counts. Please use the Instagram Business option to achieve that.', 'feed-them-social' );
-                            ?>
-                        </p>
-                        <p>
-                            <?php
+
+                            echo sprintf(
+                                esc_html__( '%1$sClick the button below to get an access token. This gives us read-only access to get your Instagram posts.%2$s', 'feed-them-social' ),
+                                '<p>',
+                                '</p>'
+                            );
+
 
                             echo sprintf(
                                 esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
                                 '<a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '' ) . '" class="fts-instagram-get-access-token">',
                                 '</a>'
                             );
+
+
                             ?>
-                        </p>
+
+
                         <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" class="fts-admin-button-no-work" style="margin-top: 14px; display: inline-block"><?php esc_html_e( 'Button not working?', 'feed-them-social' ); ?></a>
                     </div>
-
                     <div class="fts-clear"></div>
 
                     <div class="feed-them-social-admin-input-wrap" style="margin-bottom:0">
@@ -210,17 +219,21 @@ class FTS_Instagram_Options_Page {
                 <div id="fb-token-master-wrap" class="feed-them-social-admin-input-wrap" >
                     <div class="fts-title-description-settings-page">
                         <h3>
-                            <?php esc_html_e( 'Instagram Business API Token', 'feed-them-social' ); ?>
+                            <?php esc_html_e( 'Instagram Business', 'feed-them-social' ); ?>
                         </h3>
                         <?php
                         echo sprintf(
-                            esc_html__( 'You must have your Instagram Account linked to a Facebook Business Page, this is required to make the Instagram Business Feed or Hashtag Feed work. %1$sRead Instructions%2$s. Once you have completed the instructions you can click the button below and it will connect to your Facebook Account to get an access token. It should return a Facebook page or list of pages you are admin of and display which ones are connected to Instagram. Choose one, then click save. The Instagram Business option will allow you to display your profile info and the Heart/Comment counts on your media.', 'feed-them-social' ),
+                            esc_html__( 'The Instagram Business option will allow you to display your profile info and the Heart/Comment counts for your posts. You must have your Instagram Account linked to a Facebook Business Page, this is required to make the Instagram Business Feed or Hashtag Feed work. %1$sRead Instructions%2$s.', 'feed-them-social' ),
                             '<a target="_blank" href="' . esc_url( 'https://www.slickremix.com/docs/link-instagram-account-to-facebook/' ) . '">',
                             '</a>'
                         );
                         ?>
                         <p>
-                            <?php
+                            <?php echo sprintf(
+                                esc_html__( '%1$sClick the button below to get an access token. This gives us read-only access to get your Instagram posts.%2$s', 'feed-them-social' ),
+                                '<p>',
+                                '</p>'
+                            );
 
                             // call to get instagram account attached to the facebook page
                             // 1844222799032692 = slicktest fb page (dev user)

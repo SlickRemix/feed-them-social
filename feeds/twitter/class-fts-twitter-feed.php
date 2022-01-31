@@ -277,10 +277,12 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                         if( !empty( $html['data'] ) ){
                             // Try curl
                             $html = $html['data'];
+                            error_log( 'FTS: using curl to get external url, image, title & description');
                         }
                         elseif( ini_get('allow_url_fopen') ){
                             // If curl fails try file get contents
                             $html = file_get_contents( $twitter_external_url );
+                            error_log( 'FTS: using file_get_contents');
                         }
 
                         // The first 2 are preg_match_all with single quotes '', the second 2 are with double quotes "". We have to check for both.

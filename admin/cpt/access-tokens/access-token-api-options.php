@@ -21,28 +21,13 @@ namespace feedthemsocial;
 class Access_Options {
 
 	/**
-	 * Facebook Access Options
+	 * Settings Functions
 	 *
-	 */
-	public $facebook_access_options;
-
-	/**
-	 * Instagram Access Options
+	 * The settings Functions class.
 	 *
+	 * @var object
 	 */
-	public $instagram_access_options;
-
-	/**
-	 * Twitter Access Options
-	 *
-	 */
-	public $twitter_access_options;
-
-	/**
-	 * Youtube Access Options
-	 *
-	 */
-	public $youtube_access_options;
+	public $settings_functions;
 
 
 	/**
@@ -52,7 +37,9 @@ class Access_Options {
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct() {}
+	public function __construct( $settings_functions ) {
+
+	}
 
 	/**
 	 * Call Access Tokens
@@ -61,14 +48,43 @@ class Access_Options {
 	 *
 	 * @since 2.7.1
 	 */
-	public function access_option_classes() {
-		// Facebook Access Options Class.
-		$this->facebook_access_options = new Facebook_Access_Options();
-		// Instagram Access Options Class.
-		$this->instagram_access_options = new Instagram_Access_Options();
-		// Twitter Access Options Class.
-        $this->twitter_access_options = new Twitter_Access_Options();
-		// Youtube Access Options Class.
-		$this->youtube_access_options = new Youtube_Access_Options();
+	public function get_access_options( $feed_type ) {
+		if($feed_type){
+			// Determine Feed Type. Call Class. Return Options.
+			switch ($feed_type){
+				// Facebook Access Options Class.
+				case 'facebook-feed-type':
+					// Facebook Access Options Class.
+					$facebook_access_options = new Facebook_Access_Options();
+					// Load the options.
+					$access_options = $facebook_access_options->access_options();
+					break;
+				// Instagram Access Options Class.
+				case 'instagram-feed-type':
+					// Instagram Access Options Class.
+					$instagram_access_options = new Instagram_Access_Options();
+					// Load the options.
+					$access_options = $instagram_access_options->access_options();
+					break;
+				// Twitter Access Options Class.
+				case 'twitter-feed-type':
+					// Twitter Access Options Class.
+					$twitter_access_options = new Twitter_Access_Options();
+					// Load the options.
+					$access_options = $twitter_access_options->access_options();
+					break;
+				// Youtube Access Options Class.
+				case 'youtube-feed-type':
+					// Youtube Access Options Class.
+					$youtube_access_options = new Youtube_Access_Options();
+					// Load the options.
+					$access_options = $youtube_access_options->access_options();
+					break;
+			}
+			// Return Access Options.
+			return $access_options;
+		}
+		// Didn't find any options.
+		return esc_html__( 'Oop, No Access Token options have been found for this social network', 'feed_them_social' );
 	}
 }//end class

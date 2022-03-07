@@ -130,10 +130,6 @@ class Shortcodes {
 		// Get Saved Settings Array.
 		$saved_settings = $this->metabox_settings->get_saved_settings_array( $cpt_id, 'fts');
 
-        echo '<pre>';
-        print_r($saved_settings);
-        echo '</pre>';
-
 		if( $saved_settings && isset($saved_settings['feed_type']) && !empty($saved_settings['feed_type'])){
 			return $saved_settings['feed_type'];
 		}

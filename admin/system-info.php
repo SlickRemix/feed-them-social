@@ -102,7 +102,7 @@ class System_Info {
 			?>
 
 SITE_URL: <?php echo esc_url( site_url() ) . "\n"; ?>
-Feed Them Social Version: <?php echo esc_html( \Feed_Them_Social::fts_check_version() ) . "\n"; ?>
+Feed Them Social Version: <?php echo esc_html( FEED_THEM_SOCIAL_VERSION ) . "\n"; ?>
 
 -- WordPress Configuration:
 WordPress Version: <?php echo esc_html( get_bloginfo( 'version' ) ) . "\n"; ?>

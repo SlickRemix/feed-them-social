@@ -25,7 +25,16 @@ class Settings_Page {
 	 *
 	 * @var object
 	 */
-	public $setting_functions;
+	public $settings_functions;
+
+	/**
+	 * Settings Functions
+	 *
+	 * The settings Functions class
+	 *
+	 * @var array
+	 */
+	public $all_settings;
 
     /**
      * Settings constructor.
@@ -33,6 +42,8 @@ class Settings_Page {
     public function __construct( $settings_functions ) {
 
         $this->settings_functions = $settings_functions;
+
+        $this->all_settings = $this->settings_functions->fts_get_settings();
 
 	    // Add Actions and Filters.
 	    $this->add_actions_filters();
@@ -66,22 +77,8 @@ class Settings_Page {
         // Additional date format fieldsmsp_local_user_allowed
         add_filter( 'fts_after_setting_output', array( $this, 'custom_date_time_fields' ), 10, 2 );
 
-
-        // Add renaming informational text
-        // add_action( 'fts_settings_tab_top_general_main', array( $this, 'attach_rename_note' ) );
-
         // Add title options informational text
         add_action( 'fts_settings_tab_bottom_general_options', array( $this, 'title_options_note' ) );
-
-        // Add file name and title examples
-        // add_action( 'fts_settings_tab_bottom_general_main', array( $this, 'file_title_examples' ) );
-
-        // Add title format examples
-        // add_action( 'fts_settings_tab_bottom_general_formatting', array( $this, 'title_format_example' ) );
-        // add_action( 'fts_settings_tab_bottom_general_options', array( $this, 'title_format_example' ) );
-
-        // Add authors note
-       // add_action( 'fts_settings_bottom', array( $this, 'authors_note' ) );
     }
 
     /**
@@ -554,9 +551,9 @@ class Settings_Page {
      * @param	array	$input	The value inputted in the field.
      * @return	array	$input	Sanitizied value.
      */
-    public function settings_sanitize( $input = array() ) {
+    public function settings_sanitize( $input = array()) {
 
-        global $fts_options;
+	    $all_settings = $this->all_settings;
 
         if ( empty( $_POST['_wp_http_referer'] ) ) {
             return $input;
@@ -565,6 +562,7 @@ class Settings_Page {
         parse_str( $_POST['_wp_http_referer'], $referrer );
 
         $settings = $this->get_registered_settings();
+
         $tab      = isset( $referrer['tab'] ) ? $referrer['tab'] : 'general';
         $section  = isset( $referrer['section'] ) ? $referrer['section'] : 'main';
 
@@ -583,7 +581,6 @@ class Settings_Page {
 
         // Loop through each setting being saved and pass it through a sanitization filter
         foreach ( $input as $key => $value ) {
-
             // Get the setting type (checkbox, select, etc)
             $type = isset( $settings[ $tab ][ $key ]['type'] ) ? $settings[ $tab ][ $key ]['type'] : false;
 
@@ -614,15 +611,18 @@ class Settings_Page {
 			        $key = $value['id'];
 		        }
 
-		        if ( empty( $input[ $key ] ) && isset( $fts_options[ $key ] ) ) {
-			        unset( $fts_options[ $key ] );
+		        if ( empty( $input[ $key ] ) && isset( $all_settings[ $key ] ) ) {
+			        unset( $all_settings[ $key ] );
 		        }
 	        }
         }
+
+	    error_log(print_r($all_settings, TRUE));
+
         // Is $fts_options an array? Show it successfully updated!
-        if( is_array($fts_options)){
+        if( is_array($all_settings)){
 	        // Merge our new settings with the existing
-	        $output = array_merge( $fts_options, $input );
+	        $output = array_merge( $all_settings, $input );
 	        add_settings_error( 'fts-notices', esc_attr( 'settings_updated' ), __( 'Settings Updated.', 'feed-them-social' ), 'updated' );
 	        return $output;
         }

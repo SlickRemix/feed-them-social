@@ -12,6 +12,9 @@
 
 namespace feedthemsocial;
 
+/**
+ * FTS Twitter Feed Class
+ */
 class FTS_Twitter_Feed {
 
     public $feed_functions;
@@ -353,7 +356,7 @@ class FTS_Twitter_Feed {
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 
 				$twitter_load_more_text      = get_option( 'twitter_load_more_text' ) ? get_option( 'twitter_load_more_text' ) : __( 'Load More', 'feed-them-social' );
-				$twitter_no_more_tweets_text = get_option( 'twitter_no_more_tweets_text' ) ? get_option( 'twitter_no_more_tweets_text' ) : __( 'No More Tweets', 'feed-them-social' );
+				$twitter_no_more_tweets_text = get_option( 'twitter_no_more_tweets_text' ) ? get_option( 'twitter_no_more_tweets_text' ) :  __( 'No More Tweets', 'feed-them-social' );
 
 				include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/twitter/twitter-feed.php';
 
@@ -367,43 +370,44 @@ class FTS_Twitter_Feed {
 				}
 			} else {
 
-                            $returned_options = $this->feed_cpt->get_cpt_post_options( $inputted_atts['cpt_id'] );
+                // Returned Options!
+                $returned_options = $this->feed_cpt->get_cpt_post_options( $inputted_atts['cpt_id'] );
 
                      // Twitter Username!
-                    $twitter_name =  isset( $returned_options['twitter_name'] ) ? $returned_options['twitter_name'] : '';
+                    $twitter_name = $returned_options['twitter_name'] ? $returned_options['twitter_name'] : '';
 
                     // Twitter Height!
-                    $twitter_height = isset( $returned_options['twitter_height'] ) ? $returned_options['twitter_height'] : '';
+                    $twitter_height = $returned_options['twitter_height'] ? $returned_options['twitter_height'] : '';
 
                     // Tweets Count!
-                    $tweets_count = isset( $returned_options['tweets_count'] ) ? $returned_options['tweets_count'] : '6';
+                    $tweets_count = $returned_options['tweets_count'] ? $returned_options['tweets_count'] : '';
 
                     // Description Image!
-                    $description_image = isset( $returned_options['description_image'] ) ? $returned_options['description_image'] : '';
+                    $description_image = $returned_options['description_image'] ? $returned_options['description_image'] : '';
 
                     // Search!
-                    $search = isset( $returned_options['search'] ) ? $returned_options['search'] : '';
+                    $search = $returned_options['search'] ? $returned_options['search'] : '';
 
                     // Show Retweets!
-                    $show_retweets = isset( $returned_options['show_retweets'] ) ? $returned_options['show_retweets'] : '';
+                    $show_retweets = $returned_options['show_retweets'] ? $returned_options['show_retweets'] : '';
 
                     // Cover Photo!
-                    $cover_photo = isset( $returned_options['cover_photo'] ) ? $returned_options['cover_photo'] : '';
+                    $cover_photo = $returned_options['cover_photo'] ? $returned_options['cover_photo'] : '';
 
                     // Stats Bar!
-                    $stats_bar = isset( $returned_options['stats_bar'] ) ? $returned_options['stats_bar'] : '';
+                    $stats_bar = $returned_options['stats_bar'] ? $returned_options['stats_bar'] : '';
 
                     // Show Replies!
-                    $show_replies = isset( $returned_options['show_replies'] ) ? $returned_options['show_replies'] : '';
+                    $show_replies = $returned_options['show_replies'] ? $returned_options['show_replies'] : '';
 			}
 
 
-            // Premium Tweets Count Check
+            // Premium Tweets Count Check!
 			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $tweets_count > '6' ) {
 				$tweets_count = '6';
 			}
 
-			// Show Replies
+			// Show Replies!
 			$exclude_replies = 'no' === $show_replies ? 'true' : 'false' ;
 
 			// Make sure it's not ajaxing.

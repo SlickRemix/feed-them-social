@@ -52,6 +52,28 @@ class Settings_Functions {
     }
 
 	/**
+	 *  Required Plugins
+	 *
+	 * Return an array of required plugins.
+	 *
+	 * @return array
+	 * @since 1.0.0
+	 */
+	public function fts_required_plugins() {
+		$required_premium_plugins = array(
+			'feed_them_social_premium' => array(
+				'title'        => 'Feed Them Social Premium',
+				'plugin_url'   => 'feed_them_social-premium/feed_them_social-premium.php',
+				'demo_url'     => 'https://feedthemgallery.com/',
+				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social/',
+			),
+		);
+
+		return $required_premium_plugins;
+	}
+
+
+	/**
 	 * Get an option
 	 *
 	 * Looks to see if the specified setting exists, returns default if not
@@ -60,9 +82,9 @@ class Settings_Functions {
 	 * @return	mixed
 	 */
 	function fts_get_option( $key = '', $default = false ) {
-		global $fts_options;
+		$options = get_option( 'fts_settings' );
 
-		$value = ! empty( $fts_options[ $key ] ) ? $fts_options[ $key ] : $default;
+		$value = ! empty( $options[ $key ] ) ? $options[ $key ] : $default;
 		$value = apply_filters( 'fts_get_option', $value, $key, $default );
 
 		return apply_filters( 'fts_get_option_' . $key, $value, $key, $default );
@@ -161,15 +183,13 @@ class Settings_Functions {
 	public function fts_get_settings() {
 		$settings = get_option( 'fts_settings' );
 
+        // If no settings are found create an empty option in database.
 		if( empty( $settings ) ) {
-
 			$settings = array();
-
 			update_option( 'fts_settings', $settings );
-
 		}
 
-		return apply_filters( 'fts_get_settings', $settings );
+		return $settings;
 	} // fts_get_settings
 
 	/**

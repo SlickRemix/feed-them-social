@@ -20,17 +20,20 @@
  *
  * @version    3.0
  * @package    FeedThemSocial/Core
- * @copyright  Copyright (c) 2012-2019 SlickRemix
+ * @copyright  Copyright (c) 2012-2022 SlickRemix
  *
  * Need Support: https://wordpress.org/support/plugin/feed-them-social
  * Paid Extension Support: https://www.slickremix.com/my-account/#tab-support
  */
 
-// Doing this ensure's any js or css changes are reloaded properly. Added to enqued css and js files throughout.
+// Doing this ensures any JS or CSS changes are reloaded properly. Added to enqueued css and js files throughout.
 define( 'FTS_CURRENT_VERSION', '3.0' );
 
 // Require file for plugin loading.
 require_once __DIR__ . '/class-load-plugin.php';
 
+// Feed Them Social Class
+$feed_them_social = new Feed_Them_Social();
+
 // Load the Plugin!
-Feed_Them_Social::load_plugin();
+$feed_them_social->load_plugin();

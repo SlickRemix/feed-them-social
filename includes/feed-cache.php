@@ -12,6 +12,11 @@
 
 namespace feedthemsocial;
 
+// Exit if accessed directly!
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Class Feed_Cache
  * @package feedthemsocial

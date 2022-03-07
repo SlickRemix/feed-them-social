@@ -87,6 +87,17 @@ class Metabox_Settings {
 	 */
 	public $saved_settings_array = array();
 
+
+	/**
+	 * Settings Functions
+	 *
+	 * The settings Functions class.
+	 *
+	 * @var object
+	 */
+	public $settings_functions;
+
+
 	/**
 	 * Metabox_Settings constructor.
 	 *
@@ -97,12 +108,15 @@ class Metabox_Settings {
 	 * @param string $is_page What page.
 	 * @since 1.0
 	 */
-	public function __construct( $current_this, $settings_array, $is_page = null ) {
+	public function __construct( $current_this, $settings_array, $settings_functions, $is_page = null) {
 		// Set Class Variables.
 		$this->current_this = $current_this;
 
 		// Set Settings Array.
 		$this->set_settings_array( $settings_array );
+
+		// Settings Functions Class.
+		$this->settings_functions = $settings_functions;
 
 		// Is Page.
 		$this->is_page = $is_page;
@@ -555,7 +569,6 @@ class Metabox_Settings {
 		}
 	}
 
-
 	/**
 	 * Settings HTML Form
 	 *
@@ -578,7 +591,8 @@ class Metabox_Settings {
 		// Get Old Settings Array if set.
 		$old_settings = true == $this->is_page ? $old_settings_page : $old_settings_post;
 
-		$prem_required_plugins = $this->core_functions_class->fts_required_plugins();
+        // Premium Required plugins.
+		$prem_required_plugins = $this->settings_functions->fts_required_plugins();
 
 		$section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $prem_required_plugins[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? 'active' : '';
 
@@ -784,7 +798,6 @@ class Metabox_Settings {
 	 * @since 1.0.0
 	 */
 	public function save_meta_box( $post_id ) {
-
 		// delete_option( $this->hook_id . '_settings_options' );.
 		$current_info = $this->current_info_array();
 

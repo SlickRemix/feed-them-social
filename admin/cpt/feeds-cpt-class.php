@@ -1,6 +1,6 @@
 <?php
 /**
- * Gallery Class
+ * Feeds CPT Class
  *
  * This class is what initiates the Feed Them Social class
  *
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Gallery
+ * Feeds
  *
  * @package FeedThemSocial/Core
  */
@@ -94,10 +94,10 @@ class Feeds_CPT {
      * @param object  $feed_cpt_options All options.
 	 * @param string $main_post_type Main Post Type.
 	 */
-	public function __construct( $feed_cpt_options, $main_post_type, $setting_options_js ) {
+	public function __construct( $feed_cpt_options, $main_post_type, $setting_options_js, $settings_functions) {
 
 
-		$this->set_class_vars( $feed_cpt_options, $main_post_type, $setting_options_js );
+		$this->set_class_vars( $feed_cpt_options, $main_post_type, $setting_options_js, $settings_functions );
 		$this->add_actions_filters();
 
 		//API Tokens
@@ -113,7 +113,7 @@ class Feeds_CPT {
 	 * @param string $main_post_type Main Post Type.
 	 * @since 1.1.8
 	 */
-	public function set_class_vars( $feed_cpt_options, $main_post_type, $setting_options_js  ) {
+	public function set_class_vars( $feed_cpt_options, $main_post_type, $setting_options_js, $settings_functions ) {
 			$this->saved_settings_array = $feed_cpt_options->get_all_options();
 
 			$this->setting_options_js = $setting_options_js;
@@ -128,7 +128,7 @@ class Feeds_CPT {
 
 		if ( current_user_can( 'manage_options' ) ) {
 			// Load Metabox Setings Class (including all of the scripts and styles attached).
-			$this->metabox_settings_class = new Metabox_Settings( $this, $this->saved_settings_array );
+			$this->metabox_settings_class = new Metabox_Settings( $this, $this->saved_settings_array, $settings_functions );
 
 			// Set Main Post Type.
 			$this->metabox_settings_class->set_main_post_type( $main_post_type );
@@ -776,19 +776,9 @@ class Feeds_CPT {
 	 * @since 1.1.6
 	 */
 	public function get_access_token_options( $feed_type ) {
-        if($feed_type){
-	        switch ($feed_type){
-		        // Facebook Access Options Class.
-		        case 'facebook-feed-type':
-			        $facebook_access_options = new Facebook_Access_Options();
 
-			        $access_options = $facebook_access_options->access_options();
-                break;
-	        }
 
-	        return $access_options;
-        }
-        return;
+
 	}
 
 	/**

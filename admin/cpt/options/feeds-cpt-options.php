@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Gallery Options Class
  *
@@ -67,77 +65,7 @@ class Feed_CPT_Options {
 	 * @since 1.0.0
 	 */
 	public function feed_type_options() {
-		$this->all_options['feed_type_options'] = array(
-			'section_attr_key'   => 'feed_type_',
-			'section_title'      => esc_html__( 'Select Social Network', 'feed_them_social' ),
-			'section_wrap_id' => 'fts-tab-content1',
-			'section_wrap_class' => 'fts-tab-content',
-			// Form Info.
-			'form_wrap_classes'  => 'fb-page-shortcode-form',
-			'form_wrap_id'       => 'fts-fb-page-form',
 
-			'main_options'       => array(
-
-				// Gallery Type.
-				array(
-					'input_wrap_class' => 'ft-wp-gallery-type',
-					'option_type'      => 'select',
-					'label'            => trim(
-						sprintf(
-							esc_html__( 'Choose a Social Network: ', 'feed_them_social' ),
-							'<br/><small>',
-							'</small>'
-						)
-					),
-					'type'             => 'text',
-                    'instructional-text' => sprintf(
-                        esc_html__( '1. Select the Social Network you want to create a feed for. %1$s2. Get your access token. %1$s3. Click on the Social Network tab to the left and set your options. %1$s%1$sNote: To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.', 'feed_them_social' ),
-                        '<br/>',
-                        '<a href="post-new.php?post_type=fts" >',
-                        '</a>',
-                    ),
-
-                    'id'               => 'feed_type',
-					'name'             => 'feed_type',
-					'default_value'    => '',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Facebook', 'feed-them-social' ),
-							'value' => 'facebook-feed-type',
-						),
-						array(
-							'label' => esc_html__( 'Instagram', 'feed-them-social' ),
-							'value' => 'instagram-feed-type',
-						),
-						array(
-							'label' => esc_html__( 'Twitter', 'feed-them-social' ),
-							'value' => 'twitter-feed-type',
-						),
-						array(
-							'label' => esc_html__( 'YouTube Feed', 'feed-them-social' ),
-							'value' => 'youtube-feed-type',
-						),
-						array(
-							'label' => esc_html__( 'Combine Streams', 'feed-them-social' ),
-							'value' => 'combine-streams-feed-type',
-						),
-					),
-				),
-
-                array(
-                    'input_wrap_class' => 'fts-shortcode-location',
-                    'option_type'      => 'input',
-                    'label'            => esc_html__( 'Shortcode Location', 'feed_them_social' ),
-                    'type'             => 'text',
-                    'id'               => 'fts_shortcode_location',
-                    'name'             => 'fts_shortcode_location',
-                    'value'              => 'Not Set',
-                ),
-
-			),
-		);
-
-		return $this->all_options['feed_type_options'];
 	} //END LAYOUT OPTIONS
 
 	/**

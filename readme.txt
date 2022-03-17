@@ -75,6 +75,8 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 = Version 2.9.8 Thursday, March 17th, 2022 =
   * NEW: All feeds are now encrypted before saving cache to the database. Just another way we are safeguarding your personal data.
   * NEW: Facebook and Instagram Access Tokens are being encrypted before saving to the database. YouTube & Twitter will be updated in 3.0.
+  * FIX: YouTube Options: Error response for API Tokens.
+  * FIX: YouTube Feed caching.
   * NOTE: Tested with WordPress Version 5.9.2
 
 = Version 2.9.7.1 Monday, January 31st, 2022 =

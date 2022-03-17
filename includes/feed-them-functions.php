@@ -3555,49 +3555,43 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 							console.log(response);
 							<?php
 							if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] ) {
-								foreach ( $auth_obj as $user_id ) {
-									if ( ! isset( $user_id->error->errors[0]->reason ) ) {
-										$type_of_key = __( 'API key', 'feed-them-social' );
-									} elseif ( ! isset( $user_id->error->errors[0]->reason ) && ! empty( $youtube_access_token ) ) {
-										$type_of_key = __( 'Access Token', 'feed-them-social' );
-									}
 
-									// Error Check!
-									if ( ! isset( $auth_obj->error->errors[0]->reason ) ) {
-										$fts_youtube_message = sprintf(
-											esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
-											'<div class="fts-successful-api-token">',
-											esc_html( $type_of_key ),
-											'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
-											'</a>',
-											'</div><div class="clear"></div>'
-										);
-									} elseif ( isset( $user_id->error->errors[0]->reason ) ) {
-										$fts_youtube_message = sprintf(
-											esc_html( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
-											'<div class="fts-failed-api-token">',
-											esc_html( $type_of_key ),
-											esc_html( $user_id->errors[0]->reason ),
-											'</div><div class="clear"></div>'
-										);
-									}
+                                $user_id        = $auth_obj;
+                                $error_response = $user_id->error->errors[0]->message ? 'true' : 'false';
+                                $type_of_key = __( 'Access Token', 'feed-them-social' );
 
-									break;
-								}
+                                // Error Check!
+                                if ( 'true' === $error_response ) {
+                                    $fts_youtube_message = sprintf(
+                                        esc_html( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
+                                        '<div class="fts-failed-api-token">',
+                                        esc_html( $type_of_key ),
+                                        esc_html( $user_id->error->errors[0]->message ),
+                                        '</div><div class="clear"></div>'
+                                    );
+                                 }
+                                 else {
+                                    $fts_youtube_message = sprintf(
+                                        esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
+                                        '<div class="fts-successful-api-token">',
+                                        esc_html( $type_of_key ),
+                                        '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
+                                        '</a>',
+                                        '</div><div class="clear"></div>'
+                                    );
+                                 } ?>
+                                jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
 
-								?>
-							jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
+                               <?php if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) { ?>
+                                    jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>');
+                                    jQuery('.fts-failed-api-token').hide();
 
-								<?php if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) { ?>
-							jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>');
-							jQuery('.fts-failed-api-token').hide();
-
-							if (!jQuery('.fts-successful-api-token').length) {
-								jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
-							}
-									<?php
-} else {
-	?>
+                                    if (!jQuery('.fts-successful-api-token').length) {
+                                        jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
+                                    }
+                            <?php
+                        } else {
+                        ?>
 							if (jQuery('.fts-failed-api-token').length) {
 								jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
 								jQuery('.fts-failed-api-token').hide();
@@ -3619,7 +3613,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			return $auth_obj['access_token'];
 		}
 	}
-
 
 	/**
 	 * FTS YouTube Link Filter

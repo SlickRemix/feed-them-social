@@ -216,15 +216,18 @@ class FTS_Youtube_Options_Page {
 						$fts_functions->feed_them_youtube_refresh_token();
 					}
 
-					foreach ( $test_app_token_response as $user_id ) {
-						if ( ! isset( $user_id->error->errors[0]->reason ) && ! empty( $youtube_api_key ) ) {
+                    $user_id = $test_app_token_response;
+                    $error_response = $test_app_token_response->error->errors[0]->message ? 'true' : 'false';
+                    // print_r( $error_response );
+
+						if ( 'false' === $error_response && ! empty( $youtube_api_key ) ) {
 							$type_of_key = __( 'API key', 'feed-them-social' );
-						} elseif ( ! isset( $user_id->error->errors[0]->reason ) && ! empty( $youtube_access_token ) ) {
+						} elseif ( 'false' === $error_response && ! empty( $youtube_access_token ) ) {
 							$type_of_key = __( 'Access Token', 'feed-them-social' );
 						}
 
 						// Error Check!
-						if ( ! isset( $test_app_token_response->error->errors[0]->reason ) && ! empty( $youtube_api_key ) || ! isset( $test_app_token_response->error->errors[0]->reason ) && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
+						if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
 							echo sprintf(
 								esc_html__( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
 								'<div class="fts-successful-api-token">',
@@ -233,12 +236,12 @@ class FTS_Youtube_Options_Page {
 								'</a>',
 								'</div>'
 							);
-						} elseif ( isset( $user_id->error->errors[0]->reason ) && ! empty( $youtube_api_key ) || ! isset( $user_id->error->errors[0]->reason ) && ! empty( $youtube_access_token ) ) {
+						} elseif ( 'true' === $error_response && ! empty( $youtube_api_key ) || 'true' === $error_response && ! empty( $youtube_access_token ) ) {
 							echo sprintf(
 								esc_html__( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
 								'<div class="fts-failed-api-token">',
 								esc_html( $type_of_key ),
-								esc_html( $user_id->errors[0]->reason ),
+								esc_html( $user_id->error->errors[0]->message ),
 								'</div>'
 							);
 						}
@@ -249,8 +252,6 @@ class FTS_Youtube_Options_Page {
 								'</div>'
 							);
 						}
-						break;
-					}
 					?>
 
 

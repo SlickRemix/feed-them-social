@@ -27,6 +27,10 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 	 * @since 2.3.2
 	 */
 	public function __construct() {
+
+        // Data Protection
+        $this->data_protection = new Data_Protection();
+
 		add_shortcode( 'fts_youtube', array( $this, 'fts_youtube_func' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'fts_youtube_head' ) );
@@ -196,7 +200,8 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 						}
 
 						// $fts_functions_class->delete_permanent_feed_cache($user_cache_name);
-
+                        // YO!
+                        // echo ' why you no use cache check ';
 						$user_returned = $this->use_cache_check( $youtube_user_id_data, $user_cache_name );
 
 						// If the YT User returned is not empty and is an arary.
@@ -271,6 +276,10 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 					}
 
 					if ( isset( $youtube_feed_api_url ) ) {
+                        // YO!
+                        // STOPPING HERE. SEEMS AS THOUGH THE URL OR SOMETHING IS NOT CACHING IDK
+                        // echo ' why you no use cache check ';
+                        // echo $youtube_feed_api_url;
 						// Call, fetch and Check data from API url!
 						$feed_returned = $this->use_cache_check( $youtube_feed_api_url, $feed_cache_name );
 
@@ -804,9 +813,8 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 			// Youtube Use Comments Cache!
 			if ( false !== $this->fts_check_feed_cache_exists( $youtube_comments_cache_url ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
-				$comments = $this->fts_get_feed_cache( $youtube_comments_cache_url );
+				$comments = json_decode( $this->fts_get_feed_cache( $youtube_comments_cache_url ) );
 			} else {
-
 				// https://developers.google.com/youtube/v3/docs/comments/list.
 				$comments['items'] = 'https://www.googleapis.com/youtube/v3/commentThreads?' . $youtube_api_key_or_token . '&textFormat=plainText&part=snippet&videoId=' . $video_id . '&maxResults=' . $comments_count . '';
 				$comments_returned = $this->fts_get_feed_json( $comments );
@@ -884,7 +892,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 			// Youtube Use Comments Cache.
 			if ( ( false !== $this->fts_check_feed_cache_exists( $youtube_single_video_cache_url ) && ! isset( $_GET['load_more_ajaxing'] ) ) && empty( $youtube_access_token_new ) ) {
-				$video = $this->fts_get_feed_cache( $youtube_single_video_cache_url );
+				$video = json_decode( $this->fts_get_feed_cache( $youtube_single_video_cache_url ) );
 			} else {
 
 				$video_returned = $this->fts_get_feed_json( $video );
@@ -930,7 +938,6 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 	 * Use Cache Check
 	 *
 	 * Checks to see if we need to use cache or not
-	 * n
 	 *
 	 * @param string|array $api_call API Call.
 	 * @param string       $cache_name Cache name.
@@ -952,41 +959,16 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 		$feed_data = $this->fts_get_feed_json( $api_call );
 
 		if ( ! empty( $feed_data ) && ! empty( $cache_name ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
+
 			// Error Check.
 			$fts_error_check          = new fts_error_handler();
 			$fts_error_check_complete = $fts_error_check->youtube_error_check( $feed_data );
 
-			if ( is_array( $fts_error_check_complete ) && ( true === $fts_error_check_complete[0] || 1 === $fts_error_check_complete[0] ) ) {
-
-				// If old Cache still exists use it instead of showing an error. This prevents feed from breaking if old cache is still there.
-				if ( true === $this->fts_check_feed_cache_exists( $cache_name, true ) ) {
-
-					// If Current user is Admin and Cache exists for use then still show Admin the error for debugging purposes.
-					if ( current_user_can( 'administrator' ) ) {
-						echo wp_kses(
-							$fts_error_check_complete[1] . ' <em>**NOTE** This error is only shown to logged in Admins of this WordPress install</em>',
-							array(
-								'a'      => array(
-									'href'  => array(),
-									'title' => array(),
-								),
-								'br'     => array(),
-								'em'     => array(),
-								'strong' => array(),
-							)
-						);
-					}
-
-					// Return Cache because it exists in Database. Better than showing nothing right?
-					return $this->fts_get_feed_cache( $cache_name, true );
-				}
-			} elseif ( false !== $this->fts_check_feed_cache_exists( $cache_name ) ) {
-
-				// Create Cache.
-				$this->fts_create_feed_cache( $cache_name, $feed_data );
-
-				return $feed_data;
+            // YO! SRL: 4-15-22. added empty( $fts_error_check_complete ) because we are not getting a response if there is no error from our error handler. TODO: That function needs work.
+			if ( is_array( $fts_error_check_complete ) && ( true === $fts_error_check_complete[0] || 1 === $fts_error_check_complete[0] ) || empty( $fts_error_check_complete ) ) {
+                    $this->fts_create_feed_cache( $cache_name, $feed_data );
 			}
+
 		}
 
 		return $feed_data;

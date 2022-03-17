@@ -137,7 +137,7 @@ class fts_error_handler {
 	 * @since 1.9.6
 	 */
 	public function facebook_error_check( $fb_shortcode, $feed_data ) {
-		// return error if no data retreived!
+		// return error if no data retrieved!
 		try {
 			if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
 				// Solution Text!
@@ -211,16 +211,17 @@ class fts_error_handler {
 	 */
 	public function youtube_error_check( $feed_data ) {
 
-        $feed_data = json_decode( $feed_data['data'] );
-
+      // print_r($feed_data);
+       $feed_data = json_decode( $feed_data['data'] );
 
         //error_log( print_r( $feed_data, true ) );
 
-		// return error if no data retreived!
-		try {
-			if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
+		// return error if no data retrieved!
+       // print_r($feed_data);
 
-				// Solution Text!
+		try {
+            if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
+
 				$solution_text = 'Here are some possible solutions to fix the error.';
 				if ( isset( $feed_data->error ) && 400 === $feed_data->error->code  ) {
 					throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - A VALID access token is required to request this resource. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
@@ -236,13 +237,12 @@ class fts_error_handler {
 
 					throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">' . $output . '</div>' );
 				}
-
-                //throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
+                // Below not being used.
+                // throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
 			}
 		} catch ( \Exception $e ) {
             return array( true, $e->getMessage() );
 		}
-        return;
 	}
 }
 

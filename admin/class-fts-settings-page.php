@@ -20,6 +20,8 @@ namespace feedthemsocial;
  */
 class FTS_Settings_Page {
 
+    public $data_protection;
+
 	/**
 	 * Construct
 	 *
@@ -28,7 +30,9 @@ class FTS_Settings_Page {
 	 * @since 1.9.6
 	 */
 	public function __construct() {
-	}
+        // Data Protection
+        $this->data_protection = new Data_Protection();
+    }
 
 	/**
 	 * Feed Them Settings Page
@@ -47,8 +51,8 @@ class FTS_Settings_Page {
 		$fts_fb_options_nonce = wp_create_nonce( 'fts-settings-page-nonce' );
 
 		if ( wp_verify_nonce( $fts_fb_options_nonce, 'fts-settings-page-nonce' ) ) {
-			?>
 
+            ?>
 			<div class="feed-them-social-admin-wrap">
 				<div class="fts-backg"></div>
 				<div class="fts-content">
@@ -191,6 +195,10 @@ class FTS_Settings_Page {
 										echo '<div class="feed-them-clear-cache-text">' . esc_html( $fts_functions->feed_them_clear_cache() ) . '</div>';
 									}
 
+                                    if ( isset( $_GET['cache'] ) && 'clearftsadmincache' === $_GET['cache'] ) {
+                                        echo '<div class="feed-them-clear-cache-text">' . esc_html( $fts_functions->feed_them_clear_admin_cache() ) . '</div>';
+                                    }
+
 									$fts_dev_mode_cache = null !== get_option( 'fts_clear_cache_developer_mode' ) ? get_option( 'fts_clear_cache_developer_mode' ) : '900';
 									$fts_admin_bar_menu = get_option( 'fts_admin_bar_menu' );
 									?>
@@ -198,6 +206,10 @@ class FTS_Settings_Page {
 									<form method="post" action="?page=feed-them-settings-page&cache=clearcache&tab=global_options">
 										<input class="feed-them-social-admin-submit-btn" type="submit" value="<?php echo esc_html__( 'Clear All FTS Feeds Cache', 'feed-them-social' ); ?>"/>
 									</form>
+
+                                    <form style="display: none" method="post" action="?page=feed-them-settings-page&cache=clearftsadmincache&tab=global_options">
+                                        <input class="feed-them-social-admin-submit-btn" type="submit" value="<?php echo esc_html__( 'Clear All FTS Admin Options Cache', 'feed-them-social' ); ?>"/>
+                                    </form>
 								</div><!--/feed-them-clear-cache-->
 								<!-- custom option for padding -->
 								<form method="post" class="fts-color-settings-admin-form" action="options.php">
@@ -1067,22 +1079,33 @@ class FTS_Settings_Page {
 						);
 					}
 
+                    <?php
+                    // Instagram Access Token.
+                    $ig_custom_api_token = $fts_functions->get_fts_instagram_custom_api_token();
+                    // Facebook Access Token.
+                    $fb_custom_api_token = $fts_functions->get_fb_access_token();
+                    // Facebook BIZ Access Token.
+                    $fb_custom_api_token_biz = $fts_functions->get_fb_biz_access_token();
+                    // Facebook/Instagram biz token.
+                    $fb_ig_custom_api_token_biz = $fts_functions->get_ig_fb_biz_access_token();
+
+                    ?>
 					if (window.location.hash && getQueryString('feed_type') == 'instagram') {
 						jQuery('#feed-selector-form').find('option[value=instagram-shortcode-form]').attr('selected', 'selected');
 						jQuery('.shortcode-generator-form.instagram-shortcode-form').show();
 						jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_id' ) ); ?>');
-						jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_api_token' ) ); ?>');
+						jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo esc_js( $ig_custom_api_token ); ?>');
 					}
 
 					jQuery('#shortcode-form-selector, #instagram-messages-selector').bind('change', function (e) {
 						if (jQuery('#instagram-messages-selector').val() == 'basic') {
 							jQuery('#instagram_id, #insta_access_token').val('');
 							jQuery('#instagram_id').val(jQuery('#instagram_id').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_id' ) ); ?>');
-							jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo esc_js( get_option( 'fts_instagram_custom_api_token' ) ); ?>');
+							jQuery('#insta_access_token').val(jQuery('#insta_access_token').val() + '<?php echo esc_js( $ig_custom_api_token ); ?>');
 						}
 						else if (jQuery('#instagram-messages-selector').val() == 'hashtag' || jQuery('#instagram-messages-selector').val() == 'business') {
                             jQuery('#instagram_id').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token_user_id' ) ); ?>');
-                            jQuery('#insta_access_token').val('<?php echo esc_js( get_option( 'fts_facebook_instagram_custom_api_token' ) ); ?>');
+                            jQuery('#insta_access_token').val('<?php echo esc_js( $fb_ig_custom_api_token_biz ); ?>');
                         }
 						else {
 							jQuery('#instagram_id').val('');
@@ -1094,14 +1117,14 @@ class FTS_Settings_Page {
 						jQuery('#feed-selector-form').find('option[value=fts-fb-page-shortcode-form]').attr('selected', 'selected');
 						jQuery('#fts-tab-content1 .fts-fb-page-shortcode-form').show();
 						jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id' ) ); ?>');
-						jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token' ) ); ?>');
+						jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( $fb_custom_api_token ); ?>');
 					}
 
 					jQuery('#shortcode-form-selector, #facebook-messages-selector').bind('change', function (e) {
 						if (jQuery('#facebook-messages-selector').val() == 'page' || jQuery('#facebook-messages-selector').val() == 'album_photos' || jQuery('#facebook-messages-selector').val() == 'albums' || jQuery('#facebook-messages-selector').val() == 'album_videos') {
 							jQuery('#fb_page_id, #fb_access_token').val('');
 							jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id' ) ); ?>');
-							jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token' ) ); ?>');
+							jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( $fb_custom_api_token ); ?>');
 						}
 						else {
 
@@ -1119,14 +1142,14 @@ class FTS_Settings_Page {
 						jQuery('.align-images-wrap,.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts, .inst-text-facebook-page').hide();
 
 						jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id_biz' ) ); ?>');
-						jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_biz' ) ); ?>');
+						jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( $fb_custom_api_token_biz ); ?>');
 					}
 
 					jQuery('#shortcode-form-selector, #facebook-messages-selector').bind('change', function (e) {
 						if (jQuery('#facebook-messages-selector').val() == 'reviews') {
 							jQuery('#fb_page_id, #fb_access_token').val('');
 							jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id_biz' ) ); ?>');
-							jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_biz' ) ); ?>');
+							jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( $fb_custom_api_token_biz ); ?>');
 						}
 						else {
 

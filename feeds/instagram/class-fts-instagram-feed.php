@@ -28,6 +28,9 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 	public function __construct() {
 		add_shortcode( 'fts_instagram', array( $this, 'fts_instagram_func' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'fts_instagram_head' ) );
+
+         // Data Protection
+        $this->data_protection = new Data_Protection();
 	}
 
 	/**
@@ -36,7 +39,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 	 * Takes our description and converts and links to a tags.
 	 *
 	 * @param string $bio The Bio.
-	 * @return null|string|string[]
+	 * @return null|string
 	 * @since 1.9.6
 	 */
 	public function convert_instagram_description_links( $bio ) {
@@ -54,7 +57,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 	 * Convert any link found in the description to a clickable one.
 	 *
 	 * @param string $instagram_caption_a_title Caption title.
-	 * @return null|string|string[]
+	 * @return null|string
 	 * @since 1.9.6
 	 */
 	public function convert_instagram_links( $instagram_caption_a_title ) {
@@ -360,12 +363,11 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				$pics_count = '10';
 			}
 
-
 			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			$instagram_data_array = array();
 
-			$fts_business_or_hashtag_check_token_type = '' === $access_token ? get_option( 'fts_facebook_instagram_custom_api_token' ) : $access_token;
-			$fts_check_token_type                     = '' === $access_token ? get_option( 'fts_instagram_custom_api_token' ) : $access_token;
+			$fts_business_or_hashtag_check_token_type = '' === $access_token ? $this->data_protection->decrypt( get_option( 'fts_facebook_instagram_custom_api_token' ) ) : $access_token;
+			$fts_check_token_type                     = '' === $access_token ? $this->data_protection->decrypt( get_option( 'fts_instagram_custom_api_token' ) ) : $access_token;
 			$fts_instagram_access_token               = 'hashtag' === $type || 'business' === $type ? $fts_business_or_hashtag_check_token_type : $fts_check_token_type;
 			$fts_instagram_show_follow_btn            = get_option( 'instagram_show_follow_btn' );
 			$fts_instagram_show_follow_btn_where      = get_option( 'instagram_show_follow_btn_where' );
@@ -408,8 +410,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				// https://developers.facebook.com/docs/instagram-api/reference/hashtag/recent-media
 				// https://developers.facebook.com/docs/instagram-api/reference/hashtag/top-media
 
-
-				$cache_hashtag_id_array = 'instagram_cache_' . $instagram_id . '_num' . $pics_count . '_search' . $search . '_hash' . $hashtag . '';
+				$cache_hashtag_id_array = 'instagram_hashtag_id_cache_' . $instagram_id . '_num' . $pics_count . '_search' . $search . '_hash' . $hashtag . '';
 
 				if ( false === $this->fts_check_feed_cache_exists( $cache_hashtag_id_array ) ) {
 					// This call is required because users enter a hashtag name, then we have to check the API to see if it exists and if it does return the ID number for that hashtag.
@@ -419,16 +420,26 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 
 					$hashtag_error_check = json_decode( $hashtag_response['data'] );
 
+                    /* echo '<br/><pre>';
+                    print_r( $hashtag_error_check );
+                    echo '</pre>';*/
+
 					foreach ( $hashtag_error_check->data as $ht ) {
 						$hashtag_id = $ht->id;
 					}
 
-					$this->fts_create_feed_cache( $cache_hashtag_id_array, $hashtag_response );
-				} else {
-					$response            = $this->fts_get_feed_cache( $cache_hashtag_id_array );
-					$hashtag_error_check = json_decode( $response['data'] );
+					$this->fts_create_feed_cache( $cache_hashtag_id_array, $hashtag_error_check );
 
-					foreach ( $hashtag_error_check->data as $ht ) {
+				} else {
+
+					$response            = $this->fts_get_feed_cache( $cache_hashtag_id_array );
+					$hashtag_error_check = json_decode( $response );
+
+                   /* echo '<br/><pre>';
+                    print_r( $hashtag_error_check);
+                    echo '</pre>';*/
+
+                   foreach ( $hashtag_error_check->data as $ht ) {
 						$hashtag_id = $ht->id;
 					}
 
@@ -444,7 +455,6 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				//  SRL: 01/19/21 Work around so we can load more than one hashtag shortcode on the same page that has the same user ID and pics_count otherwise it will be interpreted as
 				//  whatever the first shortcodes hashtag making all the feeds have the same photos.
 			    $pics_count .= '?1=' . $hashtag;
-
 
 				$hash_final_cache = 'instagram_final_cache_' . $instagram_id . '_num' . $pics_count . '_search' . $search . '_hash' . $hashtag . '';
 
@@ -509,7 +519,10 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                             }
                       }
                     else {
-                         $insta_data = $this->fts_get_feed_cache( $hash_final_cache );
+
+                        $insta_data = $this->fts_get_feed_cache( $hash_final_cache );
+
+                        $insta_data = json_decode( $insta_data );
 
                        // echo 'eeeeeeeeeeee';
                         // Used for Testing Only.
@@ -534,7 +547,6 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 					// First we make sure the feed is not cached already before trying to run the Instagram API.
                     if ( false === $this->fts_check_feed_cache_exists( $business_cache ) ) {
 
-
                             $instagram_business_response = $this->fts_get_feed_json( $instagram_data_array );
 
                             $instagram_business = json_decode( $instagram_business_response['data'] );
@@ -542,31 +554,15 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                             // We loop through the media ids from the above $instagram_business_data_array['data'] and request the info for each to create an array we can cache.
                             $instagram_business_output = (object) [ 'data' => [] ];
 
-                        /*echo 'bbbbb';
-                            echo '<br/><pre>';
-                        	    print_r( $instagram_business );
-                        	echo '</pre>';*/
-
-
-                        foreach ( $instagram_business->data as $media ) {
-                            $media_id                              = $media->id;
-                            $instagram_business_data_array['data'] = 'https://graph.facebook.com/' . $media_id . '?fields=caption,comments_count,like_count,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $fts_instagram_access_token_final;
-                            $instagram_business_media_response     = $this->fts_get_feed_json( $instagram_business_data_array );
-                            $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
-                            $instagram_business_output->data[]     = $instagram_business_media;
-                        }
+                            foreach ( $instagram_business->data as $media ) {
+                                $media_id                              = $media->id;
+                                $instagram_business_data_array['data'] = 'https://graph.facebook.com/' . $media_id . '?fields=caption,comments_count,like_count,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $fts_instagram_access_token_final;
+                                $instagram_business_media_response     = $this->fts_get_feed_json( $instagram_business_data_array );
+                                $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
+                                $instagram_business_output->data[]     = $instagram_business_media;
+                            }
                             // The reason we array_merge the $instagram_business_output is because it contains the paging for next and previous links so we can loadmore posts
                             $insta_data = (object) array_merge( (array) $instagram_business, (array) $instagram_business_output );
-
-                       /* echo 'rrrrrrrrrrrr';
-                        	echo '<br/><pre>';
-                        	    print_r( $instagram_business_output );
-                        	echo '</pre>';
-
-                        	 echo 'ssssssss';
-                        	echo '<br/><pre>';
-                        	    print_r( $insta_data );
-                        	echo '</pre>';*/
 
                             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                                 $this->fts_create_feed_cache( $business_cache, $insta_data );
@@ -576,7 +572,8 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                     else {
                         $insta_data = $this->fts_get_feed_cache( $business_cache );
 
-                       // echo 'eeeeeeeeeeee';
+                        $insta_data = json_decode( $insta_data );
+
                         // Used for Testing Only.
                         if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
                             esc_html_e( 'Business Array Check Cached', 'feed-them-social' );
@@ -622,7 +619,8 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                     else {
                         $insta_data = $this->fts_get_feed_cache( $basic_cache );
 
-                       // echo 'eeeeeeeeeeee';
+                        $insta_data = json_decode( $insta_data );
+
                         // Used for Testing Only.
                         if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
                             esc_html_e( 'Array Check Cached', 'feed-them-social' );
@@ -896,204 +894,205 @@ if ( isset( $profile_description, $type ) && 'yes' === $profile_description  && 
 				$set_zero = 0;
 			} // END Make sure it's not ajaxing
 
-			if ( ! isset( $insta_data->data ) ) {
+			if ( ! isset( $insta_data->data ) || empty( $insta_data->data ) ) {
 				if ( ! function_exists( 'curl_init' ) ) {
 					echo esc_html( 'cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this.', 'feed-them-social' ) . '</div>';
 				} else {
 					echo esc_html( 'To see the Instagram feed you need to add your own API Token to the Instagram Options page of our plugin.', 'feed-them-social' ) . '</div>';
 				}
+                //If Instagram Fails show message!
+                echo esc_html( 'Oops, something is wrong. Instagram feed not loaded', 'feed-them-social' ) . '</div>';
 			}
+
 			// echo '<pre style="text-align: left;">asdfasdf ';
 			// print_r( $insta_data );
 			// echo '</pre>';
-			foreach ( $insta_data->data as $post_data ) {
-				if ( isset( $set_zero ) && $set_zero === $pics_count ) {
-					break;
-				}
 
-				// Create Instagram Variables
-				// tied to date function.
-				$feed_type   = 'instagram';
-				$fb_api_time = isset( $post_data->timestamp ) ? $post_data->timestamp : '';
-				$times       = isset( $post_data->created_time ) ? $post_data->created_time : $fb_api_time;
-				// call our function to get the date.
-				$instagram_date = $this->fts_custom_date( $times, $feed_type );
+			if ( $insta_data->data) {
+                foreach ( $insta_data->data as $post_data ) {
+                    if ( isset( $set_zero ) && $set_zero === $pics_count ) {
+                        break;
+                    }
 
-				if ( 'hashtag' === $type || 'location' === $type ) {
-					$username           = isset( $post_data->user->username ) ? $post_data->user->username : '';
-					$profile_picture    = isset( $post_data->user->profile_picture ) ? $post_data->user->profile_picture : '';
-					$full_name          = isset( $post_data->user->full_name ) ? $post_data->user->full_name : '';
-					$instagram_username = $username;
-				} elseif ( 'basic' === $type ) {
-					$instagram_username = $post_data->username;
-					$username           = $instagram_username;
-				} elseif ( 'business' === $type ) {
-					$instagram_username = $post_data->username;
-					$username           = $instagram_username;
-				} else {
-					$instagram_username = $instagram_user_info->data->username;
-				}
-				$instagram_caption_a_hashtag_title = isset( $post_data->caption ) ? $post_data->caption : '';
-				$instagram_caption_a_title         = isset( $post_data->caption->text ) ? $post_data->caption->text : $instagram_caption_a_hashtag_title;
-				$instagram_caption_a_title         = htmlspecialchars( $instagram_caption_a_title );
-				$instagram_caption                 = $this->convert_instagram_links( $instagram_caption_a_title );
+                    // Create Instagram Variables
+                    // tied to date function.
+                    $feed_type   = 'instagram';
+                    $fb_api_time = isset( $post_data->timestamp ) ? $post_data->timestamp : '';
+                    $times       = isset( $post_data->created_time ) ? $post_data->created_time : $fb_api_time;
+                    // call our function to get the date.
+                    $instagram_date = $this->fts_custom_date( $times, $feed_type );
 
-				$instagram_thumb_url                 = isset( $post_data->images->thumbnail->url ) ? $post_data->images->thumbnail->url : '';
-				$instagram_lowrez_url                = isset( $post_data->images->standard_resolution->url ) ? $post_data->images->standard_resolution->url : '';
-				$instagram_video_standard_resolution = isset( $post_data->videos->standard_resolution->url ) ? $post_data->videos->standard_resolution->url : '';
+                    if ( 'hashtag' === $type || 'location' === $type ) {
+                        $username           = isset( $post_data->user->username ) ? $post_data->user->username : '';
+                        $profile_picture    = isset( $post_data->user->profile_picture ) ? $post_data->user->profile_picture : '';
+                        $full_name          = isset( $post_data->user->full_name ) ? $post_data->user->full_name : '';
+                        $instagram_username = $username;
+                    } elseif ( 'basic' === $type ) {
+                        $instagram_username = $post_data->username;
+                        $username           = $instagram_username;
+                    } elseif ( 'business' === $type ) {
+                        $instagram_username = $post_data->username;
+                        $username           = $instagram_username;
+                    } else {
+                        $instagram_username = $instagram_user_info->data->username;
+                    }
+                    $instagram_caption_a_hashtag_title = isset( $post_data->caption ) ? $post_data->caption : '';
+                    $instagram_caption_a_title         = isset( $post_data->caption->text ) ? $post_data->caption->text : $instagram_caption_a_hashtag_title;
+                    $instagram_caption_a_title         = htmlspecialchars( $instagram_caption_a_title );
+                    $instagram_caption                 = $this->convert_instagram_links( $instagram_caption_a_title );
 
-				if ( isset( $_SERVER['HTTPS'] ) ) {
-					$instagram_thumb_url  = str_replace( 'http://', 'https://', $instagram_thumb_url );
-					$instagram_lowrez_url = str_replace( 'http://', 'https://', $instagram_lowrez_url );
-				}
+                    $instagram_thumb_url                 = isset( $post_data->images->thumbnail->url ) ? $post_data->images->thumbnail->url : '';
+                    $instagram_lowrez_url                = isset( $post_data->images->standard_resolution->url ) ? $post_data->images->standard_resolution->url : '';
+                    $instagram_video_standard_resolution = isset( $post_data->videos->standard_resolution->url ) ? $post_data->videos->standard_resolution->url : '';
 
-				// Super Gallery If statement.
-				if ( 'yes' === $super_gallery ) {
-					?>
-			<div class='slicker-instagram-placeholder fts-instagram-wrapper' style='background-image:url(<?php echo esc_url( $this->fts_instagram_image_link( $post_data ) ); ?>);'>
-					<?php
+                    if ( isset( $_SERVER['HTTPS'] ) ) {
+                        $instagram_thumb_url  = str_replace( 'http://', 'https://', $instagram_thumb_url );
+                        $instagram_lowrez_url = str_replace( 'http://', 'https://', $instagram_lowrez_url );
+                    }
 
-					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) {
-						?>
-					<div class="fts-instagram-popup-profile-wrap">
-						<div class="fts-profile-pic"><?php $user_type = isset( $type ) && 'hashtag' === $type ? 'explore/tags/' . $hashtag : $username; ?>
-							<a href="https://www.instagram.com/<?php echo esc_html( $user_type ); ?>" target="_blank" rel="noreferrer">
-						<?php
-						if ( 'user' === $type || 'business' === $type ) {
-							?>
-									<img src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>"/>
-								<?php
-						} else {
-							?>
-									<span class="fts-instagram-icon" style="height:40px; width:40px; line-height:40px; font-size:40px;"></span><?php } ?>
-							</a>
-						</div>
-						<div class="fts-profile-name-wrap">
+                    // Super Gallery If statement.
+                    if ( 'yes' === $super_gallery ) {
+                        ?>
+                <div class='slicker-instagram-placeholder fts-instagram-wrapper' style='background-image:url(<?php echo esc_url( $this->fts_instagram_image_link( $post_data ) ); ?>);'>
+                        <?php
 
-							<div class="fts-isnta-full-name">
-								<a href="https://www.instagram.com/<?php echo esc_html( $user_type ); ?>" target="_blank" rel="noreferrer" style="color: #000;">
-								<?php
-								if ( 'user' === $type ) {
-									echo esc_html( $full_name );
-								} elseif ( 'basic' === $type || 'business' === $type ) {
-									echo esc_html( $instagram_username );
-								} else {
-									echo esc_html( '#' . $hashtag );
-								}
-								?>
-								</a>
-							</div>
+                        if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) {
+                            ?>
+                        <div class="fts-instagram-popup-profile-wrap">
+                            <div class="fts-profile-pic"><?php $user_type = isset( $type ) && 'hashtag' === $type ? 'explore/tags/' . $hashtag : $username; ?>
+                                <a href="https://www.instagram.com/<?php echo esc_html( $user_type ); ?>" target="_blank" rel="noreferrer">
+                            <?php
+                            if ( 'user' === $type || 'business' === $type ) {
+                                ?>
+                                        <img src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>"/>
+                                    <?php
+                            } else {
+                                ?>
+                                        <span class="fts-instagram-icon" style="height:40px; width:40px; line-height:40px; font-size:40px;"></span><?php } ?>
+                                </a>
+                            </div>
+                            <div class="fts-profile-name-wrap">
 
-							<?php
-							if ( isset( $instagram_username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where && 'hashtag' !== $type ) {
-								echo '<div class="fts-follow-header-wrap">';
-								echo $this->social_follow_button( 'instagram', $instagram_username );
-								echo '</div>';
-							}
-							?>
-						</div>
-					</div>
-						<?php
-						// this is already escaping in the function, re escaping will cause errors.
-						 echo $this->fts_instagram_popup_description( $post_data );
-					}
+                                <div class="fts-isnta-full-name">
+                                    <a href="https://www.instagram.com/<?php echo esc_html( $user_type ); ?>" target="_blank" rel="noreferrer" style="color: #000;">
+                                    <?php
+                                    if ( 'user' === $type ) {
+                                        echo esc_html( $full_name );
+                                    } elseif ( 'basic' === $type || 'business' === $type ) {
+                                        echo esc_html( $instagram_username );
+                                    } else {
+                                        echo esc_html( '#' . $hashtag );
+                                    }
+                                    ?>
+                                    </a>
+                                </div>
 
-					// We need to check the type now because hashtag feeds from facebooks API use all caps now.
-					$data_type_image    = isset( $post_data->type ) && 'image' === $post_data->type ? 'image' : 'IMAGE';
-					$data_type_video    = isset( $post_data->type ) && 'video' === $post_data->type ? 'video' : 'VIDEO';
-					$data_type_carousel = isset( $post_data->type ) && 'carousel' === $post_data->type ? 'carousel' : 'CAROUSEL_ALBUM';
-					$data_type_hashtag  = isset( $post_data->media_type ) ? $post_data->media_type : '';
-					$data_type          = isset( $post_data->type ) ? $post_data->type : $data_type_hashtag;
+                                <?php
+                                if ( isset( $instagram_username ) && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where && 'hashtag' !== $type ) {
+                                    echo '<div class="fts-follow-header-wrap">';
+                                    echo $this->social_follow_button( 'instagram', $instagram_username );
+                                    echo '</div>';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                            <?php
+                            // this is already escaping in the function, re escaping will cause errors.
+                             echo $this->fts_instagram_popup_description( $post_data );
+                        }
 
-					// Check to see if a video is the first child if children are present
-					$instagram_basic_api_child_url = isset( $post_data->children->data[0]->media_url ) ? $post_data->children->data[0]->media_url : '';
-					$instagram_api_child_url       = isset( $post_data->carousel_media ) ? $post_data->carousel_media[0]->videos->standard_resolution->url : $instagram_basic_api_child_url;
-					// $child url is the fb/instagram api
-					$child_url       = isset( $post_data->children ) ? $post_data->children->data[0]->media_url : $instagram_api_child_url;
-					$data_type_child = ! empty( $child_url ) && false !== strpos( $child_url, 'mp4' ) ? 'VIDEO' : '';
+                        // We need to check the type now because hashtag feeds from facebooks API use all caps now.
+                        $data_type_image    = isset( $post_data->type ) && 'image' === $post_data->type ? 'image' : 'IMAGE';
+                        $data_type_video    = isset( $post_data->type ) && 'video' === $post_data->type ? 'video' : 'VIDEO';
+                        $data_type_carousel = isset( $post_data->type ) && 'carousel' === $post_data->type ? 'carousel' : 'CAROUSEL_ALBUM';
+                        $data_type_hashtag  = isset( $post_data->media_type ) ? $post_data->media_type : '';
+                        $data_type          = isset( $post_data->type ) ? $post_data->type : $data_type_hashtag;
 
-					?>
-				<a href='<?php
+                        // Check to see if a video is the first child if children are present
+                        $instagram_basic_api_child_url = isset( $post_data->children->data[0]->media_url ) ? $post_data->children->data[0]->media_url : '';
+                        $instagram_api_child_url       = isset( $post_data->carousel_media ) ? $post_data->carousel_media[0]->videos->standard_resolution->url : $instagram_basic_api_child_url;
+                        // $child url is the fb/instagram api
+                        $child_url       = isset( $post_data->children ) ? $post_data->children->data[0]->media_url : $instagram_api_child_url;
+                        $data_type_child = ! empty( $child_url ) && false !== strpos( $child_url, 'mp4' ) ? 'VIDEO' : '';
 
-					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && $data_type_image === $data_type || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && $data_type_carousel === $data_type && empty( $data_type_child ) ) {
+                        ?>
+                    <a href='<?php
 
-						print esc_url( $this->fts_instagram_image_link( $post_data ) );
+                        if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && $data_type_image === $data_type || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && $data_type_carousel === $data_type && empty( $data_type_child ) ) {
 
-					} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && $data_type_video === $data_type || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && ! empty( $data_type_child ) && 'VIDEO' === $data_type_child ) {
+                            print esc_url( $this->fts_instagram_image_link( $post_data ) );
 
-						// this statement below does not make sense, check later.
-						print $this->fts_instagram_video_link( $post_data ) ? esc_url( $this->fts_instagram_video_link( $post_data ) ) : esc_url( $post_data->permalink . 'media?size=l' );
+                        } elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && $data_type_video === $data_type || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && ! empty( $data_type_child ) && 'VIDEO' === $data_type_child ) {
 
-					} else {
-						print esc_url( $this->fts_view_on_instagram_url( $post_data ) );
-					}
-					$fts_child = isset( $post_data->children ) || isset( $post_data->carousel_media ) ? 'fts-child-media ' : '';
-					?>' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='<?php print $fts_child; ?>fts-instagram-link-target fts-slicker-backg
-					<?php
-					if ( $data_type_video === $data_type && isset( $popup ) && 'yes' === $popup && ! empty( $this->fts_instagram_video_link( $post_data ) ) || ! empty( $data_type_child ) && 'VIDEO' === $data_type_child && isset( $popup ) && 'yes' === $popup && ! empty( $this->fts_instagram_video_link( $post_data ) ) ) {
-						?>
-												 fts-instagram-video-link
-												<?php
-					} else {
-						?>
-												 fts-instagram-img-link<?php } ?>' style="height:<?php echo esc_attr( $icon_size ); ?> !important; width:<?php echo esc_attr( $icon_size ); ?>; line-height:<?php echo esc_attr( $icon_size ); ?>; font-size:<?php echo esc_attr( $icon_size ); ?>;"><span
-							class="fts-instagram-icon"
-							style="height:<?php echo esc_attr( $icon_size ); ?>; width:<?php echo esc_attr( $icon_size ); ?>; line-height:<?php echo esc_attr( $icon_size ); ?>; font-size:<?php echo esc_attr( $icon_size ); ?>;"></span></a>
+                            // this statement below does not make sense, check later.
+                            print $this->fts_instagram_video_link( $post_data ) ? esc_url( $this->fts_instagram_video_link( $post_data ) ) : esc_url( $post_data->permalink . 'media?size=l' );
 
+                        } else {
+                            print esc_url( $this->fts_view_on_instagram_url( $post_data ) );
+                        }
+                        $fts_child = isset( $post_data->children ) || isset( $post_data->carousel_media ) ? 'fts-child-media ' : '';
+                        ?>' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='<?php print $fts_child; ?>fts-instagram-link-target fts-slicker-backg
+                        <?php
+                        if ( $data_type_video === $data_type && isset( $popup ) && 'yes' === $popup && ! empty( $this->fts_instagram_video_link( $post_data ) ) || ! empty( $data_type_child ) && 'VIDEO' === $data_type_child && isset( $popup ) && 'yes' === $popup && ! empty( $this->fts_instagram_video_link( $post_data ) ) ) {
+                            ?>
+                                                     fts-instagram-video-link
+                                                    <?php
+                        } else {
+                            ?>
+                                                     fts-instagram-img-link<?php } ?>' style="height:<?php echo esc_attr( $icon_size ); ?> !important; width:<?php echo esc_attr( $icon_size ); ?>; line-height:<?php echo esc_attr( $icon_size ); ?>; font-size:<?php echo esc_attr( $icon_size ); ?>;"><span
+                                class="fts-instagram-icon"
+                                style="height:<?php echo esc_attr( $icon_size ); ?>; width:<?php echo esc_attr( $icon_size ); ?>; line-height:<?php echo esc_attr( $icon_size ); ?>; font-size:<?php echo esc_attr( $icon_size ); ?>;"></span></a>
+                        <?php
+                        // Must use method where we use the link above which is visible with Instagram icon and then we use the child array below and skip the first child
+                        // element so we don't have duplicated of the first child. We do this because we need to hide these other links with CSS. We have to have these links here
+                        // because that is how the magnific popup works in order to get to the next image or video.
+                        // NOTE: $post_data->childer is FB/Instagram API, $post_data->carousel_media is OG Instagram API.
+                        if ( isset( $post_data->children ) || isset( $post_data->carousel_media ) ) {
 
-					<?php
-					// Must use method where we use the link above which is visible with Instagram icon and then we use the child array below and skip the first child
-					// element so we don't have duplicated of the first child. We do this because we need to hide these other links with CSS. We have to have these links here
-					// because that is how the magnific popup works in order to get to the next image or video.
-					// NOTE: $post_data->childer is FB/Instagram API, $post_data->carousel_media is OG Instagram API.
-					if ( isset( $post_data->children ) || isset( $post_data->carousel_media ) ) {
+                            $carousel_media = isset( $post_data->children ) ? $post_data->children->data : $post_data->carousel_media;
+                            ?>
+                            <div class="fts-carousel-image-wrapper"><div class="fts-carousel-image" ></div></div>
+                            <?php
+                            foreach ( array_slice( $carousel_media, 1 ) as $child ) {
 
-						$carousel_media = isset( $post_data->children ) ? $post_data->children->data : $post_data->carousel_media;
-						?>
-						<div class="fts-carousel-image-wrapper"><div class="fts-carousel-image" ></div></div>
-						<?php
-						foreach ( array_slice( $carousel_media, 1 ) as $child ) {
+                                // echo '<pre style="text-align: left;"> wwwqwqwq';
+                                // print_r( $child );
+                                // echo '</pre>';
+                                $url_images            = isset( $child->images->standard_resolution->url ) ? $child->images->standard_resolution->url : '';
+                                $url                   = isset( $child->videos->standard_resolution->url ) ? $child->videos->standard_resolution->url : $url_images;
+                                $url_final             = isset( $child->media_url ) ? $child->media_url : $url;
+                                $data_type_video_child = ! empty( $url_final ) && false != strpos( $url_final, 'mp4' ) ? 'video_media' : 'image_media';
+                                ?>
+        <a href='
+                                <?php
+                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && 'image_media' === $data_type_video_child ) {
+                                    print esc_url( $this->fts_instagram_image_link( $child ) );
+                                } elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && 'video_media' === $data_type_video_child ) {
+                                    print esc_url( $this->fts_instagram_video_link( $child ) );
+                                } else {
 
-							// echo '<pre style="text-align: left;"> wwwqwqwq';
-							// print_r( $child );
-							// echo '</pre>';
-							$url_images            = isset( $child->images->standard_resolution->url ) ? $child->images->standard_resolution->url : '';
-							$url                   = isset( $child->videos->standard_resolution->url ) ? $child->videos->standard_resolution->url : $url_images;
-							$url_final             = isset( $child->media_url ) ? $child->media_url : $url;
-							$data_type_video_child = ! empty( $url_final ) && false != strpos( $url_final, 'mp4' ) ? 'video_media' : 'image_media';
-							?>
-	<a href='
-							<?php
-							if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && 'image_media' === $data_type_video_child ) {
-								print esc_url( $this->fts_instagram_image_link( $child ) );
-							} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && 'video_media' === $data_type_video_child ) {
-								print esc_url( $this->fts_instagram_video_link( $child ) );
-							} else {
-
-							}
-							?>
-						' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='fts-child-media fts-child-media-hide fts-instagram-link-target fts-slicker-backg
-							<?php
-							if ( 'video_media' === $data_type_video_child && isset( $popup ) && 'yes' === $popup ) {
-								?>
-													 fts-instagram-video-link
-													<?php
-							} else {
-								?>
-													 fts-instagram-img-link<?php } ?>'></a>
-
-
-
-							<?php
-						}
-					} elseif ( isset( $data_type ) && 'VIDEO' === $data_type || isset( $data_type ) && 'video' === $data_type ) {
-						?>
-						<div class="fts-instagram-video-image-wrapper"><div class="fts-instagram-video-image"></div></div>
-						<?php
-					}
-					?>
+                                }
+                                ?>
+                            ' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='fts-child-media fts-child-media-hide fts-instagram-link-target fts-slicker-backg
+                                <?php
+                                if ( 'video_media' === $data_type_video_child && isset( $popup ) && 'yes' === $popup ) {
+                                    ?>
+                                                         fts-instagram-video-link
+                                                        <?php
+                                } else {
+                                    ?>
+                                                         fts-instagram-img-link<?php } ?>'></a>
 
 
+
+                                <?php
+                            }
+                        } elseif ( isset( $data_type ) && 'VIDEO' === $data_type || isset( $data_type ) && 'video' === $data_type ) {
+                            ?>
+                            <div class="fts-instagram-video-image-wrapper"><div class="fts-instagram-video-image"></div></div>
+                            <?php
+                        }
+                        ?>
 
 
 
@@ -1105,216 +1104,217 @@ if ( isset( $profile_description, $type ) && 'yes' === $profile_description  && 
 
 
 
-					<div class='slicker-date'>
-
-						<div class="fts-insta-date-popup-grab">
-						<?php
-						if ( 'no' === $hide_date_likes_comments  ) {
-							echo esc_html( $instagram_date );
-						} else {
-							echo '&nbsp;'; }
-						?>
-						</div>
-					</div>
-				<div class='slicker-instaG-backg-link'>
-
-					<div class='slicker-instaG-photoshadow'></div>
-				</div>
-						<?php if ( 'no' === $hide_date_likes_comments ) { ?>
-					<div class="fts-insta-likes-comments-grab-popup">
-							<?php
-
-							// this is already escaping in the function, re escaping will cause errors.
-							echo $this->fts_share_option( $this->fts_view_on_instagram_url( $post_data ), $this->fts_instagram_description( $post_data ) );
-
-							if ( 'basic' !== $type ) {
-								?>
-								<div class="fts-instagram-reply-wrap-left">
-									<ul class='slicker-heart-comments-wrap'>
-										<li class='slicker-instagram-image-likes'><?php echo esc_html( $this->fts_instagram_likes_count( $post_data ) ); ?> </li>
-										<li class='slicker-instagram-image-comments'>
-											<span class="fts-comment-instagram"></span> <?php echo esc_html( $this->fts_instagram_comments_count( $post_data ) ); ?>
-										</li>
-									</ul>
-								</div>
-							<?php } ?>
-					</div>
-				<?php } ?>
-			</div>
-					<?php
-				} else {
-					// Classic Gallery If statement.
-					?>
-			<div class='instagram-placeholder fts-instagram-wrapper' style='width:150px;'>
-						<?php
-						if ( isset( $popup ) && 'yes' === $popup ) {
-							print '<div class="fts-backg"></div>';
-						} else {
-							?>
-					<a class='fts-backg' target='_blank' href='<?php echo esc_url( $this->fts_view_on_instagram_url( $post_data ) ); ?>'></a><?php }; ?>
-				<div class='date slicker-date'>
-					<div class="fts-insta-date-popup-grab"><?php echo esc_html( $instagram_date ); ?></div>
-				</div>
 
 
-						<?php if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) { ?>
+                        <div class='slicker-date'>
+
+                            <div class="fts-insta-date-popup-grab">
+                            <?php
+                            if ( 'no' === $hide_date_likes_comments  ) {
+                                echo esc_html( $instagram_date );
+                            } else {
+                                echo '&nbsp;'; }
+                            ?>
+                            </div>
+                        </div>
+                    <div class='slicker-instaG-backg-link'>
+
+                        <div class='slicker-instaG-photoshadow'></div>
+                    </div>
+                            <?php if ( 'no' === $hide_date_likes_comments ) { ?>
+                        <div class="fts-insta-likes-comments-grab-popup">
+                                <?php
+
+                                // this is already escaping in the function, re escaping will cause errors.
+                                echo $this->fts_share_option( $this->fts_view_on_instagram_url( $post_data ), $this->fts_instagram_description( $post_data ) );
+
+                                if ( 'basic' !== $type ) {
+                                    ?>
+                                    <div class="fts-instagram-reply-wrap-left">
+                                        <ul class='slicker-heart-comments-wrap'>
+                                            <li class='slicker-instagram-image-likes'><?php echo esc_html( $this->fts_instagram_likes_count( $post_data ) ); ?> </li>
+                                            <li class='slicker-instagram-image-comments'>
+                                                <span class="fts-comment-instagram"></span> <?php echo esc_html( $this->fts_instagram_comments_count( $post_data ) ); ?>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
+                        </div>
+                    <?php } ?>
+                </div>
+                        <?php
+                    } else {
+                        // Classic Gallery If statement.
+                        ?>
+                <div class='instagram-placeholder fts-instagram-wrapper' style='width:150px;'>
+                            <?php
+                            if ( isset( $popup ) && 'yes' === $popup ) {
+                                print '<div class="fts-backg"></div>';
+                            } else {
+                                ?>
+                        <a class='fts-backg' target='_blank' href='<?php echo esc_url( $this->fts_view_on_instagram_url( $post_data ) ); ?>'></a><?php }; ?>
+                    <div class='date slicker-date'>
+                        <div class="fts-insta-date-popup-grab"><?php echo esc_html( $instagram_date ); ?></div>
+                    </div>
 
 
-					<div class="fts-instagram-popup-profile-wrap">
-						<div class="fts-profile-pic">
-							<a href="https://www.instagram.com/<?php echo esc_attr( $username ); ?>" target="_blank" rel="noreferrer"><img
-										src="<?php echo esc_attr( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>"/></a>
-						</div>
+                            <?php if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) { ?>
 
-						<div class="fts-profile-name-wrap">
 
-							<div class="fts-isnta-full-name"><?php echo esc_attr( $full_name ); ?></div>
-							<?php
-							if ( $username && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
-								echo '<div class="fts-follow-header-wrap">';
-								echo $this->social_follow_button( 'instagram', $username );
-								echo '</div>';
-							}
-							?>
-						</div>
-					</div>
+                        <div class="fts-instagram-popup-profile-wrap">
+                            <div class="fts-profile-pic">
+                                <a href="https://www.instagram.com/<?php echo esc_attr( $username ); ?>" target="_blank" rel="noreferrer"><img
+                                            src="<?php echo esc_attr( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>"/></a>
+                            </div>
 
-							<?php
-							// caption for our popup.
-							echo $this->fts_instagram_popup_description( $post_data );
-							?>
-				<?php } ?>
+                            <div class="fts-profile-name-wrap">
 
-				<a href="
-					<?php
-					// We need to check the type now because hashtag feeds from facebooks API use all caps now.
-					$data_type_image    = isset( $post_data->type ) && 'image' === $post_data->type ? : 'IMAGE';
-					$data_type_video    = isset( $post_data->type ) && 'video' === $post_data->type ? : 'VIDEO';
-					$data_type_carousel = isset( $post_data->type ) && 'carousel' === $post_data->type ? : 'CAROUSEL';
-					$data_type_hashtag  = isset( $post_data->media_type ) ? $post_data->media_type : '';
-					$data_type          = isset( $post_data->type ) ? $post_data->type : $data_type_hashtag;
-					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && ( $data_type_image === $data_type || $data_type_carousel === $data_type ) ) {
-						print esc_url( $this->fts_instagram_image_link( $post_data ) );
-					} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && $data_type_video === $data_type ) {
-						print esc_url( $this->fts_instagram_video_link( $post_data ) );
-					} else {
-						print esc_url( $this->fts_view_on_instagram_url( $post_data ) );
-					}
-					?>
-					" class='fts-instagram-link-target instaG-backg-link
-					<?php
-					if ( 'video' === $post_data->type ) {
-						?>
-						fts-instagram-video-link
-						<?php
-					} else {
-						?>
-	fts-instagram-img-link<?php } ?>' target='_blank' rel="noreferrer" title='<?php echo esc_attr( $instagram_caption_a_title ); ?>'>
-					<img src="<?php echo esc_url( $instagram_thumb_url ); ?>" class="instagram-image"/>
-					<div class='instaG-photoshadow'></div>
-				</a>
-				<div class="fts-insta-likes-comments-grab-popup">
-							<?php echo $this->fts_instagram_likes_comments_wrap( $post_data ); ?>
-				</div>
-			</div>
-					<?php
-				}
-				if ( isset( $set_zero ) ) {
-					$set_zero++;
-				}
-			}
+                                <div class="fts-isnta-full-name"><?php echo esc_attr( $full_name ); ?></div>
+                                <?php
+                                if ( $username && 'yes' === $fts_instagram_show_follow_btn && 'instagram-follow-above' === $fts_instagram_show_follow_btn_where ) {
+                                    echo '<div class="fts-follow-header-wrap">';
+                                    echo $this->social_follow_button( 'instagram', $username );
+                                    echo '</div>';
+                                }
+                                ?>
+                            </div>
+                        </div>
 
-			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! empty( $scroll_more ) ) {
-				// ******************
-				// Load More BUTTON Start
-				// Check to see if the next isset for the hashtag feed. If so then pass it down so it's used.
-				// ******************
-					$next_hashtag_url = isset( $insta_data->paging->next ) ? $insta_data->paging->next : '';
-					$next_url         = isset( $insta_data->pagination->next_url ) ? $insta_data->pagination->next_url : $next_hashtag_url;
-					// fb api uses limit for the post count and instagram api uses count.
-					$the_count = 'hashtag' === $type || 'basic' === $type || 'business' === $type ? 'limit' : 'count';
-					// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
-					$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "'.$the_count.'=$pics_count", "'.$the_count.'=$loadmore_count", $next_url ) : $next_url;
-					$access_token         = 'access_token=' . $fts_instagram_access_token_final;
-					$_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
+                                <?php
+                                // caption for our popup.
+                                echo $this->fts_instagram_popup_description( $post_data );
+                                ?>
+                    <?php } ?>
 
-				?>
-		<script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
-				<?php
-				// Make sure it's not ajaxing.
-				if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {
-					$fts_dynamic_name = sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
-					$time             = time();
-					$nonce            = wp_create_nonce( $time . 'load-more-nonce' );
-					?>
-			<script>jQuery(document).ready(function () {
-					<?php
-					// $scroll_more = load_more_posts_style shortcode att.
-					if ( 'autoscroll' === $scroll_more ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
-						?>
-					jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").bind("scroll", function () {
-						if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
-							<?php
-					} else { // this is where we do CLICK function to LOADMORE if = button in shortcode.
-						?>
-							jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").click(function () {
-					<?php } ?>
-								jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").addClass('fts-fb-spinner');
-								var button = jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
-								console.log(button);
+                    <a href="<?php
+                        // We need to check the type now because hashtag feeds from facebooks API use all caps now.
+                        $data_type_image    = isset( $post_data->type ) && 'image' === $post_data->type ? : 'IMAGE';
+                        $data_type_video    = isset( $post_data->type ) && 'video' === $post_data->type ? : 'VIDEO';
+                        $data_type_carousel = isset( $post_data->type ) && 'carousel' === $post_data->type ? : 'CAROUSEL';
+                        $data_type_hashtag  = isset( $post_data->media_type ) ? $post_data->media_type : '';
+                        $data_type          = isset( $post_data->type ) ? $post_data->type : $data_type_hashtag;
+                        if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && ( $data_type_image === $data_type || $data_type_carousel === $data_type ) ) {
+                            print esc_url( $this->fts_instagram_image_link( $post_data ) );
+                        } elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && $data_type_video === $data_type ) {
+                            print esc_url( $this->fts_instagram_video_link( $post_data ) );
+                        } else {
+                            print esc_url( $this->fts_view_on_instagram_url( $post_data ) );
+                        }
+                        ?>" class='fts-instagram-link-target instaG-backg-link
+                        <?php
+                        if ( 'video' === $post_data->type ) {
+                            ?>
+                            fts-instagram-video-link
+                            <?php
+                        } else {
+                            ?>
+        fts-instagram-img-link<?php } ?>' target='_blank' rel="noreferrer" title='<?php echo esc_attr( $instagram_caption_a_title ); ?>'>
+                        <img src="<?php echo esc_url( $instagram_thumb_url ); ?>" class="instagram-image"/>
+                        <div class='instaG-photoshadow'></div>
+                    </a>
+                    <div class="fts-insta-likes-comments-grab-popup">
+                                <?php echo $this->fts_instagram_likes_comments_wrap( $post_data ); ?>
+                    </div>
+                </div>
+                        <?php
+                    }
+                    if ( isset( $set_zero ) ) {
+                        $set_zero++;
+                    }
+                }
 
-								var feed_name = "fts_instagram";
-								var loadmore_count = "pics_count=<?php echo esc_js( $loadmore_count ); ?>";
-								var feed_attributes = <?php echo wp_json_encode( $atts ); ?>;
-								var yes_ajax = "yes";
-								var fts_d_name = "<?php echo esc_js( $fts_dynamic_name ); ?>";
-								var fts_security = "<?php echo esc_js( $nonce ); ?>";
-								var fts_time = "<?php echo esc_js( $time ); ?>";
-								jQuery.ajax({
-									data: {
-										action: "my_fts_fb_load_more",
-										next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ); ?>,
-										fts_dynamic_name: fts_d_name,
-										load_more_ajaxing: yes_ajax,
-										fts_security: fts_security,
-										fts_time: fts_time,
-										feed_name: feed_name,
-										loadmore_count: loadmore_count,
-										feed_attributes: feed_attributes
-									},
-									type: 'GET',
-									url: "<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>",
-									success: function (data) {
-										console.log('Well Done and got this from sever: ' + data);
-										jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
-										if (!nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> || nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> === 'no more') {
-											jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $instagram_no_more_photos_text ); ?></div>');
-											jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
-											jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").unbind('scroll');
-										}
-										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $instagram_load_more_text ); ?>');
-										jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
-										jQuery.fn.ftsShare(); // Reload the share each funcion otherwise you can't open share option
-										jQuery.fn.slickInstagramPopUpFunction(); // Reload this function again otherwise the popup won't work correctly for the newly loaded items
-										if (typeof outputSRmargin === "function") {
-											outputSRmargin(document.querySelector('#margin').value)
-										} // Reload our margin for the demo
-										slickremixImageResizing(); // Reload our imagesizing function so the images show up proper
-									}
-								}); // end of ajax()
-								return false;
-								<?php
-								// string $scroll_more is at top of this js script. exception for scroll option closing tag.
-								if ( 'autoscroll' === $scroll_more ) {
-									?>
-							}; // end of scroll ajax load
-							<?php } ?>
-						}
-					); // end of document.ready
-				}); // end of form.submit </script>
-					<?php
-				}//End Check.
-			}
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! empty( $scroll_more ) ) {
+                    // ******************
+                    // Load More BUTTON Start
+                    // Check to see if the next isset for the hashtag feed. If so then pass it down so it's used.
+                    // ******************
+                        $next_hashtag_url = isset( $insta_data->paging->next ) ? $insta_data->paging->next : '';
+                        $next_url         = isset( $insta_data->pagination->next_url ) ? $insta_data->pagination->next_url : $next_hashtag_url;
+                        // fb api uses limit for the post count and instagram api uses count.
+                        $the_count = 'hashtag' === $type || 'basic' === $type || 'business' === $type ? 'limit' : 'count';
+                        // we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
+                        $_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "'.$the_count.'=$pics_count", "'.$the_count.'=$loadmore_count", $next_url ) : $next_url;
+                        $access_token         = 'access_token=' . $fts_instagram_access_token_final;
+                        $_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
+
+                    ?>
+            <script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
+                    <?php
+                    // Make sure it's not ajaxing.
+                    if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {
+                        $fts_dynamic_name = sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
+                        $time             = time();
+                        $nonce            = wp_create_nonce( $time . 'load-more-nonce' );
+                        ?>
+                <script>jQuery(document).ready(function () {
+                        <?php
+                        // $scroll_more = load_more_posts_style shortcode att.
+                        if ( 'autoscroll' === $scroll_more ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
+                            ?>
+                        jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").bind("scroll", function () {
+                            if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
+                                <?php
+                        } else { // this is where we do CLICK function to LOADMORE if = button in shortcode.
+                            ?>
+                                jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").click(function () {
+                        <?php } ?>
+                                    jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").addClass('fts-fb-spinner');
+                                    var button = jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
+                                    console.log(button);
+
+                                    var feed_name = "fts_instagram";
+                                    var loadmore_count = "pics_count=<?php echo esc_js( $loadmore_count ); ?>";
+                                    var feed_attributes = <?php echo wp_json_encode( $atts ); ?>;
+                                    var yes_ajax = "yes";
+                                    var fts_d_name = "<?php echo esc_js( $fts_dynamic_name ); ?>";
+                                    var fts_security = "<?php echo esc_js( $nonce ); ?>";
+                                    var fts_time = "<?php echo esc_js( $time ); ?>";
+                                    jQuery.ajax({
+                                        data: {
+                                            action: "my_fts_fb_load_more",
+                                            next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ); ?>,
+                                            fts_dynamic_name: fts_d_name,
+                                            load_more_ajaxing: yes_ajax,
+                                            fts_security: fts_security,
+                                            fts_time: fts_time,
+                                            feed_name: feed_name,
+                                            loadmore_count: loadmore_count,
+                                            feed_attributes: feed_attributes
+                                        },
+                                        type: 'GET',
+                                        url: "<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>",
+                                        success: function (data) {
+                                            console.log('Well Done and got this from sever: ' + data);
+                                            jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
+                                            if (!nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> || nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> === 'no more') {
+                                                jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $instagram_no_more_photos_text ); ?></div>');
+                                                jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
+                                                jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").unbind('scroll');
+                                            }
+                                            jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $instagram_load_more_text ); ?>');
+                                            jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
+                                            jQuery.fn.ftsShare(); // Reload the share each funcion otherwise you can't open share option
+                                            jQuery.fn.slickInstagramPopUpFunction(); // Reload this function again otherwise the popup won't work correctly for the newly loaded items
+                                            if (typeof outputSRmargin === "function") {
+                                                outputSRmargin(document.querySelector('#margin').value)
+                                            } // Reload our margin for the demo
+                                            slickremixImageResizing(); // Reload our imagesizing function so the images show up proper
+                                        }
+                                    }); // end of ajax()
+                                    return false;
+                                    <?php
+                                    // string $scroll_more is at top of this js script. exception for scroll option closing tag.
+                                    if ( 'autoscroll' === $scroll_more ) {
+                                        ?>
+                                }; // end of scroll ajax load
+                                <?php } ?>
+                            }
+                        ); // end of document.ready
+                    }); // end of form.submit </script>
+                        <?php
+                    }//End Check.
+                }
+            }
 			// main closing div not included in ajax check so we can close the wrap at all times.
 			print '</div>'; // closing main div for photos and scroll wrap.
 

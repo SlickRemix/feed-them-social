@@ -7,18 +7,18 @@
  * Plugin Name: Feed Them Social - for Twitter feed, Youtube, and more
  * Plugin URI: https://feedthemsocial.com/
  * Description: Display a Custom Facebook feed, Instagram feed, Twitter feed and YouTube feed on pages, posts or widgets.
- * Version: 2.9.7.1
+ * Version: 2.9.8
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
- * Tested up to: WordPress 5.9
- * Stable tag: 2.9.7.1
+ * Tested up to: WordPress 5.9.2
+ * Stable tag: 2.9.8
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.9.7.1
+ * @version    2.9.8
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2022 SlickRemix
  *
@@ -31,7 +31,7 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '2.9.7.1' );
+define( 'FTS_CURRENT_VERSION', '2.9.8' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 
@@ -111,16 +111,17 @@ final class Feed_Them_Social {
             // Truncate HTML Class
             self::$instance->truncate_html = new FeedThemSocialTruncateHTML();
 
-            // FTS Custom Post Type
-            // self::$instance->fts_custom_post_type = new feedthemsocial\FTS_Custom_Post_Type();
+            // DATA PROTECTIOM
+            self::$instance->data_protection = new feedthemsocial\Data_Protection(); // Core (and load init)!
+
             // Core (and load init)!
-            self::$instance->core_functions = new feedthemsocial\feed_them_social_functions();
+            self::$instance->core_functions = new feedthemsocial\feed_them_social_functions( );
 
             // Free Plugin License page!
             self::$instance->updater = new feedthemsocial\updater_init();
 
             // Facebook!
-            self::$instance->facebook_feed = new feedthemsocial\FTS_Facebook_Feed();
+            self::$instance->facebook_feed = new feedthemsocial\FTS_Facebook_Feed( );
 
             // Twitter!
             self::$instance->twitter_feed = new feedthemsocial\FTS_Twitter_Feed();
@@ -304,9 +305,12 @@ final class Feed_Them_Social {
 
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/error-handler.php';
 
+        //Data Protection
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/data-protection/data-protection.php';
+
         // Core classes!
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
-        $load_fts = new feedthemsocial\feed_them_social_functions();
+        $load_fts = new feedthemsocial\feed_them_social_functions( );
         $load_fts->init();
 
         // Admin Pages!
@@ -428,6 +432,7 @@ final class Feed_Them_Social {
             $activation_options = array(
                 'fts-date-and-time-format'       => 'one-day-ago',
                 'fts_clear_cache_developer_mode' => '86400',
+                'fts_admin_bar_menu' => 'show-admin-bar-menu',
             );
 
             foreach ( $activation_options as $option_key => $option_value ) {

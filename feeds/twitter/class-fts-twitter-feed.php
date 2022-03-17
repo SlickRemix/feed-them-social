@@ -23,6 +23,10 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 	 * @since 1.9.6
 	 */
 	public function __construct() {
+
+        // Data Protection
+        $this->data_protection = new Data_Protection();
+
 		add_shortcode( 'fts_twitter', array( $this, 'fts_twitter_func' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'fts_twitter_head' ) );
@@ -277,12 +281,12 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                         if( !empty( $html['data'] ) ){
                             // Try curl
                             $html = $html['data'];
-                            error_log( 'FTS: using curl to get external url, image, title & description');
+                            // error_log( 'FTS: using curl to get external url, image, title & description');
                         }
                         elseif( ini_get('allow_url_fopen') ){
                             // If curl fails try file get contents
                             $html = file_get_contents( $twitter_external_url );
-                            error_log( 'FTS: using file_get_contents');
+                            // error_log( 'FTS: using file_get_contents');
                         }
 
                         // The first 2 are preg_match_all with single quotes '', the second 2 are with double quotes "". We have to check for both.
@@ -707,9 +711,18 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 			$fts_twitter_custom_access_token        = get_option( 'fts_twitter_custom_access_token' );
 			$fts_twitter_custom_access_token_secret = get_option( 'fts_twitter_custom_access_token_secret' );
 
+                // echo 'YO! NO Data Cache';
+                // print_r( $data_cache );
+                // echo $this->fts_check_feed_cache_exists( $data_cache );
+                //echo 'What is the data cache ';
+
 			// Check Cache.
 			if ( false !== $this->fts_check_feed_cache_exists( $data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
-				$fetched_tweets = $this->fts_get_feed_cache( $data_cache );
+
+                // echo 'YO! Data Cache';
+                // print_r( $data_cache );
+				$fetched_tweets = json_decode( $this->fts_get_feed_cache( $data_cache ) );
+
 				$cache_used     = true;
 			} else {
 				include_once WP_PLUGIN_DIR . '/feed-them-social/feeds/twitter/twitteroauth/twitteroauth.php';
@@ -874,6 +887,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 					// Cache It.
 					if ( ! isset( $cache_used ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 						$this->fts_create_feed_cache( $data_cache, $fetched_tweets );
+                         // echo 'YO! cached twitter feed ';
 					}
 
 					$protocol       = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';

@@ -13,7 +13,7 @@
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
- * Tested up to: WordPress 5.3.0
+ * Tested up to: WordPress 5.9.1
  * Stable tag: 3.0
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -26,14 +26,11 @@
  * Paid Extension Support: https://www.slickremix.com/my-account/#tab-support
  */
 
-// Doing this ensures any JS or CSS changes are reloaded properly. Added to enqueued css and js files throughout.
+// Set Plugin Current Version.
 define( 'FTS_CURRENT_VERSION', '3.0' );
 
 // Require file for plugin loading.
 require_once __DIR__ . '/class-load-plugin.php';
 
-// Feed Them Social Class
-$feed_them_social = new Feed_Them_Social();
-
-// Load the Plugin!
-$feed_them_social->load_plugin();
+// Feed Them Social Class. Load up the plugin!
+new Feed_Them_Social();

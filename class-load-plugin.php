@@ -21,6 +21,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Feed_Them_Social {
 
+	/* Construct
+	*
+	* Access Token Options Page constructor.
+	*
+	* @since 1.9.6
+	*/
+	public function __construct(  ) {
+		// Load the Plugin, Hooray!
+		$this->load_plugin();
+	}
+
 	/**
 	 * Load Plugin
 	 *
@@ -28,7 +39,7 @@ class Feed_Them_Social {
 	 *
 	 * @since 1.0.0
 	 */
-	public function load_plugin() {
+	private function load_plugin() {
 
 		$main_post_type = 'fts';
 
@@ -49,7 +60,10 @@ class Feed_Them_Social {
 		// Add Actions and Filters.
 		$activate_plugin->add_actions_filters();
 
-        //Feed Them Functions!
+		// Data Protection.
+		$data_protection = new feedthemsocial\Data_Protection();
+
+        // Feed Them Functions!
         $feed_functions = new \feedthemsocial\FTS_Functions();
 
 		// Settings Functions.
@@ -64,7 +78,7 @@ class Feed_Them_Social {
 		// System Info.
 		new \feedthemsocial\System_Info( $setup_functions );
 
-		//Access Token API.
+		// Access Token API.
         //$access_token_api = new \feedthemsocial\Access_Token_API();
 
 		//Setting Options JS.
@@ -80,7 +94,7 @@ class Feed_Them_Social {
 		new \feedthemsocial\Shortcode_Button();
 
 		// Feed Cache.
-		$feed_cache = new \feedthemsocial\Feed_Cache( $settings_functions );
+		$feed_cache = new \feedthemsocial\Feed_Cache( $settings_functions, $data_protection );
 
 		// Shortcodes.
 		new \feedthemsocial\Shortcodes( $main_post_type, $feed_functions, $feeds_cpt, $feed_cache );
@@ -155,8 +169,12 @@ class Feed_Them_Social {
 	 * @since 1.0.0
 	 */
 	private function includes() {
-		// Admin Pages.
+		// System Info
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/system-info.php';
+
+		// Data Protection Class.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'data-protection/data-protection.php';
+
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox-settings/metabox-settings-class.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-functions.php';

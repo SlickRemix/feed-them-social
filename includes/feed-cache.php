@@ -33,15 +33,28 @@ class Feed_Cache {
 	public $settings_functions;
 
 	/**
+	 * Data Protection
+	 *
+	 * The Data Protection class.
+	 *
+	 * @var object
+	 */
+	public $data_protection;
+
+	/**
 	 * Construct
 	 *
 	 * Functions constructor.
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct( $settings_functions ) {
+	public function __construct( $settings_functions,  $data_protection ) {
 		// Settings Functions Class.
 		$this->settings_functions = $settings_functions;
+
+		// Data Protection Class.
+		$this->data_protection = $data_protection;
+
 		// Add Actions and Filters.
 		$this->add_actions_filters();
 	}
@@ -71,19 +84,49 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function fts_create_feed_cache( $transient_name, $response ) {
+
+		// YO!
+		// echo '<br/><br/>Now we are in the create feed cache function. What is the response at this point just before we encrypt response.<br/>';
+		// print_r($response);
+
+		if(is_array($response)){
+			$encrypted_response = array();
+			foreach ($response as $item_key => $item_value){
+				$encrypted_response[ $item_key ] = $this->data_protection->encrypt( $item_value );
+			}
+
+			$encrypted_response = serialize($encrypted_response);
+
+			// YO!
+			// echo '<br/><br/> Serialized Array<br/>';
+			// print_r($encrypted_response);
+		}
+		else{
+			// YO!
+			// echo '<br/><br/>#2 Now we have encrypted the data. What is the response at this point.<br/>';
+			// print_r($encrypted_response);
+
+			$encrypted_response = $this->data_protection->encrypt( $response );
+
+		}
+
 		// Is there old Cache? If so Delete it!
 		if ( true === $this->fts_check_feed_cache_exists( $transient_name ) ) {
 			// Make Sure to delete old permanent cache before setting up new cache!
 			$this->delete_permanent_feed_cache( $transient_name );
 		}
 		// Cache Time set on Settings Page under FTS Tab.
-		$cache_time_limit = true === $this->settings_functions->fts_get_option( 'fts_cache_time' ) && '1' !== $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '900';
+		$cache_time_limit = true === get_option( 'fts_clear_cache_developer_mode' ) && '1' !== get_option( 'fts_clear_cache_developer_mode' ) ? get_option( 'fts_clear_cache_developer_mode' ) : '900';
 
-		// Timed Cache.
-		set_transient( 'fts_t_' . $transient_name, $response, $cache_time_limit );
+		//Check an Encrypted Response was returned.
+		if( $encrypted_response ){
+			// Timed Cache.
+			set_transient( 'fts_t_' . $transient_name, $encrypted_response, $cache_time_limit );
 
-		// Permanent Feed cache. NOTE set to 0.
-		set_transient( 'fts_p_' . $transient_name, $response, 0 );
+			// Permanent Feed cache. NOTE set to 0.
+			set_transient( 'fts_p_' . $transient_name, $encrypted_response, 0 );
+		}
+
 	}
 
 	/**
@@ -95,13 +138,49 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function fts_get_feed_cache( $transient_name, $errored = null ) {
+
 		// If Error use Permanent Cache!
 		if ( true === $errored ) {
-			return get_transient( 'fts_p_' . $transient_name );
+			$trans = get_transient( 'fts_p_' . $transient_name );
+		}
+		else{
+			// If no error use Timed Cache!
+			$trans =  get_transient( 'fts_t_' . $transient_name );
 		}
 
-		// If no error use Timed Cache!
-		return get_transient( 'fts_t_' . $transient_name );
+		// YO!
+		// echo '<br/>GET CACHE What is the response at this point:<br/>';
+		// print_r($trans);
+
+		if ($trans){
+
+			//is the transient value serialized? If so, un-serialize it!
+			$unserialized_value = \maybe_unserialize( $trans );
+
+			// echo '<br/><br/>UNSerialized Array<br/>';
+			// print_r($unserialized_value);
+
+			// Is value an array?
+			if(is_array($unserialized_value)){
+				$decrypted_value = array();
+				foreach ($unserialized_value as $item_key => $item_value){
+					$decrypted_value[ $item_key ] = $this->data_protection->decrypt( $item_value );
+				}
+			}
+			else{
+				// YO!
+				// echo '<br/><br/>Not an array so decrypt string.<br/>';
+				// Not an array so decrypt string.
+				$decrypted_value = false !== $this->data_protection->decrypt( $trans ) ? $this->data_protection->decrypt( $trans ) : $trans;
+			}
+
+			// YO!
+			// echo '<br/><br/>Decrypted!<br/>';
+			// print_r($decrypted_value);
+
+		}
+
+		return $decrypted_value;
 	}
 
 	/**
@@ -113,6 +192,7 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function fts_check_feed_cache_exists( $transient_name, $errored = null ) {
+
 		$transient_permanent_check = get_transient( 'fts_p_' . $transient_name );
 		$transient_time_check      = get_transient( 'fts_t_' . $transient_name );
 
@@ -177,6 +257,24 @@ class Feed_Cache {
 
 		wp_reset_query();
 		return 'Cache for this feed cleared!';
+	}
+
+	/**
+	 * Feed Them Clear Cache
+	 *
+	 * Clear ALL FTS Cache.
+	 *
+	 * @return string
+	 * @since 1.9.6
+	 */
+	public function feed_them_clear_admin_cache() {
+		global $wpdb;
+		// Clear UnExpired Timed Cache!
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", 'fts_facebook_%' ) );
+		// Clear Expired Timed Cache!
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", 'fts_instagram_%' ) );
+		wp_reset_query();
+		return 'Cache for ALL FTS Admin Options cleared!';
 	}
 
 	/**

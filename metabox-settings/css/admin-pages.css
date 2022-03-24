@@ -1396,8 +1396,9 @@ div.ftg-section.section-last {
 }
 
 .tabs div.ftg-section {
-    margin: 0 0 35px;
-    position: relative
+    /* margin: 0 0 30px; */
+    position: relative;
+    display: inline-block;
 }
 
 .tabs div.ftg-section input {
@@ -2669,7 +2670,7 @@ body .ft-gallery-popup a.fts-powered-by-text {
     margin-top: 20px
 }
 
-.ft-gallery-note-footer {
+.fts-note-footer {
     margin-left: 0 !important
 }
 

@@ -67,27 +67,53 @@
 
         //This is for the sub nav tabs under each social network and controls what is visible.
         var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';
-        $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-cpt-main-options, .fts-instagram-shortcode-form .instagram-messages-selector, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-steams-shortcode-form .combine_post_count' );
+        // $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-cpt-main-options, .fts-instagram-shortcode-form .instagram-messages-selector, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-streams-shortcode-form .combine_post_count' );
+        $( fts_sub_tabs ).insertBefore( '.fts-cpt-main-options' );
+
 
         $( '.fts-feed-settings-tabs-wrap div' ).click(
             function () {
-                $('.fts-feed-settings-tabs-wrap div').removeClass('fts-sub-tab-active');
+
+                if( $( this ).hasClass( 'fts-feed-tab' ) ){
+
+                    $('.fts-cpt-extra-options').hide();
+                    $('.fts-cpt-main-options').show();
+
+                    if( $( this ).hasClass('fts-sub-tab-active') ){
+                        $( this ).next( 'div').removeClass('fts-sub-tab-active');
+                    }
+                    else {
+                        $( this ).addClass('fts-sub-tab-active').next( 'div').removeClass('fts-sub-tab-active');
+                    }
+                }
+                else if( $( this ).hasClass( 'fts-settings-tab' ) ){
+
+                    $('.fts-cpt-extra-options').show();
+                    $('.fts-cpt-main-options').hide();
+
+                    if( $( this ).hasClass('fts-sub-tab-active') ){
+                        $( this ).prev( 'div').removeClass('fts-sub-tab-active');
+                    }
+                    else {
+                        $( this ).addClass('fts-sub-tab-active').prev( 'div').removeClass('fts-sub-tab-active');
+                    }
+                }
+                /*$('.fts-feed-settings-tabs-wrap div').removeClass('fts-sub-tab-active');
                 $(this).addClass('fts-sub-tab-active');
                 if( $('.fts-settings-tab').hasClass('fts-sub-tab-active') ){
-                    $('.fts-cpt-main-options, .not-active-premium-fields').hide();
-                    $('.fts-cpt-additional-options').show();
+                    $('.fts-cpt-main-options').hide();
+                    $('.fts-cpt-extra-options').show();
                 }
                 else {
-                    $('.fts-cpt-main-options, .not-active-premium-fields').show();
-                    $('.fts-cpt-additional-options').hide();
-                }
+                    $('.fts-cpt-extra-options').hide();
+                    $('.fts-cpt-main-options').show();
+                }*/
             }
         );
         // const name = "[fts_twitter twitter_name=gopro tweets_count=6 search=from:user_name%#YourHashtag twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes popup=yes loadmore=button loadmore_btn_margin='10px 5px 3px' loadmore_btn_maxwidth=20px loadmore_count=7 grid=yes colmn_width=23px space_between_posts='4px 10px']"
         // console.log( name.replace(/\'/g, '"').replace(/\s+(?=(?:[^"]*"[^"]*")*[^"]*"[^"]*$)/gm, '*').replace(/\"/g, "") );
 
         // Convert Old Shortcode click function
-
         $( '#fts-convert-old-shortcode' ).click(
             function () {
 
@@ -671,6 +697,10 @@
                 alert( 'Success! Shortcode Converted. Double check your Access Token(s) are below in the Feed Setup menu tab.');
             }
         );
+
+        // Display additional Settings link.
+        $('<div class="fts-note fts-note-footer">' + updatefrombottomParams.additionalSettings + '</div>').appendTo(".tab-content");
+
 
         // Button markup depending on post/page status
         if($('#publish, #publishing-action input[type=submit]').val() == updatefrombottomParams.publish) {

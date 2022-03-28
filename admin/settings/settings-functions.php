@@ -25,7 +25,6 @@ class Settings_Functions {
 	 * Settings Function constructor.
 	 */
 	public function __construct(){
-
         $this->add_actions_filters();
 	}
 
@@ -1033,24 +1032,6 @@ class Settings_Functions {
          */
         return apply_filters( 'fts_sanitize_key', $key, $raw_key );
     } // fts_sanitize_key
-
-    /**
-     * Get date format options.
-     *
-     * @since	1.0.0
-     * @return	array	Array of date format options
-     */
-    public function fts_get_cache_options()	{
-        $formats = array(
-            '86400'  => __( '1 Day', '' ),
-            '172800' => __( '2 Days', '' ),
-            '259200' => __( '3 Days', '' ),
-            '604800' => __( '1 Week', '' ),
-            '1209600' => __( '2 Weeks', '' ),
-            '1'       => __( '( Devs Only ) Every page load', '' ),
-        );
-        return $formats;
-    } // fts_get_cache_options
 
     /**
      * Get date format options.

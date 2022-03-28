@@ -19,20 +19,33 @@ namespace feedthemsocial;
 class System_Info {
 
 	/**
-	 * Setup Functions
+	 * Settings Functions
 	 *
-	 * Functions used for setup of plugin.
+	 * The settings Functions class
 	 *
 	 * @var object
 	 */
-	public $setup_functions;
+	public $settings_functions;
+
+	/**
+	 * Feed Cache.
+	 *
+	 * Class used for caching.
+	 *
+	 * @var object
+	 */
+	public $feed_cache;
 
 	/**
 	 * System_Info constructor.
 	 */
-	public function __construct( $setup_functions ) {
-        // Setup Functions Class.
-        $this->setup_functions = $setup_functions;
+	public function __construct( $settings_functions, $feed_cache ) {
+		// Settings Functions.
+		$this->settings_functions = $settings_functions;
+
+		// Set Feed Cache object.
+		$this->feed_cache = $feed_cache;
+
 		// Add Actions and Filters.
 		$this->add_actions_filters();
     }
@@ -48,7 +61,6 @@ class System_Info {
 		if ( is_admin() ) {
 			// Adds setting page to Feed Them Social menu.
 			add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
-
 		}
 	}
 
@@ -137,7 +149,7 @@ curl_multi:               <?php echo ( function_exists( 'curl_multi_select' ) ) 
 
 -- FTS Settings->Global Options: <?php $fts_cachetime = $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '86400'; ?>
 
-Cache time: <?php $setup_functions = new Setup_Functions; echo esc_html( $setup_functions->fts_cachetime_amount( $fts_cachetime ) ) . "\n"; ?>
+Cache time: <?php echo esc_html( $this->feed_cache->fts_cachetime_amount( $fts_cachetime ) ) . "\n"; ?>
 
 -- Active Plugins:
 <?php

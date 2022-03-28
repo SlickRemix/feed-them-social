@@ -28,6 +28,15 @@ class Settings_Page {
 	public $settings_functions;
 
 	/**
+	 * Feed Cache.
+	 *
+	 * Class used for caching.
+	 *
+	 * @var object
+	 */
+	public $feed_cache;
+
+	/**
 	 * Settings Functions
 	 *
 	 * The settings Functions class
@@ -39,10 +48,14 @@ class Settings_Page {
     /**
      * Settings constructor.
      */
-    public function __construct( $settings_functions ) {
+    public function __construct( $settings_functions, $feed_cache ) {
+        // Settings Functions.
+	    $this->settings_functions = $settings_functions;
 
-        $this->settings_functions = $settings_functions;
+	    // Set Feed Cache object.
+	    $this->feed_cache = $feed_cache;
 
+        // Get All Settings.
         $this->all_settings = $this->settings_functions->fts_get_settings();
 
 	    // Add Actions and Filters.
@@ -255,7 +268,7 @@ class Settings_Page {
                             'id'            => 'fts_cache_time',
                             'name'          => __( 'Cache Time', 'feed-them-social' ),
                             'type'          => 'select',
-                            'options'       => $this->settings_functions->fts_get_cache_options(),
+                            'options'       => $this->feed_cache->fts_get_cache_options(),
                             'std'           => '',
                             'field_class'   => 'fts_cache_time',
                             'tooltip_class' => 'fts-cache-time-tooltip',

@@ -24,15 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Feed_Cache {
 
 	/**
-	 * Settings Functions
-	 *
-	 * The settings Functions class.
-	 *
-	 * @var object
-	 */
-	public $settings_functions;
-
-	/**
 	 * Data Protection
 	 *
 	 * The Data Protection class.
@@ -42,18 +33,27 @@ class Feed_Cache {
 	public $data_protection;
 
 	/**
+	 * Settings Functions
+	 *
+	 * The settings Functions class
+	 *
+	 * @var object
+	 */
+	public $settings_functions;
+
+	/**
 	 * Construct
 	 *
 	 * Functions constructor.
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct( $settings_functions,  $data_protection ) {
-		// Settings Functions Class.
-		$this->settings_functions = $settings_functions;
-
+	public function __construct(  $data_protection, $settings_functions ) {
 		// Data Protection Class.
 		$this->data_protection = $data_protection;
+
+		// Settings Functions.
+		$this->settings_functions = $settings_functions;
 
 		// Add Actions and Filters.
 		$this->add_actions_filters();
@@ -72,6 +72,56 @@ class Feed_Cache {
 
 		add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
 		add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
+	}
+
+	/**
+	 * Get date format options.
+	 *
+	 * @since	1.0.0
+	 * @return	array	Array of date format options
+	 */
+	public function fts_get_cache_options()	{
+		$formats = array(
+			'1'       => __( '( Devs Only ) Every page load', 'feed_them_social' ),
+			'86400'   => __( '1 Day', 'feed_them_social' ),
+			'172800'  => __( '2 Days', 'feed_them_social' ),
+			'259200'  => __( '3 Days', 'feed_them_social' ),
+			'604800'  => __( '1 Week', 'feed_them_social' ),
+			'1209600' => __( '2 Weeks', 'feed_them_social' ),
+		);
+		return $formats;
+	} // fts_get_cache_options
+
+	/**
+	 * FTS Cachetime amount
+	 *
+	 * @param string $fts_cachetime Cache time.
+	 * @return mixed
+	 * @since
+	 */
+	public function fts_cachetime_amount( $fts_cachetime ) {
+		switch ( $fts_cachetime ) {
+			case '1':
+				$fts_display_cache_time = __( 'Clear cache on every page load', 'feed-them-social' );
+				break;
+			default:
+			case '86400':
+				$fts_display_cache_time = __( '1 Day (Default)', 'feed-them-social' );
+				break;
+			case '172800':
+				$fts_display_cache_time = __( '2 Days', 'feed-them-social' );
+				break;
+			case '259200':
+				$fts_display_cache_time = __( '3 Days', 'feed-them-social' );
+				break;
+			case '604800':
+				$fts_display_cache_time = __( '1 Week', 'feed-them-social' );
+				break;
+			case '1209600':
+				$fts_display_cache_time = __( '2 Weeks', 'feed-them-social' );
+				break;
+		}
+		return $fts_display_cache_time;
 	}
 
 	/**

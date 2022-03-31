@@ -9,14 +9,35 @@ namespace feedthemsocial;
  */
 class FTS_Functions {
 
-	/**
-	 * Construct
-	 *
-	 * Functions constructor.
-	 *
-	 * @since 1.9.6
-	 */
-	public function __construct() {
+    /**
+     * Settings Functions
+     *
+     * The settings Functions class
+     *
+     * @var object
+     */
+    public $settings_functions;
+
+    /**
+     * Feed Cache.
+     *
+     * Class used for caching.
+     *
+     * @var object
+     */
+    public $feed_cache;
+
+    /**
+     * System_Info constructor.
+     */
+    public function __construct( $settings_functions, $feed_cache ) {
+
+        // Settings Functions.
+        $this->settings_functions = $settings_functions;
+
+        // Set Feed Cache object.
+        $this->feed_cache = $feed_cache;
+
 		$root_file                       = plugin_dir_path( dirname( __FILE__ ) );
 		$this->premium                   = str_replace( 'feed-them-social/', 'feed-them-premium/', $root_file );
 		$this->facebook_carousel_premium = str_replace( 'feed-them-social/', 'feed-them-carousel-premium/', $root_file );
@@ -75,16 +96,32 @@ class FTS_Functions {
 			}
 		}
 
+
+        $display_admin_bar = $this->settings_functions->fts_get_option( 'fts_show_admin_bar' ) ? $this->settings_functions->fts_get_option( 'fts_show_admin_bar' ) : '';
+        if ( '1' === $display_admin_bar ) {
+            // FTS Admin Bar!
+            add_action( 'wp_before_admin_bar_render', array( $this, 'fts_admin_bar_menu' ), 999 );
+        }
+
 		// Settings option. Add Custom CSS to the header of FTS pages only!
-		$fts_include_custom_css_checked_css = get_option( 'fts-color-options-settings-custom-css' );
-		if ( '1' === $fts_include_custom_css_checked_css ) {
-			add_action( 'wp_enqueue_scripts', array( $this, 'fts_color_options_head_css' ) );
+        $use_custom_css = $this->settings_functions->fts_get_option( 'use_custom_css' ) ? $this->settings_functions->fts_get_option( 'use_custom_css' ) : '';
+		if ( '1' === $use_custom_css ) {
+			add_action( 'wp_enqueue_scripts', array( $this, 'use_custom_css_styles' ) );
 		}
+
+        // Settings option. Add Custom JS to the header of FTS pages only!
+        $use_custom_js = $this->settings_functions->fts_get_option( 'use_custom_js' ) ? $this->settings_functions->fts_get_option( 'use_custom_js' ) : '';
+        if ( '1' === $use_custom_js ) {
+
+            add_action( 'wp_footer', array( $this, 'use_custom_js_scripts' ) );
+        }
+
 		// Facebook Settings option. Add Custom CSS to the header of FTS pages only!
 		$fts_include_fb_custom_css_checked_css = '1';
 		if ( '1' === $fts_include_fb_custom_css_checked_css ) {
 			add_action( 'wp_print_styles', array( $this, 'fts_fb_color_options_head_css' ) );
 		}
+
 		// Settings option. Custom Powered by Feed Them Social Option!
 		$fts_powered_text_options_settings = get_option( 'fts-powered-text-options-settings' );
 		if ( '1' !== $fts_powered_text_options_settings ) {
@@ -119,97 +156,141 @@ class FTS_Functions {
 		die;
 	}
 
-	/**
-	 * Feed Them Instagram Save Token
-	 *
-	 * FTS Check and Save Instagram Token Validity.
-	 *
-	 * @return bool
-	 * @since 2.6.1
-	 */
-	public function feed_them_instagram_save_token() {
+    /**
+     * FTS Instagram Token Ajax
+     *
+     * SRL: This will save the encrypted version of the token to the database and return the original token to the input field upon page submit.
+     *
+     * @since 2.9.7.2
+     */
+    public function fts_encrypt_token_ajax() {
 
-		$fts_refresh_token_nonce = wp_create_nonce( 'access_token' );
+        $fts_refresh_token_nonce = wp_create_nonce( 'fts_encrypt_token_nonce' );
+        $access_token            = $_REQUEST['access_token'];
+        $encrypt                 = $this->data_protection->encrypt( $access_token );
 
-		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'access_token' ) ) {
+        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_encrypt_token_nonce' ) ) {
+            if( 'business' === $_REQUEST['token_type'] ){
+                // Now the encrypted version is saved to the DB.
+                update_option( 'fts_facebook_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
+            }
+            elseif ( 'basic' === $_REQUEST['token_type'] ) {
+                // Now the encrypted version is saved to the DB.
+                update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
+            }
+            elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
+                // Now the encrypted version is saved to the DB.
+                update_option( 'fts_facebook_custom_api_token', sanitize_text_field( $encrypt ) );
+            }
+            elseif( 'fbBusinessReviews' === $_REQUEST['token_type'] ){
+                // Now the encrypted version is saved to the DB.
+                update_option( 'fts_facebook_custom_api_token_biz', sanitize_text_field( $encrypt ) );
+            }
+        }
+        $token_data = array (
+            'token'      => $access_token,
+            'encrypted'  => $encrypt,
+        );
 
-			$auth_obj  = $_GET['code'];
-			$feed_type = $_GET['feed_type'];
-			$user_id   = $_GET['user_id'];
+        // We pass the original access token back so we can add it to our input field.
+        // Also passing the encrypted token so we can see it in the console.
+        echo json_encode( $token_data );
 
-			if ( isset( $auth_obj ) && 'original_instagram' === $feed_type || isset( $auth_obj ) && 'instagram_basic' === $feed_type ) {
-				?>
-				<script>
-					jQuery(document).ready(function () {
-						var access_token = '<?php echo sanitize_text_field( $auth_obj ); ?>';
-						var user_id = '<?php echo sanitize_text_field( $user_id ); ?>';
+        wp_die();
+    }
 
-						jQuery.ajax({
-							data: {
-								action: 'fts_instagram_token_ajax',
-								access_token: access_token,
-								user_id: user_id,
-							},
-							type: 'POST',
-							url: ftsAjax.ajaxurl,
-							success: function (response) {
-								<?php
-								$auth_obj = $_GET['code'];
-								if ( 'instagram_basic' === $feed_type ) {
-									$insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $auth_obj );
-								} else {
-									$insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $auth_obj );
-								}
-								// Get Data for Instagram to check for errors
-								$response                = wp_remote_fopen( $insta_url );
-								$test_app_token_response = json_decode( $response );
+    /**
+     * Feed Them Instagram Save Token
+     *
+     * FTS Check and Save Instagram Token Validity.
+     *
+     * @return bool
+     * @since 2.6.1
+     */
+    public function feed_them_instagram_save_token() {
 
-								// if the combined streams plugin is active we won't allow the settings page link to open up the Instagram Feed, instead we'll remove the #feed_type=instagram and just let the user manually select the combined streams or single instagram feed.
-								if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
-									$custom_instagram_link_hash = '';
-								} else {
-									$custom_instagram_link_hash = '#feed_type=instagram';
-								}
-								if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) || isset( $test_app_token_response->meta->error_message ) && 'This client has not been approved to access this resource.' === $test_app_token_response->meta->error_message ) {
-									$fts_instagram_message = sprintf(
-										esc_html__( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
-										'<div class="fts-successful-api-token">',
-										'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
-										'</a></div>'
-									);
-									?>
-								jQuery('.instagram-failed-message').hide();
-								if (!jQuery('.fts-instagram-last-row .fts-successful-api-token').length) {
-									jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
-								}
-								jQuery('.fts-success').show();
-									<?php
-								} elseif ( isset( $test_app_token_response->meta->error_message ) || isset( $test_app_token_response->error_message ) ) {
-									$text                  = isset( $test_app_token_response->meta->error_message ) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
-									$fts_instagram_message = sprintf(
-										esc_html__( '%1$sOh No something\'s wrong. %2$s. Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s.', 'feed-them-social' ),
-										'<div class="fts-failed-api-token">',
-										esc_html( $text ),
-										'</div>'
-									);
-									?>
-								if (jQuery('.instagram-failed-message').length) {
-									jQuery('.instagram-failed-message').hide();
-									jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
-								}
-									<?php
-								}
-								?>
-								console.log( 'success saving instagram access token' );
-							}
-						}); // end of ajax()
-						return false;
-					}); // end of document.ready
-				</script>
-				<?php
-			}
-		}
-	}
+        $fts_refresh_token_nonce = wp_create_nonce( 'access_token' );
+
+        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'access_token' ) ) {
+            $raw_token  = $_GET['code'];
+            $feed_type  = $_GET['feed_type'];
+            $user_id    = $_GET['user_id'];
+
+
+
+            if ( isset( $raw_token ) && 'original_instagram' === $feed_type || isset( $raw_token ) && 'instagram_basic' === $feed_type ) {
+                $encrypted_token = $this->data_protection->encrypt( $raw_token );
+                //  error_log( print_r( $encrypted_token, true ) );
+
+                ?>
+                <script>
+                    jQuery(document).ready(function () {
+
+                        var access_token = '<?php echo sanitize_text_field( $encrypted_token ); ?>';
+                        var user_id = '<?php echo sanitize_text_field( $user_id ); ?>';
+
+                        jQuery.ajax({
+                            data: {
+                                action: 'fts_instagram_token_ajax',
+                                access_token: access_token,
+                                user_id: user_id,
+                            },
+                            type: 'POST',
+                            url: ftsAjax.ajaxurl,
+                            success: function (response) {
+                                <?php
+                                $insta_url = 'instagram_basic' === $feed_type ? esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $raw_token ) : esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $raw_token );
+
+                                // Get Data for Instagram to check for errors!
+                                $response                = wp_remote_fopen( $insta_url );
+                                $test_app_token_response = json_decode( $response );
+
+                                // if the combined streams plugin is active we won't allow the settings page link to open up the Instagram Feed, instead we'll remove the #feed_type=instagram and just let the user manually select the combined streams or single instagram feed.
+                                if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
+                                    $custom_instagram_link_hash = '';
+                                } else {
+                                    $custom_instagram_link_hash = '#feed_type=instagram';
+                                }
+                                if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) || isset( $test_app_token_response->meta->error_message ) && 'This client has not been approved to access this resource.' === $test_app_token_response->meta->error_message ) {
+                                $fts_instagram_message = sprintf(
+                                    esc_html__( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
+                                    '<div class="fts-successful-api-token">',
+                                    '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
+                                    '</a></div>'
+                                );
+                                ?>
+                                jQuery('.instagram-failed-message').hide();
+                                if (!jQuery('.fts-instagram-last-row .fts-successful-api-token').length) {
+                                    jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
+                                }
+                                jQuery('.fts-success').show();
+                                <?php
+                                } elseif ( isset( $test_app_token_response->meta->error_message ) || isset( $test_app_token_response->error_message ) ) {
+                                $text                  = isset( $test_app_token_response->meta->error_message ) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
+                                $fts_instagram_message = sprintf(
+                                    esc_html__( '%1$sOh No something\'s wrong. %2$s. Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s.', 'feed-them-social' ),
+                                    '<div class="fts-failed-api-token">',
+                                    esc_html( $text ),
+                                    '</div>'
+                                );
+                                ?>
+                                if (jQuery('.instagram-failed-message').length) {
+                                    jQuery('.instagram-failed-message').hide();
+                                    jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
+                                }
+                                <?php
+                                }
+                                ?>
+                                console.log( 'success saving instagram access token: Encrypted Token: <?php echo $encrypted_token ?>' );
+                            }
+                        }); // end of ajax()
+                        return false;
+                    }); // end of document.ready
+                </script>
+                <?php
+            }
+        }
+    }
 
 	/**
 	 * FTS JetPack Photon Option Exception
@@ -939,6 +1020,91 @@ class FTS_Functions {
 		);
 	}
 
+    /**
+     * FTS Admin Bar Menu
+     *
+     * Create our custom menu in the admin bar.
+     *
+     * @since 1.9.6
+     */
+    public function fts_admin_bar_menu() {
+        global $wp_admin_bar;
+
+        $fts_admin_bar_menu = get_option( 'fts_admin_bar_menu' );
+        $fts_dev_mode_cache = get_option( 'fts_clear_cache_developer_mode' );
+        if ( ! is_super_admin() || ! is_admin_bar_showing() || 'hide-admin-bar-menu' === $fts_admin_bar_menu ) {
+            return;
+        }
+        $wp_admin_bar->add_menu(
+            array(
+                'id'    => 'feed_them_social_admin_bar',
+                'title' => __( 'Feed Them Social', 'feed-them-social' ),
+                'href'  => false,
+            )
+        );
+        if ( '1' === $fts_dev_mode_cache ) {
+            $wp_admin_bar->add_menu(
+                array(
+                    'id'     => 'feed_them_social_admin_bar_clear_cache',
+                    'parent' => 'feed_them_social_admin_bar',
+                    'title'  => __( 'Cache clears on page refresh now', 'feed-them-social' ),
+                    'href'   => false,
+                )
+            );
+        } else {
+            $wp_admin_bar->add_menu(
+                array(
+                    'id'     => 'feed_them_social_admin_set_cache',
+                    'parent' => 'feed_them_social_admin_bar',
+                    'title'  => __( 'Clear Cache', 'feed-them-social' ),
+                    'href'   => '#',
+                    'meta' => array('onclick' => 'fts_ClearCache();') //JavaScript function trigger just as an example.
+                )
+            );
+        }
+
+        $fts_cachetime = $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '86400';
+
+        $wp_admin_bar->add_menu(
+            array(
+                'id'     => 'feed_them_social_admin_bar_set_cache',
+                'parent' => 'feed_them_social_admin_bar',
+                'title'  => sprintf(
+                    __( 'Set Cache Time %1$s%2$s%3$s', 'feed-them-social' ),
+                    '<span>',
+                    $this->feed_cache->fts_cachetime_amount( $fts_cachetime ),
+                    '</span>'
+                ),
+                'href'   => admin_url( 'edit.php?post_type=fts&page=fts-settings-page' ),
+
+            )
+        );
+        $wp_admin_bar->add_menu(
+            array(
+                'id'     => 'feed_them_social_admin_bar_settings',
+                'parent' => 'feed_them_social_admin_bar',
+                'title'  => __( 'Settings', 'feed-them-social' ),
+                'href'   => admin_url( 'edit.php?post_type=fts&page=fts-settings-page' ),
+            )
+        );
+        $wp_admin_bar->add_menu(
+            array(
+                'id'     => 'feed_them_social_admin_bar_styles_scripts',
+                'parent' => 'feed_them_social_admin_bar',
+                'title'  => __( 'Styles & Scripts', 'feed-them-social' ),
+                'href'   => admin_url( 'edit.php?post_type=fts&page=fts-settings-page&tab=styles' ),
+            )
+        );
+        $wp_admin_bar->add_menu(
+            array(
+                'id'     => 'feed_them_social_admin_bar_social_sharing',
+                'parent' => 'feed_them_social_admin_bar',
+                'title'  => __( 'Social Sharing', 'feed-them-social' ),
+                'href'   => admin_url( 'edit.php?post_type=fts&page=fts-settings-page&tab=sharing' ),
+            )
+        );
+    }
+
 	/**
 	 * Feed Them Admin CSS
 	 *
@@ -1355,15 +1521,28 @@ class FTS_Functions {
 	}
 
 	/**
-	 * FTS Color Options Head CSS
+	 * Use Custom CSS Styles
 	 *
-	 * @since 1.9.6
+	 * @since 3.0
 	 */
-	public function fts_color_options_head_css() {
-		?>
-		<style type="text/css"><?php echo get_option( 'fts-color-options-main-wrapper-css-input' ); ?></style>
+	public function use_custom_css_styles() {
+        $custom_css = '' !== $this->settings_functions->fts_get_option( 'custom_css' ) ? $this->settings_functions->fts_get_option( 'custom_css' ) : '';
+        ?>
+		<style type="text/css"><?php echo esc_js( $custom_css ) ?></style>
 		<?php
 	}
+
+    /**
+     * Use Custom JS Scripts
+     *
+     * @since 3.0
+     */
+    public function use_custom_js_scripts() {
+        $custom_js = '' !== $this->settings_functions->fts_get_option( 'custom_js' ) ? $this->settings_functions->fts_get_option( 'custom_js' ) : '';
+        ?>
+        <script><?php echo $custom_js ?></script>
+        <?php
+    }
 
 	/**
 	 * FTS FB Color Options Head CSS

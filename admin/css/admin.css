@@ -377,71 +377,6 @@
 }
 
 
-
-
-@media (max-width:780px){
-    #pgr_settings\[pgr_show_admin_bar\] {
-        margin-top:5px !important;
-    }
-    .pgr_communities_page_pgr-settings-page .css tr:first-child th, .pgr_communities_page_pgr-settings-page .js tr:first-child th {
-        margin-left: 8px !important;
-        margin-bottom:9px;
-    }
-    .pgr_communities_page_pgr-settings-page .css tr:last-child th {
-        margin-left: 0 !important;
-        padding-left: 0 !important;
-        margin-top:10px;
-    }
-    .pgr_communities_page_pgr-settings-page .css tr:first-child .pgr-help-tip, .pgr_communities_page_pgr-settings-page .js tr:first-child .pgr-help-tip {
-        margin-left: -30px !important;
-    }
-    .pgr-checkbox-tooltip {
-        margin-top:5px !important;
-    }
-    #fts-clear-cache {
-        margin:5px 0;
-    }
-    .pgr_communities_page_pgr-settings-page .form-table th br {
-        display:none;
-    }
-    .pgr_communities_page_pgr-settings-page .form-table th small {
-        padding-left:8px
-    }
-    .pgr-not-first-header.pgr-help-tip {
-        top:-27px;
-    }
-    #pg-fetch-projects {
-        margin:8px 0 0;
-    }
-    .pgr-help-tip {
-        position:absolute;
-        left:0px;
-        top:-23px;
-        display:inline-block;
-    }
-    .pgr_communities_page_pgr-settings-page .form-table th {
-        padding-left:23px !important;
-    }
-    .pgr_communities_page_pgr-settings-page .form-table h2 {
-        margin:0px !important;
-    }
-    .pgr_communities_page_pgr-settings-page .form-table tr:FIRST-CHILD th {
-        padding-left:22px !important;
-        padding-bottom:0px !important;
-    }
-    .pgr_communities_page_pgr-settings-page .form-table tr:FIRST-CHILD td .pgr-help-tip {
-        left:0px !important;
-        top:-28px;
-    }
-    .pgr_communities_page_pgr-settings-page .form-table tr:FIRST-CHILD th {
-        padding-left:22px !important;
-        padding-bottom:0px !important;
-    }
-    .pgr_communities_page_pgr-settings-page .form-table tr:FIRST-CHILD td {
-        padding:0 !important;
-    }
-
-}
 #wp-admin-bar-fts_admin_bar_set_cache {
     height:40px;;
 }
@@ -453,34 +388,6 @@
 }
 
 
-.fts_page_fts-settings-page .ui-tooltip {
-    position: absolute;
-    background: #333!important;
-    border-width: 1px!important;
-    border-radius: 3px!important;
-    box-shadow: 1px 1px 2px 1px rgba(214, 214, 214, .5)!important;
-    color: #dedede!important;
-    max-width: 300px!important;
-    padding: 12px !important;
-    font-size:13px;
-    text-rendering: optimizeLegibility;
-    text-shadow: none!important;
-    z-index: 9999!important;
-    word-wrap: break-word;
-}
-.fts-cache-messages {
-    min-width: 279px;
-    max-width: 301px;
-    background: #FFF;
-    color: #333;
-    font-size:13px;
-    padding: 9px 20px 9px 10px;
-    border-left: 3px solid limegreen;
-    display: none;
-    margin-top:10px;
-    width:100%;
-    margin-bottom: -10px;
-}
 .custom_time_ago_wrap td, .custom_time_ago_wrap th {
     padding-bottom:0;
 }
@@ -495,4 +402,82 @@
     background: #f1f1f180;
     border: 1px solid #cccccce3;
     color: #777;
+}
+
+
+
+
+
+
+.fts-cache-messages {
+    min-width: 279px;
+    max-width: 400px;
+    background: #FFF;
+    color: #333;
+    font-size:13px;
+    padding: 9px 20px 9px 10px;
+    border-left: 3px solid limegreen;
+    display: none;
+    margin-top:10px;
+    width:100%;
+}
+.fts-message-inline-block {
+    display:inline-block;
+}
+.fts-cache-loading {
+    border-left: 3px solid #fca506;
+    animation: border-pulsate 2s infinite;
+}
+.fts-cache-success {
+    border-left: 3px solid limegreen;
+}
+.fts-cache-error {
+    border-left: 3px solid #dc2626;
+}
+
+@keyframes border-pulsate {
+    0%   { border-color: #fca506; }
+    50%  { border-color: #fca5061a; }
+    100% { border-color: #fca506; }
+}
+#fts-clear-cache {
+    background:#2270b1;
+    display:inline-block;
+    margin-left:8px;
+    border-radius:2px;
+    padding:7px 10px;
+    color:#fff;
+    font-size:13px;
+    cursor:pointer;
+    margin-top:-4px;
+}
+#fts-clear-cache {
+    margin-top:-2px;
+}
+@media (max-width:780px){
+    #fts-clear-cache {
+        margin:5px 0;
+    }
+    .ftsr-not-first-header.fts-help-tip {
+        top:-27px;
+    }
+    .fts-help-tip {
+        position:absolute;
+        left:0px;
+        top:-23px;
+        display:inline-block;
+    }
+
+}
+
+
+
+#wp-admin-bar-feed_them_social_admin_bar_set_cache {
+    padding-bottom: 17px!important;
+    line-height: 0!important;
+}
+#wp-admin-bar-feed_them_social_admin_bar_set_cache span {
+    line-height: 10px;
+    display: block;
+    color: rgba(221,221,221,.57);
 }

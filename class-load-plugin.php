@@ -70,7 +70,7 @@ class Feed_Them_Social {
 		$feed_cache = new \feedthemsocial\Feed_Cache( $data_protection, $settings_functions );
 
         // Feed Them Functions!
-        $feed_functions = new \feedthemsocial\FTS_Functions();
+        $feed_functions = new \feedthemsocial\FTS_Functions( $settings_functions, $feed_cache );
 
 		// Settings Page.
         new \feedthemsocial\Settings_Page( $settings_functions, $feed_cache );

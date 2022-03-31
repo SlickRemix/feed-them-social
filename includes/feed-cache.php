@@ -271,6 +271,10 @@ class Feed_Cache {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
 
 		wp_reset_query();
+
+        echo 'Success';
+
+        wp_die();
 	}
 
 	/**

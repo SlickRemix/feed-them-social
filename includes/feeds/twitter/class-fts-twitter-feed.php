@@ -371,7 +371,7 @@ class FTS_Twitter_Feed {
 			} else {
 
                 // Returned Options!
-                $returned_options = $this->feed_cpt->get_cpt_post_options( $inputted_atts['cpt_id'] );
+                $returned_options = $this->feed_cpt->get_saved_feed_settings( $inputted_atts['cpt_id'] );
 
                      // Twitter Username!
                     $twitter_name = $returned_options['twitter_name'] ? $returned_options['twitter_name'] : '';

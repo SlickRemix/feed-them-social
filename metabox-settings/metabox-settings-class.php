@@ -45,14 +45,6 @@ class Metabox_Settings {
 	 */
 	public $settings_page_name = '';
 
-	/**
-	 * Main Post Type
-	 *
-	 * The post type to be checked
-	 *
-	 * @var string
-	 */
-	public $main_post_type = '';
 
 	/**
 	 * Is Page

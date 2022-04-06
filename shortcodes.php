@@ -1,4 +1,18 @@
 <?php namespace feedthemsocial;
+/**
+ * Feeds Functions Class
+ *
+ * This class is what initiates the Feed Them Social class
+ *
+ * @version  1.0.0
+ * @package  FeedThemSocial/Core
+ * @author   SlickRemix
+ */
+
+// Exit if accessed directly!
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Shortcodes for Feed Them Social
@@ -16,7 +30,7 @@ class Shortcodes {
 	/**
 	 * Shortcodes constructor.
 	 */
-	public function __construct( $main_post_type, $feed_functions, $feeds_cpt, $feed_cache ){
+	public function __construct( $feed_functions, $feeds_cpt, $feed_cache ){
 		$this->add_actions_filters();
 
 		// Set Feed Functions object.
@@ -29,9 +43,6 @@ class Shortcodes {
 		$this->feed_cache = $feed_cache;
 
 		// Set Metabox Settings object.
-		$this->metabox_settings = $feeds_cpt->metabox_settings_class;
-
-		// Main Post Type
 		$this->metabox_settings = $feeds_cpt->metabox_settings_class;
 	}
 
@@ -89,9 +100,10 @@ class Shortcodes {
      */
     public function fts_shortcode_filter( $inputted_atts ){
 
-	    $cpt_id = $this->cpt_check($inputted_atts);
+		// Check CPT ID exists.
+	    $cpt_id = $this->cpt_id_exists($inputted_atts);
 
-	    $feed_type = $this->get_feed_type($cpt_id);
+	    $feed_type = $this->feed_functions->get_feed_type( $cpt_id );
 
 	    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
 	    echo $twitter_feed->display_twitter( $inputted_atts );
@@ -99,16 +111,15 @@ class Shortcodes {
 	   $this->shortcode_location( $cpt_id );
 
     	//Check the CPT ID exists in Shortcode
-    	if ($cpt_id){
-
+    	if ($cpt_id && $feed_type){
     		//Filter by Feed Type
     		switch ( $feed_type ){
 			    case 'facebook-feed-type':
 				    break;
 			    case 'instagram-feed-type':
 				    break;
+			    // Twitter Feed.
 			    case 'twitter-feed-type':
-				    // Twitter Feed.
 				    break;
 			    case 'youtube-feed-type':
 				    break;
@@ -118,27 +129,8 @@ class Shortcodes {
 	    }
     }
 
-
 	/**
-	 * Get Feed Type
-	 *
-	 * Get the feed type from option set in the CPT.
-	 *
-	 * @param $cpt_id string
-	 */
-	public function get_feed_type( $cpt_id ){
-		// Get Saved Settings Array.
-		$saved_settings = $this->metabox_settings->get_saved_settings_array( $cpt_id, 'fts');
-
-		if( $saved_settings && isset($saved_settings['feed_type']) && !empty($saved_settings['feed_type'])){
-			return $saved_settings['feed_type'];
-		}
-		return false;
-	}
-
-
-	/**
-	 * Custom Post Type Check
+	 * CPT ID Exists
 	 *
 	 * Check to see if CPT ID attribute exists.
 	 *
@@ -146,7 +138,7 @@ class Shortcodes {
 	 * @return array|bool
 	 * @since 3.0.0
 	 */
-	public function cpt_check( $inputted_atts ) {
+	public function cpt_id_exists( $inputted_atts ) {
 
 		if ( is_array( $inputted_atts ) && isset( $inputted_atts['cpt_id'] ) && ! empty( $inputted_atts['cpt_id'] ) ) {
 			return $inputted_atts['cpt_id'];

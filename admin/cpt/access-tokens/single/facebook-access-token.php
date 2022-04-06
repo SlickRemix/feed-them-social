@@ -5,12 +5,17 @@
  * This page is used to create the Facebook Access Token options!
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2018, SlickRemix
+ * @copyright   Copyright (c) 2012-2022, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       3.0.0
  */
 
 namespace feedthemsocial;
+
+// Exit if accessed directly!
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class Facebook_Access_Options
@@ -19,14 +24,36 @@ namespace feedthemsocial;
  */
 class Facebook_Access_Options {
 
+	/**
+	 * Feed Functions
+	 *
+	 * The Feed Functions Class
+	 *
+	 * @var object
+	 */
+	public $feed_functions;
+
+	/**
+	 * Data Protection
+	 *
+	 * Data Protection Class for encryption.
+	 *
+	 * @var object
+	 */
+	public $data_protection;
+
 	/** * Construct
 	 *
 	 * Facebook Access Token Options.
 	 *
 	 * @since 3.0.0
 	 */
-	public function __construct() {
+	public function __construct( $feed_functions, $data_protection ) {
+		// Feed Functions.
+		$this->feed_functions = $feed_functions;
 
+		// Data Protection.
+		$this->data_protection = $data_protection;
 	}
 
 	/**
@@ -35,7 +62,6 @@ class Facebook_Access_Options {
 	 * @since 3.0.0
 	 */
 	public function access_options() {
-		$fts_functions = new FTS_Functions();
 		?>
 
 		<div class="feed-them-social-admin-wrap">
@@ -87,9 +113,9 @@ class Facebook_Access_Options {
 							// Leave these for reference:
 							// App token for FTS APP2: 358962200939086|lyXQ5-zqXjvYSIgEf8mEhE9gZ_M
 							// App token for FTS APP3: 705020102908771|rdaGxW9NK2caHCtFrulCZwJNPyY!
-							$test_app_token_response     = $fts_functions->fts_get_feed_json( $test_app_token_url );
+							$test_app_token_response     = $this->feed_functions->fts_get_feed_json( $test_app_token_url );
 							$test_app_token_response     = json_decode( $test_app_token_response['app_token_id'] );
-							$test_app_token_response_biz = $fts_functions->fts_get_feed_json( $test_app_token_url_biz );
+							$test_app_token_response_biz = $this->feed_functions->fts_get_feed_json( $test_app_token_url_biz );
 							$test_app_token_response_biz = json_decode( $test_app_token_response_biz['app_token_id_biz'] );
 						}
 						?>

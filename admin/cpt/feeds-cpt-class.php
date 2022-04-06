@@ -33,12 +33,22 @@ class Feeds_CPT {
 	public $parent_post_id = '';
 
 	/**
-	 * Saved Settings Array
-	 * an array of settings to save when saving page
+	 * Feed Functions
 	 *
-	 * @var string
+	 * The Feed Functions Class
+	 *
+	 * @var object
 	 */
-	public $saved_settings_array = array();
+	public $feed_functions;
+
+
+	/**
+	 * Feed Settings Array
+	 * An array of Feed Settings. Set in admin/cpt/options/feeds-cpt-options.php
+	 *
+	 * @var array
+	 */
+	public $feed_settings_array = array();
 
 	/**
 	 * Global Prefix
@@ -73,12 +83,12 @@ class Feeds_CPT {
     public $setting_options_js;
 
 	/**
-	 * Twitter API Token
-	 * initiates Twitter API Token Class
+	 * Access Token Options
+	 * initiates Access Token Options class.
 	 *
-	 * @var string
+	 * @var object
 	 */
-	public $twitter_api_token;
+	public $access_token_options;
 
 	/**
 	 * Metabox Settings Class
@@ -92,16 +102,19 @@ class Feeds_CPT {
 	 * Feeds_CPT constructor.
      *
      * @param object  $feed_cpt_options All options.
-	 * @param string $main_post_type Main Post Type.
 	 */
-	public function __construct( $feed_cpt_options, $main_post_type, $setting_options_js, $settings_functions) {
+	public function __construct( $feed_functions, $feed_cpt_options, $setting_options_js, $settings_functions, $access_token_options) {
 
 
-		$this->set_class_vars( $feed_cpt_options, $main_post_type, $setting_options_js, $settings_functions );
+		$this->set_class_vars( $feed_cpt_options, $setting_options_js, $settings_functions );
 		$this->add_actions_filters();
 
-		//API Tokens
-		//$this->twitter_api_token = $twitter_api_token;
+		// Set Feed Functions object.
+		$this->feed_functions = $feed_functions;
+
+		//Access Token Options
+        $this->access_token_options = $access_token_options;
+
     }
 
 	/**
@@ -110,11 +123,10 @@ class Feeds_CPT {
 	 *  Sets the variables for this class
 	 *
 	 * @param object  $feed_cpt_options All options.
-	 * @param string $main_post_type Main Post Type.
 	 * @since 1.1.8
 	 */
-	public function set_class_vars( $feed_cpt_options, $main_post_type, $setting_options_js, $settings_functions ) {
-			$this->saved_settings_array = $feed_cpt_options->get_all_options();
+	public function set_class_vars( $feed_cpt_options, $setting_options_js, $settings_functions ) {
+			$this->feed_settings_array = $feed_cpt_options->get_all_options();
 
 			$this->setting_options_js = $setting_options_js;
 
@@ -128,10 +140,10 @@ class Feeds_CPT {
 
 		if ( current_user_can( 'manage_options' ) ) {
 			// Load Metabox Setings Class (including all of the scripts and styles attached).
-			$this->metabox_settings_class = new Metabox_Settings( $this, $this->saved_settings_array, $settings_functions );
+			$this->metabox_settings_class = new Metabox_Settings( $this, $this->feed_settings_array, $settings_functions );
 
 			// Set Main Post Type.
-			$this->metabox_settings_class->set_main_post_type( $main_post_type );
+			$this->metabox_settings_class->set_main_post_type( FEED_THEM_SOCIAL_POST_TYPE );
 
 			// Set Metabox Specific Form Inputs.
 			$this->metabox_settings_class->set_metabox_specific_form_inputs( true );
@@ -252,7 +264,7 @@ class Feeds_CPT {
 			'/gallery-options',
 			array(
 				'methods'  => \WP_REST_Server::READABLE,
-                'callback' => array( $this, 'get_cpt_post_options' ),
+                'callback' => array( $this, 'get_saved_feed_settings' ),
 			)
 		);
 	}
@@ -285,59 +297,9 @@ class Feeds_CPT {
 	}
 
 	/**
-	 *  Get CPT Post Options
+	 * Create Feed Them Social Custom Post Type
 	 *
-	 * Get options set for a gallery
-	 *
-	 * @param mixed $cpt_post_id Gallery ID.
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function get_cpt_post_options( $cpt_post_id ) {
-
-        // Convert array or string
-	    $cpt_post_id = is_array( $cpt_post_id ) ? $cpt_post_id['cpt_id'] : $cpt_post_id;
-
-        $post_info = get_post( $cpt_post_id ) ;
-
-		$old_options   = get_post_meta( $cpt_post_id, 'fts_settings_options', true );
-		$options_array = isset( $old_options ) && ! empty( $old_options ) ? $old_options : array();
-
-		if ( ! $options_array ) {
-
-			// Basic Post Info.
-			$options_array['fts_image_id'] = isset( $post_info->ID ) ? $post_info->ID : esc_html__( 'This ID does not exist anymore', 'feed_them_social' );
-			$options_array['fts_author']   = isset( $post_info->post_author ) ? $post_info->post_author : '';
-			// $options_array['fts_post_date'] = $post_info->post_date_gmt;
-			$options_array['fts_post_title'] = isset( $post_info->post_title ) ? $post_info->post_title : '';
-			// $options_array['fts_post_alttext'] = $post_info->post_title;
-			// $options_array['fts_comment_status'] = $post_info->comment_status;
-			foreach ( $this->saved_settings_array as $box_array ) {
-				foreach ( $box_array as $box_key => $settings ) {
-					if ( 'main_options' === $box_key ) {
-						// Gallery Settings.
-						foreach ( $settings as $option ) {
-							$option_name          = ! empty( $option['name'] ) ? $option['name'] : '';
-							$option_default_value = ! empty( $option['default_value'] ) ? $option['default_value'] : '';
-
-							if ( ! empty( $option_name ) && ! empty( $option_default_value ) ) {
-
-								// Set value or use Default_value.
-								$options_array[ $option_name ] = $option_default_value;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return $options_array;
-	}
-
-	/**
-	 *  Custom Post Type
-	 *
-	 * Create  custom post type
+	 * Create custom post type.
 	 *
 	 * @since 1.0.0
 	 */
@@ -387,7 +349,7 @@ class Feeds_CPT {
 	/**
 	 *  Categories (Custom Taxonomy)
 	 *
-	 * Create  Custom Taxonomy
+	 * Create Custom Taxonomy.
 	 *
 	 * @since 1.0.2
 	 */
@@ -423,7 +385,7 @@ class Feeds_CPT {
 	}
 
 	/**
-	 *  Register Taxonomy for Attachments
+	 * Register Taxonomy for Attachments
 	 *
 	 * Registers
 	 *
@@ -435,7 +397,7 @@ class Feeds_CPT {
 	}
 
 	/**
-	 *  Rename Submenu Name
+	 * Rename Submenu Name
 	 * Renames the submenu item in the WordPress dashboard's menu
 	 *
 	 * @param $safe_text
@@ -454,7 +416,7 @@ class Feeds_CPT {
 	}
 
 	/**
-	 *  Updated Messages
+	 * Updated Messages
 	 * Updates the messages in the admin area so they match plugin
 	 *
 	 * @param $messages
@@ -766,21 +728,6 @@ class Feeds_CPT {
 		<?php
 	}
 
-
-    /**
-	 * Tab Feed Type Content
-	 *
-	 * Outputs Feed Type Selection tab's content for metabox.
-	 *
-	 * @param $params
-	 * @since 1.1.6
-	 */
-	public function get_access_token_options( $feed_type ) {
-
-
-
-	}
-
 	/**
 	 * Tab Feed Type Content
 	 *
@@ -799,7 +746,7 @@ class Feeds_CPT {
 		$object        = $params['object'];
 		$gallery_class = $params['this'];
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['feed_type_options'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['feed_type_options'], null, $gallery_class->parent_post_id );
 
 		?>
 			<div class="ftg-section">
@@ -825,13 +772,11 @@ class Feeds_CPT {
 	            // Happens in JS file
 	            echo '<div class="ft-gallery-notice"></div>';
 
-	            echo $this->get_access_token_options();
 
 
+                // Get Access Token Options.
+	            echo $this->access_token_options->get_access_token_options( $this->feed_functions->get_feed_type( $gallery_class->parent_post_id ) );
                 ?>
-
-
-
             </div>
         <?php
 	}
@@ -846,7 +791,7 @@ class Feeds_CPT {
 	public function tab_layout_content( $params ) {
 		$gallery_class = $params['this'];
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['layout'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['layout'], null, $gallery_class->parent_post_id );
 		?>
         <div class="clear"></div>
         <div class="ft-gallery-note ft-gallery-note-footer">
@@ -872,7 +817,7 @@ class Feeds_CPT {
 
 		$gallery_class = $params['this'];
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['colors'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['colors'], null, $gallery_class->parent_post_id );
 		?>
 		<div class="clear"></div>
 
@@ -906,7 +851,7 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['facebook'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['facebook'], null, $gallery_class->parent_post_id );
 
 		?>
         <div class="tab-5-extra-options tabs-extra-options">
@@ -966,7 +911,7 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['instagram'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['instagram'], null, $gallery_class->parent_post_id );
 
 		$this->setting_options_js->instagram_js();
 		?>
@@ -1007,7 +952,7 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['twitter'], null, $gallery_class->parent_post_id );
 
         //JS for Twitter Options.
 		$this->setting_options_js->twitter_js();
@@ -1057,7 +1002,7 @@ class Feeds_CPT {
 					</div>
 				<?php }
 
-		    echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['youtube'], null, $gallery_class->parent_post_id );
+		    echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['youtube'], null, $gallery_class->parent_post_id );
 
 		    $this->setting_options_js->youtube_js();
             ?>
@@ -1097,7 +1042,7 @@ class Feeds_CPT {
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->saved_settings_array['combine'], null, $gallery_class->parent_post_id );
+		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['combine'], null, $gallery_class->parent_post_id );
 
 		$this->setting_options_js->combine_js();
 

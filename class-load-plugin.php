@@ -41,8 +41,6 @@ class Feed_Them_Social {
 	 */
 	private function load_plugin() {
 
-		$main_post_type = 'fts';
-
 		$minimum_required_PHP_version = '7.0.0';
 
 		// Setup Constants for Feed Them Social.
@@ -69,8 +67,14 @@ class Feed_Them_Social {
 		// Feed Cache.
 		$feed_cache = new \feedthemsocial\Feed_Cache( $data_protection, $settings_functions );
 
+		// Feed Options.
+		$feed_cpt_options = new \feedthemsocial\Feed_CPT_Options();
+
+		// Feed Functions.
+		$feed_functions = new \feedthemsocial\Feed_Functions( $feed_cpt_options );
+
         // Feed Them Functions!
-        $feed_functions = new \feedthemsocial\FTS_Functions( $settings_functions, $feed_cache );
+        //$fts_functions = new \feedthemsocial\FTS_Functions();
 
 		// Settings Page.
         new \feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
@@ -78,23 +82,20 @@ class Feed_Them_Social {
 		// System Info.
 		new \feedthemsocial\System_Info( $settings_functions, $feed_cache );
 
-		// Access Token API.
-        //$access_token_api = new \feedthemsocial\Access_Token_API();
+		// Access Options.
+        $access_options = new \feedthemsocial\Access_Options( $feed_functions, $data_protection );
 
 		//Setting Options JS.
 		$setting_options_js = new \feedthemsocial\Settings_Options_JS();
 
-		// Feed Options.
-		$feed_cpt_options = new \feedthemsocial\Feed_CPT_Options();
-
 		// Feeds CPT.
-        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_cpt_options, $main_post_type, $setting_options_js, $settings_functions  );
+        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $settings_functions, $access_options );
 
 		// Shortcode Button for Admin page, posts and CPTs.
 		new \feedthemsocial\Shortcode_Button();
 
 		// Shortcodes.
-		new \feedthemsocial\Shortcodes( $main_post_type, $feed_functions, $feeds_cpt, $feed_cache );
+		new \feedthemsocial\Shortcodes( $feed_functions, $feeds_cpt, $feed_cache );
 
         // Backwards compatability.
         new \feedthemsocial\FTS_Backwards_Compat( $settings_functions );
@@ -119,8 +120,13 @@ class Feed_Them_Social {
 			require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		}
 
+		// Feed Them Social Post Type.
+		if ( ! defined( 'FEED_THEM_SOCIAL_POST_TYPE' )  ) {
+			define( 'FEED_THEM_SOCIAL_POST_TYPE', 'fts' );
+		}
+
 		// Minimum PHP Version for Feed Them Social.
-		if ( ! defined( 'FEED_THEM_SOCIAL_MIN_PHP' ) && $minimum_required_PHP_version ) {
+		if ( ! defined( 'FEED_THEM_SOCIAL_MIN_PHP' ) ) {
 			define( 'FEED_THEM_SOCIAL_MIN_PHP', $minimum_required_PHP_version );
 		}
 
@@ -176,6 +182,9 @@ class Feed_Them_Social {
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-functions.php';
 
+		// Feed Functions Class. (eventually replacing most of FTS Functions Class.)
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-functions.php';
+
 		// FTS Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
 
@@ -194,8 +203,8 @@ class Feed_Them_Social {
 		//Youtube Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/youtube-access-token.php';
 
-		//Access Token API.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/access-token-api-options.php';
+		//Access Token Options.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/access-token-options.php';
 
 		// Feeds CPT Options.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/feeds-cpt-options.php';

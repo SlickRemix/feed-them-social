@@ -43,38 +43,40 @@ class FTS_Instagram_Options_Page {
     public function feed_them_instagram_options_page() {
         $fts_functions                       = new feed_them_social_functions();
 
-        $fts_instagram_access_token          = get_option( 'fts_instagram_custom_api_token' );
-        $fts_instagram_custom_id             = get_option( 'fts_instagram_custom_id' );
-        $fts_instagram_show_follow_btn       = get_option( 'instagram_show_follow_btn' );
-        $fts_instagram_show_follow_btn_where = get_option( 'instagram_show_follow_btn_where' );
-        $user_id_basic                       = isset( $_GET['code'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['user_id'] ) : $fts_instagram_custom_id;
-        $access_token_basic                  = isset( $_GET['code'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $fts_instagram_access_token;
-        $access_token                        = isset( $_GET['code'], $_GET['feed_type'] ) && 'original_instagram' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $access_token_basic;
+        $fts_instagram_access_token             = get_option( 'fts_instagram_custom_api_token' );
+        $fts_instagram_access_token_expires_in  = get_option( 'fts_instagram_custom_api_token_expires_in' );
+        $fts_instagram_custom_id                = get_option( 'fts_instagram_custom_id' );
+        $fts_instagram_show_follow_btn          = get_option( 'instagram_show_follow_btn' );
+        $fts_instagram_show_follow_btn_where    = get_option( 'instagram_show_follow_btn_where' );
+        $user_id_basic                          = isset( $_GET['code'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['user_id'] ) : $fts_instagram_custom_id;
+        $access_token_basic                     = isset( $_GET['code'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $fts_instagram_access_token;
+        $access_token                           = isset( $_GET['code'], $_GET['feed_type'] ) && 'original_instagram' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $access_token_basic;
+        $access_token_expires_in                = isset( $_GET['code'], $_GET['feed_type'] ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field(  $_GET['expires_in'] ) : $fts_instagram_access_token_expires_in;
 
 
 
-       ?>
-            <script>
-                jQuery(document).ready(function ($) {
-                      <?php if ( isset( $_GET['code'], $_GET['feed_type'] ) && 'instagram_basic' === $_GET['feed_type'] ) {
-                                $code_token =  sanitize_text_field( $_GET['code'] );
-                      ?>
-                            $('#fts_instagram_custom_api_token').val('');
-                            $('#fts_instagram_custom_api_token').val($('#fts_instagram_custom_api_token').val() + '<?php echo esc_js( $code_token ); ?>');
+        ?>
+        <script>
+            jQuery(document).ready(function ($) {
+                <?php if ( isset( $_GET['code'], $_GET['feed_type'] ) && 'instagram_basic' === $_GET['feed_type'] ) {
+                $code_token =  sanitize_text_field( $_GET['code'] );
+                ?>
+                $('#fts_instagram_custom_api_token').val('');
+                $('#fts_instagram_custom_api_token').val($('#fts_instagram_custom_api_token').val() + '<?php echo esc_js( $code_token ); ?>');
 
-                            <?php if ( 'original_instagram' === $_GET['feed_type'] ){ ?>
-                            $('#fts_instagram_custom_id').val('');
-                            var str = '<?php echo esc_js( $code_token ); ?>';
-                            $('#fts_instagram_custom_id').val($('#fts_instagram_custom_id').val() + str.split('.', 1));
-                            <?php }
-                            elseif ( 'instagram_basic' === $_GET['feed_type'] ){ ?>
+                <?php if ( 'original_instagram' === $_GET['feed_type'] ){ ?>
+                $('#fts_instagram_custom_id').val('');
+                var str = '<?php echo esc_js( $code_token ); ?>';
+                $('#fts_instagram_custom_id').val($('#fts_instagram_custom_id').val() + str.split('.', 1));
+                <?php }
+                elseif ( 'instagram_basic' === $_GET['feed_type'] ){ ?>
 
-                            $('#fts_instagram_custom_id').val('');
-                            $('#fts_instagram_custom_id').val($('#fts_instagram_custom_id').val() + '<?php echo esc_js( $user_id_basic ); ?>');
-                            <?php } ?>
-                    <?php } ?>
-                });
-            </script>
+                $('#fts_instagram_custom_id').val('');
+                $('#fts_instagram_custom_id').val($('#fts_instagram_custom_id').val() + '<?php echo esc_js( $user_id_basic ); ?>');
+                <?php } ?>
+                <?php } ?>
+            });
+        </script>
 
         <div class="feed-them-social-admin-wrap">
             <h1>
@@ -99,7 +101,7 @@ class FTS_Instagram_Options_Page {
                 if ( wp_verify_nonce( $fts_fb_options_nonce, 'fts-instagram-options-page-nonce' ) ) {
                 ?>
 
-                <div class="feed-them-social-admin-input-wrap" style="padding-top:0px; ">
+                <div class="feed-them-social-admin-input-wrap" style="padding:0px; margin: 0px; ">
                     <div class="fts-title-description-settings-page">
                         <?php
                         // get our registered settings from the fts functions!
@@ -125,21 +127,26 @@ class FTS_Instagram_Options_Page {
                         //   echo '</pre>';
 
 
-                            echo sprintf(
-                                esc_html__( '%1$sClick the button below to get an access token. This gives us read-only access to get your Instagram posts.%2$s', 'feed-them-social' ),
-                                '<p>',
-                                '</p>'
-                            );
+                        // echo '<pre>';
+                        // print_r($test_app_token_response);
+                        // echo '</pre>';
 
 
-                            echo sprintf(
-                                esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
-                                '<a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '' ) . '" class="fts-instagram-get-access-token">',
-                                '</a>'
-                            );
+                        echo sprintf(
+                            esc_html__( '%1$sClick the button below to get an access token. This gives us read-only access to get your Instagram posts.%2$s', 'feed-them-social' ),
+                            '<p>',
+                            '</p>'
+                        );
 
 
-                            ?>
+                        echo sprintf(
+                            esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
+                            '<a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . admin_url( 'admin.php?page=fts-instagram-feed-styles-submenu-page' ) . '' ) . '" class="fts-instagram-get-access-token">',
+                            '</a>'
+                        );
+
+
+                        ?>
 
                         <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" class="fts-admin-button-no-work" style="margin-top: 14px; display: inline-block"><?php esc_html_e( 'Button not working?', 'feed-them-social' ); ?></a>
                     </div>
@@ -153,11 +160,12 @@ class FTS_Instagram_Options_Page {
                         <div class="fts-clear"></div>
                     </div>
 
-                    <div class="feed-them-social-admin-input-wrap">
+                    <div class="feed-them-social-admin-input-wrap fts-success-class">
                         <div class="feed-them-social-admin-input-label fts-instagram-border-bottom-color-label">
                             <?php
 
                             $check_token = get_option( 'fts_instagram_custom_api_token' );
+
                             $check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
                             $check_basic_encrypted = false !== $this->data_protection->decrypt( $check_token ) ? 'encrypted' : '';
 
@@ -171,8 +179,84 @@ class FTS_Instagram_Options_Page {
                         </div>
 
                         <input type="text" name="fts_instagram_custom_api_token" class="feed-them-social-admin-input" id="fts_instagram_custom_api_token" data-token="<?php echo $check_basic_encrypted ?>" value="<?php echo $check_basic_token_value ?>"/>
+
                         <div class="fts-clear"></div>
                     </div>
+
+
+                    <?php
+					// Add yes to show the expiration time and js that runs it below!
+					$dev_mode = 'yes';
+					?>
+					<div class="feed-them-social-admin-input-wrap fts-success-class fts-exp-time-wrapper" style="margin-top:10px;
+					<?php
+					if ( 'yes' !== $dev_mode ) {
+						?>
+							display:none<?php } ?>">
+						<div class="feed-them-social-admin-input-label">
+							<?php echo esc_html__( 'Expiration Time for Access Token', 'feed-them-social' ); ?>
+						</div>
+						<input type="text" name="fts_instagram_custom_api_token_expires_in"  class="feed-them-social-admin-input" id="fts_instagram_custom_api_token_expires_in" value="<?php echo esc_attr( $access_token_expires_in ); ?>"/>
+						<div class="fts-clear"></div>
+					</div>
+				</div>
+
+					<?php
+
+
+                    // Take the time() + $expiration_time will equal the current date and time in seconds, then we add the 60 days worth of seconds to the time.
+                    // That gives us the time to compare, of 60 days to the current date and Time.
+                    // For now we are going to get a new token every 7 days just to be on the safe side.
+                    // That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
+                    // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
+                    $expiration_time = '' !== get_option( 'fts_instagram_custom_api_token_expires_in' ) ? get_option( 'fts_instagram_custom_api_token_expires_in' ) : '';
+
+
+					if ( time() < $expiration_time  && 'yes' === $dev_mode ) {
+						?>
+						<script>
+
+							// Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
+							var countDownDate = new Date( <?php echo esc_js( $expiration_time ); ?> * 1000 ); // <--phpStorm shows error but it's false.
+
+                            // console.log(countDownDate);
+
+							// Update the count down every 1 second
+							var x = setInterval(function () {
+
+								// Get todays date and time
+								var now = new Date().getTime();
+
+                               // console.log(now);
+
+								// Find the distance between now an the count down date
+								var distance = countDownDate - now;
+
+								// Time calculations for days, hours, minutes and seconds
+                                var days    = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                var hours   = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                                jQuery('<span id="fts-timer"></span>').insertBefore('.fts-exp-time-wrapper .fts-clear');
+								document.getElementById("fts-timer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+								// If the count down is finished, write some text
+								if (distance < 0) {
+									clearInterval(x);
+									jQuery('.fts-success').fadeIn();
+									document.getElementById("fts-timer").innerHTML = "Token Expired, refresh page to get new a token.";
+								}
+							}, 1000);
+						</script>
+						<?php
+					}
+                    // YO! making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
+                    if (  ! empty( $check_token ) && time() > $expiration_time ) {
+						// refresh token action!
+                        // echo ' WTF ';
+						$fts_functions->feed_them_instagram_refresh_token();
+					} ?>
 
                     <div class="feed-them-social-admin-input-wrap fts-instagram-last-row" style="margin-top: 0; padding-top: 0">
                         <?php
@@ -222,9 +306,8 @@ class FTS_Instagram_Options_Page {
                             );
                         }
                         ?>
+                        <div class="fts-clear"></div>
                     </div>
-                    <div class="fts-clear"></div>
-                </div>
 
 
 
@@ -264,7 +347,7 @@ class FTS_Instagram_Options_Page {
                     </div>
                     <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Button not working?', 'feed-them-social' ); ?></a>
                     <?php
-
+                    $token_expiration =  get_option( 'fts_facebook_instagram_custom_api_token_expiration' );
                     $test_app_token_id_biz = get_option( 'fts_facebook_instagram_custom_api_token' );
                     $check_biz_token_value = false !== $this->data_protection->decrypt( $test_app_token_id_biz ) ? $this->data_protection->decrypt( $test_app_token_id_biz ) : $test_app_token_id_biz;
                     $check_biz_encrypted = false !== $this->data_protection->decrypt( $test_app_token_id_biz ) ? 'encrypted' : '';
@@ -277,13 +360,15 @@ class FTS_Instagram_Options_Page {
                             'app_token_id' => 'https://graph.facebook.com/debug_token?input_token=' . $test_app_token_id . '&access_token=' . $test_app_token_id,
                         );
 
+
                         // Test App ID
                         $test_app_token_response = $fts_functions->fts_get_feed_json( $test_app_token_url );
                         $test_app_token_response = json_decode( $test_app_token_response['app_token_id'] );
 
-                        // echo '<pre>';
-                        // print_r($test_app_token_response);
-                        // echo '</pre>';
+
+                        /*echo '<pre>';
+                        print_r($refresh_app_token_url_response);
+                        echo '</pre>';*/
                     }
                     ?>
                     <div class="clear"></div>

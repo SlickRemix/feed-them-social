@@ -46,7 +46,7 @@ class FTS_Youtube_Options_Page {
 				<?php echo esc_html__( 'Feed Options', 'feed-them-social' ); ?>
 			</h1>
 			<div class="use-of-plugin">
-				<?php echo esc_html__( 'Add a follow button and position it using the options below. This option will not work for combined feeds.', 'feed-them-social' ); ?>
+				<?php echo esc_html__( 'Add an API key or get an Access token. You can also choose to display a follow button and position it using the options below. NOTE: The follow button and loadmore option will not work for the Combined Streams extension.', 'feed-them-social' ); ?>
 			</div>
 
 			<!-- custom option for padding -->
@@ -68,7 +68,10 @@ class FTS_Youtube_Options_Page {
 					}
 
 					$youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=slickremix&' . $youtube_api_key_or_token );
-					// Get Data for Youtube!
+                    // echo '$youtube_user_id_data';
+                    // echo $youtube_user_id_data;
+
+                    // Get Data for Youtube!
 					$response = wp_remote_fopen( $youtube_user_id_data );
 					// Error Check!
 					$test_app_token_response = json_decode( $response );
@@ -80,12 +83,12 @@ class FTS_Youtube_Options_Page {
 						<h3>
 							<?php echo esc_html__( 'YouTube API Key', 'feed-them-social' ); ?>
 						</h3>
-						<p><?php echo esc_html__( 'This is required to make the feed work. Simply click the button below and it will connect to your YouTube account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your YouTube feed.', 'feed-them-social' ); ?>
+						<p><?php echo esc_html__( 'Click the button below to get an access token. This gives us read-only access to your YouTube videos.', 'feed-them-social' ); ?>
 						</p>
 						<p>
 							<?php
 							echo sprintf(
-								esc_html__( '%1$sLogin and get my Access Token (API key)%2$s', 'feed-them-social' ),
+								esc_html__( '%1$sLogin and get my Access Token %2$s', 'feed-them-social' ),
 								'<a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . admin_url( 'admin.php?page=fts-youtube-feed-styles-submenu-page' ) ) . '" class="fts-youtube-get-access-token">',
 								'</a>'
 							);
@@ -119,7 +122,7 @@ class FTS_Youtube_Options_Page {
 						</div>
 
 						<div class="feed-them-social-admin-input-label fts-youtube-border-bottom-color-label">
-							<?php echo esc_html__( 'API Key Required', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'API Key Required', 'feed-them-social' ); ?> <?php echo get_option('fts_youtube_custom_tokens'); ?>
 						</div>
 
 						<input type="text" name="youtube_custom_api_token" class="feed-them-social-admin-input" id="youtube_custom_api_token" value="<?php echo esc_attr( get_option( 'youtube_custom_api_token' ) ); ?>"/>
@@ -127,12 +130,15 @@ class FTS_Youtube_Options_Page {
 					</div>
 				</div>
 
-				<div class="hide-button-tokens-options" style="<?php echo esc_attr( $extra_keys_no ); ?>">
-					<div class="feed-them-social-admin-input-wrap">
+				<div class="hide-button-tokens-options" style="<?php echo esc_attr( $extra_keys_no ); ?>;">
+					<div class="feed-them-social-admin-input-wrap" style="<?php
+                    if ( 'no' !== $dev_mode ) {
+                        ?>
+                            display:none<?php } ?>">
 						<div class="feed-them-social-admin-input-label">
 							<?php echo esc_html__( 'Refresh Token', 'feed-them-social' ); ?>
 						</div>
-						<input type="text" name="youtube_custom_refresh_token" class="feed-them-social-admin-input" id="youtube_custom_refresh_token" value="<?php echo esc_attr( get_option( 'youtube_custom_refresh_token' ) ); ?>"/>
+						<input type="text" name="youtube_custom_refresh_token" readonly class="feed-them-social-admin-input" id="youtube_custom_refresh_token" value="<?php echo esc_attr( get_option( 'youtube_custom_refresh_token' ) ); ?>"/>
 						<div class="fts-clear"></div>
 					</div>
 					<div class="feed-them-social-admin-input-wrap" style="margin-bottom:0;">
@@ -144,17 +150,17 @@ class FTS_Youtube_Options_Page {
 					</div>
 					<?php
 					// Add yes to show the expiration time and js that runs it below!
-					$dev_mode = 'no';
+					$dev_mode = 'yes';
 					?>
 					<div class="feed-them-social-admin-input-wrap fts-exp-time-wrapper" style="margin-top:10px;
 					<?php
-					if ( 'yes' !== $dev_mode ) {
+					if ( 'no' !== $dev_mode ) {
 						?>
 							display:none<?php } ?>">
 						<div class="feed-them-social-admin-input-label">
 							<?php echo esc_html__( 'Expiration Time for Access Token', 'feed-them-social' ); ?>
 						</div>
-						<input type="text" name="youtube_custom_tokenecho esc_htmlxp_time" class="feed-them-social-admin-input" id="youtube_custom_tokenecho esc_htmlxp_time" value="<?php echo esc_attr( get_option( 'youtube_custom_tokenecho esc_htmlxp_time' ) ); ?>"/>
+						<input type="text" name="youtube_custom_token_exp_time"  class="feed-them-social-admin-input" id="youtube_custom_token_exp_time" value="<?php echo esc_attr( get_option( 'youtube_custom_token_exp_time' ) ); ?>"/>
 						<div class="fts-clear"></div>
 					</div>
 				</div>
@@ -174,7 +180,8 @@ class FTS_Youtube_Options_Page {
 						$fts_functions->feed_them_youtube_refresh_token();
 					}
 
-					$expiration_time = get_option( 'youtube_custom_tokenecho esc_htmlxp_time' );
+					$expiration_time = '' !== get_option( 'youtube_custom_token_exp_time' ) ? get_option( 'youtube_custom_token_exp_time' ) : 500;
+
 					// Give the access token a 5 minute buffer (300 seconds) before getting a new one.
 					$expiration_time = $expiration_time - 300;
 					// Test Liner!
@@ -182,8 +189,7 @@ class FTS_Youtube_Options_Page {
 						?>
 						<script>
 							// Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
-							var countDownDate = new Date(<?php echo esc_js( $expiration_time ); ?> * 1000;
-							)
+							var countDownDate = new Date( <?php echo esc_js( $expiration_time ); ?> * 1000 ); // <--phpStorm shows error but it's false.
 
 							// Update the count down every 1 second
 							var x = setInterval(function () {
@@ -206,12 +212,14 @@ class FTS_Youtube_Options_Page {
 								if (distance < 0) {
 									clearInterval(x);
 									jQuery('.fts-success').fadeIn();
-									document.getElementById("fts-timer").innerHTML = "Expired, refresh page to get new token (developer use only)";
+									document.getElementById("fts-timer").innerHTML = "Token Expired, refresh page to get new a token.";
 								}
 							}, 1000);
 						</script>
 						<?php
-					} elseif ( empty( $youtube_api_key ) && ! empty( $youtube_access_token ) && time() > $expiration_time ) {
+					}
+                    // YO! making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
+                    if ( empty( $youtube_api_key ) && ! empty( $youtube_access_token ) && time() > $expiration_time ) {
 						// refresh token action!
 						$fts_functions->feed_them_youtube_refresh_token();
 					}

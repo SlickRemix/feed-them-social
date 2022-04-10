@@ -3578,11 +3578,11 @@ class FTS_Settings_Page_Options {
 					array(
 						'grouped_options_title' => __( 'Comments', 'feed-them-social' ),
 						'option_type' => 'input',
-						'label'       => __( '# of Comments', 'feed-them-social' ) . '<br/><small>' . __( 'Maximum amount is 50', 'feed-them-social' ) . '</small>',
+						'label'       => __( 'Number of Comments', 'feed-them-social' ) . '<br/><small>' . __( 'API Key required', 'feed-them-social' ) . '</small>',
 						'type'        => 'text',
 						'id'          => 'youtube_comments_count',
 						'name'        => 'youtube_comments_count',
-						'placeholder' => '',
+						'placeholder' => '50 Maximum',
 						'value'       => '',
 						'short_attr'  => array(
 							'attr_name'   => 'comments_count',

@@ -72,27 +72,29 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
-			$youtube_access_token_new = '';
-			if ( ! isset( $_GET['load_more_ajaxing'] ) && empty( $youtube_api_key ) && ! empty( $youtube_api_key ) ) {
-				// Double Check Our Experiation Time on the Token and refresh it if needed.
+            // the way this refresh token works atm is. if the token is expired then we fetch a new token when any front end user views a page the feed is on.
+            // the ajax runs to fetch a new token if it's expired, then it saves it to the db, but because that happens after the user has already loaded the page,
+            // we need to show the cached feed so the feed does not return a token expired message. THEN after the next page reload the actual refreshed token will be in place.
+            // we still keep calling the cached version after that point so we are not uses up the API until the users deletes the cache or it is deleted per the determined time.
+		    // this will not return the feed proper if token is expired need to fix this
+			if ( ! empty( $youtube_access_token ) ) {
+				// Double Check Our Expiration Time on the Token and refresh it if needed.
 				$expiration_time = get_option( 'youtube_custom_token_exp_time' );
-				// Access token is good for 3600 seconds.
-				// Give the access token a 5 minute buffer (300 seconds) before getting a new one.
-				// $expiration_time = $expiration_time - 300;.
-				$expiration_time = $expiration_time - 300;
-				if ( time() > $expiration_time ) {
-					$youtube_access_token_new = $this->feed_them_youtube_refresh_token();
 
-					if ( ! empty( $youtube_access_token ) ) {
-						$youtube_access_token = $youtube_access_token_new;
-					};
+				// Access token is good for 3600 seconds, that about an hour.
+				if ( time() > $expiration_time ) {
+					 $this->feed_them_youtube_refresh_token();
 				}
 			}
 
-			// you must create a youtube app now to get this.
 			if ( ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
+                // this relies on our approved app from google.
+                // we are only using readme option from google now so we cannot get comments this way.
+                // that's fine though since we only allow to show comments in the premium version.
 				$youtube_api_key_or_token = 'access_token=' . $youtube_access_token . '';
 			} else {
+                // you must create your own youtube app now to get this.
+                // this is also the method required to show comments as well now.
 				$youtube_api_key_or_token = 'key=' . $youtube_api_key . '';
 			}
 
@@ -199,10 +201,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 							$user_cache_name = 'yt_user_' . $username;
 						}
 
-						// $fts_functions_class->delete_permanent_feed_cache($user_cache_name);
-                        // YO!
-                        // echo ' why you no use cache check ';
-						$user_returned = $this->use_cache_check( $youtube_user_id_data, $user_cache_name );
+						$user_returned = $this->use_cache_check( $youtube_user_id_data, $user_cache_name, 'youtube' );
 
 						// If the YT User returned is not empty and is an arary.
 						if ( ! empty( $user_returned ) && is_array( $user_returned ) ) {
@@ -267,7 +266,11 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 							$feed_cache_name = 'pics_vids_list_' . $channel_id . '_bnum' . $vid_count . '_channel';
 						}
 					} elseif ( ! empty( $playlist_id ) || ! empty( $playlist_id ) && ! empty( $channel_id ) ) {
-						$youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $playlist_id . '&order=date&' . $youtube_api_key_or_token ) );
+
+                        // I don't understand the section here.. blllaaaaaahh need to clean this mess up!
+                       // echo '<br/>playlistID shortcode in use: ';
+
+                        $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $playlist_id . '&order=date&' . $youtube_api_key_or_token ) );
 
 						if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 							// Youtube Playlist Cache Folder.
@@ -281,10 +284,19 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
                         // echo ' why you no use cache check ';
                         // echo $youtube_feed_api_url;
 						// Call, fetch and Check data from API url!
-						$feed_returned = $this->use_cache_check( $youtube_feed_api_url, $feed_cache_name );
+
+                        // echo ' youtube URL: ';
+                        // echo $youtube_feed_api_url;
+						$feed_returned = $this->use_cache_check( $youtube_feed_api_url, $feed_cache_name, 'youtube' );
 
 						// JSON Decode the Feed Data.
 						$videos = json_decode( $feed_returned['data'] );
+
+                        // YO! This is the print_r you want to show most feeds.
+                        // echo'playlistID and channelID shortcode used: <pre>';
+                        // print_r($videos);
+                        // echo'</pre>';
+
 					}
 				}
 
@@ -425,14 +437,18 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 						echo '<div class="' . esc_attr( $set_comments_height ) . 'youtube-comments-wrap' . esc_attr( $wrap ) . '"  style="display: block !important;">';
 
-						$this->fts_youtube_single_video_info( $video_id_or_link, $youtube_api_key_or_token, $youtube_access_token_new );
+						$this->fts_youtube_single_video_info( $video_id_or_link, $youtube_api_key_or_token );
 
 						echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
 						echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
-						if ( '0' !== $comments_count && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-							$this->fts_youtube_commentThreads( $video_id_or_link, $youtube_api_key_or_token, $comments_count );
+
+                        // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
+                        if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $comments_count ) && '0' !== $comments_count && !empty( get_option( 'youtube_custom_api_token' ) ) ) {
+                            $this->fts_youtube_commentThreads( $video_id_or_link, $youtube_api_key_or_token, $comments_count );
 						}
+
 						echo '</div>';
+
 						if ( 'right' !== $wrap || 'left' !== $wrap ) {
 							echo '</div>';
 						}
@@ -518,8 +534,9 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 									) . '</div>';
 									echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
 									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
-									if ( isset( $comments_count ) && '0' !== $comments_count && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-										$this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $comments_count );
+                                    // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
+                                    if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $comments_count ) && '0' !== $comments_count && !empty( get_option( 'youtube_custom_api_token' ) ) ) {
+                                        $this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $comments_count );
 									}
 									echo '</div>';
 								}
@@ -554,14 +571,16 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 									) . '</div>';
 									echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
 									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
-									if ( isset( $comments_count ) && '0' !== $comments_count && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-										$this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $comments_count );
+
+                                    // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
+                                    if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $comments_count ) && '0' !== $comments_count && !empty( get_option( 'youtube_custom_api_token' ) ) ) {
+                                        $this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $comments_count );
 									}
 									echo '</div>';
 								}
 							}
 							echo '</div>';
-						};
+						}
 						$count++;
 						if ( $count === $vid_count ) {
 							break;
@@ -589,9 +608,10 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 						// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
 						$_REQUEST['next_url'] = ! empty( $loadmore ) ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
 
-						echo '<script>';
-						echo 'var nextURL_' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '= "' . esc_url_raw( $_REQUEST['next_url'] ) . '";';
-						echo '</script>';
+						?><script>
+						    var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ) ?>";
+						</script>
+						<?php
 					}
 					// Make sure it's not ajaxing.
 					if ( ! isset( $_GET['load_more_ajaxing'] ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! empty( $loadmore ) ) {
@@ -599,73 +619,104 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 						$time                   = time();
 						$nonce                  = wp_create_nonce( $time . 'load-more-nonce' );
 						$fts_dynamic_class_name = $this->get_fts_dynamic_class_name();
-						echo '<script>';
-						echo 'jQuery(document).ready(function() {';
+                        ?>
+					<script>
+						jQuery(document).ready(function() {
 
-						if ( 'autoscroll' === $loadmore ) {
-							// this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
-							echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").bind("scroll",function() {';
-							echo 'if(jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {';
-						} else {
-							// this is where we do CLICK function to LOADMORE if  = button in shortcode.
-							echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").unbind().click(function() {';
-						}
-						echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").addClass("fts-fb-spinner");';
-						echo 'var button = jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").html("<div class=\'bounce1\'></div><div class=\'bounce2\'></div><div class=\'bounce3\'></div>");';
-						echo 'console.log(button);';
-						echo 'console.log(nextURL_' . esc_js( $fts_dynamic_name ) . ');';
-						echo 'var yes_ajax = "yes";';
-						echo 'var fts_d_name = "' . esc_js( $fts_dynamic_name ) . '";';
-						echo 'var fts_security = "' . esc_js( $nonce ) . '";';
-						echo 'var fts_time = "' . esc_js( $time ) . '";';
+                        <?php if ( 'autoscroll' === $loadmore ) { ?>
 
-						echo 'var feed_name = "fts_youtube";';
-						echo 'var loadmore_count = "vid_count=' . esc_js( $loadmore_count ) . '";';
-						echo 'var feed_attributes = ' . wp_json_encode( $atts ) . ';';
 
-						echo 'jQuery.ajax({';
-						echo 'data: {action: "my_fts_fb_load_more", next_url: nextURL_' . esc_js( $fts_dynamic_name ) . ', fts_dynamic_name: fts_d_name, feed_name: feed_name, loadmore_count: loadmore_count, feed_attributes: feed_attributes, load_more_ajaxing: yes_ajax, fts_security: fts_security, fts_time: fts_time},';
-						echo 'type: "GET",';
-						echo 'url: "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '",';
-						echo 'success: function( data ) {';
-						echo 'console.log("Well Done and got this from sever: " + data);';
+                            // If =autoscroll in shortcode.
+                            jQuery(".<?php echo esc_js( $fts_dynamic_class_name ) ?>").bind("scroll",function() {
 
-						echo 'var result = jQuery(".fts-youtube-popup-gallery.' . esc_js( $fts_dynamic_class_name ) . '").append(data).filter(".fts-youtube-popup-gallery.' . esc_js( $fts_dynamic_name ) . '").html();';
+                                // 4-9-22 SRL: added +1 because it needs an extra pixel of space to fire to function when shortcode is in smaller containers.
+                                if( 1 + jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight ) {
 
-						echo 'jQuery(".fts-youtube-popup-gallery.' . esc_js( $fts_dynamic_class_name ) . '").html(result);';
-						echo 'if(!nextURL_' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . ' || nextURL_' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . ' == "no more"){';
+                                    console.log( jQuery(this).scrollTop() + jQuery(this).innerHeight() );
+                                    console.log( jQuery(this)[0].scrollHeight );
 
-						echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").replaceWith(\'<div class="fts-fb-load-more no-more-posts-fts-fb">' . esc_js( $youtube_no_more_videos_text ) . '</div>\');';
+                        <?php }
+                            else { ?>
+                            // If =button in shortcode.
+                            jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").unbind().click(function() {
+                        <?php } ?>
+                                jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").addClass("fts-fb-spinner");
+                                var button = jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
 
-						echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").removeAttr("id");';
-						echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").unbind("scroll");';
+                                console.log(button);
+                                console.log(nextURL_<?php echo esc_js( $fts_dynamic_name )  ?>);
 
-						echo '}';
+                                var yes_ajax = "yes";
+                                var fts_d_name = "<?php echo esc_js( $fts_dynamic_name ) ?>";
+                                var fts_security = "<?php echo esc_js( $nonce ) ?>";
+                                var fts_time = "<?php echo esc_js( $time ) ?>";
 
-						if ( 'button' === $loadmore ) {
-							echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").html("' . esc_html( $youtube_load_more_text ) . '");';
-						}
-						echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").removeClass("fts-fb-spinner");';
-						if ( 'yes' === $popup ) {
-							// We return this function again otherwise the popup won't work correctly for the newly loaded items.
-							echo 'jQuery.fn.slickYoutubePopUpFunction();';
-						}
-						// Reload the share each funcion otherwise you can't open share option.
-						echo 'jQuery.fn.ftsShare();';
-						// Reload our margin for the demo.
-						echo 'if(typeof outputSRmargin === "function"){outputSRmargin(document.querySelector("#margin").value)}';
-						echo 'slickremixImageResizingYouTube();'; // Reload our imagesizing function so the images show up proper.
+                                var feed_name = "fts_youtube";
+                                var loadmore_count = "vid_count=<?php echo esc_js( $loadmore_count ) ?>";
+                                var feed_attributes = <?php echo wp_json_encode( $atts ) ?>;
 
-						echo '}';
-						echo '});';// end of ajax().
-						echo 'return false;';
-						// string $scrollMore is at top of this js script. acception for scroll option closing tag.
-						if ( 'autoscroll' === $loadmore ) {
-							echo '}';// end of scroll ajax load.
-						}
-						echo '});';// end of document.ready.
-						echo '});';// end of form.submit.
-						echo '</script>';
+                                jQuery.ajax({
+                                    data: {
+                                        action: "my_fts_fb_load_more",
+                                        next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ) ?>,
+                                        fts_dynamic_name: fts_d_name,
+                                        feed_name: feed_name,
+                                        loadmore_count: loadmore_count,
+                                        feed_attributes: feed_attributes,
+                                        load_more_ajaxing: yes_ajax,
+                                        fts_security: fts_security,
+                                        fts_time: fts_time
+                                    },
+                                    type: "GET",
+                                    url: "<?php echo esc_url( admin_url( 'admin-ajax.php' ) ) ?>",
+                                    success: function( data ) {
+                                        console.log("Well Done and got this from sever: " + data);
+
+                                        var result = jQuery(".fts-youtube-popup-gallery.<?php echo esc_js( $fts_dynamic_class_name ) ?>").append(data).filter(".fts-youtube-popup-gallery.<?php echo esc_js( $fts_dynamic_class_name ) ?>").html();
+
+                                        jQuery(".fts-youtube-popup-gallery.<?php echo esc_js( $fts_dynamic_class_name ) ?>").html(result);
+
+                                        if( !nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?> ||  "no more" === nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?> ){
+                                            jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $youtube_no_more_videos_text ) ?></div>');
+                                            jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").removeAttr("id");
+                                        }
+                                        else {
+                                            jQuery(".<?php echo esc_js( $fts_dynamic_class_name ) ?>").off('scroll');
+                                        }
+
+                                        <?php if ( 'button' === $loadmore ) { ?>
+                                            jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").html("<?php echo esc_html( $youtube_load_more_text ) ?>");
+                                        <?php } ?>
+
+                                            jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").removeClass("fts-fb-spinner");
+
+                                        <?php if ( 'yes' === $popup ) { ?>
+                                            // We return this function again otherwise the popup won't work correctly for the newly loaded items.
+                                            jQuery.fn.slickYoutubePopUpFunction();
+                                        <?php } ?>
+
+                                        // Reload the share each funcion otherwise you can't open share option.
+                                        jQuery.fn.ftsShare();
+
+                                        // Reload our margin for the demo.
+                                        if(typeof outputSRmargin === "function"){
+                                            outputSRmargin(document.querySelector("#margin").value);
+                                        }
+
+                                        // Reload our image sizing function so the images show up proper.
+                                        slickremixImageResizingYouTube();
+                                    }
+                                });// end of ajax().
+                            return false;
+                            // string $scrollMore is at top of this js script. exception for scroll option closing tag.
+                            <?php if ( 'autoscroll' === $loadmore ) { ?>
+                                    };
+                                }); // end of scroll ajax load.
+                            <?php } else { ?>
+                                }); // end of click button.
+                            <?php } ?>
+						}); // end of document.ready.
+                    </script><?php
 
 					}//End Check.
 					// for gallery option play_video_in_iframe.
@@ -802,6 +853,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 	 * @since 1.9.6
 	 */
 	public function fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $comments_count ) {
+
 		$fts_comments_thread_nonce = wp_create_nonce( 'fts-comments-thread-nonce' );
 
 		if ( wp_verify_nonce( $fts_comments_thread_nonce, 'fts-comments-thread-nonce' ) ) {
@@ -874,10 +926,9 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 	 *
 	 * @param string $video_id Video id.
 	 * @param string $youtube_api_key_or_token Youtube token.
-	 * @param string $youtube_access_token_new Youtube access token.
 	 * @since 1.9.6
 	 */
-	public function fts_youtube_single_video_info( $video_id, $youtube_api_key_or_token, $youtube_access_token_new ) {
+	public function fts_youtube_single_video_info( $video_id, $youtube_api_key_or_token ) {
 		$fts_single_video_nonce = wp_create_nonce( 'fts-single-video-thread-nonce' );
 
 		if ( wp_verify_nonce( $fts_single_video_nonce, 'fts-single-video-thread-nonce' ) ) {
@@ -885,25 +936,16 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
 				// Youtube Comment Cache.
-				$youtube_single_video_cache_url = 'video_single_' . $video_id . '';
+				$youtube_single_video_cache_name = 'video_single_' . $video_id . '';
 			}
 			// https://developers.google.com/youtube/v3/docs/comments/list.
-			$video['items'] = 'https://www.googleapis.com/youtube/v3/videos?id=' . $video_id . '&' . $youtube_api_key_or_token . '&part=snippet';
+            $api_url['items'] = 'https://www.googleapis.com/youtube/v3/videos?id=' . $video_id . '&' . $youtube_api_key_or_token . '&part=snippet';
 
-			// Youtube Use Comments Cache.
-			if ( ( false !== $this->fts_check_feed_cache_exists( $youtube_single_video_cache_url ) && ! isset( $_GET['load_more_ajaxing'] ) ) && empty( $youtube_access_token_new ) ) {
-				$video = json_decode( $this->fts_get_feed_cache( $youtube_single_video_cache_url ) );
-			} else {
+            $video = $this->use_cache_check( $api_url, $youtube_single_video_cache_name, 'youtube_single' );
 
-				$video_returned = $this->fts_get_feed_json( $video );
-				$video          = json_decode( $video_returned['items'] );
+            $feed_data = json_decode( $video['items'] );
 
-				if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-					$this->fts_create_feed_cache( $youtube_single_video_cache_url, $video );
-				}
-			}
-
-			foreach ( $video->items as $video_data ) {
+			foreach ( $feed_data->items as $video_data ) {
 				$user_name_href      = 'https://www.youtube.com/channel/' . $video_data->snippet->channelId;
 				$channel_title       = $video_data->snippet->channelTitle;
 				$youtube_title       = $this->fts_youtube_title( $video_data );
@@ -931,47 +973,6 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 			}
 		}
-	}
-
-
-	/**
-	 * Use Cache Check
-	 *
-	 * Checks to see if we need to use cache or not
-	 *
-	 * @param string|array $api_call API Call.
-	 * @param string       $cache_name Cache name.
-	 * @return array|mixed
-	 * @throws \Exception Thow Exeption if all fails.
-	 * @since
-	 */
-	public function use_cache_check( $api_call, $cache_name ) {
-
-		// error_log( print_r( $api_call, true ) );
-		// error_log( print_r( $cache_name, true ) );
-		// error_log( print_r( 'NEXT!' ) );
-		if ( true === $this->fts_check_feed_cache_exists( $cache_name ) ) {
-			// Return Cache because it exists in Database.
-			return $this->fts_get_feed_cache( $cache_name );
-		}
-
-		// Get Feed using API call.
-		$feed_data = $this->fts_get_feed_json( $api_call );
-
-		if ( ! empty( $feed_data ) && ! empty( $cache_name ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
-
-			// Error Check.
-			$fts_error_check          = new fts_error_handler();
-			$fts_error_check_complete = $fts_error_check->youtube_error_check( $feed_data );
-
-            // YO! SRL: 4-15-22. added empty( $fts_error_check_complete ) because we are not getting a response if there is no error from our error handler. TODO: That function needs work.
-			if ( is_array( $fts_error_check_complete ) && ( true === $fts_error_check_complete[0] || 1 === $fts_error_check_complete[0] ) || empty( $fts_error_check_complete ) ) {
-                    $this->fts_create_feed_cache( $cache_name, $feed_data );
-			}
-
-		}
-
-		return $feed_data;
 	}
 
 	/**

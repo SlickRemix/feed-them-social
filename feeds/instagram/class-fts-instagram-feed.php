@@ -363,14 +363,40 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				$pics_count = '10';
 			}
 
-			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-			$instagram_data_array = array();
-
-			$fts_business_or_hashtag_check_token_type = '' === $access_token ? $this->data_protection->decrypt( get_option( 'fts_facebook_instagram_custom_api_token' ) ) : $access_token;
+            $fts_business_or_hashtag_check_token_type = '' === $access_token ? $this->data_protection->decrypt( get_option( 'fts_facebook_instagram_custom_api_token' ) ) : $access_token;
 			$fts_check_token_type                     = '' === $access_token ? $this->data_protection->decrypt( get_option( 'fts_instagram_custom_api_token' ) ) : $access_token;
 			$fts_instagram_access_token               = 'hashtag' === $type || 'business' === $type ? $fts_business_or_hashtag_check_token_type : $fts_check_token_type;
 			$fts_instagram_show_follow_btn            = get_option( 'instagram_show_follow_btn' );
 			$fts_instagram_show_follow_btn_where      = get_option( 'instagram_show_follow_btn_where' );
+
+            // the way this refresh token works atm is. if the token is expired then we fetch a new token when any front end user views a page the feed is on.
+            // the ajax runs to fetch a new token if it's expired, then it saves it to the db, but because that happens after the user has already loaded the page,
+            // we need to show the cached feed so the feed does not return a token expired message. THEN after the next page reload the actual refreshed token will be in place.
+            // we still keep calling the cached version after that point so we are not uses up the API until the users deletes the cache or it is deleted per the determined time.
+		    // this will not return the feed proper if token is expired need to fix this
+			// YO!
+			// SRL 4-6-22. RIGHT NOW WE ARE ONLY DOING THIS FOR INSTAGRAM BASIC
+			if ( ! empty( $fts_check_token_type ) ) {
+				// Double Check Our Expiration Time on the Token and refresh it if needed.
+				$expiration_time = get_option( 'fts_instagram_custom_api_token_expires_in' );
+				if ( time() > $expiration_time ) {
+					 $this->feed_them_instagram_refresh_token();
+				}
+			}
+
+
+
+
+
+
+
+
+
+
+			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+			$instagram_data_array = array();
+
+
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				$instagram_load_more_text      = get_option( 'instagram_load_more_text' ) ? get_option( 'instagram_load_more_text' ) : __( 'Load More', 'feed-them-social' );
 				$instagram_no_more_photos_text = get_option( 'instagram_no_more_photos_text' ) ? get_option( 'instagram_no_more_photos_text' ) : __( 'No More Photos', 'feed-them-social' );
@@ -592,52 +618,22 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 					// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
 					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.instagram.com/' . $instagram_id . '/media?limit=' . $pics_count . '&access_token=' . $fts_instagram_access_token_final;
 
-					// First we make sure the feed is not cached already before trying to run the Instagram API.
-                    if ( false === $this->fts_check_feed_cache_exists( $basic_cache ) ) {
-                         $instagram_basic_response = $this->fts_get_feed_json( $instagram_data_array );
+                    $feed_data = $this->use_cache_check( $instagram_data_array['data'], $basic_cache, 'instagram' );
 
-                         $instagram_basic = json_decode( $instagram_basic_response['data'] );
+                    // JSON Decode the Feed Data.
+                    $insta_data = json_decode( $feed_data );
 
-                        // We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
-                        $instagram_basic_output = (object) [ 'data' => [] ];
-                        foreach ( $instagram_basic->data as $media ) {
-                            $media_id                           = $media->id;
-                            $instagram_basic_data_array['data'] = 'https://graph.instagram.com/' . $media_id . '?fields=caption,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $fts_instagram_access_token_final;
-                            $instagram_basic_media_response     = $this->fts_get_feed_json( $instagram_basic_data_array );
-                            $instagram_basic_media              = json_decode( $instagram_basic_media_response['data'] );
-                            $instagram_basic_output->data[]     = $instagram_basic_media;
-                        }
+                   /* echo '<pre>';
+                     print_r( $insta_data );
+                    echo '</pre>';*/
 
-                            $insta_data = (object) array_merge( (array) $instagram_basic, (array) $instagram_basic_output );
-
-
-                            if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                                $this->fts_create_feed_cache( $basic_cache, $insta_data );
-                            }
-                    }
-
-                    else {
-                        $insta_data = $this->fts_get_feed_cache( $basic_cache );
-
-                        $insta_data = json_decode( $insta_data );
-
-                        // Used for Testing Only.
-                        if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
-                            esc_html_e( 'Array Check Cached', 'feed-them-social' );
-                            echo '<br/><pre>';
-                                print_r( $insta_data );
-                            echo '</pre>';
-                        }
-                    }
-
-					  //  echo '<br/>asdfasdfasdf<pre>';
-					  //  print_r( $insta_data );
-					  //  echo '</pre>zzzz';
-				     // $instagram_data_array['user_info'] = 'https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=' . $fts_instagram_access_token_final;
+                   //  echo '<br/>asdfasdfasdf<pre>';
+                   //  print_r( $insta_data );
+                   //  echo '</pre>zzzz';
+                   // $instagram_data_array['user_info'] = 'https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=' . $fts_instagram_access_token_final;
 			}
 
-
-			$cache = 'instagram_cache_' . $instagram_id . '_num' . $pics_count . '';
+			/*$cache = 'instagram_cache_' . $instagram_id . '_num' . $pics_count . '';
 				// First we make sure the feed is not cached already before trying to run the Instagram API.
 			if ( false === $this->fts_check_feed_cache_exists( $cache ) ) {
 				$response = $this->fts_get_feed_json( $instagram_data_array );
@@ -652,7 +648,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 					print_r( $error_check );
 					echo '</pre>';
 				}
-			}
+			}*/
 
 			/*//$spencer_testing = 'true';
 			if ( 'hashtag' === $type || 'user' === $type || !isset( $type ) ) {

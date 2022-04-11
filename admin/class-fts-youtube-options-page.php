@@ -143,7 +143,7 @@ class FTS_Youtube_Options_Page {
 					</div>
 					<div class="feed-them-social-admin-input-wrap" style="margin-bottom:0;">
 						<div class="feed-them-social-admin-input-label">
-							<?php echo esc_html__( 'Access Token', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Access Token Required', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_custom_access_token" class="feed-them-social-admin-input" id="youtube_custom_access_token" value="<?php echo esc_attr( get_option( 'youtube_custom_access_token' ) ); ?>"/>
 						<div class="fts-clear"></div>

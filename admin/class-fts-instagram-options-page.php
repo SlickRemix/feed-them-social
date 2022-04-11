@@ -152,7 +152,11 @@ class FTS_Instagram_Options_Page {
                     </div>
                     <div class="fts-clear"></div>
 
-                    <div class="feed-them-social-admin-input-wrap" style="margin-bottom:0">
+                    <div class="feed-them-social-admin-input-wrap"  style="margin-bottom:0px;
+                    <?php
+                    if ( 'yes' !== $dev_mode ) {
+                        ?>
+                            display:none<?php } ?>">
                         <div class="feed-them-social-admin-input-label fts-instagram-border-bottom-color-label">
                             <?php esc_html_e( 'Instagram ID', 'feed-them-social' ); ?>
                         </div>
@@ -186,7 +190,7 @@ class FTS_Instagram_Options_Page {
 
                     <?php
 					// Add yes to show the expiration time and js that runs it below!
-					$dev_mode = 'yes';
+					$dev_mode = 'no';
 					?>
 					<div class="feed-them-social-admin-input-wrap fts-success-class fts-exp-time-wrapper" style="margin-top:10px;
 					<?php

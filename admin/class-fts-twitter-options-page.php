@@ -143,7 +143,7 @@ class FTS_Twitter_Options_Page {
 							<?php echo esc_html__( 'Twitter API Token', 'feed-them-social' ); ?>
 						</h3>
 						<p>
-							<?php echo esc_html__( 'This is required to make the feed work. Simply click the button below and it will connect to your Twitter account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your Twitter feed.', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Twitter posts.', 'feed-them-social' ); ?>
 						</p>
 						<p>
 							<?php
@@ -165,7 +165,8 @@ class FTS_Twitter_Options_Page {
 					$extra_keys                         = empty( $fts_twitter_custom_consumer_key ) && empty( $fts_twitter_custom_consumer_secret ) ? 'display:none' : '';
 					?>
 
-					<div class="fts-twitter-add-all-keys-click-option">
+                    <!-- SRL 4-11-22: Hiding the create twitter tokens option because the process of getting approved is not as easy as it used to be and it's creating more support tickets too -->
+					<div class="fts-twitter-add-all-keys-click-option" style="display: none">
 						<label for="fts-custom-tokens-twitter">
 							<input type="checkbox" id="fts-custom-tokens-twitter" name="fts_twitter_custom_tokens" value="1" <?php echo checked( '1', '' === $extra_keys ); ?>> <?php echo esc_html__( 'Add your own tokens?', 'feed-them-social' ); ?>
 						</label>
@@ -210,13 +211,14 @@ class FTS_Twitter_Options_Page {
 						?>
 						<div class="feed-them-social-admin-input-wrap">
 							<div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
-								<?php echo esc_html__( 'Access Token', 'feed-them-social' ); ?>
+								<?php echo esc_html__( 'Access Token Required', 'feed-them-social' ); ?>
 							</div>
 							<input type="text" name="fts_twitter_custom_access_token" class="feed-them-social-admin-input" id="fts_twitter_custom_access_token" value="<?php echo esc_attr( $oath_token ); ?>"/>
 							<div class="fts-clear"></div>
 						</div>
 
-						<div class="feed-them-social-admin-input-wrap">
+                        <!-- We don't  need to display this field to the user, so we only show the Acccess Token -->
+                        <div class="feed-them-social-admin-input-wrap" style="display: none">
 							<div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
 								<?php echo esc_html__( 'Access Token Secret', 'feed-them-social' ); ?>
 							</div>
@@ -251,8 +253,6 @@ class FTS_Twitter_Options_Page {
 										'</div>'
 									);
 								}
-								// Clear Cache!
-								do_action( 'wp_ajax_fts_clear_cache_ajax' );
 							} else {
 								echo sprintf(
 									esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),

@@ -3512,6 +3512,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		$fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
 
 		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
+
 			if ( isset( $_REQUEST['button_pushed'] ) && 'yes' === $_REQUEST['button_pushed'] ) {
 
                 if( 'youtube' ===  $_REQUEST['feed'] && !empty( $_REQUEST['refresh_token'] )  ){
@@ -3699,7 +3700,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 		}
 	}
 
-    
     /**
      * FTS Check YouTube Token Validity
      *
@@ -3712,49 +3712,57 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
         if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
 
             // Used some methods from this link http://ieg.wnet.org/2015/09/using-oauth-in-wordpress-plugins-part-2-persistence/
-            // save all 3 get options: happens when clicking the get access token button on the youtube options page!
+            // Save all 3 get options: happens when clicking the get access token button on the youtube options page.
+            // A Refresh token is only available when clicking through the oAuth process.
             if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) {
-                $button_pushed                     = 'yes';
                 $clienttoken_post['refresh_token'] = sanitize_text_field( wp_unslash( $_GET['refresh_token'] ) );
-                $auth_obj['access_token']          = sanitize_text_field( wp_unslash( $_GET['code'] ) );
-                $auth_obj['expires_in']            = sanitize_key( wp_unslash( $_GET['expires_in'] ) );
+                $access_token                      = sanitize_text_field( wp_unslash( $_GET['code'] ) );
+                $expires_in                        = sanitize_key( wp_unslash( $_GET['expires_in'] ) );
+                $button_pushed                     = 'yes';
             } else {
-                // refresh token!
-                $button_pushed    = 'no';
-                $oauth2token_url  = 'https://accounts.google.com/o/oauth2/token';
 
-                $clienttoken_post = array(
-                    // feed them social NEW APP
-                    'client_id'    => '1069466791375-nd0patqgu93ddban53q3s03evp47bok4.apps.googleusercontent.com',
-                    'client_secret' => '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',
-
-                    // slickremix old app.
-                    //    'client_id'     => '802796800957-6nannpdq8h8l720ls430ahnnq063n22u.apps.googleusercontent.com',
-                    //	'client_secret' => 'CbieVhgOudjrpya1IDpv3uRa',
+                $postdata = http_build_query(
+                    array(
+                        'feed_them_social' => 'yes',
+                        'refresh_token'    => esc_html( get_option( 'youtube_custom_refresh_token' ) ),
+                        'expires_in'       => esc_html( get_option( 'youtube_custom_token_exp_time' ) ),
+                    )
                 );
 
-                // The "refresh token" grant type is to use a refresh token to get a new access token!
-                $clienttoken_post['refresh_token'] = get_option( 'youtube_custom_refresh_token' );
-                $clienttoken_post['grant_type']    = 'refresh_token';
+                $ch = curl_init();
 
-                $postargs = array(
-                    'body' => $clienttoken_post,
-                );
+                curl_setopt($ch, CURLOPT_URL, 'https://youtube-token-refresh.feedthemsocial.com' );
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "' . $postdata . '");
 
-                $response = wp_remote_post( $oauth2token_url, $postargs );
-                $auth_obj = json_decode( wp_remote_retrieve_body( $response ), true );
+                $headers = array();
+                $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-                // test.
-                //$auth_obj['access_token'] = '';
-
-                // Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
-                if( empty( $auth_obj['access_token'] ) ){
-                    return;
+                $result = curl_exec($ch);
+                if (curl_errno($ch)) {
+                    echo 'Error:' . curl_error($ch);
                 }
+                curl_close($ch);
 
-                // test.
-                // echo ' asdfasdfasdfasdf ';
-                // print_r($auth_obj);
+                $response = json_decode($result);
+
+               /* echo '<br/>';
+                print_r( $postdata );
+                echo '<br/>';
+                  print_r($result);*/
+
+                // Get new Access Token using our Refresh Token.
+                if( !empty( $response->access_token ) && !empty( $response->expires_in ) ){
+                    $access_token = $response->access_token;
+                    $expires_in = $response->expires_in;
+                    $button_pushed    = 'no';
+                }
+                else {
+                    // Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
+                    return  print_r($response);
+                }
             }
             ?>
             <script>
@@ -3762,9 +3770,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                     jQuery.ajax({
                         data: {
                             action: "fts_refresh_token_ajax",
-                            refresh_token: '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>',
-                            access_token: '<?php echo esc_js( $auth_obj['access_token']); ?>',
-                            expires_in: '<?php echo esc_js( $auth_obj['expires_in'] ); ?>',
+                            refresh_token: '<?php echo esc_js( $clienttoken_post['refresh_token'] ) ?>',
+                            access_token: '<?php echo esc_js( $access_token ) ?>',
+                            expires_in: '<?php echo esc_js( $expires_in ) ?>',
                             button_pushed: '<?php echo esc_js( $button_pushed ); ?>',
                             feed: 'youtube'
                         },
@@ -3802,25 +3810,26 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                             jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
 
                             <?php if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) { ?>
-                            jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>');
-                            jQuery('.fts-failed-api-token').hide();
+                                jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>');
+                                jQuery('.fts-failed-api-token').hide();
 
-                            if (!jQuery('.fts-successful-api-token').length) {
-                                jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
-                            }
+                                if (!jQuery('.fts-successful-api-token').length) {
+                                    jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
+                                }
                             <?php
                             } else {
                             ?>
-                            if (jQuery('.fts-failed-api-token').length) {
-                                jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
-                                jQuery('.fts-failed-api-token').hide();
-                            }
+                                if (jQuery('.fts-failed-api-token').length) {
+                                    jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
+                                    jQuery('.fts-failed-api-token').hide();
+                                }
                             <?php } ?>
 
-                            jQuery('#youtube_custom_access_token').val(jQuery('#youtube_custom_access_token').val() + '<?php echo esc_js( $auth_obj['access_token'] ); ?>');
-                            jQuery('#youtube_custom_token_exp_time').val(jQuery('#youtube_custom_token_exp_time').val() + '<?php echo esc_js( strtotime( '+' . $auth_obj['expires_in'] . ' seconds' ) ); ?>');
-                            jQuery('<div class="fa fa-check-circle fa-3x fa-fw fts-success"></div>').insertBefore('.hide-button-tokens-options .feed-them-social-admin-input-wrap .fts-clear');
-                            jQuery('.fts-success').fadeIn('slow');
+                                jQuery('#youtube_custom_access_token').val(jQuery('#youtube_custom_access_token').val() + '<?php echo esc_js( $access_token ); ?>');
+                                jQuery('#youtube_custom_token_exp_time').val(jQuery('#youtube_custom_token_exp_time').val() + '<?php echo esc_js( strtotime( '+' . $expires_in . ' seconds' ) ); ?>');
+                                jQuery('<div class="fa fa-check-circle fa-3x fa-fw fts-success"></div>').insertBefore('.hide-button-tokens-options .feed-them-social-admin-input-wrap .fts-clear');
+                                jQuery('.fts-success').fadeIn('slow');
+
                             <?php } ?>
                             return false;
                         }
@@ -3829,7 +3838,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                 }); // end of document.ready
             </script>
             <?php
-            // return $auth_obj['access_token'];
         }
     }
     

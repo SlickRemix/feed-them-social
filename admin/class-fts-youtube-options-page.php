@@ -117,8 +117,8 @@ class FTS_Youtube_Options_Page {
 					<div class="fts-clear"></div>
 
 					<div class="youtube-extra-keys" style="<?php echo esc_attr( $extra_keys ); ?>">
-						<div class="youtube-extra-keys-text" style="<?php echo esc_attr( $extra_keys_no ); ?>"><?php echo esc_html__( 'Learn how to manually create your own YouTube API Key', 'feed-them-social' ); ?>
-							<a href="<?php echo esc_url( 'https://www.slickremix.com/docs/get-api-key-for-youtube/' ); ?>" target="_blank"><?php echo esc_html__( 'here', 'feed-them-social' ); ?></a>.
+						<div class="youtube-extra-keys-text" style="<?php echo esc_attr( $extra_keys_no ); ?>">
+							<a href="<?php echo esc_url( 'https://www.slickremix.com/docs/get-api-key-for-youtube/' ); ?>" target="_blank"><?php echo esc_html__( 'Manually create YouTube API Key', 'feed-them-social' ); ?></a>
 						</div>
 
 						<div class="feed-them-social-admin-input-label fts-youtube-border-bottom-color-label">
@@ -129,10 +129,13 @@ class FTS_Youtube_Options_Page {
 						<div class="fts-clear"></div>
 					</div>
 				</div>
-
+                <?php
+                // Add yes to show the expiration time and js that runs it below!
+                $debug = 'no';
+                ?>
 				<div class="hide-button-tokens-options" style="<?php echo esc_attr( $extra_keys_no ); ?>;">
 					<div class="feed-them-social-admin-input-wrap" style="<?php
-                    if ( 'no' !== $dev_mode ) {
+                    if ( 'no' === $debug ) {
                         ?>
                             display:none<?php } ?>">
 						<div class="feed-them-social-admin-input-label">
@@ -143,20 +146,15 @@ class FTS_Youtube_Options_Page {
 					</div>
 					<div class="feed-them-social-admin-input-wrap" style="margin-bottom:0;">
 						<div class="feed-them-social-admin-input-label">
-							<?php echo esc_html__( 'Access Token', 'feed-them-social' ); ?>
+							<?php echo esc_html__( 'Access Token Required', 'feed-them-social' ); ?>
 						</div>
 						<input type="text" name="youtube_custom_access_token" class="feed-them-social-admin-input" id="youtube_custom_access_token" value="<?php echo esc_attr( get_option( 'youtube_custom_access_token' ) ); ?>"/>
 						<div class="fts-clear"></div>
 					</div>
-					<?php
-					// Add yes to show the expiration time and js that runs it below!
-					$dev_mode = 'yes';
-					?>
-					<div class="feed-them-social-admin-input-wrap fts-exp-time-wrapper" style="margin-top:10px;
-					<?php
-					if ( 'no' !== $dev_mode ) {
-						?>
-							display:none<?php } ?>">
+
+					<div class="feed-them-social-admin-input-wrap fts-exp-time-wrapper" style="margin-top:10px;<?php
+					if ( 'no' === $debug ) {
+						?>display:none<?php } ?>">
 						<div class="feed-them-social-admin-input-label">
 							<?php echo esc_html__( 'Expiration Time for Access Token', 'feed-them-social' ); ?>
 						</div>
@@ -185,7 +183,7 @@ class FTS_Youtube_Options_Page {
 					// Give the access token a 5 minute buffer (300 seconds) before getting a new one.
 					$expiration_time = $expiration_time - 300;
 					// Test Liner!
-					if ( time() < $expiration_time && empty( $youtube_api_key ) && 'yes' === $dev_mode ) {
+					if ( time() < $expiration_time && empty( $youtube_api_key ) && 'yes' === $debug ) {
 						?>
 						<script>
 							// Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
@@ -218,10 +216,11 @@ class FTS_Youtube_Options_Page {
 						</script>
 						<?php
 					}
+
                     // YO! making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
                     if ( empty( $youtube_api_key ) && ! empty( $youtube_access_token ) && time() > $expiration_time ) {
 						// refresh token action!
-						$fts_functions->feed_them_youtube_refresh_token();
+                        $fts_functions->feed_them_youtube_refresh_token();
 					}
 
                     $user_id = $test_app_token_response;
@@ -261,7 +260,6 @@ class FTS_Youtube_Options_Page {
 							);
 						}
 					?>
-
 
 					<div class="fts-clear"></div>
 				</div>

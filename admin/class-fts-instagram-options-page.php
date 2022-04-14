@@ -154,7 +154,7 @@ class FTS_Instagram_Options_Page {
 
                     <div class="feed-them-social-admin-input-wrap"  style="margin-bottom:0px;
                     <?php
-                    if ( 'yes' !== $dev_mode ) {
+                    if ( 'no' === $debug ) {
                         ?>
                             display:none<?php } ?>">
                         <div class="feed-them-social-admin-input-label fts-instagram-border-bottom-color-label">
@@ -190,11 +190,11 @@ class FTS_Instagram_Options_Page {
 
                     <?php
 					// Add yes to show the expiration time and js that runs it below!
-					$dev_mode = 'no';
+					$debug = 'no';
 					?>
 					<div class="feed-them-social-admin-input-wrap fts-success-class fts-exp-time-wrapper" style="margin-top:10px;
 					<?php
-					if ( 'yes' !== $dev_mode ) {
+					if ( 'no' === $debug ) {
 						?>
 							display:none<?php } ?>">
 						<div class="feed-them-social-admin-input-label">
@@ -216,7 +216,7 @@ class FTS_Instagram_Options_Page {
                     $expiration_time = '' !== get_option( 'fts_instagram_custom_api_token_expires_in' ) ? get_option( 'fts_instagram_custom_api_token_expires_in' ) : '';
 
 
-					if ( time() < $expiration_time  && 'yes' === $dev_mode ) {
+					if ( time() < $expiration_time  && 'yes' === $debug ) {
 						?>
 						<script>
 

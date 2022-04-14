@@ -96,7 +96,7 @@ class Feeds_CPT {
 	 *
 	 * @var string
 	 */
-	public $metabox_settings_class = '';
+	public $metabox_settings_class;
 
 	/**
 	 * Feeds_CPT constructor.
@@ -106,29 +106,15 @@ class Feeds_CPT {
 	public function __construct( $feed_functions, $feed_cpt_options, $setting_options_js, $settings_functions, $access_token_options) {
 
 
-		$this->set_class_vars( $feed_cpt_options, $setting_options_js, $settings_functions );
 		$this->add_actions_filters();
 
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
 
-		//Access Token Options
-        $this->access_token_options = $access_token_options;
 
-    }
+		$this->feed_settings_array = $feed_cpt_options->get_all_options();
 
-	/**
-	 * Set Class Variables
-	 *
-	 *  Sets the variables for this class
-	 *
-	 * @param object  $feed_cpt_options All options.
-	 * @since 1.1.8
-	 */
-	public function set_class_vars( $feed_cpt_options, $setting_options_js, $settings_functions ) {
-			$this->feed_settings_array = $feed_cpt_options->get_all_options();
-
-			$this->setting_options_js = $setting_options_js;
+		$this->setting_options_js = $setting_options_js;
 
 		// we set current_user_can so our backend functions don't get loaded to the front end.
 		// this came about after a ticket we received about our plugin being active and
@@ -149,11 +135,16 @@ class Feeds_CPT {
 			$this->metabox_settings_class->set_metabox_specific_form_inputs( true );
 		}
 
-			// If Premium add Functionality!
+		// If Premium add Functionality!
 		if ( is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
 			//Premium Features here.
 		}
-	}
+
+
+		//Access Token Options
+        $this->access_token_options = $access_token_options;
+
+    }
 
 	/**
 	 * Add Actions & Filters
@@ -167,16 +158,13 @@ class Feeds_CPT {
 		// Scripts.
 		add_action( 'admin_enqueue_scripts', array( $this, 'fts_scripts' ) );
 
-		// Set local variables!
-		$this->plugin_locale = 'feed_them_social';
-
-		// Register Gallery CPT!
+		// Register Feed CPT!
 		add_action( 'init', array( $this, 'fts_cpt' ) );
 
 		// Response Messages!
 		add_filter( 'post_updated_messages', array( $this, 'fts_updated_messages' ) );
 
-		// Gallery List function!
+		// Feed List function!
 		add_filter( 'manage_fts_posts_columns', array( $this, 'fts_set_custom_edit_columns' ) );
 		add_action( 'manage_fts_posts_custom_column', array( $this, 'fts_custom_edit_column' ), 10, 2 );
 
@@ -186,19 +174,14 @@ class Feeds_CPT {
 		// Add Meta Boxes!
 		add_action( 'add_meta_boxes', array( $this, 'fts_add_metaboxes' ) );
 
-		// Rename Submenu Item to Galleries!
+		// Rename Submenu Item to Feeds!
 		add_filter( 'attribute_escape', array( $this, 'fts_rename_submenu_name' ), 10, 2 );
+
 		// Add Shortcode!
 		add_shortcode( 'fts_list', array( $this, 'fts_display_list' ) );
 
-
+        // Check Current Page we are on.
 		add_action( 'current_screen', array( $this, 'fts_check_page' ) );
-
-		// Save Meta Box Info!
-		add_action( 'save_post_fts', array( $this, 'fts_save_custom_meta_box' ), 10, 2 );
-
-		// Add API Endpoint!
-		add_action( 'rest_api_init', array( $this, 'ft_galley_register_gallery_options_route' ) );
 
 		if ( '' === get_option( 'fts_duplicate_post_show' ) ) {
 
@@ -209,7 +192,6 @@ class Feeds_CPT {
 
 		}
 	}
-
 
 	/**
 	 *  Tab Notice HTML
@@ -229,7 +211,7 @@ class Feeds_CPT {
 	}
 
 	/**
-	 *  Check Page
+	 * Check Page
 	 *
 	 * What page are we on?
 	 *
@@ -249,51 +231,6 @@ class Feeds_CPT {
 				$this->parent_post_id = $my_post['post'];
 			}
 		}
-	}
-
-	/**
-	 *  Register Gallery Options (REST API)
-	 *
-	 * Register the gallery options via REST API
-	 *
-	 * @since 1.0.0
-	 */
-	public function ft_galley_register_gallery_options_route() {
-		register_rest_route(
-			'ftgallery/v2',
-			'/gallery-options',
-			array(
-				'methods'  => \WP_REST_Server::READABLE,
-                'callback' => array( $this, 'get_saved_feed_settings' ),
-			)
-		);
-	}
-
-	/**
-	 *  Get Gallery Options (REST API)
-	 *
-	 * Get options using WordPress's REST API
-	 *
-	 * @param array $gallery_id Gallery ID.
-	 * @return string
-	 * @since 1.0.0
-	 */
-	public function fts_get_gallery_options_rest( $gallery_id ) {
-
-		$request = new \WP_REST_Request( 'GET', '/ftgallery/v2/gallery-options' );
-
-		$request->set_param( 'gallery_id', $gallery_id );
-
-		$response = rest_do_request( $request );
-
-		// Check for error.
-		if ( is_wp_error( $response ) ) {
-			return esc_html__( 'oops something isn\'t right.', 'feed_them_social' );
-		}
-
-		$final_response = isset( $response->data ) ? $response->data : esc_html__( 'No Images attached to this post.', 'feed_them_social' );
-
-		return $final_response;
 	}
 
 	/**
@@ -591,9 +528,9 @@ class Feeds_CPT {
 	}
 
 	/**
-	 * Add Gallery Meta Boxes
+	 * Add Meta Boxes
 	 *
-	 * Add metaboxes to the gallery
+	 * Add metaboxes to the edit page.
 	 *
 	 * @since 1.0.0
 	 */
@@ -617,12 +554,12 @@ class Feeds_CPT {
 	/**
 	 *  Metabox Tabs List
 	 *
-	 * The list of tabs Items for settings page metaboxes
+	 * The list of tabs Items for settings page metaboxes.
 	 *
 	 * @return array
 	 * @since 1.1.6
 	 */
-	public function fts_metabox_tabs_list() {
+	public function metabox_tabs_list() {
 
 		$metabox_tabs_list = array(
 			// Base of each tab! The array keys are the base name and the array value is a list of tab keys.
@@ -711,7 +648,7 @@ class Feeds_CPT {
 
 		$params['object'] = $object;
 
-		$this->metabox_settings_class->display_metabox_content( $this->fts_metabox_tabs_list(), $params );
+		$this->metabox_settings_class->display_metabox_content( $this->metabox_tabs_list(), $params );
 
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
@@ -736,21 +673,12 @@ class Feeds_CPT {
 	 * @param $params
 	 * @since 1.1.6
 	 */
-	public function tab_feed_setup( $params ) {
+	public function tab_feed_setup( ) {
 
-		global $wp_version;
-
-		// Set WordPress version.
-		$wp_version = substr( str_replace( '.', '', $wp_version ), 0, 2 );
-
-		$object        = $params['object'];
-		$gallery_class = $params['this'];
-
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['feed_type_options'], null, $gallery_class->parent_post_id );
+		echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['feed_type_options'], null, $this->parent_post_id );
 
 		?>
 			<div class="ftg-section">
-
                 <?php
                     // Happens in JS file
                 echo '<div class="ft-gallery-notice"></div>'; ?>
@@ -761,21 +689,15 @@ class Feeds_CPT {
 						//  jQuery('#publish').click();
 						jQuery('#post').click();
 					});
-
 				</script>
-
 		    </div>
-
 
             <div class="ftg-access-token">
 	            <?php
 	            // Happens in JS file
 	            echo '<div class="ft-gallery-notice"></div>';
-
-
-
                 // Get Access Token Options.
-	            echo $this->access_token_options->get_access_token_options( $this->feed_functions->get_feed_type( $gallery_class->parent_post_id ) );
+	            echo $this->access_token_options->get_access_token_options( $this->feed_functions->get_feed_type( $this->parent_post_id ) );
                 ?>
             </div>
         <?php
@@ -788,10 +710,9 @@ class Feeds_CPT {
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_layout_content( $params ) {
-		$gallery_class = $params['this'];
+	public function tab_layout_content() {
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['layout'], null, $gallery_class->parent_post_id );
+		echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['layout'], null, $this->parent_post_id );
 		?>
         <div class="clear"></div>
         <div class="ft-gallery-note ft-gallery-note-footer">
@@ -813,11 +734,9 @@ class Feeds_CPT {
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_colors_content( $params ) {
+	public function tab_colors_content() {
 
-		$gallery_class = $params['this'];
-
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['colors'], null, $gallery_class->parent_post_id );
+		echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['colors'], null, $this->parent_post_id );
 		?>
 		<div class="clear"></div>
 
@@ -840,18 +759,17 @@ class Feeds_CPT {
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_facebook_feed( $params ) {
-		$gallery_class = $params['this'];
+	public function tab_facebook_feed() {
 
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
 
             <div class="ftg-section">
-				<?php $gallery_class->fts_tab_premium_msg(); ?>
+				<?php $this->fts_tab_premium_msg(); ?>
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['facebook'], null, $gallery_class->parent_post_id );
+		echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['facebook'], null, $this->parent_post_id );
 
 		?>
         <div class="tab-5-extra-options tabs-extra-options">
@@ -862,15 +780,15 @@ class Feeds_CPT {
             $facebook_add_all_options = $facebook_additional_options->get_all_options();
 
             //Facebook Reviews text and styles.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_reviews_text_styles'], null, $gallery_class->parent_post_id ); ?>
+            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_reviews_text_styles'], null, $this->parent_post_id ); ?>
 
             <?php
             //Facebook Reviews and Overall Ratings styles.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_reviews_overall_rating_styles'], null, $gallery_class->parent_post_id ); ?>
+            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_reviews_overall_rating_styles'], null, $this->parent_post_id ); ?>
 
             <?php
             //Facebook Language Options.
-            echo $gallery_class->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_languages_options'], null, $gallery_class->parent_post_id ); ?>
+            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_languages_options'], null, $this->parent_post_id ); ?>
             <div class="clear"></div>
         </div>
         <?php
@@ -900,18 +818,16 @@ class Feeds_CPT {
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_instagram_feed( $params ) {
-		$gallery_class = $params['this'];
-
+	public function tab_instagram_feed() {
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
 
             <div class="ftg-section">
-				<?php $gallery_class->fts_tab_premium_msg(); ?>
+				<?php $this->fts_tab_premium_msg(); ?>
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['instagram'], null, $gallery_class->parent_post_id );
+		echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['instagram'], null, $this->parent_post_id );
 
 		$this->setting_options_js->instagram_js();
 		?>
@@ -922,12 +838,12 @@ class Feeds_CPT {
 	        $instagram_add_all_options = $instagram_additional_options->get_all_options();
 
 	        //Instagram Follow Button Options.
-	        echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $gallery_class->parent_post_id );
+	        echo $this->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $this->parent_post_id );
 
             // FTS Premium ACTIVE
             if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 	            //Instagram Load More Options
-	            echo $gallery_class->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $gallery_class->parent_post_id );
+	            echo $this->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $this->parent_post_id );
             }?>
 
         </div>
@@ -942,17 +858,17 @@ class Feeds_CPT {
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_twitter_feed( $params ) {
-		$gallery_class = $params['this'];
+	public function tab_twitter_feed() {
+
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
 
             <div class="ftg-section">
-				<?php $gallery_class->fts_tab_premium_msg(); ?>
+				<?php $this->fts_tab_premium_msg(); ?>
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['twitter'], null, $gallery_class->parent_post_id );
+		echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['twitter'], null, $this->parent_post_id );
 
         //JS for Twitter Options.
 		$this->setting_options_js->twitter_js();
@@ -964,20 +880,20 @@ class Feeds_CPT {
 	        $twitter_add_all_options = $twitter_additional_options->get_all_options();
 
 	        // Twitter Follow Button Options
-	        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_follow_btn_options'], null, $gallery_class->parent_post_id );
+	        echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_follow_btn_options'], null, $this->parent_post_id );
 	        // Twitter Video Player Options
-	        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_video_player_options'], null, $gallery_class->parent_post_id );
+	        echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_video_player_options'], null, $this->parent_post_id );
 	        // Twitter Profile Photo Options
-	        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_profile_photo_options'], null, $gallery_class->parent_post_id );
+	        echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_profile_photo_options'], null, $this->parent_post_id );
 	        // Twitter Style Options
-	        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_style_options'], null, $gallery_class->parent_post_id );
+	        echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_style_options'], null, $this->parent_post_id );
 
 	        // FTS Premium ACTIVE
 	        if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 		        // Twitter Grid Styles
-		        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $gallery_class->parent_post_id );
+		        echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->parent_post_id );
 		        // Twitter Load More Button Styles & Options
-		        echo $gallery_class->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $gallery_class->parent_post_id );
+		        echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $this->parent_post_id );
 	        }?>
         </div>
 
@@ -992,17 +908,16 @@ class Feeds_CPT {
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_youtube_feed( $params ) {
-		$gallery_class = $params['this'];
+	public function tab_youtube_feed() {
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
             ?>
 
                     <div class="ftg-section">
-				<?php $gallery_class->fts_tab_premium_msg(); ?>
+				<?php $this->fts_tab_premium_msg(); ?>
 					</div>
 				<?php }
 
-		    echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['youtube'], null, $gallery_class->parent_post_id );
+		    echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['youtube'], null, $this->parent_post_id );
 
 		    $this->setting_options_js->youtube_js();
             ?>
@@ -1013,12 +928,12 @@ class Feeds_CPT {
                 $youtube_add_all_options = $youtube_additional_options->get_all_options();
 
                 //Youtube Follow Button Options.
-                echo $gallery_class->metabox_settings_class->settings_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $gallery_class->parent_post_id );
+                echo $this->metabox_settings_class->settings_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->parent_post_id );
 
                 // FTS Premium ACTIVE
                 if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
                 //Youtube Load More Options.
-                echo $gallery_class->metabox_settings_class->settings_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $gallery_class->parent_post_id );
+                echo $this->metabox_settings_class->settings_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $this->parent_post_id );
                 }?>
 			</div>
 
@@ -1032,17 +947,16 @@ class Feeds_CPT {
 	 *
 	 * @since 1.0.0
 	 */
-	public function tab_combine_streams_feed( $params ) {
-		$gallery_class = $params['this'];
+	public function tab_combine_streams_feed() {
 		if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
 			?>
 
             <div class="ftg-section">
-				<?php $gallery_class->fts_tab_premium_msg(); ?>
+				<?php $this->fts_tab_premium_msg(); ?>
             </div>
 		<?php }
 
-		echo $gallery_class->metabox_settings_class->settings_html_form( $gallery_class->feed_settings_array['combine'], null, $gallery_class->parent_post_id );
+		echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['combine'], null, $this->parent_post_id );
 
 		$this->setting_options_js->combine_js();
 
@@ -1062,7 +976,7 @@ class Feeds_CPT {
      * @param $object
      * @since 1.0.0
      */
-    public function fts_old_shortcode_meta_box( $object ) {
+    public function fts_old_shortcode_meta_box() {
         ?>
         <div class="ft-gallery-meta-wrap">
             <?php
@@ -1117,7 +1031,7 @@ class Feeds_CPT {
      * @param $object
      * @since 1.0.0
      */
-	public function fts_shortcode_meta_box( $object ) {
+	public function fts_shortcode_meta_box() {
 		?>
 		<div class="ft-gallery-meta-wrap">
 		<?php
@@ -1358,12 +1272,10 @@ class Feeds_CPT {
 	 * @since 1.1.6
 	 */
 	public function metabox_specific_form_inputs( $params ) {
-		// 'This' Class object.
-		$gallery_class = $params['this'];
 		// Gallery ID.
 		$gallery_id = isset( $_GET['post'] ) ? $_GET['post'] : '';
-		// Gallery Options (REST API call).
-		$gallery_options_returned = $gallery_class->fts_get_gallery_options_rest( $gallery_id );
+		// Gallery Options.
+		$gallery_options_returned = $this->feed_functions->get_feed_settings( $gallery_id );
 		// Option Info.
 		$option = $params['input_option'];
 
@@ -1410,81 +1322,16 @@ class Feeds_CPT {
 		return $output;
 	}
 
-	/**
-	 *  Save Custom Meta Box
-	 * Save Fields for Galleries
-	 *
-	 * @param $post_id
-	 * @param $post
-	 * @return string
-	 * @since 1.0.0
-	 */
-	public function fts_save_custom_meta_box( $post_id, $post ) {
-		/*
-		if ( ! isset( $_POST['ft-galleries-settings-meta-box-nonce'] ) || ! wp_verify_nonce( $_POST['ft-galleries-settings-meta-box-nonce'], basename( __FILE__ ) ) ) {
-			return $post_id;
-		}
-		// Can User Edit Post?
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return $post_id;
-		}
-		// Autosave
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return $post_id;
-		}
-		// CPT Check
-		$slug = 'fts';
-		if ( $slug != $post->post_type ) {
-			return $post_id;
-		}
-
-		//  $attach_ID = $this->fts_get_gallery_attached_media_ids( $post_id );
-		//  foreach ( $attach_ID as $img_index => $img_id ) {
-		//      $a = array(
-		//          'ID'         => $img_id,
-		//          'menu_order' => $img_index,
-		//      );
-		//      wp_update_post( $a );
-		//  }
-
-		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
-			include FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR . 'includes/watermark/save.php';
-		}
-		// end premium
-		// Return settings
-		return 'is this even working';*/
-	}
-
-				/**
-				 *  Get Gallery Attached Media IDs
-				 *
-				 * Get an Array of ID's of attachments for this Gallery.
-				 *
-				 * @param $gallery_id
-				 * @param string     $mime_type (leave empty for all types)
-				 * @return array
-				 * @since 1.0.0
-				 */
-	public function fts_get_gallery_attached_media_ids( $gallery_id, $mime_type = '' ) {
-		$post_attachments = get_attached_media( $mime_type, $gallery_id );
-
-		$attachment_ids_array = array();
-		foreach ( $post_attachments as $attachment ) {
-			$attachment_ids_array[] = $attachment->ID;
-		}
-
-		return $attachment_ids_array;
-	}
-
-				/**
-				 *  Duplicate Post Link
-				 * Add the duplicate link to action list for post_row_actions
-				 *
-				 * @param $actions
-				 * @param $post
-				 * @return mixed
-				 * @since 1.0.0
-				 */
+    /**
+     * Duplicate Post Link
+     *
+     * Add the duplicate link to action list for post_row_actions
+     *
+     * @param $actions
+     * @param $post
+     * @return mixed
+     * @since 1.0.0
+     */
 	public function fts_duplicate_post_link( $actions, $post ) {
 		// make sure we only show the duplicate gallery link on our pages
 		if ( current_user_can( 'edit_posts' ) && 'fts' === $_GET['post_type'] ) {
@@ -1494,25 +1341,26 @@ class Feeds_CPT {
 		return $actions;
 	}
 
-				/**
-				 *  Duplicate Post ADD Duplicate Post Button
-				 * Add a button in the post/page edit screen to create a clone
-				 *
-				 * @since 1.0.0
-				 */
-	public function fts_duplicate_post_add_duplicate_post_button() {
-		$current_screen = get_current_screen();
-		$verify         = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
-		// check to make sure we are not on a new fts post, because what is the point of duplicating a new one until we have published it?
-		if ( 'fts' === $current_screen->post_type && 'fts' !== $verify ) {
-			$id = $_GET['post'];
-			?>
-			<div id="ft-gallery-duplicate-action">
-				<a href="<?php echo esc_url( wp_nonce_url( 'admin.php?action=fts_duplicate_post_as_draft&post=' . $id, basename( __FILE__ ), 'duplicate_nonce' ) ); ?>"
-				   title="Duplicate this item"
-				   rel="permalink"><?php esc_html_e( 'Duplicate Gallery', 'feed_them_social' ); ?></a>
-			</div>
-						<?php
-		}
-	}
+    /**
+     *  Duplicate Post ADD Duplicate Post Button
+     *
+     *  Add a button in the post/page edit screen to create a clone
+     *
+     * @since 1.0.0
+     */
+    public function fts_duplicate_post_add_duplicate_post_button() {
+        $current_screen = get_current_screen();
+        $verify         = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
+        // check to make sure we are not on a new fts post, because what is the point of duplicating a new one until we have published it?
+        if ( 'fts' === $current_screen->post_type && 'fts' !== $verify ) {
+            $id = $_GET['post'];
+            ?>
+            <div id="ft-gallery-duplicate-action">
+                <a href="<?php echo esc_url( wp_nonce_url( 'admin.php?action=fts_duplicate_post_as_draft&post=' . $id, basename( __FILE__ ), 'duplicate_nonce' ) ); ?>"
+                   title="Duplicate this item"
+                   rel="permalink"><?php esc_html_e( 'Duplicate Gallery', 'feed_them_social' ); ?></a>
+            </div>
+            <?php
+        }
+    }
 } ?>

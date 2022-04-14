@@ -1,9 +1,9 @@
 <?php
 /**
- * Upgrade Class
+ * Backwards Compat Class
  *
  * @package     FTS
- * @subpackage  Admin/Upgrades
+ * @subpackage  Admin/Backwards Compat
  * @copyright   Copyright (c) 2021, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.3.4
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) )
 /**
  * Upgrades Class
  *
- * @class    FTS_Upgrades
+ * @class    Backwards_Compat
  * @version  1.0.0
  * @package  FeedThemSocial/Admin
  * @category Class
@@ -26,9 +26,9 @@ if ( ! defined( 'ABSPATH' ) )
  */
 
 /**
- * Class Settings_Page
+ * Class Backwards_Compat
  */
-class FTS_Upgrades {
+class Backwards_Compat {
 	/**
 	 * Primary class constructor.
 	 *

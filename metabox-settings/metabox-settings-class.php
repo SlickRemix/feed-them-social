@@ -45,6 +45,14 @@ class Metabox_Settings {
 	 */
 	public $settings_page_name = '';
 
+	/**
+	 * Main Post Type
+	 *
+	 * The post type to be checked
+	 *
+	 * @var string
+	 */
+	public $main_post_type = '';
 
 	/**
 	 * Is Page
@@ -128,6 +136,7 @@ class Metabox_Settings {
 	 * @since 1.0.0
 	 */
 	public function add_actions_filters() {
+
 		if ( is_admin() ) {
 			// Save Page Metaboxes.
 			if ( true == $this->is_page ) {
@@ -136,6 +145,7 @@ class Metabox_Settings {
 
 				// Save Admin Page Metabox.
 				add_action( 'admin_post_slickmetabox_form', array( $this, 'save_meta_box' ) );
+
 			} else {
 				// Save Post Metaboxes.
 				add_action( 'save_post', array( $this, 'save_meta_box' ), 10, 2 );
@@ -790,10 +800,12 @@ class Metabox_Settings {
 	 * Save Fields for Galleries
 	 *
 	 * @param string $post_id The post ID.
-	 * @return string
+	 * @return array | string
 	 * @since 1.0.0
 	 */
 	public function save_meta_box( $post_id ) {
+
+		error_log( print_r( 'making it to save', true ) );
 		// delete_option( $this->hook_id . '_settings_options' );.
 		$current_info = $this->current_info_array();
 
@@ -845,6 +857,8 @@ class Metabox_Settings {
 			}
 		}
 
+
+
 		// If Post - Return Settings.
 		if ( true == $this->is_page ) {
 			// Update options for a page.
@@ -862,7 +876,7 @@ class Metabox_Settings {
 			exit;
 		}
 
-       // error_log( print_r( $array_to_save, true ) );
+
 
 		// If not doing Page stuff Update options for a Post.
 		update_post_meta( $post_id, $current_info['post_type'] . '_settings_options', $array_to_save );

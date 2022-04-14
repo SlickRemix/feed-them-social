@@ -3,10 +3,10 @@
  * Backwards Compatibility Class
  *
  * @package     FTS
- * @subpackage  FTS
- * @copyright   Copyright (c) 2021, SlickRemix
+ * @subpackage  Admin/Backwards Compat
+ * @copyright   Copyright (c) 2022, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       1.3.4
+ * @since       3.0.0
  */
 
 namespace feedthemsocial;
@@ -19,12 +19,12 @@ if ( ! defined( 'ABSPATH' ) )
  * Backwards Compat Class
  *
  * @class    FTS_Backwards_Compat
- * @version  1.3.4
+ * @version  3.0.0
  * @package  FeedThemSocial
  * @category Class
  * @author   SlickRemix
  */
-class FTS_Backwards_Compat {
+class Backwards_Compat {
 	/**
 	 * Old option names.
 	 *
@@ -46,7 +46,7 @@ class FTS_Backwards_Compat {
 	 *
 	 * Functions constructor.
 	 *
-	 * @since 1.9.6
+	 * @since 3.0.0
 	 */
 	public function __construct( $settings_functions ) {
 
@@ -96,40 +96,37 @@ class FTS_Backwards_Compat {
 	 *
 	 * Add Settings to our menu.
 	 *
-	 * @since 1.3.4
+	 * @since 3.0.0
 	 */
 	public function add_actions_filters() {
 		/**
 		 * Hook into option retrieval to ensure we provide values for old options.
 		 *
-		 * This users with extensions who no longer have support are not impacted
+		 * The users with extensions who no longer have support are not impacted
 		 * by the new settings API.
 		 */
 		add_action( 'init', array( $this, 'setup_option_filters' ) );
-	} // add_actions_filters
+	}
 
 	/**
 	 * Loop through the old setting options and add filters for correct value retrieval.
 	 *
-	 * @since	1.3.4
+	 * @since	3.0.0
 	 */
 	public function setup_option_filters()	{
 		foreach( $this->old_options as $option )	{
 			add_filter( "pre_option_{$option}", array( $this, 'filter_option_values' ), 10, 3 );
 		}
-	} // setup_option_filters
+	}
 
 	/**
 	 * Filter the values of old FTS options.
 	 *
-	 * @since	1.3.4
+	 * @since	3.0.0
 	 * @param	mixed	$value		The required value of the option
 	 * @param	string	$option		The option name
 	 * @param	mixed	$default	Default value if the option does not exist
 	 * @return	mixed	The required value of the option
-     *
-     *
-     *
 	 */
 	public function filter_option_values( $value, $option, $default )	{
 		switch( $option )	{
@@ -178,7 +175,7 @@ class FTS_Backwards_Compat {
 
 
 
-
+			// Share Options.
             case 'fts_disable_share_button':
                 $value = $this->settings_functions->fts_get_option( 'hide_sharing' );
                 break;
@@ -208,5 +205,5 @@ class FTS_Backwards_Compat {
 		}
 
 		return $value;
-	} // filter_option_values
-} // FTS_Backwards_Compat
+	}
+}

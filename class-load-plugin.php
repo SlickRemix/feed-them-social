@@ -71,7 +71,7 @@ class Feed_Them_Social {
 		$feed_cpt_options = new \feedthemsocial\Feed_CPT_Options();
 
 		// Feed Functions.
-		$feed_functions = new \feedthemsocial\Feed_Functions( $feed_cpt_options );
+		$feed_functions = new \feedthemsocial\Feed_Functions( $settings_functions, $feed_cpt_options, $feed_cache );
 
         // Feed Them Functions!
         //$fts_functions = new \feedthemsocial\FTS_Functions();
@@ -98,10 +98,7 @@ class Feed_Them_Social {
 		new \feedthemsocial\Shortcodes( $feed_functions, $feeds_cpt, $feed_cache );
 
         // Backwards compatability.
-        new \feedthemsocial\FTS_Backwards_Compat( $settings_functions );
-
-        // Upgrades.
-        new \feedthemsocial\FTS_Upgrades();
+        //new \feedthemsocial\Backwards_Compat( $settings_functions );
 
 		// Updater Init.
 		new \feedthemsocial\updater_init();
@@ -240,10 +237,10 @@ class Feed_Them_Social {
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/shortcodes.php';
 
         // Backwards compatability.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/cpt/options/backwards-compat/fts-backwards-compat-class.php';
+        //include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/cpt/options/backwards-compat/fts-backwards-compat-class.php';
 
         // Upgraders
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/upgrades/fts-upgrade-class.php';
+        //include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/upgrades/fts-upgrade-class.php';
 
         // Updater Classes.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php';

@@ -72,7 +72,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.9.8.1 Monday, April 11th, 2022 =
+= Version 2.9.8.1 Thursday, April 14th, 2022 =
   * NEW: Instagram Basic Feed: Access Token. As long as an Instagram User does not change their password then the Instagram Basic token will automatically refresh after 7 days. This will resolve a long standing issue where users would have to get a new token every 60 days. This option will only work if the access token is not in the shortcode. FTS 3.0 will be released soon and the process to create a feed will be amazingly simple and will address the access token in shortcode.
   * NEW: Instagram and YouTUbe Feeds: Even if token fails and the cache is deleted the feed will still be visible.
   * NEW: YouTube Options: Access Token Refresh.

@@ -63,7 +63,7 @@ class Instagram_Additional_Options {
 	public function follow_btn_options() {
 		$this->all_options['instagram_follow_btn_options'] = array(
 			'section_attr_key'   => 'instagram_follow_btn_options_',
-			'section_title'      => esc_html__( 'Follow Button Options', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Follow Button', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -128,14 +128,14 @@ class Instagram_Additional_Options {
 	public function load_more_options() {
 		$this->all_options['instagram_load_more_options'] = array(
 			'section_attr_key'   => 'instagram_load_more_options',
-			'section_title'      => esc_html__( 'Load More Button Styles & Options', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Load More Button', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 
 			'main_options'       => array(
@@ -144,7 +144,7 @@ class Instagram_Additional_Options {
 				array(
 					'input_wrap_class' => 'instagram_loadmore_background_color',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Overall Rating Background Color', 'feed-them-social' ),
+					'label'            => esc_html__( 'Button Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'instagram_loadmore_background_color',
 					'name'             => 'instagram_loadmore_background_color',
@@ -156,7 +156,7 @@ class Instagram_Additional_Options {
 				array(
 					'input_wrap_class' => 'instagram_loadmore_text_color',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Load More Button Text Color', 'feed-them-social' ),
+					'label'            => esc_html__( 'Button Text Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'instagram_loadmore_text_color',
 					'name'             => 'instagram_loadmore_text_color',

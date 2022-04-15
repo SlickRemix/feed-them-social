@@ -602,7 +602,7 @@
                                 $( '#combine_post_count' ).val( value );
                             }
                             else if( 'facebook_name' == attribute ){
-                                alert('test');
+                                // alert('test');
                                 $( id + '#combine_facebook option[value=yes]' ).attr('selected','selected');
                                 $( id + '#combine_facebook_name' ).val( value );
                             }

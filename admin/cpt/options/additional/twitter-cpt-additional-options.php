@@ -75,14 +75,14 @@ class Twitter_Additional_Options {
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			'main_options'       => array(
-				// Show Follow Button.
+				// Show Follow Count.
 				array(
-					'input_wrap_class' => 'twitter_show_follow_btn',
+					'input_wrap_class' => 'twitter_show_follow_count',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
+					'label'            => esc_html__( 'Show Follow Count', 'feed_them_social' ),
 					'type'             => 'text',
-					'id'               => 'twitter_show_follow_btn',
-					'name'             => 'twitter_show_follow_btn',
+					'id'               => 'twitter_show_follow_count',
+					'name'             => 'twitter_show_follow_count',
 					'default_value'    => 'no',
 					'options'          => array(
 						array(
@@ -95,7 +95,27 @@ class Twitter_Additional_Options {
 						),
 					),
 				),
-				// Show Follow Button.
+                // Show Follow Button.
+                array(
+                    'input_wrap_class' => 'twitter_show_follow_btn',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'twitter_show_follow_btn',
+                    'name'             => 'twitter_show_follow_btn',
+                    'default_value'    => 'no',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'value' => 'no',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed_them_social' ),
+                            'value' => 'yes',
+                        ),
+                    ),
+                ),
+				// Show Button where.
 				array(
 					'input_wrap_class' => 'twitter_show_follow_btn_where',
 					'option_type'      => 'select',
@@ -139,7 +159,7 @@ class Twitter_Additional_Options {
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 
 			'main_options'       => array(
@@ -182,15 +202,14 @@ class Twitter_Additional_Options {
 	public function profile_photo_options() {
 		$this->all_options['twitter_profile_photo_options'] = array(
 			'section_attr_key'   => 'twitter_profile_photo_options_',
-			'section_title'      => esc_html__( 'Profile Photo Option', 'feed_them_social' ),
-			'section_wrap_id' => 'fts-tab-content1',
+			'section_title'      => esc_html__( 'Profile Photo', 'feed_them_social' ),
+			//'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
-
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 			'main_options'       => array(
 
@@ -200,17 +219,17 @@ class Twitter_Additional_Options {
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Hide Profile Photo', 'feed_them_social' ),
 					'type'             => 'text',
-					'id'               => 'twitter_hide_profile_photo',
-					'name'             => 'twitter_hide_profile_photo',
-					'default_value'    => 'yes',
+					'id'               => 'twitter_full_width',
+					'name'             => 'twitter_full_width',
+					'default_value'    => 'no',
 					'options'          => array(
+                        array(
+                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'value' => 'no',
+                        ),
 						array(
 							'label' => esc_html__( 'Yes', 'feed_them_social' ),
 							'value' => 'yes',
-						),
-						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
-							'value' => 'no',
 						),
 
 					),
@@ -232,35 +251,34 @@ class Twitter_Additional_Options {
 	public function style_options() {
 		$this->all_options['twitter_style_options'] = array(
 			'section_attr_key'   => 'twitter_style_options_',
-			'section_title'      => esc_html__( 'Profile Photo Option', 'feed_them_social' ),
-			'section_wrap_id' => 'fts-tab-content1',
+            'section_title'      => esc_html__( 'Styles and Options', 'feed_them_social' ),
+			//'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
-
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 			'main_options'       => array(
 
-				// Hide Profile Photo.
+				// Hide Images in Posts.
 				array(
-					'input_wrap_class' => 'twitter_hide_profile_photo',
+					'input_wrap_class' => 'fts_twitter_hide_images_in_posts',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Profile Photo', 'feed_them_social' ),
+					'label'            => esc_html__( 'Hide Images in Posts', 'feed_them_social' ),
 					'type'             => 'text',
-					'id'               => 'twitter_hide_profile_photo',
-					'name'             => 'twitter_hide_profile_photo',
-					'default_value'    => 'yes',
+					'id'               => 'fts_twitter_hide_images_in_posts',
+					'name'             => 'fts_twitter_hide_images_in_posts',
+					'default_value'    => 'no',
 					'options'          => array(
+                        array(
+                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'value' => 'no',
+                        ),
 						array(
 							'label' => esc_html__( 'Yes', 'feed_them_social' ),
 							'value' => 'yes',
-						),
-						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
-							'value' => 'no',
 						),
 
 					),
@@ -302,27 +320,27 @@ class Twitter_Additional_Options {
 					'default_value'    => '',
 				),
 
+                // Feed Link Color
+                array(
+                    'input_wrap_class' => 'twitter_link_color',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Link Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'twitter_link_color',
+                    'name'             => 'twitter_link_color',
+                    'placeholder'      => 'rgb(29, 155, 240)',
+                    'default_value'    => '',
+                ),
+
 				// Feed Link Color Hover
 				array(
-					'input_wrap_class' => 'twitter_link_color',
+					'input_wrap_class' => 'twitter_link_color_hover',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Link Color Hover', 'feed-them-social' ),
 					'type'             => 'text',
-					'id'               => 'twitter_link_color',
-					'name'             => 'twitter_link_color',
-					'placeholder'      => '#222',
-					'default_value'    => '',
-				),
-
-				// Feed Width
-				array(
-					'input_wrap_class' => 'twitter_feed_width',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Width', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'twitter_feed_width',
-					'name'             => 'twitter_feed_width',
-					'placeholder'      => '500px',
+					'id'               => 'twitter_link_color_hover',
+					'name'             => 'twitter_link_color_hover',
+					'placeholder'      => 'rgb(65 173 246)',
 					'default_value'    => '',
 				),
 
@@ -391,17 +409,6 @@ class Twitter_Additional_Options {
 					'default_value'    => '',
 				),
 
-				// Feed Border Bottom Color
-				array(
-					'input_wrap_class' => 'twitter_border_bottom_color',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Border Bottom Color', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'twitter_border_bottom_color',
-					'name'             => 'twitter_border_bottom_color',
-					'placeholder'      => '#ddd',
-					'default_value'    => '',
-				),
 			),
 		);
 
@@ -427,7 +434,7 @@ class Twitter_Additional_Options {
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 
 			'main_options'       => array(
@@ -472,14 +479,14 @@ class Twitter_Additional_Options {
 	public function load_more_options() {
 		$this->all_options['twitter_load_more_options'] = array(
 			'section_attr_key'   => 'twitter_grid_style_options_',
-			'section_title'      => esc_html__( 'Load More Button Styles & Options', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Load More Button', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 
 			'main_options'       => array(
@@ -524,40 +531,11 @@ class Twitter_Additional_Options {
 				array(
 					'input_wrap_class' => 'twitter_load_more_text',
 					'option_type'      => 'input',
-					'label'            => esc_html__( '"Load More" Text', 'feed-them-social' ),
+					'label'            => esc_html__( '"No More Tweets" Text', 'feed-them-social' ),
 					'type'             => 'text',
-					'id'               => 'twitter_load_more_text',
-					'name'             => 'twitter_load_more_text',
+					'id'               => 'twitter_no_more_tweets_text',
+					'name'             => 'twitter_no_more_tweets_text',
 					'placeholder'      => 'No More Tweets',
-					'default_value'    => '',
-				),
-
-				// Feed Margin
-				array(
-					'input_wrap_class' => 'twitter_replies_offset',
-					'option_type'      => 'input',
-					'label'            =>
-						sprintf(
-							esc_html__( 'Fix Post Count %1$sType 2 or 3 if your feed is skipping posts when using the loadmore option.%2$s', 'feed-them-social' ),
-							'<br/><small>',
-							'</small>'
-						),
-					'type'             => 'text',
-					'id'               => 'twitter_replies_offset',
-					'name'             => 'twitter_replies_offset',
-					'placeholder'      => '1',
-					'default_value'    => '',
-				),
-
-				// Twitter Replies Offset
-				array(
-					'input_wrap_class' => 'twitter_replies_offset',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Twitter Replies Offset', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'twitter_replies_offset',
-					'name'             => 'twitter_replies_offset',
-					'placeholder'      => '1',
 					'default_value'    => '',
 				),
 			),

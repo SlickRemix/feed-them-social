@@ -39,7 +39,10 @@ class Facebook_Additional_Options {
 		$this->language_options();
 		$this->like_button_box_options();
 		$this->global_facebook_style_options();
+        $this->global_facebook_grid_style_options();
 		$this->error_messages_options();
+        $this->load_more_options();
+
 	}
 
 	/**
@@ -67,8 +70,9 @@ class Facebook_Additional_Options {
 	public function reviews_text_styles() {
 		$this->all_options['facebook_reviews_text_styles'] = array(
 			'section_attr_key'   => 'facebook_reviews_text_styles_',
-			'section_wrap_id' => 'fts-tab-content1',
-			'section_wrap_class' => 'fts-tab-content',
+            'section_title'      => esc_html__( 'Reviews: Style and Text Options', 'feed_them_social' ),
+			// 'section_wrap_id' => 'fts-tab-content1',
+			'section_wrap_class' => 'fts-tab-content fts-fb-reviews-styles',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
@@ -121,18 +125,29 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_reviews_recommended_language',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Text for the word "Recommended"', 'feed_them_social' ),
+					'label'            => esc_html__( '"Recommended" text', 'feed_them_social' ),
 					'type'             => 'text',
 					'id'               => 'fb_reviews_recommended_language',
 					'name'             => 'fb_reviews_recommended_language',
 					'placeholder'      => 'Recommended',
 					'default_value'    => '',
 				),
+                // Text for word Recommended.
+                array(
+                    'input_wrap_class' => 'fb_reviews_see_more_reviews_language',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( '"See More Reviews" text', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_reviews_see_more_reviews_language',
+                    'name'             => 'fb_reviews_see_more_reviews_language',
+                    'placeholder'      => 'See More Reviews',
+                    'default_value'    => '',
+                ),
 				// Remove See More Reviews.
 				array(
 					'input_wrap_class' => 'fb_reviews_remove_see_reviews_link',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Remove "See More Reviews" link', 'feed_them_social' ),
+					'label'            => esc_html__( 'Remove "See More Reviews"', 'feed_them_social' ),
 					'type'             => 'text',
 					'id'               => 'fb_reviews_remove_see_reviews_link',
 					'name'             => 'fb_reviews_remove_see_reviews_link',
@@ -165,15 +180,15 @@ class Facebook_Additional_Options {
 	 */
 	public function reviews_overall_rating_styles() {
 		$this->all_options['facebook_reviews_overall_rating_styles'] = array(
-			'section_attr_key'   => 'facebook_reviews_overall_ratings_styles_',
+			'section_attr_key'   => 'facebook_reviews_overall_rating_styles_',
 			'section_title'      => esc_html__( 'Reviews: Overall Rating Style Options', 'feed_them_social' ),
-			'section_wrap_id' => 'fts-tab-content1',
-			'section_wrap_class' => 'fts-tab-content',
+			// 'section_wrap_id' => 'fts-tab-content1',
+			'section_wrap_class' => 'fts-tab-content  fts-fb-reviews-styles',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
@@ -193,7 +208,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_reviews_overall_rating_background_border_hide',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Overall Rating Background & Border', 'feed_them_social' ),
+					'label'            => esc_html__( 'Hide Background & Border', 'feed_them_social' ),
 					'type'             => 'text',
 					'id'               => 'fb_reviews_overall_rating_background_border_hide',
 					'name'             => 'fb_reviews_overall_rating_background_border_hide',
@@ -216,7 +231,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Overall Rating Background Color', 'feed-them-social' ),
+							esc_html__( 'Background Color', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -234,7 +249,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Overall Rating Text Color', 'feed-them-social' ),
+							esc_html__( 'Text Color', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -251,7 +266,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Overall Rating Border Color', 'feed-them-social' ),
+							esc_html__( 'Border Color', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -264,24 +279,58 @@ class Facebook_Additional_Options {
 
 				// Overall Rating Background Padding.
 				array(
-					'input_wrap_class' => 'fb_reviews_see_more_reviews_language',
+					'input_wrap_class' => 'fb_reviews_overall_rating_background_padding',
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Text for the word "Recommended"', 'feed-them-social' ),
+							esc_html__( 'Background Padding', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
 					'type'             => 'text',
-					'id'               => 'fb_reviews_see_more_reviews_language',
-					'name'             => 'fb_reviews_see_more_reviews_language',
-					'placeholder'      => 'See More Reviews',
+					'id'               => 'fb_reviews_overall_rating_background_padding',
+					'name'             => 'fb_reviews_overall_rating_background_padding',
+					'placeholder'      => '10px 10px 15px 10px',
 					'default_value'    => '',
 				),
+
+                // Overall Rating Background Padding.
+                array(
+                    'input_wrap_class' => 'fb_reviews_overall_rating_of_5_stars_text',
+                    'option_type'      => 'input',
+                    'label'            =>
+                        sprintf(
+                            esc_html__( '"of 5 stars" text', 'feed-them-social' ),
+                            '<br/><small>',
+                            '</small>'
+                        ),
+                    'type'             => 'text',
+                    'id'               => 'fb_reviews_overall_rating_of_5_stars_text',
+                    'name'             => 'fb_reviews_overall_rating_of_5_stars_text',
+                    'placeholder'      => 'of 5 stars',
+                    'default_value'    => '',
+                ),
+
+                // Overall Rating Background Padding.
+                array(
+                    'input_wrap_class' => 'fb_reviews_overall_rating_reviews_text',
+                    'option_type'      => 'input',
+                    'label'            =>
+                        sprintf(
+                            esc_html__( '"reviews" text', 'feed-them-social' ),
+                            '<br/><small>',
+                            '</small>'
+                        ),
+                    'type'             => 'text',
+                    'id'               => 'fb_reviews_overall_rating_reviews_text',
+                    'name'             => 'fb_reviews_overall_rating_reviews_text',
+                    'placeholder'      => 'Reviews',
+                    'default_value'    => '',
+                ),
 			),
 		);
 
-		return $this->all_options['facebook_reviews_text_styles'];
+		return $this->all_options['facebook_reviews_overall_rating_styles'];
 	} //END Reviews: Overall Rating Style Options
 
 
@@ -295,15 +344,16 @@ class Facebook_Additional_Options {
 	 */
 	public function language_options() {
 		$this->all_options['facebook_languages_options'] = array(
-			'section_attr_key'   => 'facebook_language_options_',
+			'section_attr_key'   => 'facebook_languages_options_',
 			'section_title'      => esc_html__( 'Language Options', 'feed_them_social' ),
-			'section_wrap_id' => 'fts-tab-content1',
-			'section_wrap_class' => 'fts-tab-content',
+
+			// 'section_wrap_id' => 'fts-tab-content1',
+			'section_wrap_class' => 'fts-tab-content  fts-fb-language-options',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
@@ -323,7 +373,14 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_language',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Language For Facebook Feeds', 'feed_them_social' ),
+					'label'            => esc_html__( 'Facebook Language', 'feed_them_social' ),
+                    'instructional-text' => sprintf(
+                        esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the FB Titles and Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
+                        '<a href="' . esc_url( 'options-general.php' ) . '" target="_blank">',
+                        '</a>',
+                        '<a href="' . esc_url( 'http://translate.slickremix.com/glotpress/projects/feed-them-social/' ) . '" target="_blank">',
+                        '</a>'
+                    ),
 					'type'             => 'text',
 					'id'               => 'fb-lang-btn',
 					'name'             => 'fb_language',
@@ -364,11 +421,11 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_view_on_fb_fts',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Text for "View on Facebook Text"', 'feed_them_social' ),
+					'label'            => esc_html__( 'View on Facebook text', 'feed_them_social' ),
 					'type'             => 'text',
 					'id'               => 'fb_view_on_fb_fts',
 					'name'             => 'fb_view_on_fb_fts',
-					'placeholder'      => '#fff',
+					'placeholder'      => 'View on Facebook',
 					'default_value'    => '',
 				),
 			),
@@ -388,14 +445,14 @@ class Facebook_Additional_Options {
 	public function like_button_box_options() {
 		$this->all_options['facebook_like_button_box_options'] = array(
 			'section_attr_key'   => 'facebook_like_button_box_options_',
-			'section_title'      => esc_html__( 'Like Button or Box Options', 'feed_them_social' ),
-			'section_wrap_id' => 'fts-tab-content1',
+			'section_title'      => esc_html__( 'Like Button or Box', 'feed_them_social' ),
+			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
@@ -438,55 +495,46 @@ class Facebook_Additional_Options {
 							'value' => 'like-box-faces',
 						),
 						array(
-							'label' => esc_html__( 'Like Box with Faces', 'feed_them_social' ),
-							'value' => 'like-box-faces',
+							'label' => esc_html__( 'Like Button', 'feed_them_social' ),
+							'value' => 'like-button',
 						),
-					),
-				),
-
-				// Show Profile Icon next to social option above.
-				array(
-					'input_wrap_class' => 'fb_show_follow_like_box_cover',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Show Profile Icon next to social option above', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'fb_show_follow_like_box_cover',
-					'name'             => 'fb_show_follow_like_box_cover',
-					'default_value'    => 'Yes',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Display Cover Photo in Like Box', 'feed_them_social' ),
-							'value' => 'fb_like_box_cover-yes',
-						),
-						array(
-							'label' => esc_html__( 'Hide Cover Photo in Like Box', 'feed_them_social' ),
-							'value' => 'fb_like_box_cover-no',
-						),
+                        array(
+                            'label' => esc_html__( 'Like Button and Share Button', 'feed_them_social' ),
+                            'value' => 'like-button-share',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Like Button with Faces', 'feed_them_social' ),
+                            'value' => 'like-button-faces',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Like Button and Share Button with Faces', 'feed_them_social' ),
+                            'value' => 'like-button-share-faces',
+                        ),
 					),
 				),
 
 				// Like Button Color.
 				array(
-					'input_wrap_class' => 'fb-like-btn-color',
+					'input_wrap_class' => 'fb_like_btn_color',
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Like Button Color', 'feed_them_social' ),
 					'type'             => 'text',
-					'id'               => 'fb-like-btn-color',
-					'name'             => 'fb-like-btn-color',
-					'default_value'    => 'fb_like_box_cover-yes',
+					'id'               => 'fb_like_btn_color',
+					'name'             => 'fb_like_btn_color',
+					'default_value'    => 'light',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Display Cover Photo in Like Box', 'feed_them_social' ),
-							'value' => 'fb_like_box_cover-yes',
+							'label' => esc_html__( 'Light', 'feed_them_social' ),
+							'value' => 'light',
 						),
 						array(
-							'label' => esc_html__( 'Hide Cover Photo in Like Box', 'feed_them_social' ),
-							'value' => 'fb_like_box_cover-no',
+							'label' => esc_html__( 'Dark', 'feed_them_social' ),
+							'value' => 'dark',
 						),
 					),
 				),
 
-				// Like Button Color.
+				// Placement of Like Button.
 				array(
 					'input_wrap_class' => 'fb-show-follow-btn-where',
 					'option_type'      => 'select',
@@ -526,16 +574,16 @@ class Facebook_Additional_Options {
 	 * @since 1.0.0
 	 */
 	public function global_facebook_style_options() {
-		$this->all_options['global_facebook_style_options'] = array(
-			'section_attr_key'   => 'facebook_like_button_box_options_',
-			'section_title'      => esc_html__( 'Like Button or Box Options', 'feed_them_social' ),
-			'section_wrap_id' => 'fts-tab-content1',
-			'section_wrap_class' => 'fts-tab-content',
+		$this->all_options['facebook_style_options'] = array(
+			'section_attr_key'   => 'facebook_style_options_',
+			'section_title'      => esc_html__( 'Facebook Styles', 'feed_them_social' ),
+			// 'section_wrap_id' => 'fts-tab-content1',
+			'section_wrap_class' => 'fts-tab-content  fts-fb-styles',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
@@ -760,6 +808,23 @@ class Facebook_Additional_Options {
 					'default_value'    => '',
 				),
 
+                // Post Background Color.
+                array(
+                    'input_wrap_class' => 'fb_post_background_color',
+                    'option_type'      => 'input',
+                    'label'            =>
+                        sprintf(
+                            esc_html__( 'Post Background Color %1$sOnly works when show_media=top%2$s', 'feed-them-social' ),
+                            '<br/><small>',
+                            '</small>'
+                        ),
+                    'type'             => 'text',
+                    'id'               => 'fb_post_background_color',
+                    'name'             => 'fb_post_background_color',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+
 				// Feed Background Color.
 				array(
 					'input_wrap_class' => 'fb_feed_background_color',
@@ -787,9 +852,181 @@ class Facebook_Additional_Options {
 			),
 		);
 
-		return $this->all_options['global_facebook_style_options'];
+		return $this->all_options['facebook_style_options'];
 	} //END Global Facebook Style Options.
 
+
+    /**
+     * Facebook Grid Style Options
+     *
+     * Facebook Grid Style Options
+     *
+     * @return mixed
+     * @since 1.0.0
+     */
+    public function global_facebook_grid_style_options() {
+        $this->all_options['facebook_grid_style_options'] = array(
+            'section_attr_key'   => 'facebook_grid_style_options_',
+            'section_title'      => esc_html__( 'Grid Format', 'feed_them_social' ),
+            // 'section_wrap_id' => 'fts-tab-content1',
+            'section_wrap_class' => 'fts-tab-content fts-fb-grid-styles',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form',
+            'form_wrap_id'       => 'fts-fb-page-form',
+            //Options Wrap Class
+            'options_wrap_class'       => 'fts-cpt-additional-options',
+
+            // Token Check // We'll use these option for premium messages in the future.
+            'premium_msg_boxes'  => array(
+                'album_videos' => array(
+                    'req_plugin' => 'fts_premium',
+                    'msg'        => '',
+                ),
+            ),
+
+            'main_options'       => array(
+
+                // Feed Background Color.
+                array(
+                    'input_wrap_class' => 'fb_feed_background_color',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Background Color', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_grid_posts_background_color',
+                    'name'             => 'fb_grid_posts_background_color',
+                    'placeholder'      => '#ddd',
+                    'default_value'    => '',
+                ),
+
+                // Border Bottom Color.
+                array(
+                    'input_wrap_class' => 'fb_border_bottom_color',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Border Bottom Color', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_grid_border_bottom_color',
+                    'name'             => 'fb_grid_border_bottom_color',
+                    'placeholder'      => '#ddd',
+                    'default_value'    => '',
+                ),
+
+            ),
+        );
+
+        return $this->all_options['facebook_style_options'];
+    } //END Global Facebook Style Options.
+
+    /**
+     * Facebook Load More Button Styles & Options
+     *
+     * Load More Button Styles & Options.
+     *
+     * @return mixed
+     * @since 1.0.0
+     */
+    public function load_more_options() {
+        $this->all_options['facebook_load_more_options'] = array(
+            'section_attr_key'   => 'facebook_load_more_options_',
+            'section_title'      => esc_html__( 'Load More Button', 'feed_them_social' ),
+            'section_wrap_id' => 'fts-tab-content1',
+            'section_wrap_class' => 'fts-tab-content',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form',
+            'form_wrap_id'       => 'fts-fb-page-form',
+            //Options Wrap Class
+            'options_wrap_class'       => 'fts-cpt-additional-options',
+
+
+            'main_options'       => array(
+
+                // Button Color
+                array(
+                    'input_wrap_class' => 'fb_loadmore_background_color',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Button Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_loadmore_background_color',
+                    'name'             => 'fb_loadmore_background_color',
+                    'placeholder'      => '#ddd',
+                    'default_value'    => '',
+                ),
+
+                // Text Color
+                array(
+                    'input_wrap_class' => 'fb_loadmore_text_color',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Text Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_loadmore_text_color',
+                    'name'             => 'fb_loadmore_text_color',
+                    'placeholder'      => '#ddd',
+                    'default_value'    => '',
+                ),
+
+                // "Load More" Text
+                array(
+                    'input_wrap_class' => 'fb_load_more_text',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( '"Load More" Text', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_load_more_text',
+                    'name'             => 'fb_load_more_text',
+                    'placeholder'      => 'Load More',
+                    'default_value'    => '',
+                ),
+
+                // No More Posts Text
+                array(
+                    'input_wrap_class' => 'fb_no_more_posts_text',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( '"No More Posts" Text', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_no_more_posts_text',
+                    'name'             => 'fb_no_more_posts_text',
+                    'placeholder'      => 'No More Posts',
+                    'default_value'    => '',
+                ),
+
+                // No More Photos Text
+                array(
+                    'input_wrap_class' => 'fb_no_more_photos_text',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( '"No More Photos" Text', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_no_more_photos_text',
+                    'name'             => 'fb_no_more_photos_text',
+                    'placeholder'      => 'No More Photos',
+                    'default_value'    => '',
+                ),
+
+                // No More Videos Text
+                array(
+                    'input_wrap_class' => 'fb_no_more_videos_text',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( '"No More Videos" Text', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_no_more_videos_text',
+                    'name'             => 'fb_no_more_videos_text',
+                    'placeholder'      => 'No More Videos',
+                    'default_value'    => '',
+                ),
+
+                // No More Reviews Text
+                array(
+                    'input_wrap_class' => 'fb_no_more_reviews_text',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( '"No More Reviews" Text', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_no_more_reviews_text',
+                    'name'             => 'fb_no_more_reviews_text',
+                    'placeholder'      => 'No More Reviews',
+                    'default_value'    => '',
+                ),
+            ),
+        );
+
+        return $this->all_options['facebook_load_more_options'];
+    } //END Twitter Grid Styles
 
 	/**
 	 * Facebook Error Messages
@@ -803,13 +1040,13 @@ class Facebook_Additional_Options {
 		$this->all_options['facebook_error_messages_options'] = array(
 			'section_attr_key'   => 'facebook_error_messages_options_',
 			'section_title'      => esc_html__( 'Facebook Error Messages', 'feed_them_social' ),
-			'section_wrap_id' => 'fts-tab-content1',
+			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
@@ -830,6 +1067,13 @@ class Facebook_Additional_Options {
 					'input_wrap_class' => 'fb_hide_error_handler_message',
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Hide Error Handler Message', 'feed_them_social' ),
+                    'instructional-text' => sprintf(
+                        esc_html( 'If your feed is displaying a notice or error message at times you can utilize this option to hide them from displaying. Make sure and delete the %1$sCache%2$s to see the change. %3$sNOTE: This does not hide any php warnings that may come up. To remove those go to the wp-config.php file on root of your WordPress install and set the wp_debug option to FALSE. Having that option set to TRUE is really only necessary when developing.%4$s', 'feed-them-social' ),
+                        '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page&tab=global_options' ) . '">',
+                        '</a>',
+                        '<p><small>',
+                        '</small></p>'
+                    ),
 					'type'             => 'text',
 					'id'               => 'fb_hide_error_handler_message',
 					'name'             => 'fb_hide_error_handler_message',

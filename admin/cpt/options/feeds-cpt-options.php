@@ -73,6 +73,7 @@ class Feed_CPT_Options {
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
+
 			'main_options'       => array(
 
 				// Gallery Type.
@@ -87,14 +88,14 @@ class Feed_CPT_Options {
 						)
 					),
 					'type'             => 'text',
-					'instructional-text' => sprintf(
-						esc_html__( '1. Select the Social Network you want to create a feed for. %1$s2. Get your access token. %1$s3. Click on the Social Network tab to the left and set your options. %1$s%1$sNote: To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.', 'feed_them_social' ),
-						'<br/>',
-						'<a href="post-new.php?post_type=fts" >',
-						'</a>',
-					),
+                    'instructional-text' => sprintf(
+                        esc_html__( '1. Select the Social Network you want to create a feed for. %1$s2. Get your access token. %1$s3. Click on the Social Network tab to the left and set your options. %1$s%1$sNote: To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.', 'feed_them_social' ),
+                        '<br/>',
+                        '<a href="post-new.php?post_type=fts" >',
+                        '</a>',
+                    ),
 
-					'id'               => 'feed_type',
+                    'id'               => 'feed_type',
 					'name'             => 'feed_type',
 					'default_value'    => '',
 					'options'          => array(
@@ -120,6 +121,16 @@ class Feed_CPT_Options {
 						),
 					),
 				),
+
+               /* array(
+                    'input_wrap_class' => 'fts-shortcode-location',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Shortcode Location', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_shortcode_location',
+                    'name'             => 'fts_shortcode_location',
+                    'value'              => 'Not Set',
+                ),*/
 
 			),
 		);
@@ -1115,7 +1126,7 @@ class Feed_CPT_Options {
 	public function facebook_options() {
 		$this->all_options['facebook'] = array(
 			'section_attr_key'   => 'facebook_',
-			'section_title'      => __( 'Facebook Page Shortcode Generator', 'feed-them-social' ),
+			'section_title'      => __( 'Facebook Feed', 'feed-them-social' ),
 			'section_wrap_class' => 'fts-facebook_page-shortcode-form',
 
 			// Form Info
@@ -1134,7 +1145,7 @@ class Feed_CPT_Options {
 			),
 
 			//Options Wrap Class
-			'options_wrap_class'       => 'fts-cpt-main-options',
+			//'options_wrap_class'       => 'fts-cpt-main-options',
 
 			'main_options'       => array(
 
@@ -1205,10 +1216,10 @@ class Feed_CPT_Options {
 					'input_wrap_class' => 'fb_page_id',
 					'label'       => __( 'Facebook ID (required)', 'feed-them-social' ),
 					'instructional-text' => array(
-						array(
+						/*array(
 							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator page inst-text-facebook-page',
-						),
+						),*/
 						array(
 							'text' => __( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-group-id/" target="_blank">' . __( 'Facebook Group ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator group inst-text-facebook-group',
@@ -1225,7 +1236,7 @@ class Feed_CPT_Options {
 							'text' => __( 'To show a specific Album copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . __( 'Facebook Album ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the third input below. If you want to show all your uploaded photos leave the Album ID input blank.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator album_photos inst-text-facebook-album-photos',
 						),
-						array(
+						/*array(
 							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator albums inst-text-facebook-albums',
 						),
@@ -1236,7 +1247,7 @@ class Feed_CPT_Options {
 						array(
 							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
 							'class' => 'facebook-message-generator reviews inst-text-facebook-reviews',
-						),
+						),*/
 					),
 					'type'        => 'text',
 					'id'          => 'fb_page_id',
@@ -1251,8 +1262,8 @@ class Feed_CPT_Options {
 					),
 				),
 
-				// Access Token
-				array(
+				// Access Token SRL. DO NOT REMOVE!
+				/*array(
 					'option_type' => 'input',
 					'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
@@ -1270,7 +1281,7 @@ class Feed_CPT_Options {
 						'empty_error'  => 'set',
 						'empty_error_value' => '',
 					),
-				),
+				),*/
 
 				// Facebook Album ID
 				array(
@@ -1897,14 +1908,6 @@ class Feed_CPT_Options {
 					'req_plugin'  => 'fts_premium',
 					'or_req_plugin' => 'combine_streams',
 					'or_req_plugin_three' => 'facebook_reviews',
-					'short_attr'  => array(
-						'attr_name' => 'hide_like_option',
-						'ifs' => 'not_group',
-						'empty_error' => 'set',
-						'set_operator' => '==',
-						'set_equals' => 'no',
-						'empty_error_value' => '',
-					),
 					'sub_options' => array(
 						'sub_options_wrap_class' => 'main-like-box-wrap',
 					),
@@ -2817,7 +2820,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['instagram'] = array(
 			'section_attr_key'   => 'instagram_',
-			'section_title'      => __( 'Instagram Options', 'feed-them-social' ),
+			'section_title'      => __( 'Instagram Feed', 'feed-them-social' ),
 			'section_wrap_class' => 'fts-instagram-shortcode-form',
 
 			// Form Info
@@ -2860,8 +2863,8 @@ class Feed_CPT_Options {
                     ),
                 ),
 
-				// Instagram ID
-				array(
+				// Instagram ID SRL. DO NOT REMOVE
+				/*array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'instagram_name',
 					'label'       => array(
@@ -2887,7 +2890,7 @@ class Feed_CPT_Options {
 						'var_final_if' => 'no',
 						'empty_error'  => 'yes',
 					),
-				),
+				),*/
 
 
 				// Instagram Hashtag
@@ -2919,7 +2922,7 @@ class Feed_CPT_Options {
 					),
 				),
 
-				// Access Token
+				/*// Access Token. SRL. DO NOT REMOVE
 				array(
 					'option_type' => 'input',
 					'label'       => __( 'Access Token (required) ', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
@@ -2938,7 +2941,7 @@ class Feed_CPT_Options {
 						'empty_error'  => 'set',
 						'empty_error_value' => '',
 					),
-				),
+				),*/
 
 				// Hashtag Type
 				array(
@@ -3160,10 +3163,10 @@ class Feed_CPT_Options {
 				),
 
 				// ******************************************
-				// Super Gallery
+				// Super Gallery - SRL  DO NOT REMOVE!
 				// ******************************************
-				array(
-					'grouped_options_title' => __( 'Gallery Options', 'feed-them-social' ),
+				/*array(
+					'grouped_options_title' => __( 'Responsive Gallery', 'feed-them-social' ),
 					'option_type' => 'select',
 					'label'       => __( 'Gallery Style', 'feed-them-social' ),
 					'type'        => 'text',
@@ -3183,8 +3186,9 @@ class Feed_CPT_Options {
 						'attr_name' => 'super_gallery',
 						'ifs' => 'super_gallery',
 					),
-				),
+				),*/
 				array(
+                    'grouped_options_title' => __( 'Responsive Gallery', 'feed-them-social' ),
 					'input_wrap_class' => 'fb-page-columns-option-hide',
 					'option_type' => 'select',
 					'label'       => __( 'Number of Columns', 'feed-them-social' ),
@@ -3459,7 +3463,7 @@ class Feed_CPT_Options {
 				array(
 					'grouped_options_title' => __( 'Popup', 'feed-them-social' ),
 					'option_type' => 'select',
-					'label'       => __( 'Display Photos & Videos in Popup', 'feed-them-social' ),
+					'label'       => __( 'Display Photos & Videos', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'instagram_popup_option',
 					'name'        => 'instagram_popup_option',
@@ -3497,7 +3501,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['twitter'] = array(
             'section_attr_key'   => 'twitter_',
-            'section_title'      => __( 'Twitter Options', 'feed-them-social' ),
+            'section_title'      => __( 'Twitter Feed', 'feed-them-social' ),
             'section_wrap_class' => 'fts-twitter-shortcode-form',
 
             // Form Info
@@ -3570,7 +3574,7 @@ class Feed_CPT_Options {
                     // This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
                     'sub_options' => array(
                         'sub_options_wrap_class' => 'twitter-hashtag-etc-wrap',
-                        'sub_options_title' => __( 'Twitter Search', 'feed-them-social' ),
+                        'sub_options_title' => __( 'Search', 'feed-them-social' ),
                     ),
                     'sub_options_end' => true,
                 ),
@@ -3731,7 +3735,7 @@ class Feed_CPT_Options {
                 array(
                     'grouped_options_title' => __( 'Popup', 'feed-them-social' ),
                     'option_type' => 'select',
-                    'label'       => __( 'Display Photos & Videos in Popup', 'feed-them-social' ),
+                    'label'       => __( 'Display Photos & Videos', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'twitter-popup-option',
                     'name'        => 'twitter-popup-option',
@@ -3996,7 +4000,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['youtube'] = array(
 			'section_attr_key'   => 'youtube_',
-			'section_title'      => __( 'Youtube Shortcode Generator', 'feed-them-social' ),
+			'section_title'      => __( 'Youtube Feed', 'feed-them-social' ),
 			'section_wrap_class' => 'fts-youtube-shortcode-form',
 
 			// Form Info
@@ -4069,7 +4073,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_playlistID',
-					'label'       => __( 'Youtube Playlist ID (required)', 'feed-them-social' ),
+					'label'       => __( 'Youtube Playlist ID', 'feed-them-social' ),
 					'instructional-text' => __( 'You must copy your YouTube <strong>Playlist</strong> and <strong>Channel</strong> url link and paste them below. Your urls should look similar to our Example urls below. <br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN" target="_blank">https://www.youtube.com/watch?v=_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN</a><br/><strong>' . __( 'Channel ID:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/channel/UCt16NSYjauKclK67LCXvQyA" target="_blank">https://www.youtube.com/channel/UCt16NSYjauKclK67LCXvQyA</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_playlistID',
@@ -4093,7 +4097,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_playlistID2',
-					'label'       => __( 'Youtube Playlist ID (required)', 'feed-them-social' ),
+					'label'       => __( 'Youtube Playlist ID ', 'feed-them-social' ),
 					'instructional-text' => __( 'You must copy your YouTube <strong>Playlist</strong> and <strong>Username</strong> url and paste them below. Your urls should look similar to our Example urls below.<br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=cxrLRbkOwKs&index=10&list=PLivjPDlt6ApS90YoAu-T8VIj6awyflIym" target="_blank">https://www.youtube.com/watch?v=cxrLRbkOwKs&index=10&list=PLivjPDlt6ApS90YoAu-T8VIj6awyflIym</a><br/><strong>' . __( 'Username:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/user/nationalgeographic" target="_blank">https://www.youtube.com/user/nationalgeographic</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_playlistID2',
@@ -4138,7 +4142,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_channelID',
-					'label'       => __( 'Youtube Channel ID (required)', 'feed-them-social' ),
+					'label'       => __( 'Youtube Channel ID', 'feed-them-social' ),
 					'instructional-text' => __( 'You must copy your YouTube <strong>Channel</strong> url and paste it below. Your url should look similar to our Example url.<br/><strong>Example:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/channel/UCqhnX4jA0A5paNd1v-zEysw" target="_blank">https://www.youtube.com/channel/UCqhnX4jA0A5paNd1v-zEysw</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_channelID',
@@ -4182,7 +4186,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_singleVideoID',
-					'label'       => __( 'Single Youtube Video ID (required)', 'feed-them-social' ),
+					'label'       => __( 'Single Youtube Video ID', 'feed-them-social' ),
 					'instructional-text' => __( 'You must copy your <strong>YouTube Video</strong> url link and paste it below. Your url should look similar to our Example url below. <br/><strong>Video URL:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=_-sySjjthB0" target="_blank">https://www.youtube.com/watch?v=_-sySjjthB0</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_singleVideoID',
@@ -4770,10 +4774,10 @@ class Feed_CPT_Options {
 
 		$this->all_options['combine'] = array(
 			'section_attr_key'   => 'combine_',
-			'section_title'      => __( 'Combine Streams Shortcode Generator', 'feed-them-social' ),
-			'section_wrap_class' => 'fts-combine-steams-shortcode-form',
+			'section_title'      => __( 'Combine Streams Feed', 'feed-them-social' ),
+			'section_wrap_class' => 'fts-combine-streams-shortcode-form',
 			// Form Info
-			'form_wrap_classes'  => 'combine-steams-shortcode-form',
+			'form_wrap_classes'  => 'combine-streams-shortcode-form',
 			'form_wrap_id'       => 'fts-combine-steams-form',
 
 			// Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]

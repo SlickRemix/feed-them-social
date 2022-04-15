@@ -90,24 +90,25 @@ jQuery(document).ready(function ($) {
 
     if (jQuery('#publish').attr('name') === 'publish') {
         var submitAjax = 'no';
+       // alert('no');
     }
-    // alert('no');
     else {
         var submitAjax = 'yes';
-        // alert('yes');
+       // alert('yes');
     }
 
     if (submitAjax == 'yes') {
         jQuery('.post-type-fts .wrap form#post, .post-type-fts_albums .wrap form#post, .fts_page_template_settings_page .wrap form#post').submit(function (e) {
             e.preventDefault();
-            jQuery(this).ajaxSubmit({
+            jQuery( this ).ajaxSubmit({
                 beforeSend: function () {
                     jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
                     jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
                     jQuery('#publishing-action .spinner').css("visibility", "visible");
 
                 },
-                success: function () {
+                success: function ( response ) {
+                    console.log( response );
                     jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-success-form'></div></div></div>");
                     jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
                     jQuery('#publishing-action .spinner').css("visibility", "hidden");
@@ -126,6 +127,7 @@ jQuery(document).ready(function ($) {
             return false;
         });
     }
+
     // click event listener
     $('.ft-gallery-settings-tabs-meta-wrap ul.nav-tabs a').click(function (event) {
         // get the id

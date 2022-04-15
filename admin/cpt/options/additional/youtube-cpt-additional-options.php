@@ -136,7 +136,7 @@ class Youtube_Additional_Options {
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			//Options Wrap Class
-			'options_wrap_class'       => '.fts-cpt-additional-options',
+			'options_wrap_class'       => 'fts-cpt-additional-options',
 
 
 			'main_options'       => array(

@@ -609,7 +609,7 @@ class Metabox_Settings {
 		$output .= isset( $section_info['section_title'] ) ? '<h3>' . $section_info['section_title'] . '</h3>' : '';
 
 		// Errors Notice Div.
-		$output .= '<div class="ft-gallery-notice"></div>';
+		$output .= $this->fts_tab_notice_html();
 
 		// Section Options Wrap Class.
 		$output .= isset( $section_info['options_wrap_class'] ) ? '<div class="'.$section_info['options_wrap_class'].'">' : '';
@@ -876,11 +876,23 @@ class Metabox_Settings {
 			exit;
 		}
 
-
+        error_log( print_r( $array_to_save, true ) );
 
 		// If not doing Page stuff Update options for a Post.
 		update_post_meta( $post_id, $current_info['post_type'] . '_settings_options', $array_to_save );
 
 		return $array_to_save;
 	}
+
+    /**
+     * Tab Notice HTML
+     *
+     * Creates notice html for return.
+     *
+     * @since 3.0.0
+     */
+    public function fts_tab_notice_html() {
+        // ft-gallery-notice happens in JS file.
+        echo '<div class="ft-gallery-notice"></div>';
+    }
 }

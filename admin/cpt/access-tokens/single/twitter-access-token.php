@@ -87,7 +87,7 @@ class Twitter_Access_Options {
         // Check if new tokens have been returned.
 		$this->set_new_access_tokens();
 
-		?>
+
 		<div class="feed-them-social-admin-wrap">
 			<h1>
 				<?php echo esc_html__( 'Twitter Feed Options', 'feed-them-social' ); ?>

@@ -100,6 +100,9 @@ class Feed_Them_Social {
         // Backwards compatability.
         //new \feedthemsocial\Backwards_Compat( $settings_functions );
 
+        // Upgrades
+        //new \feedthemsocial\FTS_Upgrades( $settings_functions );
+
 		// Updater Init.
 		new \feedthemsocial\updater_init();
 	}

@@ -1389,12 +1389,12 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 				if ( 'autoscroll' === $scroll_more ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
 					?>
 				jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").bind("scroll", function () {
-					if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
+					if ( jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight ) {
 						<?php
 				} else {
 					// this is where we do CLICK function to LOADMORE if = button in shortcode!
 					?>
-						jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").click(function () {
+						jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").off().click(function () {
 				<?php } ?>
 							jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").addClass('fts-fb-spinner');
 							var button = jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
@@ -1431,10 +1431,10 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 									jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
 									<?php } ?>
 
-									if (!maxID_<?php echo sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ); ?> || maxID_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> == 'no more') {
+									if (!maxID_<?php echo sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ); ?> || 'no more' === maxID_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
 										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $twitter_no_more_tweets_text ); ?></div>');
 										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
-										jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").unbind('scroll');
+										jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").off('scroll');
 									}
 									jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $twitter_load_more_text ); ?>');
 									//	jQuery('#loadMore_< ?php echo $fts_dynamic_name ?>').removeClass('flip360-fts-load-more');
@@ -1456,16 +1456,15 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 									<?php } ?>
 
 								}
-							}); // end of ajax()
-							return false;
-									<?php
-									// string $scroll_more is at top of this js script. acception for scroll option closing tag.
-									if ( 'autoscroll' === $scroll_more ) {
-										?>
-						}; // end of scroll ajax load.
-								<?php } ?>
-					}
-				); // end of form.submit
+							 });// end of ajax().
+                            return false;
+                    // string $scrollMore is at top of this js script. exception for scroll option closing tag.
+                    <?php if ( 'autoscroll' === $loadmore ) { ?>
+                            };
+                        }); // end of scroll ajax load.
+                    <?php } else { ?>
+                        }); // end of click button.
+                    <?php } ?>
 						<?php
 						if ( isset( $grid ) && 'yes' === $grid ) {
 							?>

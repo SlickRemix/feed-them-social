@@ -2152,7 +2152,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
                     echo 'if(jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {';
                 } else {
                     // this is where we do CLICK function to LOADMORE if  = button in shortcode.
-                    echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").click(function() {';
+                    echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").off().click(function() {';
                 }
                 echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").addClass("fts-fb-spinner");';
                 echo 'var button = jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").html("<div class=\'bounce1\'></div><div class=\'bounce2\'></div><div class=\'bounce3\'></div>");';
@@ -2196,7 +2196,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
                     }
 
                     echo ' jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").removeAttr("id");';
-                    echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").unbind("scroll");';
+                    echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").off("scroll");';
                     echo '}';
                 } else {
                     if ( isset( $fb_shortcode['video_album'] ) && 'yes' === $fb_shortcode['video_album'] ) {
@@ -2214,7 +2214,7 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
                         echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").replaceWith(\'<div class="fts-fb-load-more no-more-posts-fts-fb">' . esc_html( $fb_no_more_posts_text ) . '</div>\');';
                     }
                     echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").removeAttr("id");';
-                    echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").unbind("scroll");';
+                    echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").off("scroll");';
                     echo '}';
 
                 }

@@ -1454,7 +1454,6 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 										jQuery(".fts-slicker-twitter-posts").masonry("layout");
 									}, 500);
 									<?php } ?>
-
 								}
 							 });// end of ajax().
                             return false;

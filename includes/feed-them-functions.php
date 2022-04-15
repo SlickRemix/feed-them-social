@@ -613,8 +613,6 @@ class feed_them_social_functions {
 															jQuery('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').append(data).filter('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').html();
 															jQuery('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').animate({scrollTop: '+=100px'}, 800); // scroll down a 100px after new items are added
 
-
-
 															<?php if ( isset( $data->locations->paging->next ) && $data->locations->paging->next === $_REQUEST['next_location_url'] ) { ?>
 															jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb fts-no-more-locations-<?php echo esc_js( $fb_page_id ); ?>" style="background:none !important"><?php echo esc_html( 'All Locations loaded', 'feed-them-social' ); ?></div>');
 															jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').removeAttr('id');

@@ -2198,7 +2198,9 @@ style="margin:' . ( isset( $fb_shortcode['slider_margin'] ) && '' !== $fb_shortc
                     echo ' jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").removeAttr("id");';
                     echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").off("scroll");';
                     echo '}';
+
                 } else {
+
                     if ( isset( $fb_shortcode['video_album'] ) && 'yes' === $fb_shortcode['video_album'] ) {
                         echo 'var result = jQuery(data).insertBefore( jQuery("#output_' . esc_js( $fts_dynamic_name ) . '") );';
                         echo 'var result = jQuery(".feed_dynamic_' . esc_js( $fts_dynamic_name ) . '_album_photos").append(data).filter("#output_' . esc_js( $fts_dynamic_name ) . '").html();';

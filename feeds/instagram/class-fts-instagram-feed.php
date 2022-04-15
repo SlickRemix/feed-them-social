@@ -1255,7 +1255,6 @@ if ( isset( $profile_description, $type ) && 'yes' === $profile_description  && 
 
                                    // console.log( jQuery(this).scrollTop() + jQuery(this).innerHeight() );
                                    // console.log( jQuery(this)[0].scrollHeight );
-
                         <?php }
                             else { ?>
                             // If =button in shortcode.

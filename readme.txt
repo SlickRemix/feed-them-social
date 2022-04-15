@@ -3,7 +3,7 @@ Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.9.3
-Stable tag: 2.9.8.1
+Stable tag: 2.9.8.10
 License: GPLv2 or later
 
 Display a Custom Facebook feed, Instagram feed, Twitter feed, and YouTube feed on pages, posts or widgets.
@@ -72,14 +72,14 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.9.8.1 Thursday, April 14th, 2022 =
+= Version 2.9.8.10 Friday, April 15th, 2022 =
   * NEW: Instagram Basic Feed: Access Token. As long as an Instagram User does not change their password then the Instagram Basic token will automatically refresh after 7 days. This will resolve a long standing issue where users would have to get a new token every 60 days. This option will only work if the access token is not in the shortcode. FTS 3.0 will be released soon and the process to create a feed will be amazingly simple and will address the access token in shortcode.
   * NEW: Instagram and YouTube Feeds: Even if token fails and the cache is deleted the feed will still be visible.
   * NEW: YouTube Options: Access Token Refresh.
-  * FIX: Premium: YouTube Feed: Depreciated jquery call for bind. This caused issue with autoscroll loadmore option.
   * FIX: YouTube: Access Token Refresh.
   * FIX: Misc Styles and general options text.
   * FIX: Twitter options: Remove the create your own Twitter Keys options. Twitter APPs must now be approved and the process is not so simple. It's better to use the Access Token Option for a quicker setup.
+  * FIX: Premium: All Feeds: Depreciated jQuery call for .bind(), now .off(). This caused issue with autoscroll loadmore option on YouTube Specifically.
   * NOTE: Tested with WordPress Version 5.9.3
 
 = Version 2.9.8 Thursday, March 17th, 2022 =

@@ -46,6 +46,7 @@ class Feed_CPT_Options {
 	public function get_all_options() {
 		$this->feed_type_options();
         $this->twitter_token_options();
+        $this->facebook_token_options();
 		$this->layout_options();
 		$this->color_options();
 		$this->facebook_options();
@@ -140,7 +141,7 @@ class Feed_CPT_Options {
 	} //END LAYOUT OPTIONS
 
     /**
-     * Feed Type
+     * Twitter Token Options
      *
      * Options for the Feed Type
      *
@@ -153,7 +154,7 @@ class Feed_CPT_Options {
         $oauth_token_secret = isset( $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token_secret'] ) ? sanitize_text_field( wp_unslash( $_GET['oauth_token_secret'] ) ) : '';
 
         $this->all_options['twitter_token_options'] = array(
-            'section_attr_key'   => 'feed_type_',
+            'section_attr_key'   => 'twitter_token_',
             'section_title'      => esc_html__( 'Twitter API Token', 'feed_them_social' ),
             'section_wrap_id' => 'fts-tab-content1-twitter',
             'section_wrap_class' => 'fts-tab-content1-twitter',
@@ -194,6 +195,70 @@ class Feed_CPT_Options {
         );
 
         return $this->all_options['feed_type_options'];
+    } //END LAYOUT OPTIONS
+
+    /**
+     * Facebook Token Options
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+    public function facebook_token_options() {
+
+        $this->all_options['facebook_token_options'] = array(
+            'section_attr_key'   => 'facebook_token_',
+            'section_title'      => esc_html__( 'Facebook API Token', 'feed_them_social' ),
+            'section_wrap_id' => 'fts-tab-content1-facebook',
+            'section_wrap_class' => 'fts-tab-content1-facebook',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form-facebook',
+            'form_wrap_id'       => 'fts-fb-page-form-facebook',
+
+
+            'main_options'       => array(
+
+                array(
+                    'input_wrap_class' => 'fts-facebook-custom-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Page ID', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_facebook_custom_api_token_user_id',
+                    'name'             => 'fts_facebook_custom_api_token_user_id',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                    'instructional-text' => sprintf(
+                        esc_html__( '%1$s %2$s This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups.', 'feed_them_social' ),
+                        '<strong>',
+                        '</strong>'
+                    ),
+                ),
+                array(
+                    'input_wrap_class' => 'fts-facebook-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_facebook_custom_api_token',
+                    'name'             => 'fts_facebook_custom_api_token',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+                array(
+                    'input_wrap_class' => 'fts-facebook-custom-api-token-user-name',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'User Name (hidden)', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_facebook_custom_api_token_user_name',
+                    'name'             => 'fts_facebook_custom_api_token_user_name',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+
+            ),
+        );
+
+        return $this->all_options['facebook_token_options'];
     } //END LAYOUT OPTIONS
 
 	/**

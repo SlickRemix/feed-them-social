@@ -256,7 +256,8 @@ class Settings_Options_JS {
 
                 jQuery('#twitter-messages-selector').bind('change', function (e) {
                     if (jQuery('#twitter-messages-selector').val() == 'hashtag') {
-                        jQuery(".hashtag-option-small-text,.twitter-hashtag-etc-wrap").show();
+                        jQuery( '.twitter-hashtag-etc-wrap' ).css('display', 'inline-block');
+                        jQuery(".hashtag-option-small-text").show();
                         jQuery(".hashtag-option-not-required, .must-copy-twitter-name").hide();
                     }
                     else {
@@ -266,7 +267,7 @@ class Settings_Options_JS {
                 }).change();
 
                 //Twitter Load More Options
-                jQuery('.fts-twitter-load-more-options-wrap, .fts-twitter-load-more-options2-wrap').hide()
+                jQuery('.fts-twitter-load-more-options-wrap, .fts-twitter-load-more-options2-wrap').hide();
                 jQuery('#twitter_load_more_option').bind('change', function (e) {
                     if (jQuery('#twitter_load_more_option').val() == 'yes') {
                         jQuery('.fts-twitter-load-more-options-wrap').show();

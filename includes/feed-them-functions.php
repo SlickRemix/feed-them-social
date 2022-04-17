@@ -2529,8 +2529,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			$output .= '<div class="feed-them-social-admin-input-wrap twitter_hashtag_etc_name">';
 			$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Twitter Search Name (required)', 'feed-them-social' ) . '</div>';
 			$output .= '<input type="text" name="twitter_hashtag_etc_name" id="twitter_hashtag_etc_name" class="feed-them-social-admin-input" value="' . esc_html( $twitter_hashtag_etc_name ) . '" />';
-			$output .= '<div class="fts-clear"></div>';
 			$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
+            $output .= '<div class="fts-clear"></div>';
 			$output .= '</div><!--/twitter-hashtag-etc-wrap-->';
 
 			$output .= '<div class="instructional-text"><span class="hashtag-option-small-text">' . esc_html( 'Twitter Name is only required if you want to show a', 'feed-them-social' ) . ' <a href="admin.php?page=fts-twitter-feed-styles-submenu-page">' . esc_html( 'Follow Button', 'feed-them-social' ) . '</a>.</span><span class="must-copy-twitter-name">' . esc_html( 'You must copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . esc_html( 'Twitter Name', 'feed-them-social' ) . '</a> ' . esc_html( 'and paste it in the first input below.', 'feed-them-social' ) . '</span></div>';

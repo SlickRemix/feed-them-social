@@ -45,6 +45,7 @@ class Feed_CPT_Options {
 	 */
 	public function get_all_options() {
 		$this->feed_type_options();
+        $this->twitter_token_options();
 		$this->layout_options();
 		$this->color_options();
 		$this->facebook_options();
@@ -57,12 +58,12 @@ class Feed_CPT_Options {
 	}
 
 	/**
-	 * Color Options
+	 * Feed Type
 	 *
-	 * Options for the Color Tab
+	 * Options for the Feed Type
 	 *
 	 * @return mixed
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function feed_type_options() {
 		$this->all_options['feed_type_options'] = array(
@@ -137,6 +138,63 @@ class Feed_CPT_Options {
 
 		return $this->all_options['feed_type_options'];
 	} //END LAYOUT OPTIONS
+
+    /**
+     * Feed Type
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+    public function twitter_token_options() {
+
+        $oath_token         = isset( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token'] ) ? sanitize_text_field( wp_unslash( $_GET['oauth_token'] ) ) : '';
+        $oauth_token_secret = isset( $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token_secret'] ) ? sanitize_text_field( wp_unslash( $_GET['oauth_token_secret'] ) ) : '';
+
+        $this->all_options['twitter_token_options'] = array(
+            'section_attr_key'   => 'feed_type_',
+            'section_title'      => esc_html__( 'Twitter API Token', 'feed_them_social' ),
+            'section_wrap_id' => 'fts-tab-content1-twitter',
+            'section_wrap_class' => 'fts-tab-content1-twitter',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form-twitter',
+            'form_wrap_id'       => 'fts-fb-page-form-twitter',
+
+
+            'main_options'       => array(
+
+                array(
+                    'input_wrap_class' => 'fts-twitter-custom-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_twitter_custom_access_token',
+                    'name'             => 'fts_twitter_custom_access_token',
+                    'placeholder'      => '',
+                    'default_value'    => $oath_token,
+                    'instructional-text' => sprintf(
+                        esc_html__( '%1$s %2$s This is required to make the feed work. Simply click the button below and it will connect to your Twitter account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your Twitter feed.', 'feed_them_social' ),
+                        '<strong>',
+                        '</strong>'
+                    ),
+                ),
+                array(
+                    'input_wrap_class' => 'fts-twitter-custom-access-token-secret',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token Secret', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_twitter_custom_access_token_secret',
+                    'name'             => 'fts_twitter_custom_access_token_secret',
+                    'placeholder'      => '',
+                    'default_value'    => $oauth_token_secret,
+                ),
+
+            ),
+        );
+
+        return $this->all_options['feed_type_options'];
+    } //END LAYOUT OPTIONS
 
 	/**
 	 * Layout Options

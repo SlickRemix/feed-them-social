@@ -791,6 +791,9 @@ class Metabox_Settings {
 				'em'     => array(),
 				'strong' => array(),
 				'small'  => array(),
+                'span'      => array(
+                    'class'   => array(),
+                ),
 			)
 		);
 	}
@@ -858,7 +861,6 @@ class Metabox_Settings {
 		}
 
 
-
 		// If Post - Return Settings.
 		if ( true == $this->is_page ) {
 			// Update options for a page.
@@ -876,7 +878,8 @@ class Metabox_Settings {
 			exit;
 		}
 
-        error_log( print_r( $array_to_save, true ) );
+        // Testing.
+        //error_log( print_r( $array_to_save, true ) );
 
 		// If not doing Page stuff Update options for a Post.
 		update_post_meta( $post_id, $current_info['post_type'] . '_settings_options', $array_to_save );

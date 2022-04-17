@@ -178,7 +178,7 @@
                         }
                         else if (  'search' == attribute ) {
                             $( id + '#twitter-messages-selector option[value=hashtag]' ).attr('selected','selected');
-                            $( id + '.twitter-hashtag-etc-wrap' ).show();
+                            $( id + '.twitter-hashtag-etc-wrap' ).css('display', 'inline-block');
                             $( '#twitter_hashtag_etc_name' ).val( value );
                         }
                         else if ( 'loadmore' == attribute ){

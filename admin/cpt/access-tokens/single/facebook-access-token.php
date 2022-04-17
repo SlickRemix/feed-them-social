@@ -62,26 +62,17 @@ class Facebook_Access_Options {
 	 * @since 3.0.0
 	 */
 	public function access_options() {
-		?>
 
-		<div class="feed-them-social-admin-wrap">
-			<h1>
-				<?php esc_html_e( 'Facebook Feed Options', 'feed-them-social' ); ?>
-			</h1>
-			<!-- custom option for padding -->
-			<form method="post" class="fts-facebook-feed-options-form" action="options.php" id="fts-facebook-feed-options-form">
-				<br/>
-				<?php
+        $post_id = isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : '';
+        $post_url = add_query_arg( array(
+            'post' => $post_id,
+        ), admin_url( 'post.php' ) );
 
-				$fts_fb_options_nonce = wp_create_nonce( 'fts-facebook-options-page-nonce' );
+             ?>
+		<div id="fb-token-master-wrap" class="feed-them-social-admin-wrap">
 
-				if ( wp_verify_nonce( $fts_fb_options_nonce, 'fts-facebook-options-page-nonce' ) ) {
-
-					// get our registered settings from the fts functions!
-					settings_fields( 'fts-facebook-feed-style-options' );
-					?>
-					<div id="fb-token-master-wrap" class="feed-them-social-admin-input-wrap" style="padding-bottom:0px;">
-						<div class="fts-title-description-settings-page" style="padding-top:0; border:none; margin-bottom:0px;">
+					<div class="feed-them-social-admin-input-wrap" style="padding-bottom:0px;">
+						<div class="fts-title-description-settings-page" style="">
 							<h3>
 								<?php esc_html_e( 'Facebook API Token', 'feed-them-social' ); ?>
 							</h3>
@@ -90,13 +81,13 @@ class Facebook_Access_Options {
 								<?php
 								echo sprintf(
 									esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
-									'<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . admin_url( 'admin.php?page=fts-facebook-feed-styles-submenu-page' ) . '&scope=pages_show_list,pages_read_engagement' ) . '" class="fts-facebook-get-access-token">',
+									'<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . $post_url . '&scope=pages_show_list,pages_read_engagement' ) . '" class="fts-facebook-get-access-token">',
 									'</a>'
 								);
 								?>
 							</p>
 						</div>
-						<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Button not working?', 'feed-them-social' ); ?></a>
+						<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
 						<?php
 						$test_app_token_id     = get_option( 'fts_facebook_custom_api_token' );
 						$test_app_token_id_biz = get_option( 'fts_facebook_custom_api_token_biz' );
@@ -201,7 +192,6 @@ class Facebook_Access_Options {
 								// Echo our shortcode for the page token list with loadmore button
 								// These functions are on feed-them-functions.php!
 								echo do_shortcode( '[fts_fb_page_token]' );
-
 							}
 							?>
 						</div>
@@ -230,7 +220,7 @@ class Facebook_Access_Options {
 
 							</div>
 
-							<a href="mailto:support@slickremix.com" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Button not working?', 'feed-them-social' ); ?></a>
+							<a href="mailto:support@slickremix.com" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
 
 							<div class="clear"></div>
 							<div class="feed-them-social-admin-input-label fts-twitter-border-bottom-color-label">
@@ -286,16 +276,11 @@ class Facebook_Access_Options {
 							<div class="clear"></div>
 						</div>
 						<!--/fts-facebook-feed-styles-input-wrap-->
-
-					<div class="clear"></div>
-					<input type="submit" class="feed-them-social-admin-submit-btn" value="<?php esc_html_e( 'Save All Changes' ); ?>"/>
-
 				<?php } ?>
-			</form>
 			<div class="clear"></div>
 			<a class="feed-them-social-admin-slick-logo" href="https://www.slickremix.com" target="_blank"></a></div>
 		<!--/feed-them-social-admin-wrap-->
 		<?php
-				}
 	}
+
 }//end class

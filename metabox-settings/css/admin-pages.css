@@ -2713,7 +2713,7 @@ body .ft-gallery-popup a.fts-powered-by-text {
 
 .fts_page_fts-system-info-submenu-page h2:before,
 .fts_page_fts-license-page h2:before {
-    font-family: SlickRemix!important;
+    font-family: SlickRemix !important;
     content: "\e600";
     margin-right:0px;
     font-size: .9em!important;

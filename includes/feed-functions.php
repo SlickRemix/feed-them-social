@@ -244,6 +244,8 @@ class Feed_Functions {
 	 * Get Saved Feed Settings
 	 *
 	 * Get saved settings for the feed using cpt post id.
+     *
+	 * @param $feed_post_id string the feed post id to getting settings options from.
 	 *
 	 * @return array | boolean
 	 */
@@ -257,7 +259,10 @@ class Feed_Functions {
 	/**
 	 * Get Feed Settings
 	 *
-	 * Get settings for the feed using cpt post id or set defaults.
+	 * Get settings for the feed using cpt post id or create the default settings array.
+     *
+	 * @param $feed_post_id string the feed post id to getting settings options from.
+	 * @param $create_default string create the default settings array if nothing else is set?
 	 *
 	 * @return array | boolean
 	 */
@@ -278,7 +283,11 @@ class Feed_Functions {
 	 * Get Feed Settings
 	 *
 	 * Get a single setting for the feed using feed post id and setting name.
-	 *
+     *
+     * @param $feed_post_id string the feed post id to getting settings options from.
+	 * @param $setting_name string name of setting in the settings array.
+     * @param $create_default string create the default settings array if nothing else is set?
+     *
 	 * @return array | boolean
 	 */
 	public function get_feed_setting( $feed_post_id, $setting_name, $create_default = true ) {
@@ -561,23 +570,6 @@ class Feed_Functions {
 
 		// Return the time!
 		return $u_time;
-	}
-
-	/**
-	 * Random String generator For All Feeds
-	 *
-	 * @param int $length Random string length.
-	 * @return string
-	 * @since 2.0.7
-	 */
-	public function feed_them_social_rand_string( $length = 10 ) {
-		$characters        = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$characters_length = strlen( $characters );
-		$random_string     = '';
-		for ( $i = 0; $i < $length; $i++ ) {
-			$random_string .= $characters[ wp_rand( 0, $characters_length - 1 ) ];
-		}
-		return $random_string;
 	}
 
 	/**
@@ -1003,6 +995,155 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-pinterest-feed-styles-submenu-page' === $_GET['page'] ) {
 				wp_enqueue_script( 'feed_them_style_options_color_js', plugins_url( 'admin/js/jscolor/jscolor.js', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
 			}
+		}
+	}
+
+
+	/**
+	 * Get Random String
+	 *
+	 * Generates a random string.
+	 *
+	 * @param int $length String Length.
+	 * @return string
+	 * @since 1.9.6
+	 */
+	public function get_random_string( $length = 10 ) {
+		$characters        = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$characters_length = strlen( $characters );
+		$random_string     = '';
+		for ( $i = 0; $i < $length; $i++ ) {
+			$random_string .= $characters[ wp_rand( 0, $characters_length - 1 ) ];
+		}
+
+		return $random_string;
+	}
+
+	/**
+	 * Social Follow Buttons
+	 *
+	 * @param string $feed feed type.
+	 * @param string $user_id user id.
+	 * @param null   $access_token access token.
+	 * @param null   $fb_shortcode shortcode attribute.
+	 * @since 1.9.6
+	 */
+	public function social_follow_button( $feed, $user_id, $access_token = null, $fb_shortcode = null ) {
+		$fts_social_follow_nonce = wp_create_nonce( 'fts-social-follow-nonce' );
+
+		if ( wp_verify_nonce( $fts_social_follow_nonce, 'fts-social-follow-nonce' ) ) {
+
+			global $channel_id, $playlist_id, $username_subscribe_btn, $username;
+			switch ( $feed ) {
+				case 'facebook':
+					// Facebook settings options for follow button!
+					$fb_show_follow_btn            = get_option( 'fb_show_follow_btn' );
+					$fb_show_follow_like_box_cover = get_option( 'fb_show_follow_like_box_cover' );
+					$language_option_check         = get_option( 'fb_language' );
+
+					if ( isset( $language_option_check ) && 'Please Select Option' !== $language_option_check ) {
+						$language_option = get_option( 'fb_language', 'en_US' );
+					} else {
+						$language_option = 'en_US';
+					}
+					$fb_like_btn_color = get_option( 'fb_like_btn_color', 'light' );
+					$show_faces        = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-faces' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ? 'true' : 'false';
+					$share_button      = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-share' === $fb_show_follow_btn ? 'true' : 'false';
+					$page_cover        = 'fb_like_box_cover-yes' === $fb_show_follow_like_box_cover ? 'true' : 'false';
+					if ( ! isset( $_POST['fts_facebook_script_loaded'] ) ) {
+						echo '<div id="fb-root"></div>
+							<script>jQuery(".fb-page").hide(); (function(d, s, id) {
+							  var js, fjs = d.getElementsByTagName(s)[0];
+							  if (d.getElementById(id)) return;
+							  js = d.createElement(s); js.id = id;
+							  js.src = "//connect.facebook.net/' . esc_html( $language_option ) . '/sdk.js#xfbml=1&appId=&version=v3.1";
+							  fjs.parentNode.insertBefore(js, fjs);
+							}(document, "script", "facebook-jssd"));</script>';
+						$_POST['fts_facebook_script_loaded'] = 'yes';
+					}
+
+					// Page Box!
+					if ( 'like-box' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ) {
+
+						$like_box_width = isset( $fb_shortcode['like_box_width'] ) && '' !== $fb_shortcode['like_box_width'] ? $fb_shortcode['like_box_width'] : '500px';
+
+						echo '<div class="fb-page" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-hide-cover="' . esc_html( $page_cover ) . '" data-width="' . esc_html( $like_box_width ) . '"  data-show-facepile="' . esc_html( $show_faces ) . '" data-show-posts="false"></div>';
+					} else {
+						echo '<div class="fb-like" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-layout="standard" data-action="like" data-colorscheme="' . esc_html( $fb_like_btn_color ) . '" data-show-faces="' . esc_html( $show_faces ) . '" data-share="' . esc_html( $share_button ) . '" data-width:"100%"></div>';
+					}
+					break;
+				case 'instagram':
+					echo '<a href="' . esc_url( 'https://instagram.com/' . $user_id . '/' ) . '" target="_blank" rel="noreferrer">' . esc_html( 'Follow on Instagram', 'feed-them-social' ) . '</a>';
+					break;
+				case 'twitter':
+					if ( ! isset( $_POST['fts_twitter_script_loaded'] ) ) {
+						echo "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
+						$_POST['fts_twitter_script_loaded'] = 'yes';
+					}
+					// CAN't ESCAPE Twitter link because then JS doesn't work!
+					echo '<a class="twitter-follow-button" href="' . ' https://twitter.com/' . $user_id . ' " data-show-count="false" data-lang="en"> Follow @' . esc_html( $user_id ) . '</a>';
+					break;
+				case 'pinterest':
+					if ( ! isset( $_POST['fts_pinterest_script_loaded'] ) ) {
+						echo '<script>jQuery(function () {jQuery.getScript("//assets.pinterest.com/js/pinit.js");});</script>';
+						$_POST['fts_pinterest_script_loaded'] = 'yes';
+					}
+					// we return this one until we echo out the pinterest feed instead of $output.=.
+					return '<a data-pin-do="buttonFollow" href="https://www.pinterest.com/' . esc_html( $user_id ) . '/">' . esc_html( $user_id ) . '</a>';
+					break;
+				case 'youtube':
+					if ( ! isset( $_POST['fts_youtube_script_loaded'] ) ) {
+						echo '<script src="' . esc_url( 'https://apis.google.com/js/platform.js' ) . '"></script>';
+						$_POST['fts_youtube_script_loaded'] = 'yes';
+					}
+					if ( '' === $channel_id && '' === $playlist_id && '' !== $username || '' !== $playlist_id && '' !== $username_subscribe_btn ) {
+
+						if ( '' !== $username_subscribe_btn ) {
+							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $username_subscribe_btn ) . '" data-layout="full" data-count="default"></div>';
+						} else {
+							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $user_id ) . '" data-layout="full" data-count="default"></div>';
+						}
+					} elseif ( '' !== $channel_id && '' !== $playlist_id || '' !== $channel_id ) {
+						echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $channel_id ) . '" data-layout="full" data-count="default"></div>';
+					}
+					break;
+			}
+		}
+	}
+
+	/**
+	 * FTS Share Option
+	 *
+	 * @param string $fb_link link for social network.
+	 * @param string $description description field for some of the social networks.
+	 * @since
+	 */
+	public function fts_share_option( $fb_link, $description ) {
+
+		$hide_share = get_option( 'fts_disable_share_button', true ) ? get_option( 'fts_disable_share_button', true ) : '';
+
+		if ( isset( $hide_share ) && '1' !== $hide_share ) {
+			// Social media sharing URLs
+			$link                      = $fb_link;
+			$description               = wp_strip_all_tags( $description );
+			$ft_gallery_share_linkedin = 'https://www.linkedin.com/shareArticle?mini=true&url=' . $link;
+			$ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
+			$ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
+			$ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
+			$ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
+
+			// The share wrap and links
+			$output  = '<div class="fts-share-wrap">';
+			$output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html__( 'Social Share Options', 'feed-them-social' ) . '">' . esc_html( '', 'feed-them-social' ) . '</a>';
+			$output .= '<div class="ft-gallery-share-wrap">';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" rel="noreferrer" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" rel="noreferrer" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
+			$output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" rel="noreferrer" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
+			$output .= '</div>';
+			$output .= '</div>';
+			return $output;
 		}
 	}
 }

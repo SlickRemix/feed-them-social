@@ -333,7 +333,7 @@ class FTS_Twitter_Feed {
 
 
 	/**
-	 * FTS Twitter Function
+	 * Display Twitter
 	 *
 	 * Display Twitter Feed.
 	 *
@@ -346,59 +346,58 @@ class FTS_Twitter_Feed {
 		$fts_twitter_feed_nonce = wp_create_nonce( 'fts-twitter-feed-nonce' );
 
 		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
+            
+             // Saved Feed Settings!
+             $saved_feed_settings = $this->feed_cpt->get_saved_feed_settings( $inputted_atts['cpt_id'] );
 
-		    $twitter_show_follow_btn       = get_option( 'twitter_show_follow_btn' );
-			$twitter_show_follow_btn_where = get_option( 'twitter_show_follow_btn_where' );
-			$twitter_show_follow_count     = get_option( 'twitter_show_follow_count' );
+		    $twitter_show_follow_btn       = $saved_feed_settings['twitter_show_follow_btn'];
+			$twitter_show_follow_btn_where = $saved_feed_settings['twitter_show_follow_btn_where'];
+			$twitter_show_follow_count     = $saved_feed_settings['twitter_show_follow_count'];
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			// option to allow this action or not from the Twitter Options page.
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 
-				$twitter_load_more_text      = get_option( 'twitter_load_more_text' ) ? get_option( 'twitter_load_more_text' ) : __( 'Load More', 'feed-them-social' );
-				$twitter_no_more_tweets_text = get_option( 'twitter_no_more_tweets_text' ) ? get_option( 'twitter_no_more_tweets_text' ) :  __( 'No More Tweets', 'feed-them-social' );
+				$twitter_load_more_text      = $saved_feed_settings['twitter_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
+				$twitter_no_more_tweets_text = $saved_feed_settings['twitter_no_more_tweets_text'] ??  __( 'No More Tweets', 'feed-them-social' );
 
 				include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/twitter/twitter-feed.php';
 
 				if ( isset( $popup ) && 'yes' === $popup ) {
 					// it's ok if these styles & scripts load at the bottom of the page.
-					$fts_fix_magnific = get_option( 'fts_fix_magnific' ) ? get_option( 'fts_fix_magnific' ) : '';
+					$fts_fix_magnific = $saved_feed_settings['fts_fix_magnific'] ?? '';
 					if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
 						wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, true );
 					}
 					wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, true );
 				}
 			} else {
-
-                // Returned Options!
-                $returned_options = $this->feed_cpt->get_saved_feed_settings( $inputted_atts['cpt_id'] );
-
                      // Twitter Username!
-                    $twitter_name = $returned_options['twitter_name'] ? $returned_options['twitter_name'] : '';
+                    $twitter_name = $saved_feed_settings['twitter_name'] ?? '';
 
                     // Twitter Height!
-                    $twitter_height = $returned_options['twitter_height'] ? $returned_options['twitter_height'] : '';
+                    $twitter_height = $saved_feed_settings['twitter_height'] ?? '';
 
                     // Tweets Count!
-                    $tweets_count = $returned_options['tweets_count'] ? $returned_options['tweets_count'] : '';
+                    $tweets_count = $saved_feed_settings['tweets_count'] ?? '';
 
                     // Description Image!
-                    $description_image = $returned_options['description_image'] ? $returned_options['description_image'] : '';
+                    $description_image = $saved_feed_settings['description_image'] ?? '';
 
                     // Search!
-                    $search = $returned_options['search'] ? $returned_options['search'] : '';
+                    $search = $saved_feed_settings['search'] ?? '';
 
                     // Show Retweets!
-                    $show_retweets = $returned_options['show_retweets'] ? $returned_options['show_retweets'] : '';
+                    $show_retweets = $saved_feed_settings['show_retweets'] ?? '';
 
                     // Cover Photo!
-                    $cover_photo = $returned_options['cover_photo'] ? $returned_options['cover_photo'] : '';
+                    $cover_photo = $saved_feed_settings['cover_photo'] ?? '';
 
                     // Stats Bar!
-                    $stats_bar = $returned_options['stats_bar'] ? $returned_options['stats_bar'] : '';
+                    $stats_bar = $saved_feed_settings['stats_bar'] ?? '';
 
                     // Show Replies!
-                    $show_replies = $returned_options['show_replies'] ? $returned_options['show_replies'] : '';
+                    $show_replies = $saved_feed_settings['show_replies'] ?? '';
 			}
 
 
@@ -407,12 +406,12 @@ class FTS_Twitter_Feed {
 				$tweets_count = '6';
 			}
 
-			// Show Replies!
+			// Exclude Replies?
 			$exclude_replies = 'no' === $show_replies ? 'true' : 'false' ;
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-				$_REQUEST['fts_dynamic_name'] = sanitize_key( $this->fts_rand_string( 10 ) . '_' . 'twitter' );
+				$_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feed_functions->get_random_string() . '_' . 'twitter' );
 				// Create Dynamic Class Name.
 				$fts_dynamic_class_name = '';
 				if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
@@ -476,7 +475,7 @@ class FTS_Twitter_Feed {
 					$total_to_fetch = $exclude_replies == 'true' ? max( 50, $tweets_count * 3 ) : $tweets_count;
 				}
 				// $total_to_fetch = $tweets_count;.
-				$description_image = ! empty( $description_image ) ? $description_image : '';
+				$description_image = !empty( $description_image ) ?? '';
 
 				if ( isset( $show_retweets ) && 'yes' === $show_retweets ) {
 					$show_retweets = 'true';
@@ -715,9 +714,9 @@ class FTS_Twitter_Feed {
 					$i = 0;
 					foreach ( $fetched_tweets->data as $post_data ) {
 
-						$user_name                 = isset( $post_data->user->name ) ? $post_data->user->name : '';
+						$user_name            = isset( $post_data->user->name ) ? $post_data->user->name : '';
 						$description          = $this->fts_twitter_description( $post_data );
-						$user_name_retweet         = isset( $post_data->retweeted_status->user->name ) ? $post_data->retweeted_status->user->name : '';
+						$user_name_retweet    = isset( $post_data->retweeted_status->user->name ) ? $post_data->retweeted_status->user->name : '';
 						$twitter_name         = isset( $post_data->user->screen_name ) ? $post_data->user->screen_name : '';
 						$screen_name_retweet  = isset( $post_data->retweeted_status->user->screen_name ) ? $post_data->retweeted_status->user->screen_name : '';
 						$in_reply_screen_name = isset( $post_data->entities->user_mentions[0]->screen_name ) ? $post_data->entities->user_mentions[0]->screen_name : '';

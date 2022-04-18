@@ -45,6 +45,10 @@ class Feed_CPT_Options {
 	 */
 	public function get_all_options() {
 		$this->feed_type_options();
+        $this->twitter_token_options();
+        $this->facebook_token_options();
+        $this->instagram_token_options();
+        $this->youtube_token_options();
 		$this->layout_options();
 		$this->color_options();
 		$this->facebook_options();
@@ -57,12 +61,12 @@ class Feed_CPT_Options {
 	}
 
 	/**
-	 * Color Options
+	 * Feed Type
 	 *
-	 * Options for the Color Tab
+	 * Options for the Feed Type
 	 *
 	 * @return mixed
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function feed_type_options() {
 		$this->all_options['feed_type_options'] = array(
@@ -107,6 +111,10 @@ class Feed_CPT_Options {
 							'label' => esc_html__( 'Instagram', 'feed-them-social' ),
 							'value' => 'instagram-feed-type',
 						),
+                        array(
+                            'label' => esc_html__( 'Instagram Business', 'feed-them-social' ),
+                            'value' => 'instagram-feed-type',
+                        ),
 						array(
 							'label' => esc_html__( 'Twitter', 'feed-them-social' ),
 							'value' => 'twitter-feed-type',
@@ -138,6 +146,288 @@ class Feed_CPT_Options {
 		return $this->all_options['feed_type_options'];
 	} //END LAYOUT OPTIONS
 
+    /**
+     * Twitter Token Options
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+    public function twitter_token_options() {
+
+        $oath_token         = isset( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token'] ) ? sanitize_text_field( wp_unslash( $_GET['oauth_token'] ) ) : '';
+        $oauth_token_secret = isset( $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token_secret'] ) ? sanitize_text_field( wp_unslash( $_GET['oauth_token_secret'] ) ) : '';
+
+        $this->all_options['twitter_token_options'] = array(
+            'section_attr_key'   => 'twitter_token_',
+            'section_title'      => esc_html__( 'Twitter API Token', 'feed_them_social' ),
+            'section_wrap_id' => 'fts-tab-content1-twitter',
+            'section_wrap_class' => 'fts-tab-content1-twitter fts-token-wrap',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form-twitter',
+            'form_wrap_id'       => 'fts-fb-page-form-twitter',
+
+
+            'main_options'       => array(
+
+                array(
+                    'input_wrap_class' => 'fts-twitter-custom-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_twitter_custom_access_token',
+                    'name'             => 'fts_twitter_custom_access_token',
+                    'placeholder'      => '',
+                    'default_value'    => $oath_token,
+                    'instructional-text' => sprintf(
+                        esc_html__( '%1$s %2$s This is required to make the feed work. Simply click the button below and it will connect to your Twitter account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your Twitter feed.', 'feed_them_social' ),
+                        '<strong>',
+                        '</strong>'
+                    ),
+                ),
+                array(
+                    'input_wrap_class' => 'fts-twitter-custom-access-token-secret',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token Secret', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_twitter_custom_access_token_secret',
+                    'name'             => 'fts_twitter_custom_access_token_secret',
+                    'placeholder'      => '',
+                    'default_value'    => $oauth_token_secret,
+                ),
+
+            ),
+        );
+
+        return $this->all_options['feed_type_options'];
+    } //END LAYOUT OPTIONS
+
+    /**
+     * Facebook Token Options
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+    public function facebook_token_options() {
+
+        $this->all_options['facebook_token_options'] = array(
+            'section_attr_key'   => 'facebook_token_',
+            'section_title'      => esc_html__( 'Facebook API Token', 'feed_them_social' ),
+            'section_wrap_id' => 'fts-tab-content1-facebook',
+            'section_wrap_class' => 'fts-tab-content1-facebook fts-token-wrap',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form-facebook',
+            'form_wrap_id'       => 'fts-fb-page-form-facebook',
+
+
+            'main_options'       => array(
+
+                array(
+                    'input_wrap_class' => 'fts-facebook-custom-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Page ID', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_facebook_custom_api_token_user_id',
+                    'name'             => 'fts_facebook_custom_api_token_user_id',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                    'instructional-text' => sprintf(
+                        esc_html__( '%1$s %2$s This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups.', 'feed_them_social' ),
+                        '<strong>',
+                        '</strong>'
+                    ),
+                ),
+                array(
+                    'input_wrap_class' => 'fts-facebook-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_facebook_custom_api_token',
+                    'name'             => 'fts_facebook_custom_api_token',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+                array(
+                    'input_wrap_class' => 'fts-facebook-custom-api-token-user-name',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'User Name (hidden)', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_facebook_custom_api_token_user_name',
+                    'name'             => 'fts_facebook_custom_api_token_user_name',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+
+            ),
+        );
+
+        return $this->all_options['facebook_token_options'];
+    } //END LAYOUT OPTIONS
+
+    /**
+     * Instagram Token Options
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+    public function instagram_token_options() {
+
+        $this->all_options['instagram_token_options'] = array(
+            'section_attr_key'   => 'instagram_token_',
+            'section_title'      => esc_html__( 'Instagram Basic API Token', 'feed_them_social' ),
+            'section_wrap_id' => 'instagram-token-master-wrap',
+            'section_wrap_class' => 'fts-tab-content1-instagram fts-token-wrap',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form-instagram',
+            'form_wrap_id'       => 'fts-fb-page-form-instagram',
+            'main_options'       => array(
+                array(
+                    'input_wrap_class' => 'fts-instagram-custom-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Instagram ID', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_instagram_custom_id',
+                    'name'             => 'fts_instagram_custom_id',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                    'instructional-text' => sprintf(
+                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
+                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
+                        '</a>'
+                    ),
+                ),
+                array(
+                    'input_wrap_class' => 'fts-instagram-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_instagram_custom_api_token',
+                    'name'             => 'fts_instagram_custom_api_token',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+                array(
+                    'input_wrap_class' => 'fts-instagram-custom-api-token-user-name fts-success-class fts-exp-time-wrapper',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Refresh Expire Time', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fts_instagram_custom_api_token_expires_in',
+                    'name'             => 'fts_instagram_custom_api_token_expires_in',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+
+            ),
+        );
+
+        return $this->all_options['instagram_token_options'];
+    } //END LAYOUT OPTIONS
+
+    /**
+     * Youtube Token Options
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+    public function youtube_token_options() {
+
+        $this->all_options['youtube_token_options'] = array(
+            'section_attr_key'   => 'youtube_token_',
+            'section_title'      => esc_html__( 'YouTube API Token', 'feed_them_social' ),
+            'section_wrap_id' => 'fts-tab-content1-youtube',
+            'section_wrap_class' => 'fts-tab-content1-youtube fts-token-wrap',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form-youtube',
+            'form_wrap_id'       => 'fts-fb-page-form-youtube',
+
+
+            'main_options'       => array(
+
+                array(
+                    'input_wrap_class' => 'fts-youtube-add-all-keys-click-option',
+                    'option_type'      => 'checkox',
+                    'label' => sprintf(
+                        esc_html__( '%1$sAdd your own API Key?%2$s', 'feed_them_social' ),
+                        '<a href="https://www.slickremix.com/docs/get-api-key-for-youtube/" target="_blank">',
+                        '</a>'
+                    ),
+                    'type'             => 'text',
+                    'id'               => 'youtube_custom_api_token',
+                    'name'             => 'youtube_custom_api_token',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                    'instructional-text' => sprintf(
+                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your youtube posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
+                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
+                        '</a>'
+                    ),
+                ),
+
+                array(
+                    'input_wrap_class' => 'fts-youtube-custom-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'youtube_custom_api_token',
+                    'name'             => 'youtube_custom_api_token',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                    'instructional-text' => sprintf(
+                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your youtube posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
+                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
+                        '</a>'
+                    ),
+                ),
+
+                array(
+                    'input_wrap_class' => 'fts-youtube-custom-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'youtube_custom_access_token',
+                    'name'             => 'youtube_custom_access_token',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                    'instructional-text' => sprintf(
+                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your youtube posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
+                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
+                        '</a>'
+                    ),
+                ),
+                array(
+                    'input_wrap_class' => 'fts-youtube-access-token',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'youtube_custom_refresh_token',
+                    'name'             => 'youtube_custom_refresh_token',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+                array(
+                    'input_wrap_class' => 'fts-exp-time-wrapper',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Access Token Expire Time', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'youtube_custom_token_exp_time',
+                    'name'             => 'youtube_custom_token_exp_time',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+
+            ),
+        );
+
+        return $this->all_options['youtube_token_options'];
+    } //END LAYOUT OPTIONS
+    
 	/**
 	 * Layout Options
 	 *

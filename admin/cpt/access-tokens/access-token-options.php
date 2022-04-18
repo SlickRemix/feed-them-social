@@ -56,7 +56,11 @@ class Access_Options {
 
 		// Data Protection.
 		$this->data_protection = $data_protection;
-	}
+
+        // Facebook & Instagram get Access Token.
+        add_shortcode( 'fts_fb_page_token', array( $this, 'fts_fb_page_token_func' ) );
+
+    }
 
 	/**
 	 * Call Access Tokens
@@ -72,7 +76,6 @@ class Access_Options {
 				// Facebook Access Options Class.
 				case 'facebook-feed-type':
 					// Facebook Access Options Class.
-
 					$facebook_access_options = new Facebook_Access_Options( $this->feed_functions, $this->data_protection );
 					// Load the options.
 					$access_options = $facebook_access_options->access_options();
@@ -105,4 +108,403 @@ class Access_Options {
 		// Didn't find any options.
 		return esc_html__( 'Oop, No Access Token options have been found for this social network', 'feed_them_social' );
 	}
+
+
+    /**
+     * FTS FB Options Page Function
+     *
+     * Display FB Page tokens for users
+     *
+     * @return mixed
+     * @since 2.1.4
+     */
+    public function fts_fb_page_token_func() {
+        $fts_fb_page_token_users_nonce = wp_create_nonce( 'fts-fb-page-token-users-nonce' );
+
+        if ( wp_verify_nonce( $fts_fb_page_token_users_nonce, 'fts-fb-page-token-users-nonce' ) ) {
+
+            // Make sure it's not ajaxing!
+            if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feed_functions->feed_them_social_rand_string() );
+            } //End make sure it's not ajaxing!
+
+            ob_start();
+
+            if ( ! isset( $_GET['locations'] ) ) {
+                $fb_url                     = 'fts-facebook-feed-styles-submenu-page' == $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=25' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=25' );
+                $fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : $fb_url;
+                $test_fb_app_token_response = json_decode( $fb_token_response );
+                $_REQUEST['next_url']       = isset( $test_fb_app_token_response->paging->next ) ? esc_url_raw( $test_fb_app_token_response->paging->next ) : '';
+            } else {
+                $fb_token_response          = isset( $_REQUEST['next_location_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_location_url'] ) ) : '';
+                $test_fb_app_token_response = json_decode( $fb_token_response );
+            }
+
+            // echo '<pre>';
+            // print_r($test_fb_app_token_response);
+            // echo '</pre>';
+            // Make sure it's not ajaxing!
+            if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+                // ******************
+                // Load More BUTTON Start
+                // ******************
+                ?>
+                <div class="fts-clear"></div>
+                <?php
+            } //End make sure it's not ajaxing!
+
+            $build_shortcode = 'fts_fb_page_token';
+
+            // Make sure it's not ajaxing!
+        if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+
+            $reviews_token = isset( $_GET['reviews_token'] ) ? 'yes' : 'no';
+            ?>
+            <div id="fb-list-wrap">
+                <div class="fts-pages-info"> <?php echo esc_html__( 'Click on a page in the list below and it will add the Page ID and Access Token above, then click save.', 'feed-them-social' ); ?></div>
+                <ul class="fb-page-list fb-page-master-list">
+                    <?php
+                    } //End make sure it's not ajaxing!
+
+                    foreach ( $test_fb_app_token_response->data as $data ) {
+
+                        // if( !empty( $data->instagram_business_account )  ){
+                        $data_id        = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->id : $data->id;
+                        $data_user_name = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $data->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $data->name : $data->name;
+                        $data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $data->id . '/picture';
+                        ?>
+                        <li class="fts-fb-main-page-li">
+                            <div class="fb-click-wrapper">
+                                <div class="fb-image">
+                                    <img border="0" height="50" width="50"
+                                         src="<?php echo esc_url( $data_thumbnail ); ?>"/>
+                                </div>
+                                <div class="fb-name-wrap"><span class="fb-name">
+					<?php
+                    echo $data_user_name;
+                    if ( isset( $data->store_number, $data->store_location_descriptor ) ) {
+                        print '(' . $data->store_location_descriptor . ')';
+                    }
+                    ?>
+									</span></div>
+                                <div class="fb-other-wrap">
+                                    <small>
+                                        <?php echo esc_html__( 'ID: ', 'feed-them-social' ); ?>
+                                        <span class="fts-api-facebook-id"><?php echo esc_html( $data_id ); ?></span>
+                                        <?php echo isset( $data->store_number ) ? esc_html( '| Location: ' . $data->store_number, 'feed-them-social' ) : ''; ?>
+                                    </small>
+                                </div>
+                                <div class="page-token"><?php echo esc_attr( $data->access_token ); ?></div>
+                                <?php
+                                $facebook_input_token  = get_option( 'fts_facebook_custom_api_token' );
+                                $facebook_access_token = $data->access_token;
+                                if ( $facebook_input_token === $facebook_access_token ) {
+                                    ?>
+                                    <div class="feed-them-social-admin-submit-btn " style="display: block !important;">
+                                        Active
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="feed-them-social-admin-submit-btn fts-token-save">Save</div>
+                                <?php } ?>
+                                <div class="fts-clear"></div>
+                            </div>
+                            <?php
+                            $_REQUEST['next_location_url'] = isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : '';
+                            $remove_class_or_not           = isset( $data->locations->paging->next ) ? 'fb-sublist-page-id-' . esc_attr( $data_id ) : '';
+                            if ( isset( $data->locations->data ) ) {
+                                $location_count     = count( $data->locations->data );
+                                $location_plus_sign = isset( $data->locations->paging->next ) ? '+' : '';
+                                $location_text      = 1 === $location_count ? esc_html( $location_count . ' ' . esc_html__( 'Location for', 'feed-them-social' ) ) : esc_html( $location_count . $location_plus_sign . ' ' . esc_html__( 'Locations for', 'feed-them-social' ) );
+                                // if the locations equal 3 or less we will set the location container height to auto so the scroll loadmore does not fire.
+                                $location_scroll_loadmore_needed_check = $location_count <= 3 ? 'height:auto !important' : 'height: 200px !important;';
+                            }
+
+                            if ( ! isset( $_GET['locations'] ) && isset( $data->locations->data ) ) {
+                                ?>
+                                <div class="fts-fb-location-text-wrap"><?php echo esc_html( $location_text . ' ' . $data->name ); ?></div>
+                                <ul class="fb-page-list fb-sublist <?php echo esc_attr( $remove_class_or_not ); ?>"
+                                    style="<?php echo esc_attr( $location_scroll_loadmore_needed_check ); ?>">
+                                    <?php
+                                    foreach ( $data->locations->data as $location ) {
+
+                                        // if ( !empty( $location->instagram_business_account ) ) {
+                                        $loc_data_id        = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->id : $location->id;
+                                        $loc_data_user_name = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $location->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $location->name : $location->name;
+                                        $loc_data_thumbnail = isset( $location->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $location->id . '/picture';
+
+                                        ?>
+                                        <li>
+                                            <div class="fb-click-wrapper">
+                                                <div class="fb-image">
+                                                    <img border="0" height="50" width="50"
+                                                         src="<?php echo esc_url( $loc_data_thumbnail ); ?>"/>
+                                                </div>
+                                                <div class="fb-name-wrap"><span
+                                                        class="fb-name"><?php echo $loc_data_user_name; ?>
+                                                        <?php
+                                                        if ( isset( $location->store_location_descriptor ) ) {
+                                                            echo '(' . esc_html( $location->store_location_descriptor ) . ')';
+                                                        }
+                                                        ?>
+													</span></div>
+                                                <div class="fb-other-wrap">
+                                                    <small>
+                                                        <?php echo esc_html__( 'ID: ', 'feed-them-social' ); ?>
+                                                        <span class="fts-api-facebook-id"><?php echo esc_html( $loc_data_id ); ?></span>
+                                                        <?php
+                                                        if ( isset( $location->store_number ) ) {
+                                                            print '| ';
+                                                            esc_html__( 'Location:', 'feed-them-social' );
+                                                            print ' ' . esc_html( $location->store_number );
+                                                        }
+                                                        ?>
+                                                    </small>
+                                                </div>
+
+                                                <div class="page-token"><?php echo esc_html( $location->access_token ); ?></div>
+                                                <?php
+                                                $facebook_input_token  = get_option( 'fts_facebook_custom_api_token' );
+                                                $facebook_access_token = $location->access_token;
+                                                if ( $facebook_input_token === $facebook_access_token ) {
+                                                    ?>
+                                                    <div class="feed-them-social-admin-submit-btn "
+                                                         style="display: block !important;">Active
+                                                    </div>
+                                                <?php } else { ?>
+                                                    <div class="feed-them-social-admin-submit-btn fts-token-save">
+                                                        Save
+                                                    </div>
+                                                <?php } ?>
+                                                <div class="fts-clear"></div>
+                                            </div>
+                                        </li>
+
+                                        <?php
+                                        // }
+                                    }
+                                    ?>
+                                </ul>
+
+                            <?php
+                            // Make sure it's not ajaxing locations!
+                            if ( ! isset( $_GET['locations'] ) && isset( $data->locations->paging->next ) ) {
+                                echo '<div id="loadMore_' . esc_attr( $data_id ) . '_location" class="fts-fb-load-more" style="background:none !Important;">' . esc_html__( 'Scroll to view more Locations', 'feed-them-instagram' ) . '</div>';
+                            }//End Check
+
+                            // Make sure it's not ajaxing locations!
+                            if ( ! isset( $_GET['locations'] ) ) {
+                            $time       = time();
+                            $nonce      = wp_create_nonce( $time . 'load-more-nonce' );
+                            $fb_page_id = $data_id;
+                            ?>
+                                <script>
+                                    jQuery(document).ready(function () {
+                                        jQuery(".fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>").bind("scroll", function () {
+                                            if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
+                                                if (!jQuery('.fts-no-more-locations-<?php echo esc_js( $fb_page_id ); ?>').length) {
+                                                    jQuery("#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location").addClass('fts-fb-spinner');
+                                                    var button = jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
+                                                    console.log(button);
+                                                    var build_shortcode = "<?php echo esc_js( $build_shortcode ); ?>";
+                                                    var yes_ajax = "yes";
+                                                    var fts_d_name = "<?php echo esc_js( $fb_page_id ); ?>";
+                                                    var fts_security = "<?php echo esc_js( $nonce ); ?>";
+                                                    var fts_time = "<?php echo esc_js( $time ); ?>";
+                                                    var fts_reviews_feed = "<?php echo esc_js( $reviews_token ); ?>";
+                                                    jQuery.ajax({
+                                                        data: {
+                                                            action: "my_fts_fb_load_more",
+                                                            next_location_url: nextURL_location_<?php echo esc_js( $fb_page_id ); ?>,
+                                                            fts_dynamic_name: fts_d_name,
+                                                            rebuilt_shortcode: build_shortcode,
+                                                            load_more_ajaxing: yes_ajax,
+                                                            fts_security: fts_security,
+                                                            fts_time: fts_time,
+                                                            feed_name: build_shortcode,
+                                                            fts_reviews_feed: fts_reviews_feed,
+                                                            locations: 'yes'
+                                                        },
+                                                        type: 'GET',
+                                                        url: ajaxurl,
+                                                        success: function (data) {
+                                                            console.log('Well Done and got this from sever: ' + data);
+                                                            jQuery('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').append(data).filter('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').html();
+                                                            jQuery('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').animate({scrollTop: '+=100px'}, 800); // scroll down a 100px after new items are added
+
+
+
+                                                            <?php if ( isset( $data->locations->paging->next ) && $data->locations->paging->next === $_REQUEST['next_location_url'] ) { ?>
+                                                            jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb fts-no-more-locations-<?php echo esc_js( $fb_page_id ); ?>" style="background:none !important"><?php echo esc_html( 'All Locations loaded', 'feed-them-social' ); ?></div>');
+                                                            jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').removeAttr('id');
+                                                            <?php } ?>
+                                                            jQuery("#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location").removeClass('fts-fb-spinner');
+                                                        }
+                                                    }); // end of ajax()
+                                                    return false;
+
+                                                } //stop ajax from submitting again if the fts-no-more-locations class is found
+
+                                            }
+                                        }); // end of form.submit
+
+                                    }); // end of document.ready
+                                </script>
+                            <?php
+                            } //END Make sure it's not ajaxing locations
+                            ?>
+                                <script>var nextURL_location_<?php echo esc_js( $fb_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : ''; ?>";</script>
+                            <?php } ?>
+                        </li>
+
+                        <?php
+
+                        // }
+                    }  // foreach loop of locations
+
+                    // Make sure it's not ajaxing!
+                    if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+                    ?>
+                </ul>
+                <div class="fts-clear"></div>
+            </div>
+            <?php
+        } //End make sure it's not ajaxing
+
+            // Make sure it's not ajaxing!
+            if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_GET['locations'] ) ) {
+                $fts_dynamic_name = isset( $_REQUEST['fts_dynamic_name'] ) ? sanitize_key( $_REQUEST['fts_dynamic_name'] ) : '';
+                $time             = time();
+                $nonce            = wp_create_nonce( $time . 'load-more-nonce' );
+                ?>
+                <script>
+                    jQuery(document).ready(function () {
+
+                        jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").click(function () {
+
+                            jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").addClass('fts-fb-spinner');
+                            var button = jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
+                            console.log(button);
+                            var build_shortcode = "<?php echo esc_js( $build_shortcode ); ?>";
+                            var yes_ajax = "yes";
+                            var fts_d_name = "<?php echo esc_js( $fts_dynamic_name ); ?>";
+                            var fts_security = "<?php echo esc_js( $nonce ); ?>";
+                            var fts_time = "<?php echo esc_js( $time ); ?>";
+                            var fts_reviews_feed = "<?php echo esc_js( $reviews_token ); ?>";
+                            jQuery.ajax({
+                                data: {
+                                    action: "my_fts_fb_load_more",
+                                    next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ); ?>,
+                                    fts_dynamic_name: fts_d_name,
+                                    rebuilt_shortcode: build_shortcode,
+                                    load_more_ajaxing: yes_ajax,
+                                    fts_security: fts_security,
+                                    fts_time: fts_time,
+                                    feed_name: build_shortcode,
+                                    fts_reviews_feed: fts_reviews_feed
+                                },
+                                type: 'GET',
+                                url: ajaxurl,
+                                success: function (data) {
+                                    console.log('Well Done and got this from sever: ' + data);
+                                    jQuery('.fb-page-master-list').append(data).filter('.fb-page-list').html();
+
+                                    if (!nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> || 'no more' === nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
+                                        jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( 'No More Pages', 'feed-them-social' ); ?></div>');
+                                        jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
+                                    }
+                                    jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( 'Load More', 'feed-them-social' ); ?>');
+                                    //	jQuery('#loadMore_< ?php echo  $fts_dynamic_name ?>').removeClass('flip360-fts-load-more');
+                                    jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
+
+
+                                }
+                            }); // end of ajax()
+                            return false;
+                        }); // end of form.submit
+                    }); // end of document.ready
+                </script>
+                <?php
+
+            } //END Make sure it's not ajaxing
+            ?>
+            <script>
+                <?php if ( ! isset( $_GET['locations'] ) ) { ?>
+                var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";
+                // alert('nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>');
+                <?php } ?>
+
+
+                if (document.querySelector('#fts-fb-token-wrap .fts-pages-info') !== null) {
+                    jQuery(".fts-successful-api-token.default-token").hide();
+                }
+                <?php if ( 'yes' === $reviews_token || isset( $_GET['fts_reviews_feed'] ) && 'yes' === $_GET['fts_reviews_feed'] ) { ?>
+                if (document.querySelector('.default-token') !== null) {
+                    jQuery(".default-token").show();
+                }
+
+                <?php } ?>
+
+                jQuery(document).ready(function ($) {
+
+                    $(".feed-them-social-admin-submit-btn").click(function () {
+                        // alert('test');
+                        var newUrl = "<?php echo admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ); ?>";
+                        history.replaceState({}, null, newUrl);
+                    });
+
+                    var fb = ".fb-page-list .fb-click-wrapper";
+                    $('#fb-list-wrap').show();
+                    //alert("reviews_token");
+
+                    $(fb).click(function () {
+                        var fb_page_id = $(this).find('.fts-api-facebook-id').html();
+                        var token = $(this).find('.page-token').html();
+                        // alert(token);
+                        var name = $(this).find('.fb-name').html();
+                        var profile_image = $(this).find('.fb-image img').attr('src');
+                        <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
+                        $("#fts_facebook_instagram_custom_api_token").val(token);
+                        $("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
+                        $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
+                        $("#fts_facebook_instagram_custom_api_token_profile_image").val(profile_image);
+                        <?php
+                        } elseif ( 'no' === $reviews_token || isset( $_GET['fts_reviews_feed'] ) && 'no' === $_GET['fts_reviews_feed'] ) {
+                        ?>
+                        $("#fts_facebook_custom_api_token").val(token);
+                        $("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
+                        $("#fts_facebook_custom_api_token_user_name").val(name);
+                        $("#fts_facebook_custom_api_token_profile_image").val(profile_image);
+                        <?php
+                        } else {
+                        ?>
+                        $("#fts_facebook_custom_api_token_biz").val(token);
+                        $("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
+                        $("#fts_facebook_custom_api_token_user_name_biz").val(name);
+                        $("#fts_facebook_custom_api_token_biz_profile_image").val(profile_image);
+                        <?php } ?>
+                        $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
+                        $(this).find('.feed-them-social-admin-submit-btn').toggle();
+                        //   alert(name + token)
+                    })
+                });
+            </script>
+            <?php
+            // Make sure it's not ajaxing!
+            if ( ! isset( $_GET['load_more_ajaxing'] ) && isset( $test_fb_app_token_response->paging->next ) && ! isset( $_GET['locations'] ) ) {
+                $fts_dynamic_name = sanitize_key( $_REQUEST['fts_dynamic_name'] );
+                echo '<div class="fts-clear"></div>';
+
+                echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more">' . esc_html( 'Load More', 'feed-them-social' ) . '</div>';
+            }//End make sure it's not ajaxing
+
+            // Lastly if we can't find a next url we unset the next url from the page to not let the loadmore button be active.
+            if ( isset( $_GET['locations'] ) ) {
+                unset( $_REQUEST['next_location_url'] );
+            } else {
+                unset( $_REQUEST['next_url'] );
+            }
+            return ob_get_clean();
+        }
+        exit;
+    }
 }//end class

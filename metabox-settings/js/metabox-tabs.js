@@ -97,36 +97,51 @@ jQuery(document).ready(function ($) {
        // alert('yes');
     }
 
-    if (submitAjax == 'yes') {
-        jQuery('.post-type-fts .wrap form#post, .post-type-fts_albums .wrap form#post, .fts_page_template_settings_page .wrap form#post').submit(function (e) {
-            e.preventDefault();
-            jQuery( this ).ajaxSubmit({
-                beforeSend: function () {
-                    jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
-                    jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
-                    jQuery('#publishing-action .spinner').css("visibility", "visible");
+    function fts_ajax_cpt_save() {
 
-                },
-                success: function ( response ) {
-                    console.log( response );
-                    jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-success-form'></div></div></div>");
-                    jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
-                    jQuery('#publishing-action .spinner').css("visibility", "hidden");
+        jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
+            beforeSend: function () {
+                jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
+                jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
+                jQuery('#publishing-action .spinner').css("visibility", "visible");
 
-                    setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
+            },
+            success: function ( response ) {
+                console.log( response );
+                jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-success-form'></div></div></div>");
+                jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
+                jQuery('#publishing-action .spinner').css("visibility", "hidden");
 
-                    var hash2 = window.location.hash.replace('#', '');
-                    // alert(hash2);
-                    if (hash2 === 'feed_setup' || hash2 === 'galleries' || jQuery('.post-type-fts_albums .tab1').hasClass('active') || hash2 === '' && !jQuery('.fts_page_template_settings_page')[0]) {
-                        location.reload();
-                    }
-                    // We change the text from Updating... at the bottom of a long page to Update.
-                    jQuery('.updatefrombottom a.button-primary').html("Update");
+
+                setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
+
+                var hash2 = window.location.hash.replace('#', '');
+
+                // alert(hash2);
+                if ( hash2 === 'instagram-token-master-wrap' || hash2 === 'feed_setup' || hash2 === 'galleries' || jQuery('.post-type-fts_albums .tab1').hasClass('active') || hash2 === '' && !jQuery('.fts_page_template_settings_page')[0]) {
+
+                    location.reload();
                 }
-            });
-            return false;
+                // We change the text from Updating... at the bottom of a long page to Update.
+                jQuery('.updatefrombottom a.button-primary').html("Update");
+            }
+        });
+        return false;
+    }
+
+    if ( 'yes' === submitAjax ) {
+        jQuery('.post-type-fts .wrap form#post div.fts-token-save').click( function (e) {
+            // alert('test');
+            e.preventDefault();
+            fts_ajax_cpt_save();
+        });
+
+        jQuery('.post-type-fts .wrap form#post').submit( function (e) {
+            e.preventDefault();
+            fts_ajax_cpt_save();
         });
     }
+
 
     // click event listener
     $('.ft-gallery-settings-tabs-meta-wrap ul.nav-tabs a').click(function (event) {

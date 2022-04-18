@@ -67,7 +67,7 @@ class Activate_Plugin {
 		// Review/Rating notice option names
 		$review_transient = 'fts_slick_rating_notice_waiting';
 		$review_option    = 'fts_slick_rating_notice';
-		$review_nag      = 'fts_slick_ignore_rating_notice_nag';
+		$review_nag       = 'fts_slick_ignore_rating_notice_nag';
 
         // Review Nag Check.
 		$this->review_nag_check( $review_nag, $review_option, $review_transient );
@@ -77,6 +77,7 @@ class Activate_Plugin {
 
         // Set Review Status.
 		$this->set_review_status( $review_option, $review_transient );
+
 	}
 
 	/**
@@ -343,6 +344,8 @@ class Activate_Plugin {
 
 		if ( ! $rating_notice_waiting && ! ( 'dismissed' === $notice_status || 'pending' === $notice_status ) ) {
 			$time = 2 * WEEK_IN_SECONDS;
+            // Testing.
+             $time = 2;
 			set_transient( $review_transient, 'fts-review-waiting', $time );
 			update_option( $review_option, 'pending' );
 		}
@@ -364,10 +367,14 @@ class Activate_Plugin {
 			add_action( 'admin_notices', array( $this, 'rating_notice_html' ) );
 		}
 
+        // Testing.
+        /*echo $get_notice_status;
+        echo ' ';
+        print_r( get_transient( $review_transient ) );
 		// Uncomment this for testing the notice.
-		 //if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag'] ) ) {
-		 //add_action( 'admin_notices', array($this, 'fts_rating_notice_html') );
-		 //}
+		 if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag'] ) ) {
+		  add_action( 'admin_notices', array($this, 'rating_notice_html') );
+		 }*/
 	}
 
 	/**
@@ -382,19 +389,27 @@ class Activate_Plugin {
 		if ( current_user_can( 'manage_options' ) ) {
 			global $current_user;
 			$user_id = $current_user->ID;
-			/* Has the user already clicked to ignore the message? */
-			if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) ) {
+
+            // Used for testing:
+            print_r( get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) );
+            // Used for testing:
+            $all_meta_for_user = get_user_meta( $user_id );
+            // Used for testing:
+            print_r( $all_meta_for_user );
+            /* Has the user already clicked to ignore the message? */
+
+            if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' )  && ! isset( $_GET['fts_slick_ignore_rating_notice_nag'] ) ) {
 				?>
 				<div class="ftg_notice ftg_review_notice">
-					<img src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/css/ft-gallery-logo.png' ) ); ?>" alt="Feed Them Social">
+					<img src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/images/feed-them-social-logo.png' ) ); ?>" alt="Feed Them Social">
 					<div class='fts-notice-text'>
 						<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed_them_social' ); ?></p>
 						<p class="fts-links">
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Sure, I\'d love to', 'feed_them_social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'ftg_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed_them_social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'ftg_slick_ignore_rating_notice_nag', 'later' ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed_them_social' ); ?> </a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed_them_social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', 'later' ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed_them_social' ); ?> </a>
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Not working, I need support', 'feed_them_social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'ftg_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed_them_social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed_them_social' ); ?></a>
 						</p>
 
 					</div>

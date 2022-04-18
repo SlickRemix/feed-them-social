@@ -82,39 +82,20 @@ class Twitter_Access_Options {
 	 * @since 3.0.0
 	 */
 	public function access_options() {
-		?>
+
+        $post_id = isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : '';
+        $post_url = add_query_arg( array(
+            'post' => $post_id,
+        ), admin_url( 'post.php' ) );
 
         // Check if new tokens have been returned.
-		$this->set_new_access_tokens();
-
-
-		<div class="feed-them-social-admin-wrap">
-			<h1>
-				<?php echo esc_html__( 'Twitter Feed Options', 'feed-them-social' ); ?>
-			</h1>
-			<div class="use-of-plugin">
-				<?php echo esc_html__( 'Change the color of your twitter feed and more using the options below.', 'feed-them-social' ); ?>
-			</div>
-			<!-- custom option for padding -->
-			<form method="post" class="fts-twitter-feed-options-form" action="options.php">
+		// $this->set_new_access_tokens();
+		?>
+		<div id="twitter-token-master-wrap" class="feed-them-social-admin-wrap">
 				<?php
-				$fts_fb_options_nonce = wp_create_nonce( 'fts-twitter-options-page-nonce' );
 
-				if ( wp_verify_nonce( $fts_fb_options_nonce, 'fts-twitter-options-page-nonce' ) ) {
-
-					// get our registered settings from the fts functions!
-					settings_fields( 'fts-twitter-feed-style-options' );
-
-					$twitter_full_width                 = get_option( 'twitter_full_width' );
-					$twitter_allow_videos               = get_option( 'twitter_allow_videos' );
-					$twitter_allow_shortlink_conversion = get_option( 'twitter_allow_shortlink_conversion' );
-					$twitter_show_follow_btn            = get_option( 'twitter_show_follow_btn' );
-					$twitter_show_follow_count          = get_option( 'twitter_show_follow_count' );
-					$twitter_show_follow_btn_where      = get_option( 'twitter_show_follow_btn_where' );
-					$fts_twitter_hide_images_in_posts   = get_option( 'fts_twitter_hide_images_in_posts' );
-
-					$fts_twitter_custom_consumer_key    = get_option( 'fts_twitter_custom_consumer_key' );
-					$fts_twitter_custom_consumer_secret = get_option( 'fts_twitter_custom_consumer_secret' );
+					$fts_twitter_custom_consumer_key    = '';
+					$fts_twitter_custom_consumer_secret = '';
 
 					$test_fts_twitter_custom_consumer_key    = '35mom6axGlf60ppHJYz1dsShc';
 					$test_fts_twitter_custom_consumer_secret = '7c2TJvUT7lS2EkCULpK6RGHrgXN1BA4oUi396pQEdRj3OEq5QQ';
@@ -122,14 +103,16 @@ class Twitter_Access_Options {
 					$fts_twitter_custom_consumer_key    = isset( $fts_twitter_custom_consumer_key ) && '' !== $fts_twitter_custom_consumer_key ? $fts_twitter_custom_consumer_key : $test_fts_twitter_custom_consumer_key;
 					$fts_twitter_custom_consumer_secret = isset( $fts_twitter_custom_consumer_secret ) && '' !== $fts_twitter_custom_consumer_secret ? $fts_twitter_custom_consumer_secret : $test_fts_twitter_custom_consumer_secret;
 
-					$fts_twitter_custom_access_token        = get_option( 'fts_twitter_custom_access_token' );
-					$fts_twitter_custom_access_token_secret = get_option( 'fts_twitter_custom_access_token_secret' );
 
-					if ( isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] ) {
+                    // http://fts30.local/wp-admin/post.php?post=178&action=edit&feed_type=twitter&oauth_token=&oauth_token_secret=#feed_setup
 
-						include WP_PLUGIN_DIR . '/feed-them-social/feeds/twitter/twitteroauth/twitteroauth.php';
+					// $fts_twitter_custom_access_token        = get_option( 'fts_twitter_custom_access_token' );
+                    $fts_twitter_custom_access_token = '1561334624-tZ2B3whzdqIs9hVBkvnKMZNNxOnpKCEGeGJu9ls';
+					//$fts_twitter_custom_access_token_secret = get_option( 'fts_twitter_custom_access_token_secret' );
+                    $fts_twitter_custom_access_token_secret = 'Gwfx5oCJLgcUa4WBBBDch8oZAXTuP0qtSuCZ6QxPqoNtH';
 
-						$test_connection = new TwitterOAuthFTS(
+
+                    $test_connection = new TwitterOAuthFTS(
 							// Consumer Key!
 							$fts_twitter_custom_consumer_key,
 							// Consumer Secret!
@@ -138,7 +121,7 @@ class Twitter_Access_Options {
 							$fts_twitter_custom_access_token,
 							// Access Token Secret!
 							$fts_twitter_custom_access_token_secret
-						);
+                    );
 
 						$fetched_tweets = $test_connection->get(
 							'statuses/user_timeline',
@@ -157,32 +140,40 @@ class Twitter_Access_Options {
 						// 'count' => '1',
 						// )
 						// );
-						// echo '<pre>';
-						// print_r($fetched_tweets);
-						// echo '</pre>';
+						 /*echo '<pre>';
+						 print_r($fetched_tweets);
+						 echo '</pre>';*/
 						// END TESTING!
-					}
+
 					?>
 				<div class="feed-them-social-admin-input-wrap" style="padding-top: 0px">
 					<div class="fts-title-description-settings-page">
-						<h3>
-							<?php echo esc_html__( 'Twitter API Token', 'feed-them-social' ); ?>
-						</h3>
-						<p>
-							<?php echo esc_html__( 'This is required to make the feed work. Simply click the button below and it will connect to your Twitter account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your Twitter feed.', 'feed-them-social' ); ?>
-						</p>
 						<p>
 							<?php
 							echo sprintf(
 								esc_html__( '%1$sLogin and get my Access Tokens%2$s', 'feed-them-social' ),
-								'<a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . admin_url( 'admin.php?page=fts-twitter-feed-styles-submenu-page' ) . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
+								'<a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . $post_url . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
 								'</a>'
 							);
 							?>
 						</p>
 					</div>
-					<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php echo esc_html__( 'Button not working?', 'feed-them-social' ); ?></a>
+					<a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php echo esc_html__( 'Not working?', 'feed-them-social' ); ?></a>
 				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 				<div class="fts-clear"></div>
 				<div class="feed-them-social-admin-input-wrap">
 					<?php
@@ -270,15 +261,13 @@ class Twitter_Access_Options {
 									}
 								} else {
 									echo sprintf(
-										esc_html__( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s.%4$s', 'feed-them-social' ),
+										esc_html__( '%1$sYour access token is working, time to customize your %2$soptions%3$s.%4$s', 'feed-them-social' ),
 										'<div class="fts-successful-api-token">',
 										'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
 										'</a>',
 										'</div>'
 									);
 								}
-								// Clear Cache!
-								do_action( 'wp_ajax_fts_clear_cache_ajax' );
 							} else {
 								echo sprintf(
 									esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
@@ -292,6 +281,6 @@ class Twitter_Access_Options {
 						<div class="fts-clear"></div>
 					</div>
 			<?php
-		}
 	}
+
 }//end class

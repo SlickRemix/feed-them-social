@@ -60,6 +60,21 @@ class Feed_Functions {
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
+
+        // Widget Code.
+        add_filter( 'widget_text', 'do_shortcode' );
+
+        // Refresh Token for YouTube and Instagram Basic
+        add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
+        add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
+        add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
+
+
+        if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
+            // Load More Options.
+            add_action( 'wp_ajax_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
+            add_action( 'wp_ajax_nopriv_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
+        }
 	}
 
     /**

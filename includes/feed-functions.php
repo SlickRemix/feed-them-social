@@ -46,10 +46,19 @@ class Feed_Functions {
 	 */
 	public $feed_cache;
 
+    /**
+     * Data Protection
+     *
+     * Data Protection Class for encryption.
+     *
+     * @var object
+     */
+    public $data_protection;
+
 	/**
 	 * Feed Functions constructor.
 	 */
-	public function __construct( $settings_functions, $feed_cpt_options, $feed_cache ){
+	public function __construct( $settings_functions, $feed_cpt_options, $feed_cache, $data_protection ){
 		$this->add_actions_filters();
 
 		// Settings Functions Class.
@@ -60,6 +69,9 @@ class Feed_Functions {
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
+
+        // Set Feed Cache object.
+        $this->data_protection = $data_protection;
 
         // Widget Code.
         add_filter( 'widget_text', 'do_shortcode' );
@@ -1155,13 +1167,13 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
      *
      * @since 2.3.3
      */
-    public function feed_them_instagram_refresh_token() {
+    public function feed_them_instagram_refresh_token( $post_id ) {
 
         $fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
 
         if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
 
-            // Used some methods from this link http://ieg.wnet.org/2015/09/using-oauth-in-wordpress-plugins-part-2-persistence/
+            // Used a few methods from http://ieg.wnet.org/2015/09/using-oauth-in-wordpress-plugins-part-2-persistence/
             // save all 3 get options: happens when clicking the get access token button on the instagram options page!
             if ( isset( $_GET['access_token'],  $_GET['expires_in'] ) ) {
                 $button_pushed                     = 'yes';
@@ -1171,7 +1183,9 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
             } else {
                 // refresh token!
                 $button_pushed    = 'no';
-                $check_token =  get_option( 'fts_instagram_custom_api_token' );
+
+                $check_token =  $this->get_feed_setting( $post_id, 'fts_instagram_custom_api_token' );
+
                 $check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
                 $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
 
@@ -1212,12 +1226,12 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
             <script>
                 jQuery(document).ready(function () {
 
-
                     jQuery.ajax({
                         data: {
                             action: "fts_refresh_token_ajax",
                             access_token: '<?php echo esc_js( $encrypted_token ); ?>',
                             expires_in: '<?php echo esc_js( $expires_in ); ?>',
+                            post_id: '<?php echo esc_js( $post_id ); ?>',
                             button_pushed: '<?php echo esc_js( $button_pushed ); ?>',
                             feed: 'instagram'
                         },

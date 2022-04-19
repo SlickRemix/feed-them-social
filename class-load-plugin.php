@@ -71,7 +71,7 @@ class Feed_Them_Social {
 		$feed_cpt_options = new \feedthemsocial\Feed_CPT_Options();
 
 		// Feed Functions.
-		$feed_functions = new \feedthemsocial\Feed_Functions( $settings_functions, $feed_cpt_options, $feed_cache );
+		$feed_functions = new \feedthemsocial\Feed_Functions( $settings_functions, $feed_cpt_options, $feed_cache, $data_protection );
 
         // Feed Them Functions!
         //$fts_functions = new \feedthemsocial\FTS_Functions();

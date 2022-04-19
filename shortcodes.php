@@ -118,6 +118,8 @@ class Shortcodes {
 				    break;
 			    case 'instagram-feed-type':
 				    break;
+                case 'instagram-business-feed-type':
+                    break;
 			    // Twitter Feed.
 			    case 'twitter-feed-type':
 				    break;

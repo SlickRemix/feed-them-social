@@ -391,11 +391,11 @@ class Activate_Plugin {
 			$user_id = $current_user->ID;
 
             // Used for testing:
-            print_r( get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) );
+            // print_r( get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) );
             // Used for testing:
-            $all_meta_for_user = get_user_meta( $user_id );
+            // $all_meta_for_user = get_user_meta( $user_id );
             // Used for testing:
-            print_r( $all_meta_for_user );
+            // print_r( $all_meta_for_user );
             /* Has the user already clicked to ignore the message? */
 
             if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' )  && ! isset( $_GET['fts_slick_ignore_rating_notice_nag'] ) ) {

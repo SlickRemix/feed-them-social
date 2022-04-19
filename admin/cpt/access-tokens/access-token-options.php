@@ -73,28 +73,30 @@ class Access_Options {
 		if($feed_type){
 			// Determine Feed Type. Call Class. Return Options.
 			switch ($feed_type){
-				// Facebook Access Options Class.
 				case 'facebook-feed-type':
 					// Facebook Access Options Class.
 					$facebook_access_options = new Facebook_Access_Options( $this->feed_functions, $this->data_protection );
 					// Load the options.
 					$access_options = $facebook_access_options->access_options();
 					break;
-				// Instagram Access Options Class.
 				case 'instagram-feed-type':
 					// Instagram Access Options Class.
 					$instagram_access_options = new Instagram_Access_Options( $this->feed_functions, $this->data_protection );
 					// Load the options.
 					$access_options = $instagram_access_options->access_options();
 					break;
-				// Twitter Access Options Class.
+                case 'instagram-business-feed-type':
+                    // Instagram Access Options Class.
+                    $instagram_business_access_options = new Instagram_Business_Access_Options( $this->feed_functions, $this->data_protection );
+                    // Load the options.
+                    $access_options = $instagram_business_access_options->access_options();
+                    break;
 				case 'twitter-feed-type':
 					// Twitter Access Options Class.
 					$twitter_access_options = new Twitter_Access_Options( $this->feed_functions, $this->data_protection );
 					// Load the options.
 					$access_options = $twitter_access_options->access_options();
 					break;
-				// Youtube Access Options Class.
 				case 'youtube-feed-type':
 					// Youtube Access Options Class.
 					$youtube_access_options = new Youtube_Access_Options( $this->feed_functions, $this->data_protection );
@@ -125,7 +127,7 @@ class Access_Options {
 
             // Make sure it's not ajaxing!
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feed_functions->feed_them_social_rand_string() );
+                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feed_functions->get_random_string() );
             } //End make sure it's not ajaxing!
 
             ob_start();
@@ -161,7 +163,7 @@ class Access_Options {
             $reviews_token = isset( $_GET['reviews_token'] ) ? 'yes' : 'no';
             ?>
             <div id="fb-list-wrap">
-                <div class="fts-pages-info"> <?php echo esc_html__( 'Click on a page in the list below and it will add the Page ID and Access Token above, then click save.', 'feed-them-social' ); ?></div>
+                <div class="fts-pages-info"> <?php echo esc_html__( 'Click on a page in the list below and then click save.', 'feed-them-social' ); ?></div>
                 <ul class="fb-page-list fb-page-master-list">
                     <?php
                     } //End make sure it's not ajaxing!
@@ -170,7 +172,7 @@ class Access_Options {
 
                         // if( !empty( $data->instagram_business_account )  ){
                         $data_id        = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->id : $data->id;
-                        $data_user_name = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $data->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $data->name : $data->name;
+                        $data_user_name = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon">' . $data->instagram_business_account->username . '</span><span class="fts-arrow-icon"></span><span class="fts-fb-icon">' . $data->name . '</span>' : $data->name;
                         $data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $data->id . '/picture';
                         ?>
                         <li class="fts-fb-main-page-li">
@@ -408,6 +410,46 @@ class Access_Options {
                                     console.log('Well Done and got this from sever: ' + data);
                                     jQuery('.fb-page-master-list').append(data).filter('.fb-page-list').html();
 
+                                    jQuery('.post-type-fts .wrap form#post div.fts-token-save').click( function (e) {
+                                       // alert('test');
+                                        e.preventDefault();
+                                        fts_ajax_cpt_save();
+                                    });
+
+                                    var fb = ".fb-page-list .fb-click-wrapper";
+                                    $('#fb-list-wrap').show();
+                                    //alert("reviews_token");
+
+                                    $(".feed-them-social-admin-submit-btn").click(function () {
+                                        // alert('test');
+                                        var newUrl = "<?php echo admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ); ?>";
+                                        history.replaceState({}, null, newUrl);
+                                    });
+
+                                    $(fb).click(function () {
+                                        var fb_page_id = $(this).find('.fts-api-facebook-id').html();
+                                        var token = $(this).find('.page-token').html();
+                                        // alert(token);
+                                        var name = $(this).find('.fts-insta-icon').html();
+                                        var fb_name = $(this).find('.fts-fb-icon').html();
+                                        <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
+                                        $("#fts_facebook_instagram_custom_api_token").val(token);
+                                        $("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
+                                        $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
+                                        $("#fts_facebook_instagram_custom_api_token_fb_user_name").val(fb_name);
+                                        <?php }
+                                        else {
+                                        ?>
+                                        $("#fts_facebook_custom_api_token_biz").val(token);
+                                        $("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
+                                        $("#fts_facebook_custom_api_token_user_name_biz").val(name);
+                                        <?php } ?>
+                                        $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
+                                        $(this).find('.feed-them-social-admin-submit-btn').toggle();
+                                        //   alert(name + token)
+                                    });
+
+
                                     if (!nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> || 'no more' === nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
                                         jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( 'No More Pages', 'feed-them-social' ); ?></div>');
                                         jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
@@ -443,50 +485,39 @@ class Access_Options {
                 }
 
                 <?php } ?>
+                        $ = jQuery;
+                        $(".feed-them-social-admin-submit-btn").click(function () {
+                            // alert('test');
+                            var newUrl = "<?php echo admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ); ?>";
+                            history.replaceState({}, null, newUrl);
+                        });
 
-                jQuery(document).ready(function ($) {
+                        var fb = ".fb-page-list .fb-click-wrapper";
+                        $('#fb-list-wrap').show();
+                        //alert("reviews_token");
 
-                    $(".feed-them-social-admin-submit-btn").click(function () {
-                        // alert('test');
-                        var newUrl = "<?php echo admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ); ?>";
-                        history.replaceState({}, null, newUrl);
-                    });
-
-                    var fb = ".fb-page-list .fb-click-wrapper";
-                    $('#fb-list-wrap').show();
-                    //alert("reviews_token");
-
-                    $(fb).click(function () {
-                        var fb_page_id = $(this).find('.fts-api-facebook-id').html();
-                        var token = $(this).find('.page-token').html();
-                        // alert(token);
-                        var name = $(this).find('.fb-name').html();
-                        var profile_image = $(this).find('.fb-image img').attr('src');
-                        <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
-                        $("#fts_facebook_instagram_custom_api_token").val(token);
-                        $("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
-                        $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
-                        $("#fts_facebook_instagram_custom_api_token_profile_image").val(profile_image);
-                        <?php
-                        } elseif ( 'no' === $reviews_token || isset( $_GET['fts_reviews_feed'] ) && 'no' === $_GET['fts_reviews_feed'] ) {
-                        ?>
-                        $("#fts_facebook_custom_api_token").val(token);
-                        $("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
-                        $("#fts_facebook_custom_api_token_user_name").val(name);
-                        $("#fts_facebook_custom_api_token_profile_image").val(profile_image);
-                        <?php
-                        } else {
-                        ?>
-                        $("#fts_facebook_custom_api_token_biz").val(token);
-                        $("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
-                        $("#fts_facebook_custom_api_token_user_name_biz").val(name);
-                        $("#fts_facebook_custom_api_token_biz_profile_image").val(profile_image);
-                        <?php } ?>
-                        $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
-                        $(this).find('.feed-them-social-admin-submit-btn').toggle();
-                        //   alert(name + token)
-                    })
-                });
+                        $(fb).click(function () {
+                            var fb_page_id = $(this).find('.fts-api-facebook-id').html();
+                            var token = $(this).find('.page-token').html();
+                            // alert(token);
+                            var name = $(this).find('.fts-insta-icon').html();
+                            var fb_name = $(this).find('.fts-fb-icon').html();
+                            <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
+                            $("#fts_facebook_instagram_custom_api_token").val(token);
+                            $("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
+                            $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
+                            $("#fts_facebook_instagram_custom_api_token_fb_user_name").val(fb_name);
+                            <?php }
+                            else {
+                            ?>
+                            $("#fts_facebook_custom_api_token_biz").val(token);
+                            $("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
+                            $("#fts_facebook_custom_api_token_user_name_biz").val(name);
+                            <?php } ?>
+                            $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
+                            $(this).find('.feed-them-social-admin-submit-btn').toggle();
+                            //   alert(name + token)
+                        })
             </script>
             <?php
             // Make sure it's not ajaxing!

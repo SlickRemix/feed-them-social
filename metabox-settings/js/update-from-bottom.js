@@ -20,7 +20,7 @@
                     jQuery( '.tab4 a .fts-click-cover' ).show();
                 }
 
-                if ( 'instagram-feed-type' == ftsGlobalValue ) {
+                if ( 'instagram-feed-type' == ftsGlobalValue || 'instagram-business-feed-type' == ftsGlobalValue ) {
                     jQuery( '.tab5' ).addClass( 'fts-instagram-waiting-color' );
                     jQuery( '.tab5 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab5 a .fts-click-cover' ).hide();
@@ -501,7 +501,7 @@
 
                     if( fts_shortcode_fix.includes("fts_instagram") ){
 
-                        $( '#feed_type option[value=instagram-feed-type]' ).attr('selected','selected');
+                        $( '#feed_type option[value=instagram-feed-type], #feed_type option[value=instagram-business-feed-type]' ).attr('selected','selected');
 
                         var id = '#ftg-tab-content5 ';
 

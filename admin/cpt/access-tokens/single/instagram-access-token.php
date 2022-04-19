@@ -81,10 +81,6 @@ class Instagram_Access_Options {
                 <script>
                     jQuery(document).ready(function ($) {
 
-                        jQuery('#instagram-token-master-wrap h3').click(function () {
-                            jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
-                        });
-
                         <?php if ( isset( $_GET['code'], $_GET['feed_type'] ) && 'instagram_basic' === $_GET['feed_type'] ) {?>
                         $('#fts_instagram_custom_api_token').val('');
                         $('#fts_instagram_custom_api_token').val($('#fts_instagram_custom_api_token').val() + '<?php echo sanitize_text_field( $access_token ); ?>');
@@ -96,7 +92,7 @@ class Instagram_Access_Options {
                         function fts_ajax_cpt_save() {
 
                             var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
-                            window.location.replace(newUrl + '#instagram-token-master-wrap');
+                            window.location.replace(newUrl + '#fts-feed-type');
 
                             jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
                                 beforeSend: function () {
@@ -146,7 +142,7 @@ class Instagram_Access_Options {
                     esc_html__( '%1$sLogin and get my Access Token%2$s %3$sNot working?%4$s', 'feed-them-social' ),
                     '<a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . $post_url ) . '" class="fts-instagram-get-access-token">',
                     '</a>',
-                    '<a href="mailto:support@slickremix.com" class="fts-admin-button-no-work" style="margin-top: 14px; display: inline-block">',
+                    '<a href="mailto:support@slickremix.com" class="fts-admin-button-no-work">',
                     '</a>'
                 );
                 ?>
@@ -157,10 +153,10 @@ class Instagram_Access_Options {
 
             if( ! isset( $data->meta->error_message ) && ! isset( $data->error_message ) || isset( $data->meta->error_message ) && 'This client has not been approved to access this resource.' === $data->meta->error_message ){
                  echo sprintf(
-                    esc_html__( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
+                    esc_html__( '%1$sYour access token is working! Now you can create your %2$sInstagram Feed%3$s', 'feed-them-social' ),
                     '<div class="fts-successful-api-token">',
-                    '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
-                    '</a></div>'
+                    '<a class="fts-instagram-successful-api-token" href="#instagram_feed">',
+                    '</a>.</div>'
                 );
             }
 

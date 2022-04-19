@@ -234,7 +234,8 @@ class Metabox_Settings {
 					'submit_msgs' => array(
 						'saving_msg'  => __( 'Saving Options' ),
 						'success_msg' => __( 'Settings Saved Successfully' ),
-					),
+                        'fts_post'    => admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ),
+                    )
 				)
 			);
 

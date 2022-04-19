@@ -242,7 +242,6 @@
 
 .ftg_review_notice img {
     max-width: 320px;
-    margin-bottom: -15px
 }
 
 .ftg-notice-text p {
@@ -469,9 +468,6 @@
     }
 
 }
-
-
-
 #wp-admin-bar-feed_them_social_admin_bar_set_cache {
     padding-bottom: 17px!important;
     line-height: 0!important;

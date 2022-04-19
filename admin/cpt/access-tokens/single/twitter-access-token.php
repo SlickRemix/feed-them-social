@@ -148,12 +148,6 @@ class Twitter_Access_Options {
 					?>
 				<div class="feed-them-social-admin-input-wrap" style="padding-top: 0px">
 					<div class="fts-title-description-settings-page">
-						<h3>
-							<?php echo esc_html__( 'Twitter API Token', 'feed-them-social' ); ?>
-						</h3>
-						<p>
-							<?php echo esc_html__( 'This is required to make the feed work. Simply click the button below and it will connect to your Twitter account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your Twitter feed.', 'feed-them-social' ); ?>
-						</p>
 						<p>
 							<?php
 							echo sprintf(

@@ -614,7 +614,7 @@ label.toggle-custom-textarea-show {
     clear: both;
     float: left;
     font-size: 14px;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     margin-top: 5px;
     text-decoration: none;
     font-weight: 600
@@ -1313,7 +1313,8 @@ h1.plugin-author-note {
 
 #fts-timer {
     padding: 6px 0 0 1px;
-    float: left
+    float: left;
+    line-height:.8;
 }
 
 @font-face {
@@ -1485,8 +1486,8 @@ h1.plugin-author-note {
 
 .ftg-access-token {
     clear: both;
-    display: inline-flex;
-}
+
+    padding: 15px;}
 
 .fts-facebook-waiting-color a, .fts-facebook-waiting-color {
     color: #0b8af0 !important;
@@ -1527,7 +1528,9 @@ h1.plugin-author-note {
     padding-left: 0;
     padding-top: 0;
 }
-
+#feed_setup h3:hover {
+    opacity:.8;
+}
 .tabs-menu-wrap a .fts-click-cover {
     display: block;
     position: absolute;
@@ -2039,6 +2042,10 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 #ftg-tab-content1 div.ftg-section, #ftg-tab-content6 div.ftg-section {
     max-width: 100%
 }
+#instagram-token-master-wrap {
+    display:block;
+    float:left;
+}
 
 .tab-content {
     border-left: 161px solid #f9f9f9 !important;
@@ -2116,8 +2123,8 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 }
 
 .instructional-text {
-    margin-bottom: 15px;
-    padding-bottom: 5px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
     margin-left: 20px;
     max-width: 630px
 }
@@ -2432,7 +2439,7 @@ h3.sectioned-options-title {
     min-height: 30px;
     margin-bottom: 1px !important;
     width: 100%;
-}
+    display: inline-block;}
 
 .feed_them_social-admin-input-label {
     margin-left: 20px;
@@ -2896,4 +2903,44 @@ button.ft-gallery-edit-img-popup {
 
 .tabs-extra-options, .combine-instagram-hashtag-option-text, .combine_instagram_hashtag, .combine_instagram_hashtag_type, .fb-video-play-btn-options-content, .fb-video-play-btn-options-wrap, .fb_album_photos_id, .fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap, .fts-fb-id, .fts-instagram-load-more-options-wrap, .fts-super-facebook-options-wrap, .fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap, .instagram-location-option-text, .instagram_hashtag_type, .page-token, .pinterest-board-and-name-text, .slider_options_wrap, .slideshow-wrap, .youtube_align_comments_wrap, .youtube_channelID2, .youtube_name, .youtube_name2, .youtube_playlistID, .youtube_playlistID2, .youtube_singleVideoID {
     display: none;
+}
+
+.fts-token-wrap h3 {
+    padding-top:25px !important;
+    cursor: pointer;
+}
+.fts-token-wrap h3:before {
+    font-family: FontAwesomeSlick !important;
+    content:"\f013";
+    color:#0173a88c;
+    margin:0 5px 0 0;
+}
+.fts-token-wrap .feed_them_social-admin-input-label, .tabs .fts-token-wrap input[type=text] {
+    display: none;
+}
+.fts-token-wrap .feed_them_social-admin-input-label {
+    margin-top:24px;
+}
+.fts-token-wrap input {
+    margin-top:15px;
+}
+.fts-token-wrap .feed_them_social-admin-input-wrap {
+    padding:0;
+    background:none;
+    border:none;
+    margin:0;
+    min-height:auto
+}
+.fts-token-wrap .instructional-text  {
+    padding:0;
+    background:none;
+    border:none;
+    margin: 0;
+}
+.fts-exp-time-wrapper .feed_them_social-admin-input-label{
+    overflow:hidden;
+    max-height:40px;
+}
+#fts-timer {
+    color:#30303078;
 }

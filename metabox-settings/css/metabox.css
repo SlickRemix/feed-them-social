@@ -557,7 +557,7 @@ label.toggle-custom-textarea-show {
     padding: 12px;
     border: 1px solid rgba(255, 255, 255, .45);
     color: #000;
-    margin: 10px 0 0; max-width: 585px;/* width:100%; */
+    margin: 5px 0 0; max-width: 585px;/* width:100%; */
 }
 
 .fts-failed-api-token {
@@ -575,7 +575,7 @@ label.toggle-custom-textarea-show {
 }
 
 .fts-special-working-wrap {
-    padding: 8px 8px 15px 18px !important;
+    padding: 12px 15px 15px 18px !important;
     max-width: 722px !important
 }
 
@@ -1313,7 +1313,7 @@ h1.plugin-author-note {
 #fts-timer {
     padding: 6px 0 0 1px;
     float: left;
-    line-height:.8;
+    line-height: .6;
 }
 
 @font-face {
@@ -2940,3 +2940,6 @@ button.ft-gallery-edit-img-popup {
 #fts-timer {
     color:#30303078;
 }
+.instructional-text span {
+    color:#0173a8;
+    cursor: pointer;}

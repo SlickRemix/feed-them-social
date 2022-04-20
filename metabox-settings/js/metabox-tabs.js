@@ -102,7 +102,7 @@ function fts_ajax_cpt_save() {
 
 jQuery(document).ready(function ($) {
 
-    jQuery('#fts-feed-type h3').click(function () {
+    jQuery('#fts-feed-type h3, #fts-feed-type span').click(function () {
         jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
     });
 

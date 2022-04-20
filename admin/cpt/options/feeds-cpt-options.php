@@ -434,9 +434,9 @@ class Feed_CPT_Options {
 
                 array(
                     'input_wrap_class' => 'fts-youtube-add-all-keys-click-option',
-                    'option_type'      => 'checkox',
+                    'option_type'      => 'input',
                     'label' => sprintf(
-                        esc_html__( '%1$sAdd your own API Key?%2$s', 'feed_them_social' ),
+                        esc_html__( '%1$sAPI Key%2$s', 'feed_them_social' ),
                         '<a href="https://www.slickremix.com/docs/get-api-key-for-youtube/" target="_blank">',
                         '</a>'
                     ),
@@ -446,30 +446,15 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your youtube posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
-                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
-                        '</a>'
+                            esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your YouTube videos. You can also %1$sadd your own API Key%2$s.', 'feed_them_social' ),
+                        '<span>',
+                        '</span>'
                     ),
+
                 ),
 
                 array(
-                    'input_wrap_class' => 'fts-youtube-custom-access-token',
-                    'option_type'      => 'input',
-                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
-                    'type'             => 'text',
-                    'id'               => 'youtube_custom_api_token',
-                    'name'             => 'youtube_custom_api_token',
-                    'placeholder'      => '',
-                    'default_value'    => '',
-                    'instructional-text' => sprintf(
-                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your youtube posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
-                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
-                        '</a>'
-                    ),
-                ),
-
-                array(
-                    'input_wrap_class' => 'fts-youtube-custom-access-token',
+                    'input_wrap_class' => 'fts-youtube-access-token',
                     'option_type'      => 'input',
                     'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
                     'type'             => 'text',
@@ -477,16 +462,11 @@ class Feed_CPT_Options {
                     'name'             => 'youtube_custom_access_token',
                     'placeholder'      => '',
                     'default_value'    => '',
-                    'instructional-text' => sprintf(
-                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your youtube posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
-                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
-                        '</a>'
-                    ),
                 ),
                 array(
-                    'input_wrap_class' => 'fts-youtube-access-token',
+                    'input_wrap_class' => 'fts-youtube-refresh-access-token',
                     'option_type'      => 'input',
-                    'label'            => esc_html__( 'Access Token', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Refresh Token', 'feed_them_social' ),
                     'type'             => 'text',
                     'id'               => 'youtube_custom_refresh_token',
                     'name'             => 'youtube_custom_refresh_token',
@@ -494,7 +474,7 @@ class Feed_CPT_Options {
                     'default_value'    => '',
                 ),
                 array(
-                    'input_wrap_class' => 'fts-exp-time-wrapper',
+                    'input_wrap_class' => 'fts-success-class fts-exp-time-wrapper',
                     'option_type'      => 'input',
                     'label'            => esc_html__( 'Access Token Expire Time', 'feed_them_social' ),
                     'type'             => 'text',

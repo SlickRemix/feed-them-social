@@ -680,8 +680,8 @@ class Feeds_CPT {
         //echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['instagram_business_token_options'], null, $this->parent_post_id );
 
         //echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['facebook_token_options'], null, $this->parent_post_id );
-        echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['twitter_token_options'], null, $this->parent_post_id );
-        //echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['youtube_token_options'], null, $this->parent_post_id );
+         echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['twitter_token_options'], null, $this->parent_post_id );
+       // echo $this->metabox_settings_class->settings_html_form( $this->feed_settings_array['youtube_token_options'], null, $this->parent_post_id );
 
         ?>
         <div class="ftg-section">

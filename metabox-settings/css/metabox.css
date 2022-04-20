@@ -557,7 +557,7 @@ label.toggle-custom-textarea-show {
     padding: 12px;
     border: 1px solid rgba(255, 255, 255, .45);
     color: #000;
-    margin: 10px 20px 0 0; /* max-width:715px; *//* width:100%; */
+    margin: 10px 0 0; max-width: 585px;/* width:100%; */
 }
 
 .fts-failed-api-token {
@@ -580,8 +580,7 @@ label.toggle-custom-textarea-show {
 }
 
 #fts_facebook_custom_api_token, #fts_facebook_custom_api_token_biz, #fts_facebook_instagram_custom_api_token {
-    margin-bottom: 20px !important
-}
+    /* margin-bottom: 20px !important; */}
 
 .fts-facebook-custom-api-token-label {
     display: block;
@@ -1001,9 +1000,9 @@ h1.plugin-author-note {
 }
 
 .fts-admin-button-no-work {
-    margin: 0 0 0 25px;
+    margin: 14px 0 0 25px;
     line-height: 41px
-}
+;display: inline-block;}
 
 .twitter_hashtag_etc_name {
     padding-top: 0
@@ -2042,7 +2041,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 #ftg-tab-content1 div.ftg-section, #ftg-tab-content6 div.ftg-section {
     max-width: 100%
 }
-#instagram-token-master-wrap {
+#fts-feed-type {
     display:block;
     float:left;
 }
@@ -2126,8 +2125,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     margin-bottom: 20px;
     padding-bottom: 10px;
     margin-left: 20px;
-    max-width: 630px
-}
+    max-width: 630px;}
 
 .fts-title-description-settings-page h4 {
     font-size: 18px;
@@ -2448,8 +2446,7 @@ h3.sectioned-options-title {
 
 @media (max-width: 1196px) {
     .post-type-fts #postbox-container-2 input[type=text], .post-type-fts #postbox-container-2 select, .post-type-fts_albums #postbox-container-2 input[type=text], .post-type-fts_albums #postbox-container-2 select {
-        margin-left: 15px !important
-    }
+        /* margin-left: 15px !important; */}
 
     .feed_them_social-admin-input-label {
         margin-bottom: 8px;
@@ -2648,7 +2645,6 @@ ul.ftg-free-list {
 }
 
 #ftg-tab-content5 .ft-gallery-premium-mesg {
-    margin-bottom: 25px !important
 }
 
 .ft-gallery-delete-thumb-btn {

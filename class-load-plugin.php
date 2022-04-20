@@ -197,6 +197,9 @@ class Feed_Them_Social {
 		//Instagram Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-access-token.php';
 
+        //Instagram Business Access Token API.
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-business-access-token.php';
+
 		//Twitter Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/twitter-access-token.php';
 

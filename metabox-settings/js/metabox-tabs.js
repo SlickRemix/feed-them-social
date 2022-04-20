@@ -39,7 +39,44 @@ function ftg_admin_gallery_tabs() {
     });
 }
 
+function fts_ajax_cpt_save() {
+
+    jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
+        beforeSend: function () {
+            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
+            jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
+            jQuery('#publishing-action .spinner').css("visibility", "visible");
+
+        },
+        success: function ( response ) {
+            console.log( response );
+            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-success-form'></div></div></div>");
+            jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
+            jQuery('#publishing-action .spinner').css("visibility", "hidden");
+
+
+            setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
+
+            var hash2 = window.location.hash.replace('#', '');
+
+            // alert(hash2);
+            if ( hash2 === 'fts-feed-type' || hash2 === 'feed_setup' ) {
+
+                location.reload();
+            }
+            // Change the text from Updating... at the bottom of a long page to Update.
+            jQuery('.updatefrombottom a.button-primary').html("Update");
+        }
+    });
+    return false;
+}
+
 jQuery(document).ready(function ($) {
+
+    jQuery('#fts-feed-type h3').click(function () {
+        jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
+    });
+
     jQuery('.ft-gallery-notice').on('click', '.ft-gallery-notice-close', function () {
         jQuery('.ft-gallery-notice').html('');
         jQuery('.ft-gallery-notice').removeClass('updated, ftg-block')
@@ -55,7 +92,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
     });
 
-    jQuery('.tab-content-wrap').on('click', '.ftg-woo-tab', function (e) {
+    jQuery('.tab-content-wrap').on('click', '.fts-instagram-successful-api-token', function (e) {
         jQuery('.tab5 a').click();
         var clickedLink = $('.tab5 a').attr('href');
         // push it into the url
@@ -65,7 +102,7 @@ jQuery(document).ready(function ($) {
     });
 
 
-    jQuery('.tab-content-wrap').on('click', '.ftg-pagination-tab', function (e) {
+    jQuery('.tab-content-wrap').on('click', '.fts-twitter-successful-api-token', function (e) {
         jQuery('.tab6 a').click();
         var clickedLink = $('.tab6 a').attr('href');
         // push it into the url
@@ -97,39 +134,10 @@ jQuery(document).ready(function ($) {
        // alert('yes');
     }
 
-    function fts_ajax_cpt_save() {
 
-        jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
-            beforeSend: function () {
-                jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
-                jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
-                jQuery('#publishing-action .spinner').css("visibility", "visible");
-
-            },
-            success: function ( response ) {
-                console.log( response );
-                jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-success-form'></div></div></div>");
-                jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
-                jQuery('#publishing-action .spinner').css("visibility", "hidden");
-
-
-                setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
-
-                var hash2 = window.location.hash.replace('#', '');
-
-                // alert(hash2);
-                if ( hash2 === 'instagram-token-master-wrap' || hash2 === 'feed_setup' || hash2 === 'galleries' || jQuery('.post-type-fts_albums .tab1').hasClass('active') || hash2 === '' && !jQuery('.fts_page_template_settings_page')[0]) {
-
-                    location.reload();
-                }
-                // We change the text from Updating... at the bottom of a long page to Update.
-                jQuery('.updatefrombottom a.button-primary').html("Update");
-            }
-        });
-        return false;
-    }
 
     if ( 'yes' === submitAjax ) {
+
         jQuery('.post-type-fts .wrap form#post div.fts-token-save').click( function (e) {
             // alert('test');
             e.preventDefault();

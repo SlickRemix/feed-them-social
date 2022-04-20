@@ -89,34 +89,7 @@ class Instagram_Access_Options {
                         $('#fts_instagram_custom_api_token_expires_in').val('');
                         $('#fts_instagram_custom_api_token_expires_in').val($('#fts_instagram_custom_api_token_expires_in').val() + '<?php echo esc_js( strtotime( '+' . $access_token_expires_in . ' seconds' ) ); ?>');
 
-                        function fts_ajax_cpt_save() {
-
-                            var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
-                            window.location.replace(newUrl + '#fts-feed-type');
-
-                            jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
-                                beforeSend: function () {
-                                    jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-saving-form'></div></div></div>");
-                                    jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
-                                    jQuery('#publishing-action .spinner').css("visibility", "visible");
-
-                                },
-                                success: function ( response ) {
-                                    console.log( response );
-                                    jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-success-form'></div></div></div>");
-                                    jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
-                                    jQuery('#publishing-action .spinner').css("visibility", "hidden");
-
-                                    setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
-
-                                        location.reload();
-                                    // We change the text from Updating... at the bottom of a long page to Update.
-                                    jQuery('.updatefrombottom a.button-primary').html("Update");
-                                }
-                            });
-                            return false;
-                        }
-                        fts_ajax_cpt_save();
+                        fts_ajax_cpt_save_token();
 
 
                         <?php } ?>

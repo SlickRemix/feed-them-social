@@ -236,11 +236,17 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( '%1$s %2$s This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups.', 'feed_them_social' ),
-                        '<strong>',
-                        '</strong>'
+                        esc_html__( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups.%3$sClick the button below to get an access token. This gives us read-only access to get your Instagram posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s%4$s', 'feed_them_social' ),
+                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
+                        '</a>',
+                        '<p>',
+                        '</p>'
                     ),
                 ),
+
+
+
+
                 array(
                     'input_wrap_class' => 'fts-facebook-access-token',
                     'option_type'      => 'input',

@@ -348,7 +348,7 @@ class FTS_Twitter_Feed {
 		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
             
              // Saved Feed Settings!
-             $saved_feed_settings = $this->feed_cpt->get_saved_feed_settings( $inputted_atts['cpt_id'] );
+             $saved_feed_settings = $this->feed_functions->get_saved_feed_settings( $inputted_atts['cpt_id'] );
 
 		    $twitter_show_follow_btn       = $saved_feed_settings['twitter_show_follow_btn'];
 			$twitter_show_follow_btn_where = $saved_feed_settings['twitter_show_follow_btn_where'];
@@ -429,6 +429,9 @@ class FTS_Twitter_Feed {
 				$cache_used     = true;
 			} else {
 
+
+                $fts_twitter_custom_access_token = $saved_feed_settings['fts_twitter_custom_access_token'];
+                $fts_twitter_custom_access_token_secret = $saved_feed_settings['fts_twitter_custom_access_token_secret'];
 
 
 				$fts_twitter_custom_consumer_key    = get_option( 'fts_twitter_custom_consumer_key' );

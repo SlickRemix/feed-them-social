@@ -1,8 +1,8 @@
 <?php namespace feedthemsocial;
 /**
- * Feeds Functions Class
+ * Shortcodes
  *
- * This class is what initiates the Feed Them Social class
+ * This class determines what feed needs to be displayed and serves it up.
  *
  * @version  1.0.0
  * @package  FeedThemSocial/Core
@@ -25,8 +25,6 @@ class Shortcodes {
 
 	public $feed_cache;
 
-	public $metabox_settings;
-
 	/**
 	 * Shortcodes constructor.
 	 */
@@ -41,9 +39,6 @@ class Shortcodes {
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
-
-		// Set Metabox Settings object.
-		$this->metabox_settings = $feeds_cpt->metabox_settings_class;
 	}
 
     /**
@@ -54,7 +49,8 @@ class Shortcodes {
      * @since 3.0.0
      */
     public function add_actions_filters(){
-        add_shortcode( 'feed_them_social', array( $this, 'fts_shortcode_filter' ) );
+		// Sho
+        add_shortcode( 'feed_them_social', array( $this, 'shortcode_filter' ) );
     }
 
     /**
@@ -88,47 +84,51 @@ class Shortcodes {
             $shortcode_location_id = $post->ID;
             update_post_meta( $cpt_id, 'fts_shortcode_location', $shortcode_location_id );
         }
-
     }
 
     /**
-     * FTS ShortCode Filter
+     * ShortCode Filter
      *
      * Chooses which feed function to use.
      *
      * @since 3.0.0
      */
-    public function fts_shortcode_filter( $inputted_atts ){
+    public function shortcode_filter( $inputted_atts ){
 
 		// Check CPT ID exists.
 	    $cpt_id = $this->cpt_id_exists($inputted_atts);
 
-	    $feed_type = $this->feed_functions->get_feed_type( $cpt_id );
+		// If CPT ID exists begin feed filtering.
+		if( $cpt_id ){
+			// Get Feed Type.
+			$feed_type = $this->feed_functions->get_feed_type( $cpt_id );
 
-	    $twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
-	    echo $twitter_feed->display_twitter( $inputted_atts );
+			$this->shortcode_location( $cpt_id );
 
-	   $this->shortcode_location( $cpt_id );
+			//Check the CPT ID exists in Shortcode
+			if ($cpt_id && $feed_type){
+				//Filter by Feed Type
+				switch ( $feed_type ){
+					case 'facebook-feed-type':
+						break;
+					case 'instagram-feed-type':
+						break;
+					case 'instagram-business-feed-type':
+						break;
+					// Twitter Feed.
+					case 'twitter-feed-type':
+						$twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
+						//Display the Feed!
+						echo $twitter_feed->display_twitter( $inputted_atts );
+						break;
+					case 'youtube-feed-type':
+						break;
+					case 'combine-streams-feed-type':
+						break;
+				}
+			}
+		}
 
-    	//Check the CPT ID exists in Shortcode
-    	if ($cpt_id && $feed_type){
-    		//Filter by Feed Type
-    		switch ( $feed_type ){
-			    case 'facebook-feed-type':
-				    break;
-			    case 'instagram-feed-type':
-				    break;
-                case 'instagram-business-feed-type':
-                    break;
-			    // Twitter Feed.
-			    case 'twitter-feed-type':
-				    break;
-			    case 'youtube-feed-type':
-				    break;
-			    case 'combine-streams-feed-type':
-			    	break;
-		    }
-	    }
     }
 
 	/**

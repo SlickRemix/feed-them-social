@@ -157,7 +157,6 @@ class Feed_Cache {
 			// print_r($encrypted_response);
 
 			$encrypted_response = $this->data_protection->encrypt( $response );
-
 		}
 
 		// Is there old Cache? If so Delete it!
@@ -199,8 +198,8 @@ class Feed_Cache {
 		}
 
 		// YO!
-		// echo '<br/>GET CACHE What is the response at this point:<br/>';
-		// print_r($trans);
+		 //echo '<br/>GET CACHE What is the response at this point:<br/>';
+		 //print_r($trans);
 
 		if ($trans){
 
@@ -225,9 +224,8 @@ class Feed_Cache {
 			}
 
 			// YO!
-			// echo '<br/><br/>Decrypted!<br/>';
-			// print_r($decrypted_value);
-
+			//echo '<br/><br/>Decrypted!<br/>';
+			//print_r($decrypted_value);
 		}
 
 		return $decrypted_value;

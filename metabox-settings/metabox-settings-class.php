@@ -788,6 +788,7 @@ class Metabox_Settings {
 				'h3'     => array(
 					'class' => array(),
 				),
+                'p'     => array(),
 				'br'     => array(),
 				'em'     => array(),
 				'strong' => array(),

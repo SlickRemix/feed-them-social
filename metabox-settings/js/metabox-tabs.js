@@ -39,6 +39,35 @@ function ftg_admin_gallery_tabs() {
     });
 }
 
+function fts_ajax_cpt_save_token() {
+
+    var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
+    window.location.replace(newUrl + '#fts-feed-type');
+
+    jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
+        beforeSend: function () {
+            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-saving-form'></div></div></div>");
+            jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
+            jQuery('#publishing-action .spinner').css("visibility", "visible");
+
+        },
+        success: function ( response ) {
+            console.log( response );
+            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-success-form'></div></div></div>");
+            jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
+            jQuery('#publishing-action .spinner').css("visibility", "hidden");
+
+            setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
+
+            location.reload();
+            // We change the text from Updating... at the bottom of a long page to Update.
+            jQuery('.updatefrombottom a.button-primary').html("Update");
+        }
+    });
+    return false;
+}
+
+
 function fts_ajax_cpt_save() {
 
     jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
@@ -83,7 +112,7 @@ jQuery(document).ready(function ($) {
     });
 
     // Show the proper tab if this link type is clicked on any tab of ours
-    jQuery('.tab-content-wrap').on('click', '.ftg-zips-tab', function (e) {
+    jQuery('.tab-content-wrap').on('click', '.fts-facebook-successful-api-token', function (e) {
         jQuery('.tab4 a').click();
         var clickedLink = $('.tab4 a').attr('href');
         // push it into the url
@@ -111,9 +140,9 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
     });
 
-    jQuery('.tab-content-wrap').on('click', '.ftg-images-tab', function (e) {
-        jQuery('.tab1 a').click();
-        var clickedLink = $('.tab1 a').attr('href');
+    jQuery('.tab-content-wrap').on('click', '.fts-youtube-successful-api-token', function (e) {
+        jQuery('.tab7 a').click();
+        var clickedLink = $('.tab7 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
         // Prevent the anchor's default click action
@@ -141,7 +170,7 @@ jQuery(document).ready(function ($) {
         jQuery('.post-type-fts .wrap form#post div.fts-token-save').click( function (e) {
             // alert('test');
             e.preventDefault();
-            fts_ajax_cpt_save();
+            fts_ajax_cpt_save_token();
         });
 
         jQuery('.post-type-fts .wrap form#post').submit( function (e) {

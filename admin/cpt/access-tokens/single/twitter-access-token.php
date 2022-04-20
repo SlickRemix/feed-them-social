@@ -140,34 +140,8 @@ class Twitter_Access_Options {
         if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) { ?>
             <script>
                 jQuery(document).ready(function () {
-                    function fts_ajax_cpt_save() {
 
-                        var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
-                        window.location.replace(newUrl + '#fts-feed-type');
-
-                        jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
-                            beforeSend: function () {
-                                jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-saving-form'></div></div></div>");
-                                jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
-                                jQuery('#publishing-action .spinner').css("visibility", "visible");
-
-                            },
-                            success: function ( response ) {
-                                console.log( response );
-                                jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-success-form'></div></div></div>");
-                                jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
-                                jQuery('#publishing-action .spinner').css("visibility", "hidden");
-
-                                setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
-
-                                location.reload();
-                                // We change the text from Updating... at the bottom of a long page to Update.
-                                jQuery('.updatefrombottom a.button-primary').html("Update");
-                            }
-                        });
-                        return false;
-                    }
-                    fts_ajax_cpt_save();
+                    fts_ajax_cpt_save_token();
                 });
             </script>
          <?php }

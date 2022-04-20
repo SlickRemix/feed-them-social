@@ -171,9 +171,9 @@ class Access_Options {
                     foreach ( $test_fb_app_token_response->data as $data ) {
 
                         // if( !empty( $data->instagram_business_account )  ){
-                        $data_id        = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->id : $data->id;
-                        $data_user_name = isset( $data->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon">' . $data->instagram_business_account->username . '</span><span class="fts-arrow-icon"></span><span class="fts-fb-icon">' . $data->name . '</span>' : $data->name;
-                        $data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $data->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $data->id . '/picture';
+                        $data_id        = isset( $data->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? $data->instagram_business_account->id : $data->id;
+                        $data_user_name = isset( $data->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? '<span class="fts-insta-icon">' . $data->instagram_business_account->username . '</span><span class="fts-arrow-icon"></span><span class="fts-fb-icon">' . $data->name . '</span>' : $data->name;
+                        $data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'facebook' !== $_GET['feed_type'] ? $data->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $data->id . '/picture';
                         ?>
                         <li class="fts-fb-main-page-li">
                             <div class="fb-click-wrapper">
@@ -197,17 +197,11 @@ class Access_Options {
                                     </small>
                                 </div>
                                 <div class="page-token"><?php echo esc_attr( $data->access_token ); ?></div>
-                                <?php
-                                $facebook_input_token  = get_option( 'fts_facebook_custom_api_token' );
-                                $facebook_access_token = $data->access_token;
-                                if ( $facebook_input_token === $facebook_access_token ) {
-                                    ?>
-                                    <div class="feed-them-social-admin-submit-btn " style="display: block !important;">
-                                        Active
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="feed-them-social-admin-submit-btn fts-token-save">Save</div>
-                                <?php } ?>
+
+                                <div class="feed-them-social-admin-submit-btn fts-token-save">
+                                    <?php echo esc_html__( 'Save', 'feed-them-social'); ?>
+                                </div>
+
                                 <div class="fts-clear"></div>
                             </div>
                             <?php
@@ -230,9 +224,9 @@ class Access_Options {
                                     foreach ( $data->locations->data as $location ) {
 
                                         // if ( !empty( $location->instagram_business_account ) ) {
-                                        $loc_data_id        = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->id : $location->id;
-                                        $loc_data_user_name = isset( $location->instagram_business_account ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? '<span class="fts-insta-icon"></span>' . $location->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $location->name : $location->name;
-                                        $loc_data_thumbnail = isset( $location->instagram_business_account->profile_picture_url ) && 'fts-facebook-feed-styles-submenu-page' !== $_GET['page'] ? $location->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $location->id . '/picture';
+                                        $loc_data_id        = isset( $location->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? $location->instagram_business_account->id : $location->id;
+                                        $loc_data_user_name = isset( $location->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? '<span class="fts-insta-icon"></span>' . $location->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $location->name : $location->name;
+                                        $loc_data_thumbnail = isset( $location->instagram_business_account->profile_picture_url ) && 'facebook' !== $_GET['feed_type'] ? $location->instagram_business_account->profile_picture_url : 'https://graph.facebook.com/' . $location->id . '/picture';
 
                                         ?>
                                         <li>
@@ -264,19 +258,11 @@ class Access_Options {
                                                 </div>
 
                                                 <div class="page-token"><?php echo esc_html( $location->access_token ); ?></div>
-                                                <?php
-                                                $facebook_input_token  = get_option( 'fts_facebook_custom_api_token' );
-                                                $facebook_access_token = $location->access_token;
-                                                if ( $facebook_input_token === $facebook_access_token ) {
-                                                    ?>
-                                                    <div class="feed-them-social-admin-submit-btn "
-                                                         style="display: block !important;">Active
-                                                    </div>
-                                                <?php } else { ?>
+
                                                     <div class="feed-them-social-admin-submit-btn fts-token-save">
-                                                        Save
+                                                        <?php echo esc_html__( 'Save', 'feed-them-social'); ?>
                                                     </div>
-                                                <?php } ?>
+
                                                 <div class="fts-clear"></div>
                                             </div>
                                         </li>
@@ -413,7 +399,7 @@ class Access_Options {
                                     jQuery('.post-type-fts .wrap form#post div.fts-token-save').click( function (e) {
                                        // alert('test');
                                         e.preventDefault();
-                                        fts_ajax_cpt_save();
+                                        fts_ajax_cpt_save_token();
                                     });
 
                                     var fb = ".fb-page-list .fb-click-wrapper";
@@ -440,9 +426,9 @@ class Access_Options {
                                         <?php }
                                         else {
                                         ?>
-                                        $("#fts_facebook_custom_api_token_biz").val(token);
-                                        $("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
-                                        $("#fts_facebook_custom_api_token_user_name_biz").val(name);
+                                        $("#fts_facebook_custom_api_token").val(token);
+                                        $("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
+                                        $("#fts_facebook_custom_api_token_user_name").val(fb_name);
                                         <?php } ?>
                                         $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
                                         $(this).find('.feed-them-social-admin-submit-btn').toggle();
@@ -501,8 +487,8 @@ class Access_Options {
                             var token = $(this).find('.page-token').html();
                             // alert(token);
                             var name = $(this).find('.fts-insta-icon').html();
-                            var fb_name = $(this).find('.fts-fb-icon').html();
                             <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
+                            var fb_name = $(this).find('.fts-fb-icon').html();
                             $("#fts_facebook_instagram_custom_api_token").val(token);
                             $("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
                             $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
@@ -510,9 +496,10 @@ class Access_Options {
                             <?php }
                             else {
                             ?>
-                            $("#fts_facebook_custom_api_token_biz").val(token);
-                            $("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
-                            $("#fts_facebook_custom_api_token_user_name_biz").val(name);
+                            var fb_name = $(this).find('.fb-name').html();
+                            $("#fts_facebook_custom_api_token").val(token);
+                            $("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
+                            $("#fts_facebook_custom_api_token_user_name").val(fb_name);
                             <?php } ?>
                             $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
                             $(this).find('.feed-them-social-admin-submit-btn').toggle();

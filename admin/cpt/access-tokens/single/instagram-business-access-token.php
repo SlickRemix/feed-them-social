@@ -83,7 +83,7 @@ class Instagram_Business_Access_Options {
                 <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
                 <?php
 
-$page_id = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token_user_id' );
+                $page_id = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token_user_id' );
                 $app_token = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token' );
                 $instagram_name = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token_user_name' );
                 $fb_name = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token_fb_user_name' );

@@ -576,6 +576,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                             $instagram_business_response = $this->fts_get_feed_json( $instagram_data_array );
 
                             $instagram_business = json_decode( $instagram_business_response['data'] );
+                            $instagram_business_user_info = json_decode( $instagram_business_response['user_info'] );
 
                             // We loop through the media ids from the above $instagram_business_data_array['data'] and request the info for each to create an array we can cache.
                             $instagram_business_output = (object) [ 'data' => [] ];
@@ -588,7 +589,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                                 $instagram_business_output->data[]     = $instagram_business_media;
                             }
                             // The reason we array_merge the $instagram_business_output is because it contains the paging for next and previous links so we can loadmore posts
-                            $insta_data = (object) array_merge( (array) $instagram_business, (array) $instagram_business_output );
+                            $insta_data = (object) array_merge( (array) $instagram_business_user_info, (array) $instagram_business, (array) $instagram_business_output );
 
                             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                                 $this->fts_create_feed_cache( $business_cache, $insta_data );
@@ -604,7 +605,7 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                         if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
                             esc_html_e( 'Business Array Check Cached', 'feed-them-social' );
                             echo '<br/><pre>';
-                                print_r( $insta_data );
+                                print_r( $insta_data);
                             echo '</pre>';
                         }
                     }
@@ -633,76 +634,14 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
                    // $instagram_data_array['user_info'] = 'https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=' . $fts_instagram_access_token_final;
 			}
 
-			/*$cache = 'instagram_cache_' . $instagram_id . '_num' . $pics_count . '';
-				// First we make sure the feed is not cached already before trying to run the Instagram API.
-			if ( false === $this->fts_check_feed_cache_exists( $cache ) ) {
-				$response = $this->fts_get_feed_json( $instagram_data_array );
-
-				// Error Check.
-				$error_check = json_decode( $response['data'] );
-
-				// Used for Testing Only.
-				if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
-					esc_html_e( 'FINAL Array Check', 'feed-them-social' );
-					echo '<br/><pre>';
-					print_r( $error_check );
-					echo '</pre>';
-				}
-			}*/
-
-			/*//$spencer_testing = 'true';
-			if ( 'hashtag' === $type || 'user' === $type || !isset( $type ) ) {
-					echo $note       = esc_html__( ' dddddddddCached', 'feed-them-social' );
-					// If the feed is NOT cached then we run the cached array to display the feed.
-					// Legacy API depreciation as of March 31st, 2020. SO we add a check here to by pass the cache and show an error message
-					// letting users know they need to reconnect there account generate a new shortcode.
-				if ( false !== $this->fts_check_feed_cache_exists( $cache ) && ! isset( $_GET['load_more_ajaxing'] ) && 'user' !== $type ) {
-					$response   = $this->fts_get_feed_cache( $cache );
-					$insta_data = isset( $type ) && 'basic' === $type || 'business' === $type ? $insta_fb_data : json_decode( $response['data'] );
-					echo $note       = esc_html__( ' dddddddddCached', 'feed-them-social' );
-
-				} elseif ( isset( $error_check->error_message ) || isset( $error_check->meta->error_message ) || empty( $error_check ) || 'user' === $type || !isset( $type )  ) {
-					// If the Instagram API array returns any error messages we check for them here and return the corresponding error message!
-					if ( current_user_can( 'administrator' ) ) {
-
-						if ( 'user' === $type || !isset( $type )  ) {
-                                $error = esc_html__( 'The Legacy API is depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please go to the instagram Options page of our plugin and reconnect your account and generate a new shortcode and replace your existing one.', 'feed-them-social' );
-						} elseif ( isset( $error_check->error_message ) ) {
-							$error = $error_check->error_message;
-						} elseif ( isset( $error_check->meta->error_message ) ) {
-							$error = $error_check->meta->error_message;
-						} else {
-							$error = esc_html__( 'Please go to the Feed Them > Instagram Options page of our Feed Them Social plugin a double check your Instagram ID matches the one used in your shortcode on this page.', 'feed-them-social' );
-						}
-
-						return esc_html__( 'Feed Them Social (Notice visible to Admin only). Instagram returned:', 'feed-them-social' ) . ' ' . $error;
-					} else {
-						return;
-					}
-				} else {
-					$insta_data = json_decode( $response['data'] );
-					// if Error DON'T Cache.
-					if ( ! isset( $error_check->meta->error_message ) && ! isset( $_GET['load_more_ajaxing'] ) || ! isset( $error_check->error_message ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
-										$this->fts_create_feed_cache( $cache, $response );
-										$note = esc_html__( 'Not Cached', 'feed-them-social' );
-					}
-				}
-			}*/
-
 			$instagram_user_info = ! empty( $response['user_info'] ) ? json_decode( $response['user_info'] ) : '';
 			// URL to get Feeds.
-			if ( 'user' === $type ) {
-				$username        = $instagram_user_info->data->username;
-				$bio             = $instagram_user_info->data->bio;
-				$profile_picture = $instagram_user_info->data->profile_picture;
-				$full_name       = $instagram_user_info->data->full_name;
-				$website         = $instagram_user_info->data->website;
-			} elseif ( 'business' === $type ) {
-				$username        = $instagram_user_info->username;
-				$bio             = $instagram_user_info->biography;
-				$profile_picture = $instagram_user_info->profile_picture_url;
-				$full_name       = $instagram_user_info->name;
-				$website         = $instagram_user_info->website;
+			if ( 'business' === $type ) {
+				$username        = $insta_data->username;
+				$bio             = $insta_data->biography;
+				$profile_picture = $insta_data->profile_picture_url;
+				$full_name       = $insta_data->name;
+				$website         = $insta_data->website;
 
 			}
 			elseif( 'basic' === $type ){
@@ -949,7 +888,7 @@ if ( isset( $profile_description, $type ) && 'yes' === $profile_description  && 
                     // Super Gallery If statement.
                     if ( 'yes' === $super_gallery ) {
                         ?>
-                <div class='slicker-instagram-placeholder fts-instagram-wrapper' style='background-image:url(<?php echo esc_url( $this->fts_instagram_image_link( $post_data ) ); ?>);'>
+                <div class="slicker-instagram-placeholder fts-instagram-wrapper" style="background-image:url('<?php echo esc_url( $this->fts_instagram_image_link( $post_data ) ); ?>')">
                         <?php
 
                         if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) {

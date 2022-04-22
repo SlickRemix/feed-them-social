@@ -76,8 +76,11 @@ class Access_Options {
 				case 'facebook-feed-type':
 					// Facebook Access Options Class.
 					$facebook_access_options = new Facebook_Access_Options( $this->feed_functions, $this->data_protection );
+
 					// Load the options.
 					$access_options = $facebook_access_options->access_options();
+
+
 					break;
 				case 'instagram-feed-type':
 					// Instagram Access Options Class.

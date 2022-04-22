@@ -153,8 +153,6 @@ class Feed_Functions {
 	 */
 	public function enqueue_powered_by_js() {
 		wp_enqueue_script( 'fts_powered_by_js', plugins_url( 'feed-them-social/includes/js/powered-by.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-
-
 	}
 
 	/**

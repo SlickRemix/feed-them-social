@@ -127,7 +127,7 @@ class Feeds_CPT {
 
         if ( current_user_can( 'manage_options' ) ) {
             // Load Metabox Setings Class (including all of the scripts and styles attached).
-            $this->metabox_settings_class = new Metabox_Settings( $this, $this->feed_cpt_options_array, $settings_functions, $options_functions );
+            $this->metabox_settings_class = new Metabox_Settings( $this, $this->feed_cpt_options_array, $settings_functions, $options_functions, 'fts_feed_options_array', );
 
             // Set Main Post Type.
             $this->metabox_settings_class->set_main_post_type( FEED_THEM_SOCIAL_POST_TYPE );

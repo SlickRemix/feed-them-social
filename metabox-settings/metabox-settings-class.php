@@ -107,6 +107,15 @@ class Metabox_Settings {
 	 */
 	public $options_functions;
 
+	/**
+	 * Array Options Name
+	 *
+	 * The settings Functions class.
+	 *
+	 * @var object
+	 */
+	public $array_options_name;
+
 
 	/**
 	 * Metabox_Settings constructor.
@@ -118,7 +127,7 @@ class Metabox_Settings {
 	 * @param string $is_page What page.
 	 * @since 1.0
 	 */
-	public function __construct( $current_this, $default_options_array, $settings_functions, $options_functions, $is_page = null) {
+	public function __construct( $current_this, $default_options_array, $settings_functions, $options_functions, $array_options_name, $is_page = null) {
 		// Set Class Variables.
 		$this->current_this = $current_this;
 
@@ -130,6 +139,9 @@ class Metabox_Settings {
 
 		// Options Functions Class.
 		$this->options_functions = $options_functions;
+
+        // Array Options Name.
+		$this->array_options_name = $array_options_name;
 
 		// Is Page.
 		$this->is_page = $is_page;
@@ -355,27 +367,6 @@ class Metabox_Settings {
 	}
 
 	/**
-	 * Get Saved Settings Array
-	 *
-	 * Get the saved settings array.
-	 *
-	 * @param string $post_id The post ID.
-     *  * @param string $cpt The post type
-	 * @return array | string
-	 * @since 1.0
-	 */
-	public function get_saved_settings_array( $post_id, $cpt ) {
-
-		$old_settings = get_post_meta( $post_id, $cpt . '_settings_options', true );
-
-		echo '<pre>';
-		print_r($old_settings);
-		echo '</pre>';
-
-		return isset( $old_settings ) && ! empty( $old_settings ) && is_array( $old_settings ) ? $old_settings : esc_html__( 'No Settings Saved.', 'feed_them_social' );
-	}
-
-	/**
 	 * Current Info Array
 	 *
 	 * Get the current info array.
@@ -591,8 +582,8 @@ class Metabox_Settings {
 
 		$current_info = $this->current_info_array();
 
-		$old_settings_page = get_option( $this->hook_id . '_settings_options' );
-		$old_settings_post = get_post_meta( $current_post_id, $current_info['post_type'] . '_settings_options', true );
+		$old_settings_page = get_option( $this->array_options_name );
+		$old_settings_post = get_post_meta( $current_post_id, $this->array_options_name, true );
 
 
 		// Get Old Settings Array if set.
@@ -801,28 +792,28 @@ class Metabox_Settings {
 	 *
      * Save or Update Options in an Array.
 	 *
-	 * @param string $post_id The post ID.
+	 * @param string $cpt_id The post ID.
 	 * @return array | string
 	 * @since 1.0.0
 	 */
-	public function save_meta_box( $post_id ) {
+	public function save_meta_box( $cpt_id ) {
 
-		error_log( print_r( 'making it to save', true ) );
-
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( 'Unauthorized user' );
-		}
+        // Check if User can Manage Options.
+        $this->options_functions->check_user_manage_options();
 
 		// Check Nonce!
 		if ( ! isset( $_POST['slick-metabox-settings-options-nonce'] ) || ! wp_verify_nonce( $_POST['slick-metabox-settings-options-nonce'], basename( __FILE__ ) ) ) {
-			return $post_id;
+			return $cpt_id;
 		}
 
-        // Save/Update the Options array.
-		$array_to_save = $this->options_functions->update_options_array( 'fts_feed_options_array', $this->default_options_array, true, $post_id );
+		//error_log( print_r( $_POST, true ) );
 
-		return $array_to_save;
+		//$this->options_functions->delete_options_array( $this->array_options_name, true, $cpt_id);
+
+		//$this->options_functions->update_single_option( $this->array_options_name, 'feed_type', 'facebook-feed-type', true, $cpt_id );
+
+        // Save/Update the Options array.
+		return $this->options_functions->update_options_array( $this->array_options_name, $this->default_options_array, true, $cpt_id );
 	}
 
     /**

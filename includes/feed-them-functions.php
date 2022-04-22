@@ -3990,7 +3990,10 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
             $instagram_basic = json_decode( $instagram_basic_response['data'] );
 
             if ( !empty( $instagram_basic->data ) ) {
-                $access_token = $this->data_protection->decrypt( get_option( 'fts_instagram_custom_api_token' ) );
+
+                $parts = parse_url($api_url);
+                parse_str( $parts['query'], $query);
+                $access_token = false !== $this->data_protection->decrypt(  $query['access_token'] ) ? $this->data_protection->decrypt(  $query['access_token'] ) :  $query['access_token'];
 
                 // We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
                 $instagram_basic_output = (object)['data' => []];

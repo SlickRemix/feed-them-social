@@ -51,28 +51,7 @@ class FTS_Twitter_Feed {
 	 *
 	 * @since 3.0.0
 	 */
-	public function add_actions_filters() {
-		add_shortcode( 'fts_twitter', array( $this, 'display_twitter' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'twitter_head' ) );
-	}
-
-	/**
-	 * Twitter Head
-	 *
-	 * Add Styles and Scripts functions.
-	 *
-	 * @since 1.9.6
-	 */
-	public function twitter_head() {
-		wp_enqueue_style( 'fts-feeds', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), array(), FTS_CURRENT_VERSION );
-
-		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-			wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-			wp_enqueue_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
-		}
-		// masonry snippet in fts-global.
-		wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-	}
+	public function add_actions_filters() {}
 
 	/**
 	 * Load Videos
@@ -230,7 +209,6 @@ class FTS_Twitter_Feed {
 		return nl2br( $full_text );
 	}
 
-
 	/**
 	 * Quote Description
 	 *
@@ -249,7 +227,6 @@ class FTS_Twitter_Feed {
 
 		return nl2br( $full_text );
 	}
-
 
 	/**
 	 * Tweet Image
@@ -284,7 +261,6 @@ class FTS_Twitter_Feed {
 		}
 	}
 
-
 	/**
 	 * Tweet Permalink
 	 *
@@ -307,7 +283,7 @@ class FTS_Twitter_Feed {
 	 */
 	public function retweet_count( $post_data ) {
         // Retweet count.
-        $retweet_count = isset( $post_data->retweet_count ) && '0' !== $post_data->retweet_count ?$post_data->retweet_count : '';
+        $retweet_count = isset( $post_data->retweet_count ) && '0' !== $post_data->retweet_count ? $post_data->retweet_count : '';
 
 		return '<a href="' . esc_html( 'https://twitter.com/intent/retweet?tweet_id=' . $post_data->id . '&related=' . $post_data->user->screen_name ) . '" target="_blank" class="fts-twitter-retweet-wrap" title="' . esc_attr( 'Retweet', 'feed-them-social' ) . '" aria-label="' . esc_attr( 'Retweet', 'feed-them-social' ) . '"><div class="fts-twitter-retweet">' . esc_html( $retweet_count ) . '</div></a>';
 	}

@@ -1966,16 +1966,16 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 * Settings Form Fields Output
 	 *
 	 * @param bool  $save_options save options.
-	 * @param array $feed_settings_array feed settings information.
+	 * @param array $feed_cpt_options_array feed settings information.
 	 * @param array $required_plugins The plugins that are required for this form.
 	 * @since 2.0.8
 	 */
-	public function fts_settings_html_form( $save_options = false, $feed_settings_array, $required_plugins ) {
+	public function fts_settings_html_form( $save_options = false, $feed_cpt_options_array, $required_plugins ) {
 
 		$output = '';
 
 		// Start creation of fields for each Feed!
-		foreach ( $feed_settings_array as $section => $section_info ) {
+		foreach ( $feed_cpt_options_array as $section => $section_info ) {
 			$output .= '<div id="' . esc_attr( $section_info['section_wrap_id'] ) . '" class="' . esc_attr( $section_info['section_wrap_class'] ) . '">';
 			$output .= '<form class="feed-them-social-admin-form shortcode-generator-form ' . esc_attr( $section_info['form_wrap_classes'] ) . '" id="' . esc_attr( $section_info['form_wrap_id'] ) . '">';
 

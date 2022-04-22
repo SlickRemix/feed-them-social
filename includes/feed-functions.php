@@ -35,7 +35,7 @@ class Feed_Functions {
 	 *
 	 * @var array
 	 */
-	public $feed_settings_array = array();
+	public $feed_cpt_options_array = array();
 
 	/**
 	 * Feed Cache.
@@ -64,8 +64,10 @@ class Feed_Functions {
 		// Settings Functions Class.
 		$this->settings_functions = $settings_functions;
 
+
+
 		// Feed Settings array.
-		$this->feed_settings_array = $feed_cpt_options->get_all_options();
+		$this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
@@ -151,6 +153,8 @@ class Feed_Functions {
 	 */
 	public function enqueue_powered_by_js() {
 		wp_enqueue_script( 'fts_powered_by_js', plugins_url( 'feed-them-social/includes/js/powered-by.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+
+
 	}
 
 	/**
@@ -241,15 +245,15 @@ class Feed_Functions {
 	/**
 	 * Create Default Feed Settings Array
 	 *
-	 * Creates an array based on default settings of the feed_settings_array.
+	 * Creates an array based on default settings of the feed_cpt_options_array.
 	 *
 	 * @return array | boolean
 	 */
 	public function create_default_feed_settings() {
 		$default_settings_array = array();
 		// Feed Settings in admin/cpt/options/feeds-cpt-options.php
-		foreach ( $this->feed_settings_array as $feed_settings_array ) {
-			foreach ( $feed_settings_array as $setting_key => $settings ) {
+		foreach ( $this->feed_cpt_options_array as $feed_cpt_options_array ) {
+			foreach ( $feed_cpt_options_array as $setting_key => $settings ) {
 				if ( 'main_options' === $setting_key ) {
 					// Feed Settings.
 					foreach ( $settings as $option ) {
@@ -299,7 +303,7 @@ class Feed_Functions {
 
 		//If settings aren't saved already create_default_feed_settings.
 		if ( ! $settings_array && $create_default) {
-			// Creates an array based on default settings of the feed_settings_array.
+			// Creates an array based on default settings of the feed_cpt_options_array.
 			$settings_array = $this->create_default_feed_settings();
 		}
 
@@ -1157,7 +1161,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
         }
 
         echo wp_unslash( $_REQUEST['access_token'] );
-
 
         wp_die();
     }

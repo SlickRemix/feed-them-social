@@ -29,6 +29,7 @@ class Shortcodes {
 	 * Shortcodes constructor.
 	 */
 	public function __construct( $feed_functions, $feeds_cpt, $feed_cache ){
+		// Add Actions and filters.
 		$this->add_actions_filters();
 
 		// Set Feed Functions object.
@@ -39,19 +40,41 @@ class Shortcodes {
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
+
+		$this->twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
 	}
 
     /**
-     * Add Actions & Filters
+     * Register Frontend Styles and Scripts
      *
      * Adds the Actions and filters for the class.
      *
      * @since 3.0.0
      */
     public function add_actions_filters(){
-		// Sho
+		// Shortcode for FTS.
         add_shortcode( 'feed_them_social', array( $this, 'shortcode_filter' ) );
+
+	    add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend_styles_scripts' ) );
     }
+
+	/**
+	 * Add Actions & Filters
+	 *
+	 * Adds the Actions and filters for the class.
+	 *
+	 * @since 3.0.0
+	 */
+	public function register_frontend_styles_scripts(){
+		wp_register_style( 'FTS-Feed-Styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
+
+		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+			wp_register_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+			wp_register_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
+		}
+		// masonry snippet in fts-global.
+		wp_register_script( 'FTS-Global-JS', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+	}
 
     /**
      * Shortcode_location
@@ -103,6 +126,7 @@ class Shortcodes {
 			// Get Feed Type.
 			$feed_type = $this->feed_functions->get_feed_type( $cpt_id );
 
+			// Shortcode Location.
 			$this->shortcode_location( $cpt_id );
 
 			//Check the CPT ID exists in Shortcode
@@ -117,9 +141,12 @@ class Shortcodes {
 						break;
 					// Twitter Feed.
 					case 'twitter-feed-type':
-						$twitter_feed = new FTS_Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
+						//Load Scripts and Styles.
+						wp_enqueue_style('FTS-Feed-Styles');
+						wp_enqueue_script('FTS-Global-JS');
+
 						//Display the Feed!
-						echo $twitter_feed->display_twitter( $inputted_atts );
+						echo $this->twitter_feed->display_twitter( $inputted_atts );
 						break;
 					case 'youtube-feed-type':
 						break;

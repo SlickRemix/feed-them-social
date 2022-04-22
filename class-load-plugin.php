@@ -61,6 +61,9 @@ class Feed_Them_Social {
 		// Data Protection.
 		$data_protection = new feedthemsocial\Data_Protection();
 
+		// Options Functions.
+		$options_functions = new feedthemsocial\Options_Functions( FEED_THEM_SOCIAL_POST_TYPE );
+
 		// Settings Functions.
 		$settings_functions = new \feedthemsocial\Settings_Functions();
 
@@ -72,9 +75,6 @@ class Feed_Them_Social {
 
 		// Feed Functions.
 		$feed_functions = new \feedthemsocial\Feed_Functions( $settings_functions, $feed_cpt_options, $feed_cache, $data_protection );
-
-        // Feed Them Functions!
-        //$fts_functions = new \feedthemsocial\FTS_Functions();
 
 		// Settings Page.
         new \feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
@@ -89,7 +89,7 @@ class Feed_Them_Social {
 		$setting_options_js = new \feedthemsocial\Settings_Options_JS();
 
 		// Feeds CPT.
-        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $settings_functions, $access_options );
+        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $options_functions, $setting_options_js, $settings_functions, $access_options );
 
 		// Shortcode Button for Admin page, posts and CPTs.
 		new \feedthemsocial\Shortcode_Button();
@@ -178,8 +178,16 @@ class Feed_Them_Social {
 		// Data Protection Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'data-protection/data-protection.php';
 
+		// Options Functions Class.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'options/options-functions.php';
+
+		// Metabox Settings Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox-settings/metabox-settings-class.php';
+
+		// Settings Page.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';
+
+		//Settings Functions.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-functions.php';
 
 		// Feed Functions Class. (eventually replacing most of FTS Functions Class.)

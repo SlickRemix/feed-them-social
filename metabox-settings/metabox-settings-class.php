@@ -25,7 +25,7 @@ class Metabox_Settings {
 	 *
 	 * @var array
 	 */
-	public $current_this = '';
+	public $current_this;
 
 	/**
 	 * Holds the hook id
@@ -34,7 +34,7 @@ class Metabox_Settings {
 	 *
 	 * @var object
 	 */
-	public $hook_id = '';
+	public $hook_id;
 
 	/**
 	 * Settings Page Name
@@ -43,7 +43,7 @@ class Metabox_Settings {
 	 *
 	 * @var array
 	 */
-	public $settings_page_name = '';
+	public $settings_page_name;
 
 	/**
 	 * Main Post Type
@@ -52,7 +52,7 @@ class Metabox_Settings {
 	 *
 	 * @var string
 	 */
-	public $main_post_type = '';
+	public $main_post_type;
 
 	/**
 	 * Is Page
@@ -61,7 +61,7 @@ class Metabox_Settings {
 	 *
 	 * @var boolean
 	 */
-	public $is_page = '';
+	public $is_page;
 
 	/**
 	 * Parent Post ID
@@ -69,7 +69,7 @@ class Metabox_Settings {
 	 *
 	 * @var string
 	 */
-	public $parent_post_id = '';
+	public $parent_post_id;
 
 	/**
 	 * Specific Form Options
@@ -77,15 +77,16 @@ class Metabox_Settings {
 	 *
 	 * @var string
 	 */
-	private $metabox_specific_form_inputs = '';
+	private $metabox_specific_form_inputs;
 
 	/**
-	 * Saved Settings Array
-	 * an array of settings to save when saving page
+	 * Default Options Array
+	 *
+     * Default options array. Usually set in the options file.
 	 *
 	 * @var string
 	 */
-	public $saved_settings_array = array();
+	public $default_options_array;
 
 
 	/**
@@ -96,6 +97,15 @@ class Metabox_Settings {
 	 * @var object
 	 */
 	public $settings_functions;
+
+	/**
+	 * Options Functions
+	 *
+	 * The settings Functions class.
+	 *
+	 * @var object
+	 */
+	public $options_functions;
 
 
 	/**
@@ -108,15 +118,18 @@ class Metabox_Settings {
 	 * @param string $is_page What page.
 	 * @since 1.0
 	 */
-	public function __construct( $current_this, $settings_array, $settings_functions, $is_page = null) {
+	public function __construct( $current_this, $default_options_array, $settings_functions, $options_functions, $is_page = null) {
 		// Set Class Variables.
 		$this->current_this = $current_this;
 
-		// Set Settings Array.
-		$this->set_settings_array( $settings_array );
+		// Default Options Array.
+		$this->default_options_array = $default_options_array;
 
 		// Settings Functions Class.
 		$this->settings_functions = $settings_functions;
+
+		// Options Functions Class.
+		$this->options_functions = $options_functions;
 
 		// Is Page.
 		$this->is_page = $is_page;
@@ -342,19 +355,6 @@ class Metabox_Settings {
 	}
 
 	/**
-	 * Set Settings Array
-	 *
-	 * Set the settings array
-	 *
-	 * @param array $settings_array Get the settings array.
-	 * @since 1.0
-	 */
-	public function set_settings_array( $settings_array ) {
-		// Settings Array.
-		$this->saved_settings_array = is_array( $settings_array ) ? $settings_array : array();
-	}
-
-	/**
 	 * Get Saved Settings Array
 	 *
 	 * Get the saved settings array.
@@ -406,7 +406,7 @@ class Metabox_Settings {
 	 * @since 1.0
 	 */
 	public function add_submit_meta_box() {
-		add_meta_box( 'submitdiv', 'Save Options', array( $this, 'submit_meta_box' ), $this->hook_id, 'side', 'high' );
+		add_meta_box( 'submitdiv', esc_html__( 'Save Options', 'feed_them_social' ), array( $this, 'submit_meta_box' ), $this->hook_id, 'side', 'high' );
 	}
 
 	/**
@@ -659,9 +659,6 @@ class Metabox_Settings {
 
 				$final_value = isset( $old_settings[ $option_name ] ) && ! empty( $old_settings[ $option_name ] ) ? $old_settings[ $option_name ] : $option['default_value'];
 
-				$default_option_types = array( 'input', 'select', 'checkbox' );
-				$option_type          = $option['option_type'];
-
 				// Do we need to output any Metabox Specific Form Inputs?
 				if ( isset( $this->metabox_specific_form_inputs ) && true == $this->metabox_specific_form_inputs ) {
 					// Set Current Params.
@@ -670,7 +667,6 @@ class Metabox_Settings {
 						'this'         => $this->current_this,
 						// Option Info.
 						'input_option' => $option,
-
 					);
 
 					$output .= call_user_func( array( $this->current_this, 'metabox_specific_form_inputs' ), $params );
@@ -801,8 +797,9 @@ class Metabox_Settings {
 	}
 
 	/**
-	 *  Save Custom Meta Box
-	 * Save Fields for Galleries
+	 * Save Meta Box
+	 *
+     * Save or Update Options in an Array.
 	 *
 	 * @param string $post_id The post ID.
 	 * @return array | string
@@ -811,12 +808,7 @@ class Metabox_Settings {
 	public function save_meta_box( $post_id ) {
 
 		error_log( print_r( 'making it to save', true ) );
-		// delete_option( $this->hook_id . '_settings_options' );.
-		$current_info = $this->current_info_array();
 
-		// delete_post_meta( $post_id, $current_info['post_type'] . '_settings_options' );
-		// Variable to check if anything was updated.
-		$updated = false;
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( 'Unauthorized user' );
@@ -827,64 +819,8 @@ class Metabox_Settings {
 			return $post_id;
 		}
 
-		$old_settings_page = get_option( $this->hook_id . '_settings_options' );
-		$old_settings_post = get_post_meta( $post_id, $current_info['post_type'] . '_settings_options', true );
-
-		// Get Old Settings Array if set.
-		$old_settings = true == $this->is_page ? (array) $old_settings_page : (array) $old_settings_post;
-
-		// Array of Settings to save. Use old settings if available otherwise use new array!
-		$array_to_save = isset( $old_settings ) && ! empty( $old_settings ) ? $old_settings : array();
-
-		foreach ( $this->saved_settings_array as $box_array ) {
-
-			foreach ( $box_array as $box_key => $settings ) {
-
-				if ( 'main_options' === $box_key ) {
-
-					foreach ( $settings as $option ) {
-
-						// Set Option name. Use Prefix? (commented line below is from prefix methodology.
-						$option_name = isset( $option['name'] ) ? $option['name'] : '';
-
-						$option_type = $option['option_type'];
-
-						if ( 'checkbox' === $option_type ) {
-							$new = isset( $_POST[ $option_name ] ) && 'false' !== $_POST[ $option_name ] ? 'true' : 'false';
-						} else {
-							$new = isset( $_POST[ $option_name ] ) && ! empty( $option_name ) ? wp_unslash( $_POST[ $option_name ] ) : '';
-						}
-
-						// If anything has changed update options!
-						$array_to_save[ $option_name ] = is_array( $new ) ? $new : sanitize_text_field( $new );
-					}
-				}
-			}
-		}
-
-
-		// If Post - Return Settings.
-		if ( true == $this->is_page ) {
-			// Update options for a page.
-			update_option( $this->hook_id . '_settings_options', $array_to_save );
-
-			// // If Page - then Safe Redirect to page we came from. To make the Coding Standards happy, we have to initialize this.
-			if ( ! isset( $_POST['_wp_http_referer'] ) ) {
-				$_POST['_wp_http_referer'] = wp_login_url();
-			}
-
-			// Sanitize the value of the $_POST collection for the Coding Standards.
-			$url = sanitize_text_field( wp_unslash( $_POST['_wp_http_referer'] ) );
-
-			wp_safe_redirect( urldecode( $url ) );
-			exit;
-		}
-
-        // Testing.
-        //error_log( print_r( $array_to_save, true ) );
-
-		// If not doing Page stuff Update options for a Post.
-		update_post_meta( $post_id, $current_info['post_type'] . '_settings_options', $array_to_save );
+        // Save/Update the Options array.
+		$array_to_save = $this->options_functions->update_options_array( 'fts_feed_options_array', $this->default_options_array, true, $post_id );
 
 		return $array_to_save;
 	}

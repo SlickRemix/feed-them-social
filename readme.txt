@@ -74,6 +74,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 == Changelog ==
 = Version 2.9.8.2 Friday, April 22nd, 2022 =
  * FIX: Instagram Basic Feed: If access token on options page did not match the one in shortcode the feed would not display properly.
+ * FIX: Instagram Business Feed: Profile info above feed.
  * PREMIUM FIX: Instagram Business Feed: User thumbnail not appearing in popup.
 
 = Version 2.9.8.10 Friday, April 15th, 2022 =

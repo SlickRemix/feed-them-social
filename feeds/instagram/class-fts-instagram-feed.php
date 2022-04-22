@@ -694,8 +694,8 @@ if ( isset( $profile_name, $type ) && 'yes' === $profile_name  && 'business' ===
 // $profile stats comes from the shortcode
 if ( isset( $profile_stats, $type ) && 'yes' === $profile_stats  && 'business' === $type ) {
 	// These need to be in this order to keep the different counts straight since I used either $instagram_likes or $instagram_comments throughout.
-	$number_posted_pics_fb_api = isset( $instagram_user_info->media_count ) ? $instagram_user_info->media_count : '';
-	$number_posted_pics        = isset( $instagram_user_info->data->counts->media ) ? $instagram_user_info->data->counts->media : $number_posted_pics_fb_api;
+	$number_posted_pics_fb_api = isset( $insta_data->media_count ) ? $insta_data->media_count : '';
+	$number_posted_pics        = isset( $insta_data->data->counts->media ) ? $insta_data->data->counts->media : $number_posted_pics_fb_api;
 	// here we add a , for all numbers below 9,999.
 	if ( isset( $number_posted_pics ) && $number_posted_pics <= 9999 ) {
 		$number_posted_pics = number_format( $number_posted_pics );
@@ -709,8 +709,8 @@ if ( isset( $profile_stats, $type ) && 'yes' === $profile_stats  && 'business' =
 		$number_posted_pics = round( ( $number_posted_pics / 1000 ), 1 ) . 'k';
 	}
 
-	$number_followed_by_fb_api = isset( $instagram_user_info->followers_count ) ? $instagram_user_info->followers_count : '';
-	$number_followed_by        = isset( $instagram_user_info->data->counts->followed_by ) ? $instagram_user_info->data->counts->followed_by : $number_followed_by_fb_api;
+	$number_followed_by_fb_api = isset( $insta_data->followers_count ) ? $insta_data->followers_count : '';
+	$number_followed_by        = isset( $insta_data->data->counts->followed_by ) ? $insta_data->data->counts->followed_by : $number_followed_by_fb_api;
 	// here we add a , for all numbers below 9,999.
 	if ( isset( $number_followed_by ) && $number_followed_by <= 9999 ) {
 		$number_followed_by = number_format( $number_followed_by );
@@ -724,8 +724,8 @@ if ( isset( $profile_stats, $type ) && 'yes' === $profile_stats  && 'business' =
 		$number_followed_by = round( ( $number_followed_by / 1000 ), 1 ) . 'k';
 	}
 
-	$number_follows_fb_api = isset( $instagram_user_info->follows_count ) ? $instagram_user_info->follows_count : '';
-	$number_follows        = isset( $instagram_user_info->data->counts->follows ) ? $instagram_user_info->data->counts->follows : $number_follows_fb_api;
+	$number_follows_fb_api = isset( $insta_data->follows_count ) ? $insta_data->follows_count : '';
+	$number_follows        = isset( $insta_data->data->counts->follows ) ? $insta_data->data->counts->follows : $number_follows_fb_api;
 	// here we add a , for all numbers below 9,999.
 	if ( isset( $number_follows ) && $number_follows <= 9999 ) {
 		$number_follows = number_format( $number_follows );

@@ -370,7 +370,7 @@ class FTS_Instagram_Options_Page {
                         $test_app_token_response = json_decode( $test_app_token_response['app_token_id'] );
 
 
-                        /*echo '<pre>';
+                       /* echo '<pre>';
                         print_r($refresh_app_token_url_response);
                         echo '</pre>';*/
                     }

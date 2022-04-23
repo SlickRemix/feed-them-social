@@ -413,19 +413,53 @@ class feed_them_social_functions {
 			ob_start();
 
 			if ( ! isset( $_GET['locations'] ) ) {
-				$fb_url                     = 'fts-facebook-feed-styles-submenu-page' == $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=25' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=25' );
-				$fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : $fb_url;
-				$test_fb_app_token_response = json_decode( $fb_token_response );
+
+                // SRL 4-23-22. Locations: This endpoint is not supported for Pages that have been migrated to the New Pages Experience. So we need to make an exception.
+                $fb_url = 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,has_transitioned_to_new_page_experience,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
+
+                $test_fb_app_token_response = json_decode( $fb_url );
+
+                // SRL 4-23-22. For now we are just going to check for error, if error then that would mean the first object in array is a new page experience.
+                // if is new page has_transitioned_to_new_page_experience => 1 This could be expanded in the future by creating a foreach loops to check each page
+                // but then you have to run a call for each page and that seems like overkill if you have hundreds of pages. FB should come up with a simpler way.
+                if( $test_fb_app_token_response->error ){
+                    // Possibly the user is on a new page experience so let's run the call without locations.
+                    $fb_url = 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
+
+                }
+                $fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : $fb_url;
+                $test_fb_app_token_response = json_decode( $fb_token_response );
+
+                // Test.
+                //print_r( $test_fb_app_token_response );
+
 				$_REQUEST['next_url']       = isset( $test_fb_app_token_response->paging->next ) ? esc_url_raw( $test_fb_app_token_response->paging->next ) : '';
 			} else {
 				$fb_token_response          = isset( $_REQUEST['next_location_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_location_url'] ) ) : '';
 				$test_fb_app_token_response = json_decode( $fb_token_response );
 			}
 
-			// echo '<pre>';
-			// print_r($test_fb_app_token_response);
-			// echo '</pre>';
-			// Make sure it's not ajaxing!
+            // IF we still get an error then show a formatted response for the user.
+            if( !empty( $test_fb_app_token_response->error ) ){
+                echo '<div style="max-width: 570px; word-wrap: break-word;margin:10px 10px 0 10px;">';
+                echo '<p>';
+                echo '<strong>Facebook Response: </strong>';
+                echo $test_fb_app_token_response->error->message . ' Code #';
+                echo $test_fb_app_token_response->error->code . '. ';
+                echo $test_fb_app_token_response->error->error_user_title;
+                echo $test_fb_app_token_response->error->error_user_msg;
+
+                if( 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ){
+                    echo '</p> <strong>Helpful Tips:</strong> Make sure you are an admin of the page or pages you are choosing. Next you will see, "What SlickRemix is allowed to do." The 2 options should be, Read content posted on the Page and Show a list of the Pages you manage. Make sure and choose Yes for both.<a href="#" style="display: none" target="_blank">More Tips</a>';
+                }
+                if( 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] ) {
+                    echo '</p> <strong>Helpful Tips:</strong> Make sure you are an admin of the page or pages you are choosing. Next you will see, "What SlickRemix is allowed to do." The 3 options should be, Access profile and posts from the Instagram account connected to your Page, Read content posted on the Page and Show a list of the Pages you manage. Make sure and choose Yes for all 3.<a href="#" style="display: none" target="_blank">More Tips</a>';
+                }
+                echo '</div>';
+                return false;
+            }
+
+             // Make sure it's not ajaxing!
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 				// ******************
 				// Load More BUTTON Start

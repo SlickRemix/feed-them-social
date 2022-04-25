@@ -91,19 +91,19 @@ class Feeds_CPT {
     public $access_token_options;
 
     /**
-     * Metabox Settings Class
-     * initiates Metabox Settings Class
+     * Metabox Functions Class
+     * initiates Metabox Functions Class
      *
      * @var string
      */
-    public $metabox_settings_class;
+    public $metabox_functions;
 
     /**
      * Feeds_CPT constructor.
      *
      * @param object  $feed_cpt_options All options.
      */
-    public function __construct( $feed_functions, $feed_cpt_options, $options_functions, $setting_options_js, $settings_functions, $access_token_options) {
+    public function __construct( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options) {
 
         // Add Actions and Filters.
         $this->add_actions_filters();
@@ -127,10 +127,7 @@ class Feeds_CPT {
 
         if ( current_user_can( 'manage_options' ) ) {
             // Load Metabox Setings Class (including all of the scripts and styles attached).
-            $this->metabox_settings_class = new Metabox_Settings( $this, $this->feed_cpt_options_array, $settings_functions, $options_functions, 'fts_feed_options_array', );
-
-            // Set Main Post Type.
-            $this->metabox_settings_class->set_main_post_type( FEED_THEM_SOCIAL_POST_TYPE );
+            $this->metabox_functions = $metabox_functions;
         }
 
         // If Premium add Functionality!
@@ -350,6 +347,7 @@ class Feeds_CPT {
 
     /**
      * Updated Messages
+     *
      * Updates the messages in the admin area so they match plugin
      *
      * @param $messages
@@ -379,7 +377,7 @@ class Feeds_CPT {
     }
 
     /**
-     *  Set Custom Edit Columns
+     * Set Custom Edit Columns
      *
      * Sets the custom admin columns for gallery list page
      *
@@ -409,6 +407,7 @@ class Feeds_CPT {
 
     /**
      * FT Galley Custom Edit Column
+     *
      * Put info in matching coloumns we set
      *
      * @param $column
@@ -454,8 +453,9 @@ class Feeds_CPT {
     }
 
     /**
-     *  Set Button Text
-     * Set Edit Post buttons for Feed custom post type
+     * Set Button Text
+     *
+     * Set Edit Post buttons for Feed custom post type.
      *
      * @param $translated_text
      * @param $text
@@ -642,9 +642,7 @@ class Feeds_CPT {
      */
     public function fts_tab_menu_metabox( $object ) {
 
-        $params['object'] = $object;
-
-        $this->metabox_settings_class->display_metabox_content( $this->metabox_tabs_list(), $params );
+        $this->metabox_functions->display_metabox_content( $this, $this->metabox_tabs_list() );
 
         if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
             ?>
@@ -671,19 +669,16 @@ class Feeds_CPT {
      */
     public function tab_feed_setup( ) {
 
-        echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['feed_type_options'], null, $this->parent_post_id );
-        //echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $this->parent_post_id );
-        //echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $this->parent_post_id );
+        $feed_type = $this->feed_functions->get_feed_type( $this->parent_post_id );
 
-        //echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $this->parent_post_id );
-         echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $this->parent_post_id );
-       // echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $this->parent_post_id );
+        // Feed Type Options Selector
+	    echo $this->metabox_functions->settings_html_form( $this->feed_cpt_options_array['feed_type_options'], null, $this->parent_post_id );
 
         ?>
         <div class="ftg-section">
             <?php
             // Happens in JS file
-            $this->metabox_settings_class->fts_tab_notice_html(); ?>
+            $this->metabox_functions->fts_tab_notice_html(); ?>
 
             <script>
                 jQuery('.metabox_submit').click(function (e) {
@@ -697,7 +692,7 @@ class Feeds_CPT {
         <div class="ftg-access-token">
             <?php
             // Get Access Token Options.
-            $this->access_token_options->get_access_token_options( $this->feed_functions->get_feed_type( $this->parent_post_id ) );
+            $this->access_token_options->get_access_token_options( $feed_type );
             ?>
         </div>
         <?php
@@ -712,7 +707,7 @@ class Feeds_CPT {
      */
     public function tab_layout_content() {
 
-        echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['layout'], null, $this->parent_post_id );
+        echo $this->metabox_functions->settings_html_form( $this->feed_cpt_options_array['layout'], null, $this->parent_post_id );
     }
 
     /**
@@ -724,7 +719,7 @@ class Feeds_CPT {
      */
     public function tab_colors_content() {
 
-        echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['colors'], null, $this->parent_post_id );
+        echo $this->metabox_functions->settings_html_form( $this->feed_cpt_options_array['colors'], null, $this->parent_post_id );
     }
 
     /**
@@ -746,7 +741,7 @@ class Feeds_CPT {
 <div class="fts-cpt-main-options">
     <?php
 
-        echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['facebook'], null, $this->parent_post_id );
+        echo $this->metabox_functions->settings_html_form( $this->feed_cpt_options_array['facebook'], null, $this->parent_post_id );
 
     ?>
 
@@ -761,28 +756,28 @@ class Feeds_CPT {
             $facebook_add_all_options = $facebook_additional_options->get_all_options();
 
             //Facebook Reviews text and styles.
-            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_reviews_text_styles'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $facebook_add_all_options['facebook_reviews_text_styles'], null, $this->parent_post_id );
 
             //Facebook Reviews and Overall Ratings styles.
-            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_reviews_overall_rating_styles'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $facebook_add_all_options['facebook_reviews_overall_rating_styles'], null, $this->parent_post_id );
 
             //Facebook Language Options.
-            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_languages_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $facebook_add_all_options['facebook_languages_options'], null, $this->parent_post_id );
 
             //Facebook Like Button or Box Options.
-            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_like_button_box_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $facebook_add_all_options['facebook_like_button_box_options'], null, $this->parent_post_id );
 
             //Facebook Style Options.
-            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_style_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $facebook_add_all_options['facebook_style_options'], null, $this->parent_post_id );
 
             //Facebook Grid Style Options.
-            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_grid_style_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $facebook_add_all_options['facebook_grid_style_options'], null, $this->parent_post_id );
 
             //Facebook Loadmore Options.
-            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_load_more_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $facebook_add_all_options['facebook_load_more_options'], null, $this->parent_post_id );
 
             //Facebook Error Messages.
-            echo $this->metabox_settings_class->settings_html_form( $facebook_add_all_options['facebook_error_messages_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $facebook_add_all_options['facebook_error_messages_options'], null, $this->parent_post_id );
 
 		    $this->setting_options_js->facebook_js();
             ?>
@@ -809,7 +804,7 @@ class Feeds_CPT {
 		<?php } ?>
         <div class="fts-cpt-main-options">
         <?php
-            echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['instagram'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $this->feed_cpt_options_array['instagram'], null, $this->parent_post_id );
             $this->setting_options_js->instagram_js();
         ?>
         </div>
@@ -821,12 +816,12 @@ class Feeds_CPT {
             $instagram_add_all_options = $instagram_additional_options->get_all_options();
 
             //Instagram Follow Button Options.
-            echo $this->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $this->parent_post_id );
 
             // FTS Premium ACTIVE
             if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
                 //Instagram Load More Options
-                echo $this->metabox_settings_class->settings_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $this->parent_post_id );
+                echo $this->metabox_functions->settings_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $this->parent_post_id );
             }?>
 
             <div class="clear"></div>
@@ -853,7 +848,7 @@ class Feeds_CPT {
         <?php } ?>
         <div class="fts-cpt-main-options">
             <?php
-            echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['twitter'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $this->feed_cpt_options_array['twitter'], null, $this->parent_post_id );
 
             //JS for Twitter Options.
             $this->setting_options_js->twitter_js();
@@ -867,20 +862,20 @@ class Feeds_CPT {
             $twitter_add_all_options = $twitter_additional_options->get_all_options();
 
             // Twitter Follow Button Options
-            echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_follow_btn_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $twitter_add_all_options['twitter_follow_btn_options'], null, $this->parent_post_id );
             // Twitter Video Player Options
-            echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_video_player_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $twitter_add_all_options['twitter_video_player_options'], null, $this->parent_post_id );
             // Twitter Profile Photo Options
-            echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_profile_photo_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $twitter_add_all_options['twitter_profile_photo_options'], null, $this->parent_post_id );
             // Twitter Style Options
-            echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_style_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $twitter_add_all_options['twitter_style_options'], null, $this->parent_post_id );
 
             // FTS Premium ACTIVE
             if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
                 // Twitter Grid Styles
-                echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->parent_post_id );
+                echo $this->metabox_functions->settings_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->parent_post_id );
                 // Twitter Load More Button Styles & Options
-                echo $this->metabox_settings_class->settings_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $this->parent_post_id );
+                echo $this->metabox_functions->settings_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $this->parent_post_id );
             }?>
 
             <div class="clear"></div>
@@ -907,7 +902,7 @@ class Feeds_CPT {
         <?php } ?>
         <div class="fts-cpt-main-options">
         <?php
-            echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['youtube'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $this->feed_cpt_options_array['youtube'], null, $this->parent_post_id );
 
             $this->setting_options_js->youtube_js();
         ?>
@@ -920,12 +915,12 @@ class Feeds_CPT {
             $youtube_add_all_options = $youtube_additional_options->get_all_options();
 
             //Youtube Follow Button Options.
-            echo $this->metabox_settings_class->settings_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->parent_post_id );
+            echo $this->metabox_functions->settings_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->parent_post_id );
 
             // FTS Premium ACTIVE
             if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
                 //Youtube Load More Options.
-                echo $this->metabox_settings_class->settings_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $this->parent_post_id );
+                echo $this->metabox_functions->settings_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $this->parent_post_id );
             }?>
             <div class="clear"></div>
         </div>
@@ -951,7 +946,7 @@ class Feeds_CPT {
 <div class="fts-cpt-main-options-combined">
     <?php
 
-        echo $this->metabox_settings_class->settings_html_form( $this->feed_cpt_options_array['combine'], null, $this->parent_post_id );
+        echo $this->metabox_functions->settings_html_form( $this->feed_cpt_options_array['combine'], null, $this->parent_post_id );
         $this->setting_options_js->combine_js();
 
     ?>
@@ -973,9 +968,6 @@ class Feeds_CPT {
         ?>
         <div class="ft-gallery-meta-wrap">
             <?php
-
-            $gallery_id = isset( $_GET['post'] ) ? $_GET['post'] : '';
-
             $screen = get_current_screen();
 
             if ( 'edit.php?post_type=fts' === $screen->parent_file && 'add' === $screen->action ) {
@@ -1029,7 +1021,7 @@ class Feeds_CPT {
         <div class="ft-gallery-meta-wrap">
             <?php
 
-            $gallery_id = isset( $_GET['post'] ) ? $_GET['post'] : '';
+            $feed_id = isset( $_GET['post'] ) ? $_GET['post'] : '';
 
             $screen = get_current_screen();
 
@@ -1044,7 +1036,7 @@ class Feeds_CPT {
                 ?>
                 <p>
                     <label><label><?php echo esc_html__( 'Copy and Paste this shortcode to any page, post or widget.', 'feed_them_social' ); ?></label>
-                        <input readonly="readonly" value="[feed_them_social cpt_id=<?php echo esc_html( $gallery_id ); ?>]" onclick="this.select();"/>
+                        <input readonly="readonly" value="[feed_them_social cpt_id=<?php echo esc_html( $feed_id ); ?>]" onclick="this.select();"/>
                 </p>
                 <?php
             }

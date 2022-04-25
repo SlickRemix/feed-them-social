@@ -12,6 +12,8 @@
  */
 
 // Exit if accessed directly!
+use feedthemsocial\Metabox_Settings;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -85,11 +87,14 @@ class Feed_Them_Social {
 		// Access Options.
         $access_options = new \feedthemsocial\Access_Options( $feed_functions, $data_protection );
 
-		//Setting Options JS.
+		// Setting Options JS.
 		$setting_options_js = new \feedthemsocial\Settings_Options_JS();
 
+		// Metabox Functions.
+		$metabox_functions = new \feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(), $settings_functions, $options_functions, 'fts_feed_options_array', );
+
 		// Feeds CPT.
-        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $options_functions, $setting_options_js, $settings_functions, $access_options );
+        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options );
 
 		// Shortcode Button for Admin page, posts and CPTs.
 		new \feedthemsocial\Shortcode_Button();
@@ -181,8 +186,8 @@ class Feed_Them_Social {
 		// Options Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'options/options-functions.php';
 
-		// Metabox Settings Class.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox-settings/metabox-settings-class.php';
+		// Metabox Functions Class.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox/metabox-functions-class.php';
 
 		// Settings Page.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';

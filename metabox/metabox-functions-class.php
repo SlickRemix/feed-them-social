@@ -12,20 +12,11 @@
 namespace feedthemsocial;
 
 /**
- * Class Metabox_Settings
+ * Class Metabox_Functions
  *
  * @package feed_them_social
  */
-class Metabox_Settings {
-
-	/**
-	 * Current This
-	 *
-	 * The $this variable data from where call Metabox_Settings is being constructed.
-	 *
-	 * @var array
-	 */
-	public $current_this;
+class Metabox_Functions {
 
 	/**
 	 * Holds the hook id
@@ -122,15 +113,11 @@ class Metabox_Settings {
 	 *
 	 * Constructor.
 	 *
-	 * @param object $current_this Current this.
 	 * @param array $settings_array All the settings.
 	 * @param string $is_page What page.
 	 * @since 1.0
 	 */
-	public function __construct( $current_this, $default_options_array, $settings_functions, $options_functions, $array_options_name, $is_page = null) {
-		// Set Class Variables.
-		$this->current_this = $current_this;
-
+	public function __construct( $default_options_array, $settings_functions, $options_functions, $array_options_name, $is_page = null) {
 		// Default Options Array.
 		$this->default_options_array = $default_options_array;
 
@@ -150,7 +137,10 @@ class Metabox_Settings {
 		$this->add_actions_filters();
 
 		// Set Default main post type.
-		$this->set_main_post_type();
+		$this->main_post_type = FEED_THEM_SOCIAL_POST_TYPE;
+
+        // Metabox Nonce Name
+		$this->metabox_nonce_name = $this->main_post_type . '_metabox_options_nonce';
 	}
 
 	/**
@@ -198,7 +188,7 @@ class Metabox_Settings {
 		// SRL: THESE SCRIPTS CAN BE LOADED ON ALL OF OUR PAGES, BUT SHOULD ONLY LOAD ON OUR PLUGINS PAGES.
 		if ( $this->main_post_type === $current_info['post_type'] ) {
 			// Register Admin Page CSS.
-			wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox-settings/css/admin-pages.css' ), array(), FTS_CURRENT_VERSION );
+			wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.css' ), array(), FTS_CURRENT_VERSION );
 			// Enqueue Admin Page CSS.
 			wp_enqueue_style( 'slick-admin-page' );
 
@@ -208,7 +198,7 @@ class Metabox_Settings {
 			wp_enqueue_style( 'slick-styles' );
 
 			// Register Metabox CSS.
-			wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox-settings/css/metabox.css' ), array(), FTS_CURRENT_VERSION );
+			wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.css' ), array(), FTS_CURRENT_VERSION );
 			// Enqueue Metabox CSS.
 			wp_enqueue_style( 'slick-metabox' );
 		}
@@ -228,10 +218,10 @@ class Metabox_Settings {
 			// wp_enqueue_script( 'jquery-ui-progressbar' );
 
 			// Enqueue JS Color JS.
-			wp_enqueue_script( 'js_color', plugins_url( '/feed-them-social/metabox-settings/js/jscolor/jscolor.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
+			wp_enqueue_script( 'js_color', plugins_url( '/feed-them-social/metabox/js/jscolor/jscolor.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
 
 			// Register Metabox JS.
-			// wp_register_script( 'slick-metabox-js', plugins_url( 'feed-them-social/metabox-settings/js/metabox.js' ), array(), FTS_CURRENT_VERSION, true );
+			// wp_register_script( 'slick-metabox-js', plugins_url( 'feed-them-social/metabox/js/metabox.js' ), array(), FTS_CURRENT_VERSION, true );
 
 			// Localize Metabox JS.
 			wp_localize_script(
@@ -249,7 +239,7 @@ class Metabox_Settings {
 			wp_enqueue_script( 'slick-metabox-js' );
 
 			// Register Metabox Tabs JS.
-			wp_register_script( 'slick-metabox-tabs', plugins_url( 'feed-them-social/metabox-settings/js/metabox-tabs.js' ), array(), FTS_CURRENT_VERSION, true );
+			wp_register_script( 'slick-metabox-tabs', plugins_url( 'feed-them-social/metabox/js/metabox-tabs.js' ), array(), FTS_CURRENT_VERSION, true );
 
 			// Localize Metabox Tabs JS.
 			wp_localize_script(
@@ -268,7 +258,7 @@ class Metabox_Settings {
 			wp_enqueue_script( 'slick-metabox-tabs' );
 
 			// Register jQuery Nested Sortable JS.
-			wp_register_script( 'jquery-nested-sortable-js', plugins_url( 'feed-them-social/metabox-settings/js/jquery.mjs.nestedSortable.js' ), array( 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-sortable, ' ), FTS_CURRENT_VERSION, false );
+			wp_register_script( 'jquery-nested-sortable-js', plugins_url( 'feed-them-social/metabox/js/jquery.mjs.nestedSortable.js' ), array( 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-sortable, ' ), FTS_CURRENT_VERSION, false );
 			// Enqueue jQuery Nested Sortable JS.
 			wp_enqueue_script( 'jquery-nested-sortable-js' );
 		}
@@ -281,7 +271,7 @@ class Metabox_Settings {
 			wp_enqueue_script( 'postbox' );
 
 			// Register Update From Bottom JS.
-			wp_register_script( 'updatefrombottom-admin-js', plugins_url( 'feed-them-social/metabox-settings/js/update-from-bottom.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
+			wp_register_script( 'updatefrombottom-admin-js', plugins_url( 'feed-them-social/metabox/js/update-from-bottom.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
 			// Localize Update From Bottom JS.
 			wp_localize_script(
 				'updatefrombottom-admin-js',
@@ -358,11 +348,11 @@ class Metabox_Settings {
 	 * @param string $main_post_type Get the main post type.
 	 * @since 1.0
 	 */
-	public function set_main_post_type( $main_post_type = null ) {
+	public function set_main_post_type( $current_class = null, $main_post_type = null ) {
 		if ( $main_post_type ) {
 			$this->main_post_type = $main_post_type;
 		} else {
-			$this->main_post_type = isset( $this->current_this->main_post_type ) ? $this->current_this->main_post_type : 'post';
+			$this->main_post_type = isset( $current_class->main_post_type ) ? $current_class->main_post_type : 'post';
 		}
 	}
 
@@ -488,19 +478,16 @@ class Metabox_Settings {
 	 * @param array $params The parameters.
 	 * @since 1.1.6
 	 */
-	public function display_metabox_content( $tabs_list, $params = null ) {
+	public function display_metabox_content( $current_class, $tabs_list ) {
 
-		wp_nonce_field( basename( __FILE__ ), 'slick-metabox-settings-options-nonce' );
-
-		// Set Current Params.
-		$params['this'] = $this->current_this;
+        // Set and return Nonce Field by nonce name.
+		$this->options_functions->set_nonce( $this->metabox_nonce_name );
 
 		$current_info = $this->current_info_array();
 
 		// Get Base of Current Screen.
 		if ( isset( $current_info['base'] ) ) {
 			?>
-
 			<div class="ft-gallery-settings-tabs-meta-wrap">
 
 				<div class="tabs" id="tabs">
@@ -540,8 +527,8 @@ class Metabox_Settings {
 												?>
 										">
 														<?php
-														// call_user_func(array(feed_them_social()->gallery, $tab_item['cont_func']), $params).
-														call_user_func( array( $this->current_this, $tab_item['cont_func'] ), $params );
+                                                        //Dynamic Function to create a Tab using current class.
+														call_user_func( array( $current_class, $tab_item['cont_func'] ) );
 														?>
 													</div> <!-- #tab-content -->
 
@@ -579,8 +566,6 @@ class Metabox_Settings {
 	 * @since @since 1.0.0
 	 */
 	public function settings_html_form( $section_info, $required_plugins, $current_post_id = null ) {
-
-		$current_info = $this->current_info_array();
 
 		$old_settings_page = get_option( $this->array_options_name );
 		$old_settings_post = get_post_meta( $current_post_id, $this->array_options_name, true );
@@ -655,9 +640,9 @@ class Metabox_Settings {
 					// Set Current Params.
 					$params = array(
 						// 'This' Class object.
-						'this'         => $this->current_this,
+						//'this'         => $this->current_this,
 						// Option Info.
-						'input_option' => $option,
+						//'input_option' => $option,
 					);
 
 					$output .= call_user_func( array( $this->current_this, 'metabox_specific_form_inputs' ), $params );
@@ -787,6 +772,8 @@ class Metabox_Settings {
 		);
 	}
 
+
+
 	/**
 	 * Save Meta Box
 	 *
@@ -801,10 +788,8 @@ class Metabox_Settings {
         // Check if User can Manage Options.
         $this->options_functions->check_user_manage_options();
 
-		// Check Nonce!
-		if ( ! isset( $_POST['slick-metabox-settings-options-nonce'] ) || ! wp_verify_nonce( $_POST['slick-metabox-settings-options-nonce'], basename( __FILE__ ) ) ) {
-			return $cpt_id;
-		}
+		//Verify Nonce by set nonce name.
+		$this->options_functions->verify_nonce( $this->metabox_nonce_name );
 
 		//error_log( print_r( $_POST, true ) );
 

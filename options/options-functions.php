@@ -60,6 +60,7 @@ class Options_Functions {
 		}
 	}
 
+
 	/**
 	 * Check CPT Exists
 	 *
@@ -370,5 +371,37 @@ class Options_Functions {
 			wp_safe_redirect( urldecode( $url ) );
 			exit;
 		}
+	}
+
+	/**
+	 * Set Nonce
+	 *
+	 * Verify the nonce with the given name.
+	 *
+	 * @param string $nonce_name The post ID.
+	 * @return array | string
+	 * @since 1.0.0
+	 */
+	public function set_nonce( string $nonce_name ) {
+		// Return Nonce Field.
+		return wp_nonce_field( basename( __FILE__ ), $nonce_name );
+	}
+
+	/**
+	 * Verify Nonce
+	 *
+	 * Verify the nonce with the given name.
+	 *
+	 * @param string $nonce_name The post ID.
+	 * @return array | string
+	 * @since 1.0.0
+	 */
+	public function verify_nonce( string $nonce_name ) {
+		// Check Nonce!
+		if ( ! isset( $_POST[ $nonce_name ] ) || ! wp_verify_nonce( $_POST[ $nonce_name ], basename( __FILE__ ) ) ) {
+			// Kill it if we can't verify it!
+			return wp_die( 'Cannot Verify This form!' );;
+		}
+		return true;
 	}
 }

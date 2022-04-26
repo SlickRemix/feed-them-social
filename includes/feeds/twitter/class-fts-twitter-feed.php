@@ -333,7 +333,7 @@ class FTS_Twitter_Feed {
 		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
             
              // Saved Feed Settings!
-             $saved_feed_settings = $this->feed_functions->get_saved_feed_settings( $inputted_atts['cpt_id'] );
+             $saved_feed_settings = $this->feed_functions->get_saved_feed_options( $inputted_atts['cpt_id'] );
 
 		    $twitter_show_follow_btn       = $saved_feed_settings['twitter_show_follow_btn'];
 			$twitter_show_follow_btn_where = $saved_feed_settings['twitter_show_follow_btn_where'];

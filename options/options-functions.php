@@ -384,7 +384,7 @@ class Options_Functions {
 	 */
 	public function set_nonce( string $nonce_name ) {
 		// Return Nonce Field.
-		return wp_nonce_field( basename( __FILE__ ), $nonce_name );
+		echo wp_nonce_field( basename( __FILE__ ), $nonce_name );
 	}
 
 	/**

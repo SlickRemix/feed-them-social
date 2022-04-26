@@ -107,14 +107,17 @@ class Metabox_Functions {
 	 */
 	public $array_options_name;
 
-
 	/**
-	 * Metabox_Settings constructor.
+	 * Metabox Functions constructor.
 	 *
 	 * Constructor.
 	 *
-	 * @param array $settings_array All the settings.
+	 * @param array $default_options_array All the options.
+     * @param array $settings_functions Settings Functions.
+     * @param array $options_functions Options Functions.
+     * @param array $array_options_name Array Options name.
 	 * @param string $is_page What page.
+     *
 	 * @since 1.0
 	 */
 	public function __construct( $default_options_array, $settings_functions, $options_functions, $array_options_name, $is_page = null) {
@@ -481,7 +484,7 @@ class Metabox_Functions {
 	public function display_metabox_content( $current_class, $tabs_list ) {
 
         // Set and return Nonce Field by nonce name.
-		$this->options_functions->set_nonce( $this->metabox_nonce_name );
+		wp_nonce_field( basename( __FILE__ ), $this->metabox_nonce_name );
 
 		$current_info = $this->current_info_array();
 
@@ -555,9 +558,9 @@ class Metabox_Functions {
 	}
 
 	/**
-	 * Settings HTML Form
+	 * Options HTML Form
 	 *
-	 * Used to return settings form fields output for Settings Options
+	 * Return metabox options form fields for output.
 	 *
 	 * @param array $section_info The section info.
 	 * @param array $required_plugins The Required plugins.
@@ -565,14 +568,13 @@ class Metabox_Functions {
 	 * @return string
 	 * @since @since 1.0.0
 	 */
-	public function settings_html_form( $section_info, $required_plugins, $current_post_id = null ) {
+	public function options_html_form( $section_info, $required_plugins, $current_post_id = null ) {
 
-		$old_settings_page = get_option( $this->array_options_name );
-		$old_settings_post = get_post_meta( $current_post_id, $this->array_options_name, true );
-
+        // If page set false otherwise this is a CPT!
+        $is_cpt = true == $this->is_page ? false : true;
 
 		// Get Old Settings Array if set.
-		$old_settings = true == $this->is_page ? $old_settings_page : $old_settings_post;
+		$saved_options = $this->options_functions->get_saved_options_array( $this->array_options_name, $is_cpt, $current_post_id);
 
         // Premium Required plugins.
 		$prem_required_plugins = $this->settings_functions->fts_required_plugins();
@@ -586,7 +588,7 @@ class Metabox_Functions {
 		$output .= isset( $section_info['section_title'] ) ? '<h3>' . $section_info['section_title'] . '</h3>' : '';
 
 		// Errors Notice Div.
-		$output .= $this->fts_tab_notice_html();
+		$output .= $this->error_notice_html();
 
 		// Section Options Wrap Class.
 		$output .= isset( $section_info['options_wrap_class'] ) ? '<div class="'.$section_info['options_wrap_class'].'">' : '';
@@ -627,13 +629,14 @@ class Metabox_Functions {
 					}
 				}
 
-				// Set Option name. Use Prefix?
+				// Set Option name.
 				$option_name = $option['name'];
 
-				// Set Option ID. Use Prefix?
+				// Set Option ID.
 				$option_id = $option['id'];
 
-				$final_value = isset( $old_settings[ $option_name ] ) && ! empty( $old_settings[ $option_name ] ) ? $old_settings[ $option_name ] : $option['default_value'];
+                // Use Saved Options or Default Value?
+				$final_value = isset( $saved_options[ $option_name ] ) && ! empty( $saved_options[ $option_name ] ) ? $saved_options[ $option_name ] : $option['default_value'];
 
 				// Do we need to output any Metabox Specific Form Inputs?
 				if ( isset( $this->metabox_specific_form_inputs ) && true == $this->metabox_specific_form_inputs ) {
@@ -670,33 +673,6 @@ class Metabox_Functions {
 						case 'checkbox':
 							$output .= '<input ' . ( isset( $section_required_prem_plugin ) && 'active' !== $section_required_prem_plugin ? 'disabled ' : '' ) . 'type="checkbox" name="' . $option_name . '" id="' . $option_id . '" ' . ( ! empty( $final_value ) && 'true' === $final_value ? ' checked="checked"' : '' ) . '/>';
 							break;
-
-						/*
-						 Case 'repeatable':
-						echo '<a class="repeatable-add button" href="#">';
-						_e('Add Another design', 'feed_them_social');
-						echo '</a><ul id="' . $option['id'] . '-repeatable" class="custom_repeatable">';
-						$i = 0;
-						if ($meta) {
-						foreach ($meta as $row) {
-						echo '<li><span class="sort hndle">|||</span>
-								 <textarea name="' . $option['id'] . '[' . $i . ']" id="' . $option['id'] . '">' . $row . '</textarea>
-								 <a class="repeatable-remove button" href="#">-</a>
-								 </li>';
-						$i++;
-						}
-						} else {
-						echo '<li><span class="sort hndle">|||</span>
-							 <textarea name="' . $option['id'] . '[' . $i . ']" id="' . $option['id'] . '">' . $row . '</textarea>
-							 <a class="repeatable-remove button" href="#">';
-						_e('Delete this design', 'design-approval-system');
-						echo '</a></li>';
-						}
-						echo '</ul>
-						<span class="description">' . $option['desc'] . '</span>';
-						break;
-						*/
-
 					}
 				}
 
@@ -772,12 +748,10 @@ class Metabox_Functions {
 		);
 	}
 
-
-
 	/**
 	 * Save Meta Box
 	 *
-     * Save or Update Options in an Array.
+     * Save or Update Metabox Options Array.
 	 *
 	 * @param string $cpt_id The post ID.
 	 * @return array | string
@@ -788,8 +762,11 @@ class Metabox_Functions {
         // Check if User can Manage Options.
         $this->options_functions->check_user_manage_options();
 
-		//Verify Nonce by set nonce name.
-		$this->options_functions->verify_nonce( $this->metabox_nonce_name );
+		// Verify Nonce by set nonce name.
+		if ( isset( $_POST[$this->metabox_nonce_name] ) && !wp_verify_nonce( $_POST[ $this->metabox_nonce_name ], basename( __FILE__ ) ) ) {
+			return wp_die( 'Cannot Verify This form!' );
+		}
+
 
 		//error_log( print_r( $_POST, true ) );
 
@@ -797,7 +774,7 @@ class Metabox_Functions {
 
 		//$this->options_functions->update_single_option( $this->array_options_name, 'feed_type', 'facebook-feed-type', true, $cpt_id );
 
-        // Save/Update the Options array.
+        // Save/Update the Options array using the Array Option Name and Default Options Array.
 		return $this->options_functions->update_options_array( $this->array_options_name, $this->default_options_array, true, $cpt_id );
 	}
 
@@ -808,8 +785,8 @@ class Metabox_Functions {
      *
      * @since 3.0.0
      */
-    public function fts_tab_notice_html() {
+    public function error_notice_html() {
         // ft-gallery-notice happens in JS file.
-        echo '<div class="ft-gallery-notice"></div>';
+        return '<div class="ft-gallery-notice"></div>';
     }
 }

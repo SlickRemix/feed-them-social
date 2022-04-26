@@ -21,13 +21,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Feed_Functions {
 
 	/**
-	 * Settings Functions
+	 * Options Functions
 	 *
 	 * The settings Functions class.
 	 *
 	 * @var object
 	 */
-	public $settings_functions;
+	public $options_functions;
+    
 
 	/**
 	 * Feed Settings Array
@@ -58,14 +59,12 @@ class Feed_Functions {
 	/**
 	 * Feed Functions constructor.
 	 */
-	public function __construct( $settings_functions, $feed_cpt_options, $feed_cache, $data_protection ){
+	public function __construct( $options_functions, $feed_cpt_options, $feed_cache, $data_protection ){
 		$this->add_actions_filters();
 
-		// Settings Functions Class.
-		$this->settings_functions = $settings_functions;
-
-
-
+		// Options Functions Class.
+		$this->options_functions = $options_functions;
+        
 		// Feed Settings array.
 		$this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
 
@@ -270,60 +269,33 @@ class Feed_Functions {
 	}
 
 	/**
-	 * Get Saved Feed Settings
+	 * Get Saved Feed Options
 	 *
-	 * Get saved settings for the feed using cpt post id.
+	 * Get saved Options for the feed using cpt post id.
      *
-	 * @param $feed_post_id string the feed post id to getting settings options from.
+	 * @param $feed_post_id string the feed post id to get options from.
 	 *
 	 * @return array | boolean
 	 */
-	public function get_saved_feed_settings( $feed_post_id ) {
-
-		$settings_array = get_post_meta( $feed_post_id, FEED_THEM_SOCIAL_POST_TYPE . '_settings_options', true );
-
-		return $settings_array;
+	public function get_saved_feed_options( $feed_post_id ) {
+		// Get saved Options if possible.
+		return $this->options_functions->get_saved_options_array( 'fts_feed_options_array', true, $feed_post_id);
 	}
 
 	/**
-	 * Get Feed Settings
+	 * Get Feed Setting
 	 *
-	 * Get settings for the feed using cpt post id or create the default settings array.
+	 * Get a single Feed Option using Feed CPT ID and Option name.
      *
-	 * @param $feed_post_id string the feed post id to getting settings options from.
-	 * @param $create_default string create the default settings array if nothing else is set?
-	 *
+     * @param $feed_post_id string feed post id to get options from.
+	 * @param $option_name string name of Option in the Options array.
 	 * @return array | boolean
 	 */
-	public function get_feed_settings( $feed_post_id, $create_default = true ) {
-		// Get saved settings if possible.
-		$settings_array = $this->get_saved_feed_settings( $feed_post_id );
+	public function get_feed_option( $feed_post_id, $option_name ) {
+		// Get Feed Options.
+		$feeds_options = $this->get_saved_feed_options( $feed_post_id );
 
-		//If settings aren't saved already create_default_feed_settings.
-		if ( ! $settings_array && $create_default) {
-			// Creates an array based on default settings of the feed_cpt_options_array.
-			$settings_array = $this->create_default_feed_settings();
-		}
-
-		return $settings_array;
-	}
-
-	/**
-	 * Get Feed Settings
-	 *
-	 * Get a single setting for the feed using feed post id and setting name.
-     *
-     * @param $feed_post_id string the feed post id to getting settings options from.
-	 * @param $setting_name string name of setting in the settings array.
-     * @param $create_default string create the default settings array if nothing else is set?
-     *
-	 * @return array | boolean
-	 */
-	public function get_feed_setting( $feed_post_id, $setting_name, $create_default = true ) {
-		// Get Feed Settings.
-		$feeds_settings = $this->get_feed_settings( $feed_post_id, $create_default );
-
-		return $feeds_settings[ $setting_name ] ?? false;
+		return $feeds_options[ $option_name ] ?? false;
 	}
 
 	/**
@@ -334,10 +306,8 @@ class Feed_Functions {
 	 * @param $feed_cpt_id string
 	 */
 	public function get_feed_type( $feed_cpt_id ){
-		// Get Saved Settings Array.
-		$feed_type = $this->get_feed_setting( $feed_cpt_id, 'feed_type' );
-
-		return $feed_type ?? false;
+		// Get Feed Type from Saved Options Array.
+		return $this->get_feed_option( $feed_cpt_id, 'feed_type' );
 	}
 
 	/**
@@ -1185,7 +1155,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                 // refresh token!
                 $button_pushed    = 'no';
 
-                $check_token =  $this->get_feed_setting( $post_id, 'fts_instagram_custom_api_token' );
+                $check_token =  $this->get_feed_option( $post_id, 'fts_instagram_custom_api_token' );
 
                 $check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
                 $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );

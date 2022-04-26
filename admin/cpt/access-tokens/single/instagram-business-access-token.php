@@ -1,6 +1,6 @@
 <?php
  /**
- * Feed Them Social - Instagram Business Access Options
+ * Feed Them Social - Instagram Business Access Functions
  *
  * This page is used to retrieve and set access tokens for Instagram Business.
  *
@@ -18,12 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Instagram_Business_Access_Options
+ * Class Instagram_Business_Access_Functions
  *
  * @package feedthemsocial
  * @since 3.0.0
  */
-class Instagram_Business_Access_Options {
+class Instagram_Business_Access_Functions {
 
 	/**
 	 * Feed Functions
@@ -59,15 +59,14 @@ class Instagram_Business_Access_Options {
     }
 
 	/**
-	 * Access Token Options
+	 *  Get Access Token Button
 	 *
 	 * @since 3.0.0
 	 */
-	public function access_options() {
+	public function get_access_token_button( $feed_cpt_id ) {
 
-        $post_id = isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : '';
         $post_url = add_query_arg( array(
-            'post' => $post_id,
+            'post' => $feed_cpt_id,
         ), admin_url( 'post.php' ) );
 
                 // call to get instagram account attached to the facebook page
@@ -83,10 +82,10 @@ class Instagram_Business_Access_Options {
                 <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
                 <?php
 
-                $page_id = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token_user_id' );
-                $app_token = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token' );
-                $instagram_name = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token_user_name' );
-                $fb_name = $this->feed_functions->get_feed_setting( $post_id, 'fts_facebook_instagram_custom_api_token_fb_user_name' );
+                $page_id = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token_user_id' );
+                $app_token = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token' );
+                $instagram_name = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token_user_name' );
+                $fb_name = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token_fb_user_name' );
 
                 // SRL 4-12-22. Holding off on this until talk with Justin on how we should deal with this.
                 $check_biz_token_value = false !== $this->data_protection->decrypt( $app_token ) ? $this->data_protection->decrypt( $app_token ) : $app_token;

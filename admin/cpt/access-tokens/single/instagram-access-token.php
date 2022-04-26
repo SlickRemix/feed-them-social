@@ -18,12 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Instagram_Access_Options
+ * Class Instagram_Access_Functions
  *
  * @package feedthemsocial
  * @since 3.0.0
  */
-class Instagram_Access_Options {
+class Instagram_Access_Functions {
 
 	/**
 	 * Feed Functions
@@ -59,21 +59,20 @@ class Instagram_Access_Options {
     }
 
 	/**
-	 * Access Token Options
+	 *  Get Access Token Button
 	 *
 	 * @since 3.0.0
 	 */
-	public function access_options() {
+	public function get_access_token_button( $feed_cpt_id ) {
 
-        $post_id = isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : '';
         $post_url = add_query_arg( array(
-            'post' => $post_id,
+            'post' => $feed_cpt_id,
         ), admin_url( 'post.php' ) );
 
 
-        $fts_instagram_access_token             = $this->feed_functions->get_feed_setting( $post_id, 'fts_instagram_custom_api_token' );
-        $fts_instagram_access_token_expires_in  = $this->feed_functions->get_feed_setting( $post_id, 'fts_instagram_custom_api_token_expires_in' );
-        $fts_instagram_custom_id                = $this->feed_functions->get_feed_setting( $post_id, 'fts_instagram_custom_id' );
+        $fts_instagram_access_token             = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' );
+        $fts_instagram_access_token_expires_in  = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token_expires_in' );
+        $fts_instagram_custom_id                = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_id' );
         $user_id_basic                          = isset( $_GET['code'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['user_id'] ) : $fts_instagram_custom_id;
         $access_token                           = isset( $_GET['code'], $_GET['feed_type']  ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $fts_instagram_access_token;
         $access_token_expires_in                = isset( $_GET['code'], $_GET['feed_type'] ) && 'instagram_basic' === $_GET['feed_type'] ? sanitize_text_field(  $_GET['expires_in'] - 4579200 ) : $fts_instagram_access_token_expires_in;
@@ -219,7 +218,7 @@ class Instagram_Access_Options {
         if (  ! empty( $fts_instagram_access_token ) && time() > $expiration_time ) {
             // refresh token action!
             // echo ' WTF ';
-            $this->feed_functions->feed_them_instagram_refresh_token( $post_id );
+            $this->feed_functions->feed_them_instagram_refresh_token( $feed_cpt_id );
         }
    }
 }//end class

@@ -1,6 +1,6 @@
 <?php
  /**
- * Feed Them Social - Twitter Access Options
+ * Feed Them Social - Twitter Access Functions
  *
  * This page is used to retrieve and set access tokens for Twitter.
  *
@@ -18,12 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Twitter_Access_Options
+ * Class Twitter_Access_Functions
  *
  * @package feedthemsocial
  * @since 3.0.0
  */
-class Twitter_Access_Options {
+class Twitter_Access_Functions {
 
 	/**
 	 * Feed Functions
@@ -77,15 +77,15 @@ class Twitter_Access_Options {
 	}
 
 	/**
-	 * Access Token Options
-	 *
+	 *  Get Access Token Button
+     *
+	 * @param $feed_cpt_id integer Feed CPT ID
 	 * @since 3.0.0
 	 */
-	public function access_options() {
+	public function get_access_token_button( $feed_cpt_id ) {
 
-        $post_id = isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : '';
         $post_url = add_query_arg( array(
-            'post' => $post_id,
+            'post' => $feed_cpt_id,
         ), admin_url( 'post.php' ) );
 
         // Check if new tokens have been returned.
@@ -100,8 +100,8 @@ class Twitter_Access_Options {
         $fts_twitter_custom_consumer_secret = isset( $fts_twitter_custom_consumer_secret ) && '' !== $fts_twitter_custom_consumer_secret ? $fts_twitter_custom_consumer_secret : $test_fts_twitter_custom_consumer_secret;
 
         // http://fts30.local/wp-admin/post.php?post=178&action=edit&feed_type=twitter&oauth_token=&oauth_token_secret=#feed_setup
-        $fts_twitter_custom_access_token = $this->feed_functions->get_feed_setting( $post_id, 'fts_twitter_custom_access_token' );
-        $fts_twitter_custom_access_token_secret = $this->feed_functions->get_feed_setting( $post_id, 'fts_twitter_custom_access_token_secret' );
+        $fts_twitter_custom_access_token = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_twitter_custom_access_token' );
+        $fts_twitter_custom_access_token_secret = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_twitter_custom_access_token_secret' );
 
 
         $test_connection = new TwitterOAuthFTS(

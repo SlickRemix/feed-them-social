@@ -51,7 +51,7 @@ class Settings_Functions {
     }
 
 	/**
-	 *  Required Plugins
+	 * Required Plugins
 	 *
 	 * Return an array of required plugins.
 	 *

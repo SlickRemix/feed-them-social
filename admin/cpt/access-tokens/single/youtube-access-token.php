@@ -1,6 +1,6 @@
 <?php
  /**
- * Feed Them Social - Youtube Access Options
+ * Feed Them Social - Youtube Access Functions
  *
  * This page is used to retrieve and set access tokens for Youtube.
  *
@@ -18,12 +18,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Youtube_Access_Options
+ * Class Youtube_Access_Functions
  *
  * @package feedthemsocial
  * @since 3.0.0
  */
-class Youtube_Access_Options {
+class Youtube_Access_Functions {
 
 	/**
 	 * Feed Functions
@@ -59,21 +59,21 @@ class Youtube_Access_Options {
 	}
 
 	/**
-	 * Access Token Options
-	 *
+	 *  Get Access Token Button
+     *
+     * @param $feed_cpt_id integer Feed CPT ID
 	 * @since 3.0.0
 	 */
-	public function access_options() {
+	public function get_access_token_button( $feed_cpt_id ) {
 
-        $post_id = isset( $_GET[ 'post' ] ) ? $_GET[ 'post' ] : '';
         $post_url = add_query_arg( array(
-            'post' => $post_id,
+            'post' => $feed_cpt_id,
         ), admin_url( 'post.php' ) );
 
-        $youtube_api_key        = $this->feed_functions->get_feed_setting( $post_id, 'youtube_custom_api_token' );
-        $youtube_refresh_token  = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['refresh_token'] ) : $this->feed_functions->get_feed_setting( $post_id, 'youtube_custom_refresh_token' );
-        $youtube_access_token   = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $this->feed_functions->get_feed_setting( $post_id, 'youtube_custom_access_token' );
-        $expiration_time        = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['expires_in'] ) : $this->feed_functions->get_feed_setting( $post_id, 'youtube_custom_token_exp_time' );
+        $youtube_api_key        = $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_api_token' );
+        $youtube_refresh_token  = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['refresh_token'] ) : $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' );
+        $youtube_access_token   = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_access_token' );
+        $expiration_time        = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['expires_in'] ) : $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
 
         ?>
         <script>
@@ -130,7 +130,7 @@ class Youtube_Access_Options {
             $this->feed_functions->feed_them_youtube_refresh_token();
         }
 
-        $expiration_time = '' !== $this->feed_functions->get_feed_setting( $post_id, 'youtube_custom_token_exp_time' ) ? get_option( 'youtube_custom_token_exp_time' ) : 500;
+        $expiration_time = '' !== $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ) ? get_option( 'youtube_custom_token_exp_time' ) : 500;
 
         // Give the access token a 5 minute buffer (300 seconds) before getting a new one.
         $expiration_time = $expiration_time - 300;

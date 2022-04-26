@@ -76,7 +76,7 @@ class Feed_Them_Social {
 		$feed_cpt_options = new \feedthemsocial\Feed_CPT_Options();
 
 		// Feed Functions.
-		$feed_functions = new \feedthemsocial\Feed_Functions( $settings_functions, $feed_cpt_options, $feed_cache, $data_protection );
+		$feed_functions = new \feedthemsocial\Feed_Functions( $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
 
 		// Settings Page.
         new \feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
@@ -84,14 +84,14 @@ class Feed_Them_Social {
 		// System Info.
 		new \feedthemsocial\System_Info( $settings_functions, $feed_cache );
 
-		// Access Options.
-        $access_options = new \feedthemsocial\Access_Options( $feed_functions, $data_protection );
-
 		// Setting Options JS.
 		$setting_options_js = new \feedthemsocial\Settings_Options_JS();
 
 		// Metabox Functions.
-		$metabox_functions = new \feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(), $settings_functions, $options_functions, 'fts_feed_options_array', );
+		$metabox_functions = new \feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(), $settings_functions, $options_functions, 'fts_feed_options_array' );
+
+		// Access Options.
+		$access_options = new \feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection );
 
 		// Feeds CPT.
         $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options );

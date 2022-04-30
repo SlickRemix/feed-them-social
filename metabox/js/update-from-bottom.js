@@ -6,7 +6,16 @@
         jQuery( '#feed_type' ).on(
             'change',
             function (e) {
+
+                // Grab the url so we can do stuff.
+                var url_string = window.location.href;
+                var url = new URL( url_string );
+                var cpt_id = url.searchParams.get("post");
+                var feed_type = url.searchParams.get("feed_type");
+                console.log( cpt_id );
+
                 var ftsGlobalValue = jQuery( this ).val();
+
                 // console.log(ftgGlobalValue);
                 // I know we can figure a way to condense this but for time sake just rolling with this.
                 if ( 'facebook-feed-type' == ftsGlobalValue ) {
@@ -16,7 +25,7 @@
                 }
                 else  {
                     jQuery( '.tab4' ).removeClass( 'fts-facebook-waiting-color' );
-                    jQuery( '.tab4 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab4 a' ).attr( 'style',  'pointer-events: none !important' );
                     jQuery( '.tab4 a .fts-click-cover' ).show();
                 }
 
@@ -27,7 +36,7 @@
                 }
                 else  {
                     jQuery( '.tab5' ).removeClass( 'fts-instagram-waiting-color' );
-                    jQuery( '.tab5 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab5 a' ).attr( 'style',  'pointer-events: none !important' );
                     jQuery( '.tab5 a .fts-click-cover' ).show();
                 }
 
@@ -38,7 +47,7 @@
                 }
                 else  {
                     jQuery( '.tab6' ).removeClass( 'fts-twitter-waiting-color' );
-                    jQuery( '.tab6 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab6 a' ).attr( 'style',  'pointer-events: none !important' );
                     jQuery( '.tab6 a .fts-click-cover' ).show();
                 }
 
@@ -49,8 +58,9 @@
                 }
                 else  {
                     jQuery( '.tab7' ).removeClass( 'fts-youtube-waiting-color' );
-                    jQuery( '.tab7 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab7 a' ).attr( 'style',  'pointer-events: none !important' );
                     jQuery( '.tab7 a .fts-click-cover' ).show();
+
                 }
                 if ( 'combine-streams-feed-type' == ftsGlobalValue ) {
                     jQuery( '.tab8' ).addClass( 'fts-combine-waiting-color' );
@@ -59,11 +69,49 @@
                 }
                 else  {
                     jQuery( '.tab8' ).removeClass( 'fts-combine-waiting-color' );
-                    jQuery( '.tab8 a' ).css( { 'pointer-events' : 'none' } );
+                    jQuery( '.tab8 a' ).attr( 'style',  'pointer-events: none !important' );
                     jQuery( '.tab8 a .fts-click-cover' ).show();
                 }
+
+                if( !feed_type ){
+                    // LEFT OFF HERE: I need to figure out how to not make this fire when the page first loads
+                    // something stupid is going on
+                    fts_access_token_type_ajax( ftsGlobalValue, cpt_id );
+                }
             }
-        ).change(); // The .change is so when the page loads it fires this on change event :) So ez!
+        ).change(); // The .change is so when the page loads it fires this on change event.
+        // This way the tab will be active based on the save feed_type option.
+
+        // Created a function out of this so we can reload it when the ajax fires to load the access token button and options.
+        // otherwise the click function will not fire.
+        function fts_reload_toggle_click(){
+            jQuery('#fts-feed-type h3, #fts-feed-type span').click(function () {
+                jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
+            });
+        }
+        fts_reload_toggle_click();
+
+
+        function fts_access_token_type_ajax( feed_type, cpt_id ) {
+
+            $.ajax({
+                data: {
+                    action: 'fts_access_token_type_ajax',
+                    cpt_id: cpt_id,
+                    feed_type: feed_type,
+                },
+                type: 'POST',
+                url: ftsAjax.ajaxurl,
+                success: function ( response ) {
+
+                    $('.fts-access-token').html( response );
+                    fts_reload_toggle_click();
+                    console.log( feed_type + ': Access Token Button/Options Success' );
+                }
+
+            }); // end of ajax()
+            return false;
+        }
 
         //This is for the sub nav tabs under each social network and controls what is visible.
         var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';

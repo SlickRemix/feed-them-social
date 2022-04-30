@@ -127,11 +127,12 @@ class Youtube_Access_Functions {
         if ( isset( $_GET['refresh_token'] ) && isset( $_GET['code'] ) && isset( $_GET['expires_in'] ) ) {
             // START AJAX TO SAVE TOKEN TO DB RIGHT AWAY SO WE CAN DO OUR NEXT SET OF CHECKS
             // new token action!
-            $this->feed_functions->feed_them_youtube_refresh_token();
+            $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
         }
 
-        $expiration_time = '' !== $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ) ? get_option( 'youtube_custom_token_exp_time' ) : 500;
-
+        $expiration_time = '' !== $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ) ? $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ) : '';
+        echo $expiration_time;
+        echo ' asdfasdfasdf ';
         // Give the access token a 5 minute buffer (300 seconds) before getting a new one.
         $expiration_time = $expiration_time - 300;
         // Test Liner!
@@ -173,12 +174,12 @@ class Youtube_Access_Functions {
         }
         ?>
         <div class="clear"></div>
-        <div class="feed-them-social-admin-input-wrap fts-youtube-token-wrap" id="fts-youtube-token-wrap" style="margin-bottom:0px;"><?php
+        <div class="feed-them-social-admin-input-wrap fts-youtube-token-wrap fts-token-wrap" id="fts-youtube-token-wrap"><?php
 
         // YO! making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
         if ( empty( $youtube_api_key ) && ! empty( $youtube_access_token ) && time() > $expiration_time ) {
             // refresh token action!
-            $this->feed_functions->feed_them_youtube_refresh_token();
+            $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
         }
 
         $user_id = $test_app_token_response;

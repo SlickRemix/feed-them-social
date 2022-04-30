@@ -61,7 +61,7 @@ class Feed_Them_Social {
 		$activate_plugin->add_actions_filters();
 
 		// Data Protection.
-		$data_protection = new feedthemsocial\Data_Protection();
+		$data_protection = new feedthemsocial\Data_Protection( $options_functions );
 
 		// Options Functions.
 		$options_functions = new feedthemsocial\Options_Functions( FEED_THEM_SOCIAL_POST_TYPE );
@@ -91,7 +91,7 @@ class Feed_Them_Social {
 		$metabox_functions = new \feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(), $settings_functions, $options_functions, 'fts_feed_options_array' );
 
 		// Access Options.
-		$access_options = new \feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection );
+		$access_options = new \feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
 
 		// Feeds CPT.
         $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options );

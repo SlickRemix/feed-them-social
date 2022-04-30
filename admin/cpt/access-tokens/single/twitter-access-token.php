@@ -157,7 +157,7 @@ class Twitter_Access_Functions {
 
         <div class="fts-clear"></div>
 
-        <div class="feed-them-social-admin-input-wrap">
+        <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap fts-token-wrap" id="fts-twitter-token-wrap">
             <?php
             // && !empty($test_fts_twitter_custom_access_token) && !empty($test_fts_twitter_custom_access_token_secret)!
             if ( ! empty( $fts_twitter_custom_access_token_secret ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {

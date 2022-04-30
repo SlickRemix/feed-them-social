@@ -134,6 +134,7 @@ class Options_Functions {
 	 */
 	public function update_single_option( $array_option_name, $option_name = '', $value = false, $is_cpt = false, $cpt_id = false ) {
 
+        error_log( $option_name );
 		// Can Current User Manage Options? If not Die!
         $this->check_user_manage_options();
 

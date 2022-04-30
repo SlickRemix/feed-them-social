@@ -50,7 +50,7 @@ class Feed_CPT_Options {
         $this->instagram_token_options();
         $this->instagram_business_token_options();
         $this->youtube_token_options();
-		$this->layout_options();
+		//$this->layout_options();
 		$this->color_options();
 		$this->facebook_options();
 		$this->instagram_options();
@@ -367,7 +367,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Your Instagram must be linked to a Facebook Business Page for this option to work. %1$sRead Instructions%2$s', 'feed_them_social' ),
+                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Your Instagram must be linked to a Facebook Business Page. %1$sRead Instructions%2$s', 'feed_them_social' ),
                         '<a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">',
                         '</a>'
                     ),
@@ -379,6 +379,7 @@ class Feed_CPT_Options {
                     'type'             => 'text',
                     'id'               => 'fts_facebook_instagram_custom_api_token',
                     'name'             => 'fts_facebook_instagram_custom_api_token',
+                    'data_token'       => '',
                     'placeholder'      => '',
                     'default_value'    => '',
                 ),
@@ -502,7 +503,7 @@ class Feed_CPT_Options {
 		$this->all_options['layout'] = array(
 			'section_attr_key'   => 'facebook_',
 			'section_title'      => esc_html( 'Facebook Options', 'feed_them_social' ),
-			'section_wrap_class' => 'ftg-section-options',
+			'section_wrap_class' => 'fts-section-options',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
@@ -1379,7 +1380,7 @@ class Feed_CPT_Options {
 		$this->all_options['colors'] = array(
 			'section_attr_key'   => 'facebook_',
 			'section_title'      => esc_html__( 'Feed Color Options', 'feed_them_social' ),
-			'section_wrap_class' => 'ftg-section-options',
+			'section_wrap_class' => 'fts-section-options',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',

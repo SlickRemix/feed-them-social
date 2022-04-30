@@ -641,18 +641,16 @@ class Feeds_CPT {
      * @param $params
      * @since 1.1.6
      */
-    public function tab_feed_setup( ) {
+    public function tab_feed_setup() {
 
         // Get Feed Type.
         $feed_type = $this->feed_functions->get_feed_type( $this->feed_cpt_id );
-
-        echo $feed_type;
 
         // Feed Type Options Selector.
 	    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['feed_type_options'], null, $this->feed_cpt_id );
 
         ?>
-        <div class="ftg-section">
+        <div class="fts-section">
             <?php
             // Error Notice HTML. Happens in JS file.
             $this->metabox_functions->error_notice_html(); ?>
@@ -666,7 +664,7 @@ class Feeds_CPT {
             </script>
         </div>
 
-        <div class="ftg-access-token">
+        <div class="fts-access-token">
             <?php
             // Get Access Token Options.
             $this->access_token_options->get_access_token_options( $feed_type, $this->feed_cpt_id );
@@ -711,7 +709,7 @@ class Feeds_CPT {
         if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
             ?>
 
-            <div class="ftg-section">
+            <div class="fts-section">
                 <?php $this->fts_tab_premium_msg(); ?>
             </div>
         <?php } ?>
@@ -775,7 +773,7 @@ class Feeds_CPT {
         if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
             ?>
 
-            <div class="ftg-section">
+            <div class="fts-section">
                 <?php $this->fts_tab_premium_msg(); ?>
             </div>
 		<?php } ?>
@@ -819,7 +817,7 @@ class Feeds_CPT {
         if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
             ?>
 
-            <div class="ftg-section">
+            <div class="fts-section">
                 <?php $this->fts_tab_premium_msg(); ?>
             </div>
         <?php } ?>
@@ -873,7 +871,7 @@ class Feeds_CPT {
         if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
             ?>
 
-                    <div class="ftg-section">
+                    <div class="fts-section">
 				<?php $this->fts_tab_premium_msg(); ?>
 					</div>
         <?php } ?>
@@ -916,7 +914,7 @@ class Feeds_CPT {
         if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
             ?>
 
-            <div class="ftg-section">
+            <div class="fts-section">
                 <?php $this->fts_tab_premium_msg(); ?>
             </div>
         <?php } ?>

@@ -82,7 +82,6 @@ class Feed_Functions {
         add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
         add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
 
-
         if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
             // Load More Options.
             add_action( 'wp_ajax_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
@@ -1275,7 +1274,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
      *
      * @since 2.3.3
      */
-    public function feed_them_youtube_refresh_token() {
+    public function feed_them_youtube_refresh_token( $feed_cpt_id ) {
 
         $fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
 
@@ -1294,8 +1293,10 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                 $postdata = http_build_query(
                     array(
                         'feed_them_social' => 'yes',
-                        'refresh_token'    => esc_html( get_option( 'youtube_custom_refresh_token' ) ),
-                        'expires_in'       => esc_html( get_option( 'youtube_custom_token_exp_time' ) ),
+
+                        // LEAVING OFF HERE NEED TO CHANGE OUT THESE GET OPTIONS!!!
+                        'refresh_token'    => $this->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' ),
+                        'expires_in'       => $this->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ),
                     )
                 );
 
@@ -1558,4 +1559,61 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			return $output;
 		}
 	}
+
+    /**
+     * FTS Instagram Token Ajax
+     *
+     * SRL: This will save the encrypted version of the token to the database and return the original token to the input field upon page submit.
+     *
+     * @since 2.9.7.2
+     */
+    public function fts_encrypt_token_ajax() {
+
+        $fts_refresh_token_nonce = wp_create_nonce( 'fts_encrypt_token_nonce' );
+        $access_token            = $_REQUEST['access_token'];
+        $encrypt                 = $this->data_protection->encrypt( $access_token );
+
+        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_encrypt_token_nonce' ) ) {
+
+            $cpt_id = $_REQUEST['cpt_id'];
+
+            if( 'basic' === $_REQUEST['token_type'] ){
+
+                // SRL 4-21-22: NEED TO UPDATE METHOD FOR CPT
+                // Now the encrypted version is saved to the DB.
+                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $encrypt, true, $cpt_id );
+
+               // print_r( $this->options_functions->update_single_option( $this->get_saved_feed_options( $cpt_id ), 'fts_instagram_custom_api_token', 'reeeeeeeee', true, $cpt_id ) );
+                $test = 'Testing';
+               // print_r(  $this->get_saved_feed_options( $cpt_id ))
+                //  update_option( 'fts_facebook_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
+            }
+            elseif ( 'business' === $_REQUEST['token_type'] ) {
+
+                // SRL 4-21-22: NEED TO UPDATE METHOD FOR CPT
+                // Now the encrypted version is saved to the DB.
+              //  update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
+            }
+            elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
+
+                // SRL 4-21-22: NEED TO UPDATE METHOD FOR CPT
+                // Now the encrypted version is saved to the DB.
+               // update_option( 'fts_facebook_custom_api_token', sanitize_text_field( $encrypt ) );
+            }
+        }
+        $token_data = array (
+            'test'       => $test,
+            'id'         => $cpt_id,
+            'token'      => $access_token,
+            'encrypted'  => $encrypt,
+        );
+
+        // We pass the original access token back so we can add it to our input field.
+        // Also passing the encrypted token so we can see it in the console.
+        echo json_encode( $token_data );
+
+        wp_die();
+    }
 }
+
+

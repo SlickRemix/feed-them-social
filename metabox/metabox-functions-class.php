@@ -113,9 +113,9 @@ class Metabox_Functions {
 	 * Constructor.
 	 *
 	 * @param array $default_options_array All the options.
-     * @param array $settings_functions Settings Functions.
-     * @param array $options_functions Options Functions.
-     * @param array $array_options_name Array Options name.
+     * @param object $settings_functions Settings Functions.
+     * @param object $options_functions Options Functions.
+     * @param string $array_options_name Array Options name.
 	 * @param string $is_page What page.
      *
 	 * @since 1.0

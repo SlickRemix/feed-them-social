@@ -1357,7 +1357,7 @@ pre {
     margin: 0 0 5px
 }
 
-div.ftg-section.section-last {
+div.fts-section.section-last {
     margin-bottom: 0 !important
 }
 
@@ -1395,13 +1395,13 @@ div.ftg-section.section-last {
     }
 }
 
-.tabs div.ftg-section {
+.tabs div.fts-section {
     /* margin: 0 0 30px; */
     position: relative;
     display: inline-block;
 }
 
-.tabs div.ftg-section input {
+.tabs div.fts-section input {
     /* padding: 7px 10px; */
     /* display: inline-block; */
 }
@@ -2686,7 +2686,7 @@ body .ft-gallery-popup a.fts-powered-by-text {
     margin-right: 8px
 }
 
-.post-type-fts_albums .tabs div.ftg-section {
+.post-type-fts_albums .tabs div.fts-section {
     margin: 0
 }
 

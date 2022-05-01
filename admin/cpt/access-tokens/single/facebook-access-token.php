@@ -104,7 +104,7 @@ class Facebook_Access_Funtions {
         }
         ?>
         <div class="clear"></div>
-        <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap" id="fts-fb-token-wrap" style="margin-bottom:0px;">
+        <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap fts-token-wrap" id="fts-fb-token-wrap">
             <?php
             if( !isset( $_GET['feed_type'] ) ) {
                 if ( !empty( $data ) ) {

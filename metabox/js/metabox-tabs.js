@@ -42,7 +42,7 @@ function ftg_admin_gallery_tabs() {
 function fts_ajax_cpt_save_token() {
 
     var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
-    window.location.replace(newUrl + '#fts-feed-type');
+    window.location.replace( newUrl + '#fts-feed-type' );
 
     jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
         beforeSend: function () {
@@ -52,14 +52,14 @@ function fts_ajax_cpt_save_token() {
 
         },
         success: function ( response ) {
-            console.log( response );
+            console.log( 'Token Saved Successfully' );
             jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-success-form'></div></div></div>");
             jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
             jQuery('#publishing-action .spinner').css("visibility", "hidden");
 
             setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
 
-            location.reload();
+             location.reload();
             // We change the text from Updating... at the bottom of a long page to Update.
             jQuery('.updatefrombottom a.button-primary').html("Update");
         }
@@ -78,19 +78,20 @@ function fts_ajax_cpt_save() {
 
         },
         success: function ( response ) {
-            console.log( response );
+            // Lets us know the options were saved ok.
+            console.log( 'Saved Successfully' );
             jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-success-form'></div></div></div>");
             jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
             jQuery('#publishing-action .spinner').css("visibility", "hidden");
-
 
             setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
 
             var hash2 = window.location.hash.replace('#', '');
 
-            // alert(hash2);
-            if ( hash2 === 'fts-feed-type' || hash2 === 'feed_setup' ) {
-
+            // #fts-feed-type: comes from the url populated by slickremix where we get the access token from.
+            // #feed_setup: comes from clicking on the Feed Setup tab
+            // if no hash then it's a new feed or possibly the #feed_setup hash was removed from the url.
+            if ( hash2 === 'fts-feed-type' || hash2 === 'feed_setup' || hash2 === '') {
                 location.reload();
             }
             // Change the text from Updating... at the bottom of a long page to Update.
@@ -101,10 +102,6 @@ function fts_ajax_cpt_save() {
 }
 
 jQuery(document).ready(function ($) {
-
-    jQuery('#fts-feed-type h3, #fts-feed-type span').click(function () {
-        jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
-    });
 
     jQuery('.ft-gallery-notice').on('click', '.ft-gallery-notice-close', function () {
         jQuery('.ft-gallery-notice').html('');
@@ -330,92 +327,102 @@ jQuery(document).ready(function ($) {
         jQuery(".feed_them_social-admin-input-label:contains('Center Facebook Container?')").parent('div').show();
     }
 
-    // show title description placement
-    jQuery('#fts_type').bind('change', function (e) {
-        if(jQuery('#fts_type').val() == 'post-in-grid' || jQuery('#fts_type').val() == 'post'){
-            jQuery('.ftg-page-title-description-placement-option-hide').show();
-        }
-        else {
-            jQuery('.ftg-page-title-description-placement-option-hide').hide();
-        }
-    });
-
-    if (jQuery('#fts_type').val() == 'post-in-grid' || jQuery('#fts_type').val() == 'post') {
-
-        jQuery('.ftg-page-title-description-placement-option-hide').show();
-        jQuery('.ft-gallery-hide-add-to-cart-over-image, .ft-gallery-hide-position-add-to-cart-over-image').hide();
 
 
-    }
-    else {
-        jQuery('.ftg-page-title-description-placement-option-hide').hide();
-    }
+
+});
 
 
-    // show cart icon placement if you chose the gallery (responsive) layout.
-    jQuery('#fts_type').bind('change', function (e) {
-        if(jQuery('#fts_type').val() == 'gallery'){
-            jQuery('.ft-gallery-hide-add-to-cart-over-image, .ft-gallery-hide-position-add-to-cart-over-image, .ft-gallery-hide-popup-or-add-to-cart-link, .ft-gallery-hide-icon-background-color, .ft-gallery-hide-icon-color, .ft-gallery-hide-icon-hover-color').show();
-        }
-        else {
-            jQuery('.ft-gallery-hide-add-to-cart-over-image, .ft-gallery-hide-position-add-to-cart-over-image, .ft-gallery-hide-popup-or-add-to-cart-link, .ft-gallery-hide-icon-background-color, .ft-gallery-hide-icon-color, .ft-gallery-hide-icon-hover-color').hide();
-        }
-    });
 
 
-    if (jQuery('#fts_type').val() == 'gallery') {
 
-        jQuery('.ft-gallery-hide-add-to-cart-over-image, .ft-gallery-hide-position-add-to-cart-over-image, .ft-gallery-hide-popup-or-add-to-cart-link, .ft-gallery-hide-icon-background-color, .ft-gallery-hide-icon-color, .ft-gallery-hide-icon-hover-color').show();
 
-    }
-    else {
-        jQuery('.ft-gallery-hide-add-to-cart-over-image, .ft-gallery-hide-position-add-to-cart-over-image, .ft-gallery-hide-popup-or-add-to-cart-link, .ft-gallery-hide-icon-background-color, .ft-gallery-hide-icon-color, .ft-gallery-hide-icon-hover-color').hide();
-    }
 
-    if (jQuery('#fts_type').val() == 'post-in-grid' || jQuery('#fts_type').val() == 'gallery' || jQuery('#fts_type').val() == 'gallery-collage') {
 
-        if (jQuery('#fts_type').val() == 'gallery') {
-            jQuery('#fts_height').show();
-            jQuery('.fb-page-columns-option-hide').show();
-            jQuery('.ftg-hide-for-columns').hide();
-            jQuery('.ftg-masonry-columns-option-hide').hide();
-            jQuery('.fb-page-grid-option-hide').show();
-        }
-        else {
-            jQuery('.fts_height').hide();
-            jQuery('.fb-page-columns-option-hide').hide();
-            jQuery('.ftg-hide-for-columns').show();
-            jQuery('.ftg-masonry-columns-option-hide').show();
-            jQuery('.fb-page-grid-option-hide').hide();
+
+
+
+
+
+jQuery(document).ready(function ($) {
+
+    // Grab the url so we can do stuff.
+    var url_string = window.location.href;
+    var url = new URL( url_string );
+    var cpt_id = url.searchParams.get("post");
+    var feed_type = url.searchParams.get("feed_type");
+
+    // Encrypt: Instagram Basic
+    if ( $('#fts_instagram_custom_api_token').length !== 0 ) {
+
+        if ( 'instagram_basic' === feed_type ) {
+
+                // User clicked enter or submit button.
+                console.log('Instagram Basic: Token set, now encrypting.');
+                fts_encrypt_token_ajax($('#fts_instagram_custom_api_token').val(), 'basic', '#fts_instagram_custom_api_token');
+
+        } else {
+            console.log('Instagram Basic: Token is already set & encrypted.');
         }
     }
-    else {
-        jQuery('.fb-page-grid-option-hide, .fts_height').hide();
-        jQuery('.ftg-masonry-columns-option-hide').hide();
-    }
 
-    // show grid options
-    jQuery('#fts_type').bind('change', function (e) {
-        if (jQuery('#fts_type').val() == 'post-in-grid' || jQuery('#fts_type').val() == 'gallery' || jQuery('#fts_type').val() == 'gallery-collage') {
-            if (jQuery('#fts_type').val() == 'gallery') {
-                jQuery('#fts_height').show();
-                jQuery('.fb-page-columns-option-hide').show();
-                jQuery('.ftg-hide-for-columns').hide();
-                jQuery('.ftg-masonry-columns-option-hide').hide();
-                jQuery('.fb-page-grid-option-hide').show();
+    // Encrypt: Instagram Business
+    if ( $('#fts_facebook_instagram_custom_api_token').length !== 0 ) {
+
+        if ('' === $('#fts_facebook_instagram_custom_api_token').data('token')) {
+
+            // If no value set then return message.
+            if ('' === $('#fts_facebook_instagram_custom_api_token').val()) {
+                console.log('Instagram Business: No token has been set.');
+            } else {
+                // User clicked enter or submit button.
+                console.log('Instagram Business: Token set, now encrypting.');
+                fts_encrypt_token_ajax($('#fts_facebook_instagram_custom_api_token').val(), 'business', '#fts_facebook_instagram_custom_api_token');
             }
-            else {
-                jQuery('.fts_height').hide();
-                jQuery('.fb-page-columns-option-hide').hide();
-                jQuery('.ftg-hide-for-columns').show();
-                jQuery('.ftg-masonry-columns-option-hide').show();
-                jQuery('.fb-page-grid-option-hide').hide();
+        } else {
+            console.log('Instagram Business: Token is already set & encrypted.');
+        }
+    }
+
+    // Encrypt: Facebook Business
+    if ( $('#fts_facebook_custom_api_token').length !== 0 ) {
+
+        if ('' === $('#fts_facebook_custom_api_token').data('token')) {
+
+            // If no value set then return message.
+            if ('' === $('#fts_facebook_custom_api_token').val()) {
+                console.log('Facebook Business: No token has been set.');
+            } else {
+                // User clicked enter or submit button.
+                console.log('Facebook Business: Token set, now encrypting.');
+                fts_encrypt_token_ajax($('#fts_facebook_custom_api_token').val(), 'fbBusiness', '#fts_facebook_custom_api_token');
             }
+        } else {
+            console.log('Facebook Business: Token is already set & encrypted.');
         }
-        else {
-            jQuery('.fb-page-grid-option-hide').hide();
-            jQuery('.ftg-masonry-columns-option-hide').hide();
-        }
-    });
+    }
+
+    function fts_encrypt_token_ajax( access_token, token_type , id ) {
+
+        $.ajax({
+            data: {
+                action: 'fts_encrypt_token_ajax',
+                cpt_id: cpt_id,
+                access_token: access_token,
+                token_type: token_type,
+            },
+            type: 'POST',
+            url: ftsAjax.ajaxurl,
+            success: function ( response ) {
+
+                var data = JSON.parse( response );
+                // Add the OG token to the input value and add the encrypted token to the data-attribute.
+                $( id ).attr('value', data.token).attr('data-token', 'encrypted');
+                console.log( id + ': OG Token and Encrypted Response: ' + response );
+            }
+
+        }); // end of ajax()
+        return false;
+    }
 
 });

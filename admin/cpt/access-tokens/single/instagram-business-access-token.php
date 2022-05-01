@@ -88,13 +88,13 @@ class Instagram_Business_Access_Functions {
                 $fb_name = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token_fb_user_name' );
 
                 // SRL 4-12-22. Holding off on this until talk with Justin on how we should deal with this.
-                $check_biz_token_value = false !== $this->data_protection->decrypt( $app_token ) ? $this->data_protection->decrypt( $app_token ) : $app_token;
-                $check_biz_encrypted = false !== $this->data_protection->decrypt( $app_token ) ? 'encrypted' : '';
+                $app_token_value = false !== $this->data_protection->decrypt( $app_token ) ? $this->data_protection->decrypt( $app_token ) : $app_token;
+                $app_token_encrypted = false !== $this->data_protection->decrypt( $app_token ) ? 'encrypted' : '';
 
                 if ( ! empty( $page_id ) || ! empty( $app_token ) ) {
 
                     $test_app_token_url = array(
-                        'app_token_id' => 'https://graph.facebook.com/debug_token?input_token=' . $app_token .' &access_token=' . $app_token,
+                        'app_token_id' => 'https://graph.facebook.com/debug_token?input_token=' . $app_token_value .' &access_token=' . $app_token,
                     );
 
                     // Check to see what the response is.
@@ -107,7 +107,7 @@ class Instagram_Business_Access_Functions {
                 }
                 ?>
                 <div class="clear"></div>
-                <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap" id="fts-fb-token-wrap" style="margin-bottom:0px;">
+                <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap fts-token-wrap" id="fts-fb-token-wrap">
                      <?php
                      if( !isset( $_GET['feed_type'] ) ) {
                          if ( !empty( $data ) ) {
@@ -173,6 +173,7 @@ class Instagram_Business_Access_Functions {
                         echo do_shortcode( '[fts_fb_page_token]' );
 
                     }
+                  //  echo do_shortcode( '[feed_them_social cpt_id=' . esc_html( $_GET['post'] ) . ']' );
                     ?>
                 </div>
 

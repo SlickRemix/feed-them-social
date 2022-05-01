@@ -576,7 +576,10 @@ label.toggle-custom-textarea-show {
 
 .fts-special-working-wrap {
     padding: 12px 15px 15px 18px !important;
-    max-width: 722px !important
+    max-width: 722px !important;
+}
+#feed_setup .fts-special-working-wrap h3 {
+    padding-top:0 !important;
 }
 
 #fts_facebook_custom_api_token, #fts_facebook_custom_api_token_biz, #fts_facebook_instagram_custom_api_token {
@@ -1313,13 +1316,18 @@ h1.plugin-author-note {
 #fts-timer {
     padding: 6px 0 0 1px;
     float: left;
-    line-height: .6;
-}
+    line-height: 1.2;
+    /* max-width: 100px; */}
 
+@font-face{
+    font-family:FontAwesomeSlickFeed;
+    src:url(../../includes/feeds/css/font/fontawesome-webfont.eot?v=3.2.1);
+    src:url(../../includes/feeds/css/font/fontawesome-webfont.eot?#iefix&v=3.2.1) format("embedded-opentype"),url(../../includes/feeds/css/font/fontawesome-webfont.woff?v=3.2.1) format("woff"),url(../../includes/feeds/css/font/fontawesome-webfont.ttf?v=3.2.1) format("truetype"),url(../../includes/feeds/css/font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1) format("svg")
+}
 @font-face {
     font-family: FontAwesomeSlick;
-    src: url(../../includes/feeds/css/font/fontawesome-webfont.eot?v=3.2.1);
-    src: url(../../includes/feeds/css/font/fontawesome-webfont.eot?#iefix&v=3.2.1) format("embedded-opentype"), url(../../includes/feeds/css/font/fontawesome-webfont.woff?v=3.2.1) format("woff"), url(../../includes/feeds/css/font/fontawesome-webfont.ttf?v=3.2.1) format("truetype"), url(../../includes/feeds/css/font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1) format("svg")
+    src: url(font/fa-brands-400.eot?v=3.2.1);
+    src: url(font/fa-brands-400.eot?#iefix&v=3.2.1) format("embedded-opentype"), url(font/fa-brands-400.woff?v=3.2.1) format("woff"), url(font/fa-brands-400.ttf?v=3.2.1) format("truetype"), url(font/fa-brands-400.svg#fontawesomeregular?v=3.2.1) format("svg")
 }
 
 .fts-success:before {
@@ -1433,7 +1441,7 @@ h1.plugin-author-note {
 
 .fts-arrow-icon:before {
     content: '\f054';
-    font-family: FontAwesomeSlick !important;
+    font-family: FontAwesomeSlickFeed !important;
     color: #00a400;
     font-size: 18px !important;
     position: relative;
@@ -1484,7 +1492,7 @@ h1.plugin-author-note {
 }
 
 .ftg-access-token {
-    clear: both;
+    /* clear: both; */
 
     padding: 15px;}
 
@@ -1514,6 +1522,9 @@ h1.plugin-author-note {
     background: #FFF;
 }
 
+.fts-combine-waiting-color svg {
+    fill: rgb(51 36 246) !important;
+}
 #ftg-tab-content1 .updatefrombottom {
     display: none !important;
 }
@@ -1575,8 +1586,8 @@ h1.plugin-author-note {
     transition: all .3s ease-in-out
 }
 
-#ftg-tab-content1 div.ftg-section {
-    padding-left: 15px;
+#ftg-tab-content1 div.fts-section {
+
     max-width: 100%
 }
 
@@ -2037,8 +2048,10 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 #ft-galleries-upload-mb .inside {
     padding-bottom: 0 !important
 }
-
-#ftg-tab-content1 div.ftg-section, #ftg-tab-content6 div.ftg-section {
+#fts-feed-type {
+    padding-left:5px;
+}
+#ftg-tab-content1 div.fts-section, #ftg-tab-content6 div.fts-section {
     max-width: 100%
 }
 #fts-feed-type {
@@ -2056,7 +2069,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     padding-right: 15px
 }
 
-.tab1 .ft_icon:before, .tab2 .ft_icon:before, .tab3 .ft_icon:before, .tab4 .ft_icon:before, .tab5 .ft_icon:before, .tab6 .ft_icon:before, .tab7 .ft_icon:before, .tab8 .ft_icon:before {
+.tab1 .ft_icon:before, .tab2 .ft_icon:before, .tab3 .ft_icon:before, .tab4 .ft_icon:before, .tab5 .ft_icon:before, .tab6 .ft_icon:before, .tab7 .ft_icon:before {
     margin-right: 7px;
     font-family: FontAwesomeSlick;
     font-size: 20px;
@@ -2108,7 +2121,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     font-weight: 500;
 }
 
-.ft-gallery-settings-tabs-meta-wrap .ftg-section {
+.ft-gallery-settings-tabs-meta-wrap .fts-section {
     display: block !important;
 }
 
@@ -2162,7 +2175,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     /* background: #f9f9f9; */
 }
 
-.ftg-section h3 {
+.fts-section h3 {
     padding: 8px 20px 5px 10px;
     font-size: 18px;
     float: left;
@@ -2408,7 +2421,7 @@ h3.sectioned-options-title {
     line-height: 19px;
 }
 
-#ftg-tab-content5 .ftg-section {
+#ftg-tab-content5 .fts-section {
     margin-bottom: 0
 }
 
@@ -2665,7 +2678,8 @@ ul.ftg-free-list {
     color: #fff
 }
 
-.post-type-fts .tabbed a, .post-type-fts_albums .tabbed a {
+.post-type-fts .tabbed a, .post-type-fts_albums .tabbed a, .post-type-fts_albums .tabbed svg {
+    fill: #545454;
     color: #545454;
     text-decoration: none;
     display: block;
@@ -2792,10 +2806,6 @@ span.ftg-gallery-images-count {
     height: 22px !important
 }
 
-.tab8 .ft_icon:before {
-    content: '\f4ee';
-}
-
 .ftg-media-tag-no-tags {
     display: none
 }
@@ -2905,8 +2915,8 @@ button.ft-gallery-edit-img-popup {
     padding-top:25px !important;
     cursor: pointer;
 }
-.fts-token-wrap h3:before {
-    font-family: FontAwesomeSlick !important;
+#fts-feed-type.fts-token-wrap h3:before {
+    font-family: FontAwesomeSlickFeed !important;
     content:"\f013";
     color:#0173a88c;
     margin:0 5px 0 0;
@@ -2927,11 +2937,18 @@ button.ft-gallery-edit-img-popup {
     margin:0;
     min-height:auto
 }
+.fts-youtube-add-all-keys-click-option .instructional-text {
+    margin-bottom:0px !important;
+}
+
+#fts_twitter_custom_access_token_secret {
+    margin-bottom:20px !important;
+}
 .fts-token-wrap .instructional-text  {
     padding:0;
     background:none;
     border:none;
-    margin: 0;
+    margin: 0 0 5px 0;
 }
 .fts-exp-time-wrapper .feed_them_social-admin-input-label{
     overflow:hidden;
@@ -2942,4 +2959,27 @@ button.ft-gallery-edit-img-popup {
 }
 .instructional-text span {
     color:#0173a8;
-    cursor: pointer;}
+    cursor: pointer;
+}
+#fts_facebook_custom_api_token_user_name, #youtube_custom_token_exp_time, #fts_facebook_custom_api_token_user_name {
+    margin-bottom:20px;
+}
+
+.fts-exp-time-wrapper, #fts_instagram_custom_api_token_expires_in {
+    margin-bottom:10px !important;
+}
+#fts_instagram_custom_id, .fts-instagram-custom-access-token .feed_them_social-admin-input-label {
+    margin-top:20px !important;
+}
+.tabbed.tab8 svg {
+    margin-right: 7px;
+    top: 5px;
+    left:3px;
+    position: relative;
+}
+.tabbed.tab8 .ft_icon {
+    color: rgb(29, 155, 240) !important;
+}
+.post-type-fts .tab8 .active .ft_icon svg {
+    fill: #fff !important
+}

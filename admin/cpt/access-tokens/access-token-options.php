@@ -52,6 +52,15 @@ class Access_Options {
 	 */
 	public $data_protection;
 
+    /**
+     * Options Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $options_functions;
+
 	/**
 	 * Construct
 	 *
@@ -59,7 +68,11 @@ class Access_Options {
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection ) {
+	public function __construct( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions ) {
+
+        // Options Functions Class.
+        $this->options_functions = $options_functions;
+
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
 
@@ -71,6 +84,8 @@ class Access_Options {
 
 		// Feed CPT Options Array.
 		$this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
+
+        add_action( 'wp_ajax_fts_access_token_type_ajax', array( $this, 'fts_access_token_type_ajax' ) );
 
         // Facebook & Instagram get Access Token.
         add_shortcode( 'fts_fb_page_token', array( $this, 'fts_fb_page_token_func' ) );
@@ -91,55 +106,59 @@ class Access_Options {
 					// Facebook Access Functions.
 					$facebook_access_functions = new Facebook_Access_Funtions( $this->feed_functions, $this->data_protection );
 
-					// Get Access button for Facebook.
+                    // Load Facebook Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
+
+                    // Get Access button for Facebook.
 					$facebook_access_functions->get_access_token_button( $feed_cpt_id );
 
-                    // Load Facebook Token Option Fields.
-					echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
-					break;
+                    break;
 
 				case 'instagram-feed-type':
 					// Instagram Access Functions.
 					$instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
 
-					// Load the options.
+                    // Load Instagram Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
+
+                    // Load the options.
                     $instagram_access_functions->get_access_token_button( $feed_cpt_id );
 
-					// Load Instagram Token Option Fields.
-					echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
 					break;
 
                 case 'instagram-business-feed-type':
 	                // Instagram Business Access Functions.
 	                $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
 
-	                // Load the options.
+                    // Load Instagram Business Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+
+                    // Load the options.
 	                $instagram_business_access_functions->get_access_token_button( $feed_cpt_id );
 
-	                // Load Instagram Business Token Option Fields.
-	                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
-                    break;
+	               break;
 
 				case 'twitter-feed-type':
 					// Twitter Access Functions.
 					$twitter_access_functions = new Twitter_Access_Functions( $this->feed_functions, $this->data_protection );
 
-					// Load the options.
+                    // Load Instagram Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
+
+                    // Load the options.
 					$twitter_access_functions->get_access_token_button( $feed_cpt_id );
 
-					// Load Instagram Token Option Fields.
-					echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
 					break;
 
 				case 'youtube-feed-type':
 					// Youtube Access Functions.
 					$youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
 
-					// Load the options.
-					$youtube_access_functions->get_access_token_button( $feed_cpt_id );
+                    // Load Instagram Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
 
-					// Load Instagram Token Option Fields.
-					echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
+                    // Load the options.
+					$youtube_access_functions->get_access_token_button( $feed_cpt_id );
 
 					break;
 			}
@@ -147,7 +166,8 @@ class Access_Options {
 
 		}
 		// Didn't find any options.
-		return esc_html__( 'Oop, No Access Token options have been found for this social network', 'feed_them_social' );
+        // Turning off because this will never be the case.
+		// return esc_html__( 'Oop, No Access Token options have been found for this social network', 'feed_them_social' );
 	}
 
 
@@ -563,5 +583,28 @@ class Access_Options {
             return ob_get_clean();
         }
         exit;
+    }
+
+
+    /**
+     * FTS Instagram Token Ajax
+     *
+     * SRL: This will save the encrypted version of the token to the database and return the original token to the input field upon page submit.
+     *
+     * @since 2.9.7.2
+     */
+    public function fts_access_token_type_ajax() {
+
+        $fts_refresh_token_nonce = wp_create_nonce( 'fts_access_token_type_ajax' );
+        $feed_type = $_REQUEST['feed_type'];
+        $cpt_id    = $_REQUEST['cpt_id'];
+        $this->options_functions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id );
+
+        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_access_token_type_ajax' ) ) {
+
+            echo $this->get_access_token_options( $feed_type, $cpt_id );
+        }
+
+        wp_die();
     }
 }//end class

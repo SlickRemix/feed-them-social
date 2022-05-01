@@ -117,9 +117,11 @@ class Instagram_Access_Functions {
                     '<a href="mailto:support@slickremix.com" class="fts-admin-button-no-work">',
                     '</a>'
                 );
-                ?>
-                 <div class="fts-clear"></div>
-                <?php
+                 ?>
+        <div class="clear"></div>
+        <div class="feed-them-social-admin-input-wrap fts-instagram-token-wrap fts-token-wrap" id="fts-instagram-token-wrap">
+            <?php
+
 
         if ( ! empty( $data ) ) {
 
@@ -220,5 +222,8 @@ class Instagram_Access_Functions {
             // echo ' WTF ';
             $this->feed_functions->feed_them_instagram_refresh_token( $feed_cpt_id );
         }
+       ?>
+     </div>
+    <?php
    }
 }//end class

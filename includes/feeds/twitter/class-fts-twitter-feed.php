@@ -19,8 +19,6 @@ class Twitter_Feed {
 
     public $feed_functions;
 
-    public $feed_cpt;
-
     public $feed_cache;
 
 	/**
@@ -31,14 +29,11 @@ class Twitter_Feed {
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct( $feed_functions, $feed_cpt, $feed_cache ) {
+	public function __construct( $feed_functions, $feed_cache ) {
 		$this->add_actions_filters();
 
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
-
-		// Set Feed CPT object.
-		$this->feed_cpt = $feed_cpt;
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;

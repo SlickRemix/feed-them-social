@@ -41,9 +41,11 @@ class Shortcodes {
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
 
-		$this->facebook_feed = new Facebook_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
+		// Facebook Feed.
+		$this->facebook_feed = new Facebook_Feed( $this->feed_functions, $this->feed_cache );
 
-		$this->twitter_feed = new Twitter_Feed( $this->feed_functions, $this->feeds_cpt, $this->feed_cache );
+		// Twitter Feed.
+		$this->twitter_feed = new Twitter_Feed( $this->feed_functions, $this->feed_cache );
 	}
 
     /**

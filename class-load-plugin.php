@@ -61,7 +61,7 @@ class Feed_Them_Social {
 		$activate_plugin->add_actions_filters();
 
 		// Data Protection.
-		$data_protection = new feedthemsocial\Data_Protection( $options_functions );
+		$data_protection = new feedthemsocial\Data_Protection();
 
 		// Options Functions.
 		$options_functions = new feedthemsocial\Options_Functions( FEED_THEM_SOCIAL_POST_TYPE );
@@ -240,11 +240,14 @@ class Feed_Them_Social {
 		// Feeds CPT Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feeds-cpt-class.php';
 
+		// Facebook Feed.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed.php';
+
         // Twitter OAuth.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
 
 		// Twitter Feed.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-fts-twitter-feed.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-twitter-feed.php';
 
 		// Feed Cache
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';

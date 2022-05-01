@@ -13,9 +13,9 @@
 namespace feedthemsocial;
 
 /**
- * FTS Twitter Feed Class
+ * Twitter Feed Class
  */
-class FTS_Twitter_Feed {
+class Twitter_Feed {
 
     public $feed_functions;
 

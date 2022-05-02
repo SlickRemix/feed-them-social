@@ -138,6 +138,8 @@ class Shortcodes {
 				//Filter by Feed Type
 				switch ( $feed_type ){
 					case 'facebook-feed-type':
+						//Display the Feed!
+						echo $this->facebook_feed->display_facebook( $inputted_atts );
 						break;
 					case 'instagram-feed-type':
 						break;

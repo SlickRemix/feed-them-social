@@ -243,6 +243,9 @@ class Feed_Them_Social {
 		// Facebook Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed.php';
 
+		// Facebook Feed Post Types.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed-post-types.php';
+
         // Twitter OAuth.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
 

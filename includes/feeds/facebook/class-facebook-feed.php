@@ -61,15 +61,15 @@ class Facebook_Feed {
 
 
 	/**
-	 * FTS FB Func
+	 * Display Facebook
 	 *
-	 * Display Facebook Feed.
+	 * Outputs the Facebook Feed.
 	 *
 	 * @param string $atts Shortcode attributes.
 	 * @return string
 	 * @since 1.9.6
 	 */
-	public function fts_fb_func( $atts ) {
+	public function display_facebook( $atts ) {
 		// masonry snippet in fts-global.
 		wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 		$developer_mode = 'on';

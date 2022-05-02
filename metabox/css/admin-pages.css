@@ -2736,3 +2736,104 @@ body .ft-gallery-popup a.fts-powered-by-text {
     margin: 14px 0 25px;
     font-size: 13px;
 }
+.fts-social-icon-wrap-active div {
+    color:#333 !important
+}
+.fts-select-social-network-menu .fts-social-icon-wrap {
+    display: inline-block;
+    font-size: 38px;
+    line-height: normal;
+    max-width: 90px;
+    width: 100%;
+    cursor: pointer;
+    font-family: FontAwesomeSlick !important;
+    padding: 10px 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(221, 221, 221, 0.28);
+    border-image: initial;
+    background: #fff;
+}
+
+.fts-social-icon-wrap:hover div, .fts-social-icon-wrap:hover, .fts-social-icon-wrap:hover span:before, .fts-social-icon-wrap:hover svg {
+    background:#0173a9 !important;
+    color:#fff !important;
+    fill:#fff !important;
+
+}
+#ftg-tab-content1 {
+    padding-top:15px;
+}
+#fts-tab-content h3 {
+    text-align:center;
+    float:none;
+    margin-bottom:15px;
+}
+#feed_setup #fts-feed-type h3 {
+    text-transform: none !important;
+}
+.fts-social-icon-wrap {
+    display: inline-block;
+    font-size: 38px;
+    font-family: FontAwesomeSlick !important;
+    padding: 20px;
+    margin: 0 10px;
+}
+.fts-social-icon-wrap span:before, .fts-social-icon-wrap span svg {
+    color:#c2c2c2 !important;
+    fill:#c2c2c2 !important;
+}
+.fts-instagram::before {
+    content: "\f16d";
+    font-size: 34px;
+    color: #404040;
+}
+.fts-social-icon-wrap-active .fts-instagram::before {
+    color: #404040 !important;
+}
+.fts-facebook::before {
+    content: "";
+    font-size: 32px;
+}
+.fts-social-icon-wrap-active .fts-facebook::before {
+    color: rgb(11, 138, 240) !important;
+}
+.fts-twitter::before {
+    content: "";
+    font-size: 31px;
+}
+.fts-social-icon-wrap-active .fts-twitter::before {
+    color: rgb(29, 161, 242) !important;
+}
+.fts-youtube::before {
+    content: "";
+    font-size: 33px;
+}
+.fts-social-icon-wrap-active .fts-youtube::before {
+    color: rgb(255, 0, 0) !important;
+}
+.fts-combined svg {
+    max-width: 32px;
+    position: relative;
+    top: 3px;
+}
+.fts-social-icon-wrap-active:hover .fts-combined svg {
+    fill: rgb(255 255 255) !important;
+}
+.fts-social-icon-wrap-active .fts-combined svg {
+    fill: rgb(255 178 45) !important;
+}
+.fts-select-social-network-menu .fts-social-icon-wrap div {
+    font-size: 13px;
+    display: block;
+    padding-top: 5px;
+    line-height: 17px;
+    font-family: arial;
+    max-width: 150px;
+    color: #a3a2a2;}
+.fts-select-social-network-menu {
+    text-align:center;
+}
+.ft-wp-gallery-type {
+    /* background:none !important; */
+    border: none !important;}

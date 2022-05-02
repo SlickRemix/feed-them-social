@@ -213,13 +213,6 @@ class Youtube_Access_Functions {
                 '</div>'
             );
         }
-        if ( empty( $youtube_api_key ) && empty( $youtube_access_token ) ) {
-            echo sprintf(
-                esc_html__( '%1$s Click the button above or register for an API Key to use the YouTube feed.%2$s', 'feed-them-social' ),
-                '<div class="fts-failed-api-token">',
-                '</div>'
-            );
-        }
         ?>
         </div>
         <?php

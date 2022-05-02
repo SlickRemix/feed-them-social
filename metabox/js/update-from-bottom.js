@@ -2,8 +2,17 @@
     "use strict";
     $( document ).ready(function() {
 
+        // Use our buttons to change our #feed_type select option.
+        $( '.fts-social-icon-wrap' ).click(function() {
+                const fts_type = $(this).data('fts-feed-type');
+                $( '#feed_type' ).val( fts_type ).trigger('change').attr('selected', 'selected');
+                $( '.fts-social-icon-wrap' ).removeClass( 'fts-social-icon-wrap-active' );
+                $( this ).addClass( 'fts-social-icon-wrap-active' );
+            }
+        );
+
         // This is for the select a social network tab and controls what tab is selected and visible in the tabs menu,
-        jQuery( '#feed_type' ).on(
+        $( '#feed_type' ).on(
             'change',
             function (e) {
 
@@ -22,6 +31,8 @@
                     jQuery( '.tab4' ).addClass( 'fts-facebook-waiting-color' );
                     jQuery( '.tab4 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab4 a .fts-click-cover' ).hide();
+                    $( '.fts-social-icon-wrap.facebook-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
+
                 }
                 else  {
                     jQuery( '.tab4' ).removeClass( 'fts-facebook-waiting-color' );
@@ -33,6 +44,7 @@
                     jQuery( '.tab5' ).addClass( 'fts-instagram-waiting-color' );
                     jQuery( '.tab5 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab5 a .fts-click-cover' ).hide();
+                    $( '.fts-social-icon-wrap.instagram-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
                 }
                 else  {
                     jQuery( '.tab5' ).removeClass( 'fts-instagram-waiting-color' );
@@ -44,6 +56,7 @@
                     jQuery( '.tab6' ).addClass( 'fts-twitter-waiting-color' );
                     jQuery( '.tab6 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab6 a .fts-click-cover' ).hide();
+                    $( '.fts-social-icon-wrap.twitter-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
                 }
                 else  {
                     jQuery( '.tab6' ).removeClass( 'fts-twitter-waiting-color' );
@@ -55,6 +68,7 @@
                     jQuery( '.tab7' ).addClass( 'fts-youtube-waiting-color' );
                     jQuery( '.tab7 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab7 a .fts-click-cover' ).hide();
+                    $( '.fts-social-icon-wrap.youtube-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
                 }
                 else  {
                     jQuery( '.tab7' ).removeClass( 'fts-youtube-waiting-color' );
@@ -66,6 +80,7 @@
                     jQuery( '.tab8' ).addClass( 'fts-combine-waiting-color' );
                     jQuery( '.tab8 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab8 a .fts-click-cover' ).hide();
+                    $( '.fts-social-icon-wrap.combine-streams-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
                 }
                 else  {
                     jQuery( '.tab8' ).removeClass( 'fts-combine-waiting-color' );
@@ -87,6 +102,7 @@
         function fts_reload_toggle_click(){
             jQuery('#fts-feed-type h3, #fts-feed-type span').click(function () {
                 jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
+                jQuery( this ).toggleClass( 'fts-feed-type-active' );
             });
         }
         fts_reload_toggle_click();

@@ -151,22 +151,7 @@ class Instagram_Access_Functions {
                         '</div>'
                     );
                 }
-
-                if ( isset( $data->data->error->message ) && empty( $user_id_basic ) || isset( $data->error->message ) && empty( $user_id_basic ) ) {
-                    echo sprintf(
-                        esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
-                        '<div class="fts-failed-api-token get-started-message">',
-                        '</div>'
-                    );
-                }
             }
-        }
-        else {
-                echo sprintf(
-                    esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
-                    '<div class="fts-failed-api-token get-started-message">',
-                    '</div>'
-                );
         }
 
         // Take the time() + $expiration_time will equal the current date and time in seconds, then we add the 60 days worth of seconds to the time.

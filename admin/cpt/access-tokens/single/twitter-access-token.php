@@ -175,20 +175,7 @@ class Twitter_Access_Functions {
                             '</div>'
                         );
                     }
-                } else {
-                    echo sprintf(
-                        esc_html__( '%1$sYour access token is working! Now you can create your %2$sTwitter Feed%3$s', 'feed-them-social' ),
-                        '<div class="fts-successful-api-token">',
-                        '<a class="fts-twitter-successful-api-token" href="#twitter_feed">',
-                        '</a>.</div>'
-                    );
                 }
-            } else {
-                echo sprintf(
-                    esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
-                    '<div class="fts-failed-api-token get-started-message">',
-                    '</div>'
-                );
             }
             ?>
         </div>

@@ -613,7 +613,6 @@ label.toggle-custom-textarea-show {
     border-radius: 5px;
     box-shadow: 0 1px 1px #999;
     display: block;
-    clear: both;
     float: left;
     font-size: 14px;
     margin-bottom: 10px;
@@ -1516,6 +1515,15 @@ h1.plugin-author-note {
     color: #ff0000 !important;
     background: #FFF;
 }
+.das-text {
+    color: #333;
+}
+.account-tab-highlighted .das-text {
+    color:#333 !important;
+}
+.active .das-text {
+    color:#fff !important
+}
 
 .fts-combine-waiting-color a, .fts-combine-waiting-color {
     color: rgb(51 36 246) !important;
@@ -1523,7 +1531,7 @@ h1.plugin-author-note {
 }
 
 .fts-combine-waiting-color svg {
-    fill: rgb(51 36 246) !important;
+    fill: rgb(255 177 44) !important;
 }
 #ftg-tab-content1 .updatefrombottom {
     display: none !important;
@@ -2918,8 +2926,11 @@ button.ft-gallery-edit-img-popup {
 #fts-feed-type.fts-token-wrap h3:before {
     font-family: FontAwesomeSlickFeed !important;
     content:"\f013";
-    color:#0173a88c;
+    color:#c9c9c9 ;
     margin:0 5px 0 0;
+}
+h3.fts-feed-type-active:before {
+    color:#0173a8 !important;
 }
 .fts-token-wrap .feed_them_social-admin-input-label, .tabs .fts-token-wrap input[type=text] {
     display: none;
@@ -2982,4 +2993,7 @@ button.ft-gallery-edit-img-popup {
 }
 .post-type-fts .tab8 .active .ft_icon svg {
     fill: #fff !important
+}
+.ft-wp-gallery-type .feed_them_social-admin-input-label, #feed_type {
+    display:none;
 }

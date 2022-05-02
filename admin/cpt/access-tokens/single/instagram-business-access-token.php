@@ -145,21 +145,7 @@ class Instagram_Business_Access_Functions {
                                          '</div>'
                                      );
                                  }
-
-                                 if ( isset( $data->data->error->message ) && empty( $data ) || isset( $data->error->message ) && empty( $data ) ) {
-                                     echo sprintf(
-                                         esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
-                                         '<div class="fts-failed-api-token get-started-message">',
-                                         '</div>'
-                                     );
-                                 }
                              }
-                         } else {
-                             echo sprintf(
-                                 esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
-                                 '<div class="fts-failed-api-token get-started-message">',
-                                 '</div>'
-                             );
                          }
                      }
                     ?>

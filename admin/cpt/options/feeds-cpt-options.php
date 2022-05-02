@@ -72,7 +72,7 @@ class Feed_CPT_Options {
 	public function feed_type_options() {
 		$this->all_options['feed_type_options'] = array(
 			'section_attr_key'   => 'feed_type_',
-			'section_title'      => esc_html__( 'Select Social Network', 'feed_them_social' ),
+			//'section_title'      => esc_html__( 'Click on Social Network', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -87,18 +87,18 @@ class Feed_CPT_Options {
 					'option_type'      => 'select',
 					'label'            => trim(
 						sprintf(
-							esc_html__( 'Choose a Social Network: ', 'feed_them_social' ),
+							esc_html__( 'Feed Type: ', 'feed_them_social' ),
 							'<br/><small>',
 							'</small>'
 						)
 					),
 					'type'             => 'text',
-                    'instructional-text' => sprintf(
+                   /* 'instructional-text' => sprintf(
                         esc_html__( '1. Select the Social Network you want to create a feed for. %1$s2. Get your access token. %1$s3. Click on the Social Network tab to the left and set your options. %1$s%1$sNote: To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.', 'feed_them_social' ),
                         '<br/>',
                         '<a href="post-new.php?post_type=fts" >',
                         '</a>',
-                    ),
+                    ),*/
 
                     'id'               => 'feed_type',
 					'name'             => 'feed_type',

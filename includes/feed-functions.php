@@ -1084,21 +1084,20 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
             if ( isset( $_REQUEST['button_pushed'] ) && 'yes' === $_REQUEST['button_pushed'] ) {
 
                 if( 'youtube' ===  $_REQUEST['feed'] && !empty( $_REQUEST['refresh_token'] )  ){
-                    update_option( 'youtube_custom_refresh_token', sanitize_text_field( wp_unslash( $_REQUEST['refresh_token'] ) ) );
-
+                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', esc_html( $_REQUEST['refresh_token'] ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
                 }
                 if ( 'instagram' ===  $_REQUEST['feed'] && !empty( $_REQUEST['access_token'] ) ){
-                    update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
+                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', esc_html( $_REQUEST['refresh_token'] ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
                 }
             }
             if ( !empty( $_REQUEST['access_token'] ) ) {
 
                 if( 'youtube' ===  $_REQUEST['feed'] ){
-                    update_option( 'youtube_custom_access_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
+                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', esc_html( $_REQUEST['access_token'] ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
 
                 }
                 if ( 'instagram' ===  $_REQUEST['feed'] ){
-                    update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
+                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', esc_html( $_REQUEST['access_token'] ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
                 }
             }
 
@@ -1106,15 +1105,14 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
                 $startoftime         = isset( $_REQUEST['expires_in'] ) ? strtotime( '+' . $_REQUEST['expires_in'] . ' seconds' ) : '';
                 $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-                update_option( 'youtube_custom_token_exp_time', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
+                $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
             }
 
             if( 'instagram' ===  $_REQUEST['feed'] ){
 
-                $startoftime         = isset( $_REQUEST['expires_in'] ) ?  $_REQUEST['expires_in'] : '';
+                $startoftime         = isset( $_REQUEST['expires_in'] ) ?? '';
                 $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-                update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
-
+                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
                 echo wp_unslash(  $_REQUEST['expires_in'] );
                 echo '<br/>';
             }
@@ -1137,7 +1135,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
      *
      * @since 2.3.3
      */
-    public function feed_them_instagram_refresh_token( $post_id ) {
+    public function feed_them_instagram_refresh_token( $feed_cpt_id ) {
 
         $fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
 
@@ -1154,7 +1152,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                 // refresh token!
                 $button_pushed    = 'no';
 
-                $check_token =  $this->get_feed_option( $post_id, 'fts_instagram_custom_api_token' );
+                $check_token =  $this->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' );
 
                 $check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
                 $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
@@ -1201,7 +1199,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                             action: "fts_refresh_token_ajax",
                             access_token: '<?php echo esc_js( $encrypted_token ); ?>',
                             expires_in: '<?php echo esc_js( $expires_in ); ?>',
-                            post_id: '<?php echo esc_js( $post_id ); ?>',
+                            feed_cpt_id: '<?php echo esc_js( $feed_cpt_id ); ?>',
                             button_pushed: '<?php echo esc_js( $button_pushed ); ?>',
                             feed: 'instagram'
                         },
@@ -1343,6 +1341,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                             action: "fts_refresh_token_ajax",
                             refresh_token: '<?php echo esc_js( $clienttoken_post['refresh_token'] ) ?>',
                             access_token: '<?php echo esc_js( $access_token ) ?>',
+                            feed_cpt_id: '<?php echo esc_js( $feed_cpt_id ); ?>',
                             expires_in: '<?php echo esc_js( $expires_in ) ?>',
                             button_pushed: '<?php echo esc_js( $button_pushed ); ?>',
                             feed: 'youtube'

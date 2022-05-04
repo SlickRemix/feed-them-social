@@ -132,9 +132,11 @@ class Twitter_Access_Functions {
         // 'count' => '1',
         // )
         // );
-         /*echo '<pre>';
-         print_r($fetched_tweets);
+
+        /* echo '<pre>';
+         print_r( $fetched_tweets) ;
          echo '</pre>';*/
+
         // END TESTING!
 
         if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) { ?>
@@ -175,6 +177,13 @@ class Twitter_Access_Functions {
                             '</div>'
                         );
                     }
+                } else {
+                    echo sprintf(
+                        esc_html__( '%1$s%2$sCreate Twitter Feed%3$s', 'feed-them-social' ),
+                        '<div class="fts-successful-api-token fts-special-working-wrap">',
+                        '<a class="fts-twitter-successful-api-token fts-success-token-content" href="#twitter_feed">',
+                        '</a></div>'
+                    );
                 }
             }
             ?>

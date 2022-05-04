@@ -162,7 +162,7 @@ class Feed_CPT_Options {
 
         $this->all_options['twitter_token_options'] = array(
             'section_attr_key'   => 'twitter_token_',
-            'section_title'      => esc_html__( 'Twitter API Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Twitter Access Token', 'feed_them_social' ),
             'section_wrap_id' => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-twitter fts-token-wrap',
             // Form Info.
@@ -216,7 +216,7 @@ class Feed_CPT_Options {
 
         $this->all_options['facebook_token_options'] = array(
             'section_attr_key'   => 'facebook_token_',
-            'section_title'      => esc_html__( 'Facebook API Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Facebook Access Token', 'feed_them_social' ),
             'section_wrap_id' => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-facebook fts-token-wrap',
             // Form Info.
@@ -286,7 +286,7 @@ class Feed_CPT_Options {
 
         $this->all_options['instagram_token_options'] = array(
             'section_attr_key'   => 'instagram_token_',
-            'section_title'      => esc_html__( 'Instagram Basic API Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Instagram Basic Access Token', 'feed_them_social' ),
             'section_wrap_id' => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-instagram fts-token-wrap',
             // Form Info.
@@ -423,7 +423,7 @@ class Feed_CPT_Options {
 
         $this->all_options['youtube_token_options'] = array(
             'section_attr_key'   => 'youtube_token_',
-            'section_title'      => esc_html__( 'YouTube API Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'YouTube Access Token', 'feed_them_social' ),
             'section_wrap_id'    => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-youtube fts-token-wrap',
             // Form Info.

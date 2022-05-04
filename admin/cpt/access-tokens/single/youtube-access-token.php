@@ -87,7 +87,8 @@ class Youtube_Access_Functions {
                     $('#youtube_custom_access_token').val($('#youtube_custom_access_token').val() + '<?php echo sanitize_text_field( $youtube_access_token ); ?>');
 
                     $('#youtube_custom_token_exp_time').val('');
-                    $('#youtube_custom_token_exp_time').val($('#youtube_custom_token_exp_time').val() + '<?php echo esc_js( $expiration_time ); ?>');
+                    // Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
+                    $('#youtube_custom_token_exp_time').val($('#youtube_custom_token_exp_time').val() + <?php echo strtotime( '+' . $expiration_time . ' seconds' ) ?> * 1000 );
 
                     fts_ajax_cpt_save_token();
 
@@ -104,117 +105,116 @@ class Youtube_Access_Functions {
             $youtube_api_key_or_token = '';
         }
 
-        $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=slickremix&' . $youtube_api_key_or_token );
-        // echo '$youtube_user_id_data';
-        // echo $youtube_user_id_data;
+        if( !empty( $youtube_api_key ) || !empty( $youtube_access_token ) ) {
+            $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=slickremix&' . $youtube_api_key_or_token );
+            // echo '$youtube_user_id_data';
+            // echo $youtube_user_id_data;
 
-        // Get Data for Youtube!
-        $response = wp_remote_fopen( $youtube_user_id_data );
-        // Error Check!
-        $test_app_token_response = json_decode( $response );
-
-        echo sprintf(
-            esc_html__( '%1$sLogin and get my Access Token %2$s', 'feed-them-social' ),
-            '<a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . $post_url ) . '" class="fts-youtube-get-access-token">',
-            '</a>'
-        );
-        ?>
-
-        <a href="https://www.slickremix.com/docs/get-api-key-for-youtube/" target="_blank" class="fts-admin-button-no-work">Not working?</a>
-
-        <?php
-
-        if ( isset( $_GET['refresh_token'] ) && isset( $_GET['code'] ) && isset( $_GET['expires_in'] ) ) {
-            // START AJAX TO SAVE TOKEN TO DB RIGHT AWAY SO WE CAN DO OUR NEXT SET OF CHECKS
-            // new token action!
-            $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
+            // Get Data for Youtube!
+            $response = wp_remote_fopen( $youtube_user_id_data );
+            // Error Check!
+            $test_app_token_response = json_decode( $response );
         }
-
-        $expiration_time = '' !== $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ) ? $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ) : '';
-        echo $expiration_time;
-        echo ' asdfasdfasdf ';
-        // Give the access token a 5 minute buffer (300 seconds) before getting a new one.
-        $expiration_time = $expiration_time - 300;
-        // Test Liner!
-        if ( time() < $expiration_time && empty( $youtube_api_key ) ) {
+            echo sprintf(
+                esc_html__( '%1$sLogin and get my Access Token %2$s', 'feed-them-social' ),
+                '<a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . $post_url ) . '" class="fts-youtube-get-access-token">',
+                '</a>'
+            );
             ?>
-            <script>
-                // Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
-                var countDownDate = new Date( <?php echo esc_js( $expiration_time ); ?> * 1000 ); // <--phpStorm shows error but it's false.
 
-                // console.log(countDownDate);
+            <a href="https://www.slickremix.com/docs/get-api-key-for-youtube/" target="_blank" class="fts-admin-button-no-work">Not working?</a>
 
-                // Update the count down every 1 second
-                var x = setInterval(function () {
-
-                    // Get todays date and time
-                    var now = new Date().getTime();
-
-                    // console.log(now);
-
-                    // Find the distance between now an the count down date
-                    var distance = countDownDate - now;
-
-                    // Time calculations for days, hours, minutes and seconds
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                    jQuery('.fts-exp-time-wrapper .feed_them_social-admin-input-label').append('<br/><span id="fts-timer"></span>');
-                    document.getElementById("fts-timer").innerHTML = minutes + "m " + seconds + "s ";
-
-                    // If the count down is finished, write some text
-                    if (distance < 0) {
-                        clearInterval(x);
-                        jQuery('.fts-success').fadeIn();
-                        document.getElementById("fts-timer").innerHTML = "Token Expired, refresh page to get new a token.";
-                    }
-                }, 1000);
-            </script>
             <?php
-        }
-        ?>
-        <div class="clear"></div>
-        <div class="feed-them-social-admin-input-wrap fts-youtube-token-wrap fts-token-wrap" id="fts-youtube-token-wrap"><?php
 
-        // YO! making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
-        if ( empty( $youtube_api_key ) && ! empty( $youtube_access_token ) && time() > $expiration_time ) {
-            // refresh token action!
-            $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
-        }
+            if ( isset( $_GET['refresh_token'] ) && isset( $_GET['code'] ) && isset( $_GET['expires_in'] ) ) {
+                // START AJAX TO SAVE TOKEN TO DB RIGHT AWAY SO WE CAN DO OUR NEXT SET OF CHECKS
+                // new token action!
+               // $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
+            }
 
-        $user_id = $test_app_token_response;
-        $error_response = $test_app_token_response->error->errors[0]->message ? 'true' : 'false';
-        // print_r( $error_response );
+            $expiration_time = $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
+           // echo $expiration_time;
+           // echo ' asdfasdfasdf ';
 
-        // Error Check!
-        if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
-            echo '<div class="fts-successful-api-token fts-special-working-wrap">';
-            echo sprintf(
-                esc_html__( 'Your access token is working! Now you can create your %1$sYouTube Feed%2$s', 'feed-them-social' ),
-                '<a class="fts-youtube-successful-api-token" href="#youtube_feed">',
-                '</a>.'
-            );
-            echo '</div>';
+            // Test Liner!
+            if ( time() < $expiration_time && empty( $youtube_api_key ) ) {
+                ?>
+                <script>
+                    var countDownDate = new Date( <?php echo esc_js( $expiration_time ); ?> );
 
-        }
-        elseif ( empty( $youtube_api_key ) && 'true' === $error_response && ! empty( $youtube_access_token ) ) {
-            echo sprintf(
-                esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
-                '<div class="fts-failed-api-token">',
-                esc_html( 'The request is missing a valid Access Token.' ),
-                '</div>'
-            );
-        }
-        elseif ( 'true' === $error_response && ! empty( $youtube_api_key ) ) {
-            echo sprintf(
-                esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
-                '<div class="fts-failed-api-token">',
-                esc_html( $user_id->error->errors[0]->message ),
-                '</div>'
-            );
-        }
-        ?>
-        </div>
+                   console.log(countDownDate);
+
+                    // Update the count down every 1 second
+                    var x = setInterval(function () {
+
+                        // Get todays date and time
+                        var now = new Date().getTime();
+
+                        // console.log(now);
+
+                        // Find the distance between now an the count down date
+                        var distance = countDownDate - now;
+
+                        // Time calculations for days, hours, minutes and seconds
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        jQuery('.fts-exp-time-wrapper .feed_them_social-admin-input-label').append('<br/><span id="fts-timer"></span>');
+                        document.getElementById("fts-timer").innerHTML = minutes + "m " + seconds + "s ";
+
+                        // If the count down is finished, write some text
+                        if (distance < 0) {
+                            clearInterval(x);
+                            jQuery('.fts-success').fadeIn();
+                            document.getElementById("fts-timer").innerHTML = "Token Expired, refresh page to get new a token.";
+                        }
+                    }, 1000);
+                </script>
+                <?php
+            }
+            ?>
+            <div class="clear"></div>
+            <div class="feed-them-social-admin-input-wrap fts-youtube-token-wrap fts-token-wrap" id="fts-youtube-token-wrap"><?php
+
+            // YO! making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
+            if ( empty( $youtube_api_key ) && ! empty( $youtube_access_token ) && time() > $expiration_time ) {
+                // refresh token action!
+                $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
+            }
+
+                $user_id = $test_app_token_response;
+                $error_response = $test_app_token_response->error->errors[0]->message ? 'true' : 'false';
+                // print_r( $error_response );
+
+                // Error Check!
+                if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
+                    echo '<div class="fts-successful-api-token fts-special-working-wrap">';
+                    echo sprintf(
+                        esc_html__( '%1$sCreate YouTube Feed%2$s', 'feed-them-social' ),
+                        '<a class="fts-youtube-successful-api-token fts-success-token-content" href="#youtube_feed">',
+                        '</a>'
+                    );
+                    echo '</div>';
+
+                }
+                elseif ( empty( $youtube_api_key ) && 'true' === $error_response && ! empty( $youtube_access_token ) ) {
+                    echo sprintf(
+                        esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
+                        '<div class="fts-failed-api-token">',
+                        esc_html( 'The request is missing a valid Access Token.' ),
+                        '</div>'
+                    );
+                }
+                elseif ( 'true' === $error_response && ! empty( $youtube_api_key ) ) {
+                    echo sprintf(
+                        esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
+                        '<div class="fts-failed-api-token">',
+                        esc_html( $user_id->error->errors[0]->message ),
+                        '</div>'
+                    );
+                }
+                ?>
+            </div>
         <?php
     }
 }//end class

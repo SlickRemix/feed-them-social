@@ -2,12 +2,31 @@
     "use strict";
     $( document ).ready(function() {
 
+        function fts_check_valid() {
+            if( $('.fts-success-token-content').length ){
+                $('#fts-feed-type h3').append(' Valid').addClass('fts-active-success-token');
+                $('#fts-feed-type h3').css('color', '#1aae1f');
+            }/*
+            else{
+                $('#fts-feed-type h3').append(': <span class="fts-toke-not-set">Not Set</span>');
+            }*/
+        }
+        fts_check_valid();
+
+
         // Use our buttons to change our #feed_type select option.
         $( '.fts-social-icon-wrap' ).click(function() {
+                const url_string = window.location.href;
+                const url = new URL( url_string );
+                const cpt_id = url.searchParams.get("post");
                 const fts_type = $(this).data('fts-feed-type');
                 $( '#feed_type' ).val( fts_type ).trigger('change').attr('selected', 'selected');
                 $( '.fts-social-icon-wrap' ).removeClass( 'fts-social-icon-wrap-active' );
                 $( this ).addClass( 'fts-social-icon-wrap-active' );
+                // Load up the proper access token inputs.
+                fts_access_token_type_ajax( fts_type, cpt_id );
+                // Fire the check valid function.
+               // fts_check_valid()
             }
         );
 
@@ -88,10 +107,9 @@
                     jQuery( '.tab8 a .fts-click-cover' ).show();
                 }
 
-                if( !feed_type ){
-                    // LEFT OFF HERE: I need to figure out how to not make this fire when the page first loads
-                    // something stupid is going on
-                    fts_access_token_type_ajax( ftsGlobalValue, cpt_id );
+                // LEAVING OFF HERE WTF NEED TO GET THIS TO ONLY WORK IF THE PAGE IS ACTIVE AND DB IS SAVED TO THIS FEED TYPE.
+                if( $('.fts-social-icon-wrap-active .fts-success-token-content').length ){
+                    fts_check_valid();
                 }
             }
         ).change(); // The .change is so when the page loads it fires this on change event.
@@ -122,6 +140,7 @@
 
                     $('.fts-access-token').html( response );
                     fts_reload_toggle_click();
+                    fts_check_valid();
                     console.log( feed_type + ': Access Token Button/Options Success' );
                 }
 

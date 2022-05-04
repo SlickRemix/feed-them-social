@@ -118,7 +118,7 @@ class Instagram_Access_Functions {
                     '</a>'
                 );
                  ?>
-        <div class="clear"></div>
+        <div class="fts-clear"></div>
         <div class="feed-them-social-admin-input-wrap fts-instagram-token-wrap fts-token-wrap" id="fts-instagram-token-wrap">
             <?php
 
@@ -127,10 +127,10 @@ class Instagram_Access_Functions {
 
             if( ! isset( $data->meta->error_message ) && ! isset( $data->error_message ) || isset( $data->meta->error_message ) && 'This client has not been approved to access this resource.' === $data->meta->error_message ){
                  echo sprintf(
-                    esc_html__( '%1$sYour access token is working! Now you can create your %2$sInstagram Feed%3$s', 'feed-them-social' ),
-                    '<div class="fts-successful-api-token">',
-                    '<a class="fts-instagram-successful-api-token" href="#instagram_feed">',
-                    '</a>.</div>'
+                    esc_html__( '%1$s%2$sCreate Instagram Feed%3$s', 'feed-them-social' ),
+                    '<div class="fts-successful-api-token fts-special-working-wrap">',
+                    '<a class="fts-instagram-successful-api-token fts-success-token-content" href="#instagram_feed">',
+                    '</a></div>'
                 );
             }
 

@@ -114,13 +114,13 @@ class Facebook_Access_Funtions {
                         echo '<div class="fts-successful-api-token fts-special-working-wrap">';
 
                         if ( !empty( $fb_name ) && !empty( $app_token ) ) {
-                            echo '<h3><a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-fb-icon"></span>' . $fb_name . '</a></h3>';
+                            echo '<h4><a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-fb-icon"></span>' . $fb_name . '</a></h4>';
                         }
 
                         echo sprintf(
-                            esc_html__( 'Your access token is working! Now you can create your %1$sFacebook Feed%2$s', 'feed-them-social' ),
-                            '<a class="fts-facebook-successful-api-token" href="#facebook_feed">',
-                            '</a>.'
+                            esc_html__( '%1$sCreate Facebook Feed%2$s', 'feed-them-social' ),
+                            '<a class="fts-facebook-successful-api-token fts-success-token-content" href="#facebook_feed">',
+                            '</a>'
                         );
 
                         echo '</div>';

@@ -12,7 +12,9 @@
  */
 
 // Exit if accessed directly!
+use feedthemsocial\Facebook_Feed;
 use feedthemsocial\Metabox_Settings;
+use feedthemsocial\Twitter_Feed;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -96,11 +98,17 @@ class Feed_Them_Social {
 		// Feeds CPT.
         $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options );
 
-		// Shortcode Button for Admin page, posts and CPTs.
+		// CPT Shortcode Button for Admin page, posts and CPTs.
 		new \feedthemsocial\Shortcode_Button();
 
-		// Shortcodes.
-		new \feedthemsocial\Shortcodes( $feed_functions, $feeds_cpt, $feed_cache );
+		// Facebook Feed.
+		$facebook_feed = new Facebook_Feed( $feed_functions, $feed_cache );
+
+		// Twitter Feed.
+		$twitter_feed = new Twitter_Feed( $feed_functions, $feed_cache );
+
+		// Feed Display.
+		new \feedthemsocial\Feed_Shortcode( $feed_functions, $facebook_feed, $twitter_feed );
 
         // Backwards compatability.
         //new \feedthemsocial\Backwards_Compat( $settings_functions );
@@ -147,7 +155,6 @@ class Feed_Them_Social {
 
 		// Plugin version. (Needs to be after BASENAME and ABS_PATH constants to work).
 		if ( ! defined( 'FEED_THEM_SOCIAL_VERSION' ) ) {
-
 			$plugin_data    = get_plugin_data( FEED_THEM_SOCIAL_PLUGIN_ABS_PATH );
 			$plugin_version = $plugin_data['Version'];
 
@@ -192,7 +199,7 @@ class Feed_Them_Social {
 		// Settings Page.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';
 
-		//Settings Functions.
+		// Settings Functions.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-functions.php';
 
 		// Feed Functions Class. (eventually replacing most of FTS Functions Class.)
@@ -201,25 +208,25 @@ class Feed_Them_Social {
 		// FTS Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
 
-		//Setting Options Js.
+		// Setting Options Js.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/cpt-settings-options-js.php';
 
-		//Facebook Access Token API.
+		// Facebook Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/facebook-access-token.php';
 
-		//Instagram Access Token API.
+		// Instagram Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-access-token.php';
 
-        //Instagram Business Access Token API.
+        // Instagram Business Access Token API.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-business-access-token.php';
 
-		//Twitter Access Token API.
+		// Twitter Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/twitter-access-token.php';
 
-		//Youtube Access Token API.
+		// Youtube Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/youtube-access-token.php';
 
-		//Access Token Options.
+		// Access Token Options.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/access-token-options.php';
 
 		// Feeds CPT Options.
@@ -252,14 +259,14 @@ class Feed_Them_Social {
 		// Twitter Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-twitter-feed.php';
 
-		// Feed Cache
+		// Feed Cache.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';
 
 		// Shortcode Button.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/shortcode-button/shortcode-button.php';
 
 		// Include Shortcodes.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/shortcodes.php';
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-shortcode.php';
 
         // Backwards compatability.
         //include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/cpt/options/backwards-compat/fts-backwards-compat-class.php';

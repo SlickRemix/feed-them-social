@@ -1509,8 +1509,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Feed Type', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
-					'id'          => 'facebook-messages-selector',
-					'name'        => 'facebook-messages-selector',
+					'id'          => 'facebook-page-feed-type',
+					'name'        => 'facebook-page-feed-type',
 					'req_plugin'  => 'fts_premium',
 					'or_req_plugin' => 'combine_streams',
 					'options'     => array(
@@ -1653,7 +1653,7 @@ class Feed_CPT_Options {
 						'empty_error' => 'set',
 						'empty_error_value' => 'album_id=photo_stream',
 						'empty_error_if' => array(
-							'attribute' => 'select#facebook-messages-selector',
+							'attribute' => 'select#facebook-page-feed-type',
 							'operator' => '==',
 							'value'    => 'album_photos',
 						),
@@ -3045,70 +3045,70 @@ class Feed_CPT_Options {
 			'shortcode_ifs'      => array(
 				'page'         => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '==',
 						'value'    => 'page',
 					),
 				),
 				'events'       => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '==',
 						'value'    => 'events',
 					),
 				),
 				'not_events'   => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '!==',
 						'value'    => 'events',
 					),
 				),
 				'event'        => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '==',
 						'value'    => 'event',
 					),
 				),
 				'group'        => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '==',
 						'value'    => 'group',
 					),
 				),
 				'not_group'    => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '!==',
 						'value'    => 'group',
 					),
 				),
 				'album_photos' => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '==',
 						'value'    => 'album_photos',
 					),
 				),
 				'albums'       => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '==',
 						'value'    => 'albums',
 					),
 				),
 				'album_videos' => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '==',
 						'value'    => 'album_videos',
 					),
 				),
 				'reviews'      => array(
 					'if' => array(
-						'class'    => 'select#facebook-messages-selector',
+						'class'    => 'select#facebook-page-feed-type',
 						'operator' => '==',
 						'value'    => 'reviews',
 					),

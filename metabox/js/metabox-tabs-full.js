@@ -248,7 +248,7 @@ jQuery(document).ready(function ($) {
     jQuery('#fts_load_more_option').bind('change', function (e) {
         if (jQuery('#fts_load_more_option').val() == 'yes') {
 
-            if (jQuery('#facebook-messages-selector').val() !== 'album_videos') {
+            if (jQuery('#facebook-page-feed-type').val() !== 'album_videos') {
                 jQuery('.fts-facebook-load-more-options-wrap').show();
             }
             jQuery('.fts-facebook-load-more-options2-wrap').show();

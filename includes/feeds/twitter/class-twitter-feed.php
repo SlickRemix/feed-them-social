@@ -317,22 +317,25 @@ class Twitter_Feed {
 	 *
 	 * Display Twitter Feed.
 	 *
-	 * @param array $inputted_atts The shortcode attributes.
+	 * @param integer $feed_post_id The ID of the Feed's CPT Post.
 	 * @return array
 	 * @since 1.9.6
 	 */
-	public function display_twitter( $inputted_atts ) {
+	public function display_twitter( $feed_post_id ) {
 
 		$fts_twitter_feed_nonce = wp_create_nonce( 'fts-twitter-feed-nonce' );
 
 		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
-            
-             // Saved Feed Settings!
-             $saved_feed_settings = $this->feed_functions->get_saved_feed_options( $inputted_atts['cpt_id'] );
+            // Saved Feed Settings!
+            $saved_feed_settings = $this->feed_functions->get_saved_feed_options( $feed_post_id );
 
-		    $twitter_show_follow_btn       = $saved_feed_settings['twitter_show_follow_btn'];
-			$twitter_show_follow_btn_where = $saved_feed_settings['twitter_show_follow_btn_where'];
-			$twitter_show_follow_count     = $saved_feed_settings['twitter_show_follow_count'];
+            // Show Follow Button.
+            $twitter_show_follow_btn       = $saved_feed_settings['twitter_show_follow_btn'];
+            // Location of Show Follow Button.
+            $twitter_show_follow_btn_where = $saved_feed_settings['twitter_show_follow_btn_where'];
+            // Show Follow Button Count
+            $twitter_show_follow_count     = $saved_feed_settings['twitter_show_follow_count'];
+
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			// option to allow this action or not from the Twitter Options page.

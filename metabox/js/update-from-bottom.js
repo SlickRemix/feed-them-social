@@ -282,10 +282,10 @@
                         var id = '#ftg-tab-content6 ';
 
                         if ( 'type' == attribute ) {
-                            $( id + '#facebook-messages-selector option[value='+ value +']' ).attr('selected','selected');
+                            $( id + '#facebook-page-feed-type option[value='+ value +']' ).attr('selected','selected');
                         }
                         else if (  'id' == attribute ) {
-                            $( id + '#facebook-messages-selector option[value=page]' ).attr('selected','selected');
+                            $( id + '#facebook-page-feed-type option[value=page]' ).attr('selected','selected');
                             // $( id + '.twitter-hashtag-etc-wrap' ).show();
                             $( '#fb_page_id' ).val( value );
                         }

@@ -2260,7 +2260,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				// FACEBOOK FEED TYPE!
 				$output .= '<div class="feed-them-social-admin-input-wrap" id="fts-social-selector">';
 				$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Feed Type', 'feed-them-social' ) . '</div>';
-				$output .= '<select name="facebook-messages-selector" id="facebook-messages-selector" class="feed-them-social-admin-input">';
+				$output .= '<select name="facebook-page-feed-type" id="facebook-page-feed-type" class="feed-them-social-admin-input">';
 				$output .= '<option value="page">' . esc_html( 'Facebook Page', 'feed-them-social' ) . '</option>';
 				$output .= '<option value="events">' . esc_html( 'Facebook Page List of Events', 'feed-them-social' ) . '</option>';
 				$output .= '<option value="event">' . esc_html( 'Facebook Page Single Event Posts', 'feed-them-social' ) . '</option>';

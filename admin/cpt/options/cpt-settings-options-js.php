@@ -25,8 +25,8 @@ class Settings_Options_JS {
 		?>
 		<script>
 		jQuery(document).ready(function () {
-			jQuery('select#fb_hide_like_box_button').bind('change', function (e) {
-				if (jQuery('select#fb_hide_like_box_button').val() == 'no') {
+			jQuery('select#facebook_hide_like_box_button').bind('change', function (e) {
+				if (jQuery('select#facebook_hide_like_box_button').val() == 'no') {
 					jQuery('.like-box-wrap').show();
 				}
 				else {
@@ -46,8 +46,8 @@ class Settings_Options_JS {
             }).change();
 
             // facebook show grid options
-            jQuery('#fb-grid-option').bind('change', function (e) {
-                if (jQuery('#fb-grid-option').val() == 'yes') {
+            jQuery('#facebook_grid').bind('change', function (e) {
+                if (jQuery('#facebook_grid').val() == 'yes') {
                     jQuery('.fts-facebook-grid-options-wrap').show();
                     jQuery(".feed-them-social-admin-input-label:contains('<?php echo esc_js( 'Center Facebook Container?', 'feed-them-social' ); ?>')").parent('div').show();
                 }
@@ -57,10 +57,10 @@ class Settings_Options_JS {
             }).change();
 
             // facebook show load more options
-            jQuery('#fb_load_more_option').bind('change', function (e) {
-                if (jQuery('#fb_load_more_option').val() == 'yes') {
+            jQuery('#facebook_load_more_option').bind('change', function (e) {
+                if (jQuery('#facebook_load_more_option').val() == 'yes') {
 
-                    if (jQuery('#facebook-page-feed-type').val() !== 'album_videos') {
+                    if (jQuery('#facebook_page_feed_type').val() !== 'album_videos') {
                         jQuery('.fts-facebook-load-more-options-wrap').show();
                     }
                     jQuery('.fts-facebook-load-more-options2-wrap').show();
@@ -75,14 +75,14 @@ class Settings_Options_JS {
 			});
 
 			// change the feed type 'how to' message when a feed type is selected
-			jQuery('#facebook-page-feed-type').change(function () {
+			jQuery('#facebook_page_feed_type').change(function () {
 
                 jQuery('.facebook-message-generator').hide();
                 jQuery('.' + jQuery(this).val()).fadeIn('fast');
                 // if the facebook type select is changed we hide the shortcode code so not to confuse people
                 jQuery('.final-shortcode-textarea').hide();
                 // only show the Super Gallery Options if the facebook ablum or album covers feed type is selected
-                var facebooktype = jQuery("select#facebook-page-feed-type").val();
+                var facebooktype = jQuery("select#facebook_page_feed_type").val();
 
 
                 if (facebooktype == 'albums' || facebooktype == 'album_photos' || facebooktype == 'album_videos') {
@@ -104,19 +104,19 @@ class Settings_Options_JS {
                 }
 
                 /* FB Pages, Ablums, Photos etc */
-                jQuery('#shortcode-form-selector, #facebook-page-feed-type').bind('change', function (e) {
-                    if (jQuery('#facebook-page-feed-type').val() == 'page' || jQuery('#facebook-page-feed-type').val() == 'album_photos' || jQuery('#facebook-page-feed-type').val() == 'albums' || jQuery('#facebook-page-feed-type').val() == 'album_videos') {
-                        jQuery('#fb_page_id, #fb_access_token').val('');
-                        jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id' ) ); ?>');
+                jQuery('#shortcode-form-selector, #facebook_page_feed_type').bind('change', function (e) {
+                    if (jQuery('#facebook_page_feed_type').val() == 'page' || jQuery('#facebook_page_feed_type').val() == 'album_photos' || jQuery('#facebook_page_feed_type').val() == 'albums' || jQuery('#facebook_page_feed_type').val() == 'album_videos') {
+                        jQuery('#facebook_page_id, #fb_access_token').val('');
+                        jQuery('#facebook_page_id').val(jQuery('#facebook_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id' ) ); ?>');
                         jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token' ) ); ?>');
                     }
                 });
 
                 /* FB Pages, Ablums, Photos etc */
-                jQuery('#shortcode-form-selector, #facebook-page-feed-type').bind('change', function (e) {
-                    if (jQuery('#facebook-page-feed-type').val() == 'reviews') {
-                        jQuery('#fb_page_id, #fb_access_token').val('');
-                        jQuery('#fb_page_id').val(jQuery('#fb_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id_biz' ) ); ?>');
+                jQuery('#shortcode-form-selector, #facebook_page_feed_type').bind('change', function (e) {
+                    if (jQuery('#facebook_page_feed_type').val() == 'reviews') {
+                        jQuery('#facebook_page_id, #fb_access_token').val('');
+                        jQuery('#facebook_page_id').val(jQuery('#facebook_page_id').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_user_id_biz' ) ); ?>');
                         jQuery('#fb_access_token').val(jQuery('#fb_access_token').val() + '<?php echo esc_js( get_option( 'fts_facebook_custom_api_token_biz' ) ); ?>');
                     }
                 });
@@ -190,7 +190,7 @@ class Settings_Options_JS {
                     if (facebooktype == 'page') {
                         jQuery('.facebook-post-type-visible').show();
                     }
-                    var fb_feed_type_option = jQuery("select#facebook-page-feed-type").val();
+                    var fb_feed_type_option = jQuery("select#facebook_page_feed_type").val();
                     if (fb_feed_type_option == 'album_photos') {
                         jQuery('.fb_album_photos_id').show();
                     }
@@ -472,7 +472,7 @@ class Settings_Options_JS {
                         jQuery('.combine_streams_options_wrap, .fts-required-more-posts').hide();
                         jQuery('.fts-facebook_page-shortcode-form').addClass('multiple_facebook');
 
-                        jQuery('.multiple_facebook select#facebook-page-feed-type option[value="events"]').hide();
+                        jQuery('.multiple_facebook select#facebook_page_feed_type option[value="events"]').hide();
                     }
                     else {
 

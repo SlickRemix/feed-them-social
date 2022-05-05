@@ -327,28 +327,28 @@ class Twitter_Feed {
 
 		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
             // Saved Feed Settings!
-            $saved_feed_settings = $this->feed_functions->get_saved_feed_options( $feed_post_id );
+            $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
 
             // Show Follow Button.
-            $twitter_show_follow_btn       = $saved_feed_settings['twitter_show_follow_btn'];
+            $twitter_show_follow_btn       = $saved_feed_options['twitter_show_follow_btn'];
             // Location of Show Follow Button.
-            $twitter_show_follow_btn_where = $saved_feed_settings['twitter_show_follow_btn_where'];
+            $twitter_show_follow_btn_where = $saved_feed_options['twitter_show_follow_btn_where'];
             // Show Follow Button Count
-            $twitter_show_follow_count     = $saved_feed_settings['twitter_show_follow_count'];
+            $twitter_show_follow_count     = $saved_feed_options['twitter_show_follow_count'];
 
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			// option to allow this action or not from the Twitter Options page.
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 
-				$twitter_load_more_text      = $saved_feed_settings['twitter_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
-				$twitter_no_more_tweets_text = $saved_feed_settings['twitter_no_more_tweets_text'] ??  __( 'No More Tweets', 'feed-them-social' );
+				$twitter_load_more_text      = $saved_feed_options['twitter_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
+				$twitter_no_more_tweets_text = $saved_feed_options['twitter_no_more_tweets_text'] ??  __( 'No More Tweets', 'feed-them-social' );
 
 				include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/twitter/twitter-feed.php';
 
 				if ( isset( $popup ) && 'yes' === $popup ) {
 					// it's ok if these styles & scripts load at the bottom of the page.
-					$fts_fix_magnific = $saved_feed_settings['fts_fix_magnific'] ?? '';
+					$fts_fix_magnific = $saved_feed_options['fts_fix_magnific'] ?? '';
 					if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
 						wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, true );
 					}
@@ -356,31 +356,31 @@ class Twitter_Feed {
 				}
 			} else {
                      // Twitter Username!
-                    $twitter_name = $saved_feed_settings['twitter_name'] ?? '';
+                    $twitter_name = $saved_feed_options['twitter_name'] ?? '';
 
                     // Twitter Height!
-                    $twitter_height = $saved_feed_settings['twitter_height'] ?? '';
+                    $twitter_height = $saved_feed_options['twitter_height'] ?? '';
 
                     // Tweets Count!
-                    $tweets_count = $saved_feed_settings['tweets_count'] ?? '';
+                    $tweets_count = $saved_feed_options['tweets_count'] ?? '';
 
                     // Description Image!
-                    $description_image = $saved_feed_settings['description_image'] ?? '';
+                    $description_image = $saved_feed_options['description_image'] ?? '';
 
                     // Search!
-                    $search = $saved_feed_settings['search'] ?? '';
+                    $search = $saved_feed_options['search'] ?? '';
 
                     // Show Retweets!
-                    $show_retweets = $saved_feed_settings['show_retweets'] ?? '';
+                    $show_retweets = $saved_feed_options['show_retweets'] ?? '';
 
                     // Cover Photo!
-                    $cover_photo = $saved_feed_settings['cover_photo'] ?? '';
+                    $cover_photo = $saved_feed_options['cover_photo'] ?? '';
 
                     // Stats Bar!
-                    $stats_bar = $saved_feed_settings['stats_bar'] ?? '';
+                    $stats_bar = $saved_feed_options['stats_bar'] ?? '';
 
                     // Show Replies!
-                    $show_replies = $saved_feed_settings['show_replies'] ?? '';
+                    $show_replies = $saved_feed_options['show_replies'] ?? '';
 			}
 
             // Premium Tweets Count Check!
@@ -405,8 +405,8 @@ class Twitter_Feed {
 			$data_cache = ! empty( $search ) ? 'twitter_data_cache_' . $search . '_num' . $tweets_count : 'twitter_data_cache_' . $twitter_name . '_num' . $tweets_count ;
 
             //Access Tokens Options.
-            $fts_twitter_custom_access_token = $saved_feed_settings['fts_twitter_custom_access_token'];
-            $fts_twitter_custom_access_token_secret = $saved_feed_settings['fts_twitter_custom_access_token_secret'];
+            $fts_twitter_custom_access_token = $saved_feed_options['fts_twitter_custom_access_token'];
+            $fts_twitter_custom_access_token_secret = $saved_feed_options['fts_twitter_custom_access_token_secret'];
 
 			// Check Cache.
 			if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {

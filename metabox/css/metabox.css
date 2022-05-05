@@ -2901,11 +2901,11 @@ button.ft-gallery-edit-img-popup {
     /* padding-top:100px; */
 }
 
-#fb_page_id, .fb_page_id .feed_them_social-admin-input-label {
+#facebook_page_id, .facebook_page_id .feed_them_social-admin-input-label {
     display: none
 }
 
-.fb_page_id.feed_them_social-admin-input-wrap {
+.facebook_page_id.feed_them_social-admin-input-wrap {
     padding: 0 11px 0 0 !important;
     border: none !important;
     min-height: auto !important;

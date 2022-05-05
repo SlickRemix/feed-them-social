@@ -531,26 +531,26 @@ class FTS_Functions {
 								if ( ! isset( $_GET['locations'] ) ) {
 									$time       = time();
 									$nonce      = wp_create_nonce( $time . 'load-more-nonce' );
-									$fb_page_id = $data_id;
+									$facebook_page_id = $data_id;
 									?>
 								<script>
 									jQuery(document).ready(function () {
-										jQuery(".fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>").bind("scroll", function () {
+										jQuery(".fb-sublist-page-id-<?php echo esc_js( $facebook_page_id ); ?>").bind("scroll", function () {
 											if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
-												if (!jQuery('.fts-no-more-locations-<?php echo esc_js( $fb_page_id ); ?>').length) {
-													jQuery("#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location").addClass('fts-fb-spinner');
-													var button = jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
+												if (!jQuery('.fts-no-more-locations-<?php echo esc_js( $facebook_page_id ); ?>').length) {
+													jQuery("#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location").addClass('fts-fb-spinner');
+													var button = jQuery('#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
 													console.log(button);
 													var build_shortcode = "<?php echo esc_js( $build_shortcode ); ?>";
 													var yes_ajax = "yes";
-													var fts_d_name = "<?php echo esc_js( $fb_page_id ); ?>";
+													var fts_d_name = "<?php echo esc_js( $facebook_page_id ); ?>";
 													var fts_security = "<?php echo esc_js( $nonce ); ?>";
 													var fts_time = "<?php echo esc_js( $time ); ?>";
 													var fts_reviews_feed = "<?php echo esc_js( $reviews_token ); ?>";
 													jQuery.ajax({
 														data: {
 															action: "my_fts_fb_load_more",
-															next_location_url: nextURL_location_<?php echo esc_js( $fb_page_id ); ?>,
+															next_location_url: nextURL_location_<?php echo esc_js( $facebook_page_id ); ?>,
 															fts_dynamic_name: fts_d_name,
 															rebuilt_shortcode: build_shortcode,
 															load_more_ajaxing: yes_ajax,
@@ -564,16 +564,16 @@ class FTS_Functions {
 														url: ajaxurl,
 														success: function (data) {
 															console.log('Well Done and got this from sever: ' + data);
-															jQuery('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').append(data).filter('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').html();
-															jQuery('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').animate({scrollTop: '+=100px'}, 800); // scroll down a 100px after new items are added
+															jQuery('.fb-sublist-page-id-<?php echo esc_js( $facebook_page_id ); ?>').append(data).filter('.fb-sublist-page-id-<?php echo esc_js( $facebook_page_id ); ?>').html();
+															jQuery('.fb-sublist-page-id-<?php echo esc_js( $facebook_page_id ); ?>').animate({scrollTop: '+=100px'}, 800); // scroll down a 100px after new items are added
 
 
 
 															<?php if ( isset( $data->locations->paging->next ) && $data->locations->paging->next === $_REQUEST['next_location_url'] ) { ?>
-															jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb fts-no-more-locations-<?php echo esc_js( $fb_page_id ); ?>" style="background:none !important"><?php echo esc_html( 'All Locations loaded', 'feed-them-social' ); ?></div>');
-															jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').removeAttr('id');
+															jQuery('#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb fts-no-more-locations-<?php echo esc_js( $facebook_page_id ); ?>" style="background:none !important"><?php echo esc_html( 'All Locations loaded', 'feed-them-social' ); ?></div>');
+															jQuery('#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location').removeAttr('id');
 															<?php } ?>
-															jQuery("#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location").removeClass('fts-fb-spinner');
+															jQuery("#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location").removeClass('fts-fb-spinner');
 														}
 													}); // end of ajax()
 													return false;
@@ -588,7 +588,7 @@ class FTS_Functions {
 									<?php
 								} //END Make sure it's not ajaxing locations
 								?>
-								<script>var nextURL_location_<?php echo esc_js( $fb_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : ''; ?>";</script>
+								<script>var nextURL_location_<?php echo esc_js( $facebook_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : ''; ?>";</script>
 							<?php } ?>
 						</li>
 
@@ -699,28 +699,28 @@ class FTS_Functions {
 					//alert("reviews_token");
 
 					$(fb).click(function () {
-						var fb_page_id = $(this).find('.fts-api-facebook-id').html();
+						var facebook_page_id = $(this).find('.fts-api-facebook-id').html();
 						var token = $(this).find('.page-token').html();
 						// alert(token);
 						var name = $(this).find('.fb-name').html();
 						var profile_image = $(this).find('.fb-image img').attr('src');
 						<?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
 						$("#fts_facebook_instagram_custom_api_token").val(token);
-						$("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
+						$("#fts_facebook_instagram_custom_api_token_user_id").val(facebook_page_id);
 						$("#fts_facebook_instagram_custom_api_token_user_name").val(name);
 						$("#fts_facebook_instagram_custom_api_token_profile_image").val(profile_image);
 							<?php
 } elseif ( 'no' === $reviews_token || isset( $_GET['fts_reviews_feed'] ) && 'no' === $_GET['fts_reviews_feed'] ) {
 	?>
 							$("#fts_facebook_custom_api_token").val(token);
-							$("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
+							$("#fts_facebook_custom_api_token_user_id").val(facebook_page_id);
 							$("#fts_facebook_custom_api_token_user_name").val(name);
 							$("#fts_facebook_custom_api_token_profile_image").val(profile_image);
 						<?php
 } else {
 	?>
 						$("#fts_facebook_custom_api_token_biz").val(token);
-						$("#fts_facebook_custom_api_token_user_id_biz").val(fb_page_id);
+						$("#fts_facebook_custom_api_token_user_id_biz").val(facebook_page_id);
 						$("#fts_facebook_custom_api_token_user_name_biz").val(name);
 						$("#fts_facebook_custom_api_token_biz_profile_image").val(profile_image);
 						<?php } ?>
@@ -1474,9 +1474,9 @@ class FTS_Functions {
 					// Page Box!
 					if ( 'like-box' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ) {
 
-						$like_box_width = isset( $fb_shortcode['like_box_width'] ) && '' !== $fb_shortcode['like_box_width'] ? $fb_shortcode['like_box_width'] : '500px';
+						$facebook_like_box_width = isset( $fb_shortcode['facebook_like_box_width'] ) && '' !== $fb_shortcode['facebook_like_box_width'] ? $fb_shortcode['facebook_like_box_width'] : '500px';
 
-						echo '<div class="fb-page" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-hide-cover="' . esc_html( $page_cover ) . '" data-width="' . esc_html( $like_box_width ) . '"  data-show-facepile="' . esc_html( $show_faces ) . '" data-show-posts="false"></div>';
+						echo '<div class="fb-page" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-hide-cover="' . esc_html( $page_cover ) . '" data-width="' . esc_html( $facebook_like_box_width ) . '"  data-show-facepile="' . esc_html( $show_faces ) . '" data-show-posts="false"></div>';
 					} else {
 						echo '<div class="fb-like" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-layout="standard" data-action="like" data-colorscheme="' . esc_html( $fb_like_btn_color ) . '" data-show-faces="' . esc_html( $show_faces ) . '" data-share="' . esc_html( $share_button ) . '" data-width:"100%"></div>';
 					}
@@ -2226,15 +2226,15 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
 		if ( wp_verify_nonce( $fts_fb_page_form_nonce, 'fts-facebook-page-form-nonce' ) ) {
 			if ( $save_options ) {
-				$fb_page_id_option              = get_option( 'fb_page_id' );
-				$fb_page_posts_displayed_option = get_option( 'fb_page_posts_displayed' );
-				$fb_page_post_count_option      = get_option( 'fb_page_post_count' );
+				$facebook_page_id_option              = get_option( 'facebook_page_id' );
+				$facebook_page_posts_displayed_option = get_option( 'facebook_page_posts_displayed' );
+				$facebook_page_post_count_option      = get_option( 'facebook_page_post_count' );
 				$fb_page_title_option           = get_option( 'fb_page_title_option' );
-				$fb_page_description_option     = get_option( 'fb_page_description_option' );
-				$fb_page_word_count_option      = get_option( 'fb_page_word_count_option' );
+				$facebook_page_description     = get_option( 'facebook_page_description' );
+				$facebook_page_word_count      = get_option( 'facebook_page_word_count' );
 				$fts_bar_fb_prefix              = 'fb_page_';
-				$fb_load_more_option            = get_option( 'fb_page_fb_load_more_option' );
-				$fb_load_more_style             = get_option( 'fb_page_fb_load_more_style' );
+				$facebook_load_more_option            = get_option( 'fb_page_facebook_load_more_option' );
+				$facebook_load_more_style             = get_option( 'fb_page_facebook_load_more_style' );
 				$facebook_popup                 = get_option( 'fb_page_facebook_popup' );
 			}
 			$output = '<div class="fts-facebook_page-shortcode-form">';
@@ -2254,13 +2254,13 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
 				$output .= '<h2>' . esc_html( 'Facebook Page Shortcode Generator', 'feed-them-social' ) . '</h2>';
 			}
-			$fb_page_id_option = isset( $fb_page_id_option ) ? $fb_page_id_option : '';
+			$facebook_page_id_option = isset( $facebook_page_id_option ) ? $facebook_page_id_option : '';
 			// ONLY SHOW SUPER GALLERY OPTIONS ON FTS SETTINGS PAGE FOR NOW, NOT FTS BAR!
 			if ( isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] ) {
 				// FACEBOOK FEED TYPE!
 				$output .= '<div class="feed-them-social-admin-input-wrap" id="fts-social-selector">';
 				$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Feed Type', 'feed-them-social' ) . '</div>';
-				$output .= '<select name="facebook-page-feed-type" id="facebook-page-feed-type" class="feed-them-social-admin-input">';
+				$output .= '<select name="facebook_page_feed_type" id="facebook_page_feed_type" class="feed-them-social-admin-input">';
 				$output .= '<option value="page">' . esc_html( 'Facebook Page', 'feed-them-social' ) . '</option>';
 				$output .= '<option value="events">' . esc_html( 'Facebook Page List of Events', 'feed-them-social' ) . '</option>';
 				$output .= '<option value="event">' . esc_html( 'Facebook Page Single Event Posts', 'feed-them-social' ) . '</option>';
@@ -2291,29 +2291,29 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			if ( isset( $_GET['page'] ) && 'fts-bar-settings-page' !== $_GET['page'] ) {
 				$output .= '<div class="fb-options-wrap">';
 			}
-			$output .= '<div class="feed-them-social-admin-input-wrap fb_page_id ">';
+			$output .= '<div class="feed-them-social-admin-input-wrap facebook_page_id ">';
 			$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Facebook ID (required)', 'feed-them-social' ) . '</div>';
-			$output .= '<input type="text" name="fb_page_id" id="fb_page_id" class="feed-them-social-admin-input" value="' . esc_html( $fb_page_id_option ) . '" />';
+			$output .= '<input type="text" name="facebook_page_id" id="facebook_page_id" class="feed-them-social-admin-input" value="' . esc_html( $facebook_page_id_option ) . '" />';
 			$output .= '<div class="fts-clear"></div>';
 			$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
 			// FACEBOOK ALBUM PHOTOS ID!
 			$output                        .= '<div class="feed-them-social-admin-input-wrap fb_album_photos_id" style="display:none;">';
 			$output                        .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Album ID ', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Leave blank to show all uploaded photos', 'feed-them-social' ) . '</small></div>';
-			$output                        .= '<input type="text" name="fb_album_id" id="fb_album_id" class="feed-them-social-admin-input" value="" />';
+			$output                        .= '<input type="text" name="facebook_album_id" id="facebook_album_id" class="feed-them-social-admin-input" value="" />';
 			$output                        .= '<div class="fts-clear"></div>';
 			$output                        .= '</div><!--/feed-them-social-admin-input-wrap-->';
-			$fb_page_posts_displayed_option = isset( $fb_page_posts_displayed_option ) ? $fb_page_posts_displayed_option : '';
+			$facebook_page_posts_displayed_option = isset( $facebook_page_posts_displayed_option ) ? $facebook_page_posts_displayed_option : '';
 			// FACEBOOK PAGE POST TYPE VISIBLE!
 			$output .= '<div class="feed-them-social-admin-input-wrap facebook-post-type-visible">';
 			$output .= '<div class="feed-them-social-admin-input-label">' . esc_html( 'Post Type Visible', 'feed-them-social' ) . '</div>';
-			$output .= '<select name="fb_page_posts_displayed" id="fb_page_posts_displayed" class="feed-them-social-admin-input">';
-			$output .= '<option ' . selected( $fb_page_posts_displayed_option, 'page_only', false ) . ' value="page_only">' . esc_html( 'Display Posts made by Page only', 'feed-them-social' ) . '</option>';
-			$output .= '<option ' . selected( $fb_page_posts_displayed_option, 'page_and_others', false ) . ' value="page_and_others">' . esc_html( 'Display Posts made by Page and Others', 'feed-them-social' ) . '</option>';
+			$output .= '<select name="facebook_page_posts_displayed" id="facebook_page_posts_displayed" class="feed-them-social-admin-input">';
+			$output .= '<option ' . selected( $facebook_page_posts_displayed_option, 'page_only', false ) . ' value="page_only">' . esc_html( 'Display Posts made by Page only', 'feed-them-social' ) . '</option>';
+			$output .= '<option ' . selected( $facebook_page_posts_displayed_option, 'page_and_others', false ) . ' value="page_and_others">' . esc_html( 'Display Posts made by Page and Others', 'feed-them-social' ) . '</option>';
 			$output .= '</select>';
 			$output .= '<div class="fts-clear"></div>';
 			$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
 
-			$fb_page_post_count_option = isset( $fb_page_post_count_option ) ? $fb_page_post_count_option : '';
+			$facebook_page_post_count_option = isset( $facebook_page_post_count_option ) ? $facebook_page_post_count_option : '';
 			$output                   .= '<div class="feed-them-social-admin-input-wrap">';
 			$output                   .= '<div class="feed-them-social-admin-input-label">' . esc_html( '# of Posts', 'feed-them-premium' );
 
@@ -2321,7 +2321,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output .= '<br/><small>' . esc_html( 'More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-premium' ) . '</small>';
 			}
 			$output .= '</div>';
-			$output .= '<input type="text" name="fb_page_post_count" id="fb_page_post_count" class="feed-them-social-admin-input" value="' . esc_html( $fb_page_post_count_option ) . '" placeholder="5 ' . esc_html( 'is the default number', 'feed-them-premium' ) . '" />';
+			$output .= '<input type="text" name="facebook_page_post_count" id="facebook_page_post_count" class="feed-them-social-admin-input" value="' . esc_html( $facebook_page_post_count_option ) . '" placeholder="5 ' . esc_html( 'is the default number', 'feed-them-premium' ) . '" />';
 			$output .= '<div class="fts-clear"></div>';
 			$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
 
@@ -2405,27 +2405,27 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 				$output .= '<div class="fts-super-facebook-options-wrap" style="display:none">';
 				// FACEBOOK IMAGE HEIGHT!
 				$output .= '<div class="feed-them-social-admin-input-wrap facebook_name"><div class="feed-them-social-admin-input-label">' . esc_html( 'Facebook Image Width', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Max width is 640px', 'feed-them-social' ) . '</small></div>
-	           <input type="text" name="fts-slicker-instagram-container-image-width" id="fts-slicker-facebook-container-image-width" class="feed-them-social-admin-input" value="250px" placeholder="">
+	           <input type="text" name="fts-slicker-instagram-container-image-width" id="facebook_image_width" class="feed-them-social-admin-input" value="250px" placeholder="">
 	           <div class="fts-clear"></div> </div>';
 				// FACEBOOK IMAGE WIDTH!
 				$output .= '<div class="feed-them-social-admin-input-wrap facebook_name"><div class="feed-them-social-admin-input-label">' . esc_html( 'Facebook Image Height', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Max width is 640px', 'feed-them-social' ) . '</small></div>
-	           <input type="text" name="fts-slicker-instagram-container-image-height" id="fts-slicker-facebook-container-image-height" class="feed-them-social-admin-input" value="250px" placeholder="">
+	           <input type="text" name="fts-slicker-instagram-container-image-height" id="facebook_image_height" class="feed-them-social-admin-input" value="250px" placeholder="">
 	           <div class="fts-clear"></div> </div>';
 				// FACEBOOK SPACE BETWEEN PHOTOS!
 				$output .= '<div class="feed-them-social-admin-input-wrap facebook_name"><div class="feed-them-social-admin-input-label">' . esc_html( 'The space between photos', 'feed-them-social' ) . '</div>
-	           <input type="text" name="fts-slicker-facebook-container-margin" id="fts-slicker-facebook-container-margin" class="feed-them-social-admin-input" value="1px" placeholder="">
+	           <input type="text" name="facebook_space_between_photos" id="facebook_space_between_photos" class="feed-them-social-admin-input" value="1px" placeholder="">
 	           <div class="fts-clear"></div></div>';
 				// HIDE DATES, LIKES AND COMMENTS ETC!
 				$output .= '<div class="feed-them-social-admin-input-wrap facebook_name"><div class="feed-them-social-admin-input-label">' . esc_html( 'Hide Date, Likes and Comments', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Good for image sizes under 120px', 'feed-them-social' ) . '</small></div>
-	       		 <select id="fts-slicker-facebook-container-hide-date-likes-comments" name="fts-slicker-facebook-container-hide-date-likes-comments" class="feed-them-social-admin-input">
+	       		 <select id="facebook_hide_date_likes_comments" name="facebook_hide_date_likes_comments" class="feed-them-social-admin-input">
 	        	  <option value="no">' . esc_html( 'No', 'feed-them-social' ) . '</option><option value="yes">' . esc_html( 'Yes', 'feed-them-social' ) . '</option></select><div class="fts-clear"></div></div>';
 
 				// CENTER THE FACEBOOK CONTAINER!
 				$output .= '<div class="feed-them-social-admin-input-wrap" id="facebook_super_gallery_container"><div class="feed-them-social-admin-input-label">' . esc_html( 'Center Facebook Container', 'feed-them-social' ) . '</div>
-	        	<select id="fts-slicker-facebook-container-position" name="fts-slicker-facebook-container-position" class="feed-them-social-admin-input"><option value="no">' . esc_html( 'No', 'feed-them-social' ) . '</option><option value="yes">' . esc_html( 'Yes', 'feed-them-social' ) . '</option></select><div class="fts-clear"></div></div>';
+	        	<select id="facebook_container_position" name="facebook_container_position" class="feed-them-social-admin-input"><option value="no">' . esc_html( 'No', 'feed-them-social' ) . '</option><option value="yes">' . esc_html( 'Yes', 'feed-them-social' ) . '</option></select><div class="fts-clear"></div></div>';
 				// ANIMATE PHOTO POSITIONING!
 				$output .= ' <div class="feed-them-social-admin-input-wrap" id="facebook_super_gallery_animate"><div class="feed-them-social-admin-input-label">' . esc_html( 'Image Stacking Animation On', 'feed-them-social' ) . '<br/><small>' . esc_html( 'This happens when resizing browsert', 'feed-them-social' ) . '</small></div>
-	        	 <select id="fts-slicker-facebook-container-animation" name="fts-slicker-facebook-container-animation" class="feed-them-social-admin-input"><option value="no">' . esc_html( 'No', 'feed-them-social' ) . '</option><option value="yes">' . esc_html( 'Yes', 'feed-them-social' ) . '</option></select><div class="fts-clear"></div></div>';
+	        	 <select id="facebook_container_animation" name="facebook_container_animation" class="feed-them-social-admin-input"><option value="no">' . esc_html( 'No', 'feed-them-social' ) . '</option><option value="yes">' . esc_html( 'Yes', 'feed-them-social' ) . '</option></select><div class="fts-clear"></div></div>';
 				// POSITION IMAGE LEFT RIGHT!
 				$output .= '<div class="instructional-text" style="display: block;">' . esc_html( 'These options allow you to make the thumbnail larger if you do not want to see black bars above or below your photos.', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/fit-thumbnail-on-facebook-galleries/" target="_blank">' . esc_html( 'View Examples', 'feed-them-social' ) . '</a> ' . esc_html( 'and simple details or leave default options.', 'feed-them-social' ) . '</div>
 			<div class="feed-them-social-admin-input-wrap facebook_name"><div class="feed-them-social-admin-input-label">' . esc_html( 'Make photo larger', 'feed-them-social' ) . '<br/><small>' . esc_html( 'Helps with blackspace', 'feed-them-social' ) . '</small></div>

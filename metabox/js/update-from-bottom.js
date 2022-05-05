@@ -301,23 +301,23 @@
                         var id = '#ftg-tab-content6 ';
 
                         if ( 'type' == attribute ) {
-                            $( id + '#facebook-page-feed-type option[value='+ value +']' ).attr('selected','selected');
+                            $( id + '#facebook_page_feed_type option[value='+ value +']' ).attr('selected','selected');
                         }
                         else if (  'id' == attribute ) {
-                            $( id + '#facebook-page-feed-type option[value=page]' ).attr('selected','selected');
+                            $( id + '#facebook_page_feed_type option[value=page]' ).attr('selected','selected');
                             // $( id + '.twitter-hashtag-etc-wrap' ).show();
-                            $( '#fb_page_id' ).val( value );
+                            $( '#facebook_page_id' ).val( value );
                         }
                         else if ( 'posts_displayed' == attribute ){
                             if ( 'page_and_others' == value ){
-                                $( id + '#fb_page_posts_displayed option[value=page_and_others]' ).attr('selected','selected');
+                                $( id + '#facebook_page_posts_displayed option[value=page_and_others]' ).attr('selected','selected');
                             }
                             else {
-                                $( id + '#fb_page_posts_displayed option[value=page_only]' ).attr('selected','selected');
+                                $( id + '#facebook_page_posts_displayed option[value=page_only]' ).attr('selected','selected');
                             }
                         }
                         else if ( 'posts' == attribute ){
-                            $( '#fb_page_post_count' ).val( value );
+                            $( '#facebook_page_post_count' ).val( value );
                         }
                         else if( 'yes' == value ){
                             if ( 'popup' == attribute ){
@@ -327,15 +327,15 @@
                             }
                             else if ( 'grid' == attribute ){
                                 //alert( 'test' );
-                                $( id + '#fb-grid-option option[value=yes]' ).attr('selected','selected');
+                                $( id + '#facebook_grid option[value=yes]' ).attr('selected','selected');
                                 $( id + '.fts-facebook-grid-options-wrap' ).show();
                             }
-                            else if ( 'hide_comments_popup' == attribute ){
+                            else if ( 'facebook_popup_comments' == attribute ){
                                 //alert( 'test' );
                                 $( id + '#facebook_popup_comments option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'hide_date_likes_comments' == attribute ){
-                                $( id + '#fts-slicker-facebook-container-hide-date-likes-comments option[value=yes]' ).attr('selected','selected');
+                                $( id + '#facebook_hide_date_likes_comments option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'hide_see_more_reviews_link' == attribute ){
                                 $( id + '#hide_see_more_reviews_link option[value=yes]' ).attr('selected','selected');
@@ -357,7 +357,7 @@
                             $( id + '#fb_page_title_option option[value=no]' ).attr('selected','selected');
                         }
                         else if ( 'description' == attribute && 'no' == value ){
-                            $( id + '#fb_page_description_option option[value=no]' ).attr('selected','selected');
+                            $( id + '#facebook_page_description option[value=no]' ).attr('selected','selected');
                         }
                         else if ( 'title_align' == attribute ){
                             if( 'left' == value ){
@@ -389,11 +389,11 @@
                         }
                         else if ( 'hide_like_option' == attribute && 'no' == value ){
                             //alert( 'test' );
-                            $( id + '#fb_hide_like_box_button option[value=no]' ).attr('selected','selected');
+                            $( id + '#facebook_hide_like_box_button option[value=no]' ).attr('selected','selected');
                             $( id + '.like-box-wrap' ).show();
                         }
                         else if ( 'words' == attribute ){
-                            $( id + '#fb_page_word_count_option' ).val( value );
+                            $( id + '#facebook_page_word_count' ).val( value );
                         }
                         else if ( 'images_align' == attribute ){
                             if( 'left' == value ){
@@ -407,51 +407,51 @@
                             }
                         }
                         else if ( 'album_id' == attribute ){
-                            $( id + '#fb_album_id' ).val( value );
+                            $( id + '#facebook_album_id' ).val( value );
                         }
                         else if ( 'image_width' == attribute ){
-                            $( id + '#fts-slicker-facebook-container-image-width' ).val( value );
+                            $( id + '#facebook_image_width' ).val( value );
                         }
                         else if ( 'image_height' == attribute ){
-                            $( id + '#fts-slicker-facebook-container-image-height' ).val( value );
+                            $( id + '#facebook_image_height' ).val( value );
                         }
                         else if ( 'space_between_photos' == attribute ){
-                            $( id + '#fts-slicker-facebook-container-margin' ).val( value );
+                            $( id + '#facebook_space_between_photos' ).val( value );
                         }
 
                         else if ( 'center_container' == attribute && 'yes' == value  ){
-                            $( id + '#fts-slicker-facebook-container-position option[value=yes]' ).attr('selected','selected');
+                            $( id + '#facebook_container_position option[value=yes]' ).attr('selected','selected');
                         }
 
                         else if (  'show_follow_btn_where' == attribute ) {
                             if ( 'above_title' == value ){
-                                $( id + '#fb_position_likebox option[value=above_title]' ).attr('selected','selected');
+                                $( id + '#facebook_position_likebox option[value=above_title]' ).attr('selected','selected');
                             }
                             else if ( 'bottom' == value ) {
-                                $( id + '#fb_position_likebox option[value=bottom]' ).attr('selected','selected');
+                                $( id + '#facebook_position_likebox option[value=bottom]' ).attr('selected','selected');
                             }
                             else if ( 'below_title' == value ) {
-                                $( id + '#fb_position_likebox option[value=below_title]' ).attr('selected','selected');
+                                $( id + '#facebook_position_likebox option[value=below_title]' ).attr('selected','selected');
                             }
 
                         }
                         else if (  'like_option_align' == attribute ) {
                             if ( 'left' == value ){
-                                $( id + '#fb_align_likebox option[value=left]' ).attr('selected','selected');
+                                $( id + '#facebook_align_likebox option[value=left]' ).attr('selected','selected');
                             }
                             else if ( 'center' == value ) {
-                                $( id + '#fb_align_likebox option[value=center]' ).attr('selected','selected');
+                                $( id + '#facebook_align_likebox option[value=center]' ).attr('selected','selected');
                             }
                             else if ( 'right' == value ) {
-                                $( id + '#fb_align_likebox option[value=right]' ).attr('selected','selected');
+                                $( id + '#facebook_align_likebox option[value=right]' ).attr('selected','selected');
                             }
                         }
                         else if ( 'loadmore' == attribute ){
                             // alert( 'test' );
                             if ( 'autoscroll' == value ){
-                                $( id + '#fb_load_more_style option[value=autoscroll]' ).attr('selected','selected');
+                                $( id + '#facebook_load_more_style option[value=autoscroll]' ).attr('selected','selected');
                             }
-                            $( id + '#fb_load_more_option option[value=yes]' ).attr('selected','selected');
+                            $( id + '#facebook_load_more_option option[value=yes]' ).attr('selected','selected');
                             $( id + '.fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap' ).show();
                         }
                         else if ( 'overall_rating' == attribute && 'no' == value ){

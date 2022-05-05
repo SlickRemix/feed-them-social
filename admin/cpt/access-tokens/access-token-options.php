@@ -376,26 +376,26 @@ class Access_Options {
                             if ( ! isset( $_GET['locations'] ) ) {
                             $time       = time();
                             $nonce      = wp_create_nonce( $time . 'load-more-nonce' );
-                            $fb_page_id = $data_id;
+                            $facebook_page_id = $data_id;
                             ?>
                                 <script>
                                     jQuery(document).ready(function () {
-                                        jQuery(".fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>").bind("scroll", function () {
+                                        jQuery(".fb-sublist-page-id-<?php echo esc_js( $facebook_page_id ); ?>").bind("scroll", function () {
                                             if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
-                                                if (!jQuery('.fts-no-more-locations-<?php echo esc_js( $fb_page_id ); ?>').length) {
-                                                    jQuery("#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location").addClass('fts-fb-spinner');
-                                                    var button = jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
+                                                if (!jQuery('.fts-no-more-locations-<?php echo esc_js( $facebook_page_id ); ?>').length) {
+                                                    jQuery("#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location").addClass('fts-fb-spinner');
+                                                    var button = jQuery('#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
                                                     console.log(button);
                                                     var build_shortcode = "<?php echo esc_js( $build_shortcode ); ?>";
                                                     var yes_ajax = "yes";
-                                                    var fts_d_name = "<?php echo esc_js( $fb_page_id ); ?>";
+                                                    var fts_d_name = "<?php echo esc_js( $facebook_page_id ); ?>";
                                                     var fts_security = "<?php echo esc_js( $nonce ); ?>";
                                                     var fts_time = "<?php echo esc_js( $time ); ?>";
                                                     var fts_reviews_feed = "<?php echo esc_js( $reviews_token ); ?>";
                                                     jQuery.ajax({
                                                         data: {
                                                             action: "my_fts_fb_load_more",
-                                                            next_location_url: nextURL_location_<?php echo esc_js( $fb_page_id ); ?>,
+                                                            next_location_url: nextURL_location_<?php echo esc_js( $facebook_page_id ); ?>,
                                                             fts_dynamic_name: fts_d_name,
                                                             rebuilt_shortcode: build_shortcode,
                                                             load_more_ajaxing: yes_ajax,
@@ -409,16 +409,16 @@ class Access_Options {
                                                         url: ajaxurl,
                                                         success: function (data) {
                                                             console.log('Well Done and got this from sever: ' + data);
-                                                            jQuery('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').append(data).filter('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').html();
-                                                            jQuery('.fb-sublist-page-id-<?php echo esc_js( $fb_page_id ); ?>').animate({scrollTop: '+=100px'}, 800); // scroll down a 100px after new items are added
+                                                            jQuery('.fb-sublist-page-id-<?php echo esc_js( $facebook_page_id ); ?>').append(data).filter('.fb-sublist-page-id-<?php echo esc_js( $facebook_page_id ); ?>').html();
+                                                            jQuery('.fb-sublist-page-id-<?php echo esc_js( $facebook_page_id ); ?>').animate({scrollTop: '+=100px'}, 800); // scroll down a 100px after new items are added
 
 
 
                                                             <?php if ( isset( $data->locations->paging->next ) && $data->locations->paging->next === $_REQUEST['next_location_url'] ) { ?>
-                                                            jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb fts-no-more-locations-<?php echo esc_js( $fb_page_id ); ?>" style="background:none !important"><?php echo esc_html( 'All Locations loaded', 'feed-them-social' ); ?></div>');
-                                                            jQuery('#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location').removeAttr('id');
+                                                            jQuery('#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb fts-no-more-locations-<?php echo esc_js( $facebook_page_id ); ?>" style="background:none !important"><?php echo esc_html( 'All Locations loaded', 'feed-them-social' ); ?></div>');
+                                                            jQuery('#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location').removeAttr('id');
                                                             <?php } ?>
-                                                            jQuery("#loadMore_<?php echo esc_js( $fb_page_id ); ?>_location").removeClass('fts-fb-spinner');
+                                                            jQuery("#loadMore_<?php echo esc_js( $facebook_page_id ); ?>_location").removeClass('fts-fb-spinner');
                                                         }
                                                     }); // end of ajax()
                                                     return false;
@@ -433,7 +433,7 @@ class Access_Options {
                             <?php
                             } //END Make sure it's not ajaxing locations
                             ?>
-                                <script>var nextURL_location_<?php echo esc_js( $fb_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : ''; ?>";</script>
+                                <script>var nextURL_location_<?php echo esc_js( $facebook_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : ''; ?>";</script>
                             <?php } ?>
                         </li>
 
@@ -506,21 +506,21 @@ class Access_Options {
                                     });
 
                                     $(fb).click(function () {
-                                        var fb_page_id = $(this).find('.fts-api-facebook-id').html();
+                                        var facebook_page_id = $(this).find('.fts-api-facebook-id').html();
                                         var token = $(this).find('.page-token').html();
                                         // alert(token);
                                         var name = $(this).find('.fts-insta-icon').html();
                                         var fb_name = $(this).find('.fts-fb-icon').html();
                                         <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
                                         $("#fts_facebook_instagram_custom_api_token").val(token);
-                                        $("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
+                                        $("#fts_facebook_instagram_custom_api_token_user_id").val(facebook_page_id);
                                         $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
                                         $("#fts_facebook_instagram_custom_api_token_fb_user_name").val(fb_name);
                                         <?php }
                                         else {
                                         ?>
                                         $("#fts_facebook_custom_api_token").val(token);
-                                        $("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
+                                        $("#fts_facebook_custom_api_token_user_id").val(facebook_page_id);
                                         $("#fts_facebook_custom_api_token_user_name").val(fb_name);
                                         <?php } ?>
                                         $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
@@ -576,14 +576,14 @@ class Access_Options {
                     //alert("reviews_token");
 
                     $(fb).click(function () {
-                        var fb_page_id = $(this).find('.fts-api-facebook-id').html();
+                        var facebook_page_id = $(this).find('.fts-api-facebook-id').html();
                         var token = $(this).find('.page-token').html();
                         // alert(token);
                             var name = $(this).find('.fts-insta-icon').html();
                         <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
                             var fb_name = $(this).find('.fts-fb-icon').html();
                         $("#fts_facebook_instagram_custom_api_token").val(token);
-                        $("#fts_facebook_instagram_custom_api_token_user_id").val(fb_page_id);
+                        $("#fts_facebook_instagram_custom_api_token_user_id").val(facebook_page_id);
                         $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
                             $("#fts_facebook_instagram_custom_api_token_fb_user_name").val(fb_name);
                             <?php }
@@ -591,7 +591,7 @@ class Access_Options {
                         ?>
                             var fb_name = $(this).find('.fb-name').html();
                         $("#fts_facebook_custom_api_token").val(token);
-                        $("#fts_facebook_custom_api_token_user_id").val(fb_page_id);
+                        $("#fts_facebook_custom_api_token_user_id").val(facebook_page_id);
                             $("#fts_facebook_custom_api_token_user_name").val(fb_name);
                         <?php } ?>
                         $('.fb-page-list .feed-them-social-admin-submit-btn').hide();

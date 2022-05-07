@@ -69,6 +69,13 @@ class Instagram_Business_Access_Functions {
             'post' => $feed_cpt_id,
         ), admin_url( 'post.php' ) );
 
+                ?>
+            <script>
+                jQuery(document).ready(function ($) {
+                    fts_social_icons_wrap_click();
+                });
+            </script>
+            <?php
                 // call to get instagram account attached to the facebook page
                 // 1844222799032692 = slicktest fb page (dev user)
                 // 1844222799032692?fields=instagram_business_account&access_token=

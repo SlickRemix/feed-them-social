@@ -2736,7 +2736,7 @@ body .ft-gallery-popup a.fts-powered-by-text {
     margin: 14px 0 25px;
     font-size: 13px;
 }
-.fts-social-icon-wrap-active div {
+.fts-social-icon-wrap-active div, .fts-instagram-sub-menu-active div {
     color:#333 !important
 }
 .fts-select-social-network-menu .fts-social-icon-wrap {
@@ -2795,7 +2795,7 @@ span.fts-toke-not-set {
     font-size: 34px;
     color: #404040;
 }
-.fts-social-icon-wrap-active .fts-instagram::before {
+.fts-social-icon-wrap-active .fts-instagram::before, .fts-instagram-sub-menu-active .fts-instagram::before {
     color: #404040 !important;
 }
 .fts-facebook:before {
@@ -2851,4 +2851,25 @@ span.fts-toke-not-set {
     margin: 10px 10px 0 0;
     background: #0b8af0;
     color:#fff;
+}
+.fts-instagram-basic-business-wrap small{
+    display:block;
+    margin-bottom:-32px;
+}
+.fts-instagram-down-arrow {
+    position:relative;
+    display: inline-block;
+    z-index:1;
+    bottom:-41px;
+    text-align:center;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+}
+.fts-social-icon-wrap-active.fts-instagram-business-token-button .fts-instagram-down-arrow {
+
+    border-bottom: 30px solid #ffffff !important;
+}
+.fts-social-icon-wrap-active.fts-instagram-basic-token-button .fts-instagram-down-arrow {
+
+    border-bottom: 30px solid #ffffff !important;
 }

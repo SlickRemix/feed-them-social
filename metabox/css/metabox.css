@@ -642,7 +642,7 @@ a.fts-success-token-content:hover {
 
 .fts-facebook-get-access-token, .fts-facebook-get-access-token:focus, .fts-instagram-get-access-token, .fts-instagram-get-access-token:focus, .fts-pinterest-get-access-token, .fts-pinterest-get-access-token:focus, .fts-twitter-get-access-token, .fts-twitter-get-access-token:focus, .fts-youtube-get-access-token, .fts-youtube-get-access-token:focus {
     border-radius: 5px;
-    box-shadow: 0 1px 1px #999;
+    box-shadow: 0px 0px 1px #999;
     display: inline-block;
 
 
@@ -1320,7 +1320,7 @@ h1.plugin-author-note {
 .fts-youtube-get-access-token, .fts-youtube-get-access-token:focus {
     padding: 18px 16px 19px 188px;
     background: url(../images/google-logo-admin.jpg) 13px 12px no-repeat #fff;
-    color: #252525;
+    color: #333;
     margin: 10px 0 10px 5px;}
 
 .fts-twitter-get-access-token, .fts-twitter-get-access-token:focus {
@@ -2486,7 +2486,7 @@ h3.sectioned-options-title {
 }
 
 .feed_them_social-admin-input-wrap {
-    padding: 20px 11px 20px 0;
+    padding: 20px 0;
     background: #f9f9f99e;
     border-bottom: 1px solid rgb(230 230 230 / 58%);
     min-height: 30px;
@@ -3013,7 +3013,7 @@ h3.fts-active-success-token:before {
     margin-bottom:0px !important;
 }
 #fts_instagram_custom_api_token_expires_in {
-    margin-bottom:10px !important;
+    margin-bottom: 20px !important;
 }
 #fts_instagram_custom_id, .fts-instagram-custom-access-token .feed_them_social-admin-input-label {
     margin-top:20px !important;
@@ -3038,4 +3038,31 @@ h3.fts-active-success-token:before {
 }
 #fb-list-wrap {
     margin:10px 0 10px 5px
+}
+.fts-instagram-basic-business-wrap {
+    display:block;
+    text-align:center;
+}
+.fts-instagram-basic-business-wrap {
+    margin:20px 2px -18px 2px;
+    display: flex;
+    cursor:pointer;
+    color:#fff;
+    font-size:14px;
+    justify-content: space-around;
+}
+.fts-instagram-basic-business-wrap div:hover {
+    opacity:.9;
+}
+
+.fts-instagram-basic-token-button {
+    background:#404040 !important;
+    width:49.99999%;
+    padding:20px 0 20px 0 ;
+
+}
+.fts-instagram-business-token-button {
+    background:#3b5a97 !important;
+    width:49.99999%;
+    padding:20px 0 20px 0 ;
 }

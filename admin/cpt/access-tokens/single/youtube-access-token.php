@@ -106,7 +106,11 @@ class Youtube_Access_Functions {
         }
 
         if( !empty( $youtube_api_key ) || !empty( $youtube_access_token ) ) {
-            $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=slickremix&' . $youtube_api_key_or_token );
+
+
+           // $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $channel_id . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token );
+
+            $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
             // echo '$youtube_user_id_data';
             // echo $youtube_user_id_data;
 
@@ -114,6 +118,8 @@ class Youtube_Access_Functions {
             $response = wp_remote_fopen( $youtube_user_id_data );
             // Error Check!
             $test_app_token_response = json_decode( $response );
+
+           // print_r( $test_app_token_response );
         }
             echo sprintf(
                 esc_html__( '%1$sLogin and get my Access Token %2$s', 'feed-them-social' ),
@@ -125,13 +131,6 @@ class Youtube_Access_Functions {
             <a href="https://www.slickremix.com/docs/get-api-key-for-youtube/" target="_blank" class="fts-admin-button-no-work">Not working?</a>
 
             <?php
-
-            if ( isset( $_GET['refresh_token'] ) && isset( $_GET['code'] ) && isset( $_GET['expires_in'] ) ) {
-                // START AJAX TO SAVE TOKEN TO DB RIGHT AWAY SO WE CAN DO OUR NEXT SET OF CHECKS
-                // new token action!
-               // $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
-            }
-
             $expiration_time = $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
            // echo $expiration_time;
            // echo ' asdfasdfasdf ';
@@ -166,25 +165,30 @@ class Youtube_Access_Functions {
                         if (distance < 0) {
                             clearInterval(x);
                             jQuery('.fts-success').fadeIn();
-                            document.getElementById("fts-timer").innerHTML = "Token Expired, refresh page to get new a token.";
-                        }
-                    }, 1000);
-                </script>
-                <?php
-            }
-            ?>
+                            document.getElementById("fts-timer").innerHTML = "Expired, getting new token.";
+                       }
+                   }, 1000);
+               </script>
+               <?php
+           }
+
+           if ( time() > $expiration_time && empty( $youtube_api_key ) ) {
+               echo '&&&&&&&&&&';
+               // LEAVING IFF HERE NEED TO FIGURE OU WHY THIS IS NOT REFRESHING PROPER.
+               // COPY CODE FROM INSTAGRAM TO SIMPLIFY THE JS ABOVE TOO.
+               // SRL: 5-6-22: using API token till I get this figured out.
+               // I also made the refresh token option on fts.com error. MUST undo error there to get this to work.
+               // Right now though it is getting a refresh after a few seconds from a shit ton of people and it's made the
+               // app reach it's limit... access tokens blow for youtube. API key is the best way still.
+
+                      // $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
+            }   ?>
+
             <div class="clear"></div>
             <div class="feed-them-social-admin-input-wrap fts-youtube-token-wrap fts-token-wrap" id="fts-youtube-token-wrap"><?php
 
-            // YO! making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
-            if ( empty( $youtube_api_key ) && ! empty( $youtube_access_token ) && time() > $expiration_time ) {
-                // refresh token action!
-                $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
-            }
-
                 $user_id = $test_app_token_response;
                 $error_response = $test_app_token_response->error->errors[0]->message ? 'true' : 'false';
-                // print_r( $error_response );
 
                 // Error Check!
                 if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
@@ -201,7 +205,12 @@ class Youtube_Access_Functions {
                     echo sprintf(
                         esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
                         '<div class="fts-failed-api-token">',
-                        esc_html( 'The request is missing a valid Access Token.' ),
+                        wp_kses(
+                            $user_id->error->errors[0]->message,
+                            array(
+                                'small'  => array(),
+                            )
+                        ),
                         '</div>'
                     );
                 }

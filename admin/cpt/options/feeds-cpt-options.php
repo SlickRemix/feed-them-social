@@ -347,7 +347,7 @@ class Feed_CPT_Options {
 
         $this->all_options['instagram_business_token_options'] = array(
             'section_attr_key'   => 'facebook_instagram_token_',
-            'section_title'      => esc_html__( 'Instagram Business API Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Instagram Business Access Token', 'feed_them_social' ),
             'section_wrap_id' => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-facebook-instagram fts-token-wrap',
             // Form Info.

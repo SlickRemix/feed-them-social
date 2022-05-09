@@ -60,7 +60,7 @@ function fts_ajax_cpt_save_token() {
 
             setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
 
-            // location.reload();
+             location.reload();
             // We change the text from Updating... at the bottom of a long page to Update.
             jQuery('.updatefrombottom a.button-primary').html("Update");
         }

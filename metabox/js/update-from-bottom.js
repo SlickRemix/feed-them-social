@@ -1,40 +1,121 @@
+// Made this into a function because there are 2 states.
+// 1: When the page loads and instagram is the saved option.
+// 2: When an item in the .fts-select-social-network-menu has been clicked on.
+// So we check to make sure the instagram option has an active state and if so do stuff.
+function fts_instagram_basic_business_buttons() {
+
+    jQuery('.fts-select-social-network-menu').append('<div class="fts-instagram-basic-business-wrap">' +
+        '<div class="fts-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram Basic<br/><small>Your Personal Account</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
+        '<div class="fts-instagram-business-token-button" data-fts-feed-type="instagram-business-feed-type">Instagram Business<br/><small>Account connected to Facebook</small><div class="fts-instagram-down-arrow fts-instagram-business-arrow"></div></div>' +
+        '</div>');
+
+    if( 'instagram-business-feed-type' === jQuery("#feed_type option:selected").val() ){
+        jQuery('.fts-instagram-business-token-button').addClass('fts-social-icon-wrap-active');
+    }
+    else if( 'instagram-feed-type' === jQuery("#feed_type option:selected").val() ){
+        jQuery('.fts-instagram-basic-token-button').addClass('fts-social-icon-wrap-active');
+    }
+
+}
+
+// Use our buttons to change our #feed_type select option.
+function fts_social_icons_wrap_click() {
+    jQuery('.fts-social-icon-wrap, .fts-instagram-basic-token-button, .fts-instagram-business-token-button').click(function () {
+
+            // Don't repeat the process if the user clicks and active icon.
+            if( !jQuery( this ).hasClass('fts-social-icon-wrap-active') ) {
+                const url_string = window.location.href;
+                const url = new URL(url_string);
+                const cpt_id = url.searchParams.get("post");
+                const fts_type = jQuery(this).data('fts-feed-type');
+                jQuery('#feed_type').val(fts_type).trigger('change').attr('selected', 'selected');
+                jQuery('.fts-social-icon-wrap').removeClass('fts-social-icon-wrap-active');
+                jQuery(this).addClass('fts-social-icon-wrap-active');
+
+                // Load up the proper access token inputs.
+                fts_access_token_type_ajax(fts_type, cpt_id);
+            }
+        return false;
+   });
+}
+
+function fts_access_token_type_ajax( feed_type, cpt_id ) {
+
+    jQuery.ajax({
+        data: {
+            action: 'fts_access_token_type_ajax',
+            cpt_id: cpt_id,
+            feed_type: feed_type,
+        },
+        type: 'POST',
+        url: ftsAjax.ajaxurl,
+        success: function ( response ) {
+
+            jQuery('.fts-access-token').hide();
+            jQuery('.fts-access-token').html( response );
+            jQuery('.fts-access-token').fadeIn();
+            // ok next thing I need to do here is add a class to the main wrapper that lets me know when social icon is clicked which option to have active
+            // either the instagram basic or the business tab.
+
+            // This is here to remove the instagram basic and business buttons when
+            // the user clicks on any other button other than instagram to get an access token.
+            if( 'instagram-feed-type' !== feed_type && 'instagram-business-feed-type' !== feed_type ) {
+
+                jQuery('.fts-instagram-basic-business-wrap').remove();
+                jQuery('.instagram-feed-type').removeClass('fts-instagram-sub-menu-active');
+            }
+            else {
+                jQuery('.instagram-feed-type').addClass('fts-instagram-sub-menu-active');
+                jQuery('.fts-instagram-basic-business-wrap').remove();
+                fts_instagram_basic_business_buttons();
+            }
+
+            fts_social_icons_wrap_click();
+            fts_reload_toggle_click();
+            fts_check_valid();
+
+            console.log( feed_type + ': Access Token Button/Options Success' );
+        }
+
+    }); // end of ajax()
+    return false;
+}
+
+// Created a function out of this so we can reload it when the ajax fires to load the access token button and options.
+// otherwise the click function will not fire.
+function fts_reload_toggle_click(){
+    jQuery('#fts-feed-type h3, #fts-feed-type span').click(function () {
+        jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
+        jQuery( this ).toggleClass( 'fts-feed-type-active' );
+    });
+}
+
+function fts_check_valid() {
+    if( jQuery('.fts-success-token-content').length ){
+        jQuery('#fts-feed-type h3').append(' Valid').addClass('fts-active-success-token');
+        jQuery('#fts-feed-type h3').css('color', '#1aae1f');
+    }
+}
+
 (function ($) {
     "use strict";
     $( document ).ready(function() {
 
-        function fts_check_valid() {
-            if( $('.fts-success-token-content').length ){
-                $('#fts-feed-type h3').append(' Valid').addClass('fts-active-success-token');
-                $('#fts-feed-type h3').css('color', '#1aae1f');
-            }/*
-            else{
-                $('#fts-feed-type h3').append(': <span class="fts-toke-not-set">Not Set</span>');
-            }*/
-        }
-        fts_check_valid();
+        setTimeout(function () {
 
-
-        // Use our buttons to change our #feed_type select option.
-        $( '.fts-social-icon-wrap' ).click(function() {
-                const url_string = window.location.href;
-                const url = new URL( url_string );
-                const cpt_id = url.searchParams.get("post");
-                const fts_type = $(this).data('fts-feed-type');
-                $( '#feed_type' ).val( fts_type ).trigger('change').attr('selected', 'selected');
-                $( '.fts-social-icon-wrap' ).removeClass( 'fts-social-icon-wrap-active' );
-                $( this ).addClass( 'fts-social-icon-wrap-active' );
-                // Load up the proper access token inputs.
-                fts_access_token_type_ajax( fts_type, cpt_id );
-                // Fire the check valid function.
-               // fts_check_valid()
+            if( !jQuery('div').hasClass('fts-instagram-basic-business-wrap') && jQuery('.fts-social-icon-wrap-active').hasClass('instagram-feed-type') ){
+                fts_instagram_basic_business_buttons();
             }
-        );
+            fts_reload_toggle_click();
+            fts_check_valid();
+            fts_social_icons_wrap_click();
+
+        }, 0);
 
         // This is for the select a social network tab and controls what tab is selected and visible in the tabs menu,
         $( '#feed_type' ).on(
             'change',
             function (e) {
-
                 // Grab the url so we can do stuff.
                 var url_string = window.location.href;
                 var url = new URL( url_string );
@@ -51,7 +132,6 @@
                     jQuery( '.tab4 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab4 a .fts-click-cover' ).hide();
                     $( '.fts-social-icon-wrap.facebook-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
-
                 }
                 else  {
                     jQuery( '.tab4' ).removeClass( 'fts-facebook-waiting-color' );
@@ -107,7 +187,8 @@
                     jQuery( '.tab8 a .fts-click-cover' ).show();
                 }
 
-                // LEAVING OFF HERE WTF NEED TO GET THIS TO ONLY WORK IF THE PAGE IS ACTIVE AND DB IS SAVED TO THIS FEED TYPE.
+                // LEAVING OFF HERE WITH THIS: NEED TO GET fts_check_valid TO ONLY WORK IF THE PAGE IS ACTIVE AND DB IS SAVED TO THIS FEED TYPE.
+                // Might not need this anymore.
                 if( $('.fts-social-icon-wrap-active .fts-success-token-content').length ){
                     fts_check_valid();
                 }
@@ -115,38 +196,6 @@
         ).change(); // The .change is so when the page loads it fires this on change event.
         // This way the tab will be active based on the save feed_type option.
 
-        // Created a function out of this so we can reload it when the ajax fires to load the access token button and options.
-        // otherwise the click function will not fire.
-        function fts_reload_toggle_click(){
-            jQuery('#fts-feed-type h3, #fts-feed-type span').click(function () {
-                jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
-                jQuery( this ).toggleClass( 'fts-feed-type-active' );
-            });
-        }
-        fts_reload_toggle_click();
-
-
-        function fts_access_token_type_ajax( feed_type, cpt_id ) {
-
-            $.ajax({
-                data: {
-                    action: 'fts_access_token_type_ajax',
-                    cpt_id: cpt_id,
-                    feed_type: feed_type,
-                },
-                type: 'POST',
-                url: ftsAjax.ajaxurl,
-                success: function ( response ) {
-
-                    $('.fts-access-token').html( response );
-                    fts_reload_toggle_click();
-                    fts_check_valid();
-                    console.log( feed_type + ': Access Token Button/Options Success' );
-                }
-
-            }); // end of ajax()
-            return false;
-        }
 
         //This is for the sub nav tabs under each social network and controls what is visible.
         var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';

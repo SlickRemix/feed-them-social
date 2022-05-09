@@ -1732,7 +1732,7 @@ class Feed_CPT_Options {
 
 					// Relative to JS.
 					'short_attr'  => array(
-						'attr_name' => 'image_width',
+						'attr_name' => 'facebook_image_width',
 						'empty_error' => 'set',
 						'empty_error_value' => 'image_width=250px',
 						'ifs' => 'album_photos,albums,album_videos',
@@ -2447,7 +2447,7 @@ class Feed_CPT_Options {
 					),
 					'req_plugin'  => 'fts_premium',
 					'short_attr'  => array(
-						'attr_name' => 'play_btn',
+						'attr_name' => 'facebook_play_btn',
 						'empty_error' => 'set',
 						'set_operator' => '==',
 						'set_equals' => 'yes',
@@ -2472,7 +2472,7 @@ class Feed_CPT_Options {
 
 					// Relative to JS.
 					'short_attr'  => array(
-						'attr_name' => 'play_btn_size',
+						'attr_name' => 'facebook_play_btn_size',
 						'empty_error' => 'set',
 						'empty_error_value' => 'play_btn_size=40px',
 						'ifs'     => 'album_videos',
@@ -2504,7 +2504,7 @@ class Feed_CPT_Options {
 					),
 					'req_plugin'  => 'fts_premium',
 					'short_attr'  => array(
-						'attr_name' => 'play_btn_visible',
+						'attr_name' => 'facebook_play_btn_visible',
 						'ifs'     => 'album_videos',
 						'and_ifs' => 'video',
 					),
@@ -5082,7 +5082,7 @@ class Feed_CPT_Options {
 						),
 					),
 					'short_attr'  => array(
-						'attr_name' => 'show_social_icon',
+						'attr_name' => 'facebook_show_social_icon',
 					),
 				),
 

@@ -85,8 +85,8 @@ class Facebook_Access_Funtions {
         $fb_name = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token_user_name' );
 
         // SRL 4-12-22. Holding off on this until talk with Justin on how we should deal with this.
-        $check_biz_token_value = false !== $this->data_protection->decrypt( $app_token ) ? $this->data_protection->decrypt( $app_token ) : $app_token;
-        $check_biz_encrypted = false !== $this->data_protection->decrypt( $app_token ) ? 'encrypted' : '';
+        $check_biz_token_value = $this->data_protection->decrypt( $app_token ) ?? $app_token;
+        $check_biz_encrypted = $this->data_protection->decrypt( $app_token ) ? $this->data_protection->decrypt( $app_token ) : '';
 
         if ( ! empty( $page_id ) || ! empty( $app_token ) ) {
 

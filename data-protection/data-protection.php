@@ -92,6 +92,7 @@ class Data_Protection {
         $ivlen  = openssl_cipher_iv_length( $method );
         $iv     = substr( $encrypted_value, 0, $ivlen );
 
+
         $encrypted_value = substr( $encrypted_value, $ivlen );
 
         $decrypted_value = openssl_decrypt( $encrypted_value, $method, $this->key, 0, $iv );

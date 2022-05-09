@@ -149,13 +149,16 @@ class Twitter_Access_Functions {
          <?php }
 
         echo sprintf(
-            esc_html__( '%1$sLogin and get my Access Tokens%2$s', 'feed-them-social' ),
+            esc_html__( '%1$sLogin and Get my Access Tokens%2$s', 'feed-them-social' ),
             '<a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . $post_url . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
             '</a>'
         );
         ?>
 
-        <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php echo esc_html__( 'Not working?', 'feed-them-social' ); ?></a>
+        <div class="fts-settings-does-not-work-wrap">
+            <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
+            <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+        </div>
 
         <div class="fts-clear"></div>
 

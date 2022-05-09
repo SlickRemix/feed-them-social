@@ -6,7 +6,7 @@ function fts_instagram_basic_business_buttons() {
 
     jQuery('.fts-select-social-network-menu').append('<div class="fts-instagram-basic-business-wrap">' +
         '<div class="fts-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram Basic<br/><small>Your Personal Account</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
-        '<div class="fts-instagram-business-token-button" data-fts-feed-type="instagram-business-feed-type">Instagram Business<br/><small>Account connected to Facebook</small><div class="fts-instagram-down-arrow fts-instagram-business-arrow"></div></div>' +
+        '<div class="fts-instagram-business-token-button" data-fts-feed-type="instagram-business-feed-type">Instagram Business<br/><small>Your Account on Facebook</small><div class="fts-instagram-down-arrow fts-instagram-business-arrow"></div></div>' +
         '</div>');
 
     if( 'instagram-business-feed-type' === jQuery("#feed_type option:selected").val() ){
@@ -22,7 +22,7 @@ function fts_instagram_basic_business_buttons() {
 function fts_social_icons_wrap_click() {
     jQuery('.fts-social-icon-wrap, .fts-instagram-basic-token-button, .fts-instagram-business-token-button').click(function () {
 
-            // Don't repeat the process if the user clicks and active icon.
+            // Don't repeat the process if the user clicks an active icon.
             if( !jQuery( this ).hasClass('fts-social-icon-wrap-active') ) {
                 const url_string = window.location.href;
                 const url = new URL(url_string);
@@ -84,16 +84,19 @@ function fts_access_token_type_ajax( feed_type, cpt_id ) {
 // Created a function out of this so we can reload it when the ajax fires to load the access token button and options.
 // otherwise the click function will not fire.
 function fts_reload_toggle_click(){
-    jQuery('#fts-feed-type h3, #fts-feed-type span').click(function () {
+    jQuery('#fts-feed-type h3, #fts-feed-type span, .fts-settings-does-not-work-wrap .fts-admin-token-settings').click(function () {
         jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
         jQuery( this ).toggleClass( 'fts-feed-type-active' );
+        jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
+        jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
+
     });
 }
 
 function fts_check_valid() {
     if( jQuery('.fts-success-token-content').length ){
-        jQuery('#fts-feed-type h3').append(' Valid').addClass('fts-active-success-token');
-        jQuery('#fts-feed-type h3').css('color', '#1aae1f');
+        jQuery('#fts-feed-type h3 .fts-valid-text').html(' - Valid');
+        jQuery('#fts-feed-type h3').addClass('fts-active-success-token').css('color', '#1aae1f');
     }
 }
 
@@ -128,27 +131,27 @@ function fts_check_valid() {
                 // console.log(ftgGlobalValue);
                 // I know we can figure a way to condense this but for time sake just rolling with this.
                 if ( 'facebook-feed-type' == ftsGlobalValue ) {
-                    jQuery( '.tab4' ).addClass( 'fts-facebook-waiting-color' );
-                    jQuery( '.tab4 a' ).css( { 'pointer-events' : 'all' } );
-                    jQuery( '.tab4 a .fts-click-cover' ).hide();
+                    jQuery( '.tab5' ).addClass( 'fts-facebook-waiting-color' );
+                    jQuery( '.tab5 a' ).css( { 'pointer-events' : 'all' } );
+                    jQuery( '.tab5 a .fts-click-cover' ).hide();
                     $( '.fts-social-icon-wrap.facebook-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
                 }
                 else  {
-                    jQuery( '.tab4' ).removeClass( 'fts-facebook-waiting-color' );
-                    jQuery( '.tab4 a' ).attr( 'style',  'pointer-events: none !important' );
-                    jQuery( '.tab4 a .fts-click-cover' ).show();
+                    jQuery( '.tab5' ).removeClass( 'fts-facebook-waiting-color' );
+                    jQuery( '.tab5 a' ).attr( 'style',  'pointer-events: none !important' );
+                    jQuery( '.tab5 a .fts-click-cover' ).show();
                 }
 
                 if ( 'instagram-feed-type' == ftsGlobalValue || 'instagram-business-feed-type' == ftsGlobalValue ) {
-                    jQuery( '.tab5' ).addClass( 'fts-instagram-waiting-color' );
-                    jQuery( '.tab5 a' ).css( { 'pointer-events' : 'all' } );
-                    jQuery( '.tab5 a .fts-click-cover' ).hide();
+                    jQuery( '.tab4' ).addClass( 'fts-instagram-waiting-color' );
+                    jQuery( '.tab4 a' ).css( { 'pointer-events' : 'all' } );
+                    jQuery( '.tab4 a .fts-click-cover' ).hide();
                     $( '.fts-social-icon-wrap.instagram-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
                 }
                 else  {
-                    jQuery( '.tab5' ).removeClass( 'fts-instagram-waiting-color' );
-                    jQuery( '.tab5 a' ).attr( 'style',  'pointer-events: none !important' );
-                    jQuery( '.tab5 a .fts-click-cover' ).show();
+                    jQuery( '.tab4' ).removeClass( 'fts-instagram-waiting-color' );
+                    jQuery( '.tab4 a' ).attr( 'style',  'pointer-events: none !important' );
+                    jQuery( '.tab4 a .fts-click-cover' ).show();
                 }
 
                 if ( 'twitter-feed-type' == ftsGlobalValue ) {

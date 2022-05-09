@@ -95,6 +95,7 @@ class Youtube_Access_Functions {
                 <?php } ?>
             });
         </script>
+
         <?php
 
         if ( isset( $youtube_api_key ) && ! empty( $youtube_api_key ) ) {
@@ -122,13 +123,16 @@ class Youtube_Access_Functions {
            // print_r( $test_app_token_response );
         }
             echo sprintf(
-                esc_html__( '%1$sLogin and get my Access Token %2$s', 'feed-them-social' ),
+                esc_html__( '%1$sLogin and Get my Access Token %2$s', 'feed-them-social' ),
                 '<a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . $post_url ) . '" class="fts-youtube-get-access-token">',
                 '</a>'
             );
             ?>
 
-            <a href="https://www.slickremix.com/docs/get-api-key-for-youtube/" target="_blank" class="fts-admin-button-no-work">Not working?</a>
+        <div class="fts-settings-does-not-work-wrap">
+            <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
+            <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+        </div>
 
             <?php
             $expiration_time = $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
@@ -173,7 +177,7 @@ class Youtube_Access_Functions {
            }
 
            if ( time() > $expiration_time && empty( $youtube_api_key ) ) {
-               echo '&&&&&&&&&&';
+              // echo '&&&&&&&&&&';
                // LEAVING IFF HERE NEED TO FIGURE OU WHY THIS IS NOT REFRESHING PROPER.
                // COPY CODE FROM INSTAGRAM TO SIMPLIFY THE JS ABOVE TOO.
                // SRL: 5-6-22: using API token till I get this figured out.

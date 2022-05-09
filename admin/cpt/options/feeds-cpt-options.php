@@ -162,7 +162,7 @@ class Feed_CPT_Options {
 
         $this->all_options['twitter_token_options'] = array(
             'section_attr_key'   => 'twitter_token_',
-            'section_title'      => esc_html__( 'Twitter Access Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Twitter Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_id' => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-twitter fts-token-wrap',
             // Form Info.
@@ -182,7 +182,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => $oath_token,
                     'instructional-text' => sprintf(
-                        esc_html__( '%1$s %2$s This is required to make the feed work. Simply click the button below and it will connect to your Twitter account to get an access token and access token secret, and it will return it in the input below. Then just click the save button and you will now be able to generate your Twitter feed.', 'feed_them_social' ),
+                        esc_html__( '%1$s %2$s Click the button below to get an access token. This gives us read-only access to get your Twitter posts. Once you have your Access Tokens you will be able to create your feed.', 'feed_them_social' ),
                         '<strong>',
                         '</strong>'
                     ),
@@ -216,7 +216,7 @@ class Feed_CPT_Options {
 
         $this->all_options['facebook_token_options'] = array(
             'section_attr_key'   => 'facebook_token_',
-            'section_title'      => esc_html__( 'Facebook Access Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Facebook Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_id' => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-facebook fts-token-wrap',
             // Form Info.
@@ -236,7 +236,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups.%3$sClick the button below to get an access token. This gives us read-only access to get your Instagram posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s%4$s', 'feed_them_social' ),
+                        esc_html__( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups.%3$sClick the button below to get an access token. This gives us read-only access to get your Facebook posts. Once you have your Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s%4$s', 'feed_them_social' ),
                         '<a href="https://developers.facebook.com/terms/" target="_blank">',
                         '</a>',
                         '<p>',
@@ -286,7 +286,7 @@ class Feed_CPT_Options {
 
         $this->all_options['instagram_token_options'] = array(
             'section_attr_key'   => 'instagram_token_',
-            'section_title'      => esc_html__( 'Instagram Basic Access Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Instagram Basic Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_id' => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-instagram fts-token-wrap',
             // Form Info.
@@ -303,7 +303,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
+                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Once you have your Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
                         '<a href="https://developers.facebook.com/terms/" target="_blank">',
                         '</a>'
                     ),
@@ -347,7 +347,7 @@ class Feed_CPT_Options {
 
         $this->all_options['instagram_business_token_options'] = array(
             'section_attr_key'   => 'facebook_instagram_token_',
-            'section_title'      => esc_html__( 'Instagram Business Access Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Instagram Business Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_id' => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-facebook-instagram fts-token-wrap',
             // Form Info.
@@ -367,8 +367,10 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Your Instagram must be linked to a Facebook Business Page. %1$sRead Instructions%2$s', 'feed_them_social' ),
+                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Your Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create your feed. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sFacebook\'s Platform Terms%4$s', 'feed_them_social' ),
                         '<a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">',
+                        '</a>',
+                        '<a href="https://developers.facebook.com/terms/" target="_blank">',
                         '</a>'
                     ),
                 ),
@@ -423,7 +425,7 @@ class Feed_CPT_Options {
 
         $this->all_options['youtube_token_options'] = array(
             'section_attr_key'   => 'youtube_token_',
-            'section_title'      => esc_html__( 'YouTube Access Token', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'YouTube Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_id'    => 'fts-feed-type',
             'section_wrap_class' => 'fts-tab-content1-youtube fts-token-wrap',
             // Form Info.
@@ -447,7 +449,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                            esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your YouTube videos. You can also %1$sadd your own API Key%2$s.', 'feed_them_social' ),
+                            esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your YouTube videos. You can also %1$sadd your own API Key%2$s. Once you have your Access Tokens or you have entered an API key, you will be able to create your feed.', 'feed_them_social' ),
                         '<span>',
                         '</span>'
                     ),
@@ -502,7 +504,7 @@ class Feed_CPT_Options {
 	public function layout_options() {
 		$this->all_options['layout'] = array(
 			'section_attr_key'   => 'facebook_',
-			'section_title'      => esc_html( 'Facebook Options', 'feed_them_social' ),
+			'section_title'      => esc_html( 'Facebook Options', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
 			'section_wrap_class' => 'fts-section-options',
 			// Form Info.
 			'form_wrap_classes'  => 'fb-page-shortcode-form',

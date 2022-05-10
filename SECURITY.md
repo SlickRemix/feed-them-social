@@ -1,0 +1,16 @@
+# Security Policy
+
+## Supported Versions
+
+Use this section to tell people about which versions of your project are
+currently being supported with security updates.
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 2.9.8.4 | :white_check_mark: |
+
+## Reporting a Vulnerability
+
+Use this section to tell people how to report a vulnerability.
+
+To report vulnerabilities please email us at support@slickremix.com. We are available 5 days a week. We generally resolve a reported vulnerability within one week or less. We will respond promptly letting you know we have received your email.

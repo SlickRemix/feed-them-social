@@ -244,9 +244,6 @@ class Feed_CPT_Options {
                     ),
                 ),
 
-
-
-
                 array(
                     'input_wrap_class' => 'fts-facebook-access-token',
                     'option_type'      => 'input',
@@ -1362,58 +1359,6 @@ class Feed_CPT_Options {
 					),
 				),
 
-				// Facebook ID
-				array(
-					'option_type' => 'input',
-					'input_wrap_class' => 'facebook_page_id',
-					'label'       => __( 'Facebook ID (required)', 'feed-them-social' ),
-					'instructional-text' => array(
-						/*array(
-							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
-							'class' => 'facebook-message-generator page inst-text-facebook-page',
-						),*/
-						array(
-							'text' => __( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-group-id/" target="_blank">' . __( 'Facebook Group ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ),
-							'class' => 'facebook-message-generator group inst-text-facebook-group',
-						),
-						array(
-							'text' => __( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-page-vanity-url/" target="_blank">' . __( 'Facebook Page ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below. PLEASE NOTE: This will only work with Facebook Page Events and you cannot have more than 25 events on Facebook.', 'feed-them-social' ),
-							'class' => 'facebook-message-generator event-list inst-text-facebook-event-list',
-						),
-						array(
-							'text' => __( 'Copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-facebook-event-id/" target="_blank">' . __( 'Facebook Event ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ),
-							'class' => 'facebook-message-generator event inst-text-facebook-event',
-						),
-						array(
-							'text' => __( 'To show a specific Album copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/docs/how-to-get-your-facebook-photo-gallery-id/" target="_blank">' . __( 'Facebook Album ID', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the third input below. If you want to show all your uploaded photos leave the Album ID input blank.', 'feed-them-social' ),
-							'class' => 'facebook-message-generator album_photos inst-text-facebook-album-photos',
-						),
-						/*array(
-							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
-							'class' => 'facebook-message-generator albums inst-text-facebook-albums',
-						),
-						array(
-							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
-							'class' => 'facebook-message-generator video inst-text-facebook-video',
-						),
-						array(
-							'text' => __( 'If your Access Token is set on the Facebook Options page of our plugin your ID should appear below.', 'feed-them-social' ),
-							'class' => 'facebook-message-generator reviews inst-text-facebook-reviews',
-						),*/
-					),
-					'type'        => 'text',
-					'id'          => 'facebook_page_id',
-					'name'        => 'facebook_page_id',
-					'value'       => '',
-
-					// Relative to JS.
-					'short_attr'  => array(
-						'attr_name'    => 'id',
-						'var_final_if' => 'no',
-						'empty_error'  => 'yes',
-					),
-				),
-
 				// Access Token SRL. DO NOT REMOVE!
 				/*array(
 					'option_type' => 'input',
@@ -1493,6 +1438,7 @@ class Feed_CPT_Options {
 					'name'        => 'facebook_page_post_count',
 					'value'       => '',
 					'placeholder' => __( '6 is the default number', 'feed-them-social' ),
+					'default_value' => '6',
 
 					// Relative to JS.
 					'short_attr'  => array(

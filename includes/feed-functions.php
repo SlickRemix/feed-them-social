@@ -20,6 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Feed_Functions {
 
+
+
 	/**
 	 * Options Functions
 	 *
@@ -266,6 +268,20 @@ class Feed_Functions {
 		}
 		return $default_settings_array;
 	}
+
+	/**
+	 * Set Feed Option Variables
+	 *
+	 * Set Feed Option Variables using the Saved Feed Options.
+	 *
+	 * @return boolean
+	 */
+	public function set_feed_option_variables( $feed_post_id ) {
+		// Saved Feed Options!
+		$saved_feed_options = $this->get_saved_feed_options( $feed_post_id );
+	}
+
+
 
 	/**
 	 * Get Saved Feed Options
@@ -1355,10 +1371,10 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 * @param string $feed feed type.
 	 * @param string $user_id user id.
 	 * @param null   $access_token access token.
-	 * @param null   $fb_shortcode shortcode attribute.
+	 * @param null   $saved_feed_options shortcode attribute.
 	 * @since 1.9.6
 	 */
-	public function social_follow_button( $feed, $user_id, $access_token = null, $fb_shortcode = null ) {
+	public function social_follow_button( $feed, $user_id, $saved_feed_options = null ) {
 		$fts_social_follow_nonce = wp_create_nonce( 'fts-social-follow-nonce' );
 
 		if ( wp_verify_nonce( $fts_social_follow_nonce, 'fts-social-follow-nonce' ) ) {
@@ -1395,7 +1411,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 					// Page Box!
 					if ( 'like-box' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ) {
 
-						$facebook_like_box_width = isset( $fb_shortcode['facebook_like_box_width'] ) && '' !== $fb_shortcode['facebook_like_box_width'] ? $fb_shortcode['facebook_like_box_width'] : '500px';
+						$facebook_like_box_width = isset( $saved_feed_options['facebook_like_box_width'] ) && '' !== $saved_feed_options['facebook_like_box_width'] ? $saved_feed_options['facebook_like_box_width'] : '500px';
 
 						echo '<div class="fb-page" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-hide-cover="' . esc_html( $page_cover ) . '" data-width="' . esc_html( $facebook_like_box_width ) . '"  data-show-facepile="' . esc_html( $show_faces ) . '" data-show-posts="false"></div>';
 					} else {

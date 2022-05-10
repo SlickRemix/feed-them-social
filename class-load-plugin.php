@@ -205,8 +205,8 @@ class Feed_Them_Social {
 		// Feed Functions Class. (eventually replacing most of FTS Functions Class.)
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-functions.php';
 
-		// FTS Functions Class.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-them-functions.php';
+		// Error Handler.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/error-handler.php';
 
 		// Setting Options Js.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/cpt-settings-options-js.php';

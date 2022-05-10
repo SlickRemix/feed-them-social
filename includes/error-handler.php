@@ -5,7 +5,7 @@
  * This class houses some of the errors for FTS
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2018, SlickRemix
+ * @copyright   Copyright (c) 2012-2022, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */
@@ -80,7 +80,7 @@ class fts_error_handler {
 	 * @since 1.9.6
 	 */
 	public function fts_plugin_version_check() {
-		// return error if no data retreived!
+		// return error if no data retrieved!
 		try {
 			$update_msg = __( 'Please update ALL Premium Extensions for Feed Them Social because they will no longer work with this version of Feed Them Social. We have made some Major Changes to the Core of the plugin to help with plugin conflicts. Please update your extensions from your <a href="https://www.slickremix.com/my-account" target="_blank">My Account</a> page on our website if you are not receiving notifications for updates on the premium extensions. Thanks again for using our plugin!', 'feed-them-social' );
 
@@ -130,13 +130,13 @@ class fts_error_handler {
 	/**
 	 * Facebook Error Check
 	 *
-	 * @param string $fb_shortcode shortcode.
+	 * @param array $saved_feed_options shortcode.
 	 * @param string $feed_data feed data.
 	 * @return array
 	 * @throws \Exception Don't let old plugins activate.
 	 * @since 1.9.6
 	 */
-	public function facebook_error_check( $fb_shortcode, $feed_data ) {
+	public function facebook_error_check( $saved_feed_options, $feed_data ) {
 		// return error if no data retreived!
 		try {
 			if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
@@ -144,7 +144,7 @@ class fts_error_handler {
 				$solution_text = 'Here are some possible solutions to fix the error.';
 				// ID Error!
 				if ( isset( $feed_data->error ) && 803 === $feed_data->error->code ) {
-					if ( false !== strpos( $feed_data->error->message, '(#803) Cannot query users by their username' ) || 'group' === $fb_shortcode['type'] ) {
+					if ( false !== strpos( $feed_data->error->message, '(#803) Cannot query users by their username' ) || 'group' === $saved_feed_options['facebook_page_feed_type'] ) {
 						throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . '.2 - Cannot query users by their username. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-803-2" target="_blank">' . $solution_text . '</a></div>' );
 					} else {
 						throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - Facebook cannot find this ID. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-803" target="_blank">' . $solution_text . '</a></div>' );
@@ -159,10 +159,10 @@ class fts_error_handler {
 					throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - This call requires a Page access token. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
 				} elseif ( isset( $feed_data->error ) && 100 === $feed_data->error->code ) {
 					throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - This Page may not be public. <a style="color:red !important;" href="http://www.slickremix.com/docs/facebook-error-messages/#error-100" target="_blank">' . $solution_text . '</a></div>' );
-				} elseif ( 'group' === $fb_shortcode['type'] && isset( $feed_data->error ) && 1 === $feed_data->error->code ) {
+				} elseif ( 'group' === $saved_feed_options['facebook_page_feed_type'] && isset( $feed_data->error ) && 1 === $feed_data->error->code ) {
 					$solution_text = 'Please view this link for a temporary solution.';
 					throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - The group feed is experiencing a known error at this time. <a style="color:red !important;" href="http://www.slickremix.com/docs/facebook-error-messages/#group-feed-error-pinned-post" target="_blank">' . $solution_text . '</a></div>' );
-				} elseif ( 'reviews' === $fb_shortcode['type'] && ( empty( $feed_data->data ) || ! isset( $feed_data->data ) ) ) {
+				} elseif ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && ( empty( $feed_data->data ) || ! isset( $feed_data->data ) ) ) {
 					// Rate Limit Exceeded!
 					throw new \Exception( '<div style="clear:both; padding:15px 0;">No Reviews Found or You may not have Admin Permissions for this page. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-no-reviews" target="_blank">' . $solution_text . '</a></div>' );
 				} elseif ( isset( $feed_data->error ) ) {

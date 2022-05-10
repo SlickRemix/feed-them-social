@@ -200,7 +200,7 @@ class Feed_Shortcode {
      */
     public function display_feed_shortcode_filter( $atts ){
 		// Feed Post ID that exists in the shortcode.
-	    $feed_post_id = $this->feed_functions->shortcode_feed_id_exists( $atts );
+	    $feed_post_id = $this->shortcode_feed_id_exists( $atts );
 
 		// If Feed Post ID exists then outputting what is needed.
 		if( $feed_post_id ){

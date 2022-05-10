@@ -120,13 +120,17 @@ class Instagram_Access_Functions {
                 }
 
                 echo sprintf(
-                    esc_html__( '%1$sLogin and get my Access Token%2$s %3$sNot working?%4$s', 'feed-them-social' ),
+                    esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
                     '<a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . $post_url ) . '" class="fts-instagram-get-access-token">',
-                    '</a>',
-                    '<a href="mailto:support@slickremix.com" class="fts-admin-button-no-work">',
                     '</a>'
                 );
+
                  ?>
+        <div class="fts-settings-does-not-work-wrap">
+            <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
+            <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+        </div>
+
         <div class="fts-clear"></div>
         <div class="feed-them-social-admin-input-wrap fts-instagram-token-wrap fts-token-wrap" id="fts-instagram-token-wrap">
             <?php

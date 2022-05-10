@@ -72,12 +72,17 @@ class Facebook_Access_Funtions {
         // 1844222799032692?fields=instagram_business_account&access_token=
         // This redirect url must have an &state= instead of a ?state= otherwise it will not work proper with the fb app. https://www.slickremix.com/instagram-token/&state=.
         echo sprintf(
-            esc_html__( '%1$sLogin and get my Access Token%2$s', 'feed-them-social' ),
+            esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
             '<a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . $post_url . '&scope=pages_show_list,pages_read_engagement' ) . '" class="fts-facebook-get-access-token">',
             '</a>'
         );
         ?>
-        <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+
+        <div class="fts-settings-does-not-work-wrap">
+            <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
+            <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+        </div>
+
         <?php
 
         $page_id = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token_user_id' );

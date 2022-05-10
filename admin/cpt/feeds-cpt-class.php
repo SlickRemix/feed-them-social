@@ -565,19 +565,19 @@ class Feeds_CPT {
                     'cont_wrap_id'  => 'ftg-tab-content3',
                     'cont_func'     => 'tab_colors_content',
                 ),
-                // Facebook Feed Settings Tab!
-                'facebook_feed'        => array(
-                    'menu_li_class' => 'tab4',
-                    'menu_a_text'   => esc_html__( 'Facebook', 'feed_them_social' ),
-                    'cont_wrap_id'  => 'ftg-tab-content6',
-                    'cont_func'     => 'tab_facebook_feed',
-                ),
                 // Instagram Feed Settings Tab!
                 'instagram_feed' => array(
-                    'menu_li_class' => 'tab5',
+                    'menu_li_class' => 'tab4',
                     'menu_a_text'   => esc_html__( 'Instagram', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content5',
                     'cont_func'     => 'tab_instagram_feed',
+                ),
+                // Facebook Feed Settings Tab!
+                'facebook_feed'        => array(
+                    'menu_li_class' => 'tab5',
+                    'menu_a_text'   => esc_html__( 'Facebook', 'feed_them_social' ),
+                    'cont_wrap_id'  => 'ftg-tab-content6',
+                    'cont_func'     => 'tab_facebook_feed',
                 ),
                 // Twitter Feed Settings Tab!
                 'twitter_feed'   => array(

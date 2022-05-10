@@ -42,7 +42,6 @@ class Facebook_Additional_Options {
         $this->global_facebook_grid_style_options();
 		$this->error_messages_options();
         $this->load_more_options();
-
 	}
 
 	/**
@@ -54,9 +53,7 @@ class Facebook_Additional_Options {
 	 * @since 1.0.0
 	 */
 	public function get_all_options() {
-
 		return $this->all_options;
-
 	}
 
 	/**

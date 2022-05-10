@@ -1527,8 +1527,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Show Page Title', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
-					'id'          => 'fb_page_title_option',
-					'name'        => 'fb_page_title_option',
+					'id'          => 'facebook_page_title',
+					'name'        => 'facebook_page_title',
 					'options'     => array(
 						array(
 							'label' => __( 'Yes', 'feed-them-social' ),
@@ -1554,8 +1554,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Align Title', 'feed-them-social' ) . '<br/><small>' . __( 'Left, Center or Right', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
-					'id'          => 'fb_page_title_align',
-					'name'        => 'fb_page_title_align',
+					'id'          => 'facebook_page_title_align',
+					'name'        => 'facebook_page_title_align',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'Left', 'feed-them-social' ),
@@ -2221,8 +2221,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Load More Button', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'facebook_load_more_option',
-					'name'        => 'facebook_load_more_option',
+					'id'          => 'facebook_load_more',
+					'name'        => 'facebook_load_more',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'No', 'feed-them-social' ),
@@ -2287,8 +2287,8 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'label'       => __( 'Load more Button Width', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto width', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
-					'id'          => 'loadmore_button_width',
-					'name'        => 'loadmore_button_width',
+					'id'          => 'facebook_loadmore_button_width',
+					'name'        => 'facebook_loadmore_button_width',
 					'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
 					'req_plugin'  => 'fts_premium',

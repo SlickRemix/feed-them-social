@@ -60,7 +60,6 @@ class Options_Functions {
 		}
 	}
 
-
 	/**
 	 * Check CPT Exists
 	 *

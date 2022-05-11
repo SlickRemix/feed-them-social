@@ -101,11 +101,14 @@ class Feed_Them_Social {
 		// CPT Shortcode Button for Admin page, posts and CPTs.
 		new \feedthemsocial\Shortcode_Button();
 
+		// Facebook Post Types.
+		$facebook_post_types = new \feedthemsocial\Facebook_Feed_Post_Types( $feed_functions );
+
 		// Facebook Feed.
-		$facebook_feed = new Facebook_Feed( $feed_functions, $feed_cache );
+		$facebook_feed = new \feedthemsocial\Facebook_Feed( $feed_functions, $feed_cache, $facebook_post_types );
 
 		// Twitter Feed.
-		$twitter_feed = new Twitter_Feed( $feed_functions, $feed_cache );
+		$twitter_feed = new \feedthemsocial\Twitter_Feed( $feed_functions, $feed_cache );
 
 		// Feed Display.
 		new \feedthemsocial\Feed_Shortcode( $feed_functions, $facebook_feed, $twitter_feed );

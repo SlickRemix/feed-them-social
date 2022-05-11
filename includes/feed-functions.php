@@ -382,7 +382,25 @@ class Feed_Functions {
 		return $data;
 	}
 
+	/**
+	 * Get Feed Dynamic Class Name
+	 *
+	 * @return string
+	 * @since 3.0.0
+	 */
+	public function get_feed_dynamic_class_name() {
+		$feed_dynamic_name_nonce = wp_create_nonce( 'feed_dynamic_name_nonce' );
 
+		if ( wp_verify_nonce( $feed_dynamic_name_nonce, 'feed_dynamic_name_nonce' ) ) {
+			$feed_dynamic_class_name = '';
+			if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
+				$feed_dynamic_class_name = 'feed_dynamic_class' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
+			}
+			return $feed_dynamic_class_name;
+		}
+		exit;
+	}
+    
 	/**
 	 * FTS Ago
 	 *

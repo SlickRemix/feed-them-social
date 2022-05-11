@@ -103,8 +103,7 @@ class Feed_Shortcode {
 		}
 	}
 
-
-    /**
+	/**
      * Shortcode_location
      *
      * When a page containing a shortcode is viewed on the front end we

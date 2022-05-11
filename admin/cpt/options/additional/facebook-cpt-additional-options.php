@@ -656,8 +656,8 @@ class Facebook_Additional_Options {
 							'</small>'
 						),
 					'type'             => 'text',
-					'id'               => 'fb_hide_shared_by_etc_text',
-					'name'             => 'fb_hide_shared_by_etc_text',
+					'id'               => 'facebook_hide_shared_by_etc_text',
+					'name'             => 'facebook_hide_shared_by_etc_text',
 					'default_value'    => 'no',
 					'options'          => array(
 						array(

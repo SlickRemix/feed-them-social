@@ -232,7 +232,7 @@ class updater_check_class {
 
 		if ( empty( $update_cache->response ) || empty( $update_cache->response[ $this->name ] ) ) {
 
-			$cache_key    = md5( 'edd_plugin_' . sanitize_key( $this->name ) . '_version_info' );
+			$cache_key    = sha256( 'edd_plugin_' . sanitize_key( $this->name ) . '_version_info' );
 			$version_info = get_transient( $cache_key );
 
 			if ( false === $version_info ) {
@@ -335,7 +335,7 @@ class updater_check_class {
 			),
 		);
 
-		$cache_key = 'edd_api_request_' . substr( md5( serialize( $this->slug ) ), 0, 15 );
+		$cache_key = 'edd_api_request_' . substr( sha256( serialize( $this->slug ) ), 0, 15 );
 
 		// Get the transient where we store the api request for this plugin for 24 hours!
 		$edd_api_request_transient = get_site_transient( $cache_key );
@@ -454,7 +454,7 @@ class updater_check_class {
 		}
 
 		$data         = $edd_plugin_data[ $_REQUEST['slug'] ];
-		$cache_key    = md5( 'edd_plugin_' . sanitize_key( $_REQUEST['plugin'] ) . '_version_info' );
+		$cache_key    = sha256( 'edd_plugin_' . sanitize_key( $_REQUEST['plugin'] ) . '_version_info' );
 		$version_info = get_transient( $cache_key );
 
 		if ( false === $version_info ) {

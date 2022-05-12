@@ -285,7 +285,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                         }
                         elseif( ini_get('allow_url_fopen') ){
                             // If curl fails try file get contents
-                            $html = file_get_contents( $twitter_external_url );
+                            $html = wp_remote_get( $twitter_external_url );
                             // error_log( 'FTS: using file_get_contents');
                         }
 
@@ -355,10 +355,10 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 	    );
 
 	   if( !empty( $twitter_info[ 'image' ] ) && !empty( $twitter_info[ 'title' ] ) && !empty( $twitter_info[ 'description' ] ) ){
-	        echo $this->fts_twitter_external_link_wrap( $twitter_info );
+	        echo esc_html( $this->fts_twitter_external_link_wrap( $twitter_info ) );
 	   }
 	   else {
-	       echo $twitter_info[ 'error' ];
+	       echo esc_html( $twitter_info[ 'error' ] );
 	   }
 
         wp_die();
@@ -1431,7 +1431,7 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
 									jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
 									<?php } ?>
 
-									if (!maxID_<?php echo sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ); ?> || 'no more' === maxID_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
+									if (!maxID_<?php echo esc_js ( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> || 'no more' === maxID_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
 										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $twitter_no_more_tweets_text ); ?></div>');
 										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
 										jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").off('scroll');

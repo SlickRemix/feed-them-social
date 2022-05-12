@@ -716,7 +716,7 @@ class FTS_Facebook_Feed_Post_Types extends FTS_Facebook_Feed {
                     echo 'jQuery(".' . esc_js( $fts_dynamic_vid_name ) . '").click(function() {';
                     echo 'jQuery(this).addClass("fts-vid-div");';
                     echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-                    echo '	jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper">' . $json_obj->html . '</div>\');';
+                    echo '	jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper">' . esc_js( $json_obj->html ) . '</div>\');';
                     if ( isset( $fb_shortcode['grid'] ) && 'yes' === $fb_shortcode['grid'] ) {
                         echo 'jQuery(".fts-slicker-facebook-posts").masonry( "reloadItems");';
                         echo 'jQuery(".fts-slicker-facebook-posts").masonry( "layout" );';

@@ -444,10 +444,10 @@ class feed_them_social_functions {
                 echo '<div style="max-width: 570px; word-wrap: break-word;margin:10px 10px 0 10px;">';
                 echo '<p>';
                 echo '<strong>Facebook Response: </strong>';
-                echo $test_fb_app_token_response->error->message . ' Code #';
-                echo $test_fb_app_token_response->error->code . '. ';
-                echo $test_fb_app_token_response->error->error_user_title;
-                echo $test_fb_app_token_response->error->error_user_msg;
+                echo esc_html( $test_fb_app_token_response->error->message ) . ' Code #';
+                echo esc_html( $test_fb_app_token_response->error->code ) . '. ';
+                echo esc_html( $test_fb_app_token_response->error->error_user_title );
+                echo esc_html( $test_fb_app_token_response->error->error_user_msg );
 
                 if( 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ){
                     echo '</p> <strong>Helpful Tips:</strong> Make sure you are an admin of the page or pages you are choosing. Next you will see, "What SlickRemix is allowed to do." The 2 options should be, Read content posted on the Page and Show a list of the Pages you manage. Make sure and choose Yes for both.<a href="#" style="display: none" target="_blank">More Tips</a>';
@@ -497,9 +497,9 @@ class feed_them_social_functions {
 								</div>
 								<div class="fb-name-wrap"><span class="fb-name">
 					<?php
-					echo $data_user_name;
+					echo esc_html( $data_user_name );
 					if ( isset( $data->store_number, $data->store_location_descriptor ) ) {
-						print '(' . $data->store_location_descriptor . ')';
+						print '(' . esc_html( $data->store_location_descriptor ) . ')';
 					}
 					?>
 									</span></div>
@@ -556,7 +556,7 @@ class feed_them_social_functions {
 																	 src="<?php echo esc_url( $loc_data_thumbnail ); ?>"/>
 															</div>
 															<div class="fb-name-wrap"><span
-																		class="fb-name"><?php echo $loc_data_user_name; ?>
+																		class="fb-name"><?php echo esc_html( $loc_data_user_name ); ?>
 																	<?php
 																	if ( isset( $location->store_location_descriptor ) ) {
 																		echo '(' . esc_html( $location->store_location_descriptor ) . ')';
@@ -1008,7 +1008,7 @@ class feed_them_social_functions {
 				$build_shortcode .= ' ]';
 			}
 
-			echo do_shortcode( $build_shortcode );
+			echo esc_html( $build_shortcode );
 
 		} else {
 			exit( esc_html( 'That is not an FTS shortcode!' ) );
@@ -3579,7 +3579,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                 $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
                 update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
 
-                echo wp_unslash(  $_REQUEST['expires_in'] );
+                echo esc_html( $_REQUEST['expires_in'] );
                 echo '<br/>';
             }
 
@@ -3591,7 +3591,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			}
 		}
 
-        echo wp_unslash( $_REQUEST['access_token'] );
+        echo esc_html( $_REQUEST['access_token'] );
 
 
         wp_die();

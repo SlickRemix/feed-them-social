@@ -264,14 +264,14 @@ class feed_them_social_functions {
 				<script>
 					jQuery(document).ready(function () {
 
-						var access_token = '<?php echo sanitize_text_field( $encrypted_token ); ?>';
-						var user_id = '<?php echo sanitize_text_field( $user_id ); ?>';
+						var access_token = '<?php echo esc_js( $encrypted_token ); ?>';
+						var user_id = '<?php echo esc_js( $user_id ); ?>';
 
                         // Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
                         // For now we are going to get a new token every 7 days just to be on the safe side.
                         // That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
                         // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
-                        var expires_in = '<?php echo sanitize_text_field( time() + $expires_in - 4579200 ); ?>';
+                        var expires_in = '<?php echo esc_js( time() + $expires_in - 4579200 ); ?>';
 
 						jQuery.ajax({
 							data: {
@@ -326,7 +326,7 @@ class feed_them_social_functions {
 									<?php
 								}
 								?>
-								console.log( 'success saving instagram access token: Encrypted Token: <?php echo $encrypted_token ?>' );
+								console.log( 'success saving instagram access token: Encrypted Token: <?php echo esc_html( $encrypted_token ) ?>' );
 							}
 						}); // end of ajax()
 						return false;

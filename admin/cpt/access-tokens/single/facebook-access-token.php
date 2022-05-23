@@ -85,18 +85,15 @@ class Facebook_Access_Funtions {
 
         <?php
 
-        $page_id = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token_user_id' );
-        $app_token = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token' );
-        $fb_name = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token_user_name' );
+        $page_id                = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token_user_id' );
+        $access_token           = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token' );
+        $fb_name                = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token_user_name' );
+        $decrypted_access_token = false !== $this->data_protection->decrypt( $access_token ) ? $this->data_protection->decrypt( $access_token ) : $access_token;
 
-        // SRL 4-12-22. Holding off on this until talk with Justin on how we should deal with this.
-        $check_biz_token_value = $this->data_protection->decrypt( $app_token ) ?? $app_token;
-        $check_biz_encrypted = $this->data_protection->decrypt( $app_token ) ? $this->data_protection->decrypt( $app_token ) : '';
-
-        if ( ! empty( $page_id ) || ! empty( $app_token ) ) {
+        if ( ! empty( $decrypted_access_token ) ) {
 
             $test_app_token_url = array(
-                'app_token_id' => 'https://graph.facebook.com/debug_token?input_token=' . $app_token .' &access_token=' . $app_token,
+                'app_token_id' => 'https://graph.facebook.com/debug_token?input_token=' . $decrypted_access_token .' &access_token=' . $decrypted_access_token,
             );
 
             // Check to see what the response is.
@@ -108,6 +105,18 @@ class Facebook_Access_Funtions {
             echo '</pre>';*/
         }
         ?>
+                <script>
+
+                    jQuery(document).ready(function ($) {
+
+                        <?php if ( !isset( $_GET['code'], $_GET['feed_type'] ) ) {?>
+                            // This fires only if we are not trying to get a access token.
+                            $('#fts_facebook_custom_api_token').attr( 'value', '<?php echo $decrypted_access_token ?>' );
+
+                        <?php } ?>
+                    });
+                </script>
+
         <div class="clear"></div>
         <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap fts-token-wrap" id="fts-fb-token-wrap">
             <?php
@@ -118,7 +127,7 @@ class Facebook_Access_Funtions {
 
                         echo '<div class="fts-successful-api-token fts-special-working-wrap">';
 
-                        if ( !empty( $fb_name ) && !empty( $app_token ) ) {
+                        if ( !empty( $fb_name ) && !empty( $access_token ) ) {
                             echo '<h4><a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-fb-icon"></span>' . $fb_name . '</a></h4>';
                         }
 

@@ -20,8 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Feed_Functions {
 
-
-
 	/**
 	 * Options Functions
 	 *
@@ -83,6 +81,7 @@ class Feed_Functions {
         add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
         add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
         add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
+        add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
 
         if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
             // Load More Options.
@@ -101,7 +100,7 @@ class Feed_Functions {
     public function add_actions_filters(){
 
 		// Display admin bar
-	    $display_admin_bar = get_option( 'fts_show_admin_bar' ) ;
+	    $display_admin_bar = get_option( 'fts_show_admin_bar' );
 	    if ( '1' === $display_admin_bar ) {
 		    // FTS Admin Bar!
 		    add_action( 'wp_before_admin_bar_render', array( $this, 'fts_admin_bar_menu' ), 999 );
@@ -1528,32 +1527,21 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
             $cpt_id = $_REQUEST['cpt_id'];
 
+            // $test = 'Testing';
+
+            // Now the encrypted version is saved to the DB.
             if( 'basic' === $_REQUEST['token_type'] ){
-
-                // SRL 4-21-22: NEED TO UPDATE METHOD FOR CPT
-                // Now the encrypted version is saved to the DB.
                 $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $encrypt, true, $cpt_id );
-
-               // print_r( $this->options_functions->update_single_option( $this->get_saved_feed_options( $cpt_id ), 'fts_instagram_custom_api_token', 'reeeeeeeee', true, $cpt_id ) );
-                $test = 'Testing';
-               // print_r(  $this->get_saved_feed_options( $cpt_id ))
-                //  update_option( 'fts_facebook_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
             }
             elseif ( 'business' === $_REQUEST['token_type'] ) {
-
-                // SRL 4-21-22: NEED TO UPDATE METHOD FOR CPT
-                // Now the encrypted version is saved to the DB.
-              //  update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
+                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token', $encrypt, true, $cpt_id );
             }
             elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
-
-                // SRL 4-21-22: NEED TO UPDATE METHOD FOR CPT
-                // Now the encrypted version is saved to the DB.
-               // update_option( 'fts_facebook_custom_api_token', sanitize_text_field( $encrypt ) );
+                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token', $encrypt, true, $cpt_id );
             }
         }
         $token_data = array (
-            'test'       => $test,
+           // 'test'       => $test,
             'id'         => $cpt_id,
             'token'      => $access_token,
             'encrypted'  => $encrypt,

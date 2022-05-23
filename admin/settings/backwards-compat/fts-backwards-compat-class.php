@@ -174,7 +174,6 @@ class Backwards_Compat {
 				break;
 
 
-
 			// Share Options.
             case 'fts_disable_share_button':
                 $value = $this->settings_functions->fts_get_option( 'hide_sharing' );

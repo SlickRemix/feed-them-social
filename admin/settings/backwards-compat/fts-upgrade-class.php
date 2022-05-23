@@ -4,7 +4,7 @@
  *
  * @package     FTS
  * @subpackage  Admin/Backwards Compat
- * @copyright   Copyright (c) 2021, SlickRemix
+ * @copyright   Copyright (c) 2022, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.3.4
  */
@@ -28,13 +28,27 @@ if ( ! defined( 'ABSPATH' ) )
 /**
  * Class Backwards_Compat
  */
-class Backwards_Compat {
+class FTS_Upgrades {
+
+    /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
+
 	/**
 	 * Primary class constructor.
 	 *
 	 * @since 1.0.0
 	 */
-	public function __construct() {
+	public function __construct( $settings_functions ) {
+
+        // Settings Functions Class.
+        $this->settings_functions = $settings_functions;
+
 		// Add Actions and Filters.
 		$this->add_actions_filters();
 	}
@@ -233,7 +247,7 @@ class Backwards_Compat {
 
         update_option( 'fts_settings', $fts_options );
         // Used for testing.
-        // delete_option( 'fts_settings' );
+        //delete_option( 'fts_settings' );
 
     } // v2963_upgrades
 

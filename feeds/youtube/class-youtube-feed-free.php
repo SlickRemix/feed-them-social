@@ -358,13 +358,26 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 									echo '<h2>' . esc_html( $this->fts_youtube_title( $post_data ) ) . '</h2>';
 								}
 								// URL for the video is escaped in this function.
-								echo esc_html( $this->fts_youtube_video_and_wrap( $post_data, $username, $playlist_id ) );
+								echo $this->fts_youtube_video_and_wrap( $post_data, $username, $playlist_id );
 
 								$youtube_description   = $this->fts_youtube_tag_filter( $this->fts_youtube_description( $post_data ) );
 								$large_vid_description = 'yes' === $large_vid_description ? $large_vid_description : '';
 
 								if ( 'yes' === $large_vid_description ) {
-									echo '<p>' . esc_html( $youtube_description ) . '</p>';
+									echo '<p>' . wp_kses(
+										$youtube_description,
+										array(
+											'a'      => array(
+												'href'   => array(),
+												'title'  => array(),
+												'target' => array(),
+											),
+											'br'     => array(),
+											'em'     => array(),
+											'strong' => array(),
+											'small'  => array(),
+										)
+									) . '</p>';
 								}
 								echo '</div>';
 								echo '</div>';
@@ -426,7 +439,7 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 
 						$this->fts_youtube_single_video_info( $video_id_or_link, $youtube_api_key_or_token );
 
-						echo esc_html( $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null ) );
+						echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
 						echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 
                         // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
@@ -505,8 +518,21 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 									echo '<h3><a href="' . esc_url( $user_name_href ) . '" target="_blank">' . esc_html( $channel_title ) . '</a></h3>';
 									echo '<div class="fts-youtube-date">' . esc_html( $date ) . '</div>';
 									echo '<h4>' . esc_html( $youtube_title ) . '</h4>';
-									echo '<div class="fts-youtube-description-popup">' . esc_html( $youtube_description ) . '</div>';
-									echo esc_html( $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null ) );
+									echo '<div class="fts-youtube-description-popup">' . wp_kses(
+										$youtube_description,
+										array(
+											'a'      => array(
+												'href'   => array(),
+												'title'  => array(),
+												'target' => array(),
+											),
+											'br'     => array(),
+											'em'     => array(),
+											'strong' => array(),
+											'small'  => array(),
+										)
+									) . '</div>';
+									echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
 									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
                                     // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
                                     if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $comments_count ) && '0' !== $comments_count && !empty( get_option( 'youtube_custom_api_token' ) ) ) {
@@ -529,8 +555,21 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 									echo '<h3><a href="' . esc_url( $user_name_href ) . '" target="_blank">' . esc_html( $channel_title ) . '</a></h3>';
 									echo '<div class="fts-youtube-date">' . esc_html( $date ) . '</div>';
 									echo '<h4>' . esc_html( $youtube_title ) . '</h4>';
-									echo '<div class="fts-youtube-description-popup">' . esc_html( $youtube_description ) . '</div>';
-									echo esc_html( $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null ) );
+									echo '<div class="fts-youtube-description-popup">' . wp_kses(
+										$youtube_description,
+										array(
+											'a'      => array(
+												'href'   => array(),
+												'title'  => array(),
+												'target' => array(),
+											),
+											'br'     => array(),
+											'em'     => array(),
+											'strong' => array(),
+											'small'  => array(),
+										)
+									) . '</div>';
+									echo $fts_functions_class->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
 									echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 
                                     // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.

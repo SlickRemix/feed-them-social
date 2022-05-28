@@ -116,7 +116,7 @@ if (!class_exists('FTSOAuthException')) {
 		$key_parts = OAuthUtilFTS::urlencode_rfc3986($key_parts);
 		$key = implode('&', $key_parts);
 	
-		return base64_encode(sha256('sha1', $base_string, $key, true));
+		return base64_encode(hash_hmac('sha1', $base_string, $key, true));
 	  }
 	}
 	
@@ -477,7 +477,7 @@ if (!class_exists('FTSOAuthException')) {
 		$mt = microtime();
 		$rand = mt_rand();
 	
-		return sha256($mt . $rand); // md5s look nicer than numbers
+		return md5($mt . $rand); // md5s look nicer than numbers
 	  }
 	}
 	

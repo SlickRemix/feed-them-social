@@ -526,7 +526,8 @@ class updater_license_page {
 			switch ( $_GET['sl_activation'] ) {
 
 				case 'false':
-					echo esc_html( $_GET['message'] );
+					$message = rawurldecode( $_GET['message'] );
+					echo $message;
 					break;
 
 				case 'true':

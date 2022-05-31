@@ -172,7 +172,6 @@ class Metabox_Functions {
 			// Load Metabox Scripts.
 			add_action( 'admin_enqueue_scripts', array( $this, 'metabox_scripts_styles' ) );
 
-
             // FTS License Page!
             if ( isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ) {
                 add_action( 'admin_footer', array( $this, 'fts_plugin_license' ) );

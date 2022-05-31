@@ -136,10 +136,6 @@ class Feed_Functions {
 		    if ( isset( $_GET['page'] ) && 'fts-system-info-submenu-page' === $_GET['page'] ) {
 			    add_action( 'admin_enqueue_scripts', array( $this, 'feed_them_system_info_css' ) );
 		    }
-		    // FTS License Page!
-		    if ( isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ) {
-			    add_action( 'admin_footer', array( $this, 'fts_plugin_license' ) );
-		    }
 	    }
     }
 

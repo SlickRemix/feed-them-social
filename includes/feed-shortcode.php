@@ -19,17 +19,30 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Feed_Shortcode {
 
-	public $feed_functions;
+    /**
+     * Options Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $options_functions;
+
+
+    public $feed_functions;
 
 	/**
 	 * Feed Display Constructor.
 	 */
-	public function __construct( $feed_functions, $facebook_feed, $twitter_feed ){
+	public function __construct( $feed_functions, $options_functions, $facebook_feed, $twitter_feed ){
 		// Add Actions and filters.
 		$this->add_actions_filters();
 
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
+
+        // Set Feed Functions object.
+        $this->options_functions = $options_functions;
 
 		// Facebook Feed.
 		$this->facebook_feed = $facebook_feed;
@@ -117,22 +130,24 @@ class Feed_Shortcode {
         }
 
         global $post;
-        // Used for testing.
-        //echo get_the_title( $post->ID );
+        $array_check = $this->feed_functions->get_feed_option( $cpt_id, 'fts_shortcode_location' );
+        $array_check_decode = json_decode( $array_check );
 
-        // Get args for fts custom post type.
-        $args = array(
-            'posts_per_page' => -1,
-            'post_type' => 'fts',
-            'post_status'    => 'publish',
-            'suppress_filters' => true
-        );
-
-        $posts_array = get_posts( $args );
-
-        foreach($posts_array as $post_array) {
-            $shortcode_location_id = $post->ID;
-            update_post_meta( $cpt_id, 'fts_shortcode_location', $shortcode_location_id );
+        // Process: A user saves a shortcode to a page, when they view the page we update the fts_shortcode_location with the id.
+        // the fts_shortcode_location option will contain an array of ids, that is all.
+        // To see how we remove ids from the array if a user deletes the shortcode go to the
+        // feeds-cpt-class.php and search for case 'shortcode_location':
+        // that is where we will update the fts_shortcode_location to remove an ids not found. This happens when the user loads the wp-admin/edit.php?post_type=fts page
+        if( !is_array( $array_check_decode ) ){
+            $encoded = json_encode( array( $post->ID ) );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id );
+        }
+        elseif( is_array( $array_check_decode ) ) {
+            if (  !in_array( $post->ID, $array_check_decode, true ) ){
+                $add_id = array_merge( $array_check_decode, array( $post->ID ) );
+                $encoded = json_encode( $add_id );
+                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id );
+            }
         }
     }
 

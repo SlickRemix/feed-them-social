@@ -171,6 +171,12 @@ class Metabox_Functions {
 
 			// Load Metabox Scripts.
 			add_action( 'admin_enqueue_scripts', array( $this, 'metabox_scripts_styles' ) );
+
+
+            // FTS License Page!
+            if ( isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ) {
+                add_action( 'admin_footer', array( $this, 'fts_plugin_license' ) );
+            }
 		}
 	}
 
@@ -799,5 +805,118 @@ class Metabox_Functions {
     public function error_notice_html() {
         // ft-gallery-notice happens in JS file.
         return '<div class="ft-gallery-notice"></div>';
+    }
+
+    /**
+     * My FTS Plugin License
+     *
+     * Put in place to only show the Activate Plugin license if the input has a value
+     *
+     * @since 2.1.4
+     */
+    public function fts_plugin_license() {
+        wp_enqueue_script( 'jquery' );
+        ?>
+        <style>.fts-license-master-form th {
+                background: #f9f9f9;
+                padding: 14px;
+                border-bottom: 1px solid #ccc;
+                margin: -14px -14px 20px;
+                width: 100%;
+                display: block
+            }
+
+            .fts-license-master-form .form-table tr {
+                float: left;
+                margin: 0 15px 15px 0;
+                background: #fff;
+                border: 1px solid #ccc;
+                width: 30.5%;
+                max-width: 350px;
+                padding: 14px;
+                min-height: 220px;
+                position: relative;
+                box-sizing: border-box
+            }
+
+            .fts-license-master-form .form-table td {
+                padding: 0;
+                display: block
+            }
+
+            .fts-license-master-form td input.regular-text {
+                margin: 0 0 8px;
+                width: 100%
+            }
+
+            .fts-license-master-form .edd-license-data[class*=edd-license-] {
+                position: absolute;
+                background: #fafafa;
+                padding: 14px;
+                border-top: 1px solid #eee;
+                margin: 20px -14px -14px;
+                min-height: 67px;
+                width: 100%;
+                bottom: 14px;
+                box-sizing: border-box
+            }
+
+            .fts-license-master-form .edd-license-data p {
+                font-size: 13px;
+                margin-top: 0
+            }
+
+            .fts-license-master-form tr {
+                display: none
+            }
+
+            .fts-license-master-form tr.fts-license-wrap {
+                display: block
+            }
+
+            .fts-license-master-form .edd-license-msg-error {
+                background: rgba(255, 0, 0, 0.49)
+            }
+
+            .fts-license-master-form tr.fts-license-wrap {
+                display: block
+            }
+
+            .fts-license-master-form .edd-license-msg-error {
+                background: #e24e4e !important;
+                color: #FFF
+            }
+
+            .fts-license-wrap .edd-license-data p {
+                color: #1e981e
+            }
+
+            .edd-license-msg-error p {
+                color: #FFF !important
+            }
+
+            .feed-them_page_fts-license-page .button-secondary {
+                display: none;
+            }</style>
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                if (jQuery('#feed_them_social_premium_license_key').val() !== '') {
+                    jQuery('#feed_them_social_premium_license_key').next('label').find('.button-secondary').show()
+                }
+                if (jQuery('#feed_them_social_combined_streams_license_key').val() !== '') {
+                    jQuery('#feed_them_social_combined_streams_license_key').next('label').find('.button-secondary').show()
+                }
+                if (jQuery('#feed-them-social-facebook-reviews_license_key').val() !== '') {
+                    jQuery('#feed-them-social-facebook-reviews_license_key').next('label').find('.button-secondary').show()
+                }
+                if (jQuery('#fts_bar_license_key').val() !== '') {
+                    jQuery('#fts_bar_license_key').next('label').find('.button-secondary').show()
+                }
+                if (jQuery('#feed_them_carousel_premium_license_key').val() !== '') {
+                    jQuery('#feed_them_carousel_premium_license_key').next('label').find('.button-secondary').show()
+                }
+            });
+        </script>
+        <?php
     }
 }

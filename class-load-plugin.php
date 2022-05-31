@@ -96,7 +96,7 @@ class Feed_Them_Social {
 		$access_options = new \feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
 
 		// Feeds CPT.
-        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options );
+        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
 
 		// CPT Shortcode Button for Admin page, posts and CPTs.
 		new \feedthemsocial\Shortcode_Button();
@@ -111,7 +111,7 @@ class Feed_Them_Social {
 		$twitter_feed = new \feedthemsocial\Twitter_Feed( $feed_functions, $feed_cache );
 
 		// Feed Display.
-		new \feedthemsocial\Feed_Shortcode( $feed_functions, $facebook_feed, $twitter_feed );
+		new \feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $twitter_feed );
 
         // Backwards compatability.
         new \feedthemsocial\Backwards_Compat( $settings_functions );

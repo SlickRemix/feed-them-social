@@ -101,7 +101,8 @@ class FTS_Upgrades {
             error_log( 'FTS vs test check ' . get_option( 'fts_version' ));
         }
         else{
-            error_log( 'FTS vs test check fail ' . get_option( 'fts_version' ));
+            // Testing
+            //error_log( 'FTS vs test check fail ' . get_option( 'fts_version' ));
         }
 
         if ( version_compare( $fts_version, FTS_CURRENT_VERSION, '<' ) )	{
@@ -208,7 +209,7 @@ class FTS_Upgrades {
 
             // We're switching an old select option to new checkbox
             if ( 'fts_admin_bar_menu' === $old_option )   {
-                $current = 'show-admin-bar-menu' === $current ? 1 : 0;
+                $current = 'hide-admin-bar-menu' === $current ? -1 : 1;
             }
 
             $fts_options[ $new_option ] = $current;
@@ -247,7 +248,7 @@ class FTS_Upgrades {
 
         update_option( 'fts_settings', $fts_options );
         // Used for testing.
-        //delete_option( 'fts_settings' );
+        // delete_option( 'fts_settings' );
 
     } // v2963_upgrades
 

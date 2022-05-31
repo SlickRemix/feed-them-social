@@ -69,6 +69,15 @@ class Feeds_CPT {
     public $access_token_options;
 
     /**
+     * Options Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $options_functions;
+
+    /**
      * Metabox Functions Class
      *
      * initiates Metabox Functions object
@@ -82,7 +91,7 @@ class Feeds_CPT {
      *
      * @param object  $feed_cpt_options All options.
      */
-    public function __construct( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options) {
+    public function __construct( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options, $options_functions) {
 
         // Add Actions and Filters.
         $this->add_actions_filters();
@@ -116,6 +125,9 @@ class Feeds_CPT {
 
         //Access Token Options.
         $this->access_token_options = $access_token_options;
+
+        // Set Feed Functions object.
+        $this->options_functions = $options_functions;
     }
 
     /**
@@ -405,23 +417,65 @@ class Feeds_CPT {
             // Display the Shortcode Location.
             case 'shortcode_location':
 
-                // Things to make exceptions and checks for still.
+                // Todo: We need to make a few more exceptions and checks.
                 // 1. What if the shortcode is added to a widget not on a page or post?
+                // 2. What about page builders. Might have to add condition and options for users to check a custom post type in a list that will apply to the checks below.
 
-                // We take the ID that we store in the fts_shortcode_location post meta key and return the page title and permalink
+                // Take the ID that we store in the fts_shortcode_location post meta key and return the page title and permalink
                 // so users can click to the page the shortcode is on and replace it or remove it.
-                $shortcode_location_id = get_post_meta( $post_id, 'fts_shortcode_location', true );
-
-                // Get the post content so we can double check to see if it has a specific shortcode.
-                $post = get_post( $shortcode_location_id );
-                $the_content = $post->post_content;
-                $shortcode = '[feed_them_social cpt_id=' . $post_id .']';
+                $shortcode_location_id = $this->feed_functions->get_feed_option( $post_id, 'fts_shortcode_location' );
+                $shortcode_location_id = json_decode( $shortcode_location_id );
+                // Test
+                //print_r( $shortcode_location_id );
 
                 // Check to see if the shortcode_location_id has been set with an ID and if so lets double check that content has a shortcode in it.
                 // IF so then we will display a page title and link to it so the user can see where there shortcode is being used.
-                if( strpos($the_content, $shortcode) !== false && !empty( $shortcode_location_id ) ){
-                    $shortcode_location = '<a href="' . get_the_permalink( $shortcode_location_id )  . '" target="_blank">' . get_the_title( $shortcode_location_id ) . '</a>';
-                    echo $shortcode_location;
+                if( is_array( $shortcode_location_id ) && !empty( $shortcode_location_id ) ){
+                    $location = array();
+                    foreach ( $shortcode_location_id as $id ){
+
+                        // Make sure the post id actually exists before running code.
+                        if( get_post_status ( $post_id ) ) {
+
+                            $post = get_post( $id );
+                            // Get the post content so we can double check to see if it has a specific shortcode.
+                            $the_content = $post->post_content;
+                            $shortcode = '[feed_them_social cpt_id=' . $post_id . ']';
+
+                            // As Noted: I can see this failing in some instances like page builders or custom post types.
+                            if ( false !== strpos( $the_content, $shortcode ) ) {
+                                $location[] = '<a href="' . get_the_permalink( $id ) . '" target="_blank">' . get_the_title( $id ) . '</a>';
+                            }
+                            else {
+                                // If an ID is checked and not found the user must have removed the shortcode so we remove the id from the array and re-save it.
+                                $array_check = $this->feed_functions->get_feed_option( $post_id, 'fts_shortcode_location' );
+                                $array_check_decode = json_decode( $array_check );
+
+                                // Check to see if the id exists in array and if not then update single option to omit that id from the array.
+                                if ( !empty( $array_check_decode ) && false !== ( $key = array_search( $id, $array_check_decode, true ) ) ) {
+                                    // unset the key for the the id we are removing.
+                                    unset( $array_check_decode[$key] );
+                                    // array_values so we can reorder the keys before encoding.
+                                    $array_final = array_values( $array_check_decode );
+
+                                    // lets make sure the array is not empty before moving forward.
+                                    if( !empty( $array_check_decode ) ){
+                                        // encode the final array for db injection.
+                                        $encoded = json_encode( $array_final );
+                                    }
+                                    else {
+                                        // Clear the database field now since there are no ids set.
+                                        $encoded = '';
+                                        echo __( 'Not Set', 'feed-them-social' );
+                                    }
+                                    // Update the fts_shortcode_location with our newly compiled array has at least one id, or we clear the field.
+                                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $post_id );
+                                }
+                            }
+                        }
+                    }
+                    // Implode the results so we can add commas to our locations. This is the best approach so that the last location does not get a comma.
+                    echo implode(', ', $location );
                 }
                 else {
                     echo __( 'Not Set', 'feed-them-social' );
@@ -967,7 +1021,7 @@ class Feeds_CPT {
                         <input value="" />
                 </p><div class="publishing-action" style="text-align: right;"><a href="#feed_setup" id="fts-convert-old-shortcode" class="button button-primary button-large"><?php echo esc_html__( 'Convert', 'feed_them_social' ); ?></a></div>
 
-                <small>
+                <small style="display: none">
                     for testing:<br/>
                     <br/>[fts_facebook hide_date_likes_comments=yes type=page id=1562664650673366 access_token=asasdf posts=6 title=no title_align=center description=no height=350px show_media=top show_thumbnail=no show_date=yes show_name=yes words=45 popup=yes grid=yes posts_displayed=page_only center_container=yes image_stack_animation=no colmn_width=310px images_align=center album_id=photo_stream image_width=250px image_height=250px space_between_photos=1px space_between_posts=10px show_follow_btn_where=below_title like_option_align=center facebook_like_box_width=500px hide_like_option=no hide_comments_popup=no loadmore=autoscroll loadmore_btn_maxwidth=300px loadmore_btn_margin=10px reviews_type_to_show=4 reviews_rating_format=3 overall_rating=yes remove_reviews_no_description=yes hide_see_more_reviews_link=yes play_btn_size=400px play_btn_visible=yes play_btn=yes scrollhorz_or_carousel=carousel slides_visible=55 slider_spacing=33px slider_margin=&quot;-6px auto 1px auto&quot; slider_speed=1000 slider_timeout=1000 slider_controls=arrows_above_feed slider_controls_text_color=#FFF slider_controls_bar_color=320px slider_controls_width=320px ]
                     <br/><br/>[fts_twitter twitter_name=gopro tweets_count=6 twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes grid=yes search=sadfsdf popup=yes loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px colmn_width=310px space_between_posts=10px]

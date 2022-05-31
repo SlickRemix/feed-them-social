@@ -131,15 +131,15 @@ class Feed_CPT_Options {
 					),
 				),
 
-               /* array(
+                array(
                     'input_wrap_class' => 'fts-shortcode-location',
                     'option_type'      => 'input',
                     'label'            => esc_html__( 'Shortcode Location', 'feed_them_social' ),
                     'type'             => 'text',
                     'id'               => 'fts_shortcode_location',
                     'name'             => 'fts_shortcode_location',
-                    'value'              => 'Not Set',
-                ),*/
+                    'value'            => 'Not Set',
+                ),
 
 			),
 		);

@@ -161,6 +161,13 @@ class Access_Options {
 					$youtube_access_functions->get_access_token_button( $feed_cpt_id );
 
 					break;
+
+                case 'combine-streams-feed-type':
+                    ?>
+                    <p>Thinking this combined button should just open the combined streams tab instead of displaying anything below for now.</p>
+                <?php
+
+                    break;
 			}
 			// Return Access Options.
 

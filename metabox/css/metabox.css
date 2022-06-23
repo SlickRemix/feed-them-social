@@ -2195,7 +2195,9 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 .ft-gallery-settings-tabs-meta-wrap .fts-section {
     display: block !important;
 }
-
+.fts-cpt-main-options-combined {
+    display:inline-block;
+}
 .feed_them_social-admin-input-wrap {
     float: left;
     display: inline-block
@@ -2511,9 +2513,8 @@ h3.sectioned-options-title {
 }
 
 .fts-shortcode-location {
-    display: none;
+    display: none !important;
 }
-
 .feed_them_social-admin-input-wrap {
     padding: 20px 0;
     background: #f8f8f8;

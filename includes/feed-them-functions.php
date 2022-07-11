@@ -3541,58 +3541,61 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 */
 	public function fts_refresh_token_ajax() {
 
-		$fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
+        // Check security token is set.
+        if ( ! isset( $_REQUEST['fts_security'], $_REQUEST['fts_time'] ) ) {
+            exit( 'Sorry, You can\'t do that!' );
+        }
 
-		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
+        // Verify Nonce Security.
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ) , sanitize_text_field( wp_unslash( $_REQUEST['fts_time'] ) ) . 'fts_refresh_token_nonce' ) ) {
+            exit( 'Sorry, You can\'t do that!' );
+        }
 
-			if ( isset( $_REQUEST['button_pushed'] ) && 'yes' === $_REQUEST['button_pushed'] ) {
+        if ( isset( $_REQUEST['button_pushed'] ) && 'yes' === $_REQUEST['button_pushed'] ) {
 
-                if( 'youtube' ===  $_REQUEST['feed'] && !empty( $_REQUEST['refresh_token'] )  ){
-                    update_option( 'youtube_custom_refresh_token', sanitize_text_field( wp_unslash( $_REQUEST['refresh_token'] ) ) );
+            if( 'youtube' ===  $_REQUEST['feed'] && !empty( $_REQUEST['refresh_token'] )  ){
+                update_option( 'youtube_custom_refresh_token', sanitize_text_field( wp_unslash( $_REQUEST['refresh_token'] ) ) );
 
-                }
-                if ( 'instagram' ===  $_REQUEST['feed'] && !empty( $_REQUEST['access_token'] ) ){
-                    update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
-                }
-			}
-			if ( !empty( $_REQUEST['access_token'] ) ) {
-
-                if( 'youtube' ===  $_REQUEST['feed'] ){
-                    update_option( 'youtube_custom_access_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
-
-                }
-                if ( 'instagram' ===  $_REQUEST['feed'] ){
-                    update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
-                }
-			}
+            }
+            if ( 'instagram' ===  $_REQUEST['feed'] && !empty( $_REQUEST['access_token'] ) ){
+                update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
+            }
+        }
+        if ( !empty( $_REQUEST['access_token'] ) ) {
 
             if( 'youtube' ===  $_REQUEST['feed'] ){
+                update_option( 'youtube_custom_access_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
 
-                $startoftime         = isset( $_REQUEST['expires_in'] ) ? strtotime( '+' . $_REQUEST['expires_in'] . ' seconds' ) : '';
-                $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-                update_option( 'youtube_custom_token_exp_time', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
             }
-
-            if( 'instagram' ===  $_REQUEST['feed'] ){
-
-                $startoftime         = isset( $_REQUEST['expires_in'] ) ?  $_REQUEST['expires_in'] : '';
-                $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-                update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
-
-                echo wp_unslash(  $_REQUEST['expires_in'] );
-                echo '<br/>';
+            if ( 'instagram' ===  $_REQUEST['feed'] ){
+                update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
             }
+        }
 
+        if( 'youtube' ===  $_REQUEST['feed'] ){
 
-			// This only happens if the token is expired on the YouTube Options page and you go to re-save or refresh the page for some reason. It will also run this function if the cache is emptied and the token is found to be expired.
-			if ( 'no' === $_REQUEST['button_pushed'] ) {
-				echo 'Token Refreshed: ';
-				// $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
-			}
-		}
+            $startoftime         = isset( $_REQUEST['expires_in'] ) ? strtotime( '+' . $_REQUEST['expires_in'] . ' seconds' ) : '';
+            $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
+            update_option( 'youtube_custom_token_exp_time', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
+        }
+
+        if( 'instagram' ===  $_REQUEST['feed'] ){
+
+            $startoftime         = isset( $_REQUEST['expires_in'] ) ?  $_REQUEST['expires_in'] : '';
+            $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
+            update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
+
+            echo wp_unslash(  $_REQUEST['expires_in'] );
+            echo '<br/>';
+        }
+
+        // This only happens if the token is expired on the YouTube Options page and you go to re-save or refresh the page for some reason. It will also run this function if the cache is emptied and the token is found to be expired.
+        if ( 'no' === $_REQUEST['button_pushed'] ) {
+            echo 'Token Refreshed: ';
+            // $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
+        }
 
         echo wp_unslash( $_REQUEST['access_token'] );
-
 
         wp_die();
 	}
@@ -3655,10 +3658,15 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
             // use for testing in script below.
             //console.log( '<?php print_r($response['body']) ? >' );
 
+            $time             = time();
+            $nonce            = wp_create_nonce( $time . 'fts_refresh_token_nonce' );
+
             ?>
 			<script>
 				jQuery(document).ready(function () {
 
+                    var fts_time = "<?php echo esc_js( $time ); ?>";
+                    var fts_security = "<?php echo esc_js( $nonce ); ?>";
 
 					jQuery.ajax({
 						data: {
@@ -3666,6 +3674,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 							access_token: '<?php echo esc_js( $encrypted_token ); ?>',
 							expires_in: '<?php echo esc_js( $expires_in ); ?>',
 							button_pushed: '<?php echo esc_js( $button_pushed ); ?>',
+                            fts_security: fts_security,
+                            fts_time: fts_time,
                             feed: 'instagram'
 						},
 						type: 'POST',

@@ -72,7 +72,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 2.9.8.6 Saturday, May 28th, 2022 =
+= Version 2.9.8.6 Monday, July 11th, 2022 =
  * FIX: XSS Vulnerability Fix for Instagram Refresh Token.
  * FIX: Phar Vulnerability Fix for Twitter Share url check.
 

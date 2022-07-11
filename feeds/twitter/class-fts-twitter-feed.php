@@ -247,9 +247,9 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
             exit( 'Sorry, You can\'t do that!' );
         }
 
-        $twitter_external_url = $_REQUEST['fts_url'];
-	    $no_video_image_check = $_REQUEST['fts_no_video_image'];
-	    $fts_popup = $_REQUEST['fts_popup'];
+        $twitter_external_url = esc_url_raw( $_REQUEST['fts_url'] );
+	    $no_video_image_check = esc_html( $_REQUEST['fts_no_video_image'] );
+	    $fts_popup            = esc_html( $_REQUEST['fts_popup'] );
 
 	            // echo ' test ';
                 // A regular user posted photo or video is not allowed to pass here.
@@ -260,8 +260,9 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
                      // 2. Site does not have Twitter info, so we can get the og:title, og:description, og:image
                      // If 1 or 2 are not found then we return nothing.
 
-                     // FYI sometimes get_meta_tags will not work because a website will block it's usage.
-                     $tags = get_meta_tags( $twitter_external_url );
+                     // FYI sometimes get_meta_tags will not work because a website/server will block it's usage.
+                     $tags = '' !== $twitter_external_url ? get_meta_tags( $twitter_external_url ) : '';
+
                      // First try and us the get_meta_tags php function because this is quicker
                      // Otherwise we use preg_match to find what we need from the <meta properties"og:image" for example.
                      // More exceptions might need to be created but this is what's been done so far...

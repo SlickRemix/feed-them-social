@@ -73,8 +73,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
 
 == Changelog ==
 = Version 2.9.8.6 Monday, July 11th, 2022 =
- * FIX: XSS Vulnerability Fix for Instagram Refresh Token.
- * FIX: Phar Vulnerability Fix for Twitter Share url check.
+ * FIX: Facebook Feed: Share option was throwing invalid APP ID error.
+ * FIX: XSS Vulnerability: Instagram Refresh Token.
+ * FIX: Phar Vulnerability: Twitter Share url check.
 
 = Version 2.9.8.5 Saturday, May 28th, 2022 =
  * FIX: Combined Streams: Twitter User Name not linking properly.

@@ -1489,7 +1489,7 @@ class feed_them_social_functions {
 							  var js, fjs = d.getElementsByTagName(s)[0];
 							  if (d.getElementById(id)) return;
 							  js = d.createElement(s); js.id = id;
-							  js.src = "//connect.facebook.net/' . esc_html( $language_option ) . '/sdk.js#xfbml=1&appId=1123168491105924&version=v3.1";
+							  js.src = "//connect.facebook.net/' . esc_html( $language_option ) . '/sdk.js#xfbml=1&appId=&version=v3.1";
 							  fjs.parentNode.insertBefore(js, fjs);
 							}(document, "script", "facebook-jssd"));</script>';
 						$_POST['fts_facebook_script_loaded'] = 'yes';
@@ -3595,7 +3595,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
             // $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
         }
 
-        echo wp_unslash( $_REQUEST['access_token'] );
+        echo sanitize_text_field( $_REQUEST['access_token'] );
 
         wp_die();
 	}

@@ -3,7 +3,7 @@ Contributors: slickremix, slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 6.0.1
-Stable tag: 2.9.8.7
+Stable tag: 2.9.9
 License: GPLv2 or later
 
 Display a Custom Facebook feed, Instagram feed, Twitter feed, and YouTube feed on pages, posts or widgets.

@@ -384,15 +384,6 @@ class FTS_Instagram_Feed extends feed_them_social_functions {
 				}
 			}
 
-
-
-
-
-
-
-
-
-
 			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			$instagram_data_array = array();
 

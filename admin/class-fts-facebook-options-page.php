@@ -231,7 +231,6 @@ class FTS_Facebook_Options_Page {
 								// Echo our shortcode for the page token list with loadmore button
 								// These functions are on feed-them-functions.php!
 								echo do_shortcode( '[fts_fb_page_token]' );
-
 							}
 							?>
 						</div>

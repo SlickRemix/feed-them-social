@@ -7,18 +7,18 @@
  * Plugin Name: Feed Them Social - for Twitter feed, Youtube, and more
  * Plugin URI: https://feedthemsocial.com/
  * Description: Display a Custom Facebook feed, Instagram feed, Twitter feed and YouTube feed on pages, posts or widgets.
- * Version: 3.0.0
+ * Version: 3.0.1
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
  * Tested up to: WordPress 6.0.1
- * Stable tag: 3.0.0
+ * Stable tag: 3.0.1
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    3.0.0
+ * @version    3.0.1
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2022 SlickRemix
  *
@@ -31,7 +31,7 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '3.0.0' );
+define( 'FTS_CURRENT_VERSION', '3.0.1' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 

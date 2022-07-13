@@ -7,18 +7,18 @@
  * Plugin Name: Feed Them Social - for Twitter feed, Youtube, and more
  * Plugin URI: https://feedthemsocial.com/
  * Description: Display a Custom Facebook feed, Instagram feed, Twitter feed and YouTube feed on pages, posts or widgets.
- * Version: 2.9.9
+ * Version: 3.0.0
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 4.0.0
  * Tested up to: WordPress 6.0.1
- * Stable tag: 2.9.9
+ * Stable tag: 3.0.0
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    2.9.9
+ * @version    3.0.0
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2022 SlickRemix
  *
@@ -31,7 +31,7 @@
  *
  * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
  */
-define( 'FTS_CURRENT_VERSION', '2.9.9' );
+define( 'FTS_CURRENT_VERSION', '3.0.0' );
 
 define( 'FEED_THEM_SOCIAL_NOTICE_STATUS', get_option( 'rating_fts_slick_notice', false ) );
 
@@ -174,7 +174,7 @@ final class Feed_Them_Social {
         if ( get_transient( 'fts_updated' ) ) {
             echo '<div class="notice notice-success updated is-dismissible">';
             echo sprintf(
-                    esc_html__( '%10$sThanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.%11$s %8$s%6$sNOTE%7$s: Feed Them Social 3.0 will have some amazing changes in the coming months. Please take a moment and %4$s read them here%5$s.%9$s', 'feed-them-social' ),
+                    esc_html__( '%10$sThanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.%11$s %8$s%6$sNOTE%7$s: Feed Them Social will have some amazing changes in the coming months. Please take a moment and %4$s read them here%5$s.%9$s', 'feed-them-social' ),
                     '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
                     '</a>',
                     '<br/><br/>',

@@ -154,7 +154,11 @@ class FTS_Instagram_Options_Page {
 
                     <div class="feed-them-social-admin-input-wrap"  style="margin-bottom:0px;
                     <?php
-                    if ( 'no' === $debug ) {
+
+
+                    $debug = 'no';
+
+                    if ( 'yes' === $debug ) {
                         ?>
                             display:none<?php } ?>">
                         <div class="feed-them-social-admin-input-label fts-instagram-border-bottom-color-label">
@@ -215,8 +219,7 @@ class FTS_Instagram_Options_Page {
                     // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
                     $expiration_time = '' !== get_option( 'fts_instagram_custom_api_token_expires_in' ) ? get_option( 'fts_instagram_custom_api_token_expires_in' ) : '';
 
-
-					if ( time() < $expiration_time  && 'yes' === $debug ) {
+					if ( time() < $expiration_time  && isset( $debug ) && 'yes' === $debug ) {
 						?>
 						<script>
 

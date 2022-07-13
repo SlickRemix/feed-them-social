@@ -422,7 +422,7 @@ class feed_them_social_functions {
                 // SRL 4-23-22. For now we are just going to check for error, if error then that would mean the first object in array is a new page experience.
                 // if is new page has_transitioned_to_new_page_experience => 1 This could be expanded in the future by creating a foreach loops to check each page
                 // but then you have to run a call for each page and that seems like overkill if you have hundreds of pages. FB should come up with a simpler way.
-                if( $test_fb_app_token_response->error ){
+                if( !empty( $test_fb_app_token_response->error  ) ){
                     // Possibly the user is on a new page experience so let's run the call without locations.
                     $fb_url = 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
 
@@ -3585,13 +3585,13 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
             $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
             update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
 
-            echo wp_unslash(  $_REQUEST['expires_in'] );
+            echo sanitize_text_field( $_REQUEST['expires_in'] );
             echo '<br/>';
         }
 
         // This only happens if the token is expired on the YouTube Options page and you go to re-save or refresh the page for some reason. It will also run this function if the cache is emptied and the token is found to be expired.
         if ( 'no' === $_REQUEST['button_pushed'] ) {
-            echo 'Token Refreshed: ';
+            echo esc_html( 'Token Refreshed: ' );
             // $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
         }
 

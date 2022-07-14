@@ -39,6 +39,7 @@ class feed_them_social_functions {
 			add_action( 'wp_ajax_fts_clear_cache_ajax', array( $this, 'fts_clear_cache_ajax' ) );
 		}
         add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
+        add_action( 'init', array( $this, 'fts_encrypt_script' ) );
 
         add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
         add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
@@ -226,31 +227,39 @@ class feed_them_social_functions {
      */
     public function fts_encrypt_token_ajax() {
 
-        $fts_refresh_token_nonce = wp_create_nonce( 'fts_encrypt_token_nonce' );
-        $access_token            = sanitize_text_field ( $_REQUEST['access_token'] );
-        $encrypt                 = sanitize_text_field ( $this->data_protection->encrypt( $access_token ) );
-
-        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_encrypt_token_nonce' ) ) {
-            if( 'business' === $_REQUEST['token_type'] ){
-                // Now the encrypted version is saved to the DB.
-                update_option( 'fts_facebook_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
-            }
-            elseif ( 'basic' === $_REQUEST['token_type'] ) {
-                // Now the encrypted version is saved to the DB.
-                update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
-            }
-            elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
-                // Now the encrypted version is saved to the DB.
-                update_option( 'fts_facebook_custom_api_token', sanitize_text_field( $encrypt ) );
-            }
-            elseif( 'fbBusinessReviews' === $_REQUEST['token_type'] ){
-                // Now the encrypted version is saved to the DB.
-                update_option( 'fts_facebook_custom_api_token_biz', sanitize_text_field( $encrypt ) );
-            }
+        // Check security token is set.
+        if ( ! isset( $_REQUEST['fts_security'], $_REQUEST['fts_time'] ) ) {
+            exit( 'Sorry, You can\'t do that!' );
         }
+
+        // Verify Nonce Security.
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ) , 'fts-ajax-nonce' ) ) {
+            exit( 'Sorry, You can\'t do that!' );
+        }
+
+        $access_token = $_REQUEST['access_token'];
+        $encrypt      = $this->data_protection->encrypt( sanitize_text_field( $access_token ) );
+
+        if( 'business' === $_REQUEST['token_type'] ){
+            // Now the encrypted version is saved to the DB.
+            update_option( 'fts_facebook_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
+        }
+        elseif ( 'basic' === $_REQUEST['token_type'] ) {
+            // Now the encrypted version is saved to the DB.
+            update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $encrypt ) );
+        }
+        elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
+            // Now the encrypted version is saved to the DB.
+            update_option( 'fts_facebook_custom_api_token', sanitize_text_field( $encrypt ) );
+        }
+        elseif( 'fbBusinessReviews' === $_REQUEST['token_type'] ){
+            // Now the encrypted version is saved to the DB.
+            update_option( 'fts_facebook_custom_api_token_biz', sanitize_text_field( $encrypt ) );
+        }
+
         $token_data = array (
-                'token'      => $access_token,
-                'encrypted'  => $encrypt,
+                'token'      => esc_html( $access_token ),
+                'encrypted'  => esc_html( $encrypt ),
         );
 
         // We pass the original access token back so we can add it to our input field.
@@ -1045,23 +1054,42 @@ class feed_them_social_functions {
 
 		$fts_admin_activation_clear_cache = get_option( 'Feed_Them_Social_Activated_Plugin' );
 		$fts_dev_mode_cache               = get_option( 'fts_clear_cache_developer_mode' );
+             wp_enqueue_script( 'jquery' );
+
 		if ( '1' === $fts_dev_mode_cache || 'feed-them-social' === $fts_admin_activation_clear_cache ) {
 			wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			wp_localize_script( 'fts_clear_cache_script', 'ftsAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-			wp_enqueue_script( 'jquery' );
-			wp_enqueue_script( 'fts_clear_cache_script' );
+
 		}
 		if ( 'hide-admin-bar-menu' !== $fts_dev_mode_cache && '1' !== $fts_dev_mode_cache ) {
-			wp_enqueue_script( 'jquery' );
 			wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/admin.js' ), array(), FTS_CURRENT_VERSION, false );
 			wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-			wp_localize_script( 'fts_clear_cache_script', 'ftsAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-			wp_enqueue_script( 'fts_clear_cache_script' );
+            wp_localize_script( 'fts_clear_cache_script', 'ftsAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+
         }
 
 		// we delete this option if found so we only empty the cache once when the plugin is ever activated or updated!
 		delete_option( 'Feed_Them_Social_Activated_Plugin' );
 	}
+
+    /**
+     * FTS Encrypt Script
+     *
+     * This is for the fts_clear_cache_ajax submission.
+     *
+     * @since 1.9.6
+     */
+    public function fts_encrypt_script() {
+
+        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'fts_encrypt_script', plugins_url( 'feed-them-social/admin/js/encrypt.js' ), array(), FTS_CURRENT_VERSION, false );
+        wp_localize_script( 'fts_encrypt_script', 'ftsAjaxEncrypt', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'nonce'   => wp_create_nonce('fts-ajax-nonce')
+        ));
+
+        wp_enqueue_script( 'fts_clear_cache_script' );
+    }
 
 	/**
 	 * Feed Them Main Menu

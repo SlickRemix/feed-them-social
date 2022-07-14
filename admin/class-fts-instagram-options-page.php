@@ -188,7 +188,7 @@ class FTS_Instagram_Options_Page {
 
                     <?php
 					// Add yes to show the expiration time and js that runs it below!
-					$debug = 'no';
+					$debug = 'yes';
 					?>
 					<div class="feed-them-social-admin-input-wrap fts-success-class fts-exp-time-wrapper" style="margin-top:10px;
 					<?php

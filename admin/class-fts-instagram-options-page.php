@@ -115,22 +115,16 @@ class FTS_Instagram_Options_Page {
 
                         // $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $fts_instagram_access_token );
 
-                        $insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $fts_instagram_access_token );
+                        $check_basic_token_value = false !== $this->data_protection->decrypt( $fts_instagram_access_token ) ? $this->data_protection->decrypt( $fts_instagram_access_token ) : $fts_instagram_access_token;
+
+                        $insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $check_basic_token_value );
 
                         // Get Data for Instagram!
                         $response = wp_remote_fopen( $insta_url );
                         // Error Check!
                         $test_app_token_response = json_decode( $response );
 
-                        //  echo '<pre>';
-                        //    print_r( $test_app_token_response );
-                        //   echo '</pre>';
-
-
-                        // echo '<pre>';
-                        // print_r($test_app_token_response);
-                        // echo '</pre>';
-
+                        //print_r($test_app_token_response);
 
                         echo sprintf(
                             esc_html__( '%1$sClick the button below to get an access token. This gives us read-only access to get your Instagram posts.%2$s', 'feed-them-social' ),
@@ -277,12 +271,12 @@ class FTS_Instagram_Options_Page {
 
                         str_replace(".", ".", $fts_instagram_access_token, $count);
 
-                        if( ! empty( $fts_instagram_access_token ) && 0 !== $count ){
+                        if ( 'Sorry, this content isn\'t available right now' === $response && ! empty( $fts_instagram_access_token ) || isset( $test_app_token_response->error ) && ! empty( $fts_instagram_access_token ) ) {
+                            $text = 'Sorry, this content isn\'t available right now' === $response ? 'Sorry, this content isn\'t available right now' : $test_app_token_response->error->message;
                             echo sprintf(
-                                esc_html__( '%1$sThe %2$sLegacy API will be depreciated as of March 31st, 2020%3$s in favor of the new Instagram Graph API and the Instagram Basic Display API. Please click the the button above to reconnect your account or you can connect as a Business account below. You must also generate a new shortcode and replace your existing one.%4$s', 'feed-them-social' ),
+                                esc_html__( '%1$sOh No something\'s wrong. %2$s Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s', 'feed-them-social' ),
                                 '<div class="fts-failed-api-token instagram-failed-message">',
-                                '<a href="' . esc_url( 'https://www.instagram.com/developer/' ) . '" target="_blank">',
-                                '</a>',
+                                esc_html( $text ),
                                 '</div>'
                             );
                         }
@@ -292,14 +286,6 @@ class FTS_Instagram_Options_Page {
                                 '<div class="fts-successful-api-token">',
                                 '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
                                 '</a></div>'
-                            );
-                        } elseif ( isset( $test_app_token_response->error ) && ! empty( $fts_instagram_access_token ) ) {
-                            $text = isset( $test_app_token_response->error->message ) ? $test_app_token_response->error->message : $test_app_token_response->error->message;
-                            echo sprintf(
-                                esc_html__( '%1$sOh No something\'s wrong. %2$s Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s', 'feed-them-social' ),
-                                '<div class="fts-failed-api-token instagram-failed-message">',
-                                esc_html( $text ),
-                                '</div>'
                             );
                         }
 

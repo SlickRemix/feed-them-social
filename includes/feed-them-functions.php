@@ -180,19 +180,41 @@ class feed_them_social_functions {
 	 */
 	public function fts_instagram_token_ajax() {
 
-		$fts_refresh_token_nonce = wp_create_nonce( 'fts_token_nonce' );
-		$access_token            = $_REQUEST['access_token'];
+        // Check security token is set.
+        if ( ! isset( $_REQUEST['fts_security'], $_REQUEST['fts_time'] ) ) {
+            exit( 'Sorry, You can\'t do that!' );
+        }
+
+        // Verify Nonce Security.
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ) , sanitize_text_field( wp_unslash( $_REQUEST['fts_time'] ) ) . 'instagram_save_token' ) ) {
+            exit( 'Sorry, You can\'t do that!' );
+        }
+
+        $access_token            = $_REQUEST['access_token'];
 		$user_id                 = $_REQUEST['user_id'];
         $expires_in              = $_REQUEST['expires_in'];
+        $feed_type               = $_REQUEST['feed_type'];
 
-		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_token_nonce' ) ) {
-			if ( isset( $access_token ) ) {
-				update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $access_token ) );
-				update_option( 'fts_instagram_custom_id', sanitize_text_field( $user_id ) );
-                update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( $expires_in ) );
-			}
-		}
-		die;
+        $check_basic_token_value = false !== $this->data_protection->decrypt( $access_token ) ? $this->data_protection->decrypt( $access_token ) : $access_token;
+        $insta_url = 'instagram_basic' === $feed_type ? esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . sanitize_text_field( $check_basic_token_value ) ) : esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . sanitize_text_field( $check_basic_token_value ) );
+
+        // Get Data for Instagram to check for errors!
+        $response                = wp_remote_fopen( $insta_url );
+        $test_app_token_response = json_decode( $response );
+        // Test.
+        // print_r( $access_token );
+
+        if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) &&  'Sorry, this content isn\'t available right now' !== $response ) {
+            update_option( 'fts_instagram_custom_api_token', sanitize_text_field( $access_token ) );
+            update_option( 'fts_instagram_custom_id', sanitize_text_field( $user_id ) );
+            update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( $expires_in ) );
+            echo esc_html( 'success' );
+        }
+        else {
+            echo esc_html( 'failed' );
+        }
+
+		wp_die();
 	}
 
     /**
@@ -205,8 +227,8 @@ class feed_them_social_functions {
     public function fts_encrypt_token_ajax() {
 
         $fts_refresh_token_nonce = wp_create_nonce( 'fts_encrypt_token_nonce' );
-        $access_token            = $_REQUEST['access_token'];
-        $encrypt                 = $this->data_protection->encrypt( $access_token );
+        $access_token            = sanitize_text_field ( $_REQUEST['access_token'] );
+        $encrypt                 = sanitize_text_field ( $this->data_protection->encrypt( $access_token ) );
 
         if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_encrypt_token_nonce' ) ) {
             if( 'business' === $_REQUEST['token_type'] ){
@@ -248,47 +270,43 @@ class feed_them_social_functions {
 	 */
 	public function feed_them_instagram_save_token() {
 
-		$fts_refresh_token_nonce = wp_create_nonce( 'access_token' );
+            $time       = time();
+            $nonce      = wp_create_nonce( $time . 'instagram_save_token' );
 
-		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'access_token' ) ) {
+            // Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
+            // For now we are going to get a new token every 7 days just to be on the safe side.
+            // That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
+            // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
+            $expires_in = $time + $_GET['expires_in'] - 4579200;
+            $feed_type  = $_GET['feed_type'];
             $raw_token  = $_GET['code'];
-			$feed_type  = $_GET['feed_type'];
-			$user_id    = $_GET['user_id'];
-            $expires_in = $_GET['expires_in'];
+            $user_id    = $_GET['user_id'];
 
 			if ( isset( $raw_token ) && 'original_instagram' === $feed_type || isset( $raw_token ) && 'instagram_basic' === $feed_type ) {
-                $encrypted_token = $this->data_protection->encrypt( $raw_token );
+                $encrypted_token = $this->data_protection->encrypt( sanitize_text_field( $raw_token ) );
               //  error_log( print_r( $encrypted_token, true ) );
 
                 ?>
 				<script>
 					jQuery(document).ready(function () {
 
-						var access_token = '<?php echo sanitize_text_field( $encrypted_token ); ?>';
-						var user_id = '<?php echo sanitize_text_field( $user_id ); ?>';
-
-                        // Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
-                        // For now we are going to get a new token every 7 days just to be on the safe side.
-                        // That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
-                        // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
-                        var expires_in = '<?php echo sanitize_text_field( time() + $expires_in - 4579200 ); ?>';
-
 						jQuery.ajax({
 							data: {
 								action: 'fts_instagram_token_ajax',
-								access_token: access_token,
-								user_id: user_id,
-                                expires_in: expires_in,
+                                access_token: '<?php echo sanitize_text_field( $encrypted_token ); ?>',
+                                user_id: '<?php echo sanitize_text_field( $user_id ); ?>',
+                                expires_in: '<?php echo sanitize_text_field( $expires_in ); ?>',
+                                feed_type: '<?php echo sanitize_text_field( $feed_type ); ?>',
+                                fts_security: '<?php echo sanitize_text_field( $nonce ); ?>',
+                                fts_time: '<?php echo sanitize_text_field( $time ); ?>',
 							},
 							type: 'POST',
 							url: ftsAjax.ajaxurl,
 							success: function (response) {
-								<?php
-                                $insta_url = 'instagram_basic' === $feed_type ? esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $raw_token ) : esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $raw_token );
 
-								// Get Data for Instagram to check for errors!
-								$response                = wp_remote_fopen( $insta_url );
-								$test_app_token_response = json_decode( $response );
+                                console.log( 'Instagram Basic Save Token: ' + response );
+
+								<?php
 
 								// if the combined streams plugin is active we won't allow the settings page link to open up the Instagram Feed, instead we'll remove the #feed_type=instagram and just let the user manually select the combined streams or single instagram feed.
 								if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
@@ -296,37 +314,39 @@ class feed_them_social_functions {
 								} else {
 									$custom_instagram_link_hash = '#feed_type=instagram';
 								}
-								if ( ! isset( $test_app_token_response->meta->error_message ) && ! isset( $test_app_token_response->error_message ) || isset( $test_app_token_response->meta->error_message ) && 'This client has not been approved to access this resource.' === $test_app_token_response->meta->error_message ) {
-									$fts_instagram_message = sprintf(
+
+                                ?>
+                                if( 'success' === response ){
+                                    <?php
+                                    $fts_instagram_message = sprintf(
 										esc_html__( '%1$sYour access token is working! Generate your shortcode on the %2$sSettings Page%3$s', 'feed-them-social' ),
 										'<div class="fts-successful-api-token">',
 										'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' . $custom_instagram_link_hash ) . '">',
-										'</a></div>'
+										'</a></div><div class="fts-clear"></div>'
 									);
 									?>
-								jQuery('.instagram-failed-message').hide();
-								if (!jQuery('.fts-instagram-last-row .fts-successful-api-token').length) {
-									jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
+
+								    jQuery('.instagram-failed-message').hide();
+                                    if (!jQuery('.fts-instagram-last-row .fts-successful-api-token').length) {
+                                        jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
+                                    }
+								    jQuery('.fts-success').show();
+
+                                    console.log( 'Success saving instagram access token: Encrypted Token: <?php echo $encrypted_token ?>' );
 								}
-								jQuery('.fts-success').show();
-									<?php
-								} elseif ( isset( $test_app_token_response->meta->error_message ) || isset( $test_app_token_response->error_message ) ) {
-									$text                  = isset( $test_app_token_response->meta->error_message ) ? $test_app_token_response->meta->error_message : $test_app_token_response->error_message;
+                                else {
+                                    <?php
 									$fts_instagram_message = sprintf(
-										esc_html__( '%1$sOh No something\'s wrong. %2$s. Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %3$s.', 'feed-them-social' ),
+										esc_html__( '%1$sOh No something\'s wrong. Please try clicking the button again to get a new access token. If you need additional assistance please email us at support@slickremix.com %2$s.', 'feed-them-social' ),
 										'<div class="fts-failed-api-token">',
-										esc_html( $text ),
-										'</div>'
+										'</div><div class="fts-clear"></div>'
 									);
 									?>
-								if (jQuery('.instagram-failed-message').length) {
-									jQuery('.instagram-failed-message').hide();
-									jQuery('.fts-instagram-last-row').append('<?php echo $fts_instagram_message; ?>');
-								}
-									<?php
-								}
-								?>
-								console.log( 'success saving instagram access token: Encrypted Token: <?php echo $encrypted_token ?>' );
+
+                                        jQuery('.fts-instagram-last-row').html('<?php echo $fts_instagram_message; ?>');
+
+                                    console.log( 'Failed saving instagram access token, not valid.' );
+                                }
 							}
 						}); // end of ajax()
 						return false;
@@ -334,7 +354,6 @@ class feed_them_social_functions {
 				</script>
 				<?php
 			}
-		}
 	}
 
 	/**
@@ -3702,7 +3721,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                                  }
                                  else {
                                     $fts_instagram_message = sprintf(
-                                        esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
+                                        esc_html( '%1$s Yossssssur %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
                                         '<div class="fts-successful-api-token">',
                                         esc_html( $type_of_key ),
                                         '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
@@ -3842,7 +3861,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                             }
                             else {
                                 $fts_youtube_message = sprintf(
-                                    esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
+                                    esc_html( '%1$s Yossssur %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
                                     '<div class="fts-successful-api-token">',
                                     esc_html( $type_of_key ),
                                     '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',

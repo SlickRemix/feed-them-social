@@ -3655,10 +3655,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 	 */
 	public function feed_them_instagram_refresh_token() {
 
-		$fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
-
-		if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
-
 			// Used some methods from this link http://ieg.wnet.org/2015/09/using-oauth-in-wordpress-plugins-part-2-persistence/
 			// save all 3 get options: happens when clicking the get access token button on the instagram options page!
 			if ( isset( $_GET['access_token'],  $_GET['expires_in'] ) ) {
@@ -3713,7 +3709,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			<script>
 				jQuery(document).ready(function () {
 
-                    var fts_time = "<?php echo esc_js( $time ); ?>";
+                    var fts_time     = "<?php echo esc_js( $time ); ?>";
                     var fts_security = "<?php echo esc_js( $nonce ); ?>";
 
 					jQuery.ajax({
@@ -3749,7 +3745,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                                  }
                                  else {
                                     $fts_instagram_message = sprintf(
-                                        esc_html( '%1$s Yossssssur %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
+                                        esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
                                         '<div class="fts-successful-api-token">',
                                         esc_html( $type_of_key ),
                                         '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
@@ -3787,7 +3783,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			</script>
 			<?php
 			// return $auth_obj['access_token'];
-		}
 	}
 
     /**
@@ -3796,10 +3791,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
      * @since 2.3.3
      */
     public function feed_them_youtube_refresh_token() {
-
-        $fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
-
-        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
 
             // Used some methods from this link http://ieg.wnet.org/2015/09/using-oauth-in-wordpress-plugins-part-2-persistence/
             // Save all 3 get options: happens when clicking the get access token button on the youtube options page.
@@ -3854,9 +3845,16 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                     return  print_r($response);
                 }
             }
+
+            $time             = time();
+            $nonce            = wp_create_nonce( $time . 'fts_refresh_token_nonce' );
             ?>
             <script>
                 jQuery(document).ready(function () {
+
+                    var fts_time     = "<?php echo esc_js( $time ); ?>";
+                    var fts_security = "<?php echo esc_js( $nonce ); ?>";
+
                     jQuery.ajax({
                         data: {
                             action: "fts_refresh_token_ajax",
@@ -3864,12 +3862,15 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                             access_token: '<?php echo esc_js( $access_token ) ?>',
                             expires_in: '<?php echo esc_js( $expires_in ) ?>',
                             button_pushed: '<?php echo esc_js( $button_pushed ); ?>',
+                            fts_security: fts_security,
+                            fts_time: fts_time,
                             feed: 'youtube'
                         },
                         type: 'POST',
                         url: ftsAjax.ajaxurl,
                         success: function (response) {
                             console.log(response);
+                            // alert( response );
                             <?php
                             if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] ) {
 
@@ -3889,7 +3890,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                             }
                             else {
                                 $fts_youtube_message = sprintf(
-                                    esc_html( '%1$s Yossssur %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
+                                    esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
                                     '<div class="fts-successful-api-token">',
                                     esc_html( $type_of_key ),
                                     '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
@@ -3927,8 +3928,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                     return false;
                 }); // end of document.ready
             </script>
-            <?php
-        }
+        <?php
     }
     
 	/**

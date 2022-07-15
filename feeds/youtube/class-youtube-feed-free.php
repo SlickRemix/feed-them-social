@@ -61,10 +61,6 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 	 */
 	public function fts_youtube_func( $atts ) {
 
-		$fts_fb_options_nonce = wp_create_nonce( 'fts-instagram-options-page-nonce' );
-
-		if ( wp_verify_nonce( $fts_fb_options_nonce, 'fts-instagram-options-page-nonce' ) ) {
-
 			global $channel_id, $playlist_id, $username_subscribe_btn, $username;
 
 			$youtube_api_key      = get_option( 'youtube_custom_api_token' );
@@ -805,26 +801,20 @@ class FTS_Youtube_Feed_Free extends feed_them_social_functions {
 			} else {
 				print 'Please add an access token to the Youtube Options page of Feed Them Social.';
 			}
-		}
 	}
 
 	/**
-	 * Get FTS Dnamic Class Name
+	 * Get FTS Dynamic Class Name
 	 *
 	 * @return string
 	 * @since 1.9.6
 	 */
 	public function get_fts_dynamic_class_name() {
-		$fts_dynamic_name_nonce = wp_create_nonce( 'fts-dynamic-name-nonce' );
-
-		if ( wp_verify_nonce( $fts_dynamic_name_nonce, 'fts-dynamic-name-nonce' ) ) {
-			$fts_dynamic_class_name = '';
-			if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
-				$fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
-			}
-			return $fts_dynamic_class_name;
-		}
-		exit;
+        $fts_dynamic_class_name = '';
+        if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
+            $fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
+        }
+        return $fts_dynamic_class_name;
 	}
 
 	/**

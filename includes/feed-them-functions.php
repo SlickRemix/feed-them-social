@@ -233,8 +233,8 @@ class feed_them_social_functions {
         }
 
         // Verify Nonce Security.
-        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ) , 'fts-ajax-nonce' ) ) {
-            exit( 'Sorry, You can\'t do that!' );
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ), 'fts-ajax-nonce' ) ) {
+            exit( 'Sorry, You can\'t do that!');
         }
 
         $access_token = $_REQUEST['access_token'];

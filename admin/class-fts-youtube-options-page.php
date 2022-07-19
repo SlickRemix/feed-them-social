@@ -131,7 +131,7 @@ class FTS_Youtube_Options_Page {
 				</div>
                 <?php
                 // Add yes to show the expiration time and js that runs it below!
-                $debug = 'no';
+                $debug = 'yes';
                 ?>
 				<div class="hide-button-tokens-options" style="<?php echo esc_attr( $extra_keys_no ); ?>;">
 					<div class="feed-them-social-admin-input-wrap" style="<?php

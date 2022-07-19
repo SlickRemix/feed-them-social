@@ -72,9 +72,9 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 3.0.1 Friday, July 15th, 2022 =
+= Version 3.0.1 Tuesday, July 18th, 2022 =
  * FIX: Facebook Options Page: notice if $test_fb_app_token_response->error was empty.
- * FIX: XSS Vulnerability: fts_instagram_token_ajax, feed_them_instagram_save_token, fts_refresh_token_ajax
+ * FIX: XSS Vulnerability: fts_instagram_token_ajax, feed_them_instagram_save_token
  * FIX: Remove unnecessary/redundant nonce checks.
 
 = Version 2.9.9 Tuesday, July 12th, 2022 =

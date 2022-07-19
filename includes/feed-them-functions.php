@@ -3597,6 +3597,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
             exit( 'Sorry, You can\'t do that!' );
         }
 
+        // This action happens on the Instagram or YouTube Options page if the save change button is pushed.
         if ( isset( $_REQUEST['button_pushed'] ) && 'yes' === $_REQUEST['button_pushed'] ) {
 
             if( 'youtube' ===  $_REQUEST['feed'] && !empty( $_REQUEST['refresh_token'] )  ){
@@ -3607,45 +3608,72 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
                 update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
             }
         }
-        if ( !empty( $_REQUEST['access_token'] ) ) {
 
-            if( 'youtube' ===  $_REQUEST['feed'] ){
-                update_option( 'youtube_custom_access_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
+        // This needs to work if users is authenticated or not so instead of passing request values from ajax we're just going to use it to fire our function.
+        if( 'instagram' === $_REQUEST['feed'] ){
 
+            $check_token =  get_option( 'fts_instagram_custom_api_token' );
+            $check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
+            $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
+
+            $response = wp_remote_get( $oauth2token_url );
+
+            $auth_obj = json_decode( wp_remote_retrieve_body( $response  ), true );
+
+            // print_r( $auth_obj['expires_in'] );
+
+            // Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
+            // For now we are going to get a new token every 7 days just to be on the safe side.
+            // That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
+            // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
+
+            $time_minus_fiftythree_days = $auth_obj['expires_in'] - 4579200;
+            $expires_in = $time_minus_fiftythree_days + time();
+
+            // test.
+            // echo ' asdfasdfasdfasdf ';
+            // This is our refresh token response;
+            // print_r($response['body']);
+            // test.
+            //$auth_obj['access_token'] = '';
+
+            // Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
+            if( empty( $auth_obj['access_token'] ) ){
+                return;
             }
-            if ( 'instagram' ===  $_REQUEST['feed'] ){
-                update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
-            }
+
+            $encrypted_token = $this->data_protection->encrypt( $auth_obj['access_token'] );
+
+            update_option( 'fts_instagram_custom_api_token', sanitize_text_field( wp_unslash( $encrypted_token ) ) );
+
+            $startoftime         = isset( $expires_in ) ?  $expires_in : '';
+            $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
+            update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
+
+            // Testing. Output to console.log so we can see confirmation.
+            // echo sanitize_text_field( $expires_in );
+            // echo '<br/>';
         }
 
         if( 'youtube' ===  $_REQUEST['feed'] ){
+
+            update_option( 'youtube_custom_access_token', sanitize_text_field( wp_unslash( $_REQUEST['access_token'] ) ) );
 
             $startoftime         = isset( $_REQUEST['expires_in'] ) ? strtotime( '+' . $_REQUEST['expires_in'] . ' seconds' ) : '';
             $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
             update_option( 'youtube_custom_token_exp_time', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
         }
 
-        if( 'instagram' ===  $_REQUEST['feed'] ){
-
-            $startoftime         = isset( $_REQUEST['expires_in'] ) ?  $_REQUEST['expires_in'] : '';
-            $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-            update_option( 'fts_instagram_custom_api_token_expires_in', sanitize_text_field( wp_unslash( $start_of_time_final ) ) );
-
-            // Only being output to console.log so we can see confirmation.
-            echo sanitize_text_field( $_REQUEST['expires_in'] );
-            echo '<br/>';
-        }
-
         // This only happens if the token is expired on the YouTube Options page and you go to re-save or refresh the page for some reason. It will also run this function if the cache is emptied and the token is found to be expired.
         if ( 'no' === $_REQUEST['button_pushed'] ) {
-            echo esc_html( 'Token Refreshed: ' );
+            // echo esc_html( 'Token Refreshed: ' );
             // $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
         }
 
-        // Only being output to console.log so we can see confirmation.
-        echo sanitize_text_field( $_REQUEST['access_token'] );
+        // Testing. Output to console.log so we can see confirmation.
+       // echo sanitize_text_field( $_REQUEST['access_token'] );
 
-        wp_die();
+        wp_die( 'Sorry, You can\'t do that!');
 	}
 
 	/**
@@ -3665,37 +3693,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 			} else {
 				// refresh token!
 				$button_pushed    = 'no';
-                $check_token =  get_option( 'fts_instagram_custom_api_token' );
-                $check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
-				$oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
-
-				$response = wp_remote_get( $oauth2token_url );
-
-				$auth_obj = json_decode( wp_remote_retrieve_body( $response  ), true );
-
-                // print_r( $auth_obj['expires_in'] );
-
-                // Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
-                // For now we are going to get a new token every 7 days just to be on the safe side.
-                // That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
-                // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
-
-                $time_minus_fiftythree_days = $auth_obj['expires_in'] - 4579200;
-                $expires_in = $time_minus_fiftythree_days + time();
-
-                // test.
-                // echo ' asdfasdfasdfasdf ';
-                // This is our refresh token response;
-                // print_r($response['body']);
-                // test.
-                //$auth_obj['access_token'] = '';
-
-                // Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
-                if( empty( $auth_obj['access_token'] ) ){
-                   return;
-                }
-
-                $encrypted_token = $this->data_protection->encrypt( $auth_obj['access_token'] );
 
            	}
 
@@ -3715,8 +3712,6 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 					jQuery.ajax({
 						data: {
 							action: "fts_refresh_token_ajax",
-							access_token: '<?php echo esc_js( $encrypted_token ); ?>',
-							expires_in: '<?php echo esc_js( $expires_in ); ?>',
 							button_pushed: '<?php echo esc_js( $button_pushed ); ?>',
                             fts_security: fts_security,
                             fts_time: fts_time,

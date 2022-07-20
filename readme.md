@@ -1,6 +1,6 @@
 # [Feed Them Social](https://feedthemsocial.com) #
 
-![Plugin Version](https://img.shields.io/wordpress/plugin/v/feed-them-social.svg?maxAge=3.0.1000) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/feed-them-social.svg?maxAge=301000) ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/feed-them-social.svg?maxAge=301000) ![WordPress Compatibility](https://img.shields.io/wordpress/v/feed-them-social.svg?maxAge=301000) ![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)
+![Plugin Version](https://img.shields.io/wordpress/plugin/v/feed-them-social.svg?maxAge=301000) ![Total Downloads](https://img.shields.io/wordpress/plugin/dt/feed-them-social.svg?maxAge=301000) ![Plugin Rating](https://img.shields.io/wordpress/plugin/r/feed-them-social.svg?maxAge=301000) ![WordPress Compatibility](https://img.shields.io/wordpress/v/feed-them-social.svg?maxAge=301000) ![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)
 
 ### Welcome to our GitHub Repository
 

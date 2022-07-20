@@ -247,112 +247,112 @@ class FTS_Twitter_Feed extends feed_them_social_functions {
             exit( 'Sorry, You can\'t do that!' );
         }
 
-        $twitter_external_url = esc_url_raw( $_REQUEST['fts_url'] );
+        $twitter_external_url = esc_url( $_REQUEST['fts_url'] );
 	    $no_video_image_check = esc_html( $_REQUEST['fts_no_video_image'] );
 	    $fts_popup            = esc_html( $_REQUEST['fts_popup'] );
 
-	            // echo ' test ';
-                // A regular user posted photo or video is not allowed to pass here.
-                if( 'true' === $no_video_image_check ){
+        // echo ' test ';
+        // A regular user posted photo or video is not allowed to pass here.
+        if( 'true' === $no_video_image_check ){
 
-                     // There are 2 Types:
-                     // 1. Twitter card data. ie twitter:title, twitter:description, twitter:image.
-                     // 2. Site does not have Twitter info, so we can get the og:title, og:description, og:image
-                     // If 1 or 2 are not found then we return nothing.
+             // There are 2 Types:
+             // 1. Twitter card data. ie twitter:title, twitter:description, twitter:image.
+             // 2. Site does not have Twitter info, so we can get the og:title, og:description, og:image
+             // If 1 or 2 are not found then we return nothing.
 
-                     // FYI sometimes get_meta_tags will not work because a website/server will block it's usage.
-                     $tags = '' !== $twitter_external_url ? get_meta_tags( $twitter_external_url ) : '';
+             // FYI sometimes get_meta_tags will not work because a website/server will block it's usage.
+             $tags = '' !== $twitter_external_url ? get_meta_tags( $twitter_external_url ) : '';
 
-                     // First try and us the get_meta_tags php function because this is quicker
-                     // Otherwise we use preg_match to find what we need from the <meta properties"og:image" for example.
-                     // More exceptions might need to be created but this is what's been done so far...
-                     if( !empty( $tags['twitter:image'] ) && true == $tags['twitter:image'] || !empty( $tags['twitter:image:src'] ) && true == $tags['twitter:image:src'] ){
+             // First try and us the get_meta_tags php function because this is quicker
+             // Otherwise we use preg_match to find what we need from the <meta properties"og:image" for example.
+             // More exceptions might need to be created but this is what's been done so far...
+             if( !empty( $tags['twitter:image'] ) && true == $tags['twitter:image'] || !empty( $tags['twitter:image:src'] ) && true == $tags['twitter:image:src'] ){
 
-                         $property_image_url = isset( $tags['twitter:image:src'] ) && true == $tags['twitter:image:src'] ? $tags['twitter:image:src'] : $tags['twitter:image'];
-                         $property_image =  true == $property_image_url ? $property_image_url : '';
-                         $property_title =  true == $tags['twitter:title'] ? $tags['twitter:title'] :'';
-                         $property_description =  true == $tags['twitter:description'] ? $tags['twitter:description'] : '';
-                         // echo ' twitter-card ';
-                     }
-                     else {
-                        // error_log( ' og image ' );
-                        // echo ' og image ';
+                 $property_image_url = isset( $tags['twitter:image:src'] ) && true == $tags['twitter:image:src'] ? $tags['twitter:image:src'] : $tags['twitter:image'];
+                 $property_image =  true == $property_image_url ? $property_image_url : '';
+                 $property_title =  true == $tags['twitter:title'] ? $tags['twitter:title'] :'';
+                 $property_description =  true == $tags['twitter:description'] ? $tags['twitter:description'] : '';
+                 // echo ' twitter-card ';
+             }
+             else {
+                // error_log( ' og image ' );
+                // echo ' og image ';
 
-                        $html = $this->fts_get_feed_json( $twitter_external_url );
-                        if( !empty( $html['data'] ) ){
-                            // Try curl
-                            $html = $html['data'];
-                            // error_log( 'FTS: using curl to get external url, image, title & description');
-                        }
-                        elseif( ini_get('allow_url_fopen') ){
-                            // If curl fails try file get contents
-                            $html = file_get_contents( $twitter_external_url );
-                            // error_log( 'FTS: using file_get_contents');
-                        }
-
-                        // The first 2 are preg_match_all with single quotes '', the second 2 are with double quotes "". We have to check for both.
-                        // og:image
-                        if( true == preg_match_all( "/ content='(.*?)' property='og:image'/", $html, $matches ) ) {
-                            $property_image =  $matches[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( "/ property='og:image' content='(.*?)'/", $html, $matches )  ){
-                            $property_image =  $matches[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ property="og:image" content="(.*?)"/', $html, $matches ) ){
-                            $property_image =  $matches[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:image"/', $html, $matches )  ){
-                            $property_image =  $matches[ 1 ][ 0 ];
-                        }
-                        else {
-                            $property_image = '';
-                        }
-
-                         // og:title
-                        if(  true == preg_match_all( "/ content='(.*?)' property='og:title'/", $html, $matches2 ) ){
-                            $property_title = $matches2[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( "/ property='og:title' content='(.*?)'/", $html, $matches2 )  ){
-                            $property_title = $matches2[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ property="og:title" content="(.*?)"/', $html, $matches2 ) ){
-                            $property_title = $matches2[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:title"/', $html, $matches2 )  ){
-                            $property_title = $matches2[ 1 ][ 0 ];
-                        }
-                        else {
-                            $property_title = '';
-                        }
-
-                         // og:description
-                        if(  true == preg_match_all( "/ content='(.*?)' property='og:description'/", $html, $matches3 ) ){
-                            $property_description = $matches3[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( "/ property='og:description' content='(.*?)'/", $html, $matches3 )  ){
-                            $property_description = $matches3[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ property="og:description" content="(.*?)"/', $html, $matches3 ) ){
-                            $property_description = $matches3[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:description"/', $html, $matches3 )  ){
-                            $property_description = $matches3[ 1 ][ 0 ];
-                        }
-                        else {
-                            $property_description = '';
-                        }
+                $html = $this->fts_get_feed_json( $twitter_external_url );
+                if( !empty( $html['data'] ) ){
+                    // Try curl
+                    $html = $html['data'];
+                    // error_log( 'FTS: using curl to get external url, image, title & description');
                 }
-		}
+                elseif( ini_get('allow_url_fopen') ){
+                    // If curl fails try file get contents
+                    $html = file_get_contents( $twitter_external_url );
+                    // error_log( 'FTS: using file_get_contents');
+                }
+
+                // The first 2 are preg_match_all with single quotes '', the second 2 are with double quotes "". We have to check for both.
+                // og:image
+                if( true == preg_match_all( "/ content='(.*?)' property='og:image'/", $html, $matches ) ) {
+                    $property_image =  $matches[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( "/ property='og:image' content='(.*?)'/", $html, $matches )  ){
+                    $property_image =  $matches[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( '/ property="og:image" content="(.*?)"/', $html, $matches ) ){
+                    $property_image =  $matches[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( '/ content="(.*?)" property="og:image"/', $html, $matches )  ){
+                    $property_image =  $matches[ 1 ][ 0 ];
+                }
+                else {
+                    $property_image = '';
+                }
+
+                 // og:title
+                if(  true == preg_match_all( "/ content='(.*?)' property='og:title'/", $html, $matches2 ) ){
+                    $property_title = $matches2[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( "/ property='og:title' content='(.*?)'/", $html, $matches2 )  ){
+                    $property_title = $matches2[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( '/ property="og:title" content="(.*?)"/', $html, $matches2 ) ){
+                    $property_title = $matches2[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( '/ content="(.*?)" property="og:title"/', $html, $matches2 )  ){
+                    $property_title = $matches2[ 1 ][ 0 ];
+                }
+                else {
+                    $property_title = '';
+                }
+
+                 // og:description
+                if(  true == preg_match_all( "/ content='(.*?)' property='og:description'/", $html, $matches3 ) ){
+                    $property_description = $matches3[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( "/ property='og:description' content='(.*?)'/", $html, $matches3 )  ){
+                    $property_description = $matches3[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( '/ property="og:description" content="(.*?)"/', $html, $matches3 ) ){
+                    $property_description = $matches3[ 1 ][ 0 ];
+                }
+                elseif ( true == preg_match_all( '/ content="(.*?)" property="og:description"/', $html, $matches3 )  ){
+                    $property_description = $matches3[ 1 ][ 0 ];
+                }
+                else {
+                    $property_description = '';
+                }
+            }
+        }
 
 	    $twitter_info = array(
-	            'post_url'   => $twitter_external_url,
-	            'image' => $property_image,
-	            'title' => $property_title,
-	            'description' => $property_description,
-	            'popup' => $fts_popup,
-	            // adding this so when we check the ajax data output we have an error message so we can do something if
-	            // and image, title or description are not present. If so then we will not show the external link content in the post.
-	            'error' => 'missing_info',
+            'post_url'    => $twitter_external_url,
+            'image'       => esc_html( $property_image ),
+            'title'       => esc_html( $property_title ),
+            'description' => esc_html( $property_description ),
+            'popup'       => esc_html( $fts_popup ),
+            // adding this so when we check the ajax data output we have an error message so we can do something if
+            // and image, title or description are not present. If so then we will not show the external link content in the post.
+            'error'       => 'missing_info',
 	    );
 
 	   if( !empty( $twitter_info[ 'image' ] ) && !empty( $twitter_info[ 'title' ] ) && !empty( $twitter_info[ 'description' ] ) ){

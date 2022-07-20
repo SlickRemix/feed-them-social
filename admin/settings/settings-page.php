@@ -630,7 +630,7 @@ class Settings_Page {
 	        }
         }
 
-	    error_log(print_r($all_settings, TRUE));
+	   // error_log(print_r($all_settings, TRUE));
 
         // Is $fts_options an array? Show it successfully updated!
         if( is_array($all_settings)){

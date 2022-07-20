@@ -12,8 +12,11 @@
  */
 
 // Exit if accessed directly!
+use feedthemsocial\Facebook_Additional_Options;
 use feedthemsocial\Facebook_Feed;
+use feedthemsocial\Instagram_Additional_Options;
 use feedthemsocial\Metabox_Settings;
+use feedthemsocial\Twitter_Additional_Options;
 use feedthemsocial\Twitter_Feed;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -69,58 +72,70 @@ class Feed_Them_Social {
 		$options_functions = new feedthemsocial\Options_Functions( FEED_THEM_SOCIAL_POST_TYPE );
 
 		// Settings Functions.
-		$settings_functions = new \feedthemsocial\Settings_Functions();
+		$settings_functions = new feedthemsocial\Settings_Functions();
 
 		// Feed Cache.
-		$feed_cache = new \feedthemsocial\Feed_Cache( $data_protection, $settings_functions );
+		$feed_cache = new feedthemsocial\Feed_Cache( $data_protection, $settings_functions );
+
+		// Facebook Additional Options.
+		$facebook_additional_options = new feedthemsocial\Facebook_Additional_Options();
+
+		// Instagram Additional Options.
+		$instagram_additional_options = new feedthemsocial\Instagram_Additional_Options();
+
+		// Twitter Additional Options.
+		$twitter_additional_options = new feedthemsocial\Twitter_Additional_Options();
+
+		// Youtube Additional Options.
+		$youtube_additional_options = new feedthemsocial\Youtube_Additional_Options();
 
 		// Feed Options.
-		$feed_cpt_options = new \feedthemsocial\Feed_CPT_Options();
+		$feed_cpt_options = new feedthemsocial\Feed_CPT_Options( $facebook_additional_options, $instagram_additional_options, $twitter_additional_options, $youtube_additional_options );
 
 		// Feed Functions.
-		$feed_functions = new \feedthemsocial\Feed_Functions( $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
+		$feed_functions = new feedthemsocial\Feed_Functions( $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
 
 		// Settings Page.
-        new \feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
+        new feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
 
 		// System Info.
-		new \feedthemsocial\System_Info( $settings_functions, $feed_cache );
+		new feedthemsocial\System_Info( $settings_functions, $feed_cache );
 
 		// Setting Options JS.
-		$setting_options_js = new \feedthemsocial\Settings_Options_JS();
+		$setting_options_js = new feedthemsocial\Settings_Options_JS();
 
 		// Metabox Functions.
-		$metabox_functions = new \feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(), $settings_functions, $options_functions, 'fts_feed_options_array' );
+		$metabox_functions = new feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, 'fts_feed_options_array' );
 
 		// Access Options.
-		$access_options = new \feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
+		$access_options = new feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
 
 		// Feeds CPT.
-        $feeds_cpt = new \feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
+        $feeds_cpt = new feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
 
 		// CPT Shortcode Button for Admin page, posts and CPTs.
-		new \feedthemsocial\Shortcode_Button();
+		new feedthemsocial\Shortcode_Button();
 
 		// Facebook Post Types.
-		$facebook_post_types = new \feedthemsocial\Facebook_Feed_Post_Types( $feed_functions );
+		$facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions );
 
 		// Facebook Feed.
-		$facebook_feed = new \feedthemsocial\Facebook_Feed( $feed_functions, $feed_cache, $facebook_post_types );
+		$facebook_feed = new Facebook_Feed( $feed_functions, $feed_cache, $facebook_post_types, $access_options );
 
 		// Twitter Feed.
-		$twitter_feed = new \feedthemsocial\Twitter_Feed( $feed_functions, $feed_cache );
+		$twitter_feed = new feedthemsocial\Twitter_Feed( $feed_functions, $feed_cache );
 
 		// Feed Display.
-		new \feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $twitter_feed );
+		new feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $twitter_feed );
 
         // Backwards compatability.
-        new \feedthemsocial\Backwards_Compat( $settings_functions );
+        new feedthemsocial\Backwards_Compat( $settings_functions );
 
         // Upgrades
-        new \feedthemsocial\FTS_Upgrades( $settings_functions );
+        new feedthemsocial\FTS_Upgrades( $settings_functions );
 
 		// Updater Init.
-		new \feedthemsocial\updater_init();
+		new feedthemsocial\updater_init();
 	}
 
 	/**
@@ -192,6 +207,9 @@ class Feed_Them_Social {
 
 		// Data Protection Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'data-protection/data-protection.php';
+
+		// Data Protection Class.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/trim-words.php';
 
 		// Options Functions Class.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'options/options-functions.php';

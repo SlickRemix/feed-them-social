@@ -399,7 +399,6 @@ class Metabox_Functions {
 	 * @since 0.1.0
 	 */
 	public function submit_meta_box() {
-
 		/* Reset URL */
 		$reset_url = '#';
 
@@ -440,7 +439,6 @@ class Metabox_Functions {
 	 * @since 1.1.6
 	 */
 	public function metabox_tabs_menu( $current_info, $tabs_list ) {
-
 		if ( $tabs_list ) {
 			foreach ( $tabs_list['base_tabs'] as $base_key => $base_items ) {
 				// If Base array key is equal to current base (page)!
@@ -776,7 +774,6 @@ class Metabox_Functions {
 	 * @since 1.0.0
 	 */
 	public function save_meta_box( $cpt_id ) {
-
         // Check if User can Manage Options.
         $this->options_functions->check_user_manage_options();
 
@@ -790,9 +787,11 @@ class Metabox_Functions {
 		//$this->options_functions->delete_options_array( $this->array_options_name, true, $cpt_id);
 		//$this->options_functions->update_single_option( $this->array_options_name, 'feed_type', 'instagram-feed-type', true, $cpt_id );
 
+        //Merge Additional Options.
+
         // Save/Update the Options array using the Array Option Name and Default Options Array.
 		return $this->options_functions->update_options_array( $this->array_options_name, $this->default_options_array, true, $cpt_id );
-	}
+    }
 
     /**
      * Tab Notice HTML

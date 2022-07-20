@@ -18,11 +18,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Facebook_Access_Funtions
+ * Class Facebook_Access_Functions
  *
  * @package feedthemsocial
  */
-class Facebook_Access_Funtions {
+class Facebook_Access_Functions {
 
 	/**
 	 * Feed Functions

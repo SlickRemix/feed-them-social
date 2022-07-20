@@ -388,6 +388,7 @@ class Options_Functions {
 	}
 
 	/**
+	 *
 	 * Verify Nonce
 	 *
 	 * Verify the nonce with the given name.

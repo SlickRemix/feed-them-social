@@ -31,9 +31,54 @@ class Feed_CPT_Options {
 	public $all_options;
 
 	/**
+	 * Facebook Additional Options.
+     *
+     * @since 4.0.0
+     * @var array
+     */
+    public $facebook_additional_options;
+
+	/**
+	 * Instagram Additional Options.
+	 *
+	 * @since 4.0.0
+	 * @var array
+	 */
+	public $instagram_additional_options;
+
+	/**
+	 * Twitter Additional Options.
+	 *
+	 * @since 4.0.0
+	 * @var array
+	 */
+	public $twitter_additional_options;
+
+	/**
+	 * Youtube Additional Options.
+	 *
+	 * @since 4.0.0
+	 * @var array
+	 */
+	public $youtube_additional_options;
+
+
+	/**
 	 * Feed_CPT_Options constructor.
 	 */
-	public function __construct() { }
+	public function __construct( $facebook_additional_options, $instagram_additional_options, $twitter_additional_options, $youtube_additional_options ) {
+		// Facebook Additional Options.
+		$this->facebook_additional_options = $facebook_additional_options->get_all_options();
+
+		// Instagram Additional Options.
+		$this->instagram_additional_options = $instagram_additional_options->get_all_options();
+
+		// Twitter Additional Options.
+		$this->twitter_additional_options = $twitter_additional_options->get_all_options();
+
+		// Youtube Additional Options.
+		$this->youtube_additional_options = $youtube_additional_options->get_all_options();
+	}
 
 	/**
 	 * All Gallery Options
@@ -43,7 +88,7 @@ class Feed_CPT_Options {
 	 * @return array
 	 * @since 1.0.0
 	 */
-	public function get_all_options() {
+	public function get_all_options( $include_additional_options = false ) {
 		$this->feed_type_options();
         $this->twitter_token_options();
         $this->facebook_token_options();
@@ -57,6 +102,12 @@ class Feed_CPT_Options {
 		$this->twitter_options();
 		$this->youtube_options();
 		$this->combine_options();
+
+		// Check if Main Options and Additional Options need to be merged.
+		if( $include_additional_options ){
+			// Merge Main Options with Additional Options.
+			$this->all_options = array_merge( $this->all_options, $this->facebook_additional_options, $this->instagram_additional_options, $this->twitter_additional_options, $this->youtube_additional_options );
+		}
 
 		return $this->all_options;
 	}

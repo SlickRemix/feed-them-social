@@ -418,12 +418,12 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_view_on_fb_fts',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'View on Facebook text', 'feed_them_social' ),
+					'label'            => esc_html__( 'View on Facebook', 'feed_them_social' ),
 					'type'             => 'text',
 					'id'               => 'facebook_view_on_facebook',
 					'name'             => 'facebook_view_on_facebook',
 					'placeholder'      => 'View on Facebook',
-					'default_value'    => esc_html__( 'View on Facebook text', 'feed_them_social' ),
+					'default_value'    => esc_html__( 'View on Facebook', 'feed_them_social' ),
 				),
 			),
 		);

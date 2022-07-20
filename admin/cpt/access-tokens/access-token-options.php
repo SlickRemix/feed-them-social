@@ -62,6 +62,15 @@ class Access_Options {
     public $options_functions;
 
 	/**
+	 * Metabox Functions
+	 *
+	 * The Metabox Functions class.
+	 *
+	 * @var object
+	 */
+	public $metabox_functions;
+
+	/**
 	 * Construct
 	 *
 	 * Access Token Options Page constructor.
@@ -92,6 +101,23 @@ class Access_Options {
     }
 
 	/**
+	 * Decrypt Access Token
+	 *
+	 * Decrypt the access token given.
+	 *
+	 * @since 3.0.0
+	 */
+	public function decrypt_access_token( $encrypted_token ) {
+        // Was an encrypted token given?
+        if( $encrypted_token ){
+            // Decrypt the token.
+	        return $this->data_protection->decrypt( $encrypted_token );
+        }
+        // Decryption didn't work.
+        return false;
+	}
+
+	/**
 	 * Get Access Tokens Options
 	 *
 	 * Get Access Token Options based on Feed Type and Feed CPT ID
@@ -104,7 +130,7 @@ class Access_Options {
 			switch ($feed_type){
 				case 'facebook-feed-type':
 					// Facebook Access Functions.
-					$facebook_access_functions = new Facebook_Access_Funtions( $this->feed_functions, $this->data_protection );
+					$facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Facebook Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );

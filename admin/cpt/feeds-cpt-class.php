@@ -177,9 +177,6 @@ class Feeds_CPT {
         }
     }
 
-
-
-
     /**
      *  Tab Notice HTML
      *
@@ -1087,7 +1084,7 @@ class Feeds_CPT {
 	public function fts_duplicate_post_as_draft() {
 		global $wpdb;
 		if ( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] ) || ( isset( $_REQUEST['action'] ) && 'fts_duplicate_post_as_draft' === $_REQUEST['action'] ) ) ) {
-			wp_die( esc_html__( 'No Gallery to duplicate has been supplied!', 'feed_them_social' ) );
+			wp_die( esc_html__( 'No Feed to duplicate has been supplied!', 'feed_them_social' ) );
 		}
 
 		/*
@@ -1194,7 +1191,7 @@ class Feeds_CPT {
      */
     public function fts_duplicate_post_link( $actions, $post ) {
         // make sure we only show the duplicate gallery link on our pages
-        if ( current_user_can( 'edit_posts' ) && 'fts' === $_GET['post_type'] ) {
+        if ( current_user_can( 'edit_posts' ) && FEED_THEM_SOCIAL_POST_TYPE === $_GET['post_type'] ) {
             $actions['duplicate'] = '<a id="ft-gallery-duplicate-action" href="' . esc_url( wp_nonce_url( 'admin.php?action=fts_duplicate_post_as_draft&post=' . $post->ID, basename( __FILE__ ), 'duplicate_nonce' ) ) . '" title="Duplicate this item" rel="permalink">' . esc_html__( 'Duplicate', 'feed_them_social' ) . '</a>';
         }
 
@@ -1212,13 +1209,13 @@ class Feeds_CPT {
         $current_screen = get_current_screen();
         $verify         = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
         // check to make sure we are not on a new fts post, because what is the point of duplicating a new one until we have published it?
-        if ( 'fts' === $current_screen->post_type && 'fts' !== $verify ) {
+        if ( FEED_THEM_SOCIAL_POST_TYPE === $current_screen->post_type && FEED_THEM_SOCIAL_POST_TYPE !== $verify ) {
             $id = $_GET['post'];
             ?>
             <div id="ft-gallery-duplicate-action">
                 <a href="<?php echo esc_url( wp_nonce_url( 'admin.php?action=fts_duplicate_post_as_draft&post=' . $id, basename( __FILE__ ), 'duplicate_nonce' ) ); ?>"
                    title="Duplicate this item"
-                   rel="permalink"><?php esc_html_e( 'Duplicate Gallery', 'feed_them_social' ); ?></a>
+                   rel="permalink"><?php esc_html_e( 'Duplicate Feed', 'feed_them_social' ); ?></a>
             </div>
             <?php
         }

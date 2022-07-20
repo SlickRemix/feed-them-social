@@ -437,7 +437,7 @@ class FTS_Instagram_Options_Page {
                                 }
                             }
                         } else {
-                            if ( ! isset( $_GET['return_long_lived_token'] ) || isset( $_GET['reviews_token'] ) ) {
+                            if (  !isset( $_GET['return_long_lived_token'] ) || '' === $_GET['return_long_lived_token'] || isset( $_GET['reviews_token'] ) ) {
                                 echo sprintf(
                                     esc_html__( '%1$sTo get started, please click the button above to retrieve your Access Token.%2$s', 'feed-them-social' ),
                                     '<div class="fts-failed-api-token get-started-message">',

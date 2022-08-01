@@ -1415,7 +1415,7 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 							  var js, fjs = d.getElementsByTagName(s)[0];
 							  if (d.getElementById(id)) return;
 							  js = d.createElement(s); js.id = id;
-							  js.src = "//connect.facebook.net/' . esc_html( $language_option ) . '/sdk.js#xfbml=1&appId=&version=v3.1";
+							  js.src = "//connect.facebook.net/' . esc_html( $language_option ) . '/sdk.js#xfbml=1&appId=1123168491105924&version=v3.1";
 							  fjs.parentNode.insertBefore(js, fjs);
 							}(document, "script", "facebook-jssd"));</script>';
 						$_POST['fts_facebook_script_loaded'] = 'yes';

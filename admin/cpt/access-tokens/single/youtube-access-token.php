@@ -143,9 +143,10 @@ class Youtube_Access_Functions {
             if ( time() < $expiration_time && empty( $youtube_api_key ) ) {
                 ?>
                 <script>
+
                     var countDownDate = new Date( <?php echo esc_js( $expiration_time ); ?> );
 
-                   console.log(countDownDate);
+                    console.log(countDownDate);
 
                     // Update the count down every 1 second
                     var x = setInterval(function () {
@@ -162,16 +163,17 @@ class Youtube_Access_Functions {
                         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                        jQuery('.fts-exp-time-wrapper .feed_them_social-admin-input-label').append('<br/><span id="fts-timer"></span>');
-                        document.getElementById("fts-timer").innerHTML = minutes + "m " + seconds + "s ";
+                        jQuery('.fts-tab-content1-youtube.fts-token-wrap .fts-exp-time-wrapper .feed_them_social-admin-input-label').append('<br/><span id="fts-timer"></span>');
+                        jQuery('.fts-tab-content1-youtube.fts-token-wrap #fts-timer').html( minutes + "m " + seconds + "s " );
 
                         // If the count down is finished, write some text
                         if (distance < 0) {
                             clearInterval(x);
-                            jQuery('.fts-success').fadeIn();
-                            document.getElementById("fts-timer").innerHTML = "Expired, getting new token.";
-                       }
-                   }, 1000);
+                            jQuery('.fts-tab-content1-youtube.fts-token-wrap .fts-success').fadeIn();
+                            jQuery('.fts-tab-content1-youtube.fts-token-wrap #fts-timer').html( 'Token Expired, refresh page to get new a token.' )
+                            }
+                    }, 1000);
+
                </script>
                <?php
            }

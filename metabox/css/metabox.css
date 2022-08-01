@@ -676,7 +676,7 @@ a.fts-success-token-content:hover {
 
 .fts-facebook-get-access-token, .fts-facebook-get-access-token:focus {
     padding: 24px 24px 23px 72px;
-    background: url(../images/facebook-logo-admin.png) 11px 9px;
+    background: url(../images/facebook-logo-admin.png) 11px 9px #fff;
     background-repeat: no-repeat;
     background-size: 48px 48px;
     color: #1977f2;
@@ -2119,12 +2119,12 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     padding-bottom: 0 !important
 }
 #fts-feed-type {
-    padding-left:5px;
-
+    /* padding-left:5px; */
 }
 #ftg-tab-content1 div.fts-section, #ftg-tab-content6 div.fts-section {
-    max-width: 100%
-;}
+    max-width: 100%;
+    width: 100%;
+}
 #fts-feed-type {
     display:block;
     float:left;
@@ -2211,7 +2211,9 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     margin-bottom: 20px;
     padding-bottom: 10px;
     margin-left: 20px;
-    max-width: 830px;}
+    max-width: 830px;
+    padding-right: 40px;
+}
 
 .fts-title-description-settings-page h4 {
     font-size: 18px;
@@ -2525,7 +2527,7 @@ h3.sectioned-options-title {
     display: inline-block;}
 
 .feed_them_social-admin-input-label {
-    margin-left: 20px;
+    margin-left: 25px;
     color: #101010;
 }
 
@@ -2573,7 +2575,7 @@ h3.sectioned-options-title {
 }
 
 .fts-combine-streams-shortcode-form h3 {
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 #ft-gallery-zip-list li:last-child {
@@ -2979,8 +2981,8 @@ button.ft-gallery-edit-img-popup {
     display: none
 }
 
-.tabs-extra-options, .combine-instagram-hashtag-option-text, .combine_instagram_hashtag, .combine_instagram_hashtag_type, .fb-video-play-btn-options-content, .fb-video-play-btn-options-wrap, .fb_album_photos_id, .fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap, .fts-fb-id, .fts-instagram-load-more-options-wrap, .fts-super-facebook-options-wrap, .fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap, .instagram-location-option-text, .instagram_hashtag_type, .page-token, .pinterest-board-and-name-text, .slider_options_wrap, .slideshow-wrap, .youtube_align_comments_wrap, .youtube_channelID2, .youtube_name, .youtube_name2, .youtube_playlistID, .youtube_playlistID2, .youtube_singleVideoID {
-    display: none;
+.tabs-extra-options, .combine-instagram-hashtag-option-text, .combine_instagram_hashtag_type, .fb-video-play-btn-options-content, .fb-video-play-btn-options-wrap, .fb_album_photos_id, .fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap, .fts-fb-id, .fts-instagram-load-more-options-wrap, .fts-super-facebook-options-wrap, .fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap, .instagram-location-option-text, .instagram_hashtag_type, .page-token, .pinterest-board-and-name-text, .slider_options_wrap, .slideshow-wrap, .youtube_align_comments_wrap, .youtube_channelID2, .youtube_name, .youtube_name2, .youtube_playlistID, .youtube_playlistID2, .youtube_singleVideoID {
+    /* display: none; */
 }
 
 .fts-token-wrap h3 {
@@ -3024,8 +3026,9 @@ h3.fts-active-success-token:before {
     padding:0;
     background:none;
     border:none;
-    margin: 0 40px 5px 0;
-    clear: both;}
+    margin: 5px 40px 5px 15px !important;
+    clear: both;
+}
 .fts-exp-time-wrapper .feed_them_social-admin-input-label{
     overflow:hidden;
     max-height:40px;
@@ -3074,6 +3077,12 @@ h3.fts-active-success-token:before {
     display:block;
     text-align:center;
 }
+.combine-instagram-access-token-placeholder .fts-instagram-basic-business-wrap {
+    margin-bottom:0px;
+}
+.combine-instagram-access-token-placeholder .fts-instagram-basic-business-wrap {
+    margin-top:0
+}
 .fts-instagram-basic-business-wrap {
     margin:20px 2px -18px 2px;
     display: flex;
@@ -3086,13 +3095,13 @@ h3.fts-active-success-token:before {
     opacity:.9;
 }
 
-.fts-instagram-basic-token-button {
+.fts-instagram-basic-token-button, .fts-combine-instagram-basic-token-button {
     background: #434343 !important;
     width:49.99999%;
     padding:22px 0 20px 0 ;
 
     font-weight: bold;}
-.fts-instagram-business-token-button {
+.fts-instagram-business-token-button, .fts-combine-instagram-business-token-button {
     background: #1977f2 !important;
     width:49.99999%;
     padding:22px 0 20px 0 ;
@@ -3116,6 +3125,9 @@ h3.fts-active-success-token:before {
 }
 a.fts-admin-button-no-work {
     text-decoration:none !important;
+}
+.combine-instagram-basic-access-token-placeholder, .combine-instagram-business-access-token-placeholder {
+    display:none;
 }
 #fts-feed-type h3 {
     font-weight:bold !important;
@@ -3191,4 +3203,52 @@ img.instagram-feed-type-image-tab {
 }
 .youtube-feed-type.fts-social-icon-wrap-active:hover span:before{
     color:#ff0000 !important;
+}
+
+.combine_facebook_name .fts-active-success-token {
+    padding-top:0 !important;
+    margin-top:0 !important;
+}
+.fts-token-wrap h3 {
+    margin-left:15px;
+}
+.fts-combine-streams-shortcode-form .fts-admin-token-settings-open,
+.fts-combine-streams-shortcode-form .fts-active-success-token, .fts-combine-streams-shortcode-form .fts-active-success-token {
+    margin-left:0;
+}
+.fts-combine-streams-shortcode-form .instructional-text, .fts-combine-streams-shortcode-form .fts-facebook-get-access-token, .fts-combine-streams-shortcode-form .fts-instagram-get-access-token {
+    margin-left:10px;
+}
+.combine_facebook_name .fts-token-wrap {
+    display:none;
+}
+#combine_streams_feed #fts-feed-type h3 span {
+    color: #1aae1f;
+    pointer-events: none;
+}
+#combine_streams_feed .fts-success-token-content {
+    display:none;
+}
+#combine_streams_feed .fts-active-success-token {
+    margin-top:0;
+}
+
+.feed_them_social-admin-input-wrap.combine_facebook_name, .combine-instagram-access-token-placeholder {
+    padding:0;
+    background:none !important;
+    border:none;
+}
+.main-combine-twitter-wrap .sectioned-options-title,
+.main-combine-youtube-wrap .sectioned-options-title,
+.main-combine-facebook-wrap .sectioned-options-title{
+    margin-top:15px !important
+}
+.combine-instagram-access-token-placeholder {
+    display:none;
+}
+.combine_instagram_type {
+    display:none;
+}
+.fts-tab-content1-combine .fts-instagram-successful-api-token, .combine_instagram_hashtag_select {
+    display:none;
 }

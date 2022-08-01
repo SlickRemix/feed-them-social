@@ -2784,11 +2784,11 @@ body .ft-gallery-popup a.fts-powered-by-text {
     float:none;
     margin-bottom:15px;
 }
-#feed_setup #fts-feed-type h3 {
+#fts-feed-type h3 {
     text-transform: none !important;
     cursor: pointer;font-weight: 400;}
 
-#feed_setup #fts-feed-type h3 span {
+#fts-feed-type h3 span {
     color:#1aae1f;
     pointer-events: none;}
 span.fts-toke-not-set {
@@ -2881,12 +2881,14 @@ span.fts-toke-not-set {
     border-right: 30px solid transparent;
 }
 .fts-social-icon-wrap-active.fts-instagram-business-token-button .fts-instagram-down-arrow,
-.fts-social-icon-wrap-active.fts-instagram-business-token-button:hover .fts-instagram-down-arrow {
+.fts-social-icon-wrap-active.fts-instagram-business-token-button:hover .fts-instagram-down-arrow,
+.fts-social-icon-wrap-active.fts-combine-instagram-business-token-button .fts-instagram-down-arrow,
+.fts-social-icon-wrap-active.fts-combine-instagram-business-token-button:hover .fts-instagram-down-arrow{
     opacity:1;
     border-bottom: 30px solid #ffffff !important;
 }
-.fts-social-icon-wrap-active.fts-instagram-basic-token-button .fts-instagram-down-arrow {
-
+.fts-social-icon-wrap-active.fts-instagram-basic-token-button .fts-instagram-down-arrow,
+.fts-social-icon-wrap-active.fts-combine-instagram-basic-token-button .fts-instagram-down-arrow{
     border-bottom: 30px solid #ffffff !important;
 }
 #fts_facebook_instagram_custom_api_token_fb_user_name {

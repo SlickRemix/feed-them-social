@@ -437,8 +437,10 @@ class Settings_Options_JS {
 	public function combine_js(){
 		?>
 		<script>
-            jQuery(document).ready(function () {
+        // SRL 8-1-22 uncommenting for now, do not remove though.
+         //   jQuery(document).ready(function () {
 
+              function combine_js(){
                 //COMBINE Grid Options
                 jQuery('#combine_grid_option').bind('change', function (e) {
                     if (jQuery('#combine_grid_option').val() == 'yes') {
@@ -449,7 +451,8 @@ class Settings_Options_JS {
                     }
                 }).change();
 
-                // NEED FIND A WAY TO TRIGGER CHANGE WHEN CONVERTING WITH CONVERT SHORTCODE BUTTON, IF POSSIBLE NOT SUPER BIG DEAL BECAUSE WHEN YOU SAVE
+                // NEED FIND A WAY TO TRIGGER CHANGE WHEN CONVERTING WITH CONVERT SHORTCODE BUTTON,
+                // IF POSSIBLE NOT SUPER BIG DEAL BECAUSE WHEN YOU SAVE
                 // THE PAGE IT WILL SHOW AND HIDE THE PROPER INPUTS OK.
                 // FACEBOOK Combine Options
                 jQuery('#combine_facebook').bind('change', function (e) {
@@ -466,7 +469,7 @@ class Settings_Options_JS {
                     }
                 }).change();
 
-                jQuery('select#combine-steams-selector').bind('change', function (e) {
+                /*jQuery('select#combine-steams-selector').bind('change', function (e) {
                     if (jQuery('select#combine-steams-selector').val() == 'multiple_facebook') {
                         jQuery('.facebook_options_wrap,#fts-fb-page-form, .facebook_hide_thumbnail, .facebook_hide_date, .facebook_hide_name, .facebook_show_media ').show();
                         jQuery('.combine_streams_options_wrap, .fts-required-more-posts').hide();
@@ -484,40 +487,33 @@ class Settings_Options_JS {
                             jQuery('.fts-facebook_page-shortcode-form').removeClass('multiple_facebook');
                         }
                     }
-                }).change();
+                }).change();*/
 
-                //Combine Instagram
-                jQuery('#combine_instagram').bind('change', function (e) {
-                    if (jQuery('#combine_instagram').val() == 'yes') {
-                        jQuery('.combine-instagram-wrap').show();
-                    }
-                    else {
-                        jQuery('.combine-instagram-wrap').hide();
-                    }
-                }).change();
+
+
+
 
                 //INSTAGRAM Combine Options
-                jQuery('#combine_instagram_type').bind('change', function (e) {
-                    if (jQuery('#combine_instagram_type').val() == 'hashtag') {
+                jQuery('#combine_instagram_hashtag_select').bind('change', function (e) {
 
-                        jQuery(".combine-instagram-id-option-wrap,.combine-instagram-location-option-text, .combine-instagram-user-option-text").hide();
-                        jQuery(".combine-instagram-hashtag-option-text").show();
+                        if ('yes' === jQuery('#combine_instagram_hashtag_select').val()) {
 
-                        jQuery(".combine-instagram-hashtag-option-text, .combine-instagram-hashtag-option-text, #combine_instagram_name, .combine_instagram_hashtag, .combine_instagram_hashtag_type").show();
+                            jQuery(".combine-instagram-id-option-wrap,.combine-instagram-location-option-text, .combine-instagram-user-option-text").hide();
+                            jQuery(".combine-instagram-hashtag-option-text").show();
 
-                        if(!jQuery('.combine_instagram_type div').hasClass('fts-instagram-hashtag-location-options-message')){
-                            // jQuery(  ".combine_instagram_type").append( fts_notice_message );
+                            jQuery(".combine-instagram-hashtag-option-text, .combine-instagram-hashtag-option-text, #combine_instagram_name, .combine_instagram_hashtag, .combine_instagram_hashtag_type").show();
+
+                            if (!jQuery('.combine_instagram_type div').hasClass('fts-instagram-hashtag-location-options-message')) {
+                                // jQuery(  ".combine_instagram_type").append( fts_notice_message );
+                            } else {
+                                jQuery(".fts-instagram-hashtag-location-options-message").show();
+                            }
+
+                        } else {
+                            jQuery(".combine-instagram-user-option-text").show();
+                            jQuery(".combine-instagram-hashtag-option-text,.combine-instagram-location-option-text, .combine_instagram_hashtag_type, .combine_instagram_hashtag, .fts-instagram-hashtag-location-options-message").hide();
+
                         }
-                        else {
-                            jQuery(".fts-instagram-hashtag-location-options-message").show();
-                        }
-
-                    }
-                    else {
-                        jQuery(".combine-instagram-user-option-text").show();
-                        jQuery(".combine-instagram-hashtag-option-text,.combine-instagram-location-option-text, .combine_instagram_hashtag_type, .combine_instagram_hashtag, .fts-instagram-hashtag-location-options-message").hide();
-
-                    }
                 }).change();
 
                 //TWITTER Combine Options
@@ -628,7 +624,10 @@ class Settings_Options_JS {
                     }
                 });
 
-            });
+                }
+              combine_js();
+
+          //  });
 		</script>
 
 		<?php

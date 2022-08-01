@@ -4,10 +4,18 @@
 // So we check to make sure the instagram option has an active state and if so do stuff.
 function fts_instagram_basic_business_buttons() {
 
-    jQuery('.fts-select-social-network-menu').append('<div class="fts-instagram-basic-business-wrap">' +
-        '<div class="fts-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram Basic<br/><small>Your Personal Account</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
-        '<div class="fts-instagram-business-token-button" data-fts-feed-type="instagram-business-feed-type">Instagram Business<br/><small>Your Account on Facebook</small><div class="fts-instagram-down-arrow fts-instagram-business-arrow"></div></div>' +
-        '</div>');
+    if( 'combine-streams-feed-type' === jQuery("#feed_type option:selected").val() ){
+        jQuery('.combine-instagram-access-token-placeholder').prepend('<div class="fts-instagram-basic-business-wrap">' +
+            '<div class="fts-combine-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram Basic<br/><small>Your Personal Account</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
+            '<div class="fts-combine-instagram-business-token-button" data-fts-feed-type="instagram-business-feed-type">Instagram Business<br/><small>Your Account on Facebook</small><div class="fts-instagram-down-arrow fts-instagram-business-arrow"></div></div>' +
+            '</div><div class="fts-clear"></div>');
+    }
+    else {
+        jQuery('.fts-select-social-network-menu').append('<div class="fts-instagram-basic-business-wrap">' +
+            '<div class="fts-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram Basic<br/><small>Your Personal Account</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
+            '<div class="fts-instagram-business-token-button" data-fts-feed-type="instagram-business-feed-type">Instagram Business<br/><small>Your Account on Facebook</small><div class="fts-instagram-down-arrow fts-instagram-business-arrow"></div></div>' +
+            '</div><div class="fts-clear"></div>');
+    }
 
     if( 'instagram-business-feed-type' === jQuery("#feed_type option:selected").val() ){
         jQuery('.fts-instagram-business-token-button').addClass('fts-social-icon-wrap-active');
@@ -16,58 +24,210 @@ function fts_instagram_basic_business_buttons() {
         jQuery('.fts-instagram-basic-token-button').addClass('fts-social-icon-wrap-active');
     }
 
+    if( 'business' === jQuery("#combine_instagram_type option:selected").val() ){
+        jQuery('.fts-combine-instagram-business-token-button').addClass('fts-social-icon-wrap-active');
+
+        // Only display the hashtag select yes/no if the token is valid.
+        if( jQuery('.combine-instagram-business-access-token-placeholder h3.fts-active-success-token').length > 0 ) {
+            jQuery('.combine_instagram_hashtag_select').show();
+        }
+
+    }
+    else if( 'basic' === jQuery("#combine_instagram_type option:selected").val()){
+        jQuery('.fts-combine-instagram-basic-token-button').addClass('fts-social-icon-wrap-active');
+        jQuery('.combine_instagram_hashtag_select').hide();
+    }
+
 }
 
 // Use our buttons to change our #feed_type select option.
 function fts_social_icons_wrap_click() {
-    jQuery('.fts-social-icon-wrap, .fts-instagram-basic-token-button, .fts-instagram-business-token-button').click(function () {
 
+    jQuery('.fts-social-icon-wrap, ' +
+        '.fts-instagram-basic-token-button, ' +
+        '.fts-instagram-business-token-button' ).click(function () {
+
+        if( jQuery('#ftg-tab-content1').hasClass( 'pane-active' ) ) {
             // Don't repeat the process if the user clicks an active icon.
-            if( !jQuery( this ).hasClass('fts-social-icon-wrap-active') ) {
+            if (!jQuery(this).hasClass('fts-social-icon-wrap-active')) {
+
                 const url_string = window.location.href;
                 const url = new URL(url_string);
                 const cpt_id = url.searchParams.get("post");
                 const fts_type = jQuery(this).data('fts-feed-type');
-                jQuery('#feed_type').val(fts_type).trigger('change').attr('selected', 'selected');
+                jQuery('#feed_type').val( fts_type ).trigger('change').attr('selected', 'selected');
                 jQuery('.fts-social-icon-wrap').removeClass('fts-social-icon-wrap-active');
+                // Special case because instagram basic and business tokens are under one tab. So we make sure
+                // the instagram token tab stays active while clicking the business or basic menu options.
+                if( 'instagram-feed-type' === fts_type ||
+                    'instagram-business-feed-type' === fts_type ){
+                    jQuery('.instagram-feed-type').addClass('fts-social-icon-wrap-active');
+                }
                 jQuery(this).addClass('fts-social-icon-wrap-active');
 
                 // Load up the proper access token inputs.
-                fts_access_token_type_ajax(fts_type, cpt_id);
+                fts_access_token_type_ajax(fts_type, cpt_id, false);
             }
+
+        }
         return false;
    });
 }
 
-function fts_access_token_type_ajax( feed_type, cpt_id ) {
+// Use our buttons to change our #feed_type select option.
+function fts_combine_social_icons_wrap_click() {
+    jQuery( '.fts-combine-instagram-basic-token-button,' +
+        '.fts-combine-instagram-business-token-button').click( function () {
+
+                var fts_type = jQuery( this ).data( 'fts-feed-type' );
+                // todo SRL: line below needs to be re-written to be more understandable but for launch sake we are rolling with it. Mainly not fixing now because for ease of backward compatibility too.
+                var fts_type_value = 'instagram-feed-type' === fts_type ? 'basic' : 'business';
+                const url_string = window.location.href;
+                const url = new URL( url_string );
+                const cpt_id = url.searchParams.get( 'post' );
+                jQuery('#combine_instagram_type').val( fts_type_value ).trigger( 'change' ).attr( 'selected', 'selected' );
+                jQuery(this).addClass( 'fts-social-icon-wrap-active' );
+
+                // Load up the proper access token inputs.
+                fts_access_token_type_ajax( fts_type, cpt_id, fts_type_value );
+
+        return false;
+    });
+}
+
+
+
+
+function combine_streams_js(){
+
+    if (  'combine-streams-feed-type' === jQuery("#feed_type option:selected").val() ) {
+
+        jQuery('.fts-instagram-basic-business-wrap').remove();
+        fts_instagram_basic_business_buttons();
+
+        if( jQuery('.fts-social-icon-wrap-active').hasClass('fts-combine-instagram-basic-token-button') ) {
+            // Load up the proper access token inputs.
+            jQuery('.combine-instagram-basic-access-token-placeholder').fadeIn();
+        }
+        else if( jQuery('.fts-social-icon-wrap-active').hasClass('fts-combine-instagram-business-token-button')) {
+            // Load up the proper access token inputs.
+            jQuery('.combine-instagram-business-access-token-placeholder').fadeIn();
+        }
+        fts_combine_social_icons_wrap_click();
+    }
+}
+
+function combine_instagram_token_js() {
+
+    if (jQuery('#combine_instagram').val() == 'yes') {
+        jQuery('.combine-instagram-wrap, .combine-instagram-access-token-placeholder').show();
+        // Load up the proper access token inputs.
+        combine_streams_js();
+        fts_combine_social_icons_wrap_click();
+    }
+    else{
+        jQuery('.combine-instagram-wrap, .combine-instagram-access-token-placeholder').hide();
+    }
+
+    //Combine Instagram change option
+    jQuery('#combine_instagram').bind('change', function (e) {
+
+        if (jQuery('#combine_instagram').val() == 'yes') {
+
+            jQuery('.combine-instagram-wrap, .combine-instagram-access-token-placeholder').show();
+
+            setTimeout(function () {
+
+                if( true === jQuery( '.fts-combine-instagram-basic-token-button' ).hasClass('fts-social-icon-wrap-active') ) {
+
+                    const url_string = window.location.href;
+                    const url = new URL(url_string);
+                    const cpt_id = url.searchParams.get('post');
+
+                    // Load up the proper access token inputs.
+                    fts_access_token_type_ajax('instagram-feed-type', cpt_id, 'basic');
+                }
+
+            }, 10);
+
+        }
+        else {
+            jQuery('.combine-instagram-wrap, .combine-instagram-access-token-placeholder').hide();
+        }
+        combine_streams_js();
+    });
+}
+
+
+function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
+
+    var combined_check = false !== combined ? combined : false;
 
     jQuery.ajax({
         data: {
             action: 'fts_access_token_type_ajax',
             cpt_id: cpt_id,
+            feed_combined: combined_check,
             feed_type: feed_type,
         },
         type: 'POST',
         url: ftsAjax.ajaxurl,
         success: function ( response ) {
 
-            jQuery('.fts-access-token').hide();
-            jQuery('.fts-access-token').html( response );
-            jQuery('.fts-access-token').fadeIn();
-            // ok next thing I need to do here is add a class to the main wrapper that lets me know when social icon is clicked which option to have active
-            // either the instagram basic or the business tab.
+            if( !jQuery('.combine-streams-feed-type').hasClass( 'fts-social-icon-wrap-active' ) ) {
+                jQuery('.fts-access-token').hide();
+            }
+
+            // All these case(s) are related to combine except the default.
+            switch( combined ) {
+                case 'combined-instagram':
+                case 'basic':
+                    jQuery('.combine-instagram-basic-access-token-placeholder').fadeIn();
+                    jQuery('.combine-instagram-business-access-token-placeholder').hide();
+                    jQuery('.fts-access-token').fadeIn();
+
+                    // Make sure when we reload our toggle click option otherwise users won't be able to
+                    // see the token options if they so desire.
+                    fts_reload_toggle_click();
+                    break;
+                case 'combined-instagram-business':
+                case 'business':
+                    jQuery('.combine-instagram-business-access-token-placeholder').fadeIn();
+                    jQuery('.combine-instagram-basic-access-token-placeholder').hide();
+                    jQuery('.fts-access-token').fadeIn();
+                    // Make sure when we reload our toggle click option otherwise users won't be able to
+                    // see the token options if they so desire.
+                    fts_reload_toggle_click();
+                    break;
+                case 'combined-facebook':
+                    jQuery('.combine_facebook_name').html( response );
+                    break;
+                case 'combined-twitter':
+                    jQuery('.combine_twitter_name').html( response );
+                    break;
+                case 'combined-youtube':
+                    jQuery('#combine_youtube_type').html( response );
+                    break;
+                default:
+                    jQuery('.fts-access-token').html(response);
+                    jQuery('.fts-access-token').fadeIn();
+            }
 
             // This is here to remove the instagram basic and business buttons when
             // the user clicks on any other button other than instagram to get an access token.
-            if( 'instagram-feed-type' !== feed_type && 'instagram-business-feed-type' !== feed_type ) {
-
-                jQuery('.fts-instagram-basic-business-wrap').remove();
-                jQuery('.instagram-feed-type').removeClass('fts-instagram-sub-menu-active');
-            }
-            else {
-                jQuery('.instagram-feed-type').addClass('fts-instagram-sub-menu-active');
+            if( 'instagram-feed-type' === jQuery("#feed_type option:selected").val() ||
+                'instagram-business-feed-type' === jQuery("#feed_type option:selected").val() ) {
                 jQuery('.fts-instagram-basic-business-wrap').remove();
                 fts_instagram_basic_business_buttons();
+            }
+            else if( 'combine-streams-feed-type' === jQuery("#feed_type option:selected").val() ) {
+                jQuery('.combine-instagram-wrap, .fts-instagram-basic-business-wrap').hide();
+                combine_instagram_token_js();
+                combine_js();
+            }
+            else {
+                jQuery('.fts-instagram-basic-business-wrap').remove();
+                jQuery('.instagram-feed-type').removeClass('fts-instagram-sub-menu-active');
             }
 
             fts_social_icons_wrap_click();
@@ -84,8 +244,10 @@ function fts_access_token_type_ajax( feed_type, cpt_id ) {
 // Created a function out of this so we can reload it when the ajax fires to load the access token button and options.
 // otherwise the click function will not fire.
 function fts_reload_toggle_click(){
+
     jQuery('#fts-feed-type h3, #fts-feed-type span, .fts-settings-does-not-work-wrap .fts-admin-token-settings').click(function () {
-        jQuery(".fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input").toggle();
+
+        jQuery( '.fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input' ).toggle();
         jQuery( this ).toggleClass( 'fts-feed-type-active' );
         jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
         jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
@@ -94,9 +256,31 @@ function fts_reload_toggle_click(){
 }
 
 function fts_check_valid() {
-    if( jQuery('.fts-success-token-content').length ){
-        jQuery('#fts-feed-type h3 .fts-valid-text').html(' - Valid');
-        jQuery('#fts-feed-type h3').addClass('fts-active-success-token').css('color', '#1aae1f');
+
+    if( jQuery( '.fts-instagram-token-wrap .fts-instagram-successful-api-token' ).length ) {
+        jQuery( '.fts-tab-content1-instagram h3 .fts-valid-text' ).html(' - Valid');
+        jQuery( '.fts-tab-content1-instagram h3').addClass('fts-active-success-token').css('color', '#1aae1f');
+    }
+
+    if( jQuery( '.fts-fb-token-wrap .fts-instagram-successful-api-token' ).length &&
+        jQuery( '.fts-combine-instagram-business-token-button.fts-social-icon-wrap-active' ).length ||
+        jQuery( '.fts-fb-token-wrap .fts-instagram-successful-api-token' ).length &&
+        jQuery( '.fts-instagram-business-token-button.fts-social-icon-wrap-active' ).length ) {
+
+            jQuery( '.fts-tab-content1-facebook-instagram h3 .fts-valid-text' ).html(' - Valid');
+            jQuery( '.fts-tab-content1-facebook-instagram h3' ).addClass('fts-active-success-token').css('color', '#1aae1f');
+
+            // Only display the hashtag select yes/no if the token is valid.
+            if( jQuery('.combine-instagram-business-access-token-placeholder h3.fts-active-success-token').length > 0 ) {
+                jQuery('.combine_instagram_hashtag_select').show();
+            }
+    }
+
+    if( jQuery( '.fts-facebook-successful-api-token' ).length ||
+        jQuery( '.fts-twitter-successful-api-token' ).length ||
+        jQuery( '.fts-youtube-successful-api-token' ).length ) {
+        jQuery( '.fts-token-wrap h3 .fts-valid-text' ).html(' - Valid');
+        jQuery( '.fts-token-wrap h3').addClass('fts-active-success-token').css('color', '#1aae1f');
     }
 }
 
@@ -106,12 +290,13 @@ function fts_check_valid() {
 
         setTimeout(function () {
 
+            // This is in place for when the page reloads or user refreshes.
             if( !jQuery('div').hasClass('fts-instagram-basic-business-wrap') && jQuery('.fts-social-icon-wrap-active').hasClass('instagram-feed-type') ){
                 fts_instagram_basic_business_buttons();
             }
+            fts_social_icons_wrap_click();
             fts_reload_toggle_click();
             fts_check_valid();
-            fts_social_icons_wrap_click();
 
         }, 0);
 
@@ -183,6 +368,8 @@ function fts_check_valid() {
                     jQuery( '.tab8 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab8 a .fts-click-cover' ).hide();
                     $( '.fts-social-icon-wrap.combine-streams-feed-type' ).addClass( 'fts-social-icon-wrap-active' );
+                    // This needs to be here so if the page is refreshed the insta/fb tokens show if they are set to yes.
+                    combine_instagram_token_js();
                 }
                 else  {
                     jQuery( '.tab8' ).removeClass( 'fts-combine-waiting-color' );
@@ -190,8 +377,6 @@ function fts_check_valid() {
                     jQuery( '.tab8 a .fts-click-cover' ).show();
                 }
 
-                // LEAVING OFF HERE WITH THIS: NEED TO GET fts_check_valid TO ONLY WORK IF THE PAGE IS ACTIVE AND DB IS SAVED TO THIS FEED TYPE.
-                // Might not need this anymore.
                 if( $('.fts-social-icon-wrap-active .fts-success-token-content').length ){
                     fts_check_valid();
                 }

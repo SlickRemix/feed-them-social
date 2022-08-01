@@ -168,7 +168,7 @@ class Access_Options {
 					// Twitter Access Functions.
 					$twitter_access_functions = new Twitter_Access_Functions( $this->feed_functions, $this->data_protection );
 
-                    // Load Instagram Token Option Fields.
+                    // Load Twitter Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
 
                     // Load the options.
@@ -180,7 +180,7 @@ class Access_Options {
 					// Youtube Access Functions.
 					$youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
 
-                    // Load Instagram Token Option Fields.
+                    // Load Youtube Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
 
                     // Load the options.
@@ -189,9 +189,44 @@ class Access_Options {
 					break;
 
                 case 'combine-streams-feed-type':
+
+                    // Load Combine Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_options'], null, $feed_cpt_id );
+
                     ?>
-                    <p>Thinking this combined button should just open the combined streams tab instead of displaying anything below for now.</p>
+                <div class="fts-clear"></div>
+
+                    <div class="combine-instagram-access-token-placeholder">
+                        <div class="combine-instagram-basic-access-token-placeholder">
+                            <?php
+                            $instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
+
+                            // Load Instagram Token Option Fields.
+                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
+
+                            // Load the options.
+                            $instagram_access_functions->get_access_token_button( $feed_cpt_id );
+                            ?>
+                        </div>
+
+                        <div class="combine-instagram-business-access-token-placeholder">
+                        <?php
+
+                            // Instagram Business Access Functions.
+                            $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
+
+                            // Load Instagram Business Token Option Fields.
+                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+
+                            // Load the options.
+                            $instagram_business_access_functions->get_access_token_button( $feed_cpt_id );
+                        ?>
+                        </div>
+                    </div>
                 <?php
+                    // Load Combine Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_select_options'], null, $feed_cpt_id );
+
 
                     break;
 			}
@@ -611,8 +646,8 @@ class Access_Options {
                     $(fb).click(function () {
                         var facebook_page_id = $(this).find('.fts-api-facebook-id').html();
                         var token = $(this).find('.page-token').html();
-                        // alert(token);
                             var name = $(this).find('.fts-insta-icon').html();
+                        // alert(name);
                         <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
                             var fb_name = $(this).find('.fts-fb-icon').html();
                         $("#fts_facebook_instagram_custom_api_token").val(token);
@@ -630,7 +665,8 @@ class Access_Options {
                         $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
                         $(this).find('.feed-them-social-admin-submit-btn').toggle();
                         //   alert(name + token)
-                    })
+                    });
+
             </script>
             <?php
             // Make sure it's not ajaxing!
@@ -665,7 +701,24 @@ class Access_Options {
         $fts_refresh_token_nonce = wp_create_nonce( 'fts_access_token_type_ajax' );
         $feed_type = $_REQUEST['feed_type'];
         $cpt_id    = $_REQUEST['cpt_id'];
-        $this->options_functions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id );
+        $combined  = $_REQUEST['feed_combined'];
+
+        if( 'false' === $combined  ) {
+            // This check is in place because the combine tab can also load the access token options, however we don't want to
+            // save the feed_type in this case because we want to remain on the combine tab.
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id );
+        }
+        if( 'basic' === $combined || 'business' === $combined ) {
+            // This check is in place because the combine tab can also load the access token options, however we don't want to
+            // save the feed_type in this case because we want to remain on the combine tab.
+
+            // These 2 options are to save the combine instagram type if a user clicks on one of the tabs. The reason we need to do this is so
+            // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
+            // then returned to the users previously selected combine instagram tab with the option selected to yes.
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram_type', $combined, true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram', 'yes', true, $cpt_id );
+
+        }
 
         if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_access_token_type_ajax' ) ) {
 

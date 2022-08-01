@@ -346,22 +346,25 @@ jQuery(document).ready(function ($) {
 
 
 
+// Grab the url so we can do stuff.
+var url_string = window.location.href;
+var url = new URL( url_string );
+var cpt_id = url.searchParams.get("post");
+var feed_type = url.searchParams.get("feed_type");
 
 jQuery(document).ready(function ($) {
 
-    // Grab the url so we can do stuff.
-    var url_string = window.location.href;
-    var url = new URL( url_string );
-    var cpt_id = url.searchParams.get("post");
-    var feed_type = url.searchParams.get("feed_type");
-
-    if(  $('#fts_instagram_custom_api_token').length !== 0 ) {
+    // These statements will only run if the token has been set and the user clicks the save button again.
+    // We need to do this to re-encrypt the token because we display the decrypted token in the input field.
+    // Encrypt: Instagram Basic
+    if( $('#fts_instagram_custom_api_token').length !== 0 ) {
         // Encrypt: Instagram Basic
-        if ('instagram_basic' === feed_type
-            || $('#fts_facebook_custom_api_token').val() === $('#fts_facebook_custom_api_token').data('token') ) {
+        if ( 'instagram_basic' === feed_type || $('#fts_instagram_custom_api_token').val() === $('#fts_instagram_custom_api_token').data('token') ) {
             // User clicked enter or submit button.
             console.log('Instagram Basic: Token set, now encrypting.');
-            fts_encrypt_token_ajax($('#fts_instagram_custom_api_token').val(), 'basic', '#fts_instagram_custom_api_token');
+           if( $('#fts_instagram_custom_api_token').val() === $('#fts_instagram_custom_api_token').data('token') ){
+               fts_encrypt_token_ajax( $('#fts_instagram_custom_api_token').val(), 'basic', '#fts_instagram_custom_api_token', false);
+           }
 
         } else {
             console.log('Instagram Basic: Token is already set & encrypted.');
@@ -369,7 +372,7 @@ jQuery(document).ready(function ($) {
     }
 
     // Encrypt: Instagram Business
-    if(  $('#fts_facebook_instagram_custom_api_token').length !== 0 ) {
+    if( $('#fts_facebook_instagram_custom_api_token').length !== 0 ) {
         if ( 'instagram' === feed_type && !$('#fb-list-wrap').length
             || $('#fts_facebook_instagram_custom_api_token').val() === $('#fts_facebook_instagram_custom_api_token').data('token') ) {
             // User clicked enter or submit button.
@@ -392,36 +395,6 @@ jQuery(document).ready(function ($) {
         }
     }
 
-    function fts_encrypt_token_ajax( access_token, token_type , id ) {
-
-        console.log( 'access_token: ' + access_token );
-        console.log( 'token_type: ' + token_type );
-        console.log( 'id: ' + id );
-
-        jQuery.ajax({
-            data: {
-                action: 'fts_encrypt_token_ajax',
-                cpt_id: cpt_id,
-                access_token: access_token,
-                token_type: token_type,
-            },
-            type: 'POST',
-            url: ftsAjax.ajaxurl,
-            success: function ( response ) {
-
-                var data = JSON.parse( response );
-                // Add the OG token to the input value and add the encrypted token to the data-attribute.
-                $( id ).attr('value', data.token).attr('data-token', 'encrypted');
-                console.log( id + ': OG Token and Encrypted Response: ' + response );
-            },
-            error: function ( response ) {
-                console.log( 'Something is not working with encyption: ' + response );
-            }
-
-        }); // end of ajax()
-        return false;
-    }
-
     function fts_select_social_network_menu() {
 
         /*jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background fts-feed-setup-first-step'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-saving-form'></div></div></div>");
@@ -439,3 +412,41 @@ jQuery(document).ready(function ($) {
     fts_select_social_network_menu();
 
 });
+
+function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
+
+    console.log( 'access_token: ' + access_token );
+    console.log( 'token_type: ' + token_type );
+    console.log( 'id: ' + id );
+
+    jQuery.ajax({
+        data: {
+            action: 'fts_encrypt_token_ajax',
+            cpt_id: cpt_id,
+            access_token: access_token,
+            token_type: token_type,
+        },
+        type: 'POST',
+        url: ftsAjax.ajaxurl,
+        success: function ( response ) {
+
+            var data = JSON.parse( response );
+            // Add the OG token to the input value and add the encrypted token to the data-attribute.
+            if( 'firstRequest' === firstRequest) {
+               jQuery(id).attr('value', data.token).attr('data-token', 'encrypted');
+               // alert('first request');
+               fts_ajax_cpt_save_token();
+            }
+            else {
+                jQuery(id).attr('value', data.token).attr('data-token', 'encrypted');
+            }
+
+            console.log( id + ': OG Token and Encrypted Response: ' + response );
+        },
+        error: function ( response ) {
+            console.log( 'Something is not working with encyption: ' + response );
+        }
+
+    }); // end of ajax()
+    return false;
+}

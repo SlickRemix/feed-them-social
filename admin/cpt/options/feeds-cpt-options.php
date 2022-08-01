@@ -97,6 +97,7 @@ class Feed_CPT_Options {
         $this->youtube_token_options();
         $this->combine_instagram_token_options();
         $this->combine_instagram_token_select_options();
+        $this->combine_facebook_token_options();
 		//$this->layout_options();
 		$this->color_options();
 		$this->facebook_options();
@@ -5284,9 +5285,9 @@ class Feed_CPT_Options {
 
         $this->all_options['combine_instagram_token_options'] = array(
             'section_attr_key'   => 'combine_token_',
-            'section_title'      => esc_html__( '', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Instagram', 'feed_them_social' ),
             'section_wrap_id'    => 'fts-feed-type',
-            'section_wrap_class' => 'fts-tab-content1-combine ',
+            'section_wrap_class' => 'fts-combined-instagram-feed-type',
             // Form Info.
             'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
             'form_wrap_id'       => 'fts-fb-page-form-combine',
@@ -5326,7 +5327,7 @@ class Feed_CPT_Options {
         );
 
         return $this->all_options['combine_instagram_token_options'];
-    } //END YOUTUBE TOKEN OPTIONS
+    } //END INSTAGRAM TOKEN OPTIONS
 
     /**
      * Combine Token Options
@@ -5474,190 +5475,18 @@ class Feed_CPT_Options {
      * @since 3.0.0
      */
     // LEAVING OFF HERE: OK NOW I NEED TO BREAK OUT THE REST OF THE OPTIONS FOR THE OTHER COMBINED TOKENS...
-    public function combine_faceboooooook_token_options() {
+    public function combine_facebook_token_options() {
 
         $this->all_options['combine_facebook_token_options'] = array(
             'section_attr_key'   => 'combine_facebook_token_',
             'section_title'      => esc_html__( '', 'feed_them_social' ),
             'section_wrap_id'    => 'fts-feed-type',
-            'section_wrap_class' => 'fts-tab-content1-combine ',
+            'section_wrap_class' => 'fts-combined-facebook-feed-type',
             // Form Info.
-            'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
-            'form_wrap_id'       => 'fts-fb-page-form-combine',
+            'form_wrap_classes'  => 'fb-page-shortcode-form-combine ',
+            'form_wrap_id'       => 'fts-fb-page-form-combine-facebook-token-select',
 
             'main_options'       => array(
-
-                // Combine Instagram
-                array(
-                    'grouped_options_title' => __( 'Instagram', 'feed-them-social' ),
-                    'option_type' => 'select',
-                    'label'       => __( 'Combine Instagram', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram',
-                    'name'        => 'combine_instagram',
-                    'options'     => array(
-                        1 => array(
-                            'label' => __( 'No', 'feed-them-social' ),
-                            'value' => 'no',
-                        ),
-                        2 => array(
-                            'label' => __( 'Yes', 'feed-them-social' ),
-                            'value' => 'yes',
-                        ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-                    'short_attr'  => array(
-                        'attr_name'    => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'main-combine-instagram-wrap',
-                    ),
-                ),
-
-
-                // Instagram Access Token Placeholder
-                array(
-                    'input_wrap_class' => 'combine-instagram-access-token-placeholder',
-                    'option_type' => '',
-                    'label'       => '',
-                    'instructional-text' => '',
-                    'type'        => '',
-                    'id'          => '',
-                    'name'        => '',
-                ),
-
-                // Instagram Type
-                array(
-                    'input_wrap_class' => 'combine_instagram_type',
-                    'option_type' => 'select',
-                    'label'       => __( 'Instagram Type', 'feed-them-social' ),
-                    'instructional-text' => '',
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram_type',
-                    'name'        => 'combine_instagram_type',
-                    'options'     => array(
-
-                        // Basic Feed
-                        array(
-                            'value' => 'basic',
-                            'label' => __( 'Basic Feed', 'feed-them-social' ),
-                        ),
-                        // Business Feed
-                        array(
-                            'value' => 'business',
-                            'label' => __( 'Business Feed', 'feed-them-social' ),
-                        ),
-                        // Hastag Feed
-                        array(
-                            'value' => 'hashtag',
-                            'label' => __( 'Hashtag Feed', 'feed-them-social' ),
-                        ),
-
-                        // location Feed
-                        //array(
-                        //	'value' => 'location',
-                        //	'label' => __( 'Location Feed', 'feed-them-social' ),
-                        // ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-                    'short_attr'  => array(
-                        'attr_name' => 'instagram_type',
-                        'ifs' => 'combine_instagram',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-instagram-wrap',
-                    ),
-                ),
-
-
-
-                // Combine Convert Instagram Name
-                // array(
-                // 'option_type' => 'input',
-                // 'input_wrap_class' => 'combine-instagram-id-option-wrap',
-                // 'label' => __('Convert Instagram Name to ID', 'feed-them-social'),
-                // 'type' => 'text',
-                // 'id' => 'combine_convert_instagram_username',
-                // 'name' => 'combine_convert_instagram_username',
-                // 'instructional-text' => __('You must copy your <a href="https://www.slickremix.com/how-to-get-your-instagram-name-and-convert-to-id/" target="_blank">Instagram Name</a> and paste it in the first input below', 'feed-them-social'),
-                // 'req_plugin' => 'combine_streams',
-                // Relative to JS.
-                // 'short_attr' => array(
-                // 'attr_name' => '',
-                // 'ifs' => 'combine_instagram',
-                // 'no_attribute' => 'yes'
-                // ),
-                // ),
-                // Instagram ID
-                /*array(
-                    'option_type' => 'input',
-
-                    // 'input_wrap_class' => 'combine_instagram_name',
-                    'label'       => '',
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram_name',
-                    'name'        => 'combine_instagram_name',
-                    'required'    => 'combine_streams',
-                    'instructional-text' => '',
-                ),*/
-
-                // Instagram Hashtag
-                array(
-                    'option_type' => 'input',
-                    'input_wrap_class' => 'combine_instagram_hashtag',
-                    'label'       => array(
-                        1 => array(
-                            'text' => __( 'Hashtag (required)', 'feed-them-social' ),
-                            'class' => 'combine-instagram-hashtag-option-text',
-                        ),
-                    ),
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram_hashtag',
-                    'name'        => 'combine_instagram_hashtag',
-                    'required'    => 'yes',
-                    'instructional-text' => array(
-                        1 => array(
-                            'text' => __( 'Add your hashtag below. <strong>DO NOT</strong> add the #, just the name. Only one hashtag allowed at this time. Hashtag media only stays on Instagram for 24 hours and the API does not give us a date/time. That also means if you decide to combine this feed these media posts will appear before any other posts because we cannot sort them by date. In order to use the Instagram hashtag feed you must have your Instagram account linked to a Facebook Business Page. <a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">Read Instructions.</a>', 'feed-them-social' ),
-                            'class' => 'combine-instagram-hashtag-option-text',
-                        ),
-                    ),
-
-                    // Relative to JS.
-                    'short_attr'  => array(
-                        'attr_name'    => 'hashtag',
-                        'var_final_if' => 'no',
-                        'empty_error'  => 'yes',
-                    ),
-                ),
-
-
-                // Hashtag Type
-                array(
-                    'option_type' => 'select',
-                    'input_wrap_class' => 'combine_instagram_hashtag_type',
-                    'label'       => __( 'Hashtag Search Type', 'feed-them-social' ),
-
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram_hashtag_type',
-                    'name'        => 'combine_instagram_hashtag_type',
-                    'class'       => 'combine_instagram-hashtag-type',
-                    'options'     => array(
-                        1 => array(
-                            'label' => __( 'Recent Media', 'feed-them-social' ),
-                            'value' => 'recent-media',
-                        ),
-                        2 => array(
-                            'label' => __( 'Top Media (Most Interactions)', 'feed-them-social' ),
-                            'value' => 'top-media',
-                        ),
-                    ),
-                    'short_attr'  => array(
-                        'attr_name' => 'instagram_search',
-                    ),
-                    'sub_options_end' => 2,
-                ),
 
                 // Combine Facebook
                 array(
@@ -5677,296 +5506,17 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    'short_attr'  => array(
-                        'attr_name'    => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'main-combine-twitter-wrap',
-                    ),
-                ),
-
-                // Feed Type Selection
-                array(
-                    'option_type' => 'select',
-                    'label'       => __( 'Feed Type', 'feed-them-social' ),
-                    'select_wrap_classes' => 'combine-twitter-gen-selection',
-                    'select_classes' => '',
-                    'name'        => 'combine-twitter-messages-selector',
-                    'id'          => 'combine-twitter-messages-selector',
-                    'req_plugin'  => 'combine_streams',
-
-                    // Feed Types and their options
-                    'options'     => array(
-
-                        // User Feed
-                        array(
-                            'value' => 'user',
-                            'label' => __( 'User Feed', 'feed-them-social' ),
-                        ),
-
-                        // hastag Feed
-                        array(
-                            'value' => 'hashtag',
-                            'label' => __( 'Hashtag, Search and more Feed', 'feed-them-social' ),
-                        ),
-                    ),
-                    'short_attr'  => array(
-                        'attr_name' => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                        'ifs' => 'combine_facebook',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'main-combine-facebook-wrap',
-                    ),
-                ),
-
-                // Combine Facebook Wrap for Token
-                array(
-                    'option_type' => '',
-                    'input_wrap_class' => 'combine_facebook_name',
-                    'label'       => '',
-                    'instructional-text' => '',
-                    'type'        => 'text',
-                    'id'          => 'combine_facebook_name',
-                    'name'        => 'combine_facebook_name',
-                    'req_plugin'  => 'combine_streams',
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-facebook-wrap',
-                    ),
-                    'sub_options_end' => true,
-                ),
-
-                // Combine Twitter
-                array(
-                    'grouped_options_title' => __( 'Twitter', 'feed-them-social' ),
-                    'option_type' => 'select',
-                    'label'       => __( 'Combine Twitter', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_twitter',
-                    'name'        => 'combine_twitter',
-                    'req_plugin'  => 'combine_streams',
-                    'options'     => array(
-                        array(
-                            'label' => __( 'No', 'feed-them-social' ),
-                            'value' => 'no',
-                        ),
-                        array(
-                            'label' => __( 'Yes', 'feed-them-social' ),
-                            'value' => 'yes',
-                        ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-                    'short_attr'  => array(
-                        'attr_name'    => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-twitter-wrap',
-                    ),
-                ),
-
-                // 'short_attr_final' => 'yes',
-                // Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
-                // Twitter Search Name
-
-                // MUST ADD TWITTER DIRECTIONS FOR SEARCH
-
-                // If you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. from:user_name%#YourHashtag
-                array(
-                    'option_type' => 'input',
-                    'input_wrap_class' => 'combine_twitter_hashtag_etc_name',
-                    'label'       => __( 'Twitter Search Name (required)', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_twitter_hashtag_etc_name',
-                    'name'        => 'combine_twitter_hashtag_etc_name',
-                    'value'       => '',
-
-                    // Relative to JS.
-                    'short_attr'  => array(
-                        'attr_name'    => 'search',
-                        'var_final_if' => 'yes',
-                        'empty_error'  => 'set',
-                        'empty_error_value' => '',
-                        'empty_error_if' => array(
-                            'attribute' => 'select#combine-twitter-messages-selector',
-                            'operator' => '==',
-                            'value'    => 'hashtag',
-                        ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-
-                    // This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-twitter-hashtag-etc-wrap',
-                        // 'sub_options_title' => __( 'Twitter Search', 'feed-them-social' ),
-                    ),
-                    'sub_options_end' => true,
-                ),
-
-                // Twitter Name
-                array(
-                    'option_type' => 'input',
-                    'input_wrap_class' => 'combine_twitter_name',
-                    'label'       => __( 'Twitter Name', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_twitter_name',
-                    'name'        => 'combine_twitter_name',
-                    'instructional-text' => '<span class="must-copy-twitter-name">' . __( 'You must copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . __( 'Twitter Name', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ) . '</span>',
-                    'value'       => '',
-
-                    // Relative to JS.
-                    'short_attr'  => array(
-                        'attr_name'    => 'twitter_name',
-                        'var_final_if' => 'yes',
-                        'empty_error'  => 'set',
-                        'empty_error_value' => '',
-                        'empty_error_if' => array(
-                            'attribute' => 'select#combine-twitter-messages-selector',
-                            'operator' => '==',
-                            'value'    => 'user',
-                        ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-                    'sub_options_end' => 2,
-                ),
-
-                // Combine Youtube
-                array(
-                    'grouped_options_title' => __( 'Youtube', 'feed-them-social' ),
-                    'option_type' => 'select',
-                    'label'       => __( 'Combine Youtube', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_youtube',
-                    'name'        => 'combine_youtube',
-                    'options'     => array(
-                        array(
-                            'label' => __( 'No', 'feed-them-social' ),
-                            'value' => 'no',
-                        ),
-                        array(
-                            'label' => __( 'Yes', 'feed-them-social' ),
-                            'value' => 'yes',
-                        ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-                    'short_attr'  => array(
-                        'attr_name'    => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'main-combine-youtube-wrap',
-                    ),
-                ),
-
-                // Youtube Type
-                array(
-                    'input_wrap_class' => 'combine_youtube_type',
-                    'option_type' => 'select',
-                    'label'       => __( 'Youtube Type', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_youtube_type',
-                    'name'        => 'combine_youtube_type',
-                    'options'     => array( // Channel Feed
-                        array(
-                            'label' => __( 'Channel Feed', 'feed-them-social' ),
-                            'value' => 'channelID',
-                        ), // Channel Playlist Feed
-                        array(
-                            'label' => __( 'Channel\'s Specific Playlist', 'feed-them-social' ),
-                            'value' => 'playlistID',
-                        ),
-
-                        // User's Most Recent Videos
-                        array(
-                            'label' => __( 'User\'s Most Recent Videos', 'feed-them-social' ),
-                            'value' => 'username',
-                        ),
-
-                        // User's Playlist
-                        array(
-                            'label' => __( 'User\'s Specific Playlist', 'feed-them-social' ),
-                            'value' => 'userPlaylist',
-                        ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-                    'short_attr'  => array(
-                        'attr_name' => '',
-                        'no_attribute' => 'yes',
-                        'ifs' => 'combine_youtube',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-youtube-wrap',
-                    ),
-                ),
-
-                // Youtube Name
-                array(
-                    'option_type' => 'input',
-                    'input_wrap_class' => 'combine_youtube_name',
-                    'label'       => __( 'YouTube Username', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_youtube_name',
-                    'name'        => 'combine_youtube_name',
-                    'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Username</a> and paste it below.',
-                    'req_plugin'  => 'combine_streams',
-
-                    // Relative to JS.
-                    'short_attr'  => array(
-                        'attr_name' => 'youtube_name',
-                        'ifs' => 'combine_youtube',
-                        'var_final_if' => 'yes',
-                        'empty_error' => 'set',
-                        'empty_error_value' => '',
-                    ),
-                ),
-
-                // YouTube Playlist ID
-                array(
-                    'option_type' => 'input',
-                    'input_wrap_class' => 'combine_playlist_id',
-                    'label'       => __( 'YouTube Playlist ID', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_playlist_id',
-                    'name'        => 'combine_playlist_id',
-                    'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Playlist ID</a> and paste them below.',
-                    'req_plugin'  => 'combine_streams',
-
-                    // Relative to JS.
-                    'short_attr'  => array(
-                        'attr_name' => 'playlist_id',
-                        'ifs' => 'combine_youtube',
-                    ),
-                ),
-
-                // YouTube Channel ID
-                array(
-                    'option_type' => 'input',
-                    'input_wrap_class' => 'combine_channel_id',
-                    'label'       => __( 'YouTube Channel ID', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_channel_id',
-                    'name'        => 'combine_channel_id',
-                    'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Channel ID</a> and paste it below.',
-                    'req_plugin'  => 'combine_streams',
-
-                    // Relative to JS.
-                    'short_attr'  => array(
-                        'attr_name' => 'channel_id',
-                        'ifs' => 'combine_youtube',
-                    ),
-                    'sub_options_end' => 2,
                 ),
 
             ),
         );
 
-        return $this->all_options['combine_token_options'];
-    } //END YOUTUBE TOKEN OPTIONS
+        return $this->all_options['combine_facebook_token_options'];
+    } //END FACEBOOK TOKEN OPTIONS
+
+
+
+
 
     /**
      * Combine Token Options
@@ -5978,7 +5528,7 @@ class Feed_CPT_Options {
      */
 
     // leaving off here, need to figure out why the options are not staying saved after going to another tab and coming back
-    public function combineeeeeee_token_options() {
+    public function combine_twitter_token_options() {
 
         $this->all_options['combine_token_options'] = array(
             'section_attr_key'   => 'combine_token_',
@@ -5991,20 +5541,26 @@ class Feed_CPT_Options {
 
             'main_options'       => array(
 
-                // Combine Instagram
+
+
+
+
+
+                // Combine Twitter
                 array(
-                    'grouped_options_title' => __( 'Instagram', 'feed-them-social' ),
+                    'grouped_options_title' => __( 'Twitter', 'feed-them-social' ),
                     'option_type' => 'select',
-                    'label'       => __( 'Combine Instagram', 'feed-them-social' ),
+                    'label'       => __( 'Combine Twitter', 'feed-them-social' ),
                     'type'        => 'text',
-                    'id'          => 'combine_instagram',
-                    'name'        => 'combine_instagram',
+                    'id'          => 'combine_twitter',
+                    'name'        => 'combine_twitter',
+                    'req_plugin'  => 'combine_streams',
                     'options'     => array(
-                        1 => array(
+                        array(
                             'label' => __( 'No', 'feed-them-social' ),
                             'value' => 'no',
                         ),
-                        2 => array(
+                        array(
                             'label' => __( 'Yes', 'feed-them-social' ),
                             'value' => 'yes',
                         ),
@@ -6016,180 +5572,11 @@ class Feed_CPT_Options {
                         'no_attribute' => 'yes',
                     ),
                     'sub_options' => array(
-                        'sub_options_wrap_class' => 'main-combine-instagram-wrap',
+                        'sub_options_wrap_class' => 'combine-twitter-wrap',
                     ),
                 ),
 
 
-                // Instagram Access Token Placeholder
-                array(
-                    'input_wrap_class' => 'combine-instagram-access-token-placeholder',
-                    'option_type' => '',
-                    'label'       => '',
-                    'instructional-text' => '',
-                    'type'        => '',
-                    'id'          => '',
-                    'name'        => '',
-                ),
-
-                // Instagram Type
-                array(
-                    'input_wrap_class' => 'combine_instagram_type',
-                    'option_type' => 'select',
-                    'label'       => __( 'Instagram Type', 'feed-them-social' ),
-                    'instructional-text' => '',
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram_type',
-                    'name'        => 'combine_instagram_type',
-                    'options'     => array(
-
-                        // Basic Feed
-                        array(
-                            'value' => 'basic',
-                            'label' => __( 'Basic Feed', 'feed-them-social' ),
-                        ),
-                        // Business Feed
-                        array(
-                            'value' => 'business',
-                            'label' => __( 'Business Feed', 'feed-them-social' ),
-                        ),
-                        // Hastag Feed
-                        array(
-                            'value' => 'hashtag',
-                            'label' => __( 'Hashtag Feed', 'feed-them-social' ),
-                        ),
-
-                        // location Feed
-                        //array(
-                        //	'value' => 'location',
-                        //	'label' => __( 'Location Feed', 'feed-them-social' ),
-                        // ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-                    'short_attr'  => array(
-                        'attr_name' => 'instagram_type',
-                        'ifs' => 'combine_instagram',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-instagram-wrap',
-                    ),
-                ),
-
-
-
-                // Combine Convert Instagram Name
-                // array(
-                // 'option_type' => 'input',
-                // 'input_wrap_class' => 'combine-instagram-id-option-wrap',
-                // 'label' => __('Convert Instagram Name to ID', 'feed-them-social'),
-                // 'type' => 'text',
-                // 'id' => 'combine_convert_instagram_username',
-                // 'name' => 'combine_convert_instagram_username',
-                // 'instructional-text' => __('You must copy your <a href="https://www.slickremix.com/how-to-get-your-instagram-name-and-convert-to-id/" target="_blank">Instagram Name</a> and paste it in the first input below', 'feed-them-social'),
-                // 'req_plugin' => 'combine_streams',
-                // Relative to JS.
-                // 'short_attr' => array(
-                // 'attr_name' => '',
-                // 'ifs' => 'combine_instagram',
-                // 'no_attribute' => 'yes'
-                // ),
-                // ),
-                // Instagram ID
-                /*array(
-                    'option_type' => 'input',
-
-                    // 'input_wrap_class' => 'combine_instagram_name',
-                    'label'       => '',
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram_name',
-                    'name'        => 'combine_instagram_name',
-                    'required'    => 'combine_streams',
-                    'instructional-text' => '',
-                ),*/
-
-                // Instagram Hashtag
-                array(
-                    'option_type' => 'input',
-                    'input_wrap_class' => 'combine_instagram_hashtag',
-                    'label'       => array(
-                        1 => array(
-                            'text' => __( 'Hashtag (required)', 'feed-them-social' ),
-                            'class' => 'combine-instagram-hashtag-option-text',
-                        ),
-                    ),
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram_hashtag',
-                    'name'        => 'combine_instagram_hashtag',
-                    'required'    => 'yes',
-                    'instructional-text' => array(
-                        1 => array(
-                            'text' => __( 'Add your hashtag below. <strong>DO NOT</strong> add the #, just the name. Only one hashtag allowed at this time. Hashtag media only stays on Instagram for 24 hours and the API does not give us a date/time. That also means if you decide to combine this feed these media posts will appear before any other posts because we cannot sort them by date. In order to use the Instagram hashtag feed you must have your Instagram account linked to a Facebook Business Page. <a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">Read Instructions.</a>', 'feed-them-social' ),
-                            'class' => 'combine-instagram-hashtag-option-text',
-                        ),
-                    ),
-
-                    // Relative to JS.
-                    'short_attr'  => array(
-                        'attr_name'    => 'hashtag',
-                        'var_final_if' => 'no',
-                        'empty_error'  => 'yes',
-                    ),
-                ),
-
-
-                // Hashtag Type
-                array(
-                    'option_type' => 'select',
-                    'input_wrap_class' => 'combine_instagram_hashtag_type',
-                    'label'       => __( 'Hashtag Search Type', 'feed-them-social' ),
-
-                    'type'        => 'text',
-                    'id'          => 'combine_instagram_hashtag_type',
-                    'name'        => 'combine_instagram_hashtag_type',
-                    'class'       => 'combine_instagram-hashtag-type',
-                    'options'     => array(
-                        1 => array(
-                            'label' => __( 'Recent Media', 'feed-them-social' ),
-                            'value' => 'recent-media',
-                        ),
-                        2 => array(
-                            'label' => __( 'Top Media (Most Interactions)', 'feed-them-social' ),
-                            'value' => 'top-media',
-                        ),
-                    ),
-                    'short_attr'  => array(
-                        'attr_name' => 'instagram_search',
-                    ),
-                    'sub_options_end' => 2,
-                ),
-
-                // Combine Facebook
-                array(
-                    'grouped_options_title' => __( 'Facebook', 'feed-them-social' ),
-                    'option_type' => 'select',
-                    'label'       => __( 'Combine Facebook', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_facebook',
-                    'name'        => 'combine_facebook',
-                    'options'     => array(
-                        array(
-                            'label' => __( 'No', 'feed-them-social' ),
-                            'value' => 'no',
-                        ),
-                        array(
-                            'label' => __( 'Yes', 'feed-them-social' ),
-                            'value' => 'yes',
-                        ),
-                    ),
-                    'short_attr'  => array(
-                        'attr_name'    => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'main-combine-twitter-wrap',
-                    ),
-                ),
 
                 // Feed Type Selection
                 array(
@@ -6227,51 +5614,6 @@ class Feed_CPT_Options {
                     ),
                 ),
 
-                // Combine Facebook Wrap for Token
-                array(
-                    'option_type' => '',
-                    'input_wrap_class' => 'combine_facebook_name',
-                    'label'       => '',
-                    'instructional-text' => '',
-                    'type'        => 'text',
-                    'id'          => 'combine_facebook_name',
-                    'name'        => 'combine_facebook_name',
-                    'req_plugin'  => 'combine_streams',
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-facebook-wrap',
-                    ),
-                    'sub_options_end' => true,
-                ),
-
-                // Combine Twitter
-                array(
-                    'grouped_options_title' => __( 'Twitter', 'feed-them-social' ),
-                    'option_type' => 'select',
-                    'label'       => __( 'Combine Twitter', 'feed-them-social' ),
-                    'type'        => 'text',
-                    'id'          => 'combine_twitter',
-                    'name'        => 'combine_twitter',
-                    'req_plugin'  => 'combine_streams',
-                    'options'     => array(
-                        array(
-                            'label' => __( 'No', 'feed-them-social' ),
-                            'value' => 'no',
-                        ),
-                        array(
-                            'label' => __( 'Yes', 'feed-them-social' ),
-                            'value' => 'yes',
-                        ),
-                    ),
-                    'req_plugin'  => 'combine_streams',
-                    'short_attr'  => array(
-                        'attr_name'    => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                    ),
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-twitter-wrap',
-                    ),
-                ),
 
                 // 'short_attr_final' => 'yes',
                 // Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
@@ -6337,6 +5679,18 @@ class Feed_CPT_Options {
                     'req_plugin'  => 'combine_streams',
                     'sub_options_end' => 2,
                 ),
+
+
+
+
+
+
+
+
+
+
+
+
 
                 // Combine Youtube
                 array(

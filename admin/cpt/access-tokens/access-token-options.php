@@ -224,10 +224,27 @@ class Access_Options {
                         </div>
                     </div>
                 <?php
-                    // Load Combine Token Option Fields.
+                    // Load Combine Instagram Token Select Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_select_options'], null, $feed_cpt_id );
 
+                    // Load Combine Facebook Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_facebook_token_options'], null, $feed_cpt_id );
 
+                ?>
+                 <div class="combine-facebook-access-token-placeholder">
+                            <?php
+                    // Facebook Access Functions.
+                    $facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
+
+                    // Load Facebook Token Option Fields.
+                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
+
+                    // Get Access button for Facebook.
+                    $facebook_access_functions->get_access_token_button( $feed_cpt_id );
+
+                            ?>
+                 </div>
+                    <?php
                     break;
 			}
 			// Return Access Options.
@@ -248,6 +265,7 @@ class Access_Options {
      * @since 2.1.4
      */
     public function fts_fb_page_token_func() {
+
         $fts_fb_page_token_users_nonce = wp_create_nonce( 'fts-fb-page-token-users-nonce' );
 
         if ( wp_verify_nonce( $fts_fb_page_token_users_nonce, 'fts-fb-page-token-users-nonce' ) ) {
@@ -718,6 +736,13 @@ class Access_Options {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram_type', $combined, true, $cpt_id );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram', 'yes', true, $cpt_id );
 
+        }
+
+        if( 'combined-facebook' === $combined ) {
+            // This option is to save the combine facebook type if a user clicks on one of the tabs. The reason we need to do this is so
+            // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
+            // then returned to the users previously selected combine instagram tab with the option selected to yes.
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_facebook', 'yes', true, $cpt_id );
         }
 
         if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_access_token_type_ajax' ) ) {

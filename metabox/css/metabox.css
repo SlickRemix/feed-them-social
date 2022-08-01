@@ -1032,8 +1032,9 @@ h1.plugin-author-note {
 .fts-successful-api-token h4 {
     margin-bottom: 0;
     margin-top: 0;
-    font-weight: 700
-;display: none;}
+    font-weight: 700;
+    display: none;
+}
 
 .use-of-plugin {
     color: #000;
@@ -3250,5 +3251,12 @@ img.instagram-feed-type-image-tab {
     display:none;
 }
 .fts-tab-content1-combine .fts-instagram-successful-api-token, .combine_instagram_hashtag_select {
+    display:none;
+}
+.fts-combined-instagram-feed-type {
+    margin-top:30px
+}
+.combine-facebook-access-token-placeholder,
+#ftg-tab-content1 .fts-success-token-content{
     display:none;
 }

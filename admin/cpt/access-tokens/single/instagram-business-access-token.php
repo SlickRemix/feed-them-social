@@ -175,7 +175,7 @@ class Instagram_Business_Access_Functions {
 
                     <?php
 
-                    if ( isset( $_GET['return_long_lived_token'], $_GET['feed_type'] ) ) {
+                    if ( isset( $_GET['return_long_lived_token'], $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) {
                         // Echo our shortcode for the page token list with loadmore button
                         // These functions are on feed-functions.php!
                         echo do_shortcode( '[fts_fb_page_token]' );

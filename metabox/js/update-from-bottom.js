@@ -195,6 +195,82 @@ function combine_facebook_token_js() {
     });
 }
 
+function combine_twitter_token_js() {
+
+    if (jQuery('#combine_twitter').val() == 'yes') {
+        jQuery('.combine-twitter-wrap, .combine-twitter-access-token-placeholder').show();
+
+        // Load up the proper access token inputs.
+        combine_streams_js();
+        fts_combine_social_icons_wrap_click();
+    }
+    else{
+        jQuery('.combine-twitter-wrap, .combine-twitter-access-token-placeholder').hide();
+    }
+
+    //Combine twitter change option
+    jQuery('#combine_twitter').bind('change', function (e) {
+
+        if (jQuery('#combine_twitter').val() == 'yes') {
+
+            // Run check so it only saves once.
+            if( 'none' === jQuery( '.combine-twitter-access-token-placeholder' ).css('display') ) {
+
+                const url_string = window.location.href;
+                const url = new URL(url_string);
+                const cpt_id = url.searchParams.get('post');
+
+                // Load up the proper access token inputs.
+                fts_access_token_type_ajax('twitter-feed-type', cpt_id, 'combined-twitter');
+            }
+
+            jQuery('.combine-twitter-wrap, .combine-twitter-access-token-placeholder').show();
+        }
+        else {
+            jQuery('.combine-twitter-wrap, .combine-twitter-access-token-placeholder').hide();
+        }
+        combine_streams_js();
+    });
+}
+
+function combine_youtube_token_js() {
+
+    if (jQuery('#combine_youtube').val() == 'yes') {
+        jQuery('.combine-youtube-wrap, .combine-youtube-access-token-placeholder').show();
+
+        // Load up the proper access token inputs.
+        combine_streams_js();
+        fts_combine_social_icons_wrap_click();
+    }
+    else{
+        jQuery('.combine-youtube-wrap, .combine-youtube-access-token-placeholder').hide();
+    }
+
+    //Combine youtube change option
+    jQuery('#combine_youtube').bind('change', function (e) {
+
+        if (jQuery('#combine_youtube').val() == 'yes') {
+
+            // Run check so it only saves once.
+            if( 'none' === jQuery( '.combine-youtube-access-token-placeholder' ).css('display') ) {
+
+                const url_string = window.location.href;
+                const url = new URL(url_string);
+                const cpt_id = url.searchParams.get('post');
+
+                // Load up the proper access token inputs.
+                fts_access_token_type_ajax('youtube-feed-type', cpt_id, 'combined-youtube');
+            }
+
+            jQuery('.combine-youtube-wrap, .combine-youtube-access-token-placeholder').show();
+        }
+        else {
+            jQuery('.combine-youtube-wrap, .combine-youtube-access-token-placeholder').hide();
+        }
+        combine_streams_js();
+    });
+}
+
 function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
 
     var combined_check = false !== combined ? combined : false;
@@ -242,10 +318,16 @@ function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
                     fts_reload_toggle_click();
                     break;
                 case 'combined-twitter':
-                    jQuery('.combine_twitter_name').html( response );
+                    console.log('Combined Twitter Name');
+                    // Make sure when we reload our toggle click option otherwise users won't be able to
+                    // see the token options if they so desire.
+                    fts_reload_toggle_click();
                     break;
                 case 'combined-youtube':
-                    jQuery('#combine_youtube_type').html( response );
+                    console.log('Combined Youtube Name');
+                    // Make sure when we reload our toggle click option otherwise users won't be able to
+                    // see the token options if they so desire.
+                    fts_reload_toggle_click();
                     break;
                 default:
                     jQuery('.fts-access-token').html(response);
@@ -263,6 +345,8 @@ function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
                 jQuery('.combine-instagram-wrap, .fts-instagram-basic-business-wrap').hide();
                 combine_instagram_token_js();
                 combine_facebook_token_js();
+                combine_twitter_token_js();
+                combine_youtube_token_js();
                 combine_js();
             }
             else {
@@ -316,9 +400,34 @@ function fts_check_valid() {
             }
     }
 
-    if( jQuery( '.combine-facebook-access-token-placeholder .fts-facebook-successful-api-token' ).length  ){
+    if( jQuery( '.combine-instagram-business-access-token-placeholder .fts-instagram-business-combine-successful-api-token' ).length  ){
+        jQuery( '.combine-instagram-business-access-token-placeholder .fts-token-wrap h3 .fts-valid-text' ).html(' - Valid');
+        jQuery( '.combine-instagram-business-access-token-placeholder .fts-token-wrap h3').addClass('fts-active-success-token').css('color', '#1aae1f');
+    }
+
+    if( jQuery( '.combine-instagram-basic-access-token-placeholder .fts-instagram-combine-successful-api-token' ).length  ){
+        jQuery( '.combine-instagram-basic-access-token-placeholder .fts-token-wrap h3 .fts-valid-text' ).html(' - Valid');
+        jQuery( '.combine-instagram-basic-access-token-placeholder .fts-token-wrap h3').addClass('fts-active-success-token').css('color', '#1aae1f');
+    }
+    if( jQuery( '.combine-facebook-access-token-placeholder .fts-facebook-combine-successful-api-token' ).length  ){
         jQuery( '.combine-facebook-access-token-placeholder .fts-token-wrap h3 .fts-valid-text' ).html(' - Valid');
         jQuery( '.combine-facebook-access-token-placeholder .fts-token-wrap h3').addClass('fts-active-success-token').css('color', '#1aae1f');
+    }
+    if( jQuery( '.combine-twitter-access-token-placeholder .fts-twitter-combine-successful-api-token' ).length  ){
+        jQuery( '.combine-twitter-access-token-placeholder .fts-token-wrap h3 .fts-valid-text' ).html(' - Valid');
+        jQuery( '.combine-twitter-access-token-placeholder .fts-token-wrap h3').addClass('fts-active-success-token').css('color', '#1aae1f');
+
+        jQuery( '#fts-combined-twitter-success' ).insertAfter( jQuery('.combine_twitter_name') );
+        // Only display the user/hashtag select yes/no if the token is valid.
+        jQuery('.fts-twitter-combine, #fts-combined-twitter-success').show();
+    }
+    if( jQuery( '.combine-youtube-access-token-placeholder .fts-youtube-combine-successful-api-token' ).length  ){
+        jQuery( '.combine-youtube-access-token-placeholder .fts-token-wrap h3 .fts-valid-text' ).html(' - Valid');
+        jQuery( '.combine-youtube-access-token-placeholder .fts-token-wrap h3').addClass('fts-active-success-token').css('color', '#1aae1f');
+
+        jQuery( '#fts-combined-youtube-success' ).insertAfter( jQuery('.combine_channel_id') );
+        // Only display the user/channel etc select yes/no if the token is valid.
+        jQuery('.fts-youtube-combine, #fts-combined-youtube-success').show();
     }
     else if( jQuery( '.fts-facebook-successful-api-token' ).length ||
         jQuery( '.fts-twitter-successful-api-token' ).length ||
@@ -417,6 +526,8 @@ function fts_check_valid() {
                     // This needs to be here so if the page is refreshed the insta/fb tokens show if they are set to yes.
                     combine_instagram_token_js();
                     combine_facebook_token_js();
+                    combine_twitter_token_js();
+                    combine_youtube_token_js();
                 }
                 else  {
                     jQuery( '.tab8' ).removeClass( 'fts-combine-waiting-color' );

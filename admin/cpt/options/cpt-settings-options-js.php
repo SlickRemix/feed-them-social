@@ -516,6 +516,7 @@ class Settings_Options_JS {
                         }
                 }).change();
 
+
                 //TWITTER Combine Options
                 jQuery('#combine-twitter-messages-selector').bind('change', function (e) {
                     if (jQuery('#combine-twitter-messages-selector').val() == 'hashtag') {
@@ -528,22 +529,14 @@ class Settings_Options_JS {
                     }
                 }).change();
 
-                jQuery('#combine_twitter').bind('change', function (e) {
-                    if (jQuery('#combine_twitter').val() == 'yes') {
-                        jQuery('.combine-twitter-wrap').show();
-                    }
-                    else {
-                        jQuery('.combine-twitter-wrap').hide();
-                    }
-                }).change();
 
                 //YOUTUBE Combine Options
                 jQuery('#combine_youtube').bind('change', function (e) {
                     if (jQuery('#combine_youtube').val() == 'yes') {
-                        jQuery('.combine-youtube-wrap').show();
+                       // jQuery('.combine-youtube-wrap').show();
                     }
                     else {
-                        jQuery('.combine-youtube-wrap').hide();
+                       // jQuery('.combine-youtube-wrap').hide();
                     }
                 }).change();
 

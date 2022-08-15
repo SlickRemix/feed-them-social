@@ -3,7 +3,7 @@ Contributors: slickremix , slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 5.7.1
-Stable tag: 3.0
+Stable tag: 4.0
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -86,31 +86,31 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * NEW: Migrates all old Global Options settings to our new Settings page.
 
 = Version 2.7.8 Monday, November 18th, 2019 =
-  * TESTED: Tested plugin with WordPress version 5.3.0. 
+  * TESTED: Tested plugin with WordPress version 5.3.0.
 
 = Version 2.7.7.1 - 2.7.7.2 Monday, November 11th, 2019 =
-  * ADD: New Support Manager Chris to .org so he can help with support on the forum. 
+  * ADD: New Support Manager Chris to .org so he can help with support on the forum.
 
 = Version 2.7.7 Thursday, November 7th, 2019 =
   * HAPPY BIRTHDAY TO SPENCER! :)
   * FIX: Instagram Feed: Multiple feeds problem.
-  
+
 = Version 2.7.6.2 Thursday, October 31th, 2019 =
   * HAPPY HOLLOWEEN!
   * FIX: Facebook Options: Issue with Instagram Pages getting included in the return.
   * FIX: Twitter Feed: Now the Date has a title so it is accessible.
   * FIX: All Feeds: Now the share links are accessible.
-  
+
 = Version 2.7.6.1 Wednesday, October 30th, 2019 =
   * FIX: Settings: Missing js that would add px to the input field.
   * FIX: Pinterest: Creator permission was removed by Pinterest on October 25th, 2019. We were not notified of this change however we have corrected the issue.
-  
+
 = Version 2.7.6 Tuesday, October 29th, 2019 =
   * FIX: Facebook Feed & YouTube Feed: Now we have a permanent caching system if the access token fails or reaches the API limit.
 
 = Version 2.7.4 - 2.7.5 Friday, September 20th, 2019 =
    * CHANGE: Remove the words Facebook and Instagram from the name of our plugin as we have been served to change it.
-   
+
 = Version 2.7.3 Thursday, August 8th, 2019 =
    * FIX: Instagram Options: Button not working to get access token because of depreciated API call. public_content does not work anymore for scope, basic was required instead.
 

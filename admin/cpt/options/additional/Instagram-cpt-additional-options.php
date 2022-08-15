@@ -63,7 +63,7 @@ class Instagram_Additional_Options {
 	public function follow_btn_options() {
 		$this->all_options['instagram_follow_btn_options'] = array(
 			'section_attr_key'   => 'instagram_follow_btn_options_',
-			'section_title'      => esc_html__( 'Follow Button', 'feed_them_social' ),
+			//'section_title'      => esc_html__( 'Follow Button', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.

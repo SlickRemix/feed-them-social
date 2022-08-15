@@ -189,69 +189,122 @@ class Access_Options {
 					break;
 
                 case 'combine-streams-feed-type':
+                    ?>
+                <div class="combine-streams-feed-wrap">
+                    <?php
+                        // Load Combine Token Option Fields.
+                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_options'], null, $feed_cpt_id );
 
-                    // Load Combine Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_options'], null, $feed_cpt_id );
+                        ?>
+                    <div class="fts-clear"></div>
+
+                        <div class="combine-instagram-access-token-placeholder">
+                            <div class="combine-instagram-basic-access-token-placeholder">
+                                <?php
+                                $instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
+
+                                // Load Instagram Token Option Fields.
+                                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
+
+                                // Load the options.
+                                $instagram_access_functions->get_access_token_button( $feed_cpt_id );
+                                ?>
+                            </div>
+
+                            <div class="combine-instagram-business-access-token-placeholder">
+                            <?php
+
+                                // Instagram Business Access Functions.
+                                $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
+
+                                // Load Instagram Business Token Option Fields.
+                                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+
+                                // Load the options.
+                                $instagram_business_access_functions->get_access_token_button( $feed_cpt_id );
+                            ?>
+                            </div>
+                        </div>
+                    <?php
+                        // Load Combine Instagram Token Select Option Fields.
+                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_select_options'], null, $feed_cpt_id );
+
+                        // Load Combine Facebook Token Option Fields.
+                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_facebook_token_options'], null, $feed_cpt_id );
 
                     ?>
-                <div class="fts-clear"></div>
+                     <div class="combine-facebook-access-token-placeholder">
+                                <?php
+                        // Facebook Access Functions.
+                        $facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
 
-                    <div class="combine-instagram-access-token-placeholder">
-                        <div class="combine-instagram-basic-access-token-placeholder">
+                        // Load Facebook Token Option Fields.
+                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
+
+                        // Get Access button for Facebook.
+                        $facebook_access_functions->get_access_token_button( $feed_cpt_id );
+
+                                ?>
+                     </div>
+
+                        <?php
+                        // Load Combine Twitter Token Select Option Fields.
+                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_twitter_token_select_options'], null, $feed_cpt_id );
+
+                        ?>
+
+                        <div class="combine-twitter-access-token-placeholder">
                             <?php
-                            $instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
+                            // Twitter Access Functions.
+                            $twitter_access_functions = new Twitter_Access_Functions( $this->feed_functions, $this->data_protection );
 
-                            // Load Instagram Token Option Fields.
-                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
+                            // Load Twitter Token Option Fields.
+                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
 
-                            // Load the options.
-                            $instagram_access_functions->get_access_token_button( $feed_cpt_id );
+                            // Get Access button for Facebook.
+                            $twitter_access_functions->get_access_token_button( $feed_cpt_id );
+
                             ?>
                         </div>
-
-                        <div class="combine-instagram-business-access-token-placeholder">
                         <?php
 
-                            // Instagram Business Access Functions.
-                            $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
+                        // Load Combine Twitter Token Option Fields.
+                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_twitter_token_options'], null, $feed_cpt_id );
 
-                            // Load Instagram Business Token Option Fields.
-                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
 
-                            // Load the options.
-                            $instagram_business_access_functions->get_access_token_button( $feed_cpt_id );
+                        // Load Combine YouTube Token Select Option Fields.
+                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_select_options'], null, $feed_cpt_id );
+
                         ?>
-                        </div>
-                    </div>
-                <?php
-                    // Load Combine Instagram Token Select Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_select_options'], null, $feed_cpt_id );
 
-                    // Load Combine Facebook Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_facebook_token_options'], null, $feed_cpt_id );
-
-                ?>
-                 <div class="combine-facebook-access-token-placeholder">
+                        <div class="combine-youtube-access-token-placeholder">
                             <?php
-                    // Facebook Access Functions.
-                    $facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
+                            // Twitter Access Functions.
+                            $youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
 
-                    // Load Facebook Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
+                            // Load Youtube Token Option Fields.
+                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
 
-                    // Get Access button for Facebook.
-                    $facebook_access_functions->get_access_token_button( $feed_cpt_id );
+                            // Get Access button for youtube.
+                            $youtube_access_functions->get_access_token_button( $feed_cpt_id );
 
                             ?>
-                 </div>
-                    <?php
+                        </div>
+                        <?php
+
+                        // Load Combine Youtube Token Option Fields.
+                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_options'], null, $feed_cpt_id );
+                      ?>
+                </div>
+                    <div class="fts-clear"></div>
+                        <?php
                     break;
 			}
 			// Return Access Options.
 
 		}
 		// Didn't find any options.
-        // Turning off because this will never be the case.
+        // SRL . Turning off because this will never be the case that I can think of.
 		// return esc_html__( 'Oop, No Access Token options have been found for this social network', 'feed_them_social' );
 	}
 
@@ -726,6 +779,7 @@ class Access_Options {
             // save the feed_type in this case because we want to remain on the combine tab.
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id );
         }
+
         if( 'basic' === $combined || 'business' === $combined ) {
             // This check is in place because the combine tab can also load the access token options, however we don't want to
             // save the feed_type in this case because we want to remain on the combine tab.
@@ -743,6 +797,20 @@ class Access_Options {
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_facebook', 'yes', true, $cpt_id );
+        }
+
+        if( 'combined-twitter' === $combined ) {
+            // This option is to save the combine facebook type if a user clicks on one of the tabs. The reason we need to do this is so
+            // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
+            // then returned to the users previously selected combine instagram tab with the option selected to yes.
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_twitter', 'yes', true, $cpt_id );
+        }
+
+        if( 'combined-youtube' === $combined ) {
+            // This option is to save the combine facebook type if a user clicks on one of the tabs. The reason we need to do this is so
+            // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
+            // then returned to the users previously selected combine instagram tab with the option selected to yes.
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id );
         }
 
         if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_access_token_type_ajax' ) ) {

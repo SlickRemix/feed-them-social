@@ -1242,8 +1242,8 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
             $postdata = http_build_query(
                 array(
-                    'feed_them_social' => 'yes',
-                    'refresh_token'    => $refresh_token,
+                    'feed_them_social'  => 'yes',
+                    'fts_refresh_token' => $refresh_token,
                     'expires_in'       => $this->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ),
                 )
             );

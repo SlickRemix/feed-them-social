@@ -149,6 +149,15 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
     });
 
+    jQuery('.tab-content-wrap').on('click', '.fts-combine-successful-api-token', function (e) {
+        jQuery('.tab8 a').click();
+        var clickedLink = $('.tab8 a').attr('href');
+        // push it into the url
+        location.hash = clickedLink;
+        // Prevent the anchor's default click action
+        e.preventDefault();
+    });
+
     var hash = window.location.hash.replace('#', '');
     if (hash) {
         document.getElementById(hash).style.display = 'block'

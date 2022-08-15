@@ -784,6 +784,9 @@ class Feeds_CPT {
 
             $facebook_add_all_options = $facebook_additional_options->get_all_options();
 
+            //Facebook Like Button or Box Options.
+            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_like_button_box_options'], null, $this->feed_cpt_id );
+
             //Facebook Reviews text and styles.
             echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_reviews_text_styles'], null, $this->feed_cpt_id );
 
@@ -792,9 +795,6 @@ class Feeds_CPT {
 
             //Facebook Language Options.
             echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_languages_options'], null, $this->feed_cpt_id );
-
-            //Facebook Like Button or Box Options.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_like_button_box_options'], null, $this->feed_cpt_id );
 
             //Facebook Style Options.
             echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_style_options'], null, $this->feed_cpt_id );

@@ -131,11 +131,21 @@ class Facebook_Access_Functions {
                             echo '<h4><a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-fb-icon"></span>' . $fb_name . '</a></h4>';
                         }
 
-                        echo sprintf(
-                            esc_html__( '%1$sCreate Facebook Feed%2$s', 'feed-them-social' ),
-                            '<a class="fts-facebook-successful-api-token fts-success-token-content" href="#facebook_feed">',
-                            '</a>'
-                        );
+                        if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                            echo sprintf(
+                                esc_html__( '%1$sCreate Combined Feed%2$s', 'feed-them-social' ),
+                                '<a class="fts-facebook-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
+                                '</a>'
+                            );
+
+                        }
+                        else {
+                            echo sprintf(
+                                esc_html__( '%1$sCreate Facebook Feed%2$s', 'feed-them-social' ),
+                                '<a class="fts-facebook-successful-api-token fts-success-token-content" href="#facebook_feed">',
+                                '</a>'
+                            );
+                        }
 
                         echo '</div>';
                     }

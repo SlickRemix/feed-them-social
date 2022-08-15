@@ -98,13 +98,19 @@ class Feed_CPT_Options {
         $this->combine_instagram_token_options();
         $this->combine_instagram_token_select_options();
         $this->combine_facebook_token_options();
+        $this->combine_twitter_token_select_options();
+        $this->combine_twitter_token_options();
+        $this->combine_youtube_token_select_options();
+        $this->combine_youtube_token_options();
 		//$this->layout_options();
-		$this->color_options();
+		// $this->color_options();
 		$this->facebook_options();
 		$this->instagram_options();
 		$this->twitter_options();
 		$this->youtube_options();
 		$this->combine_options();
+
+        // SRL 8-15-22: LEAVING OFF HERE, SOMETHING IS FUNKY ABOUT REFRESHING PAGE AFTER ADDING TWITTER COMBINED AND THEN CLICKING TO ANOTHER TAB THEN CLICKING TO ITS OPTIONS....
 
 		// Check if Main Options and Additional Options need to be merged.
 		if( $include_additional_options ){
@@ -139,13 +145,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'ft-wp-gallery-type',
 					'option_type'      => 'select',
-					'label'            => trim(
-						sprintf(
-							esc_html__( 'Feed Type: ', 'feed_them_social' ),
-							'<br/><small>',
-							'</small>'
-						)
-					),
+					'label'            => esc_html__( 'Feed Type: ', 'feed_them_social' ),
 					'type'             => 'text',
                    /* 'instructional-text' => sprintf(
                         esc_html__( '1. Select the Social Network you want to create a feed for. %1$s2. Get your access token. %1$s3. Click on the Social Network tab to the left and set your options. %1$s%1$sNote: To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.', 'feed_them_social' ),
@@ -815,7 +815,7 @@ class Feed_CPT_Options {
 					'option_type'      => 'select',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Force Columns%1$s Yes, will force image columns. No, will allow the images to be resposive for smaller devices%2$s', 'feed_them_social' ),
+							esc_html__( 'Force Columns%1$s Yes, will force image columns. No, will allow the images to be responsive for smaller devices%2$s', 'feed_them_social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -1329,7 +1329,7 @@ class Feed_CPT_Options {
 	public function facebook_options() {
 		$this->all_options['facebook'] = array(
 			'section_attr_key'   => 'facebook_',
-			'section_title'      => __( 'Facebook Feed', 'feed-them-social' ),
+			//'section_title'      => __( 'Facebook Feed', 'feed-them-social' ),
 			'section_wrap_class' => 'fts-facebook_page-shortcode-form',
 
 			// Form Info
@@ -1357,7 +1357,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'fts-social-selector',
 					'option_type' => 'select',
-					'label'       => __( 'Feed Type', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Feed Type', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'facebook_page_feed_type',
 					'name'        => 'facebook_page_feed_type',
@@ -2974,7 +2974,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['instagram'] = array(
 			'section_attr_key'   => 'instagram_',
-			'section_title'      => __( 'Instagram Feed', 'feed-them-social' ),
+			//'section_title'      => __( 'Instagram Feed', 'feed-them-social' ),
 			'section_wrap_class' => 'fts-instagram-shortcode-form',
 
 			// Form Info
@@ -3657,7 +3657,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['twitter'] = array(
             'section_attr_key'   => 'twitter_',
-            'section_title'      => __( 'Twitter Feed', 'feed-them-social' ),
+           // 'section_title'      => __( 'Twitter Feed', 'feed-them-social' ),
             'section_wrap_class' => 'fts-twitter-shortcode-form',
 
             // Form Info
@@ -4158,7 +4158,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['youtube'] = array(
 			'section_attr_key'   => 'youtube_',
-			'section_title'      => __( 'Youtube Feed', 'feed-them-social' ),
+			//'section_title'      => __( 'Youtube Feed', 'feed-them-social' ),
 			'section_wrap_class' => 'fts-youtube-shortcode-form',
 
 			// Form Info
@@ -4178,6 +4178,7 @@ class Feed_CPT_Options {
                 // Feed Type
                 array(
                     'option_type' => 'select',
+                   // 'grouped_options_title' => __( 'Youtube Feed', 'feed-them-social' ),
                     'label'       => __( 'Feed Type', 'feed-them-social' ),
                     'type'        => 'text',
                     'input_wrap_class' => 'youtube-messages-selector',
@@ -4932,7 +4933,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['combine'] = array(
 			'section_attr_key'   => 'combine_',
-			'section_title'      => __( 'Combine Streams Feed', 'feed-them-social' ),
+			//'section_title'      => __( 'Combine Streams Feed', 'feed-them-social' ),
 			'section_wrap_class' => 'fts-combine-streams-shortcode-form',
 			// Form Info
 			'form_wrap_classes'  => 'combine-streams-shortcode-form',
@@ -4943,7 +4944,7 @@ class Feed_CPT_Options {
 
                 // Combined Total # of Posts
 				array(
-                    'grouped_options_title' => __( 'Feed Options', 'feed-them-social' ),
+                    'grouped_options_title' => __( 'Combined Streams Feed', 'feed-them-social' ),
 					'option_type' => 'input',
                     'input_wrap_class' => 'combine_post_count',
 					'label'       => __( 'Combined Total # of Posts', 'feed-them-social' ),
@@ -5284,19 +5285,19 @@ class Feed_CPT_Options {
     public function combine_instagram_token_options() {
 
         $this->all_options['combine_instagram_token_options'] = array(
-            'section_attr_key'   => 'combine_token_',
-            'section_title'      => esc_html__( 'Instagram', 'feed_them_social' ),
+            'section_attr_key'   => 'combine_instagram_token_',
+            'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'Instagram', 'feed_them_social' ) . '</span>',
             'section_wrap_id'    => 'fts-feed-type',
             'section_wrap_class' => 'fts-combined-instagram-feed-type',
             // Form Info.
-            'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
+            //'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
             'form_wrap_id'       => 'fts-fb-page-form-combine',
 
             'main_options'       => array(
 
                 // Combine Instagram
                 array(
-                    'grouped_options_title' => __( '', 'feed-them-social' ),
+                  //  'grouped_options_title' => __( '', 'feed-them-social' ),
                     'option_type' => 'select',
                     'label'       => __( 'Combine Instagram', 'feed-them-social' ),
                     'type'        => 'text',
@@ -5330,7 +5331,7 @@ class Feed_CPT_Options {
     } //END INSTAGRAM TOKEN OPTIONS
 
     /**
-     * Combine Token Options
+     * Combine Instagram Token Select Options
      *
      * Options for the Feed Type
      *
@@ -5343,11 +5344,11 @@ class Feed_CPT_Options {
 
         $this->all_options['combine_instagram_token_select_options'] = array(
             'section_attr_key'   => 'combine_instagram_token_select_',
-            'section_title'      => esc_html__( '', 'feed_them_social' ),
+           // 'section_title'      => esc_html__( '', 'feed_them_social' ),
             'section_wrap_id'    => 'fts-feed-type',
-            'section_wrap_class' => 'fts-tab-content1-combine ',
+            'section_wrap_class' => 'fts-tab-content1-combine fts-instagram-hashtag-combine',
             // Form Info.
-            'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
+            //'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
             'form_wrap_id'       => 'fts-fb-page-form-combine-instagram-token-select',
 
             'main_options'       => array(
@@ -5467,30 +5468,29 @@ class Feed_CPT_Options {
 
 
     /**
-     * Combine Token Options
+     * Combine Facebook Token Options
      *
      * Options for the Feed Type
      *
      * @return mixed
      * @since 3.0.0
      */
-    // LEAVING OFF HERE: OK NOW I NEED TO BREAK OUT THE REST OF THE OPTIONS FOR THE OTHER COMBINED TOKENS...
     public function combine_facebook_token_options() {
 
         $this->all_options['combine_facebook_token_options'] = array(
             'section_attr_key'   => 'combine_facebook_token_',
-            'section_title'      => esc_html__( '', 'feed_them_social' ),
+            'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'Facebook', 'feed_them_social' ) . '</span>',
             'section_wrap_id'    => 'fts-feed-type',
             'section_wrap_class' => 'fts-combined-facebook-feed-type',
             // Form Info.
-            'form_wrap_classes'  => 'fb-page-shortcode-form-combine ',
+           // 'form_wrap_classes'  => 'fb-page-shortcode-form-combine ',
             'form_wrap_id'       => 'fts-fb-page-form-combine-facebook-token-select',
 
             'main_options'       => array(
 
                 // Combine Facebook
                 array(
-                    'grouped_options_title' => __( 'Facebook', 'feed-them-social' ),
+                   // 'grouped_options_title' => __( 'Facebook', 'feed-them-social' ),
                     'option_type' => 'select',
                     'label'       => __( 'Combine Facebook', 'feed-them-social' ),
                     'type'        => 'text',
@@ -5512,43 +5512,34 @@ class Feed_CPT_Options {
         );
 
         return $this->all_options['combine_facebook_token_options'];
-    } //END FACEBOOK TOKEN OPTIONS
-
-
-
+    } //END COMBINED FACEBOOK TOKEN OPTIONS
 
 
     /**
-     * Combine Token Options
+     * Combine Twitter Token Select Options
      *
      * Options for the Feed Type
      *
      * @return mixed
      * @since 3.0.0
      */
+    public function combine_twitter_token_select_options() {
 
-    // leaving off here, need to figure out why the options are not staying saved after going to another tab and coming back
-    public function combine_twitter_token_options() {
-
-        $this->all_options['combine_token_options'] = array(
-            'section_attr_key'   => 'combine_token_',
-            'section_title'      => esc_html__( 'Combine Access Token', 'feed_them_social' ),
+        $this->all_options['combine_twitter_token_select_options'] = array(
+            'section_attr_key'   => 'combine_twitter_token_select_',
+            'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'Twitter', 'feed_them_social' ) . '</span>',
             'section_wrap_id'    => 'fts-feed-type',
-            'section_wrap_class' => 'fts-tab-content1-combine ',
+            'section_wrap_class' => 'fts-combined-twitter-feed-type ',
             // Form Info.
-            'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
-            'form_wrap_id'       => 'fts-fb-page-form-combine',
+           // 'form_wrap_classes'  => 'twitter-page-shortcode-form-combine',
+            'form_wrap_id'       => 'fts-twitter-page-form-combine',
 
             'main_options'       => array(
 
 
-
-
-
-
                 // Combine Twitter
                 array(
-                    'grouped_options_title' => __( 'Twitter', 'feed-them-social' ),
+                  //  'grouped_options_title' => __( 'Twitter', 'feed-them-social' ),
                     'option_type' => 'select',
                     'label'       => __( 'Combine Twitter', 'feed-them-social' ),
                     'type'        => 'text',
@@ -5565,17 +5556,39 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    'req_plugin'  => 'combine_streams',
-                    'short_attr'  => array(
-                        'attr_name'    => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                    ),
                     'sub_options' => array(
-                        'sub_options_wrap_class' => 'combine-twitter-wrap',
+                        'sub_options_wrap_class' => 'main-combine-twitter-wrap',
                     ),
                 ),
 
+            ),
+        );
+
+        return $this->all_options['combine_twitter_token_select_options'];
+    } //END TWITTER TOKEN SELECT OPTIONS
+
+
+    /**
+     * Combine Twitter Token Options
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+
+    public function combine_twitter_token_options() {
+
+        $this->all_options['combine_twitter_token_options'] = array(
+            'section_attr_key'   => 'combine_twitter_token_',
+           // 'section_title'      => esc_html__( '', 'feed_them_social' ),
+            'section_wrap_id'    => 'fts-twitter-feed-type',
+            'section_wrap_class' => 'fts-tab-content1-combine fts-twitter-combine',
+            // Form Info.
+            'form_wrap_classes'  => 'twitter-page-form-combine',
+            'form_wrap_id'       => 'fts-twitter-page-form-combine',
+
+            'main_options'       => array(
 
 
                 // Feed Type Selection
@@ -5603,23 +5616,11 @@ class Feed_CPT_Options {
                             'label' => __( 'Hashtag, Search and more Feed', 'feed-them-social' ),
                         ),
                     ),
-                    'short_attr'  => array(
-                        'attr_name' => '',
-                        'empty_error_value' => '',
-                        'no_attribute' => 'yes',
-                        'ifs' => 'combine_facebook',
-                    ),
                     'sub_options' => array(
-                        'sub_options_wrap_class' => 'main-combine-facebook-wrap',
+                        'sub_options_wrap_class' => 'combine-twitter-wrap',
                     ),
                 ),
 
-
-                // 'short_attr_final' => 'yes',
-                // Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
-                // Twitter Search Name
-
-                // MUST ADD TWITTER DIRECTIONS FOR SEARCH
 
                 // If you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. from:user_name%#YourHashtag
                 array(
@@ -5680,6 +5681,11 @@ class Feed_CPT_Options {
                     'sub_options_end' => 2,
                 ),
 
+            ),
+        );
+
+        return $this->all_options['combine_twitter_token_options'];
+    } //END TWITTER TOKEN OPTIONS
 
 
 
@@ -5691,10 +5697,37 @@ class Feed_CPT_Options {
 
 
 
+
+
+
+
+
+
+    /**
+     * Combine YouTube Token Options
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+    // THIS IS NOT COMPLETE YET JUST COPIED DOWN
+    public function combine_youtube_token_select_options() {
+
+        $this->all_options['combine_youtube_token_select_options'] = array(
+            'section_attr_key'   => 'combine_youtube_token_select_',
+            'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'YouTube', 'feed_them_social' ) . '</span>',
+           // 'section_wrap_id'    => 'fts-feed-type',
+            'section_wrap_class' => 'fts-tab-content1-combine ',
+            // Form Info.
+            'form_wrap_classes'  => 'youtube-page-form-combine',
+            'form_wrap_id'       => 'fts-fb-page-form-combine',
+
+            'main_options'       => array(
 
                 // Combine Youtube
                 array(
-                    'grouped_options_title' => __( 'Youtube', 'feed-them-social' ),
+                 //   'grouped_options_title' => __( 'Youtube', 'feed-them-social' ),
                     'option_type' => 'select',
                     'label'       => __( 'Combine Youtube', 'feed-them-social' ),
                     'type'        => 'text',
@@ -5720,6 +5753,32 @@ class Feed_CPT_Options {
                         'sub_options_wrap_class' => 'main-combine-youtube-wrap',
                     ),
                 ),
+            ),
+        );
+
+        return $this->all_options['combine_youtube_token_select_options'];
+    } //END YOUTUBE TOKEN OPTIONS
+
+    /**
+     * Combine YouTube Token Options
+     *
+     * Options for the Feed Type
+     *
+     * @return mixed
+     * @since 3.0.0
+     */
+    public function combine_youtube_token_options() {
+
+        $this->all_options['combine_youtube_token_options'] = array(
+            'section_attr_key'   => 'combine_youtube_token_',
+            //  'section_title'      => esc_html__( 'Combine Access Token', 'feed_them_social' ),
+           // 'section_wrap_id'    => 'fts-feed-type',
+            'section_wrap_class' => 'fts-tab-content1-combine fts-youtube-combine',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
+            'form_wrap_id'       => 'fts-fb-page-form-combine',
+
+            'main_options'       => array(
 
                 // Youtube Type
                 array(
@@ -5823,6 +5882,6 @@ class Feed_CPT_Options {
             ),
         );
 
-        return $this->all_options['combine_token_options'];
+        return $this->all_options['combine_youtube_token_options'];
     } //END YOUTUBE TOKEN OPTIONS
 }

@@ -79,7 +79,7 @@ class Youtube_Access_Functions {
         <script>
             jQuery(document).ready(function ($) {
 
-                <?php if ( isset( $_GET['code'], $_GET['feed_type'] ) && 'youtube' === $_GET['feed_type'] ) {?>
+                <?php if ( !empty( $_GET['code'] ) && isset( $_GET['feed_type'] ) && 'youtube' === $_GET['feed_type'] ) {?>
                     $('#youtube_custom_refresh_token').val('');
                     $('#youtube_custom_refresh_token').val($('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $youtube_refresh_token ); ?>');
 
@@ -179,32 +179,48 @@ class Youtube_Access_Functions {
            }
 
            if ( time() > $expiration_time && empty( $youtube_api_key ) ) {
-              // echo '&&&&&&&&&&';
-               // LEAVING IFF HERE NEED TO FIGURE OU WHY THIS IS NOT REFRESHING PROPER.
+
+               // LEAVING OFF HERE NEED TO FIGURE OU WHY THIS IS NOT REFRESHING PROPER.
                // COPY CODE FROM INSTAGRAM TO SIMPLIFY THE JS ABOVE TOO.
                // SRL: 5-6-22: using API token till I get this figured out.
                // I also made the refresh token option on fts.com error. MUST undo error there to get this to work.
                // Right now though it is getting a refresh after a few seconds from a shit ton of people and it's made the
                // app reach it's limit... access tokens blow for youtube. API key is the best way still.
+               $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
 
-                      // $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
+
+
+
+
+
             }   ?>
 
             <div class="clear"></div>
-            <div class="feed-them-social-admin-input-wrap fts-youtube-token-wrap fts-token-wrap" id="fts-youtube-token-wrap"><?php
+            <div class="feed-them-social-admin-input-wrap fts-token-wrap" id="fts-youtube-token-wrap"><?php
 
                 $user_id = $test_app_token_response;
                 $error_response = $test_app_token_response->error->errors[0]->message ? 'true' : 'false';
 
                 // Error Check!
                 if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
-                    echo '<div class="fts-successful-api-token fts-special-working-wrap">';
-                    echo sprintf(
-                        esc_html__( '%1$sCreate YouTube Feed%2$s', 'feed-them-social' ),
-                        '<a class="fts-youtube-successful-api-token fts-success-token-content" href="#youtube_feed">',
-                        '</a>'
-                    );
-                    echo '</div>';
+
+                    if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                        echo sprintf(
+                            esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
+                            '<div id="fts-combined-youtube-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',
+                            '<a class="fts-youtube-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
+                            '</a></div>'
+                        );
+
+                    }
+                    else {
+                        echo sprintf(
+                            esc_html__( '%1$s%2$sCreate YouTube Feed%3$s', 'feed-them-social' ),
+                            '<div class="fts-successful-api-token fts-special-working-wrap" >',
+                            '<a class="fts-youtube-successful-api-token fts-success-token-content" href="#youtube_feed">',
+                            '</a></div>'
+                        );
+                    }
 
                 }
                 elseif ( empty( $youtube_api_key ) && 'true' === $error_response && ! empty( $youtube_access_token ) ) {

@@ -153,12 +153,24 @@ class Instagram_Access_Functions {
             if ( ! empty( $data ) || ! empty( $response ) && $instagram_generic_response === $response && !empty( $fts_instagram_access_token ) ) {
 
                 if( ! isset( $data->meta->error_message ) && ! isset( $data->error_message ) && $instagram_generic_response !== $response || isset( $data->meta->error_message ) && 'This client has not been approved to access this resource.' === $data->meta->error_message ){
-                    echo sprintf(
-                        esc_html__( '%1$s%2$sCreate Instagram Feed%3$s', 'feed-them-social' ),
-                        '<div class="fts-successful-api-token fts-special-working-wrap">',
-                        '<a class="fts-instagram-successful-api-token fts-success-token-content" href="#instagram_feed">',
-                        '</a></div>'
-                    );
+
+                    if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                        echo sprintf(
+                            esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
+                            '<div class="fts-successful-api-token fts-special-working-wrap">',
+                            '<a class="fts-instagram-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
+                            '</a></div>'
+                        );
+
+                    }
+                    else {
+                        echo sprintf(
+                            esc_html__( '%1$s%2$sCreate Instagram Feed%3$s', 'feed-them-social' ),
+                            '<div class="fts-successful-api-token fts-special-working-wrap">',
+                            '<a class="fts-instagram-successful-api-token fts-success-token-content" href="#instagram_feed">',
+                            '</a></div>'
+                        );
+                    }
                 }
 
                 if ( $instagram_generic_response === $response || isset( $data->data->error->message ) && ! empty( $user_id_basic ) || isset( $data->error->message ) && ! empty( $user_id_basic ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {

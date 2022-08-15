@@ -142,12 +142,24 @@ class Instagram_Business_Access_Functions {
                                  }
 
                                  $insta_fb_text = '<a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-insta-icon"></span>' . $instagram_name . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $fb_name . '</a>';
-                                 echo sprintf(
-                                     esc_html__( '%1$s%2$sCreate Instagram Feed%3$s', 'feed-them-social' ),
-                                     '<div class="fts-successful-api-token fts-special-working-wrap">',
-                                     '<a class="fts-instagram-successful-api-token fts-success-token-content" href="#instagram_feed">',
-                                     '</a></div>'
-                                 );
+
+                                 if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                                     echo sprintf(
+                                         esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
+                                         '<div class="fts-successful-api-token fts-special-working-wrap">',
+                                         '<a class="fts-instagram-business-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
+                                         '</a></div>'
+                                     );
+
+                                 }
+                                 else{
+                                     echo sprintf(
+                                         esc_html__( '%1$s%2$sCreate Instagram Feed%3$s', 'feed-them-social' ),
+                                         '<div class="fts-successful-api-token fts-special-working-wrap">',
+                                         '<a class="fts-instagram-business-successful-api-token fts-success-token-content" href="#instagram_feed">',
+                                         '</a></div>'
+                                     );
+                                 }
 
                              }
                              if ( isset( $data->data->error->message ) && !empty( $data ) || isset( $data->error->message ) && !empty( $data ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {

@@ -68,7 +68,7 @@ class Twitter_Additional_Options {
 	public function follow_btn_options() {
 		$this->all_options['twitter_follow_btn_options'] = array(
 			'section_attr_key'   => 'twitter_follow_btn_options_',
-			'section_title'      => esc_html__( 'Follow Button Options', 'feed_them_social' ),
+			//'section_title'      => esc_html__( 'Follow Button Options', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -152,7 +152,7 @@ class Twitter_Additional_Options {
 	public function video_player_options() {
 		$this->all_options['twitter_video_player_options'] = array(
 			'section_attr_key'   => 'twitter_video_player_options_',
-			'section_title'      => esc_html__( 'Video Player Options', 'feed_them_social' ),
+			//section_title'      => esc_html__( 'Video Player Options', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -167,6 +167,7 @@ class Twitter_Additional_Options {
 				// Show Follow Button.
 				array(
 					'input_wrap_class' => 'twitter_allow_videos',
+                    'grouped_options_title' => __( 'Video Player Options', 'feed-them-social' ),
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Show videos', 'feed_them_social' ),
 					'type'             => 'text',
@@ -202,12 +203,12 @@ class Twitter_Additional_Options {
 	public function profile_photo_options() {
 		$this->all_options['twitter_profile_photo_options'] = array(
 			'section_attr_key'   => 'twitter_profile_photo_options_',
-			'section_title'      => esc_html__( 'Profile Photo', 'feed_them_social' ),
+			//'section_title'      => esc_html__( 'Profile Photo', 'feed_them_social' ),
 			//'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
-			'form_wrap_classes'  => 'fb-page-shortcode-form',
-			'form_wrap_id'       => 'fts-fb-page-form',
+			'form_wrap_classes'  => 'twitter-page-shortcode-form',
+			'form_wrap_id'       => 'fts-twitter-page-form',
 			//Options Wrap Class
 			'options_wrap_class'       => 'fts-cpt-additional-options',
 
@@ -216,6 +217,7 @@ class Twitter_Additional_Options {
 				// Hide Profile Photo.
 				array(
 					'input_wrap_class' => 'twitter_hide_profile_photo',
+                    'grouped_options_title' => __( 'Profile Photo', 'feed-them-social' ),
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Hide Profile Photo', 'feed_them_social' ),
 					'type'             => 'text',

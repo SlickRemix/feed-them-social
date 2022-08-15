@@ -181,12 +181,24 @@ class Twitter_Access_Functions {
                         );
                     }
                 } else {
-                    echo sprintf(
-                        esc_html__( '%1$s%2$sCreate Twitter Feed%3$s', 'feed-them-social' ),
-                        '<div class="fts-successful-api-token fts-special-working-wrap">',
-                        '<a class="fts-twitter-successful-api-token fts-success-token-content" href="#twitter_feed">',
-                        '</a></div>'
-                    );
+
+                    if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                        echo sprintf(
+                            esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
+                            '<div id="fts-combined-twitter-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',
+                            '<a class="fts-twitter-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
+                            '</a>'
+                        );
+                    }
+                    else {
+                        echo sprintf(
+                            esc_html__( '%1$s%2$sCreate Twitter Feed%3$s', 'feed-them-social' ),
+                            '<div class="fts-successful-api-token fts-special-working-wrap">',
+                            '<a class="fts-twitter-successful-api-token fts-success-token-content" href="#twitter_feed">',
+                            '</a></div>'
+                        );
+                    }
+
                 }
             }
             ?>

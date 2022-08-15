@@ -34,10 +34,10 @@ class Facebook_Additional_Options {
 	 * Facebook_Add_Options constructor.
 	 */
 	public function __construct() {
+        $this->like_button_box_options();
 		$this->reviews_text_styles();
 		$this->reviews_overall_rating_styles();
 		$this->language_options();
-		$this->like_button_box_options();
 		$this->global_facebook_style_options();
         $this->global_facebook_grid_style_options();
 		$this->error_messages_options();
@@ -56,7 +56,138 @@ class Facebook_Additional_Options {
 		return $this->all_options;
 	}
 
-	/**
+    /**
+     * Like Button or Box Options
+     *
+     * Like Button or Box Options.
+     *
+     * @return mixed
+     * @since 1.0.0
+     */
+    public function like_button_box_options() {
+        $this->all_options['facebook_like_button_box_options'] = array(
+            'section_attr_key'   => 'facebook_like_button_box_options_',
+           // 'section_title'      => esc_html__( 'Like Button or Box', 'feed_them_social' ),
+            // 'section_wrap_id' => 'fts-tab-content1',
+            'section_wrap_class' => 'fts-tab-content',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form',
+            'form_wrap_id'       => 'fts-fb-page-form',
+            //Options Wrap Class
+            'options_wrap_class'       => 'fts-cpt-additional-options',
+
+            // Token Check // We'll use these option for premium messages in the future.
+            'premium_msg_boxes'  => array(
+                'album_videos' => array(
+                    'req_plugin' => 'fts_premium',
+                    'msg'        => '',
+                ),
+                'reviews'      => array(
+                    'req_plugin' => 'facebook_reviews',
+                    'msg'        => '',
+                ),
+            ),
+
+            'main_options'       => array(
+
+                // Show Follow Button.
+                array(
+                    'input_wrap_class' => 'fb_language',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb-lang-btn',
+                    'name'             => 'fb_language',
+                    'default_value'    => 'dont-display',
+                    'options'          => array(
+                        array(
+                            'optgroup' => array(
+                                'label' => '',
+
+                            ),
+                            'label' => esc_html__( 'Don\'t Display a Button', 'feed_them_social' ),
+                            'value' => 'dont-display',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Like Box', 'feed_them_social' ),
+                            'value' => 'like-box',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Like Box with Faces', 'feed_them_social' ),
+                            'value' => 'like-box-faces',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Like Button', 'feed_them_social' ),
+                            'value' => 'like-button',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Like Button and Share Button', 'feed_them_social' ),
+                            'value' => 'like-button-share',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Like Button with Faces', 'feed_them_social' ),
+                            'value' => 'like-button-faces',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Like Button and Share Button with Faces', 'feed_them_social' ),
+                            'value' => 'like-button-share-faces',
+                        ),
+                    ),
+                ),
+
+                // Like Button Color.
+                array(
+                    'input_wrap_class' => 'fb_like_btn_color',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Like Button Color', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_like_btn_color',
+                    'name'             => 'fb_like_btn_color',
+                    'default_value'    => 'light',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Light', 'feed_them_social' ),
+                            'value' => 'light',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Dark', 'feed_them_social' ),
+                            'value' => 'dark',
+                        ),
+                    ),
+                ),
+
+                // Placement of Like Button.
+                array(
+                    'input_wrap_class' => 'fb-show-follow-btn-where',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Placement of the Button(s)', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb-show-follow-btn-where',
+                    'name'             => 'fb-show-follow-btn-where',
+                    'default_value'    => 'fb-like-top-above-title',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Show Top of Feed Above Title', 'feed_them_social' ),
+                            'value' => 'fb-like-top-above-title',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Show Top of Feed Below Title', 'feed_them_social' ),
+                            'value' => 'fb-like-top-below-title',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Show Bottom of Feed', 'feed_them_social' ),
+                            'value' => 'fb-like-below',
+                        ),
+                    ),
+                ),
+            ),
+        );
+
+        return $this->all_options['facebook_like_button_box_options'];
+    } //END Like Button or Box Options.
+
+
+    /**
 	 * Reviews: Style and Text Options
 	 *
 	 * Options for the Reviews: Style and Text Options.
@@ -430,136 +561,6 @@ class Facebook_Additional_Options {
 
 		return $this->all_options['facebook_languages_options'];
 	} //END Language Options.
-
-	/**
-	 * Like Button or Box Options
-	 *
-	 * Like Button or Box Options.
-	 *
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function like_button_box_options() {
-		$this->all_options['facebook_like_button_box_options'] = array(
-			'section_attr_key'   => 'facebook_like_button_box_options_',
-			'section_title'      => esc_html__( 'Like Button or Box', 'feed_them_social' ),
-			// 'section_wrap_id' => 'fts-tab-content1',
-			'section_wrap_class' => 'fts-tab-content',
-			// Form Info.
-			'form_wrap_classes'  => 'fb-page-shortcode-form',
-			'form_wrap_id'       => 'fts-fb-page-form',
-			//Options Wrap Class
-			'options_wrap_class'       => 'fts-cpt-additional-options',
-
-			// Token Check // We'll use these option for premium messages in the future.
-			'premium_msg_boxes'  => array(
-				'album_videos' => array(
-					'req_plugin' => 'fts_premium',
-					'msg'        => '',
-				),
-				'reviews'      => array(
-					'req_plugin' => 'facebook_reviews',
-					'msg'        => '',
-				),
-			),
-
-			'main_options'       => array(
-
-				// Show Follow Button.
-				array(
-					'input_wrap_class' => 'fb_language',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'fb-lang-btn',
-					'name'             => 'fb_language',
-					'default_value'    => 'dont-display',
-					'options'          => array(
-						array(
-							'optgroup' => array(
-								'label' => '',
-
-							),
-							'label' => esc_html__( 'Don\'t Display a Button', 'feed_them_social' ),
-							'value' => 'dont-display',
-						),
-						array(
-							'label' => esc_html__( 'Like Box', 'feed_them_social' ),
-							'value' => 'like-box',
-						),
-						array(
-							'label' => esc_html__( 'Like Box with Faces', 'feed_them_social' ),
-							'value' => 'like-box-faces',
-						),
-						array(
-							'label' => esc_html__( 'Like Button', 'feed_them_social' ),
-							'value' => 'like-button',
-						),
-                        array(
-                            'label' => esc_html__( 'Like Button and Share Button', 'feed_them_social' ),
-                            'value' => 'like-button-share',
-                        ),
-                        array(
-                            'label' => esc_html__( 'Like Button with Faces', 'feed_them_social' ),
-                            'value' => 'like-button-faces',
-                        ),
-                        array(
-                            'label' => esc_html__( 'Like Button and Share Button with Faces', 'feed_them_social' ),
-                            'value' => 'like-button-share-faces',
-                        ),
-					),
-				),
-
-				// Like Button Color.
-				array(
-					'input_wrap_class' => 'fb_like_btn_color',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Like Button Color', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'fb_like_btn_color',
-					'name'             => 'fb_like_btn_color',
-					'default_value'    => 'light',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Light', 'feed_them_social' ),
-							'value' => 'light',
-						),
-						array(
-							'label' => esc_html__( 'Dark', 'feed_them_social' ),
-							'value' => 'dark',
-						),
-					),
-				),
-
-				// Placement of Like Button.
-				array(
-					'input_wrap_class' => 'fb-show-follow-btn-where',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Placement of the Button(s)', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'fb-show-follow-btn-where',
-					'name'             => 'fb-show-follow-btn-where',
-					'default_value'    => 'fb-like-top-above-title',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Show Top of Feed Above Title', 'feed_them_social' ),
-							'value' => 'fb-like-top-above-title',
-						),
-						array(
-							'label' => esc_html__( 'Show Top of Feed Below Title', 'feed_them_social' ),
-							'value' => 'fb-like-top-below-title',
-						),
-						array(
-							'label' => esc_html__( 'Show Bottom of Feed', 'feed_them_social' ),
-							'value' => 'fb-like-below',
-						),
-					),
-				),
-			),
-		);
-
-		return $this->all_options['facebook_like_button_box_options'];
-	} //END Like Button or Box Options.
 
 
 	/**

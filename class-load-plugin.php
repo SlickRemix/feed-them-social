@@ -187,11 +187,6 @@ class Feed_Them_Social {
 		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
 			define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
 		}
-
-		// Premium Plugin Directoy Path.
-		if ( is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) && ! defined( 'FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR' ) ) {
-			define( 'FEED_THEM_SOCIAL_PREMIUM_PLUGIN_FOLDER_DIR', WP_PLUGIN_DIR . '/feed_them_social-premium/feed_them_social-premium.php' );
-		}
 	}
 
 	/**

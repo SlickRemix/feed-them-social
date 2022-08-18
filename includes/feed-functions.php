@@ -1067,18 +1067,20 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
         }
 
         if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ||
-            isset( $_REQUEST['feed_name'] ) && 'fts_twitter' === $_REQUEST['feed_name'] ||
-            isset( $_REQUEST['feed_name'] ) && 'fts_youtube' === $_REQUEST['feed_name'] ||
-            isset( $_REQUEST['feed_name'] ) && 'fts_facebook' === $_REQUEST['feed_name'] ||
-            isset( $_REQUEST['feed_name'] ) && 'fts_facebookbiz' === $_REQUEST['feed_name'] ||
-            isset( $_REQUEST['feed_name'] ) && 'fts_instagram' === $_REQUEST['feed_name'] ) {
+             isset( $_REQUEST['feed_name'] ) && 'feed_them_social' === $_REQUEST['feed_name']
+             // ||
+//             isset( $_REQUEST['feed_name'] ) && 'fts_twitter' === $_REQUEST['feed_name'] ||
+//             isset( $_REQUEST['feed_name'] ) && 'fts_youtube' === $_REQUEST['feed_name'] ||
+//             isset( $_REQUEST['feed_name'] ) && 'fts_facebookbiz' === $_REQUEST['feed_name'] ||
+//             isset( $_REQUEST['feed_name'] ) && 'fts_instagram' === $_REQUEST['feed_name']
+        ) {
 
-            $feed_atts = isset( $_REQUEST['feed_attributes'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['feed_attributes'] ) ) : '';
+            //$feed_atts = isset( $_REQUEST['feed_attributes'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['feed_attributes'] ) ) : '';
 
-            $build_shortcode = '[' . sanitize_text_field( wp_unslash( $_REQUEST['feed_name'] ) ) . '';
-            foreach ( $feed_atts as $attribute => $value ) {
-                $build_shortcode .= ' ' . $attribute . '=' . $value;
-            }
+            $build_shortcode = '[' . sanitize_text_field( wp_unslash( $_REQUEST['feed_name'] ) ) . ' cpt_id=' . $_REQUEST['feed_id'];
+//            foreach ( $feed_atts as $attribute => $value ) {
+//                $build_shortcode .= ' ' . $attribute . '=' . $value;
+//            }
 
             if ( 'fts_twitter' === $_REQUEST['feed_name'] ) {
                 $loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';

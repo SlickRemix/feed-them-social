@@ -123,7 +123,7 @@ class Facebook_Feed {
 			$saved_feed_options['facebook_video_album'] = 'yes';
 			$saved_feed_options['facebook_album_id']    = 'photo_stream';
 			if ( isset( $saved_feed_options['facebook_loadmore_button_width'] ) && ! empty( $saved_feed_options['facebook_loadmore_button_width'] ) ) {
-				$saved_feed_options['facebook_load_more'] = 'button';
+				$saved_feed_options['facebook_load_more_style'] = 'button';
 			}
 		}
 
@@ -147,8 +147,6 @@ class Facebook_Feed {
 			// Setting it to blank so no matter what it will never error get_option('fb_count_offset');.
 			$fb_count_offset = '';
 
-			// View Link.
-			$fts_view_fb_link = '';
 			// Get Cache Name.
 			$fb_cache_name = '';
 			// Get language.
@@ -656,7 +654,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
 		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
 			if ( ! empty( $feed_data->data ) ) {
-				$this->fts_facebook_loadmore( $atts, $feed_data, $facebook_post_type, $saved_feed_options, sanitize_key( $_REQUEST['fts_dynamic_name'] ) );
+				$this->fts_facebook_loadmore( $feed_post_id, $feed_data, $facebook_post_type, $saved_feed_options );
 			}
 		}
 
@@ -683,14 +681,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 			echo '<div class="fts-clear"></div><div id="fb-root"></div>';
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
-				if ( 'button' === $saved_feed_options['facebook_load_more'] ) {
+				if ( 'button' === $saved_feed_options['facebook_load_more_style'] ) {
 
 					echo '<div class="fts-fb-load-more-wrapper">';
 					echo '<div id="loadMore_' . esc_attr( $_REQUEST['fts_dynamic_name'] ) . '" style="';
 					if ( isset( $saved_feed_options['facebook_loadmore_button_width'] ) && '' !== $saved_feed_options['facebook_loadmore_button_width'] ) {
 						echo 'max-width:' . esc_attr( $saved_feed_options['facebook_loadmore_button_width'] ) . ';';
 					}
-					$loadmore_btn_margin = isset( $saved_feed_options['loadmore_btn_margin'] ) ? $saved_feed_options['loadmore_btn_margin'] : '20px';
+					$loadmore_btn_margin = $saved_feed_options['loadmore_btn_margin'] ?? '20px';
 					echo 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $fb_load_more_text ) . '</div>';
 					echo '</div>';
 				}
@@ -1361,14 +1359,17 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 	/**
 	 * FTS Facebook LoadMore
 	 *
-	 * @param string $atts The shortcode attributes.
+	 * @param string $feed_post_id ID of the CPT Post settings are saved in.
 	 * @param string $feed_data The Feed data.
 	 * @param string $facebook_post_type The type of facebook feed.
 	 * @param array $saved_feed_options The feed options saved in the CPT.
 	 * @since 1.9.6
 	 */
-	public function fts_facebook_loadmore( $atts, $feed_data, $facebook_post_type, $saved_feed_options ) {
-		if ( ( isset( $saved_feed_options['facebook_load_more'] ) && 'button' === $saved_feed_options['facebook_load_more'] || isset( $saved_feed_options['facebook_load_more'] ) && 'autoscroll' === $saved_feed_options['facebook_load_more'] ) && ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) ) {
+	public function fts_facebook_loadmore( $feed_post_id, $feed_data, $facebook_post_type, $saved_feed_options ) {
+
+		//echo print_r( $saved_feed_options );
+
+		if ( ( isset( $saved_feed_options['facebook_load_more_style'] ) && 'button' === $saved_feed_options['facebook_load_more_style'] || isset( $saved_feed_options['facebook_load_more_style'] ) && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) && ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) ) {
 
 			$fb_load_more_text       = $saved_feed_options['fb_load_more_text'] ?? esc_html( 'Load More', 'feed-them-social' );
 			$fb_no_more_posts_text   = $saved_feed_options['fb_no_more_posts_text'] ?? esc_html( 'No More Posts', 'feed-them-social' );
@@ -1380,9 +1381,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			$next_url = $feed_data->paging->next ?? '';
 
 			$posts          = $saved_feed_options['facebook_page_post_count'] ?? '';
-			$loadmore_count = isset( $saved_feed_options['loadmore_count'] ) && '' !== $saved_feed_options['loadmore_count'] ? $saved_feed_options['loadmore_count'] : '';
+			$loadmore_count = $saved_feed_options['loadmore_count'] ?? false;
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
-			$_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
+			$_REQUEST['next_url'] = $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
 
 			$_REQUEST['next_url'] = str_replace( $this->feed_access_token, 'access_token=XXX', $next_url );
 
@@ -1391,14 +1392,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			echo '</script>';
 
 			// Make sure it's not ajaxing.
-			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $saved_feed_options['facebook_load_more'] ) ) {
+			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $saved_feed_options['facebook_load_more_style'] ) ) {
 				$fts_dynamic_name       = $_REQUEST['fts_dynamic_name'];
 				$time                   = time();
 				$nonce                  = wp_create_nonce( $time . 'load-more-nonce' );
 				$fts_dynamic_class_name =  $this->feed_functions->get_feed_dynamic_class_name();
 				echo '<script>';
 				echo 'jQuery(document).ready(function() {';
-				if ( 'autoscroll' === $saved_feed_options['facebook_load_more'] ) {
+				if ( 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) {
 					// this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
 					echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").bind("scroll",function() {';
 					echo 'if(jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {';
@@ -1414,13 +1415,16 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 				echo 'var fts_d_name = "' . esc_js( $fts_dynamic_name ) . '";';
 				echo 'var fts_security = "' . esc_js( $nonce ) . '";';
 				echo 'var fts_time = "' . esc_js( $time ) . '";';
-
-				echo 'var feed_name = "fts_facebook";';
+				// Shortcode Feed Name.
+				echo 'var feed_name = "feed_them_social";';
+				// CPT Feed ID
+				echo 'var feed_id = ' . esc_js( $feed_post_id ) . ';';
 				echo 'var loadmore_count = "posts=' . esc_js( $saved_feed_options['loadmore_count'] ) . '";';
-				echo 'var feed_attributes = ' . json_encode( $atts ) . ';';
+				//echo 'var feed_attributes = ' . json_encode( $atts ) . ';';
+
 
 				echo 'jQuery.ajax({';
-				echo 'data: {action: "my_fts_fb_load_more", next_url: nextURL_' . esc_js( $fts_dynamic_name ) . ', fts_dynamic_name: fts_d_name, feed_name: feed_name, loadmore_count: loadmore_count, feed_attributes: feed_attributes, load_more_ajaxing: yes_ajax, fts_security: fts_security, fts_time: fts_time},';
+				echo 'data: {action: "my_fts_fb_load_more", next_url: nextURL_' . esc_js( $fts_dynamic_name ) . ', fts_dynamic_name: fts_d_name, feed_name: feed_name, feed_id: feed_id, loadmore_count: loadmore_count, load_more_ajaxing: yes_ajax, fts_security: fts_security, fts_time: fts_time},';
 				echo 'type: "GET",';
 				echo 'url: "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '",';
 				echo 'success: function( data ) {';
@@ -1479,15 +1483,15 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 					// We return this function again otherwise the popup won't work correctly for the newly loaded items.
 					echo 'jQuery.fn.slickFacebookPopUpFunction();';
 				}
-				// Reload the share each funcion otherwise you can't open share option..
+				// Reload the share each Function otherwise you can't open share option..
 				echo 'jQuery.fn.ftsShare();slickremixImageResizingFacebook2();slickremixImageResizingFacebook3();';
 
 				echo '}';
 				echo '});';
 				// end of ajax().
 				echo 'return false;';
-				// string $scrollMore is at top of this js script. acception for scroll option closing tag.
-				if ( 'autoscroll' === $saved_feed_options['facebook_load_more'] ) {
+				// string $scrollMore is at top of this js script. Exception for scroll option closing tag.
+				if ( 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) {
 					echo '}';
 					// end of scroll ajax load.
 				}
@@ -1504,7 +1508,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 				$fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
 				// this div returns outputs our ajax request via jquery appenc html from above  style="display:nonee;".
 				echo '<div id="output_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more-output"></div>';
-				if ( ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) && 'autoscroll' === $saved_feed_options['facebook_load_more'] ) {
+				if ( ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) {
 					echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">Facebook</div>';
 				}
 			}

@@ -75,14 +75,14 @@ class Feed_Shortcode {
 	 */
 	public function register_frontend_styles_scripts(){
 		// Register Feed Styles.
-		wp_register_style( 'FTS-Feed-Styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
+		wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
 
 		// Register Premium Styles & Scripts.
 		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 			// Register Masonry Script.
-			wp_register_script( 'FTS-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+			wp_register_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			// Register Images Loaded Script.
-			wp_register_script( 'FTS-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
+			wp_register_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
 		}
 
 		// Register Feed Them Carousel Scripts.
@@ -91,7 +91,7 @@ class Feed_Shortcode {
 		}
 
 		// masonry snippet in fts-global.
-		wp_register_script( 'FTS-Global-JS', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+		wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 	}
 
 	/**
@@ -103,16 +103,16 @@ class Feed_Shortcode {
 	 */
 	public function load_frontend_styles_scripts(){
 		// Feed Styles.
-		wp_enqueue_style('FTS-Feed-Styles');
+		wp_enqueue_style('fts-feed-styles');
 		//Feed Global JS.
-		wp_enqueue_script('FTS-Global-JS');
+		wp_enqueue_script('fts-global-js');
 
 		// Premium Feed Styles and Scripts.
 		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 			// Masonry Script
-			wp_enqueue_style('FTS-masonry-pkgd');
+			wp_enqueue_style('fts-masonry-pkgd');
 			// Images Loaded
-			wp_enqueue_script('FTS-images-loaded');
+			wp_enqueue_script('fts-images-loaded');
 		}
 	}
 

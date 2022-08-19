@@ -147,6 +147,10 @@ class Facebook_Feed {
 			// Setting it to blank so no matter what it will never error get_option('fb_count_offset');.
 			$fb_count_offset = '';
 
+            // View Link.
+            // SRL: 8-19-22. Even know it's shows not is use, leaving this here just in case it's tied to something we are not aware of yet.
+            $fts_view_fb_link = '';
+
 			// Get Cache Name.
 			$fb_cache_name = '';
 			// Get language.
@@ -1369,6 +1373,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
 		//echo print_r( $saved_feed_options );
 
+
 		if ( ( isset( $saved_feed_options['facebook_load_more_style'] ) && 'button' === $saved_feed_options['facebook_load_more_style'] || isset( $saved_feed_options['facebook_load_more_style'] ) && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) && ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) ) {
 
 			$fb_load_more_text       = $saved_feed_options['fb_load_more_text'] ?? esc_html( 'Load More', 'feed-them-social' );
@@ -1385,7 +1390,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
 			$_REQUEST['next_url'] = $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
 
-			$_REQUEST['next_url'] = str_replace( $this->feed_access_token, 'access_token=XXX', $next_url );
+			$_REQUEST['next_url'] = str_replace( 'access_token='. $this->feed_access_token, 'access_token=XXX', $next_url );
 
 			echo '<script>';
 			echo 'var nextURL_' . esc_js( $_REQUEST['fts_dynamic_name'] ) . '= "' . esc_url_raw( $_REQUEST['next_url'] ) . '";';

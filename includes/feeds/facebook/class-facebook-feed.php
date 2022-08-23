@@ -148,7 +148,7 @@ class Facebook_Feed {
 			$fb_count_offset = '';
 
             // View Link.
-            // SRL: 8-19-22. Even know it's shows not is use, leaving this here just in case it's tied to something we are not aware of yet.
+            // SRL: 8-19-22. Even though it shows not is use, leaving $fts_view_fb_link = ''; here just in case it's tied to something we are not aware of yet.
             $fts_view_fb_link = '';
 
 			// Get Cache Name.

@@ -20,6 +20,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Feed_Functions {
 
+    /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
+
 	/**
 	 * Options Functions
 	 *
@@ -59,8 +68,12 @@ class Feed_Functions {
 	/**
 	 * Feed Functions constructor.
 	 */
-	public function __construct( $options_functions, $feed_cpt_options, $feed_cache, $data_protection ){
-		$this->add_actions_filters();
+	public function __construct( $settings_functions, $options_functions, $feed_cpt_options, $feed_cache, $data_protection ){
+
+        // Settings Functions Class.
+        $this->settings_functions = $settings_functions;
+
+        $this->add_actions_filters();
 
 		// Options Functions Class.
 		$this->options_functions = $options_functions;
@@ -100,21 +113,21 @@ class Feed_Functions {
     public function add_actions_filters(){
 
 		// Display admin bar
-	    $display_admin_bar = get_option( 'fts_show_admin_bar' );
+	    $display_admin_bar = $this->settings_functions->fts_get_option( 'fts_show_admin_bar' );
 	    if ( '1' === $display_admin_bar ) {
 		    // FTS Admin Bar!
 		    add_action( 'wp_before_admin_bar_render', array( $this, 'fts_admin_bar_menu' ), 999 );
 		}
 
 	    // Add Custom JS to the header of FTS pages only!
-	    $use_custom_js = get_option( 'use_custom_js' );
+	    $use_custom_js = $this->settings_functions->fts_get_option( 'use_custom_js' );
 	    if ( '1' === $use_custom_js ) {
 
 		    add_action( 'wp_footer', array( $this, 'use_custom_js_scripts' ) );
 	    }
 
 	    // Set Powered by JS for FTS!
-	    $fts_powered_text_options_settings = get_option( 'fts-powered-text-options-settings' );
+	    $fts_powered_text_options_settings = $this->settings_functions->fts_get_option( 'powered_by' );
 	    if ( '1' !== $fts_powered_text_options_settings ) {
 		    add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_powered_by_js' ) );
 	    }
@@ -160,8 +173,8 @@ class Feed_Functions {
 	public function fts_admin_bar_menu() {
 		global $wp_admin_bar;
 
-		$fts_admin_bar_menu = get_option( 'fts_admin_bar_menu' );
-		$fts_dev_mode_cache = get_option( 'fts_clear_cache_developer_mode' );
+		$fts_admin_bar_menu = $this->settings_functions->fts_get_option( 'fts_show_admin_bar' );
+		$fts_dev_mode_cache = $this->settings_functions->fts_get_option( 'fts_cache_time' );
 		if ( ! is_super_admin() || ! is_admin_bar_showing() || 'hide-admin-bar-menu' === $fts_admin_bar_menu ) {
 			return;
 		}
@@ -407,64 +420,64 @@ class Feed_Functions {
 	 */
 	public function fts_ago( $timestamp ) {
 		// not setting isset'ing anything because you have to save the settings page to even enable this feature
-		$fts_language_second = get_option( 'fts_language_second' );
+		$fts_language_second = $this->settings_functions->fts_get_option( 'fts_language_second' );
 		if ( empty( $fts_language_second ) ) {
 			$fts_language_second = esc_html__( 'second', 'feed-them-social' );
 		}
-		$fts_language_seconds = get_option( 'fts_language_seconds' );
+		$fts_language_seconds = $this->settings_functions->fts_get_option( 'fts_language_seconds' );
 		if ( empty( $fts_language_seconds ) ) {
 			$fts_language_seconds = esc_html__( 'seconds', 'feed-them-social' );
 		}
-		$fts_language_minute = get_option( 'fts_language_minute' );
+		$fts_language_minute = $this->settings_functions->fts_get_option( 'fts_language_minute' );
 		if ( empty( $fts_language_minute ) ) {
 			$fts_language_minute = esc_html__( 'minute', 'feed-them-social' );
 		}
-		$fts_language_minutes = get_option( 'fts_language_minutes' );
+		$fts_language_minutes = $this->settings_functions->fts_get_option( 'fts_language_minutes' );
 		if ( empty( $fts_language_minutes ) ) {
 			$fts_language_minutes = esc_html__( 'minutes', 'feed-them-social' );
 		}
-		$fts_language_hour = get_option( 'fts_language_hour' );
+		$fts_language_hour = $this->settings_functions->fts_get_option( 'fts_language_hour' );
 		if ( empty( $fts_language_hour ) ) {
 			$fts_language_hour = esc_html__( 'hour', 'feed-them-social' );
 		}
-		$fts_language_hours = get_option( 'fts_language_hours' );
+		$fts_language_hours = $this->settings_functions->fts_get_option( 'fts_language_hours' );
 		if ( empty( $fts_language_hours ) ) {
 			$fts_language_hours = esc_html__( 'hours', 'feed-them-social' );
 		}
-		$fts_language_day = get_option( 'fts_language_day' );
+		$fts_language_day = $this->settings_functions->fts_get_option( 'fts_language_day' );
 		if ( empty( $fts_language_day ) ) {
 			$fts_language_day = esc_html__( 'day', 'feed-them-social' );
 
 		}
-		$fts_language_days = get_option( 'fts_language_days' );
+		$fts_language_days = $this->settings_functions->fts_get_option( 'fts_language_days' );
 		if ( empty( $fts_language_days ) ) {
 			$fts_language_days = esc_html__( 'days', 'feed-them-social' );
 		}
-		$fts_language_week = get_option( 'fts_language_week' );
+		$fts_language_week = $this->settings_functions->fts_get_option( 'fts_language_week' );
 		if ( empty( $fts_language_week ) ) {
 			$fts_language_week = esc_html__( 'week', 'feed-them-social' );
 		}
-		$fts_language_weeks = get_option( 'fts_language_weeks' );
+		$fts_language_weeks = $this->settings_functions->fts_get_option( 'fts_language_weeks' );
 		if ( empty( $fts_language_weeks ) ) {
 			$fts_language_weeks = esc_html__( 'weeks', 'feed-them-social' );
 		}
-		$fts_language_month = get_option( 'fts_language_month' );
+		$fts_language_month = $this->settings_functions->fts_get_option( 'fts_language_month' );
 		if ( empty( $fts_language_month ) ) {
 			$fts_language_month = esc_html__( 'month', 'feed-them-social' );
 		}
-		$fts_language_months = get_option( 'fts_language_months' );
+		$fts_language_months = $this->settings_functions->fts_get_option( 'fts_language_months' );
 		if ( empty( $fts_language_months ) ) {
 			$fts_language_months = esc_html__( 'months', 'feed-them-social' );
 		}
-		$fts_language_year = get_option( 'fts_language_year' );
+		$fts_language_year = $this->settings_functions->fts_get_option( 'fts_language_year' );
 		if ( empty( $fts_language_year ) ) {
 			$fts_language_year = esc_html__( 'year', 'feed-them-social' );
 		}
-		$fts_language_years = get_option( 'fts_language_years' );
+		$fts_language_years = $this->settings_functions->fts_get_option( 'fts_language_years' );
 		if ( empty( $fts_language_years ) ) {
 			$fts_language_years = esc_html__( 'years', 'feed-them-social' );
 		}
-		$fts_language_ago = get_option( 'fts_language_ago' );
+		$fts_language_ago = $this->settings_functions->fts_get_option( 'fts_language_ago' );
 		if ( empty( $fts_language_ago ) ) {
 			$fts_language_ago = esc_html__( 'ago', 'feed-them-social' );
 		}
@@ -516,20 +529,19 @@ class Feed_Functions {
 	public function fts_custom_date( $created_time, $feed_type ) {
 
 
-		$fts_custom_date         = get_option( 'fts-custom-date' );
-		$fts_custom_time         = get_option( 'fts-custom-time' );
-		$custom_date_check       = get_option( 'fts-date-and-time-format' );
-		$fts_twitter_offset_time = get_option( 'fts_twitter_time_offset' );
-		$fts_timezone            = get_option( 'fts-timezone' );
+		$fts_custom_date         = $this->settings_functions->fts_get_option( 'custom_date' );
+		$fts_custom_time         = $this->settings_functions->fts_get_option( 'custom_time' );
+		$custom_date_check       = $this->settings_functions->fts_get_option( 'date_time_format' );
+		$fts_twitter_offset_time = $this->settings_functions->fts_get_option( 'twitter_time' );
+		$fts_timezone            = $this->settings_functions->fts_get_option( 'timezone' );
 
-		if ( '' === $fts_custom_date && '' === $fts_custom_time ) {
+		if ( empty( $fts_custom_date ) && empty( $fts_custom_time ) ) {
 			$custom_date_check = $custom_date_check;
 		} elseif ( '' !== $fts_custom_date || '' !== $fts_custom_time ) {
 			$custom_date_check = $fts_custom_date . ' ' . $fts_custom_time;
 		} else {
-			$custom_date_check = 'F jS, Y \a\t g:ia';
+            $custom_date_check = 'F jS, Y \a\t g:ia';
 		}
-
 		// Always store the current timezone so that it can be restored later
 		$fts_old_timezone = date_default_timezone_get();
 		if ( ! empty( $fts_timezone ) ) {

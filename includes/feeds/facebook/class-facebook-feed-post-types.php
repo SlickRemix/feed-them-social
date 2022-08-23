@@ -8,6 +8,15 @@
  */
 class Facebook_Feed_Post_Types {
 
+    /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
+
 	public $feed_functions;
 
 	/**
@@ -17,7 +26,11 @@ class Facebook_Feed_Post_Types {
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct( $feed_functions ) {
+	public function __construct( $feed_functions, $settings_functions ) {
+
+        // Settings Functions Class.
+        $this->settings_functions = $settings_functions;
+
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
 	}
@@ -818,10 +831,10 @@ class Facebook_Feed_Post_Types {
 		$facebook_from_name = $facebook_post_from_name ?? '';
 		$facebook_from_name = preg_quote( $facebook_from_name, '/' );
 
-		$facebook_post_story          = $facebook_post->story ?? '';
-		$fts_custom_date   = get_option( 'fts-custom-date' ) ?? '';
-		$fts_custom_time   = get_option( 'fts-custom-time' ) ?? '';
-		$custom_date_check = get_option( 'fts-date-and-time-format' ) ?? '';
+		$facebook_post_story = $facebook_post->story ?? '';
+        $fts_custom_date     = $this->settings_functions->fts_get_option( 'custom_date' ) ?? '';
+        $fts_custom_time     = $this->settings_functions->fts_get_option( 'custom_time' ) ?? '';
+        $custom_date_check   = $this->settings_functions->fts_get_option( 'date_time_format' ) ?? '';
 
 		$facebook_post_picture_gallery1 = $facebook_post->attachments->data[0]->subattachments->data[1]->media->image->src ?? '';
 		$facebook_post_picture_gallery2 = $facebook_post->attachments->data[0]->subattachments->data[2]->media->image->src ?? '';
@@ -1233,7 +1246,7 @@ class Facebook_Feed_Post_Types {
 				$facebook_event_latitude = isset( $single_event_location->place->location->latitude ) ? $single_event_location->place->location->latitude : '';
 				$facebook_event_longitude = isset( $single_event_location->place->location->longitude ) ? $single_event_location->place->location->longitude : '';
 				$facebook_event_ticket_info = isset( $single_event_ticket_info->ticket_uri ) ? $single_event_ticket_info->ticket_uri : '';
-				date_default_timezone_set( get_option( 'fts-timezone' ) );
+				date_default_timezone_set( $this->settings_functions->fts_get_option( 'timezone' ) );
 
 				// custom one day ago check.
 				if ( 'one-day-ago' === $custom_date_check ) {

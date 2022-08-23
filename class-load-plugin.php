@@ -93,7 +93,7 @@ class Feed_Them_Social {
 		$feed_cpt_options = new feedthemsocial\Feed_CPT_Options( $facebook_additional_options, $instagram_additional_options, $twitter_additional_options, $youtube_additional_options );
 
 		// Feed Functions.
-		$feed_functions = new feedthemsocial\Feed_Functions( $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
+		$feed_functions = new feedthemsocial\Feed_Functions( $settings_functions, $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
 
 		// Settings Page.
         new feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
@@ -117,7 +117,7 @@ class Feed_Them_Social {
 		new feedthemsocial\Shortcode_Button();
 
 		// Facebook Post Types.
-		$facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions );
+		$facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions, $settings_functions );
 
 		// Facebook Feed.
 		$facebook_feed = new Facebook_Feed( $feed_functions, $feed_cache, $facebook_post_types, $access_options );

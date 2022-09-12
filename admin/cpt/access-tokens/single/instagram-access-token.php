@@ -69,10 +69,15 @@ class Instagram_Access_Functions {
             'post' => $feed_cpt_id,
         ), admin_url( 'post.php' ) );
 
-        $user_id_basic           = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_id' );
-        $access_token            = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' ) ;
-        $access_token_expires_in = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token_expires_in' );
-        $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ? $this->data_protection->decrypt( $access_token ) : $access_token;
+	    // Saved Feed Options!
+	    $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
+
+        $user_id_basic           = $saved_feed_options['fts_instagram_custom_id'];
+        $access_token            = $saved_feed_options['fts_instagram_custom_api_token'];
+        $access_token_expires_in = $saved_feed_options['fts_instagram_custom_api_token_expires_in'];
+
+	    // Decrypt Access Token?
+        $decrypted_access_token  = $this->data_protection->decrypt( $access_token ) ?? $access_token;
         ?>
         <script>
             jQuery(document).ready(function ($) {

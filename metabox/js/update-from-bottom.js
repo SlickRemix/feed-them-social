@@ -545,7 +545,7 @@ function fts_check_valid() {
 
         //This is for the sub nav tabs under each social network and controls what is visible.
         var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';
-        // $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-cpt-main-options, .fts-instagram-shortcode-form .instagram-messages-selector, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-streams-shortcode-form .combine_post_count' );
+        // $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-cpt-main-options, .fts-instagram-shortcode-form .instagram_feed_type, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-streams-shortcode-form .combine_post_count' );
         $( fts_sub_tabs ).insertBefore( '.fts-cpt-main-options' );
 
 
@@ -993,25 +993,25 @@ function fts_check_valid() {
                                 $( '#instagram_popup_option option[value=yes]' ).attr('selected','selected');
                             }
                             else if( 'hide_date_likes_comments' == attribute ){
-                                $( '#fts-slicker-instagram-container-hide-date-likes-comments option[value=yes]' ).attr('selected','selected');
+                                $( '#instagram_hide_date_likes_comments option[value=yes]' ).attr('selected','selected');
                             }
                             else if( 'force_columns' == attribute ){
-                                $( '#fts_instagram_force_columns option[value=yes]' ).attr('selected','selected');
+                                $( '#instagram_force_columns option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'profile_wrap' == attribute ){
-                                $( '#instagram-profile-wrap option[value=yes]' ).attr('selected','selected');
+                                $( '#instagram_profile_wrap option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'profile_photo' == attribute ){
-                                $( '#instagram-profile-photo option[value=yes]' ).attr('selected','selected');
+                                $( '#instagram_profile_photo option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'profile_stats' == attribute ){
-                                $( '#instagram-profile-stats option[value=yes]' ).attr('selected','selected');
+                                $( '#instagram_profile_stats option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'profile_name' == attribute ){
-                                $( '#instagram-profile-name option[value=yes]' ).attr('selected','selected');
+                                $( '#instagram_profile_name option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'profile_description' == attribute ){
-                                $( '#instagram-profile-description option[value=yes]' ).attr('selected','selected');
+                                $( '#instagram_profile_description option[value=yes]' ).attr('selected','selected');
                             }
                         }
                         else {
@@ -1030,7 +1030,7 @@ function fts_check_valid() {
                                 $( '#instagram_hashtag_type' ).val( value );
                             }
                             else if( 'columns' == attribute ){
-                                $( '#fts_instagram_columns' ).val( value );
+                                $( '#instagram_columns' ).val( value );
                             }
                             else if( 'loadmore_btn_margin' == attribute ){
                                 $( '#instagram_loadmore_button_margin' ).val( value );

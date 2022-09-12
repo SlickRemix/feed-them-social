@@ -72,7 +72,6 @@ class Data_Protection {
 
         return base64_encode( $iv . $encrypted_value );
     }
-
     /**
      * Decrypt.
      *
@@ -82,7 +81,6 @@ class Data_Protection {
      * @return false|mixed|string
      */
     public function decrypt( $encrypted_value ) {
-
         if ( ! extension_loaded( 'openssl' ) || empty( $encrypted_value ) ) {
             return false;
         }
@@ -101,7 +99,6 @@ class Data_Protection {
         }
 
         return substr( $decrypted_value, 0, - strlen( $this->salt ) );
-
     }
 
     /**
@@ -129,7 +126,6 @@ class Data_Protection {
      * @return string Encryption salt.
      */
     private function get_default_salt() {
-
         if ( defined( 'AUTH_KEY' ) && '' !== AUTH_KEY ) {
             return AUTH_KEY;
         }

@@ -120,13 +120,19 @@ class Feed_Them_Social {
 		$facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions, $settings_functions );
 
 		// Facebook Feed.
-		$facebook_feed = new Facebook_Feed( $feed_functions, $feed_cache, $facebook_post_types, $access_options );
+		$facebook_feed = new feedthemsocial\Facebook_Feed( $feed_functions, $feed_cache, $facebook_post_types, $access_options );
+
+		// Instagram Feed.
+		$instagram_feed = new feedthemsocial\Instagram_Feed( $feed_functions, $feed_cache, $access_options );
 
 		// Twitter Feed.
 		$twitter_feed = new feedthemsocial\Twitter_Feed( $feed_functions, $feed_cache );
 
+		// Youtube Feed.
+		$youtube_feed = new feedthemsocial\Youtube_Feed( $feed_functions, $feed_cache, $access_options );
+
 		// Feed Display.
-		new feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $twitter_feed );
+		new feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed );
 
         // Backwards compatability.
         new feedthemsocial\Backwards_Compat( $settings_functions );
@@ -269,11 +275,17 @@ class Feed_Them_Social {
 		// Facebook Feed Post Types.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed-post-types.php';
 
+		// Instagram Feed.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/instagram/class-instagram-feed.php';
+
         // Twitter OAuth.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
 
 		// Twitter Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-twitter-feed.php';
+
+		// YouTube Feed.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/youtube/class-youtube-feed.php';
 
 		// Feed Cache.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';

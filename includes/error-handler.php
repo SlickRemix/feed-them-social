@@ -132,7 +132,7 @@ class fts_error_handler {
 	 *
 	 * @param array $saved_feed_options shortcode.
 	 * @param string $feed_data feed data.
-	 * @return array
+	 * @return array | bool
 	 * @throws \Exception Don't let old plugins activate.
 	 * @since 1.9.6
 	 */
@@ -198,7 +198,7 @@ class fts_error_handler {
 			}
 		}
 
-		return;
+		return false;
 	}
 
 	/**
@@ -212,7 +212,6 @@ class fts_error_handler {
 	public function youtube_error_check( $feed_data ) {
 
         $feed_data = json_decode( $feed_data['data'] );
-
 
         //error_log( print_r( $feed_data, true ) );
 
@@ -242,7 +241,56 @@ class fts_error_handler {
 		} catch ( \Exception $e ) {
             return array( true, $e->getMessage() );
 		}
-        return;
+        return false;
+	}
+
+	/**
+	 * Instagram Error Check
+	 *
+	 * @param string|array $feed_data feed data.
+	 * @return string|array
+	 * @throws \Exception Don't let old plugins activate.
+	 * @since 1.9.6
+	 */
+	public function instagram_error_check ( $feed_data ) {
+		// return error if no data retrieved!
+
+		// echo ' instagram_error_check ';
+
+		// print_r($feed_data);
+
+		try {
+			if ( !isset( $feed_data->data ) || empty( $feed_data->data ) ) {
+
+				///echo ' POPOPOPOPOPOPOPOPOPOPOPOPOPPOPOPOPO';
+				$solution_text = 'Here are some possible solutions to fix the error.';
+				throw new \Exception( '<div style="clear:both; padding:15px 0;">A Valid access token is required to request this resource. <a style="color:red !important;" target="_blank" href="https://www.slickremix.com/docs/instagram-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
+
+				// if ( empty( $feed_data->data ) ) {
+				// }
+
+				// Not using below for now because instagram does not return an error message unfortunately in the form of an array.
+				/* if ( isset( $feed_data->error ) ) {
+					 // If Custom Exception is not needed but still error then throw ugly error.
+					 if ( isset( $feed_data->error->message ) ) {
+						 $output = 'Error: ' . $feed_data->error->message;
+					 }
+					 if ( isset( $feed_data->error->code ) ) {
+						 $output .= '<br />Code: ' . $feed_data->error->code;
+					 }
+
+					 throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">' . $output . '</div>' );
+				 }*/
+
+				// Below not being used.
+				// throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this Instagram feed. Are there videos posted on the YouTube account?').'</div>' );
+			}
+		} catch (\Exception $e) {
+			// echo ' instagram_error_check ';
+			return array(true, $e->getMessage());
+		}
+
+		return null;
 	}
 }
 

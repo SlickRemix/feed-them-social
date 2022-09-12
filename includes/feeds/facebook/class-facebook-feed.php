@@ -1,4 +1,21 @@
-<?php namespace feedthemsocial;
+<?php
+/**
+ * Feed Them Social - Facebook Feed
+ *
+ * This page is used to create the Facebook feed!
+ *
+ * @package     feedthemsocial
+ * @copyright   Copyright (c) 2012-2022, SlickRemix
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0.0
+ */
+
+namespace feedthemsocial;
+
+// Exit if accessed directly!
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class Facebook Feed
@@ -8,10 +25,31 @@
  */
 class Facebook_Feed {
 
+	/**
+	 * Feed Functions
+	 *
+	 * General Feed Functions to be used in most Feeds.
+	 *
+	 * @var object
+	 */
 	public $feed_functions;
 
+	/**
+	 * Feed Cache
+	 *
+	 * Feed Cache class.
+	 *
+	 * @var object
+	 */
 	public $feed_cache;
 
+	/**
+	 * Facebook Post Types
+	 *
+	 * Facebook Post Types class.
+	 *
+	 * @var object
+	 */
 	public $facebook_post_types;
 
 	/**
@@ -1167,7 +1205,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
 				// If old Cache exists use it instead of showing an error.
 				if ( true === $this->feed_cache->fts_check_feed_cache_exists( $fb_cache_name, true ) ) {
-
 					// Return Cache because it exists in Database. Better than showing nothing right?
 					return $this->feed_cache->fts_get_feed_cache( $fb_cache_name, true );
 				}

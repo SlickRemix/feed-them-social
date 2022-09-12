@@ -4,7 +4,7 @@
  *
  * @package     FeedThemSocial
  * @subpackage  Admin/Settings
- * @copyright   Copyright (c) 2021, SlickRemix
+ * @copyright   Copyright (c) 2022, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */
@@ -63,7 +63,7 @@ class Settings_Functions {
 			'feed_them_social_premium' => array(
 				'title'        => 'Feed Them Social Premium',
 				'plugin_url'   => 'feed_them_social-premium/feed_them_social-premium.php',
-				'demo_url'     => 'https://feedthemgallery.com/',
+				'demo_url'     => 'https://feedthemsocial.com/',
 				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social/',
 			),
 		);

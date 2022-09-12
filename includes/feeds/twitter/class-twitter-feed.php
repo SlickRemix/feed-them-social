@@ -17,9 +17,23 @@ namespace feedthemsocial;
  */
 class Twitter_Feed {
 
-    public $feed_functions;
+   /**
+	 * Feed Functions
+	 *
+	 * General Feed Functions to be used in most Feeds.
+	 *
+	 * @var object
+	 */
+	public $feed_functions;
 
-    public $feed_cache;
+	/**
+	 * Feed Cache
+	 *
+	 * Feed Cache class.
+	 *
+	 * @var object
+	 */
+	public $feed_cache;
 
 	/**
 	 * Construct

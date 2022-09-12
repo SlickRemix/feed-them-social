@@ -2997,9 +2997,9 @@ class Feed_CPT_Options {
                     'option_type' => 'select',
                     'label'       => __( 'Feed Type', 'feed-them-social' ),
                     'type'        => 'text',
-                    'input_wrap_class' => 'instagram-messages-selector',
-                    'id'          => 'instagram-messages-selector',
-                    'name'        => 'instagram-messages-selector',
+                    'input_wrap_class' => 'instagram_feed_type',
+                    'id'          => 'instagram_feed_type',
+                    'name'        => 'instagram_feed_type',
                     'default_value'    => '',
                     'options'     => array(
                         array(
@@ -3127,8 +3127,8 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'label'       => __( '# of Pics (optional)', 'feed-them-social' ) . $limitforpremium,
 					'type'        => 'text',
-					'id'          => 'pics_count',
-					'name'        => 'pics_count',
+					'id'          => 'instagram_pics_count',
+					'name'        => 'instagram_pics_count',
 
 					// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
 					// 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
@@ -3136,17 +3136,17 @@ class Feed_CPT_Options {
 
 					// Relative to JS.
 					'short_attr'  => array(
-						'attr_name'    => 'pics_count',
+						'attr_name'    => 'instagram_pics_count',
 						'var_final_if' => 'yes',
 						'empty_error'  => 'set',
-						'empty_error_value' => 'pics_count=6',
+						'empty_error_value' => 'instagram_pics_count=6',
 					),
 				),
 
 				// Feed Type
 				array(
 					'option_type' => 'select',
-					'id'          => 'instagram-messages-selector',
+					'id'          => 'instagram_feed_type',
 					'no_html'     => 'yes',
 
 					// Relative to JS.
@@ -3208,8 +3208,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Show Profile Info', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'instagram-profile-wrap',
-					'name'        => 'instagram-profile-wrap',
+					'id'          => 'instagram_profile_wrap',
+					'name'        => 'instagram_profile_wrap',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'No', 'feed-them-social' ),
@@ -3231,8 +3231,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Show Profile Photo', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'instagram-profile-photo',
-					'name'        => 'instagram-profile-photo',
+					'id'          => 'instagram_profile_photo',
+					'name'        => 'instagram_profile_photo',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'No', 'feed-them-social' ),
@@ -3255,8 +3255,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Show Profile Stats', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'instagram-profile-stats',
-					'name'        => 'instagram-profile-stats',
+					'id'          => 'instagram_profile_stats',
+					'name'        => 'instagram_profile_stats',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'No', 'feed-them-social' ),
@@ -3276,8 +3276,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Show Profile Name', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'instagram-profile-name',
-					'name'        => 'instagram-profile-name',
+					'id'          => 'instagram_profile_name',
+					'name'        => 'instagram_profile_name',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'No', 'feed-them-social' ),
@@ -3297,8 +3297,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Show Profile Description', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'instagram-profile-description',
-					'name'        => 'instagram-profile-description',
+					'id'          => 'instagram_profile_description',
+					'name'        => 'instagram_profile_description',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'No', 'feed-them-social' ),
@@ -3348,8 +3348,8 @@ class Feed_CPT_Options {
 					'label'       => __( 'Number of Columns', 'feed-them-social' ),
 					'type'        => 'text',
 					'instructional-text' => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
-					'id'          => 'fts_instagram_columns',
-					'name'        => 'fts_instagram_columns',
+					'id'          => 'instagram_columns',
+					'name'        => 'instagram_columns',
 					'default_value' => '3',
 					'options'     => array(
 						array(
@@ -3400,8 +3400,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Force Columns', 'feed-them-social' ) . '<br/><small>' . __( 'No, will allow the images to be responsive for smaller devices. Yes, will force columns.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
-					'id'          => 'fts_instagram_force_columns',
-					'name'        => 'fts_instagram_force_columns',
+					'id'          => 'instagram_force_columns',
+					'name'        => 'instagram_force_columns',
 					'default_value' => 'no',
 					'options'     => array(
 						array(
@@ -3424,8 +3424,8 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'label'       => __( 'The space between photos', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'fts-slicker-instagram-container-margin',
-					'name'        => 'fts-slicker-instagram-container-margin',
+					'id'          => 'instagram_space_between_photos',
+					'name'        => 'instagram_space_between_photos',
 					'placeholder' => '1px',
 					'value'       => '',
 					'short_attr'  => array(
@@ -3443,8 +3443,9 @@ class Feed_CPT_Options {
 					'label'       => __( 'Size of the Instagram Icon', 'feed-them-social' ),
 					'label_note'  => __( 'Visible when you hover over photo', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'fts-slicker-instagram-icon-center',
-					'name'        => 'fts-slicker-instagram-icon-center',
+					'id'          => 'instagram_icon_size',
+					'name'        => 'instagram_icon_size',
+					'default_value' =>  '65px',
 					'placeholder' => '65px',
 					'short_attr'  => array(
 						'attr_name' => 'icon_size',
@@ -3461,8 +3462,8 @@ class Feed_CPT_Options {
 					'label'       => __( 'Date, Heart & Comment icon', 'feed-them-social' ) . '<br/><small>' . __( 'Heart and Comment counts only work when using Feed Type: Business Feed.', 'feed-them-social' ) . '</small>',
 					'label_note'  => __( 'Good for image sizes under 120px', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'fts-slicker-instagram-container-hide-date-likes-comments',
-					'name'        => 'fts-slicker-instagram-container-hide-date-likes-comments',
+					'id'          => 'instagram_hide_date_likes_comments',
+					'name'        => 'instagram_hide_date_likes_comments',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'Show', 'feed-them-social' ),
@@ -3641,7 +3642,6 @@ class Feed_CPT_Options {
 
 		return $this->all_options['instagram'];
 	}
-
 
 	/**
 	 * Twitter Options

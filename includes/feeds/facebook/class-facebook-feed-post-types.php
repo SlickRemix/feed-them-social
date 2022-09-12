@@ -1,4 +1,21 @@
-<?php namespace feedthemsocial;
+<?php
+/**
+ * Feed Them Social - Facebook Feed Post Types
+ *
+ * This page is used to create the Facebook Feed Post Types!
+ *
+ * @package     feedthemsocial
+ * @copyright   Copyright (c) 2012-2022, SlickRemix
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0.0
+ */
+
+namespace feedthemsocial;
+
+// Exit if accessed directly!
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Class Facebook Feed Post Types
@@ -17,6 +34,13 @@ class Facebook_Feed_Post_Types {
      */
     public $settings_functions;
 
+	/**
+	 * Feed Functions
+	 *
+	 * General Feed Functions to be used in most Feeds.
+	 *
+	 * @var object
+	 */
 	public $feed_functions;
 
 	/**
@@ -942,7 +966,7 @@ class Facebook_Feed_Post_Types {
 			}
 
 			// Hide Date, Likes and Comments.
-			$hide_date_likes_comments = 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && 'yes' === $saved_feed_options['facebook_hide_date_likes_comments'] || 'albums' === $saved_feed_options['facebook_page_feed_type'] && 'yes' === $saved_feed_options['facebook_hide_date_likes_comments'] ? 'hide-date-likes-comments-etc' : '';
+			$saved_feed_options['facebook_hide_date_likes_comments'] = 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && 'yes' === $saved_feed_options['facebook_hide_date_likes_comments'] || 'albums' === $saved_feed_options['facebook_page_feed_type'] && 'yes' === $saved_feed_options['facebook_hide_date_likes_comments'] ? 'hide-date-likes-comments-etc' : '';
 
 			// Show Media.
 			$show_media = isset( $saved_feed_options['facebook_show_media']) ? $saved_feed_options['facebook_show_media']: 'bottom';
@@ -952,7 +976,7 @@ class Facebook_Feed_Post_Types {
 
 			if ( 'top' !== $show_media ) {
 				// Top Wrap (Excluding : albums, album_photos, and hiding).
-				echo '<div class="fts-jal-fb-top-wrap ' . esc_attr( $hide_date_likes_comments ) . '">';
+				echo '<div class="fts-jal-fb-top-wrap ' . esc_attr( $saved_feed_options['facebook_hide_date_likes_comments'] ) . '">';
 
 				if ( 'albums' !== $saved_feed_options['facebook_page_feed_type'] ) {
 					echo '<div class="fts-jal-fb-user-thumb">';
@@ -1781,7 +1805,7 @@ class Facebook_Feed_Post_Types {
 			if ( isset( $saved_feed_options['facebook_show_social_icon'] ) && 'left' === $saved_feed_options['facebook_show_social_icon'] ) {
 				echo '<div class="fts-mashup-icon-wrap-left fts-mashup-facebook-icon"><a href="' . esc_url( 'https://www.facebook.com/' . $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"></a></div>';
 			}
-			echo '<div class="fts-jal-fb-top-wrap ' . esc_attr( $hide_date_likes_comments ) . '" style="display:block !important;">';
+			echo '<div class="fts-jal-fb-top-wrap ' . esc_attr( $saved_feed_options['facebook_hide_date_likes_comments'] ) . '" style="display:block !important;">';
 			echo '<div class="fts-jal-fb-user-thumb">';
 
 			$avatar_id                  = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';

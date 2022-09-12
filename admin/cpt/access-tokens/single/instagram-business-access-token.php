@@ -94,12 +94,16 @@ class Instagram_Business_Access_Functions {
             </div>
 
             <?php
+		        // Saved Feed Options!
+                $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
 
-                $page_id = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token_user_id' );
-                $access_token = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token' );
-                $instagram_name = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token_user_name' );
-                $fb_name = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_instagram_custom_api_token_fb_user_name' );
-                $decrypted_access_token = false !== $this->data_protection->decrypt( $access_token ) ? $this->data_protection->decrypt( $access_token ) : $access_token;
+                $page_id            = $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'];
+                $access_token       = $saved_feed_options['fts_facebook_instagram_custom_api_token'];
+                $instagram_name     = $saved_feed_options['fts_facebook_instagram_custom_api_token_user_name'];
+                $fb_name            = $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'];
+
+                // Decrypt Access Token?
+                $decrypted_access_token = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
 
                 if ( ! empty( $page_id ) || ! empty( $access_token ) ) {
 
@@ -117,9 +121,7 @@ class Instagram_Business_Access_Functions {
                 }
                 ?>
                 <script>
-
                     jQuery(document).ready(function ($) {
-
                         <?php if ( !isset( $_GET['code'], $_GET['feed_type'] ) ) {?>
                         // This fires only if we are not trying to get a access token.
                         $('#fts_facebook_instagram_custom_api_token').attr( 'value', '<?php echo $decrypted_access_token ?>' );
@@ -136,10 +138,6 @@ class Instagram_Business_Access_Functions {
 
                              if ( isset( $data->data->is_valid ) || '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' === $data->error->message ) {
 
-
-                                 if ( !empty( $page_id ) && !empty( $fb_name ) && !empty( $access_token ) ) {
-
-                                 }
 
                                  $insta_fb_text = '<a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-insta-icon"></span>' . $instagram_name . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $fb_name . '</a>';
 
@@ -160,7 +158,6 @@ class Instagram_Business_Access_Functions {
                                          '</a></div>'
                                      );
                                  }
-
                              }
                              if ( isset( $data->data->error->message ) && !empty( $data ) || isset( $data->error->message ) && !empty( $data ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {
                                  if ( isset( $data->data->error->message ) ) {

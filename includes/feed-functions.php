@@ -1563,6 +1563,152 @@ if ( ! empty( $youtube_loadmore_text_color ) ) {
 
         wp_die();
     }
+
+	/**
+	 * Use Cache Check
+	 *
+	 * Checks to see if we need to use cache or not. NEEDS TO BE SORTED TO PROPER FILE AFTER 4.0 Launch.
+	 *
+	 * @param string|array $api_url API Call.
+	 * @param string       $cache_name Cache name.
+	 * @return array|mixed
+	 * @throws \Exception Throw Exception if all fails.
+	 * @since
+	 */
+	public function use_cache_check( $api_url, $cache_name, $feed_type ) {
+		// print_r( $api_url );
+		// echo '<br/> Cache Name! <br/>' . $cache_name;
+		// print_r( '<br/>NEXT!<br/> ' );
+		if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+			if ( true === $this->feed_cache->fts_check_feed_cache_exists( $cache_name ) ) {
+				$response = $this->feed_cache->fts_get_feed_cache( $cache_name );
+				// echo '<br/> true cached... we are here <br/>';
+				// echo ' pppppppppppppppppppp ';
+				// YO!
+				// echo 'Cache Should Be Printing out here.<br/>';
+				// echo $cache_name;
+				// print_r( $response );
+				// Return Cache because it exists in Database.
+				return $response;
+			}
+		}
+
+		// SO if the cache does not exists then we run some checks below.
+
+		// Get Feed using API call.
+		// echo ' ZZZZZZZZZZZ <br/>';
+
+		$fts_error_check = new fts_error_handler();
+		// Error Check.
+		if( 'youtube' === $feed_type ){
+			$response = $this->fts_get_feed_json( $api_url );
+			$feed_data = json_decode( $response['data'] );
+			$fts_error_check_complete = $fts_error_check->youtube_error_check( $feed_data );
+		}
+
+		if( 'youtube_single' === $feed_type ){
+			// echo ' AAAAAAAAAAAAAAA ';
+			// print_r( $api_url );
+			$response = $this->fts_get_feed_json( $api_url );
+			$feed_data = json_decode( $response['items'] );
+			$fts_error_check_complete = $fts_error_check->youtube_error_check( $feed_data );
+		}
+
+		if( 'instagram' === $feed_type ){
+			$instagram_basic_response = $this->fts_get_feed_json( $api_url );
+			$instagram_basic = json_decode( $instagram_basic_response['data'] );
+
+			if ( !empty( $instagram_basic->data ) ) {
+				$parts = parse_url($api_url);
+				parse_str( $parts['query'], $query);
+				$access_token = false !== $this->data_protection->decrypt(  $query['access_token'] ) ? $this->data_protection->decrypt(  $query['access_token'] ) :  $query['access_token'];
+
+				// We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
+				$instagram_basic_output = (object)['data' => []];
+				foreach ( $instagram_basic->data as $media ) {
+					$media_id = $media->id;
+					$instagram_basic_data_array['data'] = 'https://graph.instagram.com/' . $media_id . '?fields=caption,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $access_token;
+					$instagram_basic_media_response = $this->fts_get_feed_json( $instagram_basic_data_array );
+					$instagram_basic_media = json_decode( $instagram_basic_media_response['data'] );
+					$instagram_basic_output->data[] = $instagram_basic_media;
+				}
+			}
+
+			$feed_data = (object) array_merge( (array) $instagram_basic, (array) $instagram_basic_output );
+			$response = json_encode( $feed_data );
+			$fts_error_check_complete = $fts_error_check->instagram_error_check( $instagram_basic );
+		}
+		// echo ' 333333333333 ';
+		// print_r( $response['items'] );
+
+		// echo ' TTTTTTTT ';
+		// print_r( $fts_error_check_complete );
+
+		// YO!
+		// An Access token will expire every 60 minutes for Youtube.
+		// Instagram Basic token expires everyting 60 days, but we are going to refresh the token every 7 days for now.
+		// When a user refreshes any page on the front end or backend settings page we user our refresh token to get a new access token if the time has expired.
+		// If the time has passed before a user has refreshed the website, then the API call will error, and we don't want to cache that error.
+		// Instead we allow the cached version to be served and upon page reload the new access token will be saved to the db via ajax and the feed will continue to show.
+		// Yes works for front end users not logged in too because we use nopriv for the add_action ajax call.
+		if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
+
+			// echo ' rrrrrrrrrrrrrr ';
+
+			// If old Cache exists use it instead of showing an error.
+			if ( true === $this->feed_cache->fts_check_feed_cache_exists( $cache_name, true ) ) {
+
+				// echo ' OOOOOOOOOOOOOOOOOO ';
+
+				// If Current user is Admin and Cache exists for use, then still show Admin the error for debugging purposes.
+				if ( current_user_can( 'administrator' ) ) {
+					echo wp_kses(
+						$fts_error_check_complete[1] . ' <em>NOTICE: Error only visible to Admin.</em>',
+						array(
+							'a' => array(
+								'href' => array(),
+								'title' => array(),
+							),
+							'br' => array(),
+							'em' => array(),
+							'strong' => array(),
+						)
+					);
+				}
+
+				// Return Cache because it exists in Database. Better than showing nothing right?
+				return $this->feed_cache->fts_get_feed_cache( $cache_name, true );
+			}
+
+			// If User is Admin and no Old cache is saved in database for use.
+			if ( current_user_can( 'administrator' ) ) {
+				//echo ' If User is Admin and no Old cache is saved in database for use ';
+				echo $fts_error_check_complete[0];
+			}
+		}
+
+		// Finally if nothing else, check if there is a response and if so create the cache.
+		if( 'youtube_single' === $feed_type ){
+			if( !empty( $response[ 'data' ] ) ) {
+				echo ' CREATING CACHE NOW: ';
+				$this->feed_cache->fts_create_feed_cache( $cache_name, $response );
+			}
+		}
+
+		if( 'youtube' === $feed_type ){
+			if( !empty( $response[ 'data' ] ) ) {
+				// echo ' CREATING CACHE NOW: ';
+				$this->feed_cache->fts_create_feed_cache( $cache_name, $response );
+			}
+		}
+
+		if( 'instagram' === $feed_type ) {
+			if( !empty( $instagram_basic->data ) ) {
+				// echo ' CREATING CACHE NOW: ';
+				$this->feed_cache->fts_create_feed_cache( $cache_name, $response );
+			}
+		}
+
+		return $response;
+	}
 }
-
-

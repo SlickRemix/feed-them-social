@@ -28,13 +28,55 @@ class Feed_Shortcode {
      */
     public $options_functions;
 
+	/**
+	 * Feed Functions
+	 *
+	 * General Feed Functions to be used in most Feeds.
+	 *
+	 * @var object
+	 */
+	public $feed_functions;
 
-    public $feed_functions;
+	/**
+	 * Facebook Feed
+	 *
+	 * The Facebook feed object.
+	 *
+	 * @var object
+	 */
+	public $facebook_feed;
+
+	/**
+	 * Instagram Feed
+	 *
+	 * The Instagram feed object.
+	 *
+	 * @var object
+	 */
+	public $instagram_feed;
+
+	/**
+	 * Twitter Feed
+	 *
+	 * The Twitter feed object.
+	 *
+	 * @var object
+	 */
+	public $twitter_feed;
+
+	/**
+	 * YouTube Feed
+	 *
+	 * The YouTube feed object.
+	 *
+	 * @var object
+	 */
+	public $youtube_feed;
 
 	/**
 	 * Feed Display Constructor.
 	 */
-	public function __construct( $feed_functions, $options_functions, $facebook_feed, $twitter_feed ){
+	public function __construct( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed ){
 		// Add Actions and filters.
 		$this->add_actions_filters();
 
@@ -47,8 +89,14 @@ class Feed_Shortcode {
 		// Facebook Feed.
 		$this->facebook_feed = $facebook_feed;
 
+		// Instagram Feed.
+		$this->instagram_feed = $instagram_feed;
+
 		// Twitter Feed.
 		$this->twitter_feed = $twitter_feed;
+
+		// YouTube Feed.
+		$this->youtube_feed = $youtube_feed;
 	}
 
     /**
@@ -182,22 +230,29 @@ class Feed_Shortcode {
 		if ( $feed_type ){
 			//Filter by Feed Type
 			switch ( $feed_type ){
+				// Facebook Feed
 				case 'facebook-feed-type':
-					//Display the Feed!
+					// Display Facebook Feed!
 					echo $this->facebook_feed->display_facebook( $feed_post_id );
 					break;
-				case 'instagram-feed-type':
-					break;
-				case 'instagram-business-feed-type':
+				// Instagram Feed.
+				case 'instagram-feed-type' || 'instagram-business-feed-type':
+					// Display the Instagram Feed!
+					echo $this->instagram_feed->display_instagram( $feed_post_id );
 					break;
 				// Twitter Feed.
 				case 'twitter-feed-type':
-					//Display the Feed!
+					// Display Twitter Feed!
 					echo $this->twitter_feed->display_twitter( $feed_post_id );
 					break;
+				// YouTube Feed.
 				case 'youtube-feed-type':
+					// Display YouTube Feed!
+					echo $this->youtube_feed->display_youtube( $feed_post_id );
 					break;
+				// Combine Streams Feed.
 				case 'combine-streams-feed-type':
+					// Display Combined Steams Feed!
 					break;
 			}
 		}

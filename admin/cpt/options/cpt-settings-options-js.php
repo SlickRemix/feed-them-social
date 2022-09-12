@@ -210,14 +210,14 @@ class Settings_Options_JS {
 		<script>
             jQuery(document).ready(function () {
 
-                jQuery('#instagram-messages-selector').bind('change', function (e) {
-                    if (jQuery('#instagram-messages-selector').val() == 'business') {
+                jQuery('#instagram_feed_type').bind('change', function (e) {
+                    if (jQuery('#instagram_feed_type').val() == 'business') {
                         jQuery(".main-instagram-profile-options-wrap").show();
                     }
                     else {
                         jQuery(".main-instagram-profile-options-wrap").hide();
                     }
-                    if (jQuery('#instagram-messages-selector').val() == 'hashtag') {
+                    if (jQuery('#instagram_feed_type').val() == 'hashtag') {
                         jQuery(".instagram_hashtag, .instagram_hashtag_type").show();
                     }
                     else {

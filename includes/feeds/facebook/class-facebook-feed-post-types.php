@@ -149,7 +149,7 @@ class Facebook_Feed_Post_Types {
 			case 'photo':
 				if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
 					if ( $saved_feed_options['facebook_page_word_count'] ) {
-						$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
+						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
 						echo '<div class="fts-jal-fb-description fts-non-popup-text">' . wp_kses(
 								nl2br( $trimmed_content ),
 								array(
@@ -199,7 +199,7 @@ class Facebook_Feed_Post_Types {
 			case 'albums':
 				if ( 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
 					if ( $saved_feed_options['facebook_page_word_count'] ) {
-						$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
+						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
 						echo '<div class="fts-jal-fb-description">' . wp_kses(
 								nl2br( $trimmed_content ),
 								array(
@@ -232,7 +232,7 @@ class Facebook_Feed_Post_Types {
 					// Do for Default feeds or the video gallery feed.
 					if ( isset( $saved_feed_options['facebook_page_word_count']) && '0' !== $saved_feed_options['facebook_page_word_count']) {
 						if ( $saved_feed_options['facebook_page_word_count'] && '0' !== $saved_feed_options['facebook_page_word_count']) {
-							$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
+							$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
 							echo '<div class="fts-jal-fb-description">' . wp_kses(
 									$trimmed_content,
 									array(
@@ -279,7 +279,7 @@ class Facebook_Feed_Post_Types {
 					// here we trim the words for the links description text... for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
 					if ( $saved_feed_options['facebook_page_word_count'] && ! empty( $saved_feed_options['facebook_page_word_count']) ) {
 
-						$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
+						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
 						echo '<div class="jal-fb-description">' . wp_kses(
 								nl2br( $trimmed_content ),
 								array(
@@ -438,7 +438,7 @@ class Facebook_Feed_Post_Types {
 					// here we trim the words for the links description text... for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
 					if ( $saved_feed_options['facebook_page_word_count'] ) {
 						$more            = isset( $more ) ? $more : '';
-						$trimmed_content = $trunacate_words->fts_custom_trim_words( $fb_caption, $saved_feed_options['facebook_page_word_count'] , $more );
+						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_caption, $saved_feed_options['facebook_page_word_count'] , $more );
 						echo '<div class="jal-fb-caption">' . wp_kses(
 								$trimmed_content,
 								array(
@@ -504,13 +504,14 @@ class Facebook_Feed_Post_Types {
 	 * @param string $post_data The post data.
 	 * @since 1.9.6
 	 */
-	public function facebook_post_see_more( $fb_link, $lcs_array, $facebook_post_type, $fb_post_id = null, $saved_feed_options, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data ) {
+	public function facebook_post_see_more( $fb_link, $lcs_array, $facebook_post_type, $fb_post_id = null, $saved_feed_options, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data = null ) {
 
-		$description = isset( $post_data->message ) ? $post_data->message : '';
+		$description = isset( $post_data->message ) ?? '';
 		// SHOW THE FB FEED PRINT_R
-		// echo'<pre>';.
-		// print_r();.
-		// echo'</pre>';.
+		/* echo'<pre>';
+		 print_r( $post_data);
+		 echo'</pre>';*/
+
 		switch ( $facebook_post_type ) {
 			case 'events':
 				$single_event_id = 'https://www.facebook.com/events/' . $single_event_id;
@@ -1036,9 +1037,10 @@ class Facebook_Feed_Post_Types {
 
 				// here we trim the words for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_page_word_count'] && 'top' !== $show_media || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) && $saved_feed_options['facebook_page_word_count'] && ! empty( $saved_feed_options['facebook_page_word_count']) && 'top' !== $show_media || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && $saved_feed_options['facebook_page_word_count'] && 'top' !== $show_media ) {
-					$more = isset( $more ) ? $more : '';
+					$more = isset( $more ) ? $more : '...';
 
-					$trimmed_content = $this->fts_custom_trim_words( $facebook_message, $saved_feed_options['facebook_page_word_count'] , $more );
+                    $trunacate_words = new \FeedThemSocialTruncateHTML();
+					$trimmed_content = $trunacate_words::fts_custom_trim_words( $facebook_message, $saved_feed_options['facebook_page_word_count'] , $more );
 
 					// Going to consider this for the future if facebook fixes the api to define when are checking in. Add  '.$checked_in.' inside the fts-jal-fb-message div.
 					// $checked_in = '<a target="_blank" class="fts-checked-in-img" href="https://www.facebook.com/'.$facebook_post->place->id.'"><img src="https://graph.facebook.com/'.$facebook_post->place->id.'/picture?width=150"/></a><a target="_blank" class="fts-checked-in-text-link" href="https://www.facebook.com/'.$facebook_post->place->id.'">'.esc_html("Checked in at", "feed-them-social").' '.$facebook_post->place->name.'</a><br/> '.esc_html("Location", "feed-them-social").': '.$facebook_post->place->location->city.', '.$facebook_post->place->location->country.' '.$facebook_post->place->location->zip.'<br/><a target="_blank" class="fts-fb-get-directions fts-checked-in-get-directions" href="https://www.facebook.com/'.$facebook_post->place->id.'">'.esc_html("Get Direction", "feed-them-social").'</a>';.
@@ -1830,7 +1832,7 @@ class Facebook_Feed_Post_Types {
 			// here we trim the words for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
 			if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) && $saved_feed_options['facebook_page_word_count'] || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_page_word_count'] ) {
 				$more            = isset( $more ) ? $more : '';
-				$trimmed_content = $this->fts_custom_trim_words( $facebook_message, $saved_feed_options['facebook_page_word_count'] , $more );
+				$trimmed_content = $trunacate_words::fts_custom_trim_words( $facebook_message, $saved_feed_options['facebook_page_word_count'] , $more );
 
 				echo '<div class="fts-jal-fb-message">';
 
@@ -1852,8 +1854,16 @@ class Facebook_Feed_Post_Types {
 		echo '</div>';
 		$facebook_post_single_id = isset( $facebook_post_single_id ) ? $facebook_post_single_id : '';
 		$single_event_id   = isset( $single_event_id ) ? $single_event_id : '';
-		$this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $facebook_post_id, $saved_feed_options, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
-		echo '<div class="fts-clear"></div>';
+
+         /*echo '<pre>';
+        print_r($facebook_post);
+         echo '</pre>';*/
+
+        $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $facebook_post_id, $saved_feed_options, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
+        // old call..
+       // $this->fts_facebook_post_see_more( $fb_link, $lcs_array, $fb_type, $fb_post_id, $fb_shortcode, $fb_post_user_id, $fb_post_single_id, $single_event_id, $post_data );
+
+        echo '<div class="fts-clear"></div>';
 		echo '</div>';
 
 	}//end feed_post_types()

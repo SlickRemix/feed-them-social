@@ -36,7 +36,7 @@
 
 class FeedThemSocialTruncateHTML {
 
-    public static function fts_custom_trim_words($html, $limit, $ellipsis = '...') {
+    public static function fts_custom_trim_words($html, $limit, $ellipsis = null) {
 
         if($limit <= 0 || $limit >= self::countWords(strip_tags($html)))
             return $html;

@@ -92,12 +92,12 @@ class Facebook_Additional_Options {
 
                 // Show Follow Button.
                 array(
-                    'input_wrap_class' => 'fb_language',
+                    'input_wrap_class' => 'fb_show_follow_btn',
                     'option_type'      => 'select',
                     'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
                     'type'             => 'text',
-                    'id'               => 'fb-lang-btn',
-                    'name'             => 'fb_language',
+                    'id'               => 'fb-show-follow-btn',
+                    'name'             => 'fb_show_follow_btn',
                     'default_value'    => 'dont-display',
                     'options'          => array(
                         array(
@@ -162,8 +162,8 @@ class Facebook_Additional_Options {
                     'option_type'      => 'select',
                     'label'            => esc_html__( 'Placement of the Button(s)', 'feed_them_social' ),
                     'type'             => 'text',
-                    'id'               => 'fb-show-follow-btn-where',
-                    'name'             => 'fb-show-follow-btn-where',
+                    'id'               => 'fb_show_follow_btn_where',
+                    'name'             => 'fb_show_follow_btn_where',
                     'default_value'    => 'fb-like-top-above-title',
                     'options'          => array(
                         array(
@@ -616,19 +616,19 @@ class Facebook_Additional_Options {
 							'value' => 'h2',
 						),
 						array(
-							'label' => esc_html__( 'h2', 'feed_them_social' ),
+							'label' => esc_html__( 'h3', 'feed_them_social' ),
 							'value' => 'h3',
 						),
 						array(
-							'label' => esc_html__( 'h2', 'feed_them_social' ),
+							'label' => esc_html__( 'h4', 'feed_them_social' ),
 							'value' => 'h4',
 						),
 						array(
-							'label' => esc_html__( 'h2', 'feed_them_social' ),
+							'label' => esc_html__( 'h5', 'feed_them_social' ),
 							'value' => 'h5',
 						),
 						array(
-							'label' => esc_html__( 'h2', 'feed_them_social' ),
+							'label' => esc_html__( 'h6', 'feed_them_social' ),
 							'value' => 'h6',
 						),
 					),

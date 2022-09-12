@@ -120,7 +120,7 @@ class Feed_Them_Social {
 		$facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions, $settings_functions );
 
 		// Facebook Feed.
-		$facebook_feed = new feedthemsocial\Facebook_Feed( $feed_functions, $feed_cache, $facebook_post_types, $access_options );
+		$facebook_feed = new feedthemsocial\Facebook_Feed( $settings_functions, $feed_functions, $feed_cache, $facebook_post_types, $access_options );
 
 		// Instagram Feed.
 		$instagram_feed = new feedthemsocial\Instagram_Feed( $feed_functions, $feed_cache, $access_options );
@@ -132,7 +132,10 @@ class Feed_Them_Social {
 		$youtube_feed = new feedthemsocial\Youtube_Feed( $feed_functions, $feed_cache, $access_options );
 
 		// Feed Display.
-		new feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed );
+		new feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $twitter_feed, $instagram_feed, $youtube_feed );
+
+        // Shorten words in Posts.
+        new FeedThemSocialTruncateHTML();
 
         // Backwards compatability.
         new feedthemsocial\Backwards_Compat( $settings_functions );

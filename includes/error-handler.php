@@ -190,7 +190,7 @@ class fts_error_handler {
 				}
 			}
 		} catch ( \Exception $e ) {
-			$fb_hide_error_handler_message = get_option( 'fb_hide_error_handler_message' ) && 'yes' === get_option( 'fb_hide_error_handler_message' ) ? 'yes' : 'no';
+			$fb_hide_error_handler_message = $saved_feed_options['fb_hide_error_handler_message'] && 'yes' === $saved_feed_options['fb_hide_error_handler_message'] ? 'yes' : 'no';
 			if ( 'no' === $fb_hide_error_handler_message ) {
 				return array( true, $e->getMessage() );
 			} else {

@@ -141,7 +141,7 @@ class Instagram_Feed {
 	 * @since 1.9.6
 	 */
 	public function fts_instagram_head() {
-		wp_enqueue_style( 'fts-feeds', plugins_url( 'feed-them-social/feeds/css/styles.css' ), array(), FTS_CURRENT_VERSION );
+		wp_enqueue_style( 'fts-feeds', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), array(), FTS_CURRENT_VERSION );
 	}
 
 	/**
@@ -171,9 +171,9 @@ class Instagram_Feed {
 					// it's ok if these styles & scripts load at the bottom of the page.
 					$fts_fix_magnific = get_option( 'fts_fix_magnific' ) ?? '';
 					if ( '1' !== $fts_fix_magnific ) {
-						wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
+						wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
 					}
-					wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, false );
+					wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, false );
 				}
 			}
             else {

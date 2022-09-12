@@ -52,6 +52,15 @@ class Facebook_Feed {
 	 */
 	public $facebook_post_types;
 
+    /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
+
 	/**
 	 * Access Options
 	 *
@@ -77,7 +86,12 @@ class Facebook_Feed {
      *
      * @since 1.9.6
      */
-    public function __construct( $feed_functions, $feed_cache, $facebook_post_types, $access_options ) {
+    public function __construct( $settings_functions, $feed_functions, $feed_cache, $facebook_post_types, $access_options ) {
+
+
+        // Settings Functions Class.
+        $this->settings_functions = $settings_functions;
+
 	    // Set Feed Functions object.
 	    $this->feed_functions = $feed_functions;
 
@@ -89,6 +103,191 @@ class Facebook_Feed {
 
 		// Access Options for tokens.
 		$this->access_options = $access_options;
+    }
+
+    /**
+     * FB Custom Styles
+     *
+     * Date sort option for multiple feeds in a shortcode.
+     *
+     * @param string $a First Date.
+     * @return false|int
+     * @since 4.0
+     */
+    public function fb_custom_styles( $feed_post_id ) {
+
+        $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
+
+        // CSS options.
+        $fb_hide_no_posts_message       = $saved_feed_options['fb_hide_no_posts_message'] ?? '';
+        $fb_header_extra_text_color     = $saved_feed_options['fb_header_extra_text_color'] ?? '';
+        $fb_text_color                  = $saved_feed_options['fb_text_color'] ?? '';
+        $fb_link_color                  = $saved_feed_options['fb_link_color'] ?? '';
+        $fb_link_color_hover            = $saved_feed_options['fb_link_color_hover'] ?? '';
+        $fb_feed_width                  = $saved_feed_options['fb_feed_width'] ?? '';
+        $fb_feed_margin                 = $saved_feed_options['fb_feed_margin'] ?? '';
+        $fb_feed_padding                = $saved_feed_options['fb_feed_padding'] ?? '';
+        $fb_feed_background_color       = $saved_feed_options['fb_feed_background_color'] ?? '';
+        $fb_post_background_color       = $saved_feed_options['fb_post_background_color'] ?? '';
+        $fb_grid_posts_background_color = $saved_feed_options['fb_grid_posts_background_color'] ?? '';
+        $fb_grid_border_bottom_color    = $saved_feed_options['fb_grid_border_bottom_color'] ?? '';
+        $fb_loadmore_background_color   = $saved_feed_options['fb_loadmore_background_color'] ?? '';
+        $fb_loadmore_text_color         = $saved_feed_options['fb_loadmore_text_color'] ?? '';
+        $fb_border_bottom_color         = $saved_feed_options['fb_border_bottom_color'] ?? '';
+        $fb_grid_posts_background_color = $saved_feed_options['fb_grid_posts_background_color'] ?? '';
+
+        $fb_reviews_backg_color         = $saved_feed_options['fb_reviews_backg_color'] ?? '';
+        $fb_reviews_text_color          = $saved_feed_options['fb_reviews_text_color'] ?? '';
+        $fb_reviews_overall_rating_background_color   =  $saved_feed_options['fb_reviews_overall_rating_background_color'] ?? '';
+        $fb_reviews_overall_rating_border_color       =  $saved_feed_options['fb_reviews_overall_rating_border_color'] ?? '';
+        $fb_reviews_overall_rating_text_color         =  $saved_feed_options['fb_reviews_overall_rating_text_color'] ?? '';
+        $fb_reviews_overall_rating_background_padding =  $saved_feed_options['fb_reviews_overall_rating_background_padding'] ?? '';
+
+        $fb_max_image_width =  $saved_feed_options['fb_max_image_width'] ?? '';
+
+        $fb_events_title_color   =  $saved_feed_options['fb_events_title_color'] ?? '';
+        $fb_events_title_size    =  $saved_feed_options['fb_events_title_size'] ?? '';
+        $fb_events_maplink_color =  $saved_feed_options['fb_events_map_link_color'] ?? '';
+
+        $fb_text_size      =  $saved_feed_options['fb_text_size'] ?? '';
+
+        ?>
+        <style type="text/css">
+            <?php
+			if ( ! empty( $fb_hide_no_posts_message ) && 'yes' === $fb_hide_no_posts_message ) { ?>
+                .fts-facebook-add-more-posts-notice {
+                display: none !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_header_extra_text_color ) ) { ?>
+                .fts-jal-single-fb-post .fts-jal-fb-user-name a {
+                color: <?php echo esc_html( $fb_header_extra_text_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_loadmore_background_color ) ) { ?>
+                .fts-fb-load-more-wrapper .fts-fb-load-more {
+                background: <?php echo esc_html( $fb_loadmore_background_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_loadmore_text_color ) ) { ?>
+                .fts-fb-load-more-wrapper .fts-fb-load-more {
+                color: <?php echo esc_html( $fb_loadmore_text_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_loadmore_text_color ) ) { ?>
+                .fts-fb-load-more-wrapper .fts-fb-spinner > div {
+                background: <?php echo esc_html( $fb_loadmore_text_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_text_color ) ) { ?>
+                .fts-simple-fb-wrapper .fts-jal-single-fb-post,
+                .fts-simple-fb-wrapper .fts-jal-fb-description-wrap,
+                .fts-simple-fb-wrapper .fts-jal-fb-post-time,
+                .fts-slicker-facebook-posts .fts-jal-single-fb-post,
+                .fts-slicker-facebook-posts .fts-jal-fb-description-wrap,
+                .fts-slicker-facebook-posts .fts-jal-fb-post-time {
+                color: <?php echo esc_html( $fb_text_color ); ?> !important;
+                }
+            <?php }
+
+			if ( ! empty( $fb_link_color ) ) { ?>
+                .fts-simple-fb-wrapper .fts-jal-single-fb-post .fts-review-name,
+                .fts-simple-fb-wrapper .fts-jal-single-fb-post a,
+                .fts-slicker-facebook-posts .fts-jal-single-fb-post a,
+                .fts-jal-fb-group-header-desc a {
+                color: <?php echo esc_html( $fb_link_color ); ?> !important;
+                }
+            <?php }
+
+			if ( ! empty( $fb_link_color_hover ) ) { ?>
+                .fts-simple-fb-wrapper .fts-jal-single-fb-post a:hover,
+                .fts-simple-fb-wrapper .fts-fb-load-more:hover,
+                .fts-slicker-facebook-posts .fts-jal-single-fb-post a:hover,
+                .fts-slicker-facebook-posts .fts-fb-load-more:hover,
+                .fts-jal-fb-group-header-desc a:hover {
+                color: <?php echo esc_html( $fb_link_color_hover ); ?> !important;
+                }
+            <?php }
+
+			if ( ! empty( $fb_feed_width ) ) { ?>
+                .fts-simple-fb-wrapper, .fts-fb-header-wrapper, .fts-fb-load-more-wrapper, .fts-jal-fb-header, .fb-social-btn-top, .fb-social-btn-bottom, .fb-social-btn-below-description {
+                max-width: <?php echo esc_html( $fb_feed_width ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_max_image_width ) ) { ?>
+                .fts-fb-large-photo, .fts-jal-fb-vid-picture, .fts-jal-fb-picture, .fts-fluid-videoWrapper-html5 {
+                max-width: <?php echo esc_html( $fb_max_image_width ); ?> !important;
+                float: left;
+                }
+            <?php }
+
+            if ( ! empty( $fb_events_title_color ) ) { ?>
+                .fts-simple-fb-wrapper .fts-events-list-wrap a.fts-jal-fb-name {
+                color: <?php echo esc_html( $fb_events_title_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_events_title_size ) ) { ?>
+                .fts-simple-fb-wrapper .fts-events-list-wrap a.fts-jal-fb-name {
+                font-size: <?php echo esc_html( $fb_events_title_size ); ?> !important;
+                line-height: <?php echo esc_html( $fb_events_title_size ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_events_maplink_color ) ) { ?>
+                .fts-simple-fb-wrapper a.fts-fb-get-directions {
+                color: <?php echo esc_html( $fb_events_maplink_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_feed_margin ) ) { ?>
+                .fts-simple-fb-wrapper, .fts-fb-header-wrapper, .fts-fb-load-more-wrapper, .fts-jal-fb-header, .fb-social-btn-top, .fb-social-btn-bottom, .fb-social-btn-below-description {
+                margin: <?php echo esc_html( $fb_feed_margin ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_feed_padding ) ) { ?>
+                .fts-simple-fb-wrapper {
+                padding: <?php echo esc_html( $fb_feed_padding ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_feed_background_color ) ) { ?>
+                .fts-simple-fb-wrapper {
+                background: <?php echo esc_html( $fb_feed_background_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_post_background_color ) ) { ?>
+                .fts-mashup-media-top .fts-jal-single-fb-post {
+                background: <?php echo esc_html( $fb_post_background_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_grid_posts_background_color ) ) { ?>
+                .fts-slicker-facebook-posts .fts-jal-single-fb-post {
+                background: <?php echo esc_html( $fb_grid_posts_background_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_border_bottom_color ) ) { ?>
+                .fts-jal-single-fb-post {
+                border-bottom-color: <?php echo esc_html( $fb_border_bottom_color ); ?> !important;
+                }
+            <?php }
+
+            if ( ! empty( $fb_grid_border_bottom_color ) ) { ?>
+                .fts-slicker-facebook-posts .fts-jal-single-fb-post {
+                border-bottom-color: <?php echo esc_html( $fb_grid_border_bottom_color ); ?> !important;
+                }
+            <?php } ?>
+        </style><?php
     }
 
 	/**
@@ -119,8 +318,7 @@ class Facebook_Feed {
 	 * @since 1.9.6
 	 */
 	public function display_facebook( $feed_post_id ) {
-		// Developer Mode.
-		$developer_mode = 'on';
+
 		// Make sure everything is reset.
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
@@ -133,10 +331,8 @@ class Facebook_Feed {
 		$this->feed_access_token = $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_custom_api_token'] );
 
 		//print_r( $this->feed_access_token );
-		
 
-
-		/*// Eventually add premium page file.
+		// Eventually add premium page file.
 		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
 
 			$fts_facebook_reviews = new FTS_Facebook_Reviews();
@@ -144,17 +340,21 @@ class Facebook_Feed {
 			
 			// Load up some scripts for popup.
 			$this->load_popup_scripts( $saved_feed_options );
-		} elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+		}
+        elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 			include WP_PLUGIN_DIR . '/feed-them-premium/feeds/facebook/facebook-premium-feed.php';
 			
 			// Load up some scripts for popup.
 			$this->load_popup_scripts( $saved_feed_options );
-		} elseif ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) && ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-		} else {
+		}
+        else {
 			if ( null === $saved_feed_options['facebook_page_post_count'] ) {
 				$saved_feed_options['facebook_page_post_count'] = '6';
 			}
-		}*/
+		}
+
+        // Get our Additional Options.
+        $this->fb_custom_styles( $feed_post_id );
 
 		if ( 'album_videos' === $saved_feed_options['facebook_page_feed_type'] ) {
 			$saved_feed_options['facebook_page_feed_type']        = 'album_photos';
@@ -410,6 +610,7 @@ class Facebook_Feed {
 			// Create Dynamic Class Name.
 			$fts_dynamic_class_name =  $this->feed_functions->get_feed_dynamic_class_name();
 			// SOCIAL BUTTON.
+
 			if ( ! $fts_count_ids >= 1 ) {
 				$this->fb_social_btn_placement( $saved_feed_options, 'fb-like-top-above-title' );
 			}
@@ -1113,7 +1314,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			if ( ! empty( $response['feed_data'] ) ) {
 				// Create Cache.
 
-				// YO! LEAVING OFF HERE, ALMOST SEEING WHY THE CACHE IS NOT WORKING.
 				// echo 'Caching Response:<br/>';
 				// NOT using below $response just for testing.
 				//$response = is_array( $response ) ? serialize( $response ) : $response ;
@@ -1140,7 +1340,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 	 * @since 1.9.6
 	 */
 	public function get_post_info( $feed_data, $saved_feed_options, $language, $fb_cache_name ) {
-		$developer_mode = get_option( 'fts_clear_cache_developer_mode' );
 
 		// If Album include album ID in Post Data Cache name.
 		if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
@@ -1237,7 +1436,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 	 * @since 2.1.6
 	 */
 	public function get_event_post_info( $feed_data, $saved_feed_options, $language ) {
-		$developer_mode = get_option( 'fts_clear_cache_developer_mode' );
 
 		$fb_event_post_data_cache = 'fbe_' . $saved_feed_options['facebook_page_feed_type'] . '_post_' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '_num' . $saved_feed_options['facebook_page_post_count'] . '';
 		if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $fb_event_post_data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -1291,30 +1489,22 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 	 * @since 2.0.1
 	 */
 	public function fb_social_btn_placement( $saved_feed_options, $share_loc ) {
+
 		// Don't do it for these!
 		if ( 'group' === $saved_feed_options['facebook_page_feed_type'] || 'event' === $saved_feed_options['facebook_page_feed_type'] || isset( $saved_feed_options['hide_like_option'] ) && 'yes' === $saved_feed_options['hide_like_option'] ) {
 			return;
 		}
 		// Facebook Follow Button Options.
-		$fb_show_follow_btn = get_option( 'fb_show_follow_btn' );
+		$fb_show_follow_btn = $saved_feed_options['fb_show_follow_btn'];
 
-		if ( isset( $saved_feed_options['show_follow_btn_where'] ) && '' !== $saved_feed_options['show_follow_btn_where'] ) {
-			if ( 'above_title' === $saved_feed_options['show_follow_btn_where'] ) {
-				$fb_show_follow_btn_where = 'fb-like-top-above-title';
-			} elseif ( 'below_title' === $saved_feed_options['show_follow_btn_where'] ) {
-				$fb_show_follow_btn_where = 'fb-like-top-below-title';
-			} elseif ( 'bottom' === $saved_feed_options['show_follow_btn_where'] ) {
-				$fb_show_follow_btn_where = 'fb-like-below';
-			}
-		} else {
-			$fb_show_follow_btn_where = get_option( 'fb_show_follow_btn_where' );
-		}
+        $fb_show_follow_btn_where = $saved_feed_options['fb_show_follow_btn_where'];
 
 		if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
 			$like_option_align_final = isset( $saved_feed_options['like_option_align'] ) ? 'fts-fb-social-btn-' . $saved_feed_options['like_option_align'] . '' : '';
 
 			if ( $share_loc === $fb_show_follow_btn_where ) {
+
 				switch ( $fb_show_follow_btn_where ) {
 					case 'fb-like-top-above-title':
 						// Top Above Title.
@@ -1356,7 +1546,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 	 * @return mixed
 	 * @since 1.9.6
 	 */
-	public function fts_custom_trim_words( $text, $num_words = 45, $more ) {
+	public function fts_custom_trim_words_NOT_USING( $text, $num_words = 45, $more ) {
 		$more = ! empty( $num_words ) && 0 !== $num_words ? __( '...' ) : '';
 		$text = nl2br( $text );
 		// Filter for Hashtags and Mentions Before returning.
@@ -1385,14 +1575,16 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 	public function load_popup_scripts( $saved_feed_options ) {
 		if ( 'yes' === $saved_feed_options['facebook_popup']  ) {
 			// it's ok if these styles & scripts load at the bottom of the page.
-			$fts_fix_magnific = get_option( 'fts_fix_magnific' ) ? get_option( 'fts_fix_magnific' ) : '';
+
+
+			$fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
 			if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
-				wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
+				wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
 			}
-			wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, false );
-			wp_enqueue_script( 'fts-images-loaded', plugins_url( 'feed-them-social/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
+			wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, false );
+			wp_enqueue_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
 			if ( ! isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
-				wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+				wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			}
 		}
 	}

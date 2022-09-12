@@ -228,7 +228,7 @@ class Instagram_Feed {
 				$saved_feed_options['instagram_pics_count'] = '10';
 			}
 
-            error_log(print_r( $saved_feed_options, true));
+           // error_log(print_r( $saved_feed_options, true));
 
             // Set Variables based on Instagram Feed Type.
             switch( $saved_feed_options['instagram_feed_type'] ){
@@ -252,7 +252,7 @@ class Instagram_Feed {
             // Decrypt Access Token.
             $this->feed_access_token = $this->access_options->decrypt_access_token( $access_token );
 
-            error_log(print_r( $this->feed_access_token, true));
+           // error_log(print_r( $this->feed_access_token, true));
 
             // Decrypt Access Token.
             //$this->feed_access_token = $this->access_options->decrypt_access_token( $saved_feed_options['fts_instagram_custom_api_token'] );
@@ -279,7 +279,7 @@ class Instagram_Feed {
 				}
 			}
 
-			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			$instagram_data_array = array();
 
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
@@ -671,6 +671,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
                 $saved_feed_options['instagram_columns'] = $saved_feed_options['instagram_columns'] ?? '';
                 $saved_feed_options['instagram_force_columns'] = $saved_feed_options['instagram_force_columns'] ?? '';
+
                 ?>
                 <div
                 <?php if ( '' !== $saved_feed_options['instagram_page_width'] ) { ?>

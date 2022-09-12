@@ -76,7 +76,7 @@ class Feed_Shortcode {
 	/**
 	 * Feed Display Constructor.
 	 */
-	public function __construct( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed ){
+	public function __construct( $feed_functions, $options_functions, $facebook_feed, $twitter_feed, $instagram_feed, $youtube_feed ){
 		// Add Actions and filters.
 		$this->add_actions_filters();
 

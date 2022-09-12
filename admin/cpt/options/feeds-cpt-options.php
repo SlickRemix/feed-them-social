@@ -3350,7 +3350,7 @@ class Feed_CPT_Options {
 					'instructional-text' => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
 					'id'          => 'instagram_columns',
 					'name'        => 'instagram_columns',
-					'default_value' => '3',
+					//'default_value' => '',
 					'options'     => array(
 						array(
 							'label' => __( '1', 'feed-them-social' ),

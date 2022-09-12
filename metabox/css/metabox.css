@@ -2724,7 +2724,7 @@ h3.sectioned-options-title {
 }
 
 .fb-page-columns-option-hide {
-    display: none
+    /* display: none; */
 }
 
 #ftg-tab-content5 .ft-gallery-premium-mesg, #ftg-tab-content6 .ft-gallery-premium-mesg, #ftg-tab-content7 .ft-gallery-premium-mesg, #ftg-tab-content8 .ft-gallery-premium-mesg, #ftg-tab-content9 .ft-gallery-premium-mesg {

@@ -108,7 +108,7 @@ class Feed_Functions {
      *
      * Adds the Actions and filters for the class.
      *
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function add_actions_filters(){
 
@@ -316,9 +316,9 @@ class Feed_Functions {
 	 */
 	public function get_feed_option( $feed_post_id, $option_name ) {
 		// Get Feed Options.
-		$feeds_options = $this->get_saved_feed_options( $feed_post_id );
+		$saved_feed_options = $this->get_saved_feed_options( $feed_post_id );
 
-		return $feeds_options[ $option_name ] ?? false;
+		return $saved_feed_options[ $option_name ] ?? false;
 	}
 
 	/**
@@ -394,7 +394,7 @@ class Feed_Functions {
 	 * Get Feed Dynamic Class Name
 	 *
 	 * @return string
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function get_feed_dynamic_class_name() {
 		$feed_dynamic_name_nonce = wp_create_nonce( 'feed_dynamic_name_nonce' );
@@ -1291,8 +1291,7 @@ class Feed_Functions {
 		$fts_social_follow_nonce = wp_create_nonce( 'fts-social-follow-nonce' );
 
 		if ( wp_verify_nonce( $fts_social_follow_nonce, 'fts-social-follow-nonce' ) ) {
-
-			global $channel_id, $playlist_id, $username_subscribe_btn, $username;
+            // Return Social follow button based on Feed Type.
 			switch ( $feed ) {
 				case 'facebook':
 					// Facebook settings options for follow button!
@@ -1355,15 +1354,15 @@ class Feed_Functions {
 						echo '<script src="' . esc_url( 'https://apis.google.com/js/platform.js' ) . '"></script>';
 						$_POST['fts_youtube_script_loaded'] = 'yes';
 					}
-					if ( '' === $channel_id && '' === $playlist_id && '' !== $username || '' !== $playlist_id && '' !== $username_subscribe_btn ) {
+					if ( '' === $saved_feed_options['youtube_channelID'] && '' === $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name'] || '' !== $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name2'] ) {
 
-						if ( '' !== $username_subscribe_btn ) {
-							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $username_subscribe_btn ) . '" data-layout="full" data-count="default"></div>';
+						if ( '' !== $saved_feed_options['youtube_name2'] ) {
+							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name2'] ) . '" data-layout="full" data-count="default"></div>';
 						} else {
 							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $user_id ) . '" data-layout="full" data-count="default"></div>';
 						}
-					} elseif ( '' !== $channel_id && '' !== $playlist_id || '' !== $channel_id ) {
-						echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $channel_id ) . '" data-layout="full" data-count="default"></div>';
+					} elseif ( '' !== $saved_feed_options['youtube_channelID'] && '' !== $saved_feed_options['youtube_playlistID'] || '' !== $saved_feed_options['youtube_channelID'] ) {
+						echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $saved_feed_options['youtube_channelID'] ) . '" data-layout="full" data-count="default"></div>';
 					}
 					break;
 			}

@@ -211,11 +211,11 @@ class fts_error_handler {
 	 */
 	public function youtube_error_check( $feed_data ) {
 
-        $feed_data = json_decode( $feed_data['data'] );
+        // $feed_data = json_decode( $feed_data->data );
 
-        //error_log( print_r( $feed_data, true ) );
+        // error_log( print_r( $feed_data, true ) );
 
-		// return error if no data retreived!
+		// return error if no data retrieved!
 		try {
 			if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
 

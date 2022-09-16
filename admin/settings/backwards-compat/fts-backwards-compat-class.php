@@ -46,7 +46,7 @@ class Backwards_Compat {
 	 *
 	 * Functions constructor.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function __construct( $settings_functions ) {
 
@@ -96,7 +96,7 @@ class Backwards_Compat {
 	 *
 	 * Add Settings to our menu.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function add_actions_filters() {
 		/**

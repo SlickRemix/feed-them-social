@@ -104,7 +104,7 @@ class Feed_Shortcode {
      *
      * Adds the Actions and filters for the class.
      *
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function add_actions_filters(){
 		// Add Shortcode Filter for displaying a feed.
@@ -119,7 +119,7 @@ class Feed_Shortcode {
 	 *
 	 * Registers Frontend Styles & Scripts for the Feeds.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function register_frontend_styles_scripts(){
 		// Register Feed Styles.
@@ -147,7 +147,7 @@ class Feed_Shortcode {
 	 *
 	 * Load Frontend Styles & Scripts ONLY on pages feed is on.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function load_frontend_styles_scripts(){
 		// Feed Styles.
@@ -206,7 +206,7 @@ class Feed_Shortcode {
 	 *
 	 * @param array $atts
 	 * @return array|bool
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function shortcode_feed_id_exists( $atts ) {
 		// Make sure attributes contain cpt_id which is the Feed's CPT Post ID.
@@ -224,7 +224,7 @@ class Feed_Shortcode {
 	 *
 	 * @param array $feed_post_id Feed Post ID.
 	 * @param array $feed_type Feed Type for a Feed.
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function display_feed( $feed_post_id, $feed_type ) {
 		if ( $feed_type ){
@@ -236,7 +236,8 @@ class Feed_Shortcode {
 					echo $this->facebook_feed->display_facebook( $feed_post_id );
 					break;
 				// Instagram Feed.
-				case 'instagram-feed-type' || 'instagram-business-feed-type':
+				case 'instagram-business-feed-type':
+				case 'instagram-feed-type':
 					// Display the Instagram Feed!
 					echo $this->instagram_feed->display_instagram( $feed_post_id );
 					break;
@@ -265,7 +266,7 @@ class Feed_Shortcode {
      * only on page feed is loading.
      *
      * @param array $atts Attributes from the shortcode.
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function display_feed_shortcode_filter( $atts ){
 		// Feed Post ID that exists in the shortcode.

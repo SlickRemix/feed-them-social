@@ -46,7 +46,7 @@ class Facebook_Access_Functions {
 	 *
 	 * Facebook Access Token Options.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function __construct( $feed_functions, $data_protection ) {
 		// Feed Functions.
@@ -59,7 +59,7 @@ class Facebook_Access_Functions {
 	/**
 	 *  Get Access Token Button
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function get_access_token_button( $feed_cpt_id ) {
 

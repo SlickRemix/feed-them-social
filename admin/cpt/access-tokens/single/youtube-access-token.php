@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Youtube_Access_Functions
  *
  * @package feedthemsocial
- * @since 3.0.0
+ * @since 4.0.0
  */
 class Youtube_Access_Functions {
 
@@ -48,7 +48,7 @@ class Youtube_Access_Functions {
 	 *
 	 * Youtube Style Options Page constructor.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function __construct( $feed_functions, $data_protection ) {
 		// Feed Functions.
@@ -62,7 +62,7 @@ class Youtube_Access_Functions {
 	 *  Get Access Token Button
      *
      * @param $feed_cpt_id integer Feed CPT ID
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function get_access_token_button( $feed_cpt_id ) {
 
@@ -109,7 +109,7 @@ class Youtube_Access_Functions {
         if( !empty( $youtube_api_key ) || !empty( $youtube_access_token ) ) {
 
 
-           // $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $channel_id . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token );
+           // $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token );
 
             $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
             // echo '$youtube_user_id_data';

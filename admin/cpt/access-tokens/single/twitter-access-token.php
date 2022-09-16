@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Twitter_Access_Functions
  *
  * @package feedthemsocial
- * @since 3.0.0
+ * @since 4.0.0
  */
 class Twitter_Access_Functions {
 
@@ -48,7 +48,7 @@ class Twitter_Access_Functions {
 	 *
 	 * Twitter Style Options Page constructor.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function __construct( $feed_functions, $data_protection ) {
 		// Feed Functions.
@@ -80,7 +80,7 @@ class Twitter_Access_Functions {
 	 *  Get Access Token Button
      *
 	 * @param $feed_cpt_id integer Feed CPT ID
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function get_access_token_button( $feed_cpt_id ) {
 

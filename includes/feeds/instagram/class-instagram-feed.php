@@ -91,7 +91,7 @@ class Instagram_Feed {
 	 *
 	 * Adds the Actions and filters for the class.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function add_actions_filters() {
         add_action( 'wp_enqueue_scripts', array( $this, 'fts_instagram_head' ) );
@@ -564,7 +564,7 @@ if ( isset( $saved_feed_options['instagram_profile_name'], $saved_feed_options['
 		<?php
 		if ( isset( $username ) && 'yes' === $saved_feed_options['instagram_show_follow_btn'] && 'instagram-follow-above' === $saved_feed_options['instagram_show_follow_btn_where'] ) {
 			echo '<div class="fts-follow-header-wrap">';
-			echo $this->feed_functions->social_follow_button( 'instagram', $username );
+			echo $this->feed_functions->social_follow_button( 'instagram', $username, $saved_feed_options );
 			echo '</div>';
 		}
 		?>
@@ -644,7 +644,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 					<?php
 				} elseif ( 'yes' === $saved_feed_options['instagram_show_follow_btn'] && 'instagram-follow-above' === $saved_feed_options['instagram_show_follow_btn_where'] && 'hashtag' !== $saved_feed_options['instagram_feed_type'] ) {
 					echo '<div class="instagram-social-btn-top">';
-					echo $this->feed_functions->social_follow_button( 'instagram', $username );
+					echo $this->feed_functions->social_follow_button( 'instagram', $username, $saved_feed_options );
 					echo '</div>';
 				}
 
@@ -788,7 +788,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                 <?php
                                 if ( isset( $instagram_username ) && 'yes' === $saved_feed_options['instagram_show_follow_btn'] && 'instagram-follow-above' === $saved_feed_options['instagram_show_follow_btn_where'] && 'hashtag' !== $saved_feed_options['instagram_feed_type'] ) {
                                     echo '<div class="fts-follow-header-wrap">';
-                                    echo $this->feed_functions->social_follow_button( 'instagram', $instagram_username );
+                                    echo $this->feed_functions->social_follow_button( 'instagram', $instagram_username, $saved_feed_options );
                                     echo '</div>';
                                 }
                                 ?>
@@ -1090,7 +1090,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 				// Social Button.
 				if ( isset( $username ) && 'yes' === $saved_feed_options['instagram_show_follow_btn'] && 'instagram-follow-below' === $saved_feed_options['instagram_show_follow_btn_where'] && 'hashtag' !== $saved_feed_options['instagram_feed_type']  ) {
 					echo '<div class="instagram-social-btn-bottom">';
-					echo $this->feed_functions->social_follow_button( 'instagram', $username );
+					echo $this->feed_functions->social_follow_button( 'instagram', $username, $saved_feed_options );
 					echo '</div>';
 				}
 			}

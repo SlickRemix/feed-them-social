@@ -105,7 +105,7 @@ class Access_Options {
 	 *
 	 * Decrypt the access token given.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function decrypt_access_token( $encrypted_token ) {
         // Was an encrypted token given?
@@ -122,7 +122,7 @@ class Access_Options {
 	 *
 	 * Get Access Token Options based on Feed Type and Feed CPT ID
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function get_access_token_options( $feed_type, $feed_cpt_id ) {
 		if($feed_type){

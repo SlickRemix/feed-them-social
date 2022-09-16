@@ -127,7 +127,7 @@ class Feed_CPT_Options {
 	 * Options for the Feed Type
 	 *
 	 * @return mixed
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function feed_type_options() {
 		$this->all_options['feed_type_options'] = array(
@@ -207,7 +207,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function twitter_token_options() {
 
@@ -264,7 +264,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function facebook_token_options() {
 
@@ -331,7 +331,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function instagram_token_options() {
 
@@ -392,7 +392,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function instagram_business_token_options() {
 
@@ -470,7 +470,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function youtube_token_options() {
 
@@ -4556,8 +4556,8 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'label'       => __( 'Space between video thumbnails', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'fts-slicker-youtube-container-margin',
-					'name'        => 'fts-slicker-youtube-container-margin',
+					'id'          => 'youtube_container_margin',
+					'name'        => 'youtube_container_margin',
 					'placeholder' => '1px is the default value',
 					'value'       => '',
 					'short_attr'  => array(
@@ -4574,8 +4574,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Force thumbnails rows', 'feed-them-social' ) . '<br/><small>' . __( 'No, will allow the video images to be responsive for smaller devices. Yes, will force the selected rows.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
-					'id'          => 'fts_youtube_force_columns',
-					'name'        => 'fts_youtube_force_columns',
+					'id'          => 'youtube_force_columns',
+					'name'        => 'youtube_force_columns',
 					'default_value' => 'no',
 					'options'     => array(
 						array(
@@ -5278,7 +5278,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
 
     // leaving off here, need to figure out why the options are not staying saved after going to another tab and coming back
@@ -5336,7 +5336,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
 
     // leaving off here, need to figure out why the options are not staying saved after going to another tab and coming back
@@ -5473,7 +5473,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function combine_facebook_token_options() {
 
@@ -5521,7 +5521,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function combine_twitter_token_select_options() {
 
@@ -5574,7 +5574,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
 
     public function combine_twitter_token_options() {
@@ -5709,7 +5709,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     // THIS IS NOT COMPLETE YET JUST COPIED DOWN
     public function combine_youtube_token_select_options() {
@@ -5765,7 +5765,7 @@ class Feed_CPT_Options {
      * Options for the Feed Type
      *
      * @return mixed
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function combine_youtube_token_options() {
 

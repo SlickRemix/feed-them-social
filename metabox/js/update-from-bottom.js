@@ -905,7 +905,7 @@ function fts_check_valid() {
                                 $( id + '#youtube_omit_first_thumbnail option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'force_columns' == attribute ){
-                                $( id + '#fts_youtube_force_columns option[value=yes]' ).attr('selected','selected');
+                                $( id + '#youtube_force_columns option[value=yes]' ).attr('selected','selected');
                             }
                         }
                         else {
@@ -948,7 +948,7 @@ function fts_check_valid() {
                                 $( '#youtube_thumbs_wrap_color' ).val( value );
                             }
                             else if ( 'space_between_videos' == attribute ){
-                                $( '#fts-slicker-youtube-container-margin' ).val( value );
+                                $( '#youtube_container_margin' ).val( value );
                             }
                             else if ( 'channel_id' == attribute ){
                                 $( '#youtube_channelID' ).val( value );

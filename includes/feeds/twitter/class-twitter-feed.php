@@ -58,7 +58,7 @@ class Twitter_Feed {
 	 *
 	 * Adds the Actions and filters for the class.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function add_actions_filters() {}
 
@@ -608,7 +608,7 @@ class Twitter_Feed {
 							<?php
 							if ( isset( $twitter_show_follow_btn ) && 'yes' === $twitter_show_follow_btn && 'twitter-follow-above' === $twitter_show_follow_btn_where && ! empty( $twitter_name ) ) {
 								echo '<div class="twitter-social-btn-top">';
-								echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name );
+								echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name, $saved_feed_options );
 								echo '</div>';
 							}
 							?>
@@ -620,7 +620,7 @@ class Twitter_Feed {
 							echo '<div class="twitter-social-btn-top">';
 							echo "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
 
-							echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name );
+							echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name, $saved_feed_options );
 							echo '</div>';
 						}// if cover photo = yes.
 
@@ -1156,7 +1156,7 @@ class Twitter_Feed {
 			// SOCIAL BUTTON.
 			if ( isset( $twitter_show_follow_btn ) && 'yes' === $twitter_show_follow_btn && 'twitter-follow-below' === $twitter_show_follow_btn_where && ! empty( $twitter_name ) ) {
 				echo '<div class="twitter-social-btn-bottom">';
-				echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name );
+				echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name, $saved_feed_options );
 				echo '</div>';
 			}
 

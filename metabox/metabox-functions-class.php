@@ -798,7 +798,7 @@ class Metabox_Functions {
      *
      * Creates notice html for return.
      *
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function error_notice_html() {
         // ft-gallery-notice happens in JS file.

@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Instagram_Access_Functions
  *
  * @package feedthemsocial
- * @since 3.0.0
+ * @since 4.0.0
  */
 class Instagram_Access_Functions {
 
@@ -48,7 +48,7 @@ class Instagram_Access_Functions {
      *
      * Instagram Style Options Page constructor.
      *
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function __construct( $feed_functions, $data_protection ) {
         // Feed Functions.
@@ -61,7 +61,7 @@ class Instagram_Access_Functions {
     /**
      *  Get Access Token Button
      *
-     * @since 3.0.0
+     * @since 4.0.0
      */
     public function get_access_token_button( $feed_cpt_id ) {
 

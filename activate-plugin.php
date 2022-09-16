@@ -25,7 +25,7 @@ class Activate_Plugin {
 	/** 
      * Activate Plugin Constructor
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.0
 	 */
 	public function __construct() {
         //Pre-Activate Plugin Checks.

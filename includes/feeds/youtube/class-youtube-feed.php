@@ -120,6 +120,7 @@ class Youtube_Feed {
         $youtube_api_key      = $saved_feed_options['youtube_custom_api_token'];
         $youtube_access_token = $saved_feed_options['youtube_custom_access_token'];
 
+
         wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
         // the way this refresh token works atm is. if the token is expired then we fetch a new token when any front end user views a page the feed is on.
@@ -133,7 +134,7 @@ class Youtube_Feed {
 
             // Access token is good for 3600 seconds, that about an hour.
             if ( time() > $expiration_time ) {
-                 $this->feed_them_youtube_refresh_token();
+	            $this->feed_functions->feed_them_youtube_refresh_token();
             }
         }
 
@@ -141,11 +142,13 @@ class Youtube_Feed {
             // this relies on our approved app from google.
             // we are only using readme option from google now so we cannot get comments this way.
             // that's fine though since we only allow to show comments in the premium version.
-            $youtube_api_key_or_token = 'access_token=' . $youtube_access_token . '';
+            //$youtube_api_key_or_token = 'access_token=' . $this->access_options->decrypt_access_token( $youtube_access_token );
+	        $youtube_api_key_or_token = 'access_token=' . $youtube_access_token;
         } else {
             // you must create your own youtube app now to get this.
             // this is also the method required to show comments as well now.
-            $youtube_api_key_or_token = 'key=' . $youtube_api_key . '';
+	        //$youtube_api_key_or_token = 'key=' . $this->access_options->decrypt_access_token( $youtube_api_key );
+            $youtube_api_key_or_token = 'key=' . $youtube_api_key;
         }
 
         if ( ! empty( $youtube_api_key ) || ! empty( $youtube_access_token ) ) {
@@ -186,12 +189,12 @@ class Youtube_Feed {
 //                );
 //            }
 
-
 	        //$saved_feed_options['youtube_channelID'];
 
+	        $vid_count = $saved_feed_options['youtube_vid_count'] ?? 4;
 
-            if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['youtube_vid_count'] > '6' ) {
-                $saved_feed_options['youtube_vid_count'] = '6';
+            if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $vid_count > '6' ) {
+                $vid_count = 6;
             }
             if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! isset( $popup ) ) {
                 $popup          = 'yes';
@@ -202,8 +205,8 @@ class Youtube_Feed {
                 $saved_feed_options['youtube_play_thumbs'] = 'no';
             }
             // YouTube has a limit of 50 per page and if you try to load more the array errors so we make sure that does not happen.
-            if ( $saved_feed_options['youtube_vid_count'] > 50 ) {
-                $saved_feed_options['youtube_vid_count'] = '50';
+            if ( $vid_count > 50 ) {
+                $vid_count = 50;
             }
 
             // free additions so we don't have to update all the plugins.
@@ -219,7 +222,7 @@ class Youtube_Feed {
             // if omit_first_thumbnail == yes then we make sure and skip the first iteration in the loop.
             if ( 'yes' === $saved_feed_options['youtube_omit_first_thumbnail'] ) {
                 $b         = false;
-                $saved_feed_options['youtube_vid_count'] = $saved_feed_options['youtube_vid_count']++;
+                $vid_count = $vid_count ++;
             } else {
                 $b = true;
             }
@@ -258,7 +261,7 @@ class Youtube_Feed {
 
                     $user_returned = $this->feed_functions->use_cache_check( $youtube_user_id_data, $user_cache_name, 'youtube' );
 
-                    // If the YT User returned is not empty and is an arary.
+                    // If the YT User returned is not empty and is an array.
                     if ( ! empty( $user_returned ) && is_array( $user_returned ) ) {
 
                         // Decode User's data.
@@ -271,18 +274,18 @@ class Youtube_Feed {
 
                             // error_log( print_r( $user_playlist_id, true ) );
                             // now we parse the users uploaded vids ID and create the playlist.
-                            $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $saved_feed_options['youtube_vid_count'] . '&playlistId=' . $user_playlist_id . '&order=date&' . $youtube_api_key_or_token ) );
+                            $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $user_playlist_id . '&order=date&' . $youtube_api_key_or_token ) );
                         }
                     }
 
                     // Youtube Playlist Cache Name.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                        $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_name'] . '_bnum' . $saved_feed_options['youtube_vid_count'] . '_user';
+                        $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_name'] . '_bnum' . $vid_count . '_user';
                     }
                 } elseif ( ! empty( $saved_feed_options['youtube_channelID'] ) && empty( $saved_feed_options['youtube_playlistID'] ) ) {
 
                     /*
-                    $youtube_channel_id_data['items'] = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $saved_feed_options['youtube_vid_count'] . '&' . $youtube_api_key_or_token ) );
+                    $youtube_channel_id_data['items'] = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token ) );
                     $user_channel_returned            = $this->feed_functions->fts_get_feed_json( $youtube_channel_id_data );
                     $videos                           = $user_channel_returned['items'];
 
@@ -302,34 +305,34 @@ class Youtube_Feed {
                             }
                         }// END POST foreach.
                     }
-                    $unset_count = $saved_feed_options['youtube_vid_count'] + $set_zero;
-                    $saved_feed_options['youtube_vid_count']   = $unset_count;*/
+                    $unset_count = $vid_count + $set_zero;
+                    $vid_count   = $unset_count;*/
                     // Uncomment these for testing purposes to see the actual count and the offset count.
                     // echo'<pre>';
                     // print_r($set_zero);
                     // echo'</pre>';
                     // echo'<pre>';
-                    // print_r('vidcount: '.$saved_feed_options['youtube_vid_count']);
+                    // print_r('vidcount: '.$vid_count);
                     // echo'</pre>';
                     // echo'<pre>';
                     // print_r($videos_check);
                     // echo'</pre>';.
-                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $saved_feed_options['youtube_vid_count'] . '&' . $youtube_api_key_or_token ) );
+                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token ) );
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         // Youtube Channel Cache.
-                        $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_channelID'] . '_bnum' . $saved_feed_options['youtube_vid_count'] . '_channel';
+                        $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_channelID'] . '_bnum' . $vid_count . '_channel';
                     }
                 } elseif ( ! empty( $saved_feed_options['youtube_playlistID'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) && ! empty( $saved_feed_options['youtube_channelID'] ) ) {
 
                     // I don't understand the section here.. blllaaaaaahh need to clean this mess up!
                    // echo '<br/>playlistID shortcode in use: ';
 
-                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $saved_feed_options['youtube_vid_count'] . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token ) );
+                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token ) );
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         // Youtube Playlist Cache Folder.
-                        $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_playlistID'] . '_bnum' . $saved_feed_options['youtube_vid_count'] . '_playlist';
+                        $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_playlistID'] . '_bnum' . $vid_count . '_playlist';
                     }
                 }
 
@@ -351,7 +354,6 @@ class Youtube_Feed {
                     // echo'playlistID and channelID shortcode used: <pre>';
                     // print_r($videos);
                     // echo'</pre>';
-
                 }
             }
 
@@ -454,7 +456,6 @@ class Youtube_Feed {
                 $thumbs_wrap_color_scroll = isset( $saved_feed_options['youtube_thumbs_wrap_color']) ? 'background:' . $saved_feed_options['youtube_thumbs_wrap_color']. '' : '';
 
                 if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
-
                     echo '<div id="fts-yt-large-' . esc_attr( $saved_feed_options['youtube_singleVideoID'] ) . '" class="fts-yt-large' . esc_attr( $wrap ) . '">';
                     echo '<div class="fts-yt-first-video">';
                     echo '<div class="fts-fluid-videoWrapper">';
@@ -471,7 +472,6 @@ class Youtube_Feed {
                 }
 
                 if ( ! empty( $saved_feed_options['youtube_thumbs_wrap_height'] ) || ! empty( $wrap ) ) {
-
                     echo '<div class="' . esc_attr( $fts_dynamic_class_name . ' fts-youtube-scrollable' . $wrap ) . '" style="height:250px;' . esc_attr( $thumbs_wrap_color_scroll ) . '" >';
                 }
 
@@ -548,7 +548,7 @@ class Youtube_Feed {
 
                         echo '<div class="' . esc_html( $popup_set ) . 'slicker-youtube-placeholder fts-youtube-' . esc_attr( $video_id ) . '" data-id="fts-youtube-id-' . esc_attr( $fts_dynamic_class_name ) . '" style="background-image:url(' . esc_url( $thumbnail ) . ')">';
 
-                        $youtube_title       = $this->feed_functions->fts_youtube_title( $post_data );
+                        $youtube_title       = $this->fts_youtube_title( $post_data );
                         $youtube_description = $this->fts_youtube_tag_filter( $this->fts_youtube_description( $post_data ) );
                         $channel_title       = $post_data->snippet->channelTitle;
 
@@ -635,7 +635,7 @@ class Youtube_Feed {
                         echo '</div>';
                     }
                     $count++;
-                    if ( $count === $saved_feed_options['youtube_vid_count'] ) {
+                    if ( $count === $vid_count ) {
                         break;
                     }
                 }
@@ -649,17 +649,17 @@ class Youtube_Feed {
 
                 if ( ! empty( $saved_feed_options['youtube_name'] ) ) {
                     // now we parse the users uploaded vids ID and create the playlist.
-                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $saved_feed_options['youtube_vid_count'] . '&playlistId=' . $user_playlist_id . '&order=date&' . $youtube_api_key_or_token : '';
+                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $vid_count . '&playlistId=' . $user_playlist_id . '&order=date&' . $youtube_api_key_or_token : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_channelID'] ) && empty( $saved_feed_options['youtube_playlistID'] ) ) {
-                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $saved_feed_options['youtube_vid_count'] . '&' . $youtube_api_key_or_token : '';
+                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_playlistID'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) && ! empty( $saved_feed_options['youtube_channelID'] ) ) {
-                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $saved_feed_options['youtube_vid_count'] . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token : '';
+                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token : '';
                 }
 
                 if ( ! empty( $loadmore ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                     $loadmore_count = isset( $loadmore_count ) ? $loadmore_count : '';
                     // we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
-                    $_REQUEST['next_url'] = ! empty( $loadmore ) ? str_replace( 'maxResults=' . $saved_feed_options['youtube_vid_count'], 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
+                    $_REQUEST['next_url'] = ! empty( $loadmore ) ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
 
                     ?><script>
                         var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ) ?>";
@@ -677,8 +677,6 @@ class Youtube_Feed {
                     jQuery(document).ready(function() {
 
                     <?php if ( 'autoscroll' === $loadmore ) { ?>
-
-
                         // If =autoscroll in shortcode.
                         jQuery(".<?php echo esc_js( $fts_dynamic_class_name ) ?>").bind("scroll",function() {
 
@@ -687,7 +685,6 @@ class Youtube_Feed {
 
                                 console.log( jQuery(this).scrollTop() + jQuery(this).innerHeight() );
                                 console.log( jQuery(this)[0].scrollHeight );
-
                     <?php }
                         else { ?>
                         // If =button in shortcode.
@@ -884,7 +881,6 @@ class Youtube_Feed {
 	 * @since 1.9.6
 	 */
 	public function fts_youtube_tag_filter( $youtube_description ) {
-
 		// Create links from @mentions and regular links.
 		$youtube_description = preg_replace( '/((http)+(s)?:\/\/[^<>\s]+)/i', '<a href="$0" target="_blank">$0</a>', $youtube_description );
 		$youtube_description = preg_replace( '/[#]+([0-9\p{L}]+)/u', '<a href="https://www.youtube.com/results?search_query=%23$1" target="_blank">$0</a>', $youtube_description );
@@ -900,7 +896,6 @@ class Youtube_Feed {
 	 * @since 1.9.6
 	 */
 	public function fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $youtube_comments_count ) {
-
 		$fts_comments_thread_nonce = wp_create_nonce( 'fts-comments-thread-nonce' );
 
 		if ( wp_verify_nonce( $fts_comments_thread_nonce, 'fts-comments-thread-nonce' ) ) {
@@ -1032,8 +1027,8 @@ class Youtube_Feed {
 	 */
 	public function fts_youtube_video_and_wrap( $post_data, $username, $playlist_id ) {
 		$ssl                                = is_ssl() ? 'https' : 'http';
-		$youtube_video_user_or_playlist_url = isset( $post_data->snippet->resourceId->videoId ) ? $post_data->snippet->resourceId->videoId : '';
-		$youtube_video_channel_url          = isset( $post_data->id->videoId ) ? $post_data->id->videoId : '';
+		$youtube_video_user_or_playlist_url = $post_data->snippet->resourceId->videoId ?? '';
+		$youtube_video_channel_url          = $post_data->id->videoId ?? '';
 
 		if ( '' !== $username || '' !== $playlist_id ) {
 			$youtube_video_iframe = '<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( $ssl . '://www.youtube.com/embed/' . $youtube_video_user_or_playlist_url ) . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
@@ -1053,7 +1048,6 @@ class Youtube_Feed {
 	 * @since 1.9.6
 	 */
 	public function fts_youtube_description( $post_data ) {
-
 		$pinterest_description = $post_data->snippet->description ?? '';
 		return $pinterest_description;
 	}

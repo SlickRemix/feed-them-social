@@ -4372,6 +4372,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'youtube_vid_count',
 					'name'        => 'youtube_vid_count',
+					'default_value'        => '4',
 					'placeholder' => __( '4 is the default value', 'feed-them-social' ),
 
 					// Relative to JS.

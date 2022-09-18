@@ -1492,8 +1492,6 @@ class Feed_Functions {
 		}
 
 		if( 'youtube_single' === $feed_type ){
-			// echo ' AAAAAAAAAAAAAAA ';
-			// print_r( $api_url );
 			$response = $this->fts_get_feed_json( $api_url );
 			$feed_data = json_decode( $response['items'] );
 			$fts_error_check_complete = $fts_error_check->youtube_error_check( $feed_data );
@@ -1506,7 +1504,7 @@ class Feed_Functions {
 			if ( !empty( $instagram_basic->data ) ) {
 				$parts = parse_url($api_url);
 				parse_str( $parts['query'], $query);
-				$access_token = false !== $this->data_protection->decrypt(  $query['access_token'] ) ? $this->data_protection->decrypt(  $query['access_token'] ) :  $query['access_token'];
+				$access_token = $this->data_protection->decrypt(  $query['access_token'] ) ??  $query['access_token'];
 
 				// We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
 				$instagram_basic_output = (object)['data' => []];

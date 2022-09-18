@@ -275,7 +275,7 @@ class Instagram_Feed {
 			if ( ! empty( $instagram_basic_token ) ) {
 				// Double Check Our Expiration Time on the Token and refresh it if needed.
 				if ( time() > $access_token_expires_in ) {
-					 $this->feed_them_instagram_refresh_token();
+					$this->feed_functions->feed_them_instagram_refresh_token();
 				}
 			}
 

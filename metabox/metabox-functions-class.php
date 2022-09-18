@@ -46,6 +46,15 @@ class Metabox_Functions {
 	public $main_post_type;
 
 	/**
+	 * Data Protection
+	 *
+	 * Data Protection Class for encryption.
+	 *
+	 * @var object
+	 */
+	public $data_protection;
+
+	/**
 	 * Is Page
 	 *
 	 * Is the class being loaded on a page?
@@ -120,7 +129,7 @@ class Metabox_Functions {
      *
 	 * @since 1.0
 	 */
-	public function __construct( $default_options_array, $settings_functions, $options_functions, $array_options_name, $is_page = null) {
+	public function __construct( $default_options_array, $settings_functions, $options_functions, $array_options_name, $data_protection, $is_page = null) {
 		// Default Options Array.
 		$this->default_options_array = $default_options_array;
 
@@ -132,6 +141,9 @@ class Metabox_Functions {
 
         // Array Options Name.
 		$this->array_options_name = $array_options_name;
+
+		// Data Protection.
+		$this->data_protection = $data_protection;
 
 		// Is Page.
 		$this->is_page = $is_page;
@@ -657,16 +669,20 @@ class Metabox_Functions {
 				if ( isset( $option['option_type'] ) ) {
 
                     $check_encrypted = '';
-                    if( 'fts_instagram_custom_api_token' === $option_id ||
-                        'fts_facebook_instagram_custom_api_token' === $option_id ||
-                        'fts_facebook_custom_api_token' === $option_id ||
-                        'fts_twitter_custom_access_token' === $option_id ||
-                        'youtube_custom_api_token' === $option_id ||
-                        'youtube_custom_access_token' === $option_id ) {
-                        $data_protection = new Data_Protection();
-                        $check_encrypted = false !== $data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
+
+                    // Decrypt if Access token option based on option id.
+                    switch ( $option_id ){
+                        case 'fts_instagram_custom_api_token':
+	                    case 'fts_facebook_instagram_custom_api_token':
+	                    case 'fts_facebook_custom_api_token':
+	                    case 'fts_twitter_custom_access_token':
+	                    case 'youtube_custom_api_token':
+	                    case 'youtube_custom_access_token':
+                            $check_encrypted = false !== $this->data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
+                        break;
                     }
 
+                    //
 					switch ( $option['option_type'] ) {
 						// Input.
 						case 'input':

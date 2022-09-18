@@ -99,9 +99,9 @@ class Youtube_Access_Functions {
         <?php
 
         if ( isset( $youtube_api_key ) && ! empty( $youtube_api_key ) ) {
-            $youtube_api_key_or_token = 'key=' . $youtube_api_key . '';
+            $youtube_api_key_or_token = 'key=' . $youtube_api_key;
         } elseif ( isset( $youtube_api_key ) && empty( $youtube_api_key ) && isset( $youtube_access_token ) && ! empty( $youtube_access_token ) ) {
-            $youtube_api_key_or_token = 'access_token=' . $youtube_access_token . '';
+            $youtube_api_key_or_token = 'access_token=' . $youtube_access_token;
         } else {
             $youtube_api_key_or_token = '';
         }
@@ -179,7 +179,6 @@ class Youtube_Access_Functions {
            }
 
            if ( time() > $expiration_time && empty( $youtube_api_key ) ) {
-
                // LEAVING OFF HERE NEED TO FIGURE OU WHY THIS IS NOT REFRESHING PROPER.
                // COPY CODE FROM INSTAGRAM TO SIMPLIFY THE JS ABOVE TOO.
                // SRL: 5-6-22: using API token till I get this figured out.
@@ -187,12 +186,6 @@ class Youtube_Access_Functions {
                // Right now though it is getting a refresh after a few seconds from a shit ton of people and it's made the
                // app reach it's limit... access tokens blow for youtube. API key is the best way still.
                $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
-
-
-
-
-
-
             }   ?>
 
             <div class="clear"></div>
@@ -211,7 +204,6 @@ class Youtube_Access_Functions {
                             '<a class="fts-youtube-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
                             '</a></div>'
                         );
-
                     }
                     else {
                         echo sprintf(
@@ -221,7 +213,6 @@ class Youtube_Access_Functions {
                             '</a></div>'
                         );
                     }
-
                 }
                 elseif ( empty( $youtube_api_key ) && 'true' === $error_response && ! empty( $youtube_access_token ) ) {
                     echo sprintf(

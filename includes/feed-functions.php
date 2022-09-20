@@ -1461,27 +1461,12 @@ class Feed_Functions {
 	 * @since
 	 */
 	public function use_cache_check( $api_url, $cache_name, $feed_type ) {
-		// print_r( $api_url );
-		// echo '<br/> Cache Name! <br/>' . $cache_name;
-		// print_r( '<br/>NEXT!<br/> ' );
 		if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 			if ( true === $this->feed_cache->fts_check_feed_cache_exists( $cache_name ) ) {
 				$response = $this->feed_cache->fts_get_feed_cache( $cache_name );
-				// echo '<br/> true cached... we are here <br/>';
-				// echo ' pppppppppppppppppppp ';
-				// YO!
-				// echo 'Cache Should Be Printing out here.<br/>';
-				// echo $cache_name;
-				// print_r( $response );
-				// Return Cache because it exists in Database.
 				return $response;
 			}
 		}
-
-		// SO if the cache does not exists then we run some checks below.
-
-		// Get Feed using API call.
-		// echo ' ZZZZZZZZZZZ <br/>';
 
 		$fts_error_check = new fts_error_handler();
 		// Error Check.

@@ -191,7 +191,7 @@ class Youtube_Feed {
 
 	        //$saved_feed_options['youtube_channelID'];
 
-	        $vid_count = $saved_feed_options['youtube_vid_count'] ?? 4;
+	        $vid_count = $saved_feed_options['youtube_vid_count'] ?? '4';
 
             if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $vid_count > '6' ) {
                 $vid_count = 6;
@@ -206,25 +206,15 @@ class Youtube_Feed {
             }
             // YouTube has a limit of 50 per page and if you try to load more the array errors so we make sure that does not happen.
             if ( $vid_count > 50 ) {
-                $vid_count = 50;
+                $vid_count = '50';
             }
 
-            // free additions so we don't have to update all the plugins.
-//            extract(
-//                shortcode_atts(
-//                    array(
-//                        'omit_first_thumbnail' => '',
-//                    ),
-//                    $atts
-//                )
-//            );
-
-            // if omit_first_thumbnail == yes then we make sure and skip the first iteration in the loop.
+            // Default Omit First Thumb to false.
+	        $omit_first_thumb = false;
+	        // If omit_first_thumbnail is set to yes then we make sure and skip the first iteration in the loop.
             if ( 'yes' === $saved_feed_options['youtube_omit_first_thumbnail'] ) {
-                $b         = false;
-                $vid_count = $vid_count ++;
-            } else {
-                $b = true;
+	            $omit_first_thumb = true;
+                $vid_count++;
             }
 
             // Youtube Show Follow Button Options.
@@ -350,6 +340,8 @@ class Youtube_Feed {
                     // JSON Decode the Feed Data.
                     $videos = json_decode( $feed_returned['data'] );
 
+                    error_log( print_r($videos, true) );
+
                     // YO! This is the print_r you want to show most feeds.
                     // echo'playlistID and channelID shortcode used: <pre>';
                     // print_r($videos);
@@ -374,24 +366,34 @@ class Youtube_Feed {
 
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
-                $saved_feed_options['youtube_video_thumbs_display'] = isset( $saved_feed_options['youtube_video_thumbs_display'] ) ? $saved_feed_options['youtube_video_thumbs_display'] : '2';
+                $video_thumbs_display = $saved_feed_options['youtube_video_thumbs_display'] ?? '2';
 
-
-
-                if ( '1' === $saved_feed_options['youtube_video_thumbs_display'] ) {
-                    $saved_feed_options['youtube_video_thumbs_display'] = ' fts-youtube-thumbs-wrap-option-80-20';
-                } elseif ( '2' === $saved_feed_options['youtube_video_thumbs_display'] ) {
-                    $saved_feed_options['youtube_video_thumbs_display'] = ' fts-youtube-thumbs-wrap-option-60-40';
-                } elseif ( '3' === $saved_feed_options['youtube_video_thumbs_display'] ) {
-                    $saved_feed_options['youtube_video_thumbs_display'] = ' fts-youtube-thumbs-wrap-option-50-50';
+               // Video Thumbs Display!
+                switch ( $video_thumbs_display ){
+                    case '1':
+	                    $video_thumbs_display = ' fts-youtube-thumbs-wrap-option-80-20';
+                        break;
+                    case '2':
+	                    $video_thumbs_display = ' fts-youtube-thumbs-wrap-option-60-40';
+	                    break;
+	                case '3':
+		                $video_thumbs_display = ' fts-youtube-thumbs-wrap-option-50-50';
+		                break;
                 }
 
-                if ( isset( $wrap ) && 'right' === $wrap ) {
-                    $wrap = ' fts-youtube-thumbs-wrap' . $saved_feed_options['youtube_video_thumbs_display'] . '';
-                } elseif ( isset( $wrap ) && 'left' === $wrap ) {
-                    $wrap = ' fts-youtube-thumbs-wrap-left' . $saved_feed_options['youtube_video_thumbs_display'] . '';
-                } else {
-                    $wrap = '';
+                // If Premium is active and wrap isset
+                if (isset($wrap)){
+	                // Thumbs Wrap!
+	                switch ( $wrap ){
+		                case 'right':
+			                $wrap = ' fts-youtube-thumbs-wrap' . $video_thumbs_display;
+			                break;
+		                case 'left':
+			                $wrap = ' fts-youtube-thumbs-wrap-left'. $video_thumbs_display;
+			                break;
+		                default:
+			                $wrap = '';
+	                }
                 }
 
                 $thumbgallery_class_master = empty( $saved_feed_options['youtube_singleVideoID'] ) ? ' fts-youtube-thumbs-gallery-master ' : '';
@@ -453,7 +455,7 @@ class Youtube_Feed {
                 $saved_feed_options['youtube_container_margin'] = isset( $saved_feed_options['youtube_container_margin'] ) && '' !== $saved_feed_options['youtube_container_margin'] ? $saved_feed_options['youtube_container_margin'] : '1px';
 
                 $thumbs_wrap_color_final  = isset( $saved_feed_options['youtube_thumbs_wrap_color']) ? 'background:' . $saved_feed_options['youtube_thumbs_wrap_color']. '!important' : '';
-                $thumbs_wrap_color_scroll = isset( $saved_feed_options['youtube_thumbs_wrap_color']) ? 'background:' . $saved_feed_options['youtube_thumbs_wrap_color']. '' : '';
+                $thumbs_wrap_color_scroll = isset( $saved_feed_options['youtube_thumbs_wrap_color']) ? 'background:' . $saved_feed_options['youtube_thumbs_wrap_color'] : '';
 
                 if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
                     echo '<div id="fts-yt-large-' . esc_attr( $saved_feed_options['youtube_singleVideoID'] ) . '" class="fts-yt-large' . esc_attr( $wrap ) . '">';
@@ -482,7 +484,7 @@ class Youtube_Feed {
 
                 if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
 
-                    $youtube_video_url = 'https://www.youtube.com/watch?v=' . $saved_feed_options['youtube_singleVideoID'] . '';
+                    $youtube_video_url = 'https://www.youtube.com/watch?v=' . $saved_feed_options['youtube_singleVideoID'];
 
                     $set_comments_height = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && '' !== $wrap ? 'youtube-comments-wrap-premium ' : '';
 
@@ -518,8 +520,8 @@ class Youtube_Feed {
                 foreach ( $videos->items as $post_data ) {
                     $kind = $post_data->id->kind ?? '';
                     // if omit_first_thumbnail == yes then we make sure and skip the first iteration in the loop.
-                    if ( ! $b ) {
-                        $b = true;
+                    if ( $omit_first_thumb ) {
+	                    $omit_first_thumb = false;
                         continue;
                     }
 
@@ -641,11 +643,11 @@ class Youtube_Feed {
                 }
             }
 
-            if ( empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
+            if ( !isset( $saved_feed_options['youtube_singleVideoID'] ) && empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
 
                 // Load More BUTTON Start.
-                $youtube_load_more_text      = get_option( 'youtube_load_more_text' ) ? get_option( 'youtube_load_more_text' ) : __( 'Load More', 'feed-them-social' );
-                $youtube_no_more_videos_text = get_option( 'youtube_no_more_videos_text' ) ? get_option( 'youtube_no_more_videos_text' ) : __( 'No More Videos', 'feed-them-social' );
+                $youtube_load_more_text      = $saved_feed_options['youtube_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
+                $youtube_no_more_videos_text = $saved_feed_options['youtube_no_more_videos_text'] ?? __( 'No More Videos', 'feed-them-social' );
 
                 if ( ! empty( $saved_feed_options['youtube_name'] ) ) {
                     // now we parse the users uploaded vids ID and create the playlist.
@@ -703,7 +705,7 @@ class Youtube_Feed {
 
                             var feed_name = "fts_youtube";
                             var loadmore_count = "vid_count=<?php echo esc_js( $loadmore_count ) ?>";
-                            var feed_attributes = <?php echo wp_json_encode( $atts ) ?>;
+                            //var feed_attributes = <?php //echo wp_json_encode( $atts ) ?>;
 
                             jQuery.ajax({
                                 data: {
@@ -712,7 +714,7 @@ class Youtube_Feed {
                                     fts_dynamic_name: fts_d_name,
                                     feed_name: feed_name,
                                     loadmore_count: loadmore_count,
-                                    feed_attributes: feed_attributes,
+                                    //feed_attributes: feed_attributes,
                                     load_more_ajaxing: yes_ajax,
                                     fts_security: fts_security,
                                     fts_time: fts_time
@@ -761,7 +763,7 @@ class Youtube_Feed {
                         // string $scrollMore is at top of this js script. exception for scroll option closing tag.
                         <?php if ( 'autoscroll' === $loadmore ) { ?>
                                 };
-                            }); // end of scroll ajax load.
+                            }) // end of scroll ajax load.
                         <?php } else { ?>
                             }); // end of click button.
                         <?php } ?>

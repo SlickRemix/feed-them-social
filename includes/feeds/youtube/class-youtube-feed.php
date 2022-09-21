@@ -52,15 +52,6 @@ class Youtube_Feed {
 	public $access_options;
 
 	/**
-	 * Feed Access Token
-	 *
-	 * Feed Access Token that should be decrypted.
-	 *
-	 * @var object
-	 */
-	private $feed_access_token;
-
-	/**
 	 * Construct
 	 * u
 	 * FTS Youtube Feed constructor.
@@ -68,7 +59,6 @@ class Youtube_Feed {
 	 * @since 2.3.2
 	 */
 	public function __construct( $feed_functions, $feed_cache, $access_options ) {
-
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
 
@@ -191,6 +181,7 @@ class Youtube_Feed {
 
 	        //$saved_feed_options['youtube_channelID'];
 
+            // Video count. If not set in database used count of 4
 	        $vid_count = $saved_feed_options['youtube_vid_count'] ?? '4';
 
             if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $vid_count > '6' ) {
@@ -221,6 +212,7 @@ class Youtube_Feed {
 	        $youtube_show_follow_btn       = $saved_feed_options['youtube_show_follow_btn'];
             $youtube_show_follow_btn_where = $saved_feed_options['youtube_show_follow_btn_where'];
 
+            // Thumb clicks play in iframe.
             $thumbs_play_iframe = $saved_feed_options['youtube_play_thumbs'];
 
             // Make sure its not ajaxing.
@@ -340,12 +332,12 @@ class Youtube_Feed {
                     // JSON Decode the Feed Data.
                     $videos = json_decode( $feed_returned['data'] );
 
-                    error_log( print_r($videos, true) );
+
 
                     // YO! This is the print_r you want to show most feeds.
-                    // echo'playlistID and channelID shortcode used: <pre>';
-                    // print_r($videos);
-                    // echo'</pre>';
+                    echo'playlistID and channelID shortcode used: <pre>';
+	                    error_log( print_r( $videos ) );
+                    echo'</pre>';
                 }
             }
 
@@ -407,7 +399,6 @@ class Youtube_Feed {
                         // we check to make sure no playlist video kinds are in the array ($post_data->id->kind !== 'youtube#playlist') because they return a blank video in the channel feed because youtube is simply adding it to the array for youtube not thinking of the API in this case it would seem.
                         $video_check = isset( $post_data->id->kind ) && 'youtube#playlist' === $post_data->id->kind ? 'set' : 'notset';
                         if ( 'set' !== $video_check ) {
-
                             $second_video_margin_btm = 'yes' === $saved_feed_options['youtube_large_vid_title'] && 'yes' !==  $saved_feed_options['youtube_large_vid_description'] ? 'fts-youtube-second-video-margin-btm' : '';
 
                             echo '<div class="fts-yt-large' . esc_attr( $wrap . ' ' . $second_video_margin_btm ) . '">';
@@ -500,7 +491,7 @@ class Youtube_Feed {
                     echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 
                     // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
-                    if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty( get_option( 'youtube_custom_api_token' ) ) ) {
+                    if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                         $this->fts_youtube_commentThreads( $saved_feed_options['youtube_singleVideoID'], $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                     }
 
@@ -590,7 +581,7 @@ class Youtube_Feed {
                                 echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
                                 echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
                                 // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
-                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty( get_option( 'youtube_custom_api_token' ) ) ) {
+                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                                     $this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                                 }
                                 echo '</div>';
@@ -628,7 +619,7 @@ class Youtube_Feed {
                                 echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 
                                 // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
-                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty( get_option( 'youtube_custom_api_token' ) ) ) {
+                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty( $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                                     $this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                                 }
                                 echo '</div>';
@@ -845,7 +836,7 @@ class Youtube_Feed {
                 echo '<div class="youtube-social-btn-bottom">';
 
                 if ( ! empty( $saved_feed_options['youtube_name'] ) || ! empty( $saved_feed_options['youtube_name2'] ) ) {
-                    echo $this->feed_functions->social_follow_button( 'youtube', $username, $saved_feed_options );
+                    echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_name'], $saved_feed_options );
                 } elseif ( ! empty( $saved_feed_options['youtube_channelID'] ) ) {
                     echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID'], $saved_feed_options );
                 }

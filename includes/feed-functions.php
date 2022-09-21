@@ -424,60 +424,60 @@ class Feed_Functions {
 		if ( empty( $fts_language_second ) ) {
 			$fts_language_second = esc_html__( 'second', 'feed-them-social' );
 		}
-		$fts_language_seconds = $this->settings_functions->fts_get_option( 'fts_language_seconds' );
+		$fts_language_seconds = $this->settings_functions->fts_get_option( 'language_seconds' );
 		if ( empty( $fts_language_seconds ) ) {
 			$fts_language_seconds = esc_html__( 'seconds', 'feed-them-social' );
 		}
-		$fts_language_minute = $this->settings_functions->fts_get_option( 'fts_language_minute' );
+		$fts_language_minute = $this->settings_functions->fts_get_option( 'language_minute' );
 		if ( empty( $fts_language_minute ) ) {
 			$fts_language_minute = esc_html__( 'minute', 'feed-them-social' );
 		}
-		$fts_language_minutes = $this->settings_functions->fts_get_option( 'fts_language_minutes' );
+		$fts_language_minutes = $this->settings_functions->fts_get_option( 'language_minutes' );
 		if ( empty( $fts_language_minutes ) ) {
 			$fts_language_minutes = esc_html__( 'minutes', 'feed-them-social' );
 		}
-		$fts_language_hour = $this->settings_functions->fts_get_option( 'fts_language_hour' );
+		$fts_language_hour = $this->settings_functions->fts_get_option( 'language_hour' );
 		if ( empty( $fts_language_hour ) ) {
 			$fts_language_hour = esc_html__( 'hour', 'feed-them-social' );
 		}
-		$fts_language_hours = $this->settings_functions->fts_get_option( 'fts_language_hours' );
+		$fts_language_hours = $this->settings_functions->fts_get_option( 'language_hours' );
 		if ( empty( $fts_language_hours ) ) {
 			$fts_language_hours = esc_html__( 'hours', 'feed-them-social' );
 		}
-		$fts_language_day = $this->settings_functions->fts_get_option( 'fts_language_day' );
+		$fts_language_day = $this->settings_functions->fts_get_option( 'language_day' );
 		if ( empty( $fts_language_day ) ) {
 			$fts_language_day = esc_html__( 'day', 'feed-them-social' );
 
 		}
-		$fts_language_days = $this->settings_functions->fts_get_option( 'fts_language_days' );
+		$fts_language_days = $this->settings_functions->fts_get_option( 'language_days' );
 		if ( empty( $fts_language_days ) ) {
 			$fts_language_days = esc_html__( 'days', 'feed-them-social' );
 		}
-		$fts_language_week = $this->settings_functions->fts_get_option( 'fts_language_week' );
+		$fts_language_week = $this->settings_functions->fts_get_option( 'language_week' );
 		if ( empty( $fts_language_week ) ) {
 			$fts_language_week = esc_html__( 'week', 'feed-them-social' );
 		}
-		$fts_language_weeks = $this->settings_functions->fts_get_option( 'fts_language_weeks' );
+		$fts_language_weeks = $this->settings_functions->fts_get_option( 'language_weeks' );
 		if ( empty( $fts_language_weeks ) ) {
 			$fts_language_weeks = esc_html__( 'weeks', 'feed-them-social' );
 		}
-		$fts_language_month = $this->settings_functions->fts_get_option( 'fts_language_month' );
+		$fts_language_month = $this->settings_functions->fts_get_option( 'language_month' );
 		if ( empty( $fts_language_month ) ) {
 			$fts_language_month = esc_html__( 'month', 'feed-them-social' );
 		}
-		$fts_language_months = $this->settings_functions->fts_get_option( 'fts_language_months' );
+		$fts_language_months = $this->settings_functions->fts_get_option( 'language_months' );
 		if ( empty( $fts_language_months ) ) {
 			$fts_language_months = esc_html__( 'months', 'feed-them-social' );
 		}
-		$fts_language_year = $this->settings_functions->fts_get_option( 'fts_language_year' );
+		$fts_language_year = $this->settings_functions->fts_get_option( 'language_year' );
 		if ( empty( $fts_language_year ) ) {
 			$fts_language_year = esc_html__( 'year', 'feed-them-social' );
 		}
-		$fts_language_years = $this->settings_functions->fts_get_option( 'fts_language_years' );
+		$fts_language_years = $this->settings_functions->fts_get_option( 'language_years' );
 		if ( empty( $fts_language_years ) ) {
 			$fts_language_years = esc_html__( 'years', 'feed-them-social' );
 		}
-		$fts_language_ago = $this->settings_functions->fts_get_option( 'fts_language_ago' );
+		$fts_language_ago = $this->settings_functions->fts_get_option( 'language_ago' );
 		if ( empty( $fts_language_ago ) ) {
 			$fts_language_ago = esc_html__( 'ago', 'feed-them-social' );
 		}
@@ -527,7 +527,6 @@ class Feed_Functions {
 	 * @since 1.9.6
 	 */
 	public function fts_custom_date( $created_time, $feed_type ) {
-
 
 		$fts_custom_date         = $this->settings_functions->fts_get_option( 'custom_date' );
 		$fts_custom_time         = $this->settings_functions->fts_get_option( 'custom_time' );
@@ -620,70 +619,15 @@ class Feed_Functions {
 	 */
 	public function fts_fb_color_options_head_css() {
 
-		$twitter_hide_profile_photo          = get_option( 'twitter_hide_profile_photo' );
-		$twitter_text_color                  = get_option( 'twitter_text_color' );
-		$twitter_link_color                  = get_option( 'twitter_link_color' );
-		$twitter_link_color_hover            = get_option( 'twitter_link_color_hover' );
-		$twitter_feed_width                  = get_option( 'twitter_feed_width' );
-		$twitter_feed_margin                 = get_option( 'twitter_feed_margin' );
-		$twitter_feed_padding                = get_option( 'twitter_feed_padding' );
-		$twitter_feed_background_color       = get_option( 'twitter_feed_background_color' );
-		$twitter_border_bottom_color         = get_option( 'twitter_border_bottom_color' );
-		$twitter_max_image_width             = get_option( 'twitter_max_image_width' );
-		$twitter_grid_border_bottom_color    = get_option( 'twitter_grid_border_bottom_color' );
-		$twitter_grid_posts_background_color = get_option( 'twitter_grid_posts_background_color' );
-		$twitter_loadmore_background_color   = get_option( 'twitter_loadmore_background_color' );
-		$twitter_loadmore_text_color         = get_option( 'twitter_loadmore_text_color' );
-
-		$instagram_loadmore_background_color = get_option( 'instagram_loadmore_background_color' );
-		$instagram_loadmore_text_color       = get_option( 'instagram_loadmore_text_color' );
-
-		$pinterest_board_title_color       = get_option( 'pinterest_board_title_color' );
-		$pinterest_board_title_size        = get_option( 'pinterest_board_title_size' );
-		$pinterest_board_backg_hover_color = get_option( 'pinterest_board_backg_hover_color' );
-
-		$fts_social_icons_color       = get_option( 'fts_social_icons_color' );
-		$fts_social_icons_hover_color = get_option( 'fts_social_icons_hover_color' );
-		$fts_social_icons_back_color  = get_option( 'fts_social_icons_back_color' );
 
 		$youtube_loadmore_background_color = get_option( 'youtube_loadmore_background_color' );
 		$youtube_loadmore_text_color       = get_option( 'youtube_loadmore_text_color' );
 
-		$twitter_text_size = get_option( 'twitter_text_size' );
 
         ?>
             <style type="text/css">
 
             <?php
-            if ( ! empty( $twitter_grid_posts_background_color ) ) { ?>
-            .fts-slicker-twitter-posts .fts-tweeter-wrap {
-                background: <?php echo esc_html( $twitter_grid_posts_background_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_grid_border_bottom_color ) ) { ?>
-            .fts-slicker-twitter-posts .fts-tweeter-wrap {
-                border-bottom-color: <?php echo esc_html( $twitter_grid_border_bottom_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_loadmore_background_color ) ) { ?>
-            .fts-twitter-load-more-wrapper .fts-fb-load-more {
-                background: <?php echo esc_html( $twitter_loadmore_background_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_loadmore_text_color ) ) { ?>
-            .fts-twitter-load-more-wrapper .fts-fb-load-more {
-                color: <?php echo esc_html( $twitter_loadmore_text_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_loadmore_text_color ) ) { ?>
-            .fts-twitter-load-more-wrapper .fts-fb-spinner > div {
-                background: <?php echo esc_html( $twitter_loadmore_text_color ); ?> !important;
-            }
-			<?php }
 
             if ( ! empty( $fb_reviews_backg_color ) ) { ?>
             .fts-review-star {
@@ -721,130 +665,8 @@ class Feed_Functions {
             }
 			<?php }
 
-            if ( ! empty( $twitter_text_color ) ) { ?>
-            .tweeter-info .fts-twitter-text, .fts-twitter-reply-wrap:before, a span.fts-video-loading-notice {
-                color: <?php echo esc_html( $twitter_text_color ); ?> !important;
-            }
-			<?php }
 
-            if ( ! empty( $twitter_link_color ) ) { ?>
-            .tweeter-info .fts-twitter-text a, .tweeter-info .fts-twitter-text .time a, .fts-twitter-reply-wrap a, .tweeter-info a, .twitter-followers-fts a, body.fts-twitter-reply-wrap a {
-                color: <?php echo esc_html( $twitter_link_color ); ?> !important;
-            }
-			<?php }
 
-            if ( ! empty( $twitter_link_color_hover ) ) { ?>
-            .tweeter-info a:hover, .tweeter-info:hover .fts-twitter-reply, body.fts-twitter-reply-wrap a:hover {
-                color: <?php echo esc_html( $twitter_link_color_hover ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_feed_width ) ) { ?>
-            .fts-twitter-div {
-                max-width: <?php echo esc_html( $twitter_feed_width ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_feed_margin ) ) { ?>
-            .fts-twitter-div {
-                margin: <?php echo esc_html( $twitter_feed_margin ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_feed_padding ) ) { ?>
-            .fts-twitter-div {
-                padding: <?php echo esc_html( $twitter_feed_padding ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_feed_background_color ) ) { ?>
-            .fts-twitter-div {
-                background: <?php echo esc_html( $twitter_feed_background_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_border_bottom_color ) ) { ?>
-            .tweeter-info {
-                border-bottom: 1px solid <?php echo esc_html( $twitter_border_bottom_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $twitter_max_image_width ) ) { ?>
-            .fts-twitter-link-image {
-                max-width: <?php echo esc_html( $twitter_max_image_width ); ?> !important;
-                display: block;
-            }
-			<?php }
-
-            if ( ! empty( $instagram_loadmore_background_color ) ) { ?>
-            .fts-instagram-load-more-wrapper .fts-fb-load-more {
-                background: <?php echo esc_html( $instagram_loadmore_background_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $instagram_loadmore_text_color ) ) { ?>
-            .fts-instagram-load-more-wrapper .fts-fb-load-more {
-                color: <?php echo esc_html( $instagram_loadmore_text_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $instagram_loadmore_text_color ) ) { ?>
-            .fts-instagram-load-more-wrapper .fts-fb-spinner > div {
-                background: <?php echo esc_html( $instagram_loadmore_text_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $pinterest_board_backg_hover_color ) ) { ?>
-            a.fts-pin-board-wrap:hover {
-                background: <?php echo esc_html( $pinterest_board_backg_hover_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $pinterest_board_title_color ) ) { ?>
-            body h3.fts-pin-board-board_title {
-                color: <?php echo esc_html( $pinterest_board_title_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $pinterest_board_title_size ) ) { ?>
-            body h3.fts-pin-board-board_title {
-                font-size: <?php echo esc_html( $pinterest_board_title_size ); ?> !important;
-            }
-			<?php
-            }
-
-            if ( ! empty( $fts_social_icons_color ) ) {
-	        ?>
-            .ft-gallery-share-wrap a.ft-galleryfacebook-icon, .ft-gallery-share-wrap a.ft-gallerytwitter-icon, .ft-gallery-share-wrap a.ft-gallerygoogle-icon, .ft-gallery-share-wrap a.ft-gallerylinkedin-icon, .ft-gallery-share-wrap a.ft-galleryemail-icon {
-                color: <?php echo esc_html( $fts_social_icons_color ); ?> !important;
-            }
-			<?php
-            }
-
-            if ( ! empty( $fts_social_icons_hover_color ) ) {
-	        ?>
-            .ft-gallery-share-wrap a.ft-galleryfacebook-icon:hover, .ft-gallery-share-wrap a.ft-gallerytwitter-icon:hover, .ft-gallery-share-wrap a.ft-gallerygoogle-icon:hover, .ft-gallery-share-wrap a.ft-gallerylinkedin-icon:hover, .ft-gallery-share-wrap a.ft-galleryemail-icon:hover {
-                color: <?php echo esc_html( $fts_social_icons_hover_color ); ?> !important;
-            }
-			<?php
-            }
-
-            if ( ! empty( $fts_social_icons_back_color ) ) {
-	        ?>
-            .ft-gallery-share-wrap {
-                background: <?php echo esc_html( $fts_social_icons_back_color ); ?> !important;
-            }
-			<?php
-            }
-
-            if ( ! empty( $twitter_text_size ) ) {
-             ?>
-            span.fts-twitter-text {
-                font-size: <?php echo esc_html( $twitter_text_size ); ?> !important;
-            }
-
-			<?php
-            }
 
             if ( ! empty( $fb_text_size ) ) {
             ?>
@@ -853,6 +675,14 @@ class Feed_Functions {
             }
 			<?php
             }
+
+
+
+
+
+
+
+
 
             if ( ! empty( $youtube_loadmore_background_color ) ) {
 	        ?>
@@ -981,8 +811,8 @@ class Feed_Functions {
 //            }
 
             if ( 'fts_twitter' === $_REQUEST['feed_name'] ) {
-                $loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
-                $build_shortcode .= ' ' . $loadmore_count . ']';
+               // $loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
+               // $build_shortcode .= ' ' . $loadmore_count . ']';
             } elseif ( 'fts_youtube' === $_REQUEST['feed_name'] ) {
                 $loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
                 $build_shortcode .= ' ' . $loadmore_count . ']';
@@ -1390,18 +1220,19 @@ class Feed_Functions {
 			$ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
 			$ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
 
-			// The share wrap and links
-			$output  = '<div class="fts-share-wrap">';
-			$output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html__( 'Social Share Options', 'feed-them-social' ) . '">' . esc_html( '', 'feed-them-social' ) . '</a>';
-			$output .= '<div class="ft-gallery-share-wrap">';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" rel="noreferrer" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" rel="noreferrer" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
-			$output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" rel="noreferrer" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
-			$output .= '</div>';
-			$output .= '</div>';
-			return $output;
+            // The share wrap and links
+            $output  = '<div class="fts-share-wrap">';
+            $output .= '<a href="javascript:;" class="ft-gallery-link-popup" title="' . esc_html__( 'Social Share Options', 'feed-them-social' ) . '">
+<svg viewBox="0 0 24 24" aria-hidden="true" class="svg-inline--fa r-4qtqp9 r-yyyyoo r-50lct3 r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1srniue"><g><path d="M17.53 7.47l-5-5c-.293-.293-.768-.293-1.06 0l-5 5c-.294.293-.294.768 0 1.06s.767.294 1.06 0l3.72-3.72V15c0 .414.336.75.75.75s.75-.336.75-.75V4.81l3.72 3.72c.146.147.338.22.53.22s.384-.072.53-.22c.293-.293.293-.767 0-1.06z"></path><path d="M19.708 21.944H4.292C3.028 21.944 2 20.916 2 19.652V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 .437.355.792.792.792h15.416c.437 0 .792-.355.792-.792V14c0-.414.336-.75.75-.75s.75.336.75.75v5.652c0 1.264-1.028 2.292-2.292 2.292z"></path></g></svg></a>';
+            $output .= '<div class="ft-gallery-share-wrap">';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" rel="noreferrer" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" rel="noreferrer" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
+            $output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" rel="noreferrer" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
+            $output .= '</div>';
+            $output .= '</div>';
+            return $output;
 		}
 	}
 

@@ -60,6 +60,15 @@ class Instagram_Feed {
 	private $feed_access_token;
 
     /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
+
+    /**
 	 * Data Protection
 	 *
 	 * The Data Protection class.
@@ -75,7 +84,11 @@ class Instagram_Feed {
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct( $feed_functions, $feed_cache, $access_options ) {
+	public function __construct( $settings_functions, $feed_functions, $feed_cache, $access_options ) {
+
+        // Settings Functions Class.
+        $this->settings_functions = $settings_functions;
+
          // Set Feed Functions object.
 	    $this->feed_functions = $feed_functions;
 
@@ -96,6 +109,46 @@ class Instagram_Feed {
 	public function add_actions_filters() {
         add_action( 'wp_enqueue_scripts', array( $this, 'fts_instagram_head' ) );
 	}
+
+    /**
+     * FB Custom Styles
+     *
+     * Custom Styles for feed in a shortcode.
+     *
+     * @param string $a First Date.
+     * @return false|int
+     * @since 4.0
+     */
+    public function instagram_custom_styles( $feed_post_id ) {
+
+        $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
+
+        // CSS options.
+        $instagram_loadmore_background_color = $saved_feed_options['instagram_loadmore_background_color'] ?? '';
+        $instagram_loadmore_text_color       = $saved_feed_options['instagram_loadmore_text_color'] ?? '';
+
+        ?>
+        <style type="text/css">
+        <?php
+        if ( ! empty( $instagram_loadmore_background_color ) ) { ?>
+                .fts-instagram-load-more-wrapper .fts-fb-load-more {
+                    background: <?php echo esc_html( $instagram_loadmore_background_color ); ?> !important;
+                }
+        <?php }
+
+        if ( ! empty( $instagram_loadmore_text_color ) ) { ?>
+                .fts-instagram-load-more-wrapper .fts-fb-load-more {
+                    color: <?php echo esc_html( $instagram_loadmore_text_color ); ?> !important;
+                }
+        <?php }
+
+        if ( ! empty( $instagram_loadmore_text_color ) ) { ?>
+                .fts-instagram-load-more-wrapper .fts-fb-spinner > div {
+                    background: <?php echo esc_html( $instagram_loadmore_text_color ); ?> !important;
+                }
+        <?php } ?>
+        </style><?php
+    }
 
 	/**
 	 * Convert Instagram Description Links using
@@ -159,17 +212,34 @@ class Instagram_Feed {
 
 		if ( wp_verify_nonce( $fts_instagram_feed_nonce, 'fts-instagram-feed-page-nonce' ) ) {
 
-			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+            ob_start();
+
+            include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
             // Saved Feed Options!
 		    $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
 
+            // Get our Additional Options.
+            $this->instagram_custom_styles( $feed_post_id );
+
+          //  print_r( $saved_feed_options );
+
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-				include WP_PLUGIN_DIR . '/feed-them-premium/feeds/instagram/instagram-feed.php';
+
+                // SRL commented out for new 4.0 testing.. passing vars below.
+				//include WP_PLUGIN_DIR . '/feed-them-premium/feeds/instagram/instagram-feed.php';
+
+                $popup                 = $saved_feed_options['instagram_popup_option'] ?? '';
+                $height                = $saved_feed_options['instagram_page_height']?? '';
+                $loadmore_option       = $saved_feed_options['instagram_load_more_option'] ?? '';
+                $loadmore              = $saved_feed_options['instagram_load_more_style'] ?? '';
+                $loadmore_btn_margin   = $saved_feed_options['instagram_loadmore_button_margin'] ?? '';
+                $loadmore_btn_maxwidth = $saved_feed_options['instagram_loadmore_button_width'] ?? '';
+
 				// $popup variable comes from the premium version
 				if ( isset( $popup ) && 'yes' === $popup ) {
 					// it's ok if these styles & scripts load at the bottom of the page.
-					$fts_fix_magnific = get_option( 'fts_fix_magnific' ) ?? '';
+                    $fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
 					if ( '1' !== $fts_fix_magnific ) {
 						wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
 					}
@@ -219,6 +289,10 @@ class Instagram_Feed {
 //					$atts
 //				)
 //			);
+
+
+            // NEXT TASK IS TO MOVE OVER THE CUSTOM CSS OPTIONS LIKE I DID FOR FB FEED ALREADY. JUST COPY WORK OVER...
+
 
 			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['instagram_pics_count'] > '6' ) {
                 $saved_feed_options['instagram_pics_count'] = '6';
@@ -284,7 +358,7 @@ class Instagram_Feed {
 
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				$instagram_load_more_text      = $saved_feed_options['instagram_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
-				$instagram_no_more_photos_text = $saved_feed_options['instagram_load_more_text'] ?? __( 'No More Photos', 'feed-them-social' );
+				$instagram_no_more_photos_text = $saved_feed_options['instagram_no_more_photos_text'] ?? __( 'No More Photos', 'feed-them-social' );
 			}
 
 			// Make sure it's not ajaxing.
@@ -296,8 +370,6 @@ class Instagram_Feed {
 					$fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_key( $_REQUEST['fts_dynamic_name'] );
 				}
 			}
-
-			ob_start();
 
 			// New method since Instagram API changes as of April 4th, 2018.
 //			if ( '' === $access_token ) {
@@ -442,6 +514,7 @@ class Instagram_Feed {
                 }
 			}
 			elseif ( 'business' === $saved_feed_options['instagram_feed_type'] ) {
+
                 $business_cache = 'instagram_business_cache' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '';
 
                 // this is not getting cached currently
@@ -648,24 +721,13 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 					echo '</div>';
 				}
 
-				if ( isset( $scroll_more ) && 'autoscroll' === $scroll_more || ! empty( $saved_feed_options['instagram_page_height'] ) ) {
+				if ( !empty( $loadmore ) && 'autoscroll' === $loadmore || ! empty( $height ) ) {
 					?>
-<div class="fts-instagram-scrollable <?php echo esc_attr( $fts_dynamic_class_name ); ?>instagram" style="overflow:auto;
-					<?php
-					if ( '' !== $saved_feed_options['instagram_page_width'] ) {
-						?>
-		max-width:
-						<?php
-						echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';';
+<div class="fts-instagram-scrollable <?php echo esc_attr( $fts_dynamic_class_name ); ?>instagram" style="overflow:auto; <?php if ( !empty( $saved_feed_options['instagram_page_width'] ) ) {
+						?>max-width: <?php echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';';
+					} if ( !empty( $height ) ) { ?> height: <?php echo esc_attr( $height );
 					}
-					if ( '' !== $saved_feed_options['instagram_page_height'] ) {
-						?>
-		height:
-						<?php
-						echo esc_attr( $saved_feed_options['instagram_page_height'] );
-					}
-					?>
-					">
+					?>">
 					<?php
 				}
 
@@ -673,14 +735,8 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                 $saved_feed_options['instagram_force_columns'] = $saved_feed_options['instagram_force_columns'] ?? '';
 
                 ?>
-                <div
-                <?php if ( '' !== $saved_feed_options['instagram_page_width'] ) { ?>
-                    style="max-width:
-                    <?php
-                    echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';"';
-                }
-                ?>
-                data-ftsi-columns="<?php echo esc_attr( $saved_feed_options['instagram_columns'] ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $saved_feed_options['instagram_force_columns'] ); ?>" data-ftsi-margin="<?php echo esc_attr( $saved_feed_options['instagram_space_between_photos'] ); ?>" data-ftsi-width="<?php echo esc_attr( $image_size ); ?>" class="
+                <div <?php if ( !empty( $saved_feed_options['instagram_page_width'] ) ) { ?> style="max-width: <?php echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';"';
+                } ?> data-ftsi-columns="<?php echo esc_attr( $saved_feed_options['instagram_columns'] ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $saved_feed_options['instagram_force_columns'] ); ?>" data-ftsi-margin="<?php echo esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ); ?>" data-ftsi-width="<?php echo esc_attr( $image_size ); ?>" class="
                   <?php
                     echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
                     if ( isset( $popup ) && 'yes' === $popup ) {
@@ -929,7 +985,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     }
                 }
 
-                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! empty( $scroll_more ) ) {
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $loadmore_option ) {
                     // ******************
                     // Load More BUTTON Start
                     // Check to see if the next isset for the hashtag feed. If so then pass it down so it's used.
@@ -954,8 +1010,8 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                         ?>
                 <script>jQuery(document).ready(function () {
                         <?php
-                        // $scroll_more = load_more_posts_style shortcode att.
-                        if ( 'autoscroll' === $scroll_more ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
+                        // $loadmore = load_more_posts_style shortcode att.
+                        if ( 'autoscroll' === $loadmore ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
                             ?>
 
                             // If =autoscroll in shortcode.
@@ -974,9 +1030,10 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                     var button = jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
                                     console.log(button);
 
-                                    var feed_name = "fts_instagram";
+                                    var feed_name = "feed_them_social";
+                                    var feed_id = "<?php echo esc_js( $feed_post_id ); ?>";
                                     var loadmore_count = "pics_count=<?php echo esc_js( $loadmore_count ); ?>";
-                                    var feed_attributes = <?php echo wp_json_encode( $atts ); ?>;
+                                  //  var feed_attributes = <?php // echo wp_json_encode( $atts ); ?>;
                                     var yes_ajax = "yes";
                                     var fts_d_name = "<?php echo esc_js( $fts_dynamic_name ); ?>";
                                     var fts_security = "<?php echo esc_js( $nonce ); ?>";
@@ -991,7 +1048,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                             fts_time: fts_time,
                                             feed_name: feed_name,
                                             loadmore_count: loadmore_count,
-                                            feed_attributes: feed_attributes
+                                            feed_id: feed_id
                                         },
                                         type: 'GET',
                                         url: "<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>",
@@ -1031,19 +1088,19 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 			print '</div>'; // closing main div for photos and scroll wrap.
 
 			// Make sure it's not ajaxing.
-			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
+			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $loadmore_option && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$fts_dynamic_name = sanitize_key( $_REQUEST['fts_dynamic_name'] );
 				// this div returns outputs our ajax request via jquery append html from above.
 				print '<div class="fts-clear"></div>';
 				print '<div id="output_' . esc_attr( $fts_dynamic_name ) . '"></div>';
-				if ( ! empty( $scroll_more ) && 'autoscroll' === $scroll_more ) {
+				if ( ! empty( $loadmore ) && 'autoscroll' === $loadmore ) {
 					print '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">Instagram</div>';
 				}
 			}
 			?>
 			<?php
 			// only show this script if the height option is set to a number.
-			if ( ! empty( $saved_feed_options['instagram_page_height'] ) && 'auto' !== $saved_feed_options['instagram_page_height'] ) {
+			if ( ! empty( $height ) && 'auto' !== $height ) {
 				?>
 		<script>
 			// this makes it so the page does not scroll if you reach the end of scroll bar or go back to top
@@ -1060,17 +1117,17 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 			};
 			jQuery('.fts-instagram-scrollable').isolatedScrollFacebookFTS();
 		</script>
-			<?php } //end $saved_feed_options['instagram_page_height'] !== 'auto' && empty($saved_feed_options['instagram_page_height']) == NULL. ?>
+			<?php } //end $height !== 'auto' && empty( $height ) == NULL. ?>
 			<?php
-			if ( ! empty( $scroll_more ) && 'autoscroll' === $scroll_more || ! empty( $saved_feed_options['instagram_page_height'] ) ) {
+			if ( ! empty( $loadmore ) && 'autoscroll' === $loadmore || ! empty( $height ) ) {
 				print '</div>'; // closing height div for scrollable feeds.
 			}
 
-			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && 'yes' === $loadmore_option ) {
 				// Make sure it's not ajaxing.
 				if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 					print '<div class="fts-clear"></div>';
-					if ( ! empty( $scroll_more ) && 'button' === $scroll_more ) {
+					if ( ! empty( $loadmore ) && 'button' === $loadmore ) {
 
 						print '<div class="fts-instagram-load-more-wrapper">';
 						print '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" style="';

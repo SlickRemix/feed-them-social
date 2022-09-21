@@ -1073,10 +1073,6 @@ h1.plugin-author-note {
     text-decoration: none !important
 }
 
-.combine-facebook-wrap, .combine-grid-options-wrap, .combine-instagram-wrap, .combine-pinterest-wrap, .combine-twitter-wrap, .combine-youtube-wrap, .combine_board_id, .combine_playlist_id, .combine_youtube_name, .display-comments-wrap, .facebook-reviews-wrap, .fts-premium-options-message, .fts-twitter-grid-options-wrap, .fts-twitter-load-more-options-wrap, .fts-twitter-load-more-options2-wrap, .inst-text-facebook-reviews, .instagram-profile-options-wrap, .like-box-wrap {
-    display: none
-}
-
 
 
 .facebook-image-animation-option-wrap, .multiple_facebook .facebook-loadmore-wrap, .multiple_facebook .facebook-title-options-wrap, .multiple_facebook .like-box-wrap, .multiple_facebook h2 {

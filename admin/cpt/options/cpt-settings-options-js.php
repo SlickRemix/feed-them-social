@@ -207,40 +207,105 @@ class Settings_Options_JS {
 
 	public function instagram_js(){
 		?>
-		<script>
-            jQuery(document).ready(function () {
+        <script>
 
-                jQuery('#instagram_feed_type').bind('change', function (e) {
-                    if (jQuery('#instagram_feed_type').val() == 'business') {
-                        jQuery(".main-instagram-profile-options-wrap").show();
-                    }
-                    else {
-                        jQuery(".main-instagram-profile-options-wrap").hide();
-                    }
-                    if (jQuery('#instagram_feed_type').val() == 'hashtag') {
-                        jQuery(".instagram_hashtag, .instagram_hashtag_type").show();
-                    }
-                    else {
-                        jQuery(".instagram_hashtag, .instagram_hashtag_type").hide();
-                    }
-                }).change();
+        // This is relative to clicking the basic or bussines token options.
+        // If you clicked on the basic token option then we will hide the feed type row and select basic as the option.
+        // If the user selected business token option then we display the feed type row with select and hide the basic option leaving the
+        // business and hashtag select options.
+        function instagram_feed_type_select(){
 
-                //Twitter Load More Options
-                jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide()
-                jQuery('#instagram_load_more_option').bind('change', function (e) {
-                    if (jQuery('#instagram_load_more_option').val() == 'yes') {
-                        jQuery('.fts-instagram-load-more-options-wrap').show();
-                        jQuery('.fts-instagram-load-more-options2-wrap').show();
-                    }
+            if( jQuery('#fts-instagram-business-token-button').hasClass( 'fts-social-icon-wrap-active' ) &&
+                jQuery('#instagram_feed_type').find('[value="business"]').attr('selected') ) {
 
-                    else {
-                        jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide();
-                    }
-                }).change();
+                jQuery('#instagram_feed_type').find('[value="basic"]').removeAttr('selected').hide();
+                jQuery('#instagram_feed_type').find('[value="business"]').attr('selected', 'selected').show();
+                jQuery('.instagram_feed_type').show();
+                jQuery('.instagram_hashtag, .instagram_hashtag_type').hide();
+            }
 
+            else if( jQuery('#fts-instagram-business-token-button').hasClass( 'fts-social-icon-wrap-active' ) &&
+                jQuery('#instagram_feed_type').find('[value="hashtag"]').attr('selected') ) {
+
+                jQuery('#instagram_feed_type').find('[value="basic"]').removeAttr('selected').hide();
+                jQuery('#instagram_feed_type').find('[value="business"]').removeAttr('selected').show();
+                jQuery('#instagram_feed_type').find('[value="hashtag"]').attr('selected', 'selected').show();
+
+                jQuery('.instagram_hashtag, .instagram_hashtag_type, .instagram_feed_type').show();
+            }
+
+            else if( jQuery('#fts-instagram-business-token-button').hasClass( 'fts-social-icon-wrap-active' ) ) {
+
+                jQuery('#instagram_feed_type').find('[value="basic"]').removeAttr('selected').hide();
+                jQuery('#instagram_feed_type').find('[value="business"]').attr('selected', 'selected').show();
+                jQuery('#instagram_feed_type').find('[value="hashtag"]').removeAttr('selected').show();
+                jQuery('.instagram_feed_type').show();
+            }
+
+            if( jQuery('#fts-instagram-basic-token-button').hasClass( 'fts-social-icon-wrap-active' ) ) {
+
+                jQuery('#instagram_feed_type').find('[value="basic"]').attr('selected', 'selected');
+                jQuery('#instagram_feed_type').find('[value="business"]').removeAttr('selected').hide();
+                jQuery('#instagram_feed_type').find('[value="hashtag"]').removeAttr('selected').hide();
+                jQuery('.instagram_hashtag, .instagram_hashtag_type, .instagram_feed_type').hide();
+            }
+        }
+
+        jQuery(document).ready(function () {
+
+            setTimeout(function () {
+
+                instagram_feed_type_select()
+
+            }, 10);
+
+            // run function when user clicks on the instagram tab
+            jQuery( '#tabs-menu .tab4' ).click( function (e) {
+                instagram_feed_type_select();
 
             });
-		</script>
+
+
+            jQuery('#instagram_feed_type').bind('change', function (e) {
+                if (jQuery('#instagram_feed_type').val() == 'business') {
+                    jQuery(".main-instagram-profile-options-wrap").show();
+                }
+                else {
+                    jQuery(".main-instagram-profile-options-wrap").hide();
+                }
+                if (jQuery('#instagram_feed_type').val() == 'hashtag') {
+                    jQuery(".instagram_hashtag, .instagram_hashtag_type").show();
+                }
+                else {
+                    jQuery(".instagram_hashtag, .instagram_hashtag_type").hide();
+                }
+            }).change();
+
+            //Instagram Load More Options
+            jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide();
+            jQuery('#instagram_load_more_option').bind('change', function (e) {
+                if (jQuery('#instagram_load_more_option').val() == 'yes') {
+                    jQuery('.fts-instagram-load-more-options-wrap').show();
+                    jQuery('.fts-instagram-load-more-options2-wrap').show();
+                }
+
+                else {
+                    jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide();
+                }
+            }).change();
+
+            //Instagram Business Load More Options
+            jQuery('#instagram_profile_wrap').bind('change', function (e) {
+                if (jQuery('#instagram_profile_wrap').val() == 'yes') {
+                    jQuery('.instagram-profile-options-wrap').show();
+                }
+
+                else {
+                    jQuery('.instagram-profile-options-wrap').hide();
+                }
+            }).change();
+        });
+    </script>
 
 		<?php
 	}

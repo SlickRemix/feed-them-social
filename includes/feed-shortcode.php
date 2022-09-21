@@ -76,7 +76,7 @@ class Feed_Shortcode {
 	/**
 	 * Feed Display Constructor.
 	 */
-	public function __construct( $feed_functions, $options_functions, $facebook_feed, $twitter_feed, $instagram_feed, $youtube_feed ){
+	public function __construct( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed ){
 		// Add Actions and filters.
 		$this->add_actions_filters();
 
@@ -128,7 +128,7 @@ class Feed_Shortcode {
 		// Register Premium Styles & Scripts.
 		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 			// Register Masonry Script.
-			wp_register_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+            wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			// Register Images Loaded Script.
 			wp_register_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
 		}
@@ -239,7 +239,7 @@ class Feed_Shortcode {
 				case 'instagram-business-feed-type':
 				case 'instagram-feed-type':
 					// Display the Instagram Feed!
-					echo $this->instagram_feed->display_instagram( $feed_post_id );
+                    echo $this->instagram_feed->display_instagram( $feed_post_id );
 					break;
 				// Twitter Feed.
 				case 'twitter-feed-type':

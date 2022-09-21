@@ -340,20 +340,7 @@ jQuery(document).ready(function ($) {
     }
 
 
-
-
 });
-
-
-
-
-
-
-
-
-
-
-
 
 // Grab the url so we can do stuff.
 var url_string = window.location.href;
@@ -362,6 +349,15 @@ var cpt_id = url.searchParams.get("post");
 var feed_type = url.searchParams.get("feed_type");
 
 jQuery(document).ready(function ($) {
+
+    // Check and make sure the page does not have an id in url yet
+    // before clicking the default tab we want visible
+    if( null === cpt_id ) {
+        setTimeout(function () {
+            $('.instagram-feed-type').trigger("click");
+
+        }, 10);
+    }
 
     // These statements will only run if the token has been set and the user clicks the save button again.
     // We need to do this to re-encrypt the token because we display the decrypted token in the input field.

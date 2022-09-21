@@ -105,16 +105,13 @@ class Feed_Them_Social {
 		$setting_options_js = new feedthemsocial\Settings_Options_JS();
 
 		// Metabox Functions.
-		$metabox_functions = new feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, 'fts_feed_options_array', $data_protection, );
+		$metabox_functions = new feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, 'fts_feed_options_array', $data_protection );
 
 		// Access Options.
 		$access_options = new feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
 
 		// Feeds CPT.
         $feeds_cpt = new feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
-
-		// CPT Shortcode Button for Admin page, posts and CPTs.
-		new feedthemsocial\Shortcode_Button();
 
 		// Facebook Post Types.
 		$facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions, $settings_functions );
@@ -123,16 +120,16 @@ class Feed_Them_Social {
 		$facebook_feed = new feedthemsocial\Facebook_Feed( $settings_functions, $feed_functions, $feed_cache, $facebook_post_types, $access_options );
 
 		// Instagram Feed.
-		$instagram_feed = new feedthemsocial\Instagram_Feed( $feed_functions, $feed_cache, $access_options );
+		$instagram_feed = new feedthemsocial\Instagram_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
 		// Twitter Feed.
-		$twitter_feed = new feedthemsocial\Twitter_Feed( $feed_functions, $feed_cache );
+		$twitter_feed = new feedthemsocial\Twitter_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
 		// Youtube Feed.
 		$youtube_feed = new feedthemsocial\Youtube_Feed( $feed_functions, $feed_cache, $access_options );
 
 		// Feed Display.
-		new feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $twitter_feed, $instagram_feed, $youtube_feed );
+		new feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed );
 
         // Shorten words in Posts.
         new FeedThemSocialTruncateHTML();
@@ -292,9 +289,6 @@ class Feed_Them_Social {
 
 		// Feed Cache.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';
-
-		// Shortcode Button.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/shortcode-button/shortcode-button.php';
 
 		// Include Shortcodes.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-shortcode.php';

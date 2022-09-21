@@ -88,7 +88,6 @@ class Facebook_Feed {
      */
     public function __construct( $settings_functions, $feed_functions, $feed_cache, $facebook_post_types, $access_options ) {
 
-
         // Settings Functions Class.
         $this->settings_functions = $settings_functions;
 
@@ -108,7 +107,7 @@ class Facebook_Feed {
     /**
      * FB Custom Styles
      *
-     * Date sort option for multiple feeds in a shortcode.
+     * Custom Styles for feed in a shortcode.
      *
      * @param string $a First Date.
      * @return false|int
@@ -474,6 +473,7 @@ class Facebook_Feed {
 		}
 
 		ob_start();
+
 		// Uncomment these for testing purposes to see the actual count and the offset count
 		// print   $set_zero;
 		// print   $saved_feed_options['facebook_page_post_count'];

@@ -2970,8 +2970,6 @@ class Feed_CPT_Options {
 	 */
 	public function instagram_options() {
 
-        $limitforpremium = '6';
-
 		$this->all_options['instagram'] = array(
 			'section_attr_key'   => 'instagram_',
 			//'section_title'      => __( 'Instagram Feed', 'feed-them-social' ),
@@ -3125,13 +3123,14 @@ class Feed_CPT_Options {
 				// Pic Count
 				array(
 					'option_type' => 'input',
-					'label'       => __( '# of Pics (optional)', 'feed-them-social' ) . $limitforpremium,
+					'label'       => __( '# of Pics (optional)', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'instagram_pics_count',
 					'name'        => 'instagram_pics_count',
+                    'default_value'     => '6',
 
 					// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
-					// 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
+                    //'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
 					'placeholder' => __( '6 is the default value', 'feed-them-social' ),
 
 					// Relative to JS.
@@ -3350,7 +3349,7 @@ class Feed_CPT_Options {
 					'instructional-text' => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
 					'id'          => 'instagram_columns',
 					'name'        => 'instagram_columns',
-					//'default_value' => '',
+					'default_value' => '3',
 					'options'     => array(
 						array(
 							'label' => __( '1', 'feed-them-social' ),
@@ -3547,7 +3546,7 @@ class Feed_CPT_Options {
 				),
 
 				// Instagram Page Load more Amount
-				array(
+				/*array(
 					'option_type' => 'input',
 					'label'       => __( 'Load more Amount', 'feed-them-social' ) . '<br/><small>' . __( 'How many more posts will load at a time.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
@@ -3571,7 +3570,7 @@ class Feed_CPT_Options {
 
 						// 'sub_options_instructional_txt' => '<a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __('View demo', 'feed-them-social') . '</a> ' . __('of the Super Instagram gallery.', 'feed-them-social'),
 					),
-				),
+				),*/
 
 				// Instagram Page Load more Button Width
 				array(
@@ -3611,7 +3610,7 @@ class Feed_CPT_Options {
 						'empty_error_value' => 'loadmore_btn_margin=10px',
 						'ifs' => 'load_more',
 					),
-					'sub_options_end' => 2,
+					'sub_options_end' => 1,
 				),
 
 				// Pop Up Option
@@ -3805,7 +3804,7 @@ class Feed_CPT_Options {
                     'label'       => __( 'Show Cover Photo', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'twitter-cover-photo',
-                    'name'        => 'twitter-cover-photo',
+                    'name'        => 'twitter_cover_photo',
                     'options'     => array(
                         array(
                             'label' => __( 'No', 'feed-them-social' ),
@@ -3827,7 +3826,7 @@ class Feed_CPT_Options {
                     'label'       => __( 'Stats Bar', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'twitter-stats-bar',
-                    'name'        => 'twitter-stats-bar',
+                    'name'        => 'twitter_stats_bar',
                     'options'     => array(
                         array(
                             'label' => __( 'No', 'feed-them-social' ),
@@ -3849,7 +3848,7 @@ class Feed_CPT_Options {
                     'label'       => __( 'Show Retweets', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'twitter-show-retweets',
-                    'name'        => 'twitter-show-retweets',
+                    'name'        => 'twitter_show_retweets',
                     'options'     => array(
                         array(
                             'label' => __( 'No', 'feed-them-social' ),
@@ -3871,7 +3870,7 @@ class Feed_CPT_Options {
                     'label'       => __( 'Show Replies', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'twitter-show-replies',
-                    'name'        => 'twitter-show-replies',
+                    'name'        => 'twitter_show_replies',
                     'options'     => array(
                         array(
                             'label' => __( 'No', 'feed-them-social' ),
@@ -3882,9 +3881,6 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    'short_attr'  => array(
-                        'attr_name' => 'show_replies',
-                    ),
                 ),
 
                 // Pop Up Option
@@ -3894,7 +3890,7 @@ class Feed_CPT_Options {
                     'label'       => __( 'Display Photos & Videos', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'twitter-popup-option',
-                    'name'        => 'twitter-popup-option',
+                    'name'        => 'twitter_popup_option',
 
                     // Premium Required - yes/no/more (more allows for us to limit things by numbers, also allows for special message above option.)
                     'prem_req'    => 'yes',
@@ -3981,7 +3977,7 @@ class Feed_CPT_Options {
                 ),
 
                 // Twitter Page Load more Amount
-                array(
+                /*array(
                     'option_type' => 'input',
                     'label'       => __( 'Load more Amount', 'feed-them-social' ) . '<br/><small>' . __( 'How many more posts will load at a time.', 'feed-them-social' ) . '</small>',
                     'type'        => 'text',
@@ -4003,7 +3999,7 @@ class Feed_CPT_Options {
                     'sub_options' => array(
                         'sub_options_wrap_class' => 'fts-twitter-load-more-options2-wrap',
                     ),
-                ),
+                ),*/
 
                 // Twitter Load more Button Width
                 array(
@@ -4045,7 +4041,7 @@ class Feed_CPT_Options {
                         'empty_error_value' => 'loadmore_btn_margin=10px',
                         'ifs' => 'load_more',
                     ),
-                    'sub_options_end' => 2,
+                    'sub_options_end' => 1,
                 ),
 
                 // ******************************************
@@ -4059,7 +4055,7 @@ class Feed_CPT_Options {
                     'label'       => __( 'Display Posts in Grid', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'twitter-grid-option',
-                    'name'        => 'twitter-grid-option',
+                    'name'        => 'twitter_grid_option',
                     'options'     => array(
                         1 => array(
                             'label' => __( 'No', 'feed-them-social' ),

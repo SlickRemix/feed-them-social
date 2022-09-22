@@ -141,7 +141,7 @@ class Feed_Them_Social {
         new feedthemsocial\FTS_Upgrades( $settings_functions );
 
 		// Updater Init.
-		new feedthemsocial\updater_init();
+		new feedthemsocial\updater_init( $feed_functions );
 	}
 
 	/**

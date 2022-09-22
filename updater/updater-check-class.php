@@ -1,4 +1,14 @@
 <?php
+/**
+ * Feed Them Social - Updater Check Class
+ *
+ * In the Free Version this is NOT an updater but displays the license page for users to see they can extend the Free plugin with Extensions
+ *
+ * @package     feedthemsocial
+ * @copyright   Copyright (c) 2012-2022, SlickRemix
+ * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @since       1.0.0
+ */
 
 namespace feedthemsocial;
 
@@ -359,7 +369,7 @@ class updater_check_class {
      *
      * @param array $args
      * @param string $url
-     * @return object $array
+     * @return array $array
      */
     public function http_request_args($args, $url) {
         // If it is an https request and we are performing a package download, disable ssl verification

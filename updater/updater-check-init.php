@@ -47,13 +47,25 @@ class updater_init {
 	public $prem_plugins_list = array();
 
 	/**
+	 * Feed Functions
+	 *
+	 * General Feed Functions to be used in most Feeds.
+	 *
+	 * @var object
+	 */
+	public $feed_functions;
+
+	/**
 	 * Updater_init constructor.
 	 */
-	public function __construct() {
+	public function __construct( $feed_functions ) {
 		// New Updater! - This is the URL our updater / license checker pings. This should be the URL of the site with EDD installed!
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		}
+
+		// Set Feed Functions object.
+		$this->feed_functions = $feed_functions;
 
         $this->updater_options_info = array(
             //Plugins
@@ -106,7 +118,7 @@ class updater_init {
 		);
 
         //Create License Page for main plugin.
-        new updater_license_page($this->updater_options_info, $this->prem_plugins_list);
+        new updater_license_page($this->updater_options_info, $this->prem_plugins_list, $this->feed_functions);
 
         add_action('plugins_loaded', array($this, 'remove_old_updater_actions'), 0);
 
@@ -126,14 +138,13 @@ class updater_init {
 		$option_update_needed = false;
 
         //If Setting array is not set then set to array
-        if (!$settings_array) {
-            $settings_array = array();
-        }
+		$settings_array = $settings_array ?? array();
+
 
 		// Remove Old Updater Actions!
 		foreach ( $this->prem_plugins_list as $plugin_key => $prem_plugin ) {
 			// Set Old Key (for EDD sample remove this code. This is only here because we messed up originally)!
-			$old_plugin_key = ( 'feed_them_social_facebook_reviews' === $plugin_key ) ? 'feed-them-social-facebook-reviews' : $plugin_key;
+			$plugin_key = 'feed_them_social_facebook_reviews' === $plugin_key ? 'feed-them-social-facebook-reviews' : $plugin_key;
 
             //Backwards Compatibility for Pre-1-click license page will get removed on first save in Sanitize function.
             $old_license = get_option($plugin_key . '_license_key');

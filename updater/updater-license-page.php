@@ -29,13 +29,22 @@ class updater_license_page {
     private static $instance = false;
 
 	/**
+	 * Feed Functions
+	 *
+	 * General Feed Functions to be used in most Feeds.
+	 *
+	 * @var object
+	 */
+	public $feed_functions;
+
+	/**
 	 * Construct
 	 *
 	 * FTS_settings_page constructor.
 	 *
 	 * @since 2.1.6
 	 */
-	function __construct( $updater_options_info, $prem_plugins_list ) {
+	function __construct( $updater_options_info, $prem_plugins_list,  $feed_functions) {
 
         //Set License Page Variables
         $this->store_url = $updater_options_info['store_url'];
@@ -45,6 +54,9 @@ class updater_license_page {
         $this->setting_option_name = $updater_options_info['setting_option_name'];
 
         $this->prem_plugins = $prem_plugins_list;
+
+		// Set Feed Functions object.
+		$this->feed_functions = $feed_functions;
 
         //Add the License Page
         $this->add_license_page();
@@ -60,12 +72,12 @@ class updater_license_page {
 			require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		}
 
-        $prem_active = false;
-        foreach ($this->prem_plugins as $plugin) {
-            if (is_plugin_active($plugin['plugin_url'])) {
-                $prem_active = true;
-            }
-        }
+		$prem_active = false;
+		foreach ( $this->prem_plugins as $plugin ) {
+			if ( is_plugin_active( $plugin['plugin_url'] ) ) {
+				$prem_active = true;
+			}
+		}
 
         add_action('admin_menu', array($this, 'license_menu'));
         add_action('admin_init', array($this, 'register_options'));
@@ -120,23 +132,23 @@ class updater_license_page {
         //License Key Array Option
         $settings_array = get_option($this->setting_option_name);
 
-        $license = isset($settings_array[$key]['license_key']) ? $settings_array[$key]['license_key'] : '';
-        $status = isset($settings_array[$key]['license_status']) ? $settings_array[$key]['license_status'] : '';
-        $license_error = isset($settings_array[$key]['license_error']) ? $settings_array[$key]['license_error'] : '';
+		$license       = isset( $settings_array[ $key ]['license_key'] ) ? $settings_array[ $key ]['license_key'] : '';
+		$status        = isset( $settings_array[ $key ]['license_status'] ) ? $settings_array[ $key ]['license_status'] : '';
+		$license_error = isset( $settings_array[ $key ]['license_error'] ) ? $settings_array[ $key ]['license_error'] : '';
 
-        ?>
-        <tr valign="top" class="ftg-license-wrap">
-            <th scope="row" valign="top">
-                <?php _e($plugin_name, 'feed_them_social'); ?>
-            </th>
-            <td>
-                <input id="<?php echo $this->setting_option_name ?>[<?php echo $key ?>][license_key]" name="<?php echo $this->setting_option_name ?>[<?php echo $key ?>][license_key]" type="text" placeholder="<?php _e('Enter your license key', 'feed_them_social'); ?>" class="regular-text" value="<?php esc_attr_e($license); ?>"/>
-                <label class="description" for="<?php echo $this->setting_option_name ?>[<?php echo $key ?>][license_key]"><?php if ($status !== false && $status == 'valid') { ?>
+		?>
+		<tr valign="top" class="fts-license-wrap">
+			<th scope="row" valign="top">
+				<?php echo esc_html( $plugin_name ); ?>
+			</th>
+			<td>
+				<input id="<?php echo esc_html( $this->setting_option_name ); ?>[<?php echo esc_html( $key ); ?>][license_key]" name="<?php echo esc_html( $this->setting_option_name ); ?>[<?php echo esc_html( $key ); ?>][license_key]" type="text" placeholder="<?php echo esc_attr( 'Enter your license key' ); ?>" class="regular-text" value="<?php echo esc_attr( $license ); ?>"/>
+				<label class="description" for="<?php echo esc_html( $this->setting_option_name ); ?>[<?php echo esc_html( $key ); ?>][license_key]"><?php if ( false !== $status && 'valid' === $status ) { ?>
 
-                        <?php wp_nonce_field('license_page_nonce', 'license_page_nonce'); ?>
-                        <input type="submit" class="button-secondary" name="<?php echo $key ?>_license_deactivate" value="<?php _e('Deactivate License', 'feed_them_social'); ?>"/>
+						<?php wp_nonce_field( 'license_page_nonce', 'license_page_nonce' ); ?>
+						<input type="submit" class="button-secondary" name="<?php echo esc_html( $key ); ?>_license_deactivate" value="<?php echo esc_html( ( 'Deactivate License' ) ); ?>"/>
 
-                        <div class="edd-license-data"><p><?php _e('License Key Active.', 'feed_them_social'); ?></p></div>
+						<div class="edd-license-data"><p><?php echo esc_html__( 'License Key Active.', 'feed-them-social' ); ?></p></div>
 
 						<?php
 } else {
@@ -171,8 +183,8 @@ class updater_license_page {
 	public function license_menu() {
 		global $submenu;
 
-        add_submenu_page($this->main_menu_slug, __('Plugin License', 'feed_them_social'), __('Plugin License', 'feed_them_social'), 'manage_options', $this->license_page_slug, array($this, 'license_page'));
-    }
+		add_submenu_page( $this->main_menu_slug, __( 'Plugin License', 'feed-them-social' ), __( 'Plugin License', 'feed-them-social' ), 'manage_options', $this->license_page_slug, array( $this, 'license_page' ) );
+	}
 
 	/**
 	 * Add FREE Plugin License Page for displaying what is available to extend FTS
@@ -180,7 +192,6 @@ class updater_license_page {
 	 * @since 2.1.6
 	 */
 	public function license_page() {
-
 		?>
 		<div class="wrap">
 			<h2><?php echo esc_html__( 'Plugin License Options', 'feed-them-social' ); ?></h2>
@@ -224,6 +235,8 @@ class updater_license_page {
 
 					<?php
 					$prem_active = false;
+
+					//$this->prem_plugins;
 					foreach ( $this->prem_plugins as $plugin ) {
 						if ( is_plugin_active( $plugin['plugin_url'] ) ) {
 							$prem_active = true;
@@ -243,7 +256,7 @@ class updater_license_page {
 							);
 
                             //show Premium needed box
-                            $this->display_premium_needed_license($args);
+                            $this->display_premium_needed_license( $args );
                         }
                     } ?>
 
@@ -265,7 +278,7 @@ class updater_license_page {
 	/**
 	 * Display Premium Needed boxes for plugins not active/installed for FTS
 	 *
-	 * @param string $args by function or add_settings_field!
+	 * @param array $args by function or add_settings_field!
 	 * @since 2.1.6
 	 */
 	public function display_premium_needed_license( $args ) {
@@ -306,9 +319,8 @@ class updater_license_page {
 		if ( isset( $license_key ) && ! empty( $license_key ) && false !== $status && 'valid' === $status ) {
 			$response[ $plugin_key ] = 'https://www.slickremix.com/wp-json/slick-license/v2/get-license-info?license_key=' . $license_key;
 
-            $fts_functions = new FTS_Functions();
-
-            $response = $fts_functions->fts_get_feed_json($response);
+            // Get License Info From SlickRemix.com
+            $response = $this->feed_functions->fts_get_feed_json($response);
 
             $license_data = json_decode($response[$plugin_key]);
 
@@ -335,35 +347,35 @@ class updater_license_page {
 
 		if ( wp_verify_nonce( $fts_fb_options_nonce, 'fts-sanitize-license-nonce' ) ) {
 
-        $settings_array = get_option($this->setting_option_name);
+			$settings_array = get_option( $this->setting_option_name );
 
-        if (!$settings_array) {
-            $settings_array = $new;
-        } else {
-            $settings_array = array_merge($settings_array, $new);
-        }
+			if ( ! $settings_array ) {
+				$settings_array = $new;
+			} else {
+				$settings_array = array_merge( $settings_array, $new );
+			}
 
-        foreach ($this->prem_plugins as $key => $plugin) {
-            if (is_plugin_active($plugin['plugin_url'])) {
+			foreach ( $this->prem_plugins as $key => $plugin ) {
+				if ( is_plugin_active( $plugin['plugin_url'] ) ) {
 
-                // listen for our activate button to be clicked
-                if (isset($_POST[$key . '_license_deactivate'])) {
-                    $settings_array = $this->deactivate_license($key, $settings_array[$key]['license_key'], $settings_array);
-                } else {
-                    //Clean Up old options if they exist
-                    $old_license = get_option($key . '_license_key');
-                    $old_status = get_option($key . '_license_status');
+					// listen for our activate button to be clicked!
+					if ( isset( $_POST[ $key . '_license_deactivate' ] ) ) {
+						$settings_array = $this->deactivate_license( $key, $settings_array[ $key ]['license_key'], $settings_array );
+					} else {
+						// Clean Up old options if they exist!
+						$old_license = get_option( $key . '_license_key' );
+						$old_status  = get_option( $key . '_license_status' );
 
-                    if (!empty($old_license)) {
-                        delete_option($key . '_license_key');
-                    }
-                    if (!empty($old_status)) {
-                        delete_option($key . '_license_status');
-                    }
-                    $settings_array = $this->activate_license($key, $new[$key]['license_key'], $settings_array);
-                }
-            }
-        }
+						if ( ! empty( $old_license ) ) {
+							delete_option( $key . '_license_key' );
+						}
+						if ( ! empty( $old_status ) ) {
+							delete_option( $key . '_license_status' );
+						}
+						$settings_array = $this->activate_license( $key, $new[ $key ]['license_key'], $settings_array );
+					}
+				}
+			}
 
 			return $settings_array;
 		}

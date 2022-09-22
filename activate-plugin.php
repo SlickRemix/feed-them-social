@@ -172,7 +172,7 @@ class Activate_Plugin {
 			echo sprintf(
 				esc_html__( '%1$sThanks for installing Feed Them Social. To get started please view our %2$sSettings%3$s page.%4$s', 'feed_them_social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
-				'<a href="' . esc_url( 'edit.php?post_type=fts&page=ft-gallery-settings-page' ) . '">',
+				'<a href="' . esc_url( 'edit.php?post_type=fts&page=fts-settings-page' ) . '">',
 				'</a>',
 				'</p></div>'
 			);

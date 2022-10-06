@@ -130,6 +130,9 @@ class Metabox_Functions {
 	 * @since 1.0
 	 */
 	public function __construct( $default_options_array, $settings_functions, $options_functions, $array_options_name, $data_protection, $is_page = null) {
+
+		$this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
+
 		// Default Options Array.
 		$this->default_options_array = $default_options_array;
 
@@ -591,10 +594,7 @@ class Metabox_Functions {
 		// Get Old Settings Array if set.
 		$saved_options = $this->options_functions->get_saved_options_array( $this->array_options_name, $is_cpt, $current_post_id);
 
-        // Premium Required plugins.
-		$prem_required_plugins = $this->settings_functions->fts_required_plugins();
-
-		$section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $prem_required_plugins[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? 'active' : '';
+		$section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->prem_extension_list[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? 'active' : '';
 
 		// Start creation of fields for each Feed.
 		$output = '<div id="' . esc_attr( $section_info['section_wrap_id'] ) . '" class="fts-section ' . $section_info['section_wrap_class'] . '">';

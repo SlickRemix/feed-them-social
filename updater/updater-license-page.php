@@ -38,22 +38,32 @@ class updater_license_page {
 	public $feed_functions;
 
 	/**
+	 * Premium Extension List.
+	 *
+	 * A list of the Premium Extensions and its urls to SlickRemix.com.
+	 *
+	 * @var array
+	 */
+	public $prem_extension_list;
+
+	/**
 	 * Construct
 	 *
 	 * FTS_settings_page constructor.
 	 *
 	 * @since 2.1.6
 	 */
-	function __construct( $updater_options_info, $prem_plugins_list,  $feed_functions) {
+	function __construct( $updater_options_info,  $feed_functions) {
 
-        //Set License Page Variables
+        // Set License Page Variables
         $this->store_url = $updater_options_info['store_url'];
         $this->main_menu_slug = $updater_options_info['main_menu_slug'];
         $this->license_page_slug = $updater_options_info['license_page_slug'];
         $this->setting_section_name = $updater_options_info['setting_section_name'];
         $this->setting_option_name = $updater_options_info['setting_option_name'];
 
-        $this->prem_plugins = $prem_plugins_list;
+		// Premium Extension List.
+        $this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
@@ -73,7 +83,7 @@ class updater_license_page {
 		}
 
 		$prem_active = false;
-		foreach ( $this->prem_plugins as $plugin ) {
+		foreach ( $this->prem_extension_list as $plugin ) {
 			if ( is_plugin_active( $plugin['plugin_url'] ) ) {
 				$prem_active = true;
 			}
@@ -96,7 +106,7 @@ class updater_license_page {
 		register_setting( $this->license_page_slug, $this->setting_option_name, array( $this, 'fts_sanitize_license' ) );
 
         //Add settings fields for each plugin/extension
-        foreach ($this->prem_plugins as $key => $plugin) {
+        foreach ( $this->prem_extension_list as $key => $plugin) {
             //For plugins/extensions that are active
             if (is_plugin_active($plugin['plugin_url'])) {
                 $args = array(
@@ -104,7 +114,7 @@ class updater_license_page {
                     'plugin_name' => $plugin['title'],
                 );
 
-                add_settings_field($this->setting_option_name . '[' . $key . '][license_key]', '', array($this, 'add_option_setting'), $this->license_page_slug, $this->setting_section_name, $args);
+                add_settings_field( $this->setting_option_name . '[' . $key . '][license_key]', '', array($this, 'add_option_setting'), $this->license_page_slug, $this->setting_section_name, $args);
             } //Show Special Box for non actives plugins/extensions!
             else {
                 //Set Variables
@@ -236,8 +246,8 @@ class updater_license_page {
 					<?php
 					$prem_active = false;
 
-					//$this->prem_plugins;
-					foreach ( $this->prem_plugins as $plugin ) {
+					//$this->prem_extension_list;
+					foreach ( $this->prem_extension_list as $plugin ) {
 						if ( is_plugin_active( $plugin['plugin_url'] ) ) {
 							$prem_active = true;
 						}
@@ -247,7 +257,7 @@ class updater_license_page {
 						do_settings_fields( $this->license_page_slug, $this->setting_section_name );
 					} else {
 						// Each Premium Plugin wrap!
-						foreach ( $this->prem_plugins as $plugin ) {
+						foreach ( $this->prem_extension_list as $plugin ) {
 							// Set Variables!
 							$args = array(
 								'plugin_name'  => $plugin['title'],
@@ -268,9 +278,6 @@ class updater_license_page {
 				}
 				?>
 			</form>
-			<div style="margin-top:0px;">
-				<a href="https://www.slickremix.com/downloads/feed-them-gallery/" target="_blank"><img style="max-width: 100%;" src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/images/ft-gallery-promo.jpg' ) ); ?>"/></a>
-			</div>
 		</div>
 		<?php
 	}
@@ -355,7 +362,7 @@ class updater_license_page {
 				$settings_array = array_merge( $settings_array, $new );
 			}
 
-			foreach ( $this->prem_plugins as $key => $plugin ) {
+			foreach ( $this->prem_extension_list as $key => $plugin ) {
 				if ( is_plugin_active( $plugin['plugin_url'] ) ) {
 
 					// listen for our activate button to be clicked!
@@ -394,7 +401,7 @@ class updater_license_page {
 		$api_params = array(
 			'edd_action' => 'activate_license',
 			'license'    => $license,
-			'item_name'  => rawurlencode( $this->prem_plugins[ $key ]['title'] ), // the name of our product in EDD!
+			'item_name'  => rawurlencode( $this->prem_extension_list[ $key ]['title'] ), // the name of our product in EDD!
 			'url'        => home_url(),
 		);
 
@@ -449,7 +456,7 @@ class updater_license_page {
                         break;
 
 					case 'item_name_mismatch':
-						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $this->prem_plugins[ $key ]['title'] );
+						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $this->prem_extension_list[ $key ]['title'] );
 						break;
 
                     case 'no_activations_left':
@@ -492,7 +499,7 @@ class updater_license_page {
 		$api_params = array(
 			'edd_action' => 'deactivate_license',
 			'license'    => $license,
-			'item_name'  => rawurlencode( $this->prem_plugins[ $key ]['title'] ), // the name of our product in EDD!
+			'item_name'  => rawurlencode( $this->prem_extension_list[ $key ]['title'] ), // the name of our product in EDD!
 			'url'        => home_url(),
 		);
 

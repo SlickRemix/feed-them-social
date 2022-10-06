@@ -12,13 +12,6 @@
  */
 
 // Exit if accessed directly!
-use feedthemsocial\Facebook_Additional_Options;
-use feedthemsocial\Facebook_Feed;
-use feedthemsocial\Instagram_Additional_Options;
-use feedthemsocial\Metabox_Settings;
-use feedthemsocial\Twitter_Additional_Options;
-use feedthemsocial\Twitter_Feed;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -192,6 +185,49 @@ class Feed_Them_Social {
 		// Plugin Directory Path.
 		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
 			define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
+		}
+
+		// Plugin Directory Path.
+		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
+			define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
+		}
+
+		// Premium Extension List.
+		if ( ! defined( 'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST' ) ) {
+			define( 'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST', array(
+				'feed_them_social_premium'          => array(
+					// Title MUST match title of product in EDD store on site plugin is being sold!
+					'title'        => 'Feed Them Social Premium',
+					'plugin_url'   => 'feed-them-premium/feed-them-premium.php',
+					'demo_url'     => 'https://feedthemsocial.com/facebook-page-feed-demo/',
+					'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/',
+				),
+				'feed_them_social_combined_streams' => array(
+					'title'        => 'Feed Them Social Combined Streams',
+					'plugin_url'   => 'feed-them-social-combined-streams/feed-them-social-combined-streams.php',
+					'demo_url'     => 'https://feedthemsocial.com/feed-them-social-combined-streams/',
+					'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-combined-streams/',
+				),
+				'feed_them_social_facebook_reviews' => array(
+					'title'        => 'Feed Them Social Facebook Reviews',
+					'plugin_url'   => 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php',
+					'demo_url'     => 'https://feedthemsocial.com/facebook-page-reviews-demo/',
+					'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-facebook-reviews/',
+				),
+				'feed_them_carousel_premium'        => array(
+					'title'        => 'Feed Them Carousel Premium',
+					'plugin_url'   => 'feed-them-carousel-premium/feed-them-carousel-premium.php',
+					'demo_url'     => 'https://feedthemsocial.com/facebook-carousels-or-sliders/',
+					'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-carousel-premium/',
+				),
+				'fts_bar'                           => array(
+					'title'        => 'Feed Them Social Bar',
+					'plugin_url'   => 'fts-bar/fts-bar.php',
+					'demo_url'     => 'https://feedthemsocial.com/fts-bar/',
+					'purchase_url' => 'https://www.slickremix.com/downloads/fts-bar/',
+				),
+			  )
+			);
 		}
 	}
 

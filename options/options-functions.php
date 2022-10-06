@@ -345,7 +345,7 @@ class Options_Functions {
 	 */
 	public function save_options_array( $array_option_name,  $array_to_save, $is_cpt = false, $cpt_id = false ) {
 
-		error_log( print_r( 'made it too save_options_array', true ) );
+		//error_log( print_r( 'made it too save_options_array', true ) );
 
 		// error_log( print_r( $array_to_save, true));
 		// If CPT use get_post_meta.

@@ -60,12 +60,11 @@ class Settings_Functions {
 	 */
 	public function fts_required_plugins() {
 		$required_premium_plugins = array(
-			'feed_them_social_premium' => array(
-				'title'        => 'Feed Them Social Premium',
-				'plugin_url'   => 'feed_them_social-premium/feed_them_social-premium.php',
-				'demo_url'     => 'https://feedthemsocial.com/',
-				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social/',
-			),
+			// Title MUST match title of product in EDD store on site plugin is being sold!
+			'title'        => 'Feed Them Social Premium',
+			'plugin_url'   => 'feed-them-premium/feed-them-premium.php',
+			'demo_url'     => 'https://feedthemsocial.com/facebook-page-feed-demo/',
+			'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/',
 		);
 
 		return $required_premium_plugins;

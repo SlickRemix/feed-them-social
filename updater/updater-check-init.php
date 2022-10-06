@@ -56,6 +56,15 @@ class updater_init {
 	public $feed_functions;
 
 	/**
+	 * Premium Extension List.
+	 *
+	 * A list of the Premium Extensions and its urls to SlickRemix.com.
+	 *
+	 * @var array
+	 */
+	public $prem_extension_list;
+
+	/**
 	 * Updater_init constructor.
 	 */
 	public function __construct( $feed_functions ) {
@@ -66,6 +75,9 @@ class updater_init {
 
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
+
+		// Premium Extension List.
+		$this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
         $this->updater_options_info = array(
             //Plugins
@@ -82,43 +94,8 @@ class updater_init {
             'setting_option_name' => 'feed_them_social_license_keys',
         );
 
-		// List of Plugins! Used for License check and Plugin License page.
-		$this->prem_plugins_list = array(
-			'feed_them_social_premium'          => array(
-				// Title MUST match title of product in EDD store on site plugin is being sold!
-				'title'        => 'Feed Them Social Premium',
-				'plugin_url'   => 'feed-them-premium/feed-them-premium.php',
-				'demo_url'     => 'https://feedthemsocial.com/facebook-page-feed-demo/',
-				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/',
-			),
-			'feed_them_social_combined_streams' => array(
-				'title'        => 'Feed Them Social Combined Streams',
-				'plugin_url'   => 'feed-them-social-combined-streams/feed-them-social-combined-streams.php',
-				'demo_url'     => 'https://feedthemsocial.com/feed-them-social-combined-streams/',
-				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-combined-streams/',
-			),
-			'feed_them_social_facebook_reviews' => array(
-				'title'        => 'Feed Them Social Facebook Reviews',
-				'plugin_url'   => 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php',
-				'demo_url'     => 'https://feedthemsocial.com/facebook-page-reviews-demo/',
-				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-facebook-reviews/',
-			),
-			'feed_them_carousel_premium'        => array(
-				'title'        => 'Feed Them Carousel Premium',
-				'plugin_url'   => 'feed-them-carousel-premium/feed-them-carousel-premium.php',
-				'demo_url'     => 'https://feedthemsocial.com/facebook-carousels-or-sliders/',
-				'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-carousel-premium/',
-			),
-			'fts_bar'                           => array(
-				'title'        => 'Feed Them Social Bar',
-				'plugin_url'   => 'fts-bar/fts-bar.php',
-				'demo_url'     => 'https://feedthemsocial.com/fts-bar/',
-				'purchase_url' => 'https://www.slickremix.com/downloads/fts-bar/',
-			),
-		);
-
         //Create License Page for main plugin.
-        new updater_license_page($this->updater_options_info, $this->prem_plugins_list, $this->feed_functions);
+        new updater_license_page($this->updater_options_info, $this->feed_functions);
 
         add_action('plugins_loaded', array($this, 'remove_old_updater_actions'), 0);
 
@@ -142,7 +119,7 @@ class updater_init {
 
 
 		// Remove Old Updater Actions!
-		foreach ( $this->prem_plugins_list as $plugin_key => $prem_plugin ) {
+		foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $plugin_key => $prem_plugin ) {
 			// Set Old Key (for EDD sample remove this code. This is only here because we messed up originally)!
 			$plugin_key = 'feed_them_social_facebook_reviews' === $plugin_key ? 'feed-them-social-facebook-reviews' : $plugin_key;
 
@@ -184,7 +161,7 @@ class updater_init {
 	 */
 	public function remove_old_updater_actions() {
 		// Remove Old Updater Actions!
-		foreach ( $this->prem_plugins_list as $plugin_key => $prem_plugin ) {
+		foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $plugin_key => $prem_plugin ) {
 			if ( has_action( 'plugins_loaded', $plugin_key . '_plugin_updater' ) ) {
 				remove_action( 'plugins_loaded', $plugin_key . '_plugin_updater', 10 );
 			}
@@ -210,12 +187,12 @@ class updater_init {
 	public function plugin_updater_check_init() {
 
         $installed_plugins = get_plugins();
-
+		
         /*echo '<pre style=" width: 500px; margin: 0 auto; text-align: left">';
                  print_r($this->updater_options_info['store_url']);
                  echo '</pre>';*/
 
-        foreach ($this->prem_plugins_list as $plugin_identifier => $plugin_info) {
+        foreach ( $this->prem_extension_list as $plugin_identifier => $plugin_info) {
 
             if (isset($plugin_info['plugin_url']) && !empty($plugin_info['plugin_url']) && is_plugin_active($plugin_info['plugin_url'])) {
 

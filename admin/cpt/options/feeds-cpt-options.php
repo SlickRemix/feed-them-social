@@ -4179,7 +4179,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'input_wrap_class' => 'youtube-messages-selector',
                     'id'          => 'youtube-messages-selector',
-                    'name'        => 'youtube-messages-selector',
+                    'name'        => 'youtube_feed_type',
                     'default_value'    => '',
                     'options'     => array(
                         array(

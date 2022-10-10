@@ -371,7 +371,7 @@ function fts_reload_toggle_click(){
 
     jQuery('#fts-feed-type h3, #fts-feed-type span, .fts-settings-does-not-work-wrap .fts-admin-token-settings').click(function () {
 
-        jQuery( '.fts-token-wrap .feed_them_social-admin-input-label, .fts-token-wrap input' ).toggle();
+        jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input' ).toggle();
         jQuery( this ).toggleClass( 'fts-feed-type-active' );
         jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
         jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );

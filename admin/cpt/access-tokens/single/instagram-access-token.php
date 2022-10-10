@@ -247,7 +247,7 @@ class Instagram_Access_Functions {
                             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                            jQuery('.fts-tab-content1-instagram.fts-token-wrap .fts-exp-time-wrapper .feed_them_social-admin-input-label').append('<br/><span id="fts-timer"></span>');
+                            jQuery('.fts-tab-content1-instagram.fts-token-wrap .fts-exp-time-wrapper .feed-them-social-admin-input-label').append('<br/><span id="fts-timer"></span>');
                             jQuery('.fts-tab-content1-instagram.fts-token-wrap #fts-timer').html( days + "d " + hours + "h " + minutes + "m " + seconds + "s " );
 
                             // If the count down is finished, write some text

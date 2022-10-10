@@ -273,7 +273,7 @@ jQuery(document).ready(function ($) {
     }
     if (jQuery('#fts_grid_option').val() == 'yes') {
         jQuery('.fts-facebook-grid-options-wrap').show();
-        jQuery(".feed_them_social-admin-input-label:contains('Center Facebook Container?')").parent('div').show();
+        jQuery(".feed-them-social-admin-input-label:contains('Center Facebook Container?')").parent('div').show();
     }
 
     // show title description placement

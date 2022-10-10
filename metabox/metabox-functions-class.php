@@ -623,7 +623,7 @@ class Metabox_Functions {
 				// Only on a few options generally.
 				$output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '<div ' . ( isset( $option['outer_wrap_class'] ) ? 'class="' . $option['outer_wrap_class'] . '"' : '' ) . ' ' . ( isset( $option['outer_wrap_display'] ) && ! empty( $option['outer_wrap_display'] ) ? 'style="display:' . $option['outer_wrap_display'] . '"' : '' ) . '>' : '';
 				// Main Input Wrap.
-				$output .= '<div class="feed_them_social-admin-input-wrap ' . ( isset( $option['input_wrap_class'] ) ? $option['input_wrap_class'] : '' ) . '" ' . ( isset( $section_info['input_wrap_id'] ) ? 'id="' . $section_info['input_wrap_id'] . '"' : '' ) . '>';
+				$output .= '<div class="feed-them-social-admin-input-wrap ' . ( isset( $option['input_wrap_class'] ) ? $option['input_wrap_class'] : '' ) . '" ' . ( isset( $section_info['input_wrap_id'] ) ? 'id="' . $section_info['input_wrap_id'] . '"' : '' ) . '>';
 				// Instructional Text.
 				$output .= ! empty( $option['instructional-text'] ) && ! is_array( $option['instructional-text'] ) ? '<div class="instructional-text ' . ( isset( $option['instructional-class'] ) ? $option['instructional-class'] : '' ) . '">' . $option['instructional-text'] . '</div>' : '';
 
@@ -635,12 +635,12 @@ class Metabox_Functions {
 				}
 
 				// Label Text.
-				$output .= isset( $option['label'] ) && ! is_array( $option['label'] ) ? '<div class="feed_them_social-admin-input-label ' . ( isset( $option['label_class'] ) ? $option['label_class'] : '' ) . '">' . $option['label'] . '</div>' : '';
+				$output .= isset( $option['label'] ) && ! is_array( $option['label'] ) ? '<div class="feed-them-social-admin-input-label ' . ( isset( $option['label_class'] ) ? $option['label_class'] : '' ) . '">' . $option['label'] . '</div>' : '';
 
 				if ( ! empty( $option['label'] ) && is_array( $option['label'] ) ) {
 					foreach ( $option['label'] as $label_txt ) {
 						// Label Text.
-						$output .= '<div class="feed_them_social-admin-input-label ' . ( isset( $label_txt['class'] ) ? $label_txt['class'] : '' ) . '">' . $label_txt['text'] . '</div>';
+						$output .= '<div class="feed-them-social-admin-input-label ' . ( isset( $label_txt['class'] ) ? $label_txt['class'] : '' ) . '">' . $label_txt['text'] . '</div>';
 					}
 				}
 
@@ -686,12 +686,12 @@ class Metabox_Functions {
 					switch ( $option['option_type'] ) {
 						// Input.
 						case 'input':
-							$output .= '<input ' . ( isset( $section_required_prem_plugin ) && 'active' !== $section_required_prem_plugin ? 'disabled ' : '' ) . 'type="' . $option['type'] . '" name="' . $option_name . '" id="' . $option_id . '" class="feed_them_social-admin-input ' . ( isset( $option['class'] ) ? $option['class'] : '' ) . '" placeholder="' . ( isset( $option['placeholder'] ) ? $option['placeholder'] : '' ) . '" value="' . $final_value . '"' . ( isset( $option['autocomplete'] ) ? ' autocomplete="' . $option['autocomplete'] . '"' : '' ) . ' data-token="' . $check_encrypted . '"  />';
+							$output .= '<input ' . ( isset( $section_required_prem_plugin ) && 'active' !== $section_required_prem_plugin ? 'disabled ' : '' ) . 'type="' . $option['type'] . '" name="' . $option_name . '" id="' . $option_id . '" class="feed-them-social-admin-input ' . ( isset( $option['class'] ) ? $option['class'] : '' ) . '" placeholder="' . ( isset( $option['placeholder'] ) ? $option['placeholder'] : '' ) . '" value="' . $final_value . '"' . ( isset( $option['autocomplete'] ) ? ' autocomplete="' . $option['autocomplete'] . '"' : '' ) . ' data-token="' . $check_encrypted . '"  />';
 							break;
 
 						// Select.
 						case 'select':
-							$output .= '<select ' . ( isset( $section_required_prem_plugin ) && 'active' !== $section_required_prem_plugin ? 'disabled ' : '' ) . 'name="' . $option_name . '" id="' . $option_id . '"  class="feed_them_social-admin-input">';
+							$output .= '<select ' . ( isset( $section_required_prem_plugin ) && 'active' !== $section_required_prem_plugin ? 'disabled ' : '' ) . 'name="' . $option_name . '" id="' . $option_id . '"  class="feed-them-social-admin-input">';
 							$i       = 0;
 							foreach ( $option['options'] as $select_option ) {
 								$output .= '<option value="' . $select_option['value'] . '" ' . ( ! empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ? 'selected="selected"' : '' ) . '>' . $select_option['label'] . '</option>';
@@ -708,7 +708,7 @@ class Metabox_Functions {
 				}
 
 				$output .= '<div class="clear"></div>';
-				$output .= '</div><!--/feed_them_social-admin-input-wrap-->';
+				$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
 
 				$output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '</div>' : '';
 

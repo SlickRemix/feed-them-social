@@ -984,7 +984,7 @@ textarea#ft-gallery-main-wrapper-css-input, textarea#ft-gallery-main-wrapper-cus
     text-decoration: underline
 }
 
-.feed-them_page_ft-gallery-settings-page .feed_them_social-admin-input-wrap {
+.feed-them_page_ft-gallery-settings-page .feed-them-social-admin-input-wrap {
     background-color: rgba(255, 255, 255, .89);
     color: #000 !important;
     padding: 14px 15px;
@@ -2184,11 +2184,11 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
     display: none !important
 }
 
-.ft-watermark-hidden-options.feed_them_social-admin-input-wrap, .ft-watermark-images-sizes-wrap .feed_them_social-admin-input-label {
+.ft-watermark-hidden-options.feed-them-social-admin-input-wrap, .ft-watermark-images-sizes-wrap .feed-them-social-admin-input-label {
     display: none
 }
 
-.feed_them_social-admin-input-wrap.ft-watermark-images-sizes-wrap {
+.feed-them-social-admin-input-wrap.ft-watermark-images-sizes-wrap {
     float: none !important;
     clear: both;
     margin: 0 !important;
@@ -2204,14 +2204,14 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
     width: 100%
 }
 
-.feed_them_social-admin-input-wrap.ft-gallery-image-sizes-checkbox-wrap {
+.feed-them-social-admin-input-wrap.ft-gallery-image-sizes-checkbox-wrap {
     padding-left: 235px;
     margin-bottom: -20px !important;
     margin-top: -39px !important
 }
 
 @media (max-width: 1164px) {
-    .feed_them_social-admin-input-wrap.ft-gallery-image-sizes-checkbox-wrap {
+    .feed-them-social-admin-input-wrap.ft-gallery-image-sizes-checkbox-wrap {
         float: left;
         padding-left: 0;
         clear: both;
@@ -2219,7 +2219,7 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
         margin-top: -27px !important
     }
 
-    .feed_them_social-admin-input-label {
+    .feed-them-social-admin-input-label {
         margin-bottom: 8px
     }
 
@@ -2388,7 +2388,7 @@ body .ft-gallery-popup a.fts-powered-by-text {
     margin-top: 9px
 }
 
-.feed_them_social-admin-input-wrap.ft-gallery-image-sizes-checkbox-wrap-label, .ft-gallery-image-sizes-checkbox-wrap {
+.feed-them-social-admin-input-wrap.ft-gallery-image-sizes-checkbox-wrap-label, .ft-gallery-image-sizes-checkbox-wrap {
     padding: 0;
     margin-top: 20px;
     background: 0 0 !important;
@@ -2638,7 +2638,7 @@ body .ft-gallery-popup a.fts-powered-by-text {
     position: relative
 }
 
-.feed_them_social-admin-input-wrap, .ftg-global-model-product-wrap, .ftg-zip-option-wrapper {
+.feed-them-social-admin-input-wrap, .ftg-global-model-product-wrap, .ftg-zip-option-wrapper {
     position: relative
 }
 

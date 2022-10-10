@@ -303,7 +303,6 @@ function slickremixImageResizingYouTube() {
         ftsInstagramColumns === '4' ||
         ftsInstagramColumns === '5' ||
         ftsInstagramColumns === '6') {
-        //   alert('wtf');
         // if the container is 376px or less we force the image size to be 100%
         if (ftsContainerWidth <= '376' && ftsForceColumns === 'no') {
             var og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';

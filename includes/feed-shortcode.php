@@ -253,7 +253,7 @@ class Feed_Shortcode {
 					break;
 				// Combine Streams Feed.
 				case 'combine-streams-feed-type':
-					// Display Combined Steams Feed!
+					// Display Combined Streams Feed!
 					break;
 			}
 		}

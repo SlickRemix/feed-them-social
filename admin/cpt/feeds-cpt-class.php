@@ -672,7 +672,7 @@ class Feeds_CPT {
 
         $this->metabox_functions->display_metabox_content( $this, $this->metabox_tabs_list() );
 
-        if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
             ?>
             <script>
                 jQuery('#ftg_sorting_options, #ftg_free_download_size').attr('disabled', 'disabled');
@@ -760,7 +760,7 @@ class Feeds_CPT {
      */
     public function tab_facebook_feed() {
 
-        if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
             ?>
 
             <div class="fts-section">
@@ -824,7 +824,7 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function tab_instagram_feed() {
-        if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
             ?>
 
             <div class="fts-section">
@@ -848,7 +848,7 @@ class Feeds_CPT {
             echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $this->feed_cpt_id );
 
             // FTS Premium ACTIVE
-            if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+            if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
                 //Instagram Load More Options
                 echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $this->feed_cpt_id );
             }?>
@@ -868,7 +868,7 @@ class Feeds_CPT {
      */
     public function tab_twitter_feed() {
 
-        if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
             ?>
 
             <div class="fts-section">
@@ -900,7 +900,7 @@ class Feeds_CPT {
             echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_style_options'], null, $this->feed_cpt_id );
 
             // FTS Premium ACTIVE
-            if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+            if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
                 // Twitter Grid Styles
                 echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->feed_cpt_id );
                 // Twitter Load More Button Styles & Options
@@ -922,7 +922,7 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function tab_youtube_feed() {
-        if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
             ?>
 
                     <div class="fts-section">
@@ -947,7 +947,7 @@ class Feeds_CPT {
             echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->feed_cpt_id );
 
             // FTS Premium ACTIVE
-            if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+            if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
                 //Youtube Load More Options.
                 echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $this->feed_cpt_id );
             }?>
@@ -965,7 +965,7 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function tab_combine_streams_feed() {
-        if ( ! is_plugin_active( 'feed_them_social-premium/feed_them_social-premium.php' ) ) {
+        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
             ?>
 
             <div class="fts-section">

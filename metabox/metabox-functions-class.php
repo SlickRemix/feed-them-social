@@ -594,7 +594,8 @@ class Metabox_Functions {
 		// Get Old Settings Array if set.
 		$saved_options = $this->options_functions->get_saved_options_array( $this->array_options_name, $is_cpt, $current_post_id);
 
-		$section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->prem_extension_list[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? 'active' : '';
+		// Is an extension required for this section?
+		$section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->prem_extension_list[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? true : false;
 
 		// Start creation of fields for each Feed.
 		$output = '<div id="' . esc_attr( $section_info['section_wrap_id'] ) . '" class="fts-section ' . $section_info['section_wrap_class'] . '">';
@@ -612,7 +613,7 @@ class Metabox_Functions {
 		foreach ( (array) $section_info['main_options'] as $option ) {
 			if ( ! isset( $option['no_html'] ) || isset( $option['no_html'] ) && 'yes' !== $option['no_html'] ) {
 
-				// Is a premium extension required?
+				// Is an extension required for this option?
 				$required_plugin = ! isset( $option['req_plugin'] ) || isset( $option['req_plugin'] ) && is_plugin_active( $required_plugins[ $option['req_plugin'] ]['plugin_url'] ) ? true : false;
 
 				// Sub option output START?
@@ -663,7 +664,7 @@ class Metabox_Functions {
 						//'input_option' => $option,
 					);
 
-					$output .= call_user_func( array( $this->current_this, 'metabox_specific_form_inputs' ), $params );
+					$output .= call_user_func( array( $this, 'metabox_specific_form_inputs' ), $params );
 				}
 
 				if ( isset( $option['option_type'] ) ) {
@@ -682,27 +683,79 @@ class Metabox_Functions {
                         break;
                     }
 
-                    //
+                    // Check if field needs to be set to 'disabled'.
+					$disabled = $option['disabled'] && true == $option['disabled'] || ! $section_required_prem_plugin || ! $required_plugin ? ' disabled="disabled"' : '';
+
+					// Build Fields for output based on Option Type.
 					switch ( $option['option_type'] ) {
-						// Input.
+						// Input Field.
 						case 'input':
-							$output .= '<input ' . ( isset( $section_required_prem_plugin ) && 'active' !== $section_required_prem_plugin ? 'disabled ' : '' ) . 'type="' . $option['type'] . '" name="' . $option_name . '" id="' . $option_id . '" class="feed-them-social-admin-input ' . ( isset( $option['class'] ) ? $option['class'] : '' ) . '" placeholder="' . ( isset( $option['placeholder'] ) ? $option['placeholder'] : '' ) . '" value="' . $final_value . '"' . ( isset( $option['autocomplete'] ) ? ' autocomplete="' . $option['autocomplete'] . '"' : '' ) . ' data-token="' . $check_encrypted . '"  />';
+							$output .= sprintf(
+								'<input type="%s" name="%s" id="%s" class="feed-them-social-admin-input%s" placeholder="%s" value="%s"%s%s%s/>',
+								$option['type'],
+								$option_name,
+								$option_id,
+								isset( $option['class'] ) ? ' ' . $option['class'] : '',
+								isset( $option['placeholder'] ) ? $option['placeholder'] : '',
+								$final_value,
+								isset( $option['autocomplete'] ) ? ' autocomplete="' . ' ' . $option['autocomplete'] : '',
+								$check_encrypted ? ' data-token="' . $check_encrypted :'',
+								$disabled
+							);
 							break;
 
-						// Select.
+						// Select & Multi-Select Fields.
 						case 'select':
-							$output .= '<select ' . ( isset( $section_required_prem_plugin ) && 'active' !== $section_required_prem_plugin ? 'disabled ' : '' ) . 'name="' . $option_name . '" id="' . $option_id . '"  class="feed-them-social-admin-input">';
-							$i       = 0;
+						case 'select_multi':
+							$multiple = '';
+							$disabled = ! empty( $option['disabled'] ) ? true : false;
+
+                            // Set Multi Select Array.
+							if ( 'select_multi' == $option['option_type'] )	{
+								$multiple    = ' multiple';
+								$option_name = $option_name . '[]';
+							}
+							$output .= sprintf(
+								'<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
+								$disabled ,
+								$option_name,
+								$option_id,
+								isset( $option['class'] ) ? ' ' . $option['class'] : '',
+								$multiple
+							);
+							$i = 0;
+
 							foreach ( $option['options'] as $select_option ) {
-								$output .= '<option value="' . $select_option['value'] . '" ' . ( ! empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ? 'selected="selected"' : '' ) . '>' . $select_option['label'] . '</option>';
+								$selected = '';
+
+								if ( 'select_multi' == $option['option_type'] )  {
+									$final_value = ! is_array( $final_value ) ? array( $final_value ) : $final_value;
+									$selected    = in_array( $select_option['value'], $final_value ) ? ' selected="selected"' : '';
+								} elseif ( ! empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ) {
+									$selected = ' selected="selected"';
+								}
+
+								$output .= sprintf(
+									'<option value="%s"%s>%s</option>',
+									$select_option['value'],
+									$selected,
+									$select_option['label']
+								);
 								$i++;
 							}
 							$output .= '</select>';
+
 							break;
 
-						// Checkbox.
+						// Checkbox Field.
 						case 'checkbox':
-							$output .= '<input ' . ( isset( $section_required_prem_plugin ) && 'active' !== $section_required_prem_plugin ? 'disabled ' : '' ) . 'type="checkbox" name="' . $option_name . '" id="' . $option_id . '" ' . ( ! empty( $final_value ) && 'true' === $final_value ? ' checked="checked"' : '' ) . '/>';
+							$output .= sprintf(
+								'<input type="checkbox" name="%s" id="%s"%s%s/>',
+								$option_name,
+								$option_id,
+								checked( 'true', $final_value, false ),
+								$disabled
+							);
 							break;
 					}
 				}

@@ -79,7 +79,7 @@ class Facebook_Additional_Options {
             // Token Check // We'll use these option for premium messages in the future.
             'premium_msg_boxes'  => array(
                 'album_videos' => array(
-                    'req_plugin' => 'fts_premium',
+                    'req_plugin' => 'feed_them_social_premium',
                     'msg'        => '',
                 ),
                 'reviews'      => array(
@@ -321,7 +321,7 @@ class Facebook_Additional_Options {
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
 				'album_videos' => array(
-					'req_plugin' => 'fts_premium',
+					'req_plugin' => 'feed_them_social_premium',
 					'msg'        => '',
 				),
 				'reviews'      => array(
@@ -486,7 +486,7 @@ class Facebook_Additional_Options {
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
 				'album_videos' => array(
-					'req_plugin' => 'fts_premium',
+					'req_plugin' => 'feed_them_social_premium',
 					'msg'        => '',
 				),
 				'reviews'      => array(
@@ -586,7 +586,7 @@ class Facebook_Additional_Options {
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
 				'album_videos' => array(
-					'req_plugin' => 'fts_premium',
+					'req_plugin' => 'feed_them_social_premium',
 					'msg'        => '',
 				),
 				'reviews'      => array(
@@ -877,7 +877,7 @@ class Facebook_Additional_Options {
             // Token Check // We'll use these option for premium messages in the future.
             'premium_msg_boxes'  => array(
                 'album_videos' => array(
-                    'req_plugin' => 'fts_premium',
+                    'req_plugin' => 'feed_them_social_premium',
                     'msg'        => '',
                 ),
             ),
@@ -1049,7 +1049,7 @@ class Facebook_Additional_Options {
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
 				'album_videos' => array(
-					'req_plugin' => 'fts_premium',
+					'req_plugin' => 'feed_them_social_premium',
 					'msg'        => '',
 				),
 				'reviews'      => array(

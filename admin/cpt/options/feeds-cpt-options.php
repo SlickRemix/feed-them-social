@@ -563,7 +563,7 @@ class Feed_CPT_Options {
 			// Token Check // We'll use these option for premium messages in the future.
 			'premium_msg_boxes'  => array(
 				'album_videos' => array(
-					'req_plugin' => 'fts_premium',
+					'req_plugin' => 'feed_them_social_premium',
 					'msg'        => '',
 				),
 				'reviews'      => array(
@@ -1338,7 +1338,7 @@ class Feed_CPT_Options {
 
 			'premium_msg_boxes'  => array(
 				'album_videos' => array(
-					'req_plugin' => 'fts_premium',
+					'req_plugin' => 'feed_them_social_premium',
 					'msg'        => 'The Facebook video feed allows you to view your uploaded videos from facebook. See these great examples and options of all the different ways you can bring new life to your WordPress site! <a href="https://feedthemsocial.com/facebook-videos-demo/" target="_blank">View Demo</a><br /><br />Additionally if you purchase the Carousel Plugin you can showcase your videos in a slideshow or carousel. Works with your Facebook Photos too! <a href="https://feedthemsocial.com/facebook-carousels/" target="_blank">View Carousel Demo</a>',
 				),
 				'reviews'      => array(
@@ -1361,8 +1361,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'facebook_page_feed_type',
 					'name'        => 'facebook_page_feed_type',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Facebook Page', 'feed-them-social' ),
@@ -1541,7 +1540,7 @@ class Feed_CPT_Options {
 							'value' => 'no',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'title',
 					),
@@ -1572,7 +1571,7 @@ class Feed_CPT_Options {
 							'value' => 'right',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'title_align',
 					),
@@ -1610,8 +1609,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'facebook_show_media',
 					'name'        => 'facebook_show_media',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Below Username, Date & Description', 'feed-them-social' ),
@@ -1635,8 +1633,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'facebook_hide_thumbnail',
 					'name'        => 'facebook_hide_thumbnail',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Yes', 'feed-them-social' ),
@@ -1660,8 +1657,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'facebook_hide_date',
 					'name'        => 'facebook_hide_date',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Yes', 'feed-them-social' ),
@@ -1685,8 +1681,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'facebook_hide_name',
 					'name'        => 'facebook_hide_name',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Yes', 'feed-them-social' ),
@@ -1711,10 +1706,7 @@ class Feed_CPT_Options {
 					'name'        => 'facebook_page_word_count',
 					'placeholder' => '45 ' . __( 'is the default number', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
-					'or_req_plugin_three' => 'facebook_reviews',
-
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 					// Relative to JS.
 					'short_attr'  => array(
 						'attr_name'   => 'words',
@@ -1917,7 +1909,7 @@ class Feed_CPT_Options {
 							'value' => '2',
 						),
 					),
-					'req_plugin'  => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => 'reviews_type_to_show',
 						'ifs' => 'reviews',
@@ -1956,7 +1948,7 @@ class Feed_CPT_Options {
 							'value' => '5',
 						),
 					),
-					'req_plugin'  => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => 'reviews_rating_format',
 						'ifs' => 'reviews',
@@ -1980,7 +1972,7 @@ class Feed_CPT_Options {
 							'value' => 'no',
 						),
 					),
-					'req_plugin'  => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => 'overall_rating',
 						'ifs' => 'reviews',
@@ -2004,7 +1996,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => 'remove_reviews_no_description',
 						'ifs' => 'reviews',
@@ -2028,7 +2020,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => 'hide_see_more_reviews_link',
 						'ifs' => 'reviews',
@@ -2057,9 +2049,7 @@ class Feed_CPT_Options {
 							'value' => 'no',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
-					'or_req_plugin_three' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 					'sub_options' => array(
 						'sub_options_wrap_class' => 'main-like-box-wrap',
 					),
@@ -2086,9 +2076,7 @@ class Feed_CPT_Options {
 							'value' => 'bottom',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
-					'or_req_plugin_three' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => 'show_follow_btn_where',
 						'ifs'     => 'not_group',
@@ -2120,9 +2108,7 @@ class Feed_CPT_Options {
 							'value' => 'right',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
-					'or_req_plugin_three' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => 'like_option_align',
 						'ifs'     => 'not_group',
@@ -2138,10 +2124,7 @@ class Feed_CPT_Options {
 					'id'          => 'facebook_like_box_width',
 					'name'        => 'facebook_like_box_width',
 					'placeholder' => __( '500px max', 'feed-them-social' ),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
-					'or_req_plugin_three' => 'facebook_reviews',
-
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 					// Relative to JS.
 					'short_attr'  => array(
 						'attr_name' => 'facebook_like_box_width',
@@ -2174,8 +2157,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams'),
 					'short_attr'  => array(
 						'attr_name' => 'popup',
 					),
@@ -2202,8 +2184,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams'),
 					'short_attr'  => array(
 						'attr_name' => 'facebook_popup_comments',
 						'ifs' => 'popup',
@@ -2235,8 +2216,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => '',
 						'empty_error_value' => '',
@@ -2268,8 +2248,7 @@ class Feed_CPT_Options {
 							'value' => 'autoscroll',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
 					'short_attr'  => array(
 						'attr_name' => 'loadmore',
 						'ifs' => 'load_more',
@@ -2293,8 +2272,7 @@ class Feed_CPT_Options {
 					'name'        => 'facebook_loadmore_button_width',
 					'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2321,8 +2299,7 @@ class Feed_CPT_Options {
 					'name'        => 'loadmore_button_margin',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2356,9 +2333,8 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
-					'or_req_plugin_three' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
+
 					'short_attr'  => array(
 						'attr_name'    => 'grid',
 						'empty_error'  => 'set',
@@ -2383,9 +2359,7 @@ class Feed_CPT_Options {
 					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
 					'placeholder' => '310px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
-					'or_req_plugin_three' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2412,9 +2386,7 @@ class Feed_CPT_Options {
 					'name'        => 'facebook_grid_space_between_posts',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
-					'or_req_plugin' => 'combine_streams',
-					'or_req_plugin_three' => 'facebook_reviews',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2447,7 +2419,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'facebook_play_btn',
 						'empty_error' => 'set',
@@ -2470,7 +2442,7 @@ class Feed_CPT_Options {
 					'id'          => 'facebook_size_video_play_btn',
 					'name'        => 'facebook_size_video_play_btn',
 					'placeholder' => '40px ' . __( 'for example', 'feed-them-social' ),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2504,7 +2476,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'facebook_play_btn_visible',
 						'ifs'     => 'album_videos',
@@ -2536,7 +2508,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'slider',
 						'empty_error' => 'set',
@@ -2569,7 +2541,7 @@ class Feed_CPT_Options {
 							'value' => 'carousel',
 						),
 					),
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews', 'feed_them_carousel_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'scrollhorz_or_carousel',
 						'ifs'     => 'album_photos,album_videos',
@@ -2591,7 +2563,7 @@ class Feed_CPT_Options {
 					'id'          => 'slides_visible',
 					'name'        => 'slides_visible',
 					'placeholder' => __( '3 is the default number', 'feed-them-social' ),
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2618,7 +2590,7 @@ class Feed_CPT_Options {
 					'name'        => 'slider_spacing',
 					'value'       => '',
 					'placeholder' => __( '2px', 'feed-them-social' ),
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2641,7 +2613,7 @@ class Feed_CPT_Options {
 					'name'        => 'slider_margin',
 					'value'       => '',
 					'placeholder' => __( '-6px auto 1px auto', 'feed-them-social' ),
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2663,7 +2635,7 @@ class Feed_CPT_Options {
 					'name'        => 'slider_speed',
 					'value'       => '',
 					'placeholder' => __( '0-10000', 'feed-them-social' ),
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2685,7 +2657,7 @@ class Feed_CPT_Options {
 					'name'        => 'slider_timeout',
 					'value'       => '',
 					'placeholder' => __( '0-10000', 'feed-them-social' ),
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2759,7 +2731,7 @@ class Feed_CPT_Options {
 							'value' => 'numbers_below_feed',
 						),
 					),
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2780,7 +2752,7 @@ class Feed_CPT_Options {
 					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
 					'value'       => '',
 					'placeholder' => '#FFF',
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2803,7 +2775,7 @@ class Feed_CPT_Options {
 					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
 					'value'       => '',
 					'placeholder' => '#000',
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2826,7 +2798,7 @@ class Feed_CPT_Options {
 					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
 					'value'       => '',
 					'placeholder' => '320px',
-					'req_plugin'  => 'fts_carousel',
+					'req_extensions'  => array('feed_them_carousel_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -3503,7 +3475,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -3531,7 +3503,7 @@ class Feed_CPT_Options {
 							'value' => 'autoscroll',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'loadmore',
 						'var_final_if' => 'no',
@@ -3554,7 +3526,7 @@ class Feed_CPT_Options {
 					'name'        => 'instagram_loadmore_count',
 					'placeholder' => __( '5 is the default number', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -3581,7 +3553,7 @@ class Feed_CPT_Options {
 					'name'        => 'instagram_loadmore_button_width',
 					'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -3601,7 +3573,7 @@ class Feed_CPT_Options {
 					'name'        => 'instagram_loadmore_button_margin',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -3631,7 +3603,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'popup',
 					),
@@ -3904,7 +3876,7 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    'req_plugin'  => 'fts_premium',
+                    'req_extensions'  => array('feed_them_social_premium'),
                     'short_attr'  => array(
                         'attr_name' => 'popup',
                         'ifs' => 'twitter_popup',
@@ -3933,7 +3905,7 @@ class Feed_CPT_Options {
                         ),
                     ),
                     'prem_req'    => 'yes',
-                    'req_plugin'  => 'fts_premium',
+                    'req_extensions'  => array('feed_them_social_premium'),
                     'short_attr'  => array(
                         'attr_name'    => '',
                         'empty_error_value' => '',
@@ -3963,7 +3935,7 @@ class Feed_CPT_Options {
                         ),
                     ),
                     'prem_req'    => 'yes',
-                    'req_plugin'  => 'fts_premium',
+                    'req_extensions'  => array('feed_them_social_premium'),
                     'short_attr'  => array(
                         'attr_name' => 'loadmore',
                         'ifs' => 'load_more',
@@ -3985,7 +3957,7 @@ class Feed_CPT_Options {
                     'name'        => 'twitter_loadmore_count',
                     'placeholder' => __( '5 is the default number', 'feed-them-social' ),
                     'value'       => '',
-                    'req_plugin'  => 'fts_premium',
+                    'req_extensions'  => array('feed_them_social_premium'),
 
                     // Relative to JS.
                     'short_attr'  => array(
@@ -4011,8 +3983,7 @@ class Feed_CPT_Options {
                     'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
                     'value'       => '',
                     'prem_req'    => 'yes',
-                    'req_plugin'  => 'fts_premium',
-                    'or_req_plugin' => 'facebook_reviews',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
 
                     // Relative to JS.
                     'short_attr'  => array(
@@ -4032,7 +4003,7 @@ class Feed_CPT_Options {
                     'name'        => 'twitter_loadmore_button_margin',
                     'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
                     'value'       => '',
-                    'req_plugin'  => 'fts_premium',
+                    'req_extensions'  => array('feed_them_social_premium'),
 
                     // Relative to JS.
                     'short_attr'  => array(
@@ -4066,8 +4037,7 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    'req_plugin'  => 'fts_premium',
-                    'or_req_plugin' => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams'),
                     'short_attr'  => array(
                         'attr_name'    => 'grid',
                         'empty_error'  => 'set',
@@ -4092,9 +4062,7 @@ class Feed_CPT_Options {
                     'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
                     'placeholder' => '310px ' . __( 'for example', 'feed-them-social' ),
                     'value'       => '',
-                    'req_plugin'  => 'fts_premium',
-                    'or_req_plugin' => 'combine_streams',
-                    'or_req_plugin_three' => 'facebook_reviews',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 
                     // Relative to JS.
                     'short_attr'  => array(
@@ -4121,9 +4089,7 @@ class Feed_CPT_Options {
                     'name'        => 'twitter_grid_space_between_posts',
                     'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
                     'value'       => '',
-                    'req_plugin'  => 'fts_premium',
-                    'or_req_plugin' => 'combine_streams',
-                    'or_req_plugin_three' => 'facebook_reviews',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_combined_streams', 'feed_them_social_facebook_reviews'),
 
                     // Relative to JS.
                     'short_attr'  => array(
@@ -4146,6 +4112,7 @@ class Feed_CPT_Options {
 	 * Options for the Youtube Tab
 	 *
 	 * @return mixed
+	 *
 	 * @since 1.0.0
 	 */
 	public function youtube_options() {
@@ -4660,7 +4627,7 @@ class Feed_CPT_Options {
 						'attr_name' => 'wrap',
 					),
 					'prem_req'    => 'yes',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// Align container right or left of video
@@ -4691,7 +4658,7 @@ class Feed_CPT_Options {
 						'attr_name' => 'wrap_single',
 					),
 					'prem_req'    => 'yes',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// Align container right or left of video
@@ -4726,7 +4693,7 @@ class Feed_CPT_Options {
 						'attr_name' => 'video_wrap_display',
 					),
 					'prem_req'    => 'yes',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// Align container right or left of video
@@ -4761,7 +4728,7 @@ class Feed_CPT_Options {
 						'attr_name' => 'video_wrap_display_single',
 					),
 					'prem_req'    => 'yes',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// Youtube Load More Button
@@ -4784,7 +4751,7 @@ class Feed_CPT_Options {
 						),
 					),
 					'prem_req'    => 'yes',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 					'short_attr'  => array(
 						'attr_name'    => '',
 						'empty_error_value' => '',
@@ -4814,7 +4781,8 @@ class Feed_CPT_Options {
 						),
 					),
 					'prem_req'    => 'yes',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
+
 					'short_attr'  => array(
 						'attr_name' => 'loadmore',
 						'ifs' => 'load_more',
@@ -4836,7 +4804,7 @@ class Feed_CPT_Options {
 					'name'        => 'youtube_loadmore_count',
 					'placeholder' => __( '5 is the default number', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -4862,7 +4830,7 @@ class Feed_CPT_Options {
 					'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
 					'prem_req'    => 'yes',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -4882,7 +4850,7 @@ class Feed_CPT_Options {
 					'name'        => 'youtube_loadmore_button_margin',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -4909,7 +4877,7 @@ class Feed_CPT_Options {
 						'empty_error' => 'set',
 						'empty_error_value' => 'comments_count=0',
 					),
-					'req_plugin'  => 'fts_premium',
+					'req_extensions'  => array('feed_them_social_premium'),
 				),
 			),
 		);
@@ -4950,7 +4918,7 @@ class Feed_CPT_Options {
 					'name'        => 'combine_post_count',
 					'value'       => '',
 					'placeholder' => __( '6 is the default number', 'feed-them-social' ),
-					'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -4973,7 +4941,7 @@ class Feed_CPT_Options {
 					'name'        => 'combine_social_network_post_count',
 					'value'       => '',
 					'placeholder' => __( '1 is the default number', 'feed-them-social' ),
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -4993,7 +4961,7 @@ class Feed_CPT_Options {
 					'name'        => 'combine_word_count_option',
 					'placeholder' => '45 ' . __( 'is the default number', 'feed-them-social' ),
 					'value'       => '',
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -5020,7 +4988,7 @@ class Feed_CPT_Options {
 							'value' => 'no',
 						),
 					),
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 					'short_attr'  => array(
 						'attr_name' => 'center_container',
 					),
@@ -5035,7 +5003,7 @@ class Feed_CPT_Options {
 					'id'          => 'combine_height',
 					'name'        => 'combine_height',
 					'value'       => '',
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 					'placeholder' => '450px ' . __( 'for example', 'feed-them-social' ),
 
 					// Relative to JS.
@@ -5056,7 +5024,7 @@ class Feed_CPT_Options {
 					'type'         => 'text',
 					'id'           => 'combine_background_color',
 					'name'         => 'combine_background_color', // Relative to JS.
-					'req_plugin'   => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 					'short_attr'   => array(
 						'attr_name'    => 'background_color',
 						'var_final_if' => 'yes',
@@ -5073,7 +5041,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'combine_show_social_icon',
 					'name'        => 'combine_show_social_icon',
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Right', 'feed-them-social' ),
@@ -5101,7 +5069,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'combine_show_media',
 					'name'        => 'combine_show_media',
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Below Username, Date & Description', 'feed-them-social' ),
@@ -5123,7 +5091,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'combine_hide_date',
 					'name'        => 'combine_hide_date',
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Yes', 'feed-them-social' ),
@@ -5147,7 +5115,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'combine_hide_name',
 					'name'        => 'combine_hide_name',
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 					'options'     => array(
 						array(
 							'label' => __( 'Yes', 'feed-them-social' ),
@@ -5171,7 +5139,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'combine_padding',
 					'name'        => 'combine_padding',
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -5204,7 +5172,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 					'short_attr'  => array(
 						'attr_name'    => 'grid',
 						'empty_error'  => 'set',
@@ -5228,7 +5196,7 @@ class Feed_CPT_Options {
 					'name'        => 'combine_grid_column_width',
 					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
 					'placeholder' => '310px ' . __( 'for example', 'feed-them-social' ),
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -5252,7 +5220,7 @@ class Feed_CPT_Options {
 					'id'          => 'combine_grid_space_between_posts',
 					'name'        => 'combine_grid_space_between_posts',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
-					'req_plugin'  => 'combine_streams',
+					'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -5310,7 +5278,7 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'short_attr'  => array(
                         'attr_name'    => '',
                         'empty_error_value' => '',
@@ -5371,7 +5339,7 @@ class Feed_CPT_Options {
                             'label' => __( 'Business Feed', 'feed-them-social' ),
                         ),
                     ),
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                 ),
 
                 array(
@@ -5394,7 +5362,7 @@ class Feed_CPT_Options {
                             'label' => __( 'Yes', 'feed-them-social' ),
                         ),
                     ),
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'sub_options' => array(
                         'sub_options_wrap_class' => 'combine-instagram-wrap',
                     ),
@@ -5542,7 +5510,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'id'          => 'combine_twitter',
                     'name'        => 'combine_twitter',
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'options'     => array(
                         array(
                             'label' => __( 'No', 'feed-them-social' ),
@@ -5596,7 +5564,7 @@ class Feed_CPT_Options {
                     'select_classes' => '',
                     'name'        => 'combine-twitter-messages-selector',
                     'id'          => 'combine-twitter-messages-selector',
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
 
                     // Feed Types and their options
                     'options'     => array(
@@ -5641,7 +5609,7 @@ class Feed_CPT_Options {
                             'value'    => 'hashtag',
                         ),
                     ),
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
 
                     // This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
                     'sub_options' => array(
@@ -5674,7 +5642,7 @@ class Feed_CPT_Options {
                             'value'    => 'user',
                         ),
                     ),
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'sub_options_end' => 2,
                 ),
 
@@ -5740,7 +5708,7 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'short_attr'  => array(
                         'attr_name'    => '',
                         'empty_error_value' => '',
@@ -5807,7 +5775,7 @@ class Feed_CPT_Options {
                             'value' => 'userPlaylist',
                         ),
                     ),
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'short_attr'  => array(
                         'attr_name' => '',
                         'no_attribute' => 'yes',
@@ -5827,7 +5795,7 @@ class Feed_CPT_Options {
                     'id'          => 'combine_youtube_name',
                     'name'        => 'combine_youtube_name',
                     'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Username</a> and paste it below.',
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
 
                     // Relative to JS.
                     'short_attr'  => array(
@@ -5848,7 +5816,7 @@ class Feed_CPT_Options {
                     'id'          => 'combine_playlist_id',
                     'name'        => 'combine_playlist_id',
                     'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Playlist ID</a> and paste them below.',
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
 
                     // Relative to JS.
                     'short_attr'  => array(
@@ -5866,7 +5834,7 @@ class Feed_CPT_Options {
                     'id'          => 'combine_channel_id',
                     'name'        => 'combine_channel_id',
                     'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Channel ID</a> and paste it below.',
-                    'req_plugin'  => 'combine_streams',
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
 
                     // Relative to JS.
                     'short_attr'  => array(

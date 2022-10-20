@@ -117,6 +117,15 @@ class Metabox_Functions {
 	public $array_options_name;
 
 	/**
+	 * Extension List.
+	 *
+	 * List of extensions for FTS.
+	 *
+	 * @var object
+	 */
+	public $prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
+
+	/**
 	 * Metabox Functions constructor.
 	 *
 	 * Constructor.
@@ -130,8 +139,6 @@ class Metabox_Functions {
 	 * @since 1.0
 	 */
 	public function __construct( $default_options_array, $settings_functions, $options_functions, $array_options_name, $data_protection, $is_page = null) {
-
-		$this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
 		// Default Options Array.
 		$this->default_options_array = $default_options_array;
@@ -581,12 +588,12 @@ class Metabox_Functions {
 	 * Return metabox options form fields for output.
 	 *
 	 * @param array $section_info The section info.
-	 * @param array $required_plugins The Required plugins.
+	 * @param array $required_extensions An array of Required Extensions.
 	 * @param string $current_post_id Current post id.
 	 * @return string
 	 * @since @since 1.0.0
 	 */
-	public function options_html_form( $section_info, $required_plugins, $current_post_id = null ) {
+	public function options_html_form( $section_info, $required_extensions, $current_post_id = null ) {
 
         // If page set false otherwise this is a CPT!
         $is_cpt = true == $this->is_page ? false : true;
@@ -614,10 +621,12 @@ class Metabox_Functions {
 			if ( ! isset( $option['no_html'] ) || isset( $option['no_html'] ) && 'yes' !== $option['no_html'] ) {
 
 				// Is an extension required for this option?
-				$required_plugin = ! isset( $option['req_plugin'] ) || isset( $option['req_plugin'] ) && is_plugin_active( $required_plugins[ $option['req_plugin'] ]['plugin_url'] ) ? true : false;
+                if($option['req_extensions'] && is_array( $option['req_extensions'] )){
+	                $required_extension_needed = $this->check_req_extensions($option['req_extensions']);
+                }
 
 				// Sub option output START?
-				$output .= isset( $option['sub_options'] ) ? '<div class="' . $option['sub_options']['sub_options_wrap_class'] . ( ! $required_plugin ? ' not-active-premium-fields' : '' ) . '">' . ( isset( $option['sub_options']['sub_options_title'] ) ? '<h3>' . $option['sub_options']['sub_options_title'] . '</h3>' : '' ) . ( isset( $option['sub_options']['sub_options_instructional_txt'] ) ? '<div class="instructional-text">' . $option['sub_options']['sub_options_instructional_txt'] . '</div>' : '' ) : '';
+				$output .= isset( $option['sub_options'] ) ? '<div class="' . $option['sub_options']['sub_options_wrap_class'] . ( $required_extension_needed && true === $required_extension_needed ? ' not-active-premium-fields' : '' ) . '">' . ( isset( $option['sub_options']['sub_options_title'] ) ? '<h3>' . $option['sub_options']['sub_options_title'] . '</h3>' : '' ) . ( isset( $option['sub_options']['sub_options_instructional_txt'] ) ? '<div class="instructional-text">' . $option['sub_options']['sub_options_instructional_txt'] . '</div>' : '' ) : '';
 
 				$output .= isset( $option['grouped_options_title'] ) ? '<h3 class="sectioned-options-title">' . $option['grouped_options_title'] . '</h3>' : '';
 
@@ -679,27 +688,28 @@ class Metabox_Functions {
 	                    case 'fts_twitter_custom_access_token':
 	                    case 'youtube_custom_api_token':
 	                    case 'youtube_custom_access_token':
-                            $check_encrypted = false !== $this->data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
-                        break;
+                                $check_encrypted = false !== $this->data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
+                            break;
                     }
 
                     // Check if field needs to be set to 'disabled'.
-					$disabled = $option['disabled'] && true == $option['disabled'] || ! $section_required_prem_plugin || ! $required_plugin ? ' disabled="disabled"' : '';
+					$disabled = !$required_extension_needed || $required_extension_needed && true == $required_extension_needed ? ' disabled="disabled"' : '';
 
 					// Build Fields for output based on Option Type.
 					switch ( $option['option_type'] ) {
 						// Input Field.
 						case 'input':
 							$output .= sprintf(
-								'<input type="%s" name="%s" id="%s" class="feed-them-social-admin-input%s" placeholder="%s" value="%s"%s%s%s/>',
+							    // Any changes to fields here must be added to list of wp_kses list on output return below.
+								'<input type="%s" name="%s" id="%s" class="feed-them-social-admin-input%s" placeholder="%s" value="%s" %s%s%s/>',
 								$option['type'],
 								$option_name,
 								$option_id,
-								isset( $option['class'] ) ? ' ' . $option['class'] : '',
-								isset( $option['placeholder'] ) ? $option['placeholder'] : '',
+								$option['class'] ? ' ' . $option['class'] : '',
+								$option['placeholder'] ? $option['placeholder'] : '',
 								$final_value,
-								isset( $option['autocomplete'] ) ? ' autocomplete="' . ' ' . $option['autocomplete'] : '',
 								$check_encrypted ? ' data-token="' . $check_encrypted :'',
+								$option['autocomplete'] ? ' autocomplete="' . ' ' . $option['autocomplete'] : '',
 								$disabled
 							);
 							break;
@@ -708,16 +718,15 @@ class Metabox_Functions {
 						case 'select':
 						case 'select_multi':
 							$multiple = '';
-							$disabled = ! empty( $option['disabled'] ) ? true : false;
-
                             // Set Multi Select Array.
 							if ( 'select_multi' == $option['option_type'] )	{
 								$multiple    = ' multiple';
 								$option_name = $option_name . '[]';
 							}
 							$output .= sprintf(
+							    // Any changes to fields here must be added to list of wp_kses list on output return below.
 								'<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
-								$disabled ,
+								$disabled,
 								$option_name,
 								$option_id,
 								isset( $option['class'] ) ? ' ' . $option['class'] : '',
@@ -750,6 +759,7 @@ class Metabox_Functions {
 						// Checkbox Field.
 						case 'checkbox':
 							$output .= sprintf(
+							    // Any changes to fields here must be added to list of wp_kses list on output return below.
 								'<input type="checkbox" name="%s" id="%s"%s%s/>',
 								$option_name,
 								$option_id,
@@ -760,8 +770,22 @@ class Metabox_Functions {
 					}
 				}
 
+				if(!$required_extension_needed || $required_extension_needed && true == $required_extension_needed){
+					$output .= '<div class="clear">';
+					foreach($option['req_extensions'] as $req_extension){
+						$output .= sprintf( '<a class="feed-them-social-req-extention" href="%s">%s</a>',
+							$this->prem_extension_list[ $req_extension ]['purchase_url'],
+							$this->prem_extension_list[ $req_extension ]['title']
+						);
+					}
+					$output .= '</div>';
+				}
+
 				$output .= '<div class="clear"></div>';
 				$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
+
+
+
 
 				$output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '</div>' : '';
 
@@ -803,6 +827,7 @@ class Metabox_Functions {
 					'name'  => array(),
 					'class' => array(),
 					'id'    => array(),
+					'disabled'    => array()
 				),
 				'option' => array(
 					'value'    => array(),
@@ -817,6 +842,8 @@ class Metabox_Functions {
 					'name'        => array(),
 					'checked'     => array(),
                     'data-token'  => array(),
+					'autocomplete'    => array(),
+					'disabled'    => array()
 				),
 				'h3'     => array(
 					'class' => array(),
@@ -831,6 +858,34 @@ class Metabox_Functions {
                 ),
 			)
 		);
+	}
+
+	/**
+	 * Check Required Extensions.
+	 *
+	 * Check Required Extensions are active.
+	 *
+	 * @param array $required_extensions An array of Required Extensions.
+	 *
+	 * @return boolean
+	 *
+	 */
+	public function check_req_extensions( $required_extensions ) {
+        if($required_extensions){
+            $active_extensions = 0;
+	        // All Required Extensions
+	        foreach( $required_extensions as $extension_name){
+		        // Check this specific Extension is Active.
+		        if( is_plugin_active( $this->prem_extension_list[$extension_name]['plugin_url'] )){
+			        //Required Extension is active return true!
+			        $active_extensions++;
+		        }
+	        }
+	        // If at least 1 required extension is not active.
+	        return $active_extensions >= 1 ? false : true;
+        }
+        // No Required extensions are set.
+        return false;
 	}
 
 	/**

@@ -66,6 +66,15 @@ class Feed_Functions {
     public $data_protection;
 
 	/**
+	 * Extension List.
+	 *
+	 * List of extensions for FTS.
+	 *
+	 * @var object
+	 */
+	public $prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
+
+	/**
 	 * Feed Functions constructor.
 	 */
 	public function __construct( $settings_functions, $options_functions, $feed_cpt_options, $feed_cache, $data_protection ){
@@ -102,6 +111,8 @@ class Feed_Functions {
             add_action( 'wp_ajax_nopriv_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
         }
 	}
+
+
 
     /**
      * Add Actions & Filters

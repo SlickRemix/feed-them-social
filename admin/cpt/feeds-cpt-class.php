@@ -175,6 +175,11 @@ class Feeds_CPT {
             add_action( 'post_submitbox_start', array( $this, 'fts_duplicate_post_add_duplicate_post_button' ) );
 
         }
+
+        // Re
+	    add_filter( 'page_row_actions', array( $this, 'remove_edit_menu_links' ), 10, 2 );
+
+
     }
 
     /**
@@ -237,9 +242,9 @@ class Feeds_CPT {
                 'not_found_in_trash' => esc_html__( 'No Feeds Found In Trash', 'feed_them_social' ),
             ),
 
-            'public'              => true,
-            'publicly_queryable'  => true,
+            'public'              => false,
             'show_ui'             => true,
+            'publicly_queryable'  => true,
             'capability_type'     => 'post',
             'show_in_menu'        => true,
             'show_in_nav_menus'   => false,
@@ -255,7 +260,7 @@ class Feeds_CPT {
             'rewrite'             => array( 'slug' => 'fts-cpt' ),
 
             'menu_icon'           => '',
-            'supports'            => array( 'title', 'revisions', 'thumbnail' ),
+            'supports'            => array( 'title', 'revisions' ),
             'order'               => 'DESC',
             // Set the available taxonomies here
             // 'taxonomies' => array('fts_topics')
@@ -1197,6 +1202,28 @@ class Feeds_CPT {
 
         return $actions;
     }
+
+	/**
+     * Remove Edit Menu Links
+     *
+     * Remove Edit Menu Links from the edit.php page for FTS CPT.
+     *
+	 * @param $actions
+	 * @param $post
+	 * @return mixed
+	 * @since 1.0.0
+	 */
+	public function remove_edit_menu_links( $actions, $post ) {
+		// make sure we only show the duplicate gallery link on our pages
+		if ( current_user_can( 'edit_posts' ) && FEED_THEM_SOCIAL_POST_TYPE === $_GET['post_type'] ) {
+			// Unset View Link.
+            unset($actions['view']);
+			// Unset Quick Edit Link.
+			unset($actions['inline hide-if-no-js']);
+        }
+
+		return $actions;
+	}
 
     /**
      *  Duplicate Post ADD Duplicate Post Button

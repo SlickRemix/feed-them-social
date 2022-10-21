@@ -138,12 +138,17 @@ class Feeds_CPT {
      * @since 1.1.8
      */
     public function add_actions_filters() {
-
-        // Scripts.
-        add_action( 'admin_enqueue_scripts', array( $this, 'fts_scripts' ) );
-
         // Register Feed CPT!
         add_action( 'init', array( $this, 'fts_cpt' ) );
+
+	    // Add "Add New Feed" as Admin Sub Menu Item.
+	    add_action( 'admin_menu', array($this, 'add_feed_sub_menu') );
+
+        // Remove Default Add New Button.
+	    add_action( 'admin_menu', array($this, 'remove_default_add_new_button') );
+
+        // When adding new feed redirect to post edit page.
+	    add_action( 'current_screen', array($this, 'redirect_to_new_feed' ) );
 
         // Response Messages!
         add_filter( 'post_updated_messages', array( $this, 'fts_updated_messages' ) );
@@ -164,22 +169,18 @@ class Feeds_CPT {
         // Add Shortcode!
         add_shortcode( 'fts_list', array( $this, 'fts_display_list' ) );
 
-        // Set Current Feed CPT ID
+        // Set Current Feed CPT ID.
         add_action( 'current_screen', array( $this, 'current_feed_cpt_id' ) );
 
         if ( '' === get_option( 'fts_duplicate_post_show' ) ) {
-
             add_action( 'admin_action_fts_duplicate_post_as_draft', array( $this, 'fts_duplicate_post_as_draft' ) );
             add_filter( 'page_row_actions', array( $this, 'fts_duplicate_post_link' ), 10, 2 );
             add_filter( 'fts_row_actions', array( $this, 'fts_duplicate_post_link' ), 10, 2 );
             add_action( 'post_submitbox_start', array( $this, 'fts_duplicate_post_add_duplicate_post_button' ) );
-
         }
 
-        // Re
+        // Remove Edit Menu Links.
 	    add_filter( 'page_row_actions', array( $this, 'remove_edit_menu_links' ), 10, 2 );
-
-
     }
 
     /**
@@ -257,7 +258,6 @@ class Feeds_CPT {
             'has_archive'         => true,
             'hierarchical'        => true,
             'query_var'           => 'fts',
-            'rewrite'             => array( 'slug' => 'fts-cpt' ),
 
             'menu_icon'           => '',
             'supports'            => array( 'title', 'revisions' ),
@@ -266,56 +266,6 @@ class Feeds_CPT {
             // 'taxonomies' => array('fts_topics')
         );
         register_post_type( 'fts', $responses_cpt_args );
-    }
-
-    /**
-     *  Categories (Custom Taxonomy)
-     *
-     * Create Custom Taxonomy.
-     *
-     * @since 1.0.2
-     */
-    public function fts_categories() {
-
-        $labels = array(
-            'name'              => esc_html__( 'Categories', 'feed_them_social' ),
-            'singular_name'     => esc_html__( 'Category', 'feed_them_social' ),
-            'search_items'      => esc_html__( 'Search Categories', 'feed_them_social' ),
-            'all_items'         => esc_html__( 'All Categories', 'feed_them_social' ),
-            'parent_item'       => esc_html__( 'Parent Category', 'feed_them_social' ),
-            'parent_item_colon' => esc_html__( 'Parent Category:', 'feed_them_social' ),
-            'edit_item'         => esc_html__( 'Edit Category', 'feed_them_social' ),
-            'update_item'       => esc_html__( 'Update Category', 'feed_them_social' ),
-            'add_new_item'      => esc_html__( 'Add New Category', 'feed_them_social' ),
-            'new_item_name'     => esc_html__( 'New Category Name', 'feed_them_social' ),
-            'menu_name'         => esc_html__( 'Categories', 'feed_them_social' ),
-        );
-
-        register_taxonomy(
-            'fts_cats',
-            array( 'fts' ),
-            array(
-                'hierarchical'          => false,
-                'labels'                => $labels,
-                'show_ui'               => true,
-                'show_admin_column'     => true,
-                'query_var'             => true,
-                'rewrite'               => true,
-                'update_count_callback' => '_update_generic_term_count',
-            )
-        );
-    }
-
-    /**
-     * Register Taxonomy for Attachments
-     *
-     * Registers
-     *
-     * @since 1.0.2
-     */
-    public function fts_add_cats_to_attachments() {
-        register_taxonomy_for_object_type( 'fts_cats', 'attachment' );
-        // add_post_type_support('attachment', 'fts_cats');
     }
 
     /**
@@ -334,13 +284,88 @@ class Feeds_CPT {
         // We are on the main menu item now. The filter is not needed anymore.
         remove_filter( 'attribute_escape', array( $this, 'fts_rename_submenu_name' ) );
 
-        return esc_html( 'FT Social' );
+        return esc_html( 'FT Social', 'feed_them_social' );
     }
+
+    /**
+	 * Remove Default Add New Button
+	 *
+	 * This removes the default add new button.
+	 *
+	 * @since 4.0.0
+	 */
+	public function remove_default_add_new_button() {
+		remove_submenu_page( 'edit.php?post_type=fts', 'post-new.php?post_type=fts' );
+	}
+
+	/**
+	 * Add Feed Sub Menu.
+	 *
+	 * This replaces the "Add New" button .
+	 *
+	 * @since 4.0.0
+	 */
+	public function add_feed_sub_menu() {
+		add_submenu_page(
+			'edit.php?post_type=fts', // Main Menu Item.
+			esc_html__( 'Add New Feed' , 'feed_them_social' ),
+			esc_html__( 'Add New Feed' , 'feed_them_social' ),
+			'manage_options',
+			'create-new-feed',
+			array( $this, 'add_new_feed' ),
+            1
+		);
+	}
+
+	/**
+	 * Add New Feed
+	 *
+	 * This replaces the "Add New" button functionality with a published feed post so we can get Post ID for tokens.
+	 *
+	 * @since 4.0.0
+	 */
+	public function add_new_feed() {
+		wp_die( esc_html__( 'Oops, Could not create feed.', 'feed_them_social' ) );
+    }
+	/**
+	 * Add New Feed
+	 *
+	 * This replaces the "Add New" button functionality with a published feed post so we can get Post ID for tokens.
+	 *
+	 * @since 4.0.0
+	 */
+	public function redirect_to_new_feed() {
+		$current_screen = get_current_screen();
+		if( isset( $current_screen->base ) && 'fts_page_create-new-feed' === $current_screen->base  ){
+			if( current_user_can( 'manage_options' ) ){
+				$new_post_id = wp_insert_post(
+				// An array of elements that make up a post to update or insert.
+					array (
+						'post_type'      => 'fts',
+						'post_status'    => 'publish',
+						'comment_status' => 'closed',
+						'ping_status'    => 'closed',
+					)
+				);
+
+				// Post was inserted. Redirect to new edit page!
+				if( $new_post_id ){
+					wp_safe_redirect( admin_url( 'post.php?action=edit&post=' . $new_post_id ) );
+					exit();
+				}
+				// Feed Creation Failed!
+				else{
+					wp_die( esc_html__( 'Oops, Feed was not created.', 'feed_them_social' ) );
+				}
+			}
+			wp_die( esc_html__( 'Not allowed to create this feed. User does not have permissions.', 'feed_them_social' ) );
+        }
+	}
 
     /**
      * Updated Messages
      *
-     * Updates the messages in the admin area so they match plugin
+     * Updates the messages in the admin area so they match plugin.
      *
      * @param $messages
      * @return mixed
@@ -518,43 +543,6 @@ class Feeds_CPT {
         }
 
         return $translated_text;
-    }
-
-    /**
-     *  Scripts
-     *
-     * Create Feed custom post type
-     *
-     * @since 1.0.0
-     */
-    public function fts_scripts() {
-
-        global $id, $post;
-
-        // Get current screen.
-        $current_screen = get_current_screen();
-
-        if ( is_admin() && 'fts' === $current_screen->post_type && 'post' === $current_screen->base || is_admin() && 'fts' === $current_screen->post_type && isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] || is_admin() && 'fts_albums' === $current_screen->post_type && 'post' === $current_screen->base ) {
-
-            // Set the post_id for localization.
-            $post_id = isset( $post->ID ) ? array( 'post' => $post->ID ) : '';
-
-            // Image Uploader!
-            wp_enqueue_media( $post_id );
-
-            add_filter( 'plupload_init', array( $this, 'plupload_init' ) );
-
-            // Enqueue Magnific Popup CSS.
-            // wp_enqueue_style( 'magnific-popup-css', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION );
-
-            // Enqueue Magnific Popup JS.
-            // wp_enqueue_script( 'magnific-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION );
-
-            // wp_enqueue_style( 'ft-gallery-admin-ui-css', 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css', array(), FTS_CURRENT_VERSION );
-
-        }
-        return;
-        
     }
 
     /**

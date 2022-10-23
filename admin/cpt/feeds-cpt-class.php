@@ -313,7 +313,7 @@ class Feeds_CPT {
 			'manage_options',
 			'create-new-feed',
 			array( $this, 'add_new_feed' ),
-            1
+            1 // Menu Position
 		);
 	}
 

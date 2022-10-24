@@ -233,7 +233,7 @@ class Feeds_CPT {
                 'menu_name'          => esc_html__( 'Feeds', 'feed_them_social' ),
                 'name'               => esc_html__( 'Feeds', 'feed_them_social' ),
                 'singular_name'      => esc_html__( 'Feed', 'feed_them_social' ),
-                'add_new'            => esc_html__( 'Add Feed', 'feed_them_social' ),
+                'add_new'            => esc_html__( 'Add New Feed', 'feed_them_social' ),
                 'add_new_item'       => esc_html__( 'Add New Feed', 'feed_them_social' ),
                 'edit_item'          => esc_html__( 'Edit Feed', 'feed_them_social' ),
                 'new_item'           => esc_html__( 'New Feed', 'feed_them_social' ),

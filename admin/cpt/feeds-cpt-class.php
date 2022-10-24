@@ -144,7 +144,7 @@ class Feeds_CPT {
 	    // Add "Add New Feed" as Admin Sub Menu Item.
 	    add_action( 'admin_menu', array($this, 'add_feed_sub_menu') );
 
-        // Remove Default Add New Button.
+        // Remove Default Add New Button from sidebar menu.
 	    add_action( 'admin_menu', array($this, 'remove_default_add_new_button') );
 
         // When adding new feed redirect to post edit page.
@@ -336,7 +336,8 @@ class Feeds_CPT {
 	 */
 	public function redirect_to_new_feed() {
 		$current_screen = get_current_screen();
-		if( isset( $current_screen->base ) && 'fts_page_create-new-feed' === $current_screen->base  ){
+        //Check if is create-new-feed-page or is FTS CPT "Add New" page.
+		if( isset( $current_screen->base ) && 'fts_page_create-new-feed' === $current_screen->base || 'post' === $current_screen->base && 'add' === $current_screen->action && 'fts' === $current_screen->post_type ){
 			if( current_user_can( 'manage_options' ) ){
 				$new_post_id = wp_insert_post(
 				// An array of elements that make up a post to update or insert.

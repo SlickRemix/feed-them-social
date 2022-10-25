@@ -621,12 +621,10 @@ class Metabox_Functions {
 			if ( ! isset( $option['no_html'] ) || isset( $option['no_html'] ) && 'yes' !== $option['no_html'] ) {
 
 				// Is an extension required for this option?
-                if($option['req_extensions'] && is_array( $option['req_extensions'] )){
-	                $required_extension_needed = $this->check_req_extensions($option['req_extensions']);
-                }
+                $required_extension_needed = $option['req_extensions'] && is_array( $option['req_extensions'] ) ? $this->check_req_extensions($option['req_extensions']) : false;
 
 				// Sub option output START?
-				$output .= isset( $option['sub_options'] ) ? '<div class="' . $option['sub_options']['sub_options_wrap_class'] . ( $required_extension_needed && true === $required_extension_needed ? ' not-active-premium-fields' : '' ) . '">' . ( isset( $option['sub_options']['sub_options_title'] ) ? '<h3>' . $option['sub_options']['sub_options_title'] . '</h3>' : '' ) . ( isset( $option['sub_options']['sub_options_instructional_txt'] ) ? '<div class="instructional-text">' . $option['sub_options']['sub_options_instructional_txt'] . '</div>' : '' ) : '';
+				$output .= isset( $option['sub_options'] ) ? '<div class="' . $option['sub_options']['sub_options_wrap_class'] . ( false !== $required_extension_needed ? ' not-active-premium-fields' : '' ) . '">' . ( isset( $option['sub_options']['sub_options_title'] ) ? '<h3>' . $option['sub_options']['sub_options_title'] . '</h3>' : '' ) . ( isset( $option['sub_options']['sub_options_instructional_txt'] ) ? '<div class="instructional-text">' . $option['sub_options']['sub_options_instructional_txt'] . '</div>' : '' ) : '';
 
 				$output .= isset( $option['grouped_options_title'] ) ? '<h3 class="sectioned-options-title">' . $option['grouped_options_title'] . '</h3>' : '';
 
@@ -693,7 +691,7 @@ class Metabox_Functions {
                     }
 
                     // Check if field needs to be set to 'disabled'.
-					$disabled = !$required_extension_needed || $required_extension_needed && true == $required_extension_needed ? ' disabled="disabled"' : '';
+					$disabled = false !== $required_extension_needed ? ' disabled="disabled"' : '';
 
 					// Build Fields for output based on Option Type.
 					switch ( $option['option_type'] ) {

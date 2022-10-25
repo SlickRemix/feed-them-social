@@ -330,7 +330,7 @@ class Feeds_CPT {
 	/**
 	 * Add New Feed
 	 *
-	 * This replaces the "Add New" button functionality with a published feed post so we can get Post ID for tokens.
+	 * This replaces the default "Add New" button functionality with a published feed post so we can get Post ID for tokens.
 	 *
 	 * @since 4.0.0
 	 */

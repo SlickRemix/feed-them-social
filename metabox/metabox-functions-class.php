@@ -84,7 +84,7 @@ class Metabox_Functions {
 	 *
      * Default options array. Usually set in the options file.
 	 *
-	 * @var string
+	 * @var array
 	 */
 	public $default_options_array;
 
@@ -221,7 +221,6 @@ class Metabox_Functions {
 			wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.css' ), array(), FTS_CURRENT_VERSION );
 			// Enqueue Admin Page CSS.
 			wp_enqueue_style( 'slick-admin-page' );
-
 			// Register Metabox CSS.
 			wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.css' ), array(), FTS_CURRENT_VERSION );
 			// Enqueue Metabox CSS.
@@ -281,7 +280,6 @@ class Metabox_Functions {
 
 			// Enqueue Metabox Tabs JS.
 			wp_enqueue_script( 'slick-metabox-tabs' );
-
 			// Register jQuery Nested Sortable JS.
 			wp_register_script( 'jquery-nested-sortable-js', plugins_url( 'feed-them-social/metabox/js/jquery.mjs.nestedSortable.js' ), array( 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-sortable, ' ), FTS_CURRENT_VERSION, false );
 			// Enqueue jQuery Nested Sortable JS.
@@ -309,8 +307,8 @@ class Metabox_Functions {
 					'totop'                          => esc_html__( 'To top', 'feed_them_social' ),
                     // These next 2 options where added for the Main Options and Additional Options sub tabs under each feed.
                     'mainoptions'                    => esc_html__( 'Main Options', 'feed_them_social' ),
-                    'additionaloptions'            => esc_html__( 'Additional Options', 'feed_them_social' ),
-                    'additionalSettings'            => sprintf( esc_html__( 'Additional Global options available on the %1$sSettings Page%2$s.', 'feed_them_social' ),
+                    'additionaloptions'              => esc_html__( 'Additional Options', 'feed_them_social' ),
+                    'additionalSettings'             => sprintf( esc_html__( 'Additional Global options available on the %1$sSettings Page%2$s.', 'feed_them_social' ),
                         '<a href="edit.php?post_type=fts&amp;page=fts-settings-page" target="_blank">',
                         '</a>'
                     ),

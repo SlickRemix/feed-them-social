@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Feed_CPT_Options {
 
 	/**
-	 * All Gallery Options
+	 * All Feed Options
 	 *
 	 * @var array
 	 */
@@ -81,9 +81,35 @@ class Feed_CPT_Options {
 	}
 
 	/**
-	 * All Gallery Options
+	 * Get All Token Options
 	 *
-	 * Function to return all Gallery options
+	 * Get all of the options for tokens.
+	 *
+	 * @return array
+	 * @since 4.0.0
+	 */
+	public function get_all_token_options( ) {
+		$this->twitter_token_options();
+		$this->facebook_token_options();
+		$this->instagram_token_options();
+		$this->instagram_business_token_options();
+		$this->youtube_token_options();
+		$this->combine_instagram_token_options();
+		$this->combine_instagram_token_select_options();
+		$this->combine_facebook_token_options();
+		$this->combine_twitter_token_select_options();
+		$this->combine_twitter_token_options();
+		$this->combine_youtube_token_select_options();
+		$this->combine_youtube_token_options();
+
+		return $this->all_options;
+	}
+
+
+	/**
+	 * All Feed Options
+	 *
+	 * Function to return all Feed options
 	 *
 	 * @return array
 	 * @since 1.0.0

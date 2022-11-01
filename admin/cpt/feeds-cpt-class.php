@@ -50,6 +50,15 @@ class Feeds_CPT {
      */
     public $feed_cpt_options_array;
 
+	/**
+	 * Feed CPT Access Token Options
+	 *
+	 * An array of Feed Access Token Settings. Set in admin/cpt/options/feeds-cpt-options.php
+	 *
+	 * @var array
+	 */
+	public $feed_cpt_access_token_options;
+
     /**
      * Setting Options JS
      *
@@ -89,7 +98,7 @@ class Feeds_CPT {
     /**
      * Feeds_CPT constructor.
      *
-     * @param object  $feed_cpt_options All options.
+     * @param object $feed_cpt_options All options.
      */
     public function __construct( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options, $options_functions) {
 
@@ -100,7 +109,10 @@ class Feeds_CPT {
         $this->feed_functions = $feed_functions;
 
         // Feed CPT Options Array.
-        $this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
+        $this->feed_cpt_options_array = $feed_cpt_options->get_all_options( true );
+
+	    // Feed CPT Access Token Options.
+	    $this->feed_cpt_access_token_options = $feed_cpt_options->get_all_token_options();
 
         // Settings Options JS.
         $this->setting_options_js = $setting_options_js;
@@ -327,6 +339,7 @@ class Feeds_CPT {
 	public function add_new_feed() {
 		wp_die( esc_html__( 'Oops, Could not create feed.', 'feed_them_social' ) );
     }
+
 	/**
 	 * Add New Feed
 	 *
@@ -339,15 +352,41 @@ class Feeds_CPT {
         //Check if is create-new-feed-page or is FTS CPT "Add New" page.
 		if( isset( $current_screen->base ) && 'fts_page_create-new-feed' === $current_screen->base || 'post' === $current_screen->base && 'add' === $current_screen->action && 'fts' === $current_screen->post_type ){
 			if( current_user_can( 'manage_options' ) ){
+
+                foreach( $this->feed_cpt_access_token_options as $access_token_option ){
+                    // Options section is a group of options.
+                    foreach ( $access_token_option as $option_section_key => $main_options ) {
+	                    // Only Load the main options key.
+	                    if ( 'main_options' === $option_section_key ) {
+		                    // Loop through the options array.
+		                    foreach ( $main_options as $option ) {
+                                if ( $option['name'] ) {
+                                    // If anything has changed update options!
+                                    $access_token_options_array[ $option['name'] ] =  $option['default_value']?? '';
+                                }
+		                    }
+	                    }
+                    }
+                }
+
 				$new_post_id = wp_insert_post(
 				// An array of elements that make up a post to update or insert.
 					array (
+                        'post_title'     => 'My Feed',
 						'post_type'      => 'fts',
 						'post_status'    => 'publish',
 						'comment_status' => 'closed',
 						'ping_status'    => 'closed',
+
+                        'meta_input'   => array(
+	                        FEED_THEM_SOCIAL_OPTION_ARRAY_NAME => $access_token_options_array,
+                        ),
+
 					)
 				);
+
+                // Set Default Options for Post.
+				//$create_options_status = $this->options_functions->create_initial_options_array( 'fts_feed_options_array', $this->feed_cpt_options_array, true, $new_post_id, true );
 
 				// Post was inserted. Redirect to new edit page!
 				if( $new_post_id ){
@@ -579,7 +618,6 @@ class Feeds_CPT {
      * @since 1.1.6
      */
     public function metabox_tabs_list() {
-
         $metabox_tabs_list = array(
             // Base of each tab! The array keys are the base name and the array value is a list of tab keys.
             'base_tabs' => array(

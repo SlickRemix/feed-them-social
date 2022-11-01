@@ -97,8 +97,6 @@ class Options_Functions {
 		else {
 		    delete_option( $array_option_name );
 		}
-
-		error_log( print_r( 'Options Array Deleted!', true ) );
 		// Return Saved Options Array or false.
 		return;
 	}
@@ -132,8 +130,6 @@ class Options_Functions {
 	 * @param	string|bool|int   $value  The value to set the key to
 	 */
 	public function update_single_option( $array_option_name, $option_name = '', $value = false, $is_cpt = false, $cpt_id = false ) {
-
-        error_log( $option_name );
 		// Can Current User Manage Options? If not Die!
         $this->check_user_manage_options();
 
@@ -156,8 +152,6 @@ class Options_Functions {
             // If anything has changed update options!
             $saved_options_array[ $option_name ] = is_array( $value ) ? $value : sanitize_text_field( $value );
 
-			error_log( print_r( $saved_options_array, true ) );
-
 			// Save Options Array based on CPT or Page
 			$this->save_options_array( $array_option_name, $saved_options_array, $is_cpt, $cpt_id);
 		}
@@ -174,7 +168,6 @@ class Options_Functions {
 	 * @param	string		$option_name	The option to delete.
 	 */
 	public function delete_single_option( $array_option_name, $option_name = '', $is_cpt = false, $cpt_id = false ) {
-
 		// Can Current User Manage Options? If not Die!
 		$this->check_user_manage_options();
 
@@ -232,7 +225,7 @@ class Options_Functions {
 	        $cpt_exists = $this->check_cpt_exists( $cpt_id );
 
 	        // If CPT ID is set and exists use get_post_meta. Otherwise, use get_option.
-	        $saved_options_array = $cpt_exists ? get_post_meta( $cpt_id, $array_option_name,true ) : false;
+	        $saved_options_array = $cpt_exists ? get_post_meta( $cpt_id, $array_option_name, true ) : false;
         }
         // Page is being used. Use get_option.
         else{
@@ -251,7 +244,7 @@ class Options_Functions {
 	 * @since	3.0.0
 	 * @return	array | boolean Updated Saved Options Array.
 	 */
-	public function set_options_in_array( $default_options_array, $set_default = true ) {
+	public function set_options_in_array( $default_options_array, $set_default = true, $set_empty = false ) {
 		// Go through default options array. (Usually set in an options file)
 		foreach ( $default_options_array as $option_section ) {
 			// Options section is a group of options.
@@ -265,35 +258,39 @@ class Options_Functions {
                         // Option type.
                         $option_type = $option['option_type'] ?? '';
 
-                        if( $set_default ){
+						// Set Default options!
+                        if( true === $set_default ){
                             // Option Default Value.
                             $option_default_value = $option['default_value'] ?? '';
 
                             // Ensure option name and Default value exists if so set default to new array.
-                            if ( ! empty( $option_name ) && ! empty( $option_default_value ) ) {
+                            if ( ! empty( $option_name ) && ! empty( $option_default_value ) || ! empty( $option_name ) && true === $set_empty ) {
                                 // Set Default_value.
                                 $array_to_save[ $option_name ] = $option_default_value;
                             }
                         }
+						// Set Inputted values for each option.
+						else{
+							// Is the option type a checkbox? If so, set boolean strings.
+							if ( 'checkbox' === $option_type ) {
+								$inputted_value = isset( $_POST[ $option_name ] ) && 'false' !== $_POST[ $option_name ] ? 'true' : 'false';
+							} else {
+								$inputted_value = isset( $_POST[ $option_name ] ) && ! empty( $option_name ) ? wp_unslash( $_POST[ $option_name ] ) : false;
+							}
 
-                        // Is the option type a checkbox? If so, set boolean strings.
-                        if ( 'checkbox' === $option_type ) {
-                            $inputted_value = isset( $_POST[ $option_name ] ) && 'false' !== $_POST[ $option_name ] ? 'true' : 'false';
-                        } else {
-                            $inputted_value = isset( $_POST[ $option_name ] ) && ! empty( $option_name ) ? wp_unslash( $_POST[ $option_name ] ) : false;
-                        }
+							if( $inputted_value ){
+								// If anything has changed update options!
+								$array_to_save[ $option_name ] = is_array( $inputted_value ) ? $inputted_value : sanitize_text_field( $inputted_value );
+							}
+						}
 
-                        if( $inputted_value ){
-                            // If anything has changed update options!
-                            $array_to_save[ $option_name ] = is_array( $inputted_value ) ? $inputted_value : sanitize_text_field( $inputted_value );
-                        }
 					}
 				}
 			}
 		}
 
 		// Return Saved Options Array or false.
-		return $array_to_save;
+		return $array_to_save ?? false;
 	}
 
 	/**
@@ -303,24 +300,15 @@ class Options_Functions {
 	 *
 	 * @since	3.0.0
 	 */
-	public function update_options_array( $array_option_name, $default_options_array, $is_cpt = false, $cpt_id = false ) {
+	public function update_options_array( $array_option_name, $default_options_array, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
 		// Can Current User Manage Options? If not Die!
 		$this->check_user_manage_options();
 
-        // Return Saved options if there are any.
-		$saved_options_array = $this->get_saved_options_array( $array_option_name, $is_cpt, $cpt_id);
-
-        //Update Saved Options.
-        if( $saved_options_array ){
-	        $array_to_save = $this->set_options_in_array( $default_options_array, false );
-        }
-        // Create Initial Options Array.
-        else{
-	        $array_to_save = $this->create_initial_options_array( $default_options_array );
-        }
-
         // Save Options Array based on CPT or Page
-		$this->save_options_array( $array_option_name, $array_to_save, $is_cpt, $cpt_id);
+		$save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $default_options_array, $set_empty ), $is_cpt, $cpt_id);
+
+		//Return Save Status.
+		return false !== $save_status ? $save_status : false;
 	}
 
 	/**
@@ -330,9 +318,13 @@ class Options_Functions {
 	 *
 	 * @return array | boolean
 	 */
-	public function create_initial_options_array( $default_options_array ) {
+	public function create_initial_options_array( $array_option_name, $default_options_array, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
 
-		return $this->set_options_in_array( $default_options_array,true );
+		// Save Options Array based on CPT or Page
+		$save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $default_options_array,true, $set_empty ), $is_cpt, $cpt_id);
+
+		//Return Save Status.
+		return false !== $save_status ? $save_status : false;
 	}
 
 	/**
@@ -343,34 +335,40 @@ class Options_Functions {
 	 * @since	3.0.0
 	 * @return	array | boolean Saved Options Array or false.
 	 */
-	public function save_options_array( $array_option_name,  $array_to_save, $is_cpt = false, $cpt_id = false ) {
+	public function save_options_array( $array_option_name, $array_to_save, $is_cpt = false, $cpt_id = false ) {
+		// Check if array option name set.
+		if( $array_option_name ){
+	 		// If CPT use get_post_meta.
+			if( $is_cpt && $cpt_id){
+				if( $array_to_save ){
+					// Update the CPT Options Array.
+					$update_status = update_post_meta( $cpt_id, $array_option_name, $array_to_save );
 
-		//error_log( print_r( 'made it too save_options_array', true ) );
-
-		// error_log( print_r( $array_to_save, true));
-		// If CPT use get_post_meta.
-		if( $is_cpt ){
-			// Update the CPT Options Array
-			update_post_meta( $cpt_id, $array_option_name, $array_to_save );
-
-			return $array_to_save;
-		}
-		// Page is being used. Use update_option.
-		else{
-			// Update options for a page.
-			update_option( $array_option_name, $array_to_save );
-
-			// // If Page - then Safe Redirect to page we came from. To make the Coding Standards happy, we have to initialize this.
-			if ( ! isset( $_POST['_wp_http_referer'] ) ) {
-				$_POST['_wp_http_referer'] = wp_login_url();
+					return true === $update_status ? $array_to_save : false;
+				}
+				// $array_to_save is empty.
+				return false;
 			}
+			// Page is being used. Use update_option.
+			else{
+				// Update options for a page.
+				update_option( $array_option_name, $array_to_save );
 
-			// Sanitize the value of the $_POST collection for the Coding Standards.
-			$url = sanitize_text_field( wp_unslash( $_POST['_wp_http_referer'] ) );
+				// // If Page - then Safe Redirect to page we came from. To make the Coding Standards happy, we have to initialize this.
+				if ( ! isset( $_POST['_wp_http_referer'] ) ) {
+					$_POST['_wp_http_referer'] = wp_login_url();
+				}
 
-			wp_safe_redirect( urldecode( $url ) );
-			exit;
+				// Sanitize the value of the $_POST collection for the Coding Standards.
+				$url = sanitize_text_field( wp_unslash( $_POST['_wp_http_referer'] ) );
+
+				wp_safe_redirect( urldecode( $url ) );
+				exit;
+			}
 		}
+
+		// No Array Option name set.
+		wp_die( esc_html__( 'No Array Option Name Set.', 'feed_them_social' ) );
 	}
 
 	/**
@@ -379,7 +377,6 @@ class Options_Functions {
 	 * Verify the nonce with the given name.
 	 *
 	 * @param string $nonce_name The post ID.
-	 * @return array | string
 	 * @since 1.0.0
 	 */
 	public function set_nonce( string $nonce_name ) {
@@ -401,7 +398,7 @@ class Options_Functions {
 		// Check Nonce!
 		if ( ! isset( $_POST[ $nonce_name ] ) || ! wp_verify_nonce( $_POST[ $nonce_name ], basename( __FILE__ ) ) ) {
 			// Kill it if we can't verify it!
-			return wp_die( 'Cannot Verify This form!' );;
+			return wp_die( 'Cannot Verify This form!' );
 		}
 		return true;
 	}

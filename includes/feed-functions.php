@@ -260,49 +260,6 @@ class Feed_Functions {
 	}
 
 	/**
-	 * Create Default Feed Settings Array
-	 *
-	 * Creates an array based on default settings of the feed_cpt_options_array.
-	 *
-	 * @return array | boolean
-	 */
-	public function create_default_feed_settings() {
-		$default_settings_array = array();
-		// Feed Settings in admin/cpt/options/feeds-cpt-options.php
-		foreach ( $this->feed_cpt_options_array as $feed_cpt_options_array ) {
-			foreach ( $feed_cpt_options_array as $setting_key => $settings ) {
-				if ( 'main_options' === $setting_key ) {
-					// Feed Settings.
-					foreach ( $settings as $option ) {
-						$option_name          = $option['name'] ?? '';
-						$option_default_value = $option['default_value'] ?? '';
-                        // Ensure option name and Default value exists if so set default to new array.
-						if ( ! empty( $option_name ) && ! empty( $option_default_value ) ) {
-							// Set Default_value.
-							$default_settings_array[ $option_name ] = $option_default_value;
-						}
-					}
-				}
-			}
-		}
-		return $default_settings_array;
-	}
-
-	/**
-	 * Set Feed Option Variables
-	 *
-	 * Set Feed Option Variables using the Saved Feed Options.
-	 *
-	 * @return boolean
-	 */
-	public function set_feed_option_variables( $feed_post_id ) {
-		// Saved Feed Options!
-		$saved_feed_options = $this->get_saved_feed_options( $feed_post_id );
-	}
-
-
-
-	/**
 	 * Get Saved Feed Options
 	 *
 	 * Get saved Options for the feed using cpt post id.

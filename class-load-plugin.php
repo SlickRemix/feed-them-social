@@ -98,7 +98,7 @@ class Feed_Them_Social {
 		$setting_options_js = new feedthemsocial\Settings_Options_JS();
 
 		// Metabox Functions.
-		$metabox_functions = new feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, 'fts_feed_options_array', $data_protection );
+		$metabox_functions = new feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, FEED_THEM_SOCIAL_OPTION_ARRAY_NAME, $data_protection );
 
 		// Access Options.
 		$access_options = new feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
@@ -153,6 +153,11 @@ class Feed_Them_Social {
 		// Feed Them Social Post Type.
 		if ( ! defined( 'FEED_THEM_SOCIAL_POST_TYPE' )  ) {
 			define( 'FEED_THEM_SOCIAL_POST_TYPE', 'fts' );
+		}
+
+		// Feed Them Social Option Array Name. Used to set the option name in the database.
+		if ( ! defined( 'FEED_THEM_SOCIAL_OPTION_ARRAY_NAME' )  ) {
+			define( 'FEED_THEM_SOCIAL_OPTION_ARRAY_NAME', 'fts_feed_options_array' );
 		}
 
 		// Minimum PHP Version for Feed Them Social.

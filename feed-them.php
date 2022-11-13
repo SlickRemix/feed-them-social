@@ -29,7 +29,7 @@
 /**
  * Feed Them Social Current Version
  *
- * Makes sure any js or css changes are reloaded properly. Added to enqued css and js files throughout!
+ * Makes sure any js or css changes are reloaded properly. Added to enqueued css and js files throughout!
  */
 define( 'FTS_CURRENT_VERSION', '3.0.2' );
 

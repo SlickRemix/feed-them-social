@@ -150,6 +150,11 @@ class Feed_Them_Social {
 			require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		}
 
+		// This is the URL the Updater / License Key Validation pings.
+		if (!defined('SLICKREMIX_STORE_URL')) {
+			define('SLICKREMIX_STORE_URL', 'http://www.slickremix.com/');
+		}
+
 		// Feed Them Social Post Type.
 		if ( ! defined( 'FEED_THEM_SOCIAL_POST_TYPE' )  ) {
 			define( 'FEED_THEM_SOCIAL_POST_TYPE', 'fts' );

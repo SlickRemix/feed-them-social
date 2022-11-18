@@ -5,7 +5,7 @@
  * In the Free Version this is NOT an updater but displays the license page for users to see they can extend the Free plugin with Extensions
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2018, SlickRemix
+ * @copyright   Copyright (c) 2012-2023, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */
@@ -206,11 +206,10 @@ class updater_init {
                 //Build updater Array
                 $plugin_details = array(
                     'version' => $installed_plugins[$plugin_info['plugin_url']]['Version'], // Current version number
-                    'license' => trim($license),                     // License key (used get_option above to retrieve from DB)
-                    'status' => $status,                       // License key Status (used get_option above to retrieve from DB)
-                    'item_name' => $plugin_info['title'],      // Name of this plugin
-                    'author' => $this->updater_options_info['author']    // Author of this plugin
-
+                    'license' => trim($license),                                            // License key (used get_option above to retrieve from DB)
+                    'status' => $status,                                                    // License key Status (used get_option above to retrieve from DB)
+                    'item_name' => $plugin_info['title'],                                   // Name of this plugin
+                    'author' => $this->updater_options_info['author']                       // Author of this plugin
                 );
 
                 // setup the updater

@@ -2,10 +2,10 @@
 /**
  * Feed Them Social - Updater License Page
  *
- * In the Free Version this is NOT an updater but displays the license page for users to see they can extend the Free plugin with Extensions
+ * Update License Page handles the License keys activation and deactivation process. This page is also used to show the paid extensions available for FTS.
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2018, SlickRemix
+ * @copyright   Copyright (c) 2012-2023, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */
@@ -68,12 +68,14 @@ class updater_license_page {
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
 
-        //Add the License Page
+        //Add the License Page.
         $this->add_license_page();
     }
 
 	/**
-	 * Add the License Page
+     * Add License Page
+     *
+	 * Add the License Page for handling License keys activation/deactivation.
 	 *
 	 * @since 2.1.6
 	 */
@@ -94,7 +96,9 @@ class updater_license_page {
     }
 
 	/**
-	 * Register Plugin License Page Options (overrides options from prem extensions updater files
+     * Register Options
+     *
+	 * Register Plugin License Page Options (overrides options from prem extensions updater files.
 	 *
 	 * @since 2.1.6
 	 */
@@ -130,7 +134,9 @@ class updater_license_page {
     }
 
 	/**
-	 * Add Options to Plugin License page
+     * Add Option Setting
+     *
+	 * Add Options to Plugin License page.
 	 *
 	 * @param $args
 	 * @since 2.1.6
@@ -186,7 +192,9 @@ class updater_license_page {
 	}
 
 	/**
-	 * Add Plugin License Menu
+     * License Menu
+     *
+	 * Add Plugin License Menu.
 	 *
 	 * @since 2.1.6
 	 */
@@ -197,7 +205,9 @@ class updater_license_page {
 	}
 
 	/**
-	 * Add FREE Plugin License Page for displaying what is available to extend FTS
+     * License Page
+     *
+	 * The Plugin License Page in the admin dashboard for displaying what is available to extend FTS
 	 *
 	 * @since 2.1.6
 	 */
@@ -283,7 +293,9 @@ class updater_license_page {
 	}
 
 	/**
-	 * Display Premium Needed boxes for plugins not active/installed for FTS
+     * Display Premium Needed License
+     *
+	 * Display Premium Needed boxes for plugins not active/installed for FTS.
 	 *
 	 * @param array $args by function or add_settings_field!
 	 * @since 2.1.6
@@ -317,6 +329,8 @@ class updater_license_page {
 	}
 
 	/**
+     * Upgrade License Button
+     *
 	 * Generates an Upgrade license button based on information from SlickRemix's license keys
 	 *
 	 * @param $license_key
@@ -343,7 +357,9 @@ class updater_license_page {
     }
 
 	/**
-	 * Sanitize License Keys
+     * Sanitize License
+     *
+	 * Sanitize License Keys for database entry.
 	 *
 	 * @param $new
 	 * @return mixed
@@ -389,7 +405,9 @@ class updater_license_page {
 	}
 
     /**
-     * Activate License Key
+     * Activate License
+     *
+     * Activate the License Key.
      *
      * @since 1.5.6
      */
@@ -487,10 +505,15 @@ class updater_license_page {
         return $settings_array;
     }
 
-    /***********************************************
-     * Illustrates how to deactivate a license key.
-     * This will decrease the site count
-     ***********************************************/
+	/**
+	 * Deactivate License
+	 *
+	 * Deactivate a license key. (This will decrease the site count!)
+	 *
+	 * @param $new
+	 * @return mixed
+	 * @since 1.5.6
+	 */
     function deactivate_license($key, $license, $settings_array) {
         // retrieve the license from the database
         $license = trim($license);
@@ -544,7 +567,9 @@ class updater_license_page {
     }
 
 	/**
-	 * This is a means of catching errors from the activation method above and displaying it to the customer
+     * Update Admin Notices
+     *
+	 * Update the admin notices in dashboard. This will catch errors from the activation method above and displaying it to the customer.
 	 *
 	 * @since 2.1.6
 	 */
@@ -567,5 +592,4 @@ class updater_license_page {
     }
 
 }//End CLASS
-
 ?>

@@ -451,6 +451,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_grid_posts_background_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// Border Bottom Color
@@ -463,6 +464,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_grid_border_bottom_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 			),
 		);
@@ -503,6 +505,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_loadmore_background_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// Text Color
@@ -515,6 +518,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_loadmore_text_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// "Load More" Text
@@ -527,6 +531,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_load_more_text',
 					'placeholder'      => 'Load More',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// "Load More" Text
@@ -539,6 +544,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_no_more_tweets_text',
 					'placeholder'      => 'No More Tweets',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 			),
 		);

@@ -124,7 +124,9 @@ class Access_Options {
 	 *
 	 * @since 4.0.0
 	 */
-	public function get_access_token_options( $feed_type, $feed_cpt_id ) {
+	public function get_access_token_options( $feed_type, $feed_cpt_id ) {?>
+
+        <?php
 		if($feed_type){
 			// Determine Feed Type. Call Class. Return Options.
 			switch ($feed_type){
@@ -298,14 +300,43 @@ class Access_Options {
                 </div>
                     <div class="fts-clear"></div>
                         <?php
+
                     break;
 			}
 			// Return Access Options.
 
+
+            // Register Feed Styles.
+            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
+
+            // Register Premium Styles & Scripts.
+            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+                // Register Masonry Script.
+                wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+                // Register Images Loaded Script.
+                wp_register_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
+            }
+
+            // Register Feed Them Carousel Scripts.
+            if ( is_plugin_active( 'feed-them-social/feed-them.php' ) && is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+                wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
+            }
+
+            // masonry snippet in fts-global.
+            wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+
+
+            // SRL. Start of idea to show feed while changing options.
+            ?>
+            <div style="margin: 15px 9px 0 3px; display: none">
+                <?php
+                // Resume work after launch of 4.0
+               // echo do_shortcode('[feed_them_social cpt_id='.$feed_cpt_id.']');
+                ?>
+            </div>
+            <?php
+
 		}
-		// Didn't find any options.
-        // SRL . Turning off because this will never be the case that I can think of.
-		// return esc_html__( 'Oop, No Access Token options have been found for this social network', 'feed_them_social' );
 	}
 
 
@@ -650,18 +681,20 @@ class Access_Options {
                                         // alert(token);
                                         var name = $(this).find('.fts-insta-icon').html();
                                         var fb_name = $(this).find('.fts-fb-icon').html();
+
                                         <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
-                                        $("#fts_facebook_instagram_custom_api_token").val(token);
-                                        $("#fts_facebook_instagram_custom_api_token_user_id").val(facebook_page_id);
-                                        $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
-                                        $("#fts_facebook_instagram_custom_api_token_fb_user_name").val(fb_name);
+                                            $("#fts_facebook_instagram_custom_api_token").val(token);
+                                            $("#fts_facebook_instagram_custom_api_token_user_id").val(facebook_page_id);
+                                            $("#fts_facebook_instagram_custom_api_token_user_name").val(name);
+                                            $("#fts_facebook_instagram_custom_api_token_fb_user_name").val(fb_name);
                                         <?php }
                                         else {
                                         ?>
-                                        $("#fts_facebook_custom_api_token").val(token);
-                                        $("#fts_facebook_custom_api_token_user_id").val(facebook_page_id);
-                                        $("#fts_facebook_custom_api_token_user_name").val(fb_name);
+                                            $("#fts_facebook_custom_api_token").val(token);
+                                            $("#fts_facebook_custom_api_token_user_id").val(facebook_page_id);
+                                            $("#fts_facebook_custom_api_token_user_name").val(fb_name);
                                         <?php } ?>
+
                                         $('.fb-page-list .feed-them-social-admin-submit-btn').hide();
                                         $(this).find('.feed-them-social-admin-submit-btn').toggle();
                                         //   alert(name + token)
@@ -714,10 +747,12 @@ class Access_Options {
                     $('#fb-list-wrap').show();
                     //alert("reviews_token");
 
-                    $(fb).click(function () {
+                    $( fb ).click(function () {
                         var facebook_page_id = $(this).find('.fts-api-facebook-id').html();
                         var token = $(this).find('.page-token').html();
-                            var name = $(this).find('.fts-insta-icon').html();
+                        var name = $(this).find('.fts-insta-icon').html();
+
+
                         // alert(name);
                         <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
                             var fb_name = $(this).find('.fts-fb-icon').html();

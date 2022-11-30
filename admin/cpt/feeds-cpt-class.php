@@ -362,7 +362,7 @@ class Feeds_CPT {
 		                    foreach ( $main_options as $option ) {
                                 if ( $option['name'] ) {
                                     // If anything has changed update options!
-                                    $access_token_options_array[ $option['name'] ] =  $option['default_value']?? '';
+                                    $access_token_options_array[ $option['name'] ] =  $option['default_value'] ?? '';
                                 }
 		                    }
 	                    }
@@ -790,15 +790,7 @@ class Feeds_CPT {
      *
      * @since 1.0.0
      */
-    public function tab_facebook_feed() {
-
-        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
-            ?>
-
-            <div class="fts-section">
-                <?php $this->fts_tab_premium_msg(); ?>
-            </div>
-        <?php } ?>
+    public function tab_facebook_feed() {?>
 <div class="fts-cpt-main-options">
     <?php
 
@@ -855,14 +847,7 @@ class Feeds_CPT {
      *
      * @since 1.0.0
      */
-    public function tab_instagram_feed() {
-        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
-            ?>
-
-            <div class="fts-section">
-                <?php $this->fts_tab_premium_msg(); ?>
-            </div>
-		<?php } ?>
+    public function tab_instagram_feed() { ?>
         <div class="fts-cpt-main-options">
         <?php
             echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram'], null, $this->feed_cpt_id );
@@ -898,15 +883,7 @@ class Feeds_CPT {
      *
      * @since 1.0.0
      */
-    public function tab_twitter_feed() {
-
-        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
-            ?>
-
-            <div class="fts-section">
-                <?php $this->fts_tab_premium_msg(); ?>
-            </div>
-        <?php } ?>
+    public function tab_twitter_feed() { ?>
         <div class="fts-cpt-main-options">
             <?php
             echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter'], null, $this->feed_cpt_id );
@@ -953,14 +930,7 @@ class Feeds_CPT {
      *
      * @since 1.0.0
      */
-    public function tab_youtube_feed() {
-        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
-            ?>
-
-                    <div class="fts-section">
-				<?php $this->fts_tab_premium_msg(); ?>
-					</div>
-        <?php } ?>
+    public function tab_youtube_feed() { ?>
         <div class="fts-cpt-main-options">
         <?php
             echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube'], null, $this->feed_cpt_id );
@@ -996,14 +966,7 @@ class Feeds_CPT {
      *
      * @since 1.0.0
      */
-    public function tab_combine_streams_feed() {
-        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
-            ?>
-
-            <div class="fts-section">
-                <?php $this->fts_tab_premium_msg(); ?>
-            </div>
-        <?php } ?>
+    public function tab_combine_streams_feed() { ?>
 <div class="fts-cpt-main-options-combined">
     <?php
 
@@ -1029,15 +992,7 @@ class Feeds_CPT {
         ?>
         <div class="ft-gallery-meta-wrap">
             <?php
-            $screen = get_current_screen();
 
-            if ( 'edit.php?post_type=fts' === $screen->parent_file && 'add' === $screen->action ) {
-                ?>
-                <p>
-                    <label><label><?php echo esc_html__( 'Add a Title for this Feed and click Publish, then you will be able to convert an old shortcode.', 'feed_them_social' ); ?></label>
-                </p>
-                <?php
-            } else {
                 // Copy Shortcode
                 // [fts_facebook hide_date_likes_comments=yes type=page id=1562664650673366 access_token=EAAP9hArvboQBAM2dmJtxprnC6XnDeWfkEbgHPnhZBgvQ79OZA3Q9C3dsTTN9RsrvFpSB3MKBjIg4LhT5QWZAntzrL2tgZAjJh8STYCrsIjVqR0j9gM0yZAbW2mkWJUd78sCKxkKCWHKtgOt7kwZCzOwaxZAarvRFZCFSDizEAXpUhqZAOjRTbwRiP posts=6 title=no title_align=center description=no height=350px show_media=top show_thumbnail=no show_date=yes show_name=yes words=45 popup=yes grid=yes posts_displayed=page_only center_container=yes image_stack_animation=no colmn_width=310px images_align=center album_id=photo_stream image_width=250px image_height=250px space_between_photos=1px space_between_posts=10px show_follow_btn_where=below_title like_option_align=center facebook_like_box_width=500px hide_like_option=no hide_comments_popup=no loadmore=autoscroll loadmore_btn_maxwidth=300px loadmore_btn_margin=10px reviews_type_to_show=4 reviews_rating_format=3 overall_rating=yes remove_reviews_no_description=yes hide_see_more_reviews_link=yes play_btn_size=400px play_btn_visible=yes play_btn=yes scrollhorz_or_carousel=carousel slides_visible=55 slider_spacing=33px slider_margin=&quot;-6px auto 1px auto&quot; slider_speed=1000 slider_timeout=1000 slider_controls=arrows_above_feed slider_controls_text_color=#FFF slider_controls_bar_color=320px slider_controls_width=320px ]
                 // [fts_twitter twitter_name=gopro tweets_count=6 twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes grid=yes search=sadfsdf popup=yes loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px colmn_width=310px space_between_posts=10px]
@@ -1061,8 +1016,6 @@ class Feeds_CPT {
                 </small>
 
                 <?php
-            }
-
             ?>
         </div>
         <?php
@@ -1084,15 +1037,6 @@ class Feeds_CPT {
 
             $feed_id = isset( $_GET['post'] ) ? $_GET['post'] : '';
 
-            $screen = get_current_screen();
-
-            if ( 'edit.php?post_type=fts' === $screen->parent_file && 'add' === $screen->action ) {
-                ?>
-                <p>
-                    <label><label><?php echo esc_html__( 'Save or Publish this Feed then you will be able to copy the shortcode.', 'feed_them_social' ); ?></label>
-                </p>
-                <?php
-            } else {
                 // Copy Shortcode
                 ?>
                 <p>
@@ -1100,8 +1044,6 @@ class Feeds_CPT {
                         <input readonly="readonly" value="[feed_them_social cpt_id=<?php echo esc_html( $feed_id ); ?>]" onclick="this.select();"/>
                 </p>
                 <?php
-            }
-
             ?>
         </div>
         <?php

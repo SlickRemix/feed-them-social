@@ -25,6 +25,18 @@ class Settings_Options_JS {
 		?>
 		<script>
 		jQuery(document).ready(function () {
+
+            jQuery( '.tabbed' ).click( function (e) {
+                if(  'pointer-events: none !important' === jQuery( 'a', this ).attr( 'style' ) ){
+                    jQuery('.tab1 a').click();
+                    jQuery('#ftg-tab-content1').prepend(' <div class="fts-show-how-to-message"><span style="font-size:22px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M96 0C60.7 0 32 28.7 32 64V448c-17.7 0-32 14.3-32 32s14.3 32 32 32H320c17.7 0 32-14.3 32-32s-14.3-32-32-32V304h16c22.1 0 40 17.9 40 40v32c0 39.8 32.2 72 72 72s72-32.2 72-72V252.3c32.5-10.2 56-40.5 56-76.3V144c0-8.8-7.2-16-16-16H544V80c0-8.8-7.2-16-16-16s-16 7.2-16 16v48H480V80c0-8.8-7.2-16-16-16s-16 7.2-16 16v48H432c-8.8 0-16 7.2-16 16v32c0 35.8 23.5 66.1 56 76.3V376c0 13.3-10.7 24-24 24s-24-10.7-24-24V344c0-48.6-39.4-88-88-88H320V64c0-35.3-28.7-64-64-64H96zM216.9 82.7c6 4 8.5 11.5 6.3 18.3l-25 74.9H256c6.7 0 12.7 4.2 15 10.4s.5 13.3-4.6 17.7l-112 96c-5.5 4.7-13.4 5.1-19.3 1.1s-8.5-11.5-6.3-18.3l25-74.9H96c-6.7 0-12.7-4.2-15-10.4s-.5-13.3 4.6-17.7l112-96c5.5-4.7 13.4-5.1 19.3-1.1z"/></svg> Getting Started</span><br/>Choose a Feed type » Click Login and Get my Access Token</div>');
+
+                }
+                else {
+                    jQuery('.fts-show-how-to-message').remove();
+                }
+            });
+
 			jQuery('select#facebook_hide_like_box_button').bind('change', function (e) {
 				if (jQuery('select#facebook_hide_like_box_button').val() == 'no') {
 					jQuery('.like-box-wrap').show();
@@ -57,8 +69,8 @@ class Settings_Options_JS {
             }).change();
 
             // facebook show load more options
-            jQuery('#facebook_load_more_option').bind('change', function (e) {
-                if (jQuery('#facebook_load_more_option').val() == 'yes') {
+            jQuery('#facebook_load_more').bind('change', function (e) {
+                if (jQuery('#facebook_load_more').val() == 'yes') {
 
                     if (jQuery('#facebook_page_feed_type').val() !== 'album_videos') {
                         jQuery('.fts-facebook-load-more-options-wrap').show();
@@ -71,8 +83,15 @@ class Settings_Options_JS {
             }).change();
 
 			jQuery('#facebook_show_video_button').change(function () {
-				jQuery('.fb-video-play-btn-options-content').toggle();
-			});
+                if (jQuery('#facebook_show_video_button').val() == 'yes') {
+
+                    jQuery('.fb-video-play-btn-options-content').show();
+                }
+                else {
+                    jQuery('.fb-video-play-btn-options-content').hide();
+                }
+			}).change();
+
 
 			// change the feed type 'how to' message when a feed type is selected
 			jQuery('#facebook_page_feed_type').change(function () {
@@ -86,12 +105,12 @@ class Settings_Options_JS {
 
 
                 if (facebooktype == 'albums' || facebooktype == 'album_photos' || facebooktype == 'album_videos') {
-                jQuery('.fts-super-facebook-options-wrap,.align-images-wrap').show();
+                jQuery('.fts-super-facebook-options-wrap, .align-images-wrap, .slideshow-wrap').show();
                 jQuery('.fixed_height_option,.main-grid-options-wrap').hide();
                 jQuery(".feed-them-social-admin-input-label:contains('<?php echo esc_js( 'Display Posts in Grid', 'feed-them-social' ); ?>')").parent('div').hide();
                 }
                 else {
-                jQuery('.fts-super-facebook-options-wrap,.align-images-wrap ').hide();
+                jQuery('.fts-super-facebook-options-wrap, .align-images-wrap, .slideshow-wrap ').hide();
                 jQuery('.fixed_height_option,.main-grid-options-wrap').show();
                 jQuery(".feed-them-social-admin-input-label:contains('<?php echo esc_js( 'Display Posts in Grid', 'feed-them-social' ); ?>')").parent('div').show();
                 }
@@ -122,7 +141,6 @@ class Settings_Options_JS {
                 });
 
 
-
                 // facebook Super Gallery option
                 jQuery('#facebook-custom-gallery').bind('change', function (e) {
                     if (jQuery('#facebook-custom-gallery').val() == 'yes') {
@@ -135,20 +153,20 @@ class Settings_Options_JS {
 
                     <?php if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) { ?>
 
-                    // This is to show all option when prem active if you selected the Facebook Page reviews if not active. Otherwise all other fb-options-wraps are hidden when selecting another fb feed from settings page drop down.
-                    jQuery('.fb-options-wrap').show();
-                    jQuery('body .fb_album_photos_id, .fts-required-more-posts').hide();
+                        // This is to show all option when prem active if you selected the Facebook Page reviews if not active. Otherwise all other fb-options-wraps are hidden when selecting another fb feed from settings page drop down.
+                        jQuery('.fb-options-wrap').show();
+                        jQuery('body .fb_album_photos_id, .fts-required-more-posts').hide();
 
-                    if (facebooktype == 'album_videos') {
-                        jQuery('.fts-photos-popup, #facebook_super_gallery_container, #facebook_super_gallery_animate').hide();
-                        jQuery('.video, .fb-video-play-btn-options-wrap').show();
-                        jQuery(".feed-them-social-admin-input-label:contains('# of Posts')").html("<?php echo esc_js( '# of Videos', 'feed-them-social' ); ?>");
-                    }
-                    else {
-                        jQuery('.video, .fb-video-play-btn-options-wrap').hide();
-                        jQuery('.fts-photos-popup, #facebook_super_gallery_container, #facebook_super_gallery_animate').show();
-                        jQuery(".feed-them-social-admin-input-label:contains('# of Videos')").html("<?php echo esc_js( '# of Posts', 'feed-them-social' ); ?>");
-                    }
+                        if ( facebooktype == 'album_videos' ) {
+                            jQuery('.fts-photos-popup, #facebook_super_gallery_container, #facebook_super_gallery_animate').hide();
+                            jQuery('.video, .fb-video-play-btn-options-wrap').show();
+                            jQuery(".feed-them-social-admin-input-label:contains('# of Posts')").html("<?php echo esc_js( '# of Videos', 'feed-them-social' ); ?>");
+                        }
+                        else {
+                            jQuery('.video, .fb-video-play-btn-options-wrap').hide();
+                            jQuery('.fts-photos-popup, #facebook_super_gallery_container, #facebook_super_gallery_animate').show();
+                            jQuery(".feed-them-social-admin-input-label:contains('# of Videos')").html("<?php echo esc_js( '# of Posts', 'feed-them-social' ); ?>");
+                        }
                     <?php
                     } else {
                     ?>

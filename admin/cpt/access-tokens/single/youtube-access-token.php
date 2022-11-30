@@ -131,7 +131,7 @@ class Youtube_Access_Functions {
 
         <div class="fts-settings-does-not-work-wrap">
             <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-            <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+            <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
         </div>
 
             <?php
@@ -189,7 +189,7 @@ class Youtube_Access_Functions {
             }   ?>
 
             <div class="clear"></div>
-            <div class="feed-them-social-admin-input-wrap fts-token-wrap" id="fts-youtube-token-wrap"><?php
+            <div class="fts-token-wrap" id="fts-youtube-token-wrap"><?php
 
                 $user_id = $test_app_token_response;
                 $error_response = $test_app_token_response->error->errors[0]->message ? 'true' : 'false';

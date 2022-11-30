@@ -55,8 +55,11 @@ function fts_social_icons_wrap_click() {
                 const url = new URL(url_string);
                 const cpt_id = url.searchParams.get("post");
                 const fts_type = jQuery(this).data('fts-feed-type');
+
                 jQuery('#feed_type').val( fts_type ).trigger('change').attr('selected', 'selected');
+
                 jQuery('.fts-social-icon-wrap').removeClass('fts-social-icon-wrap-active');
+
                 // Special case because instagram basic and business tokens are under one tab. So we make sure
                 // the instagram token tab stays active while clicking the business or basic menu options.
                 if( 'instagram-feed-type' === fts_type ||
@@ -67,6 +70,7 @@ function fts_social_icons_wrap_click() {
 
                 // Load up the proper access token inputs.
                 fts_access_token_type_ajax(fts_type, cpt_id, false);
+
             }
 
         }
@@ -371,7 +375,7 @@ function fts_reload_toggle_click(){
 
     jQuery('#fts-feed-type h3, #fts-feed-type span, .fts-settings-does-not-work-wrap .fts-admin-token-settings').click(function () {
 
-        jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input' ).toggle();
+        jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input, .fts-decrypted-view' ).toggle();
         jQuery( this ).toggleClass( 'fts-feed-type-active' );
         jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
         jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
@@ -453,7 +457,9 @@ function fts_check_valid() {
             fts_reload_toggle_click();
             fts_check_valid();
 
-        }, 0);
+           // alert('test');
+
+        }, 100);
 
         // This is for the select a social network tab and controls what tab is selected and visible in the tabs menu,
         $( '#feed_type' ).on(
@@ -564,7 +570,7 @@ function fts_check_valid() {
                         $( this ).addClass('fts-sub-tab-active').next( 'div').removeClass('fts-sub-tab-active');
                     }
                 }
-                else if( $( this ).hasClass( 'fts-settings-tab' ) ){
+                else if( $( this ).hasClass( 'fts-settings-tab' ) || $( this ).hasClass( 'fts-settings-tab' ) ){
 
                     $('.fts-cpt-extra-options').show();
                     $('.fts-cpt-main-options').hide();
@@ -741,7 +747,7 @@ function fts_check_valid() {
                             else if ( 'play_btn' == attribute ){
                                 $( id + '#facebook_show_video_button option[value=yes]' ).attr('selected','selected');
                             }
-                            else if ( 'facebook_play_btn_visible' == attribute ){
+                            else if ( 'play_btn_visible' == attribute ){
                                 $( id + '#facebook_show_video_button_in_front option[value=yes]' ).attr('selected','selected');
                             }
                         }
@@ -1238,6 +1244,13 @@ function fts_check_valid() {
                 elements.box.show();
             }
         });
-
     });
 }(jQuery));
+
+function fts_beacon_support_click() {
+    Beacon('toggle');
+    Beacon('search', 'Access Token Not Working');
+}
+
+!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});
+window.Beacon('init', 'bf9f4457-217a-49e4-b027-dd6b784c6fc0');

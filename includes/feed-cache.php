@@ -136,8 +136,8 @@ class Feed_Cache {
 	public function fts_create_feed_cache( $transient_name, $response ) {
 
 		// YO!
-		// echo '<br/><br/>Now we are in the create feed cache function. What is the response at this point just before we encrypt response.<br/>';
-		// print_r($response);
+		/* echo '<br/><br/>Now we are in the create feed cache function. What is the response at this point just before we encrypt response.<br/>';
+		 print_r($response);*/
 
 		if(is_array($response)){
 			$encrypted_response = array();
@@ -148,16 +148,16 @@ class Feed_Cache {
 			$encrypted_response = serialize($encrypted_response);
 
 			// YO!
-			// echo '<br/><br/> Serialized Array<br/>';
-			// print_r($encrypted_response);
+			/*echo '<br/><br/> Serialized Array<br/>';
+			 print_r($encrypted_response);*/
 		}
 		else{
-			// YO!
-			// echo '<br/><br/>#2 Now we have encrypted the data. What is the response at this point.<br/>';
-			// print_r($encrypted_response);
-
 			$encrypted_response = $this->data_protection->encrypt( $response );
-		}
+            // YO!
+           /* echo '<br/><br/>#2 Now we have encrypted the data. What is the response at this point.<br/>';
+            print_r($encrypted_response);*/
+
+        }
 
 		// Is there old Cache? If so Delete it!
 		if ( true === $this->fts_check_feed_cache_exists( $transient_name ) ) {
@@ -165,7 +165,10 @@ class Feed_Cache {
 			$this->delete_permanent_feed_cache( $transient_name );
 		}
 		// Cache Time set on Settings Page under FTS Tab.
-		$cache_time_limit = true === get_option( 'fts_clear_cache_developer_mode' ) && '1' !== get_option( 'fts_clear_cache_developer_mode' ) ? get_option( 'fts_clear_cache_developer_mode' ) : '900';
+		$cache_time_limit = true === $this->settings_functions->fts_get_option( 'fts_cache_time' ) && '1' !== $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '900';
+        // YO!
+        /*echo '<br/><br/>Check the cache time limit.<br/>';
+        print_r($cache_time_limit);*/
 
 		//Check an Encrypted Response was returned.
 		if( $encrypted_response ){
@@ -198,8 +201,8 @@ class Feed_Cache {
 		}
 
 		// YO!
-		 //echo '<br/>GET CACHE What is the response at this point:<br/>';
-		 //print_r($trans);
+        /*echo '<br/>GET CACHE What is the response at this point:<br/>';
+        print_r($trans);*/
 
 		if ($trans){
 
@@ -224,8 +227,8 @@ class Feed_Cache {
 			}
 
 			// YO!
-			//echo '<br/><br/>Decrypted!<br/>';
-			//print_r($decrypted_value);
+			/*echo '<br/><br/>Decrypted!<br/>';
+			print_r($decrypted_value);*/
 		}
 
 		return $decrypted_value;

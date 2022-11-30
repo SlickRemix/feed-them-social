@@ -157,7 +157,7 @@
     width: 230px;
     margin-right: 10px;
     font-size: 13px;
-    padding-top: 6px;
+    padding-top: 9px;
     font-weight: 700;
     padding-left: 10px;
 }
@@ -614,7 +614,8 @@ a.fts-success-token-content:hover {
 }
 
 #fts_facebook_custom_api_token, #fts_facebook_custom_api_token_biz, #fts_facebook_instagram_custom_api_token {
-    /* margin-bottom: 20px !important; */}
+    /* margin-bottom: 20px !important; */
+}
 
 .fts-facebook-custom-api-token-label {
     display: block;
@@ -2060,6 +2061,27 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     color: #fff !important
 }
 
+.fts-show-how-to-message {
+    padding:24px 0 0;
+    position:relative;
+    z-index:1;
+    margin-bottom:-10px;
+    background: #f8f8f8;
+    text-align:center;
+    font-size:15px;
+    color: #000;
+}
+.fts-show-how-to-message svg {
+    max-width:50px;
+    fill: #1e1e1e;
+    position:relative;
+    bottom:-2px
+}
+.fts-show-how-to-message span {
+    font-weight: bold;
+    font-size:28px !important;
+    color:#f00010;
+}
 .post-type-fts .tab-content, .post-type-fts_albums .tab-content {
     padding-top: 25px;
     padding-left: 20px;
@@ -2187,7 +2209,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     display: inline-block;
     min-width: 210px;
     float: left;
-    margin-top: 8px;
+    margin-top: 0px;
     font-weight: 500;
 }
 
@@ -2533,6 +2555,17 @@ h3.sectioned-options-title {
     margin-left: 25px;
     color: #101010;
 }
+.fts-decrypted-token {
+    font-size:10px;
+    padding:5px 0 10px 0;
+    color:#2196F3;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+.fts-decrypted-token:hover {
+    color:#FF9800;
+}
 
 @media (max-width: 1196px) {
     .post-type-fts #postbox-container-2 input[type=text], .post-type-fts #postbox-container-2 select, .post-type-fts_albums #postbox-container-2 input[type=text], .post-type-fts_albums #postbox-container-2 select {
@@ -2562,7 +2595,9 @@ h3.sectioned-options-title {
     /* width: 100%; */
     /* margin-left: 15px; */
 }
-
+.fts-combine-streams-shortcode-form .sectioned-options-title {
+    display:block !important
+}
 #ftg-tab-content5 .feed-them-social-admin-input-wrap h4, #ftg-tab-content5 .feed-them-social-admin-input-wrap select, #ftg-tab-content5 input {
     margin-left: 20px !important
 }
@@ -3013,7 +3048,7 @@ h3.fts-active-success-token:before {
     display: none;
 }
 .fts-token-wrap .feed-them-social-admin-input-label {
-    margin-top:24px;
+    margin-top: 15px;
 }
 .fts-token-wrap input {
     margin-top:15px;
@@ -3050,7 +3085,7 @@ h3.fts-active-success-token:before {
     color: #070e11;
     /* cursor: pointer; */
 }
-#fts_facebook_custom_api_token_user_name, #youtube_custom_token_exp_time, #fts_facebook_custom_api_token_user_name {
+#fts_facebook_custom_api_token, #youtube_custom_token_exp_time {
     margin-bottom:20px;
 }
 .fts-exp-time-wrapper {
@@ -3296,4 +3331,66 @@ img.instagram-feed-type-image-tab {
 }
 .combine-streams-feed-wrap {
     margin-bottom:0px;
+}
+
+.fts-new-feed {
+    position: absolute;
+    height:100%;
+    width: -webkit-fill-available;
+    background: #000000de;
+    top:0;
+    z-index:1;
+    transition: all .3s ease-in-out;
+    max-width: 100%;
+    margin-left: -20px;
+}
+.fts-new-feed-content {
+    /* text-align: center; */
+    font-size: 22px;
+    color: #fff;
+    padding: 30px;
+    margin: 0 auto;
+    /* background: #0000006e; */
+}
+.fts-arrow-up  {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    max-width:50px;
+    color:#fff;
+    position:relative;
+}
+.fts-arrow-up svg  {
+    fill:#fff;
+}
+.fts-required-extension-wrap {
+    padding: 10px;
+    background: #fff;
+    text-align: center;
+    float:left;
+    min-width:250px;
+    box-shadow:1px 2px 2px #eee;
+}
+.fts-required-extension-wrap a {
+    display:inline-block;
+    padding:0 5px 0;
+    text-decoration:none;
+}
+.ft-gallery-settings-tabs-meta-wrap input[type="text"]:disabled , .ft-gallery-settings-tabs-meta-wrap select:disabled  {
+    display:none;
+}
+.fts-decrypted-view {
+    background:#fcfcfc;
+    padding:15px;
+    border:1px solid #ebebeb;
+    overflow: auto;
+    margin:10px 10px 20px 5px;
+    -webkit-touch-callout: all; /* iOS Safari */
+    -webkit-user-select: all; /* Safari */
+    -khtml-user-select: all; /* Konqueror HTML */
+    -moz-user-select: all; /* Firefox */
+    -ms-user-select: all; /* Internet Explorer/Edge */
+    user-select: all; /* Chrome and Opera */
+}
+.fts-hide-token, .fts-decrypted-token {
+    display:none;
 }

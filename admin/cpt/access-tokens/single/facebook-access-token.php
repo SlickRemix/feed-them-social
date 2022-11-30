@@ -78,13 +78,50 @@ class Facebook_Access_Functions {
         );
         ?>
 
+        <script>
+            jQuery(document).ready(function () {
+                fts_social_icons_wrap_click();
+                // Do not run this function if we are on the combined streams tab because we are loading it under the instagram access token option already and the function can only be loaded once or it fires double actions.
+                // We need to this function on each of the access token pages so that the function will fire properly again to decrypt the token.
+                if( !jQuery('.combine-streams-feed-wrap').length > 0 ) {
+                    fts_show_decrypt_token_text();
+                }
+
+                if( jQuery('.combine-facebook-access-token-placeholder').length > 0 ) {
+
+                    // This click function is specific to combined fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
+                    jQuery('.combine-facebook-access-token-placeholder div.fts-token-save').click( function (e) {
+                        e.preventDefault();
+
+                        // Encrypt: Facebook Business
+                        if( jQuery('#fts_facebook_custom_api_token').length !== 0 ) {
+                            console.log('Facebook Business: Token set, now encrypting.');
+                            fts_encrypt_token_ajax(jQuery('#fts_facebook_custom_api_token').val(), 'fbBusiness', '#fts_facebook_custom_api_token', 'firstRequest');
+                        }
+                    });
+                }
+                else {
+
+                    // This click function is specific fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
+                    jQuery('div.fts-token-save').click( function (e) {
+                        e.preventDefault();
+
+                        // Encrypt: Facebook Business
+                        if( jQuery('#fts_facebook_custom_api_token').length !== 0 ) {
+                            console.log('Facebook Business: Token set, now encrypting.');
+                            fts_encrypt_token_ajax(jQuery('#fts_facebook_custom_api_token').val(), 'fbBusiness', '#fts_facebook_custom_api_token', 'firstRequest');
+                        }
+                    });
+                }
+            });
+        </script>
+
         <div class="fts-settings-does-not-work-wrap">
             <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-            <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+            <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
         </div>
 
         <?php
-
         $page_id                = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token_user_id' );
         $access_token           = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token' );
         $fb_name                = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_facebook_custom_api_token_user_name' );
@@ -105,21 +142,11 @@ class Facebook_Access_Functions {
             echo '</pre>';*/
         }
         ?>
-                <script>
-
-                    jQuery(document).ready(function ($) {
-
-                        <?php if ( !isset( $_GET['code'], $_GET['feed_type'] ) ) {?>
-                            // This fires only if we are not trying to get a access token.
-                            $('#fts_facebook_custom_api_token').attr( 'value', '<?php echo $decrypted_access_token ?>' );
-
-                        <?php } ?>
-                    });
-                </script>
 
         <div class="clear"></div>
-        <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap fts-token-wrap" id="fts-fb-token-wrap">
+        <div class="fts-fb-token-wrap fts-token-wrap" id="fts-fb-token-wrap">
             <?php
+
             if( !isset( $_GET['feed_type'] ) ) {
                 if ( !empty( $data ) ) {
 

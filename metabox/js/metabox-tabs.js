@@ -60,16 +60,13 @@ function fts_ajax_cpt_save_token() {
 
             setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
 
-             location.reload();
+            location.reload();
             // We change the text from Updating... at the bottom of a long page to Update.
             jQuery('.updatefrombottom a.button-primary').html("Update");
         }
     });
     return false;
 }
-
-
-
 
 function fts_ajax_cpt_save() {
 
@@ -97,6 +94,7 @@ function fts_ajax_cpt_save() {
             if ( hash2 === 'fts-feed-type' || hash2 === 'feed_setup' || hash2 === '') {
                 location.reload();
             }
+
             // Change the text from Updating... at the bottom of a long page to Update.
             jQuery('.updatefrombottom a.button-primary').html("Update");
         }
@@ -163,30 +161,12 @@ jQuery(document).ready(function ($) {
         document.getElementById(hash).style.display = 'block'
     }
 
-    if (jQuery('#publish').attr('name') === 'publish') {
-        var submitAjax = 'no';
-       // alert('no');
-    }
-    else {
-        var submitAjax = 'yes';
-       // alert('yes');
-    }
-
-
-
-    if ( 'yes' === submitAjax ) {
-
-        jQuery('.post-type-fts .wrap form#post div.fts-token-save').click( function (e) {
-            // alert('test');
-            e.preventDefault();
-            fts_ajax_cpt_save_token();
-        });
-
-        jQuery('.post-type-fts .wrap form#post').submit( function (e) {
-            e.preventDefault();
-            fts_ajax_cpt_save();
-        });
-    }
+    // This runs when you click on the WP update button
+    jQuery('.post-type-fts .wrap form#post').submit( function (e) {
+        e.preventDefault();
+        fts_ajax_cpt_save();
+       //  alert('yes');
+    });
 
 
     // click event listener
@@ -233,80 +213,6 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    if (jQuery("#fts_watermark").val() == 'imprint') {
-        jQuery('.ft-watermark-hidden-options').show();
-        jQuery('.ft-watermark-overlay-options, .ft-gallery-watermark-opacity').hide();
-    }
-
-    if (jQuery('#fts_watermark').val() == 'overlay') {
-        jQuery('.ft-watermark-overlay-options, .ft-gallery-watermark-opacity').show();
-        jQuery('.ft-watermark-hidden-options').hide();
-    }
-
-    // show load more options
-    jQuery('#fts_watermark').bind('change', function (e) {
-        if (jQuery('#fts_watermark').val() == 'imprint') {
-
-            jQuery('.ft-watermark-hidden-options').show();
-            jQuery('.ft-watermark-overlay-options, .ft-gallery-watermark-opacity').hide();
-        }
-        if (jQuery('#fts_watermark').val() == 'overlay') {
-            jQuery('.ft-watermark-overlay-options, .ft-gallery-watermark-opacity').show();
-            jQuery('.ft-watermark-hidden-options').hide();
-        }
-    });
-
-    // show the duplicate image select box for those who want to duplicate the image before watermarking
-    jQuery('#ft_watermark_image_-full').change(function () {
-        this.checked ? jQuery('.ft-watermark-duplicate-image').show() : jQuery('.ft-watermark-duplicate-image').hide();
-    });
-    //if page is loaded and box is checked we show the select box otherwise it is hidden with CSS
-    if (jQuery('input#ft_watermark_image_-full').is(':checked')) {
-        jQuery('.ft-watermark-duplicate-image').show()
-    }
-
-
-    // show load more options
-    jQuery('#ftg_sorting_options').bind('change', function (e) {
-        if (jQuery('#ftg_sorting_options').val() == 'yes') {
-            jQuery('.ftg-sorting-options-wrap').show();
-        }
-        else {
-            jQuery('.ftg-sorting-options-wrap').hide();
-        }
-    });
-    if (jQuery('#ftg_sorting_options').val() == 'no') {
-        jQuery('.ftg-sorting-options-wrap').hide();
-    }
-    if (jQuery('#ftg_sorting_options').val() == 'yes') {
-        jQuery('.ftg-sorting-options-wrap').show();
-    }
-
-    // show load more options
-    jQuery('#fts_show_true_pagination').bind('change', function (e) {
-        if (jQuery('#fts_show_true_pagination').val() == 'yes') {
-            jQuery('.ftg-pagination-options-wrap').show();
-            jQuery('#fts_load_more_option').attr('disabled', 'disabled');
-            jQuery('.ftg-pagination-notice-colored').hide();
-            jQuery('.ftg-loadmore-notice-colored').show();
-        }
-        else {
-            jQuery('.ftg-pagination-options-wrap').hide();
-            jQuery('#fts_load_more_option').removeAttr('disabled');
-            jQuery('.ftg-loadmore-notice-colored').hide();
-        }
-    });
-    if (jQuery('#fts_show_true_pagination').val() == 'no') {
-        jQuery('.ftg-pagination-options-wrap').hide();
-        jQuery('#fts_load_more_option').removeAttr('disabled');
-    }
-    if (jQuery('#fts_show_true_pagination').val() == 'yes') {
-        jQuery('.ftg-pagination-options-wrap').show();
-        jQuery('#fts_load_more_option').attr('disabled','disabled');
-        jQuery('.ftg-loadmore-notice-colored').show();
-    }
-
-
     // show load more options
     jQuery('#fts_load_more_option').bind('change', function (e) {
         if (jQuery('#fts_load_more_option').val() == 'yes') {
@@ -342,6 +248,7 @@ jQuery(document).ready(function ($) {
 
 });
 
+
 // Grab the url so we can do stuff.
 var url_string = window.location.href;
 var url = new URL( url_string );
@@ -350,61 +257,7 @@ var feed_type = url.searchParams.get("feed_type");
 
 jQuery(document).ready(function ($) {
 
-    // Check and make sure the page does not have an id in url yet
-    // before clicking the default tab we want visible
-    if( null === cpt_id ) {
-        setTimeout(function () {
-            $('.instagram-feed-type').trigger("click");
-
-        }, 10);
-    }
-
-    // These statements will only run if the token has been set and the user clicks the save button again.
-    // We need to do this to re-encrypt the token because we display the decrypted token in the input field.
-    // Encrypt: Instagram Basic
-    if( $('#fts_instagram_custom_api_token').length !== 0 ) {
-        // Encrypt: Instagram Basic
-        if ( 'instagram_basic' === feed_type || $('#fts_instagram_custom_api_token').val() === $('#fts_instagram_custom_api_token').data('token') ) {
-            // User clicked enter or submit button.
-            console.log('Instagram Basic: Token set, now encrypting.');
-           if( $('#fts_instagram_custom_api_token').val() === $('#fts_instagram_custom_api_token').data('token') ){
-               fts_encrypt_token_ajax( $('#fts_instagram_custom_api_token').val(), 'basic', '#fts_instagram_custom_api_token', false);
-           }
-
-        } else {
-            console.log('Instagram Basic: Token is already set & encrypted.');
-        }
-    }
-
-    // Encrypt: Instagram Business
-    if( $('#fts_facebook_instagram_custom_api_token').length !== 0 ) {
-        if ( 'instagram' === feed_type && !$('#fb-list-wrap').length
-            || $('#fts_facebook_instagram_custom_api_token').val() === $('#fts_facebook_instagram_custom_api_token').data('token') ) {
-            // User clicked enter or submit button.
-            console.log('Instagram Business: Token set, now encrypting.');
-            fts_encrypt_token_ajax($('#fts_facebook_instagram_custom_api_token').val(), 'business', '#fts_facebook_instagram_custom_api_token');
-        } else {
-            console.log('Instagram Business: Token is already set & encrypted.');
-        }
-    }
-
-    // Encrypt: Facebook Business
-    if( $('#fts_facebook_custom_api_token').length !== 0  ) {
-        if ('facebook' === feed_type && !$('#fb-list-wrap').length
-            || $('#fts_facebook_custom_api_token').val() === $('#fts_facebook_custom_api_token').data('token') ) {
-            // User clicked enter or submit button.
-            console.log('Facebook Business: Token set, now encrypting.');
-            fts_encrypt_token_ajax($('#fts_facebook_custom_api_token').val(), 'fbBusiness', '#fts_facebook_custom_api_token');
-        } else {
-            console.log('Facebook Business: Token is already set & encrypted.');
-        }
-    }
-
     function fts_select_social_network_menu() {
-
-        /*jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background fts-feed-setup-first-step'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-saving-form'></div></div></div>");
-        jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
-*/
 
         $('.ft-wp-gallery-type').append('<div class="fts-select-social-network-menu">' +
             '<div class="fts-social-icon-wrap instagram-feed-type" data-fts-feed-type="instagram-feed-type"><img src="/wp-content/plugins/feed-them-social/metabox/images/instagram-logo-admin.png" class="instagram-feed-type-image" /><span class="fts-instagram"></span><div>Instagram</div></div>' +
@@ -438,18 +291,84 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
             var data = JSON.parse( response );
             // Add the OG token to the input value and add the encrypted token to the data-attribute.
             if( 'firstRequest' === firstRequest) {
-               jQuery(id).attr('value', data.token).attr('data-token', 'encrypted');
-               // alert('first request');
-               fts_ajax_cpt_save_token();
-            }
-            else {
-                jQuery(id).attr('value', data.token).attr('data-token', 'encrypted');
-            }
 
-            console.log( id + ': OG Token and Encrypted Response: ' + response );
+                jQuery( id ).val('');
+                jQuery( id ).val( jQuery( id ).val() + data.encrypted );
+                jQuery( id ).attr('data-token', 'encrypted').attr( 'value', data.encrypted ) ;
+
+                console.log('first request ' + id);
+
+                // Now that we've successfully saved the encrypted token to the db we save all the options again.
+                fts_ajax_cpt_save_token();
+
+            }
+            console.log( id + ': OG Token and Encrypted Response........: ' + response );
         },
         error: function ( response ) {
             console.log( 'Something is not working with encyption: ' + response );
+        }
+
+    }); // end of ajax()
+    return false;
+}
+
+function fts_show_decrypt_token_text(){
+
+    if( '' !== jQuery( '.fts-instagram-access-token  .fts-decrypted-token' ).parent().parent().find('input').attr('value') ){
+        jQuery( '.fts-instagram-access-token .fts-decrypted-token' ).show();
+    }
+
+    if( '' !== jQuery( '.fts-facebook-instagram-access-token  .fts-decrypted-token' ).parent().parent().find('input').attr('value') ){
+        jQuery( '.fts-facebook-instagram-access-token .fts-decrypted-token' ).show();
+    }
+
+    if( '' !== jQuery( '.fts-facebook-access-token  .fts-decrypted-token' ).parent().parent().find('input').attr('value') ){
+        jQuery( '.fts-facebook-access-token .fts-decrypted-token' ).show();
+    }
+
+    // Decrypt Token Click Action.
+    jQuery('.fts-decrypted-token').click(function () {
+
+        if( jQuery( this ).hasClass( 'fts-remove-decrypted-token') ){
+
+            jQuery( this ).parent().parent().find('.fts-decrypted-view').remove();
+            jQuery( '.fts-show-token', this ).show();
+            jQuery( '.fts-hide-token', this ).hide();
+            jQuery( this ).addClass('fts-copy-decrypted-token').removeClass('fts-remove-decrypted-token');
+        }
+        else {
+            var encrypted_token = jQuery(this).parent().parent().find('input').attr('value');
+            var id              = jQuery(this).parent().parent().find('input').attr('id');
+            // Decrypt the token for debugging.
+            fts_decrypt_token_ajax( encrypted_token, id );
+        }
+    });
+}
+
+function fts_decrypt_token_ajax( encrypted_token, id ) {
+
+    console.log( 'access_token: ' + encrypted_token );
+    console.log( 'id: ' + id );
+
+    jQuery.ajax({
+        data: {
+            action: 'fts_decrypt_token_ajax',
+            encrypted_token: encrypted_token,
+        },
+        type: 'POST',
+        url: ftsAjax.ajaxurl,
+        success: function ( response ) {
+
+            jQuery( '#' + id ).parent().find('.fts-decrypted-view').remove();
+            jQuery( '#' + id ).parent().find('.fts-show-token').hide();
+            jQuery( '#' + id ).parent().find('.fts-hide-token').show();
+            jQuery( '#' + id ).parent().find( '.fts-decrypted-token' ).removeClass('fts-copy-decrypted-token').addClass( 'fts-remove-decrypted-token');
+            jQuery( '#' + id ).parent().append('<div class="fts-decrypted-view">' + response + '</div>');
+            console.log( id + ': OG Token and Decrypted Response........: ' + response );
+
+        },
+        error: function ( response ) {
+            console.log( 'Something is not working with decryption: ' + response );
         }
 
     }); // end of ajax()

@@ -104,6 +104,7 @@ class Feed_Functions {
         add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
         add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
         add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
+        add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
 
         if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
             // Load More Options.
@@ -1248,6 +1249,22 @@ class Feed_Functions {
         wp_die();
     }
 
+
+    /**
+     * FTS Instagram Token Ajax
+     *
+     * SRL: This will save the encrypted version of the token to the database and return the original token to the input field upon page submit.
+     *
+     * @since 2.9.7.2
+     */
+    public function fts_decrypt_token_ajax() {
+
+        $access_token            = $_REQUEST['encrypted_token'];
+        echo $this->data_protection->decrypt( $access_token );
+
+        wp_die();
+    }
+
 	/**
 	 * Use Cache Check
 	 *
@@ -1288,9 +1305,9 @@ class Feed_Functions {
 			if ( !empty( $instagram_basic->data ) ) {
 				$parts = parse_url($api_url);
 				parse_str( $parts['query'], $query);
-				$access_token = $this->data_protection->decrypt(  $query['access_token'] ) ??  $query['access_token'];
+                $access_token = false !== $this->data_protection->decrypt(  $query['access_token'] ) ? $this->data_protection->decrypt(  $query['access_token'] ) : $query['access_token'];
 
-				// We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
+                // We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
 				$instagram_basic_output = (object)['data' => []];
 				foreach ( $instagram_basic->data as $media ) {
 					$media_id = $media->id;
@@ -1306,7 +1323,7 @@ class Feed_Functions {
 			$fts_error_check_complete = $fts_error_check->instagram_error_check( $instagram_basic );
 		}
 		// echo ' 333333333333 ';
-		// print_r( $response['items'] );
+		// print_r( $response );
 
 		// echo ' TTTTTTTT ';
 		// print_r( $fts_error_check_complete );

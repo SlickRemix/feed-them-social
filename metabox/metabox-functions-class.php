@@ -766,22 +766,58 @@ class Metabox_Functions {
 					}
 				}
 
-				if(!$required_extension_needed || $required_extension_needed && true == $required_extension_needed){
-					$output .= '<div class="clear">';
-					foreach($option['req_extensions'] as $req_extension){
-						$output .= sprintf( '<a class="feed-them-social-req-extention" href="%s">%s</a>',
-							$this->prem_extension_list[ $req_extension ]['purchase_url'],
-							$this->prem_extension_list[ $req_extension ]['title']
-						);
-					}
+                // SRL: @Justin I'm taking this out cause it does not appear to be doing anything that I can tell.
+                // !$required_extension_needed ||
+				if( $required_extension_needed && true === $required_extension_needed ){
+					$output .= '<div class="fts-required-extension-wrap">';
+
+                        foreach ( $option['req_extensions'] as $req_extension ) {
+
+                            // For testing.
+                           // $output .= print_r( $this->prem_extension_list[$req_extension] );
+
+                            if( 'feed_them_social_premium' === $option['req_extensions'][0] &&
+                                'feed_them_social_facebook_reviews' === $option['req_extensions'][1] ){
+
+                                $output .= sprintf( '<a class="feed-them-social-req-extention" href="%s">%s</a>',
+                                    $this->prem_extension_list[$req_extension]['purchase_url'],
+                                    'Premium Required'
+                                );
+                                $output .= 'or';
+                                $output .= sprintf( '<a class="feed-them-social-req-extention" href="%s">%s</a>',
+                                    $this->prem_extension_list[$option['req_extensions'][1]]['purchase_url'],
+                                    'Reviews Required'
+                                );
+                                break;
+                            }
+
+                            switch ($this->prem_extension_list[$req_extension]['title']) {
+                                case 'Feed Them Social Premium':
+                                    $title_change = 'Premium Required';
+                                    break;
+                                case 'Feed Them Social Facebook Reviews':
+                                    $title_change = 'Reviews Required';
+                                    break;
+                                case 'Feed Them Carousel Premium':
+                                    $title_change = 'Premium & Carousel Required';
+                                    break;
+                                case 'Feed Them Social Combined Streams':
+                                    $title_change = 'Combined Streams Required';
+                                    break;
+                            }
+
+                                $output .= sprintf( '<a class="feed-them-social-req-extention" target="_blank" href="%s">%s</a>',
+                                    $this->prem_extension_list[$req_extension]['purchase_url'],
+                                    $title_change
+                                );
+
+                        }
+
 					$output .= '</div>';
 				}
 
 				$output .= '<div class="clear"></div>';
 				$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
-
-
-
 
 				$output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '</div>' : '';
 

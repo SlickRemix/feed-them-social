@@ -429,7 +429,7 @@ class Facebook_Feed {
 					$feed_data_check      = (object) $merged_array;
 				}
 
-				// Test the created dataes are being sorted properly
+				// Test the created dates are being sorted properly
 				// foreach($merged_array['data'] as $newSort) {
 				// print date("jS F, Y", strtotime($newSort->created_time));
 				// print '<br/>';
@@ -611,7 +611,7 @@ class Facebook_Feed {
 			$fts_dynamic_class_name =  $this->feed_functions->get_feed_dynamic_class_name();
 			// SOCIAL BUTTON.
 
-			if ( ! $fts_count_ids >= 1 ) {
+			if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
 				$this->fb_social_btn_placement( $saved_feed_options, 'fb-like-top-above-title' );
 			}
 
@@ -676,7 +676,7 @@ class Facebook_Feed {
 		} //End check.
 
 		// SOCIAL BUTTON.
-		if ( ! $fts_count_ids >= 1 ) {
+		if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
 			$this->fb_social_btn_placement( $saved_feed_options, 'fb-like-top-below-title' );
 		}
 
@@ -823,10 +823,10 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 				}
 
 				if ( isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-					echo '<div class="fts-slicker-facebook-posts masonry js-masonry ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( 'yes' === $saved_feed_options['facebook_popup']  ? 'popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ( 'no' === $saved_feed_options['facebook_container_position'] ? 'false' : 'true' ) . ' ' . ( 'no' === $saved_feed_options['facebook_container_animation'] ? ', "transitionDuration": 0' : '' ) . '}\'>';
+					echo '<div class="fts-slicker-facebook-posts masonry js-masonry ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['facebook_popup']  ? 'popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ( 'no' === $saved_feed_options['facebook_container_position'] ? 'false' : 'true' ) . ' ' . ( 'no' === $saved_feed_options['facebook_container_animation'] ? ', "transitionDuration": 0' : '' ) . '}\'>';
 				}
 			} else {
-				echo '<div class="fts-jal-fb-group-display fts-simple-fb-wrapper ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? ' popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' ' . ( 'auto' !== $saved_feed_options['facebook_page_height'] && ! empty( $saved_feed_options['facebook_page_height'] ) ? 'fts-fb-scrollable" style="height:' . esc_attr( $saved_feed_options['facebook_page_height'] ) . '"' : '"' ) . '>';
+				echo '<div class="fts-jal-fb-group-display fts-simple-fb-wrapper ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? ' popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' ' . ( 'auto' !== $saved_feed_options['facebook_page_height'] && ! empty( $saved_feed_options['facebook_page_height'] ) ? 'fts-fb-scrollable" style="height:' . esc_attr( $saved_feed_options['facebook_page_height'] ) . '"' : '"' ) . '>';
 			}
 		} //End ajaxing Check
 
@@ -924,14 +924,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 			echo '<div class="fts-clear"></div><div id="fb-root"></div>';
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
-				if ( 'button' === $saved_feed_options['facebook_load_more_style'] ) {
+				if ( 'button' === $saved_feed_options['facebook_load_more_style'] && 'yes' ===  $saved_feed_options['facebook_load_more'] ) {
 
 					echo '<div class="fts-fb-load-more-wrapper">';
 					echo '<div id="loadMore_' . esc_attr( $_REQUEST['fts_dynamic_name'] ) . '" style="';
 					if ( isset( $saved_feed_options['facebook_loadmore_button_width'] ) && '' !== $saved_feed_options['facebook_loadmore_button_width'] ) {
 						echo 'max-width:' . esc_attr( $saved_feed_options['facebook_loadmore_button_width'] ) . ';';
 					}
-					$loadmore_btn_margin = $saved_feed_options['loadmore_btn_margin'] ?? '20px';
+					$loadmore_btn_margin = $saved_feed_options['loadmore_button_margin'] ?? '20px';
 					echo 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $fb_load_more_text ) . '</div>';
 					echo '</div>';
 				}
@@ -1027,7 +1027,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		// ******************
 		// SOCIAL BUTTON
 		// ******************
-		if ( ! $fts_count_ids >= 1 ) {
+		if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
 			$this->fb_social_btn_placement( $saved_feed_options, 'fb-like-below' );
 		}
 
@@ -1603,7 +1603,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		//echo print_r( $saved_feed_options );
 
 
-		if ( ( isset( $saved_feed_options['facebook_load_more_style'] ) && 'button' === $saved_feed_options['facebook_load_more_style'] || isset( $saved_feed_options['facebook_load_more_style'] ) && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) && ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) ) {
+		if ( ( isset( $saved_feed_options['facebook_load_more_style'] ) && 'button' === $saved_feed_options['facebook_load_more_style'] && 'yes' === $saved_feed_options['facebook_load_more'] || isset( $saved_feed_options['facebook_load_more_style'] ) && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) && ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) ) {
 
 			$fb_load_more_text       = $saved_feed_options['fb_load_more_text'] ?? esc_html( 'Load More', 'feed-them-social' );
 			$fb_no_more_posts_text   = $saved_feed_options['fb_no_more_posts_text'] ?? esc_html( 'No More Posts', 'feed-them-social' );
@@ -1713,7 +1713,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 				echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").html("' . esc_html( $fb_load_more_text ) . '");';
 				// jQuery("#loadMore_'.$fts_dynamic_name.'").removeClass("flip360-fts-load-more");.
 				echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").removeClass("fts-fb-spinner");';
-				if ( isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ) {
+				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ) {
 					// We return this function again otherwise the popup won't work correctly for the newly loaded items.
 					echo 'jQuery.fn.slickFacebookPopUpFunction();';
 				}

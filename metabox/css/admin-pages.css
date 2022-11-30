@@ -2852,8 +2852,8 @@ span.fts-toke-not-set {
     padding-top: 5px;
     line-height: 17px;
     font-family: arial;
-    max-width: 150px;
-    color: #a3a2a2;}
+    color: #a3a2a2;
+}
 .fts-select-social-network-menu {
     text-align:center;
 }
@@ -2892,6 +2892,6 @@ span.fts-toke-not-set {
 .fts-social-icon-wrap-active.fts-combine-instagram-basic-token-button .fts-instagram-down-arrow{
     border-bottom: 30px solid #ffffff !important;
 }
-#fts_facebook_instagram_custom_api_token_fb_user_name {
+#fts_facebook_instagram_custom_api_token {
     margin-bottom:15px;
 }

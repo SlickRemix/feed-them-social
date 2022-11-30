@@ -221,6 +221,7 @@ class Facebook_Additional_Options {
 					'name'             => 'fb_reviews_backg_color',
 					'placeholder'      => '#4791ff',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 				// Stars & Text Background Color
 				array(
@@ -237,6 +238,7 @@ class Facebook_Additional_Options {
 					'name'             => 'fb-reviews-text-color',
 					'placeholder'      => '#fff',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 				// Text for word Star.
 				array(
@@ -248,6 +250,7 @@ class Facebook_Additional_Options {
 					'name'             => 'fb_reviews_star_language',
 					'placeholder'      => 'star',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 				// Text for word Recommended.
 				array(
@@ -259,6 +262,7 @@ class Facebook_Additional_Options {
 					'name'             => 'fb_reviews_recommended_language',
 					'placeholder'      => 'Recommended',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
                 // Text for word Recommended.
                 array(
@@ -270,6 +274,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_reviews_see_more_reviews_language',
                     'placeholder'      => 'See More Reviews',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
                 ),
 				// Remove See More Reviews.
 				array(
@@ -290,6 +295,7 @@ class Facebook_Additional_Options {
 							'value' => 'no',
 						),
 					),
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 
 			),
@@ -351,6 +357,7 @@ class Facebook_Additional_Options {
 							'value' => 'no',
 						),
 					),
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 
 				// Overall Rating Background Color.
@@ -368,6 +375,7 @@ class Facebook_Additional_Options {
 					'name'             => 'fb_reviews_overall_rating_background_color',
 					'placeholder'      => '#fff',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 
 
@@ -386,6 +394,7 @@ class Facebook_Additional_Options {
 					'name'             => 'fb_reviews_overall_rating_text_color',
 					'placeholder'      => '#fff',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 
 				// Overall Rating Border Color.
@@ -403,6 +412,7 @@ class Facebook_Additional_Options {
 					'name'             => 'fb_reviews_overall_rating_border_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 
 				// Overall Rating Background Padding.
@@ -420,6 +430,7 @@ class Facebook_Additional_Options {
 					'name'             => 'fb_reviews_overall_rating_background_padding',
 					'placeholder'      => '10px 10px 15px 10px',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 
                 // Overall Rating Background Padding.
@@ -437,6 +448,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_reviews_overall_rating_of_5_stars_text',
                     'placeholder'      => 'of 5 stars',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
                 ),
 
                 // Overall Rating Background Padding.
@@ -454,6 +466,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_reviews_overall_rating_reviews_text',
                     'placeholder'      => 'Reviews',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
                 ),
 			),
 		);
@@ -894,6 +907,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_grid_posts_background_color',
                     'placeholder'      => '#ddd',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
                 ),
 
                 // Border Bottom Color.
@@ -906,6 +920,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_grid_border_bottom_color',
                     'placeholder'      => '#ddd',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
                 ),
 
             ),
@@ -947,6 +962,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_loadmore_background_color',
                     'placeholder'      => '#ddd',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
                 ),
 
                 // Text Color
@@ -959,6 +975,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_loadmore_text_color',
                     'placeholder'      => '#ddd',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
                 ),
 
                 // "Load More" Text
@@ -971,6 +988,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_load_more_text',
                     'placeholder'      => 'Load More',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
                 ),
 
                 // No More Posts Text
@@ -983,6 +1001,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_no_more_posts_text',
                     'placeholder'      => 'No More Posts',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
                 ),
 
                 // No More Photos Text
@@ -995,6 +1014,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_no_more_photos_text',
                     'placeholder'      => 'No More Photos',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
                 ),
 
                 // No More Videos Text
@@ -1019,6 +1039,7 @@ class Facebook_Additional_Options {
                     'name'             => 'fb_no_more_reviews_text',
                     'placeholder'      => 'No More Reviews',
                     'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_facebook_reviews'),
                 ),
             ),
         );

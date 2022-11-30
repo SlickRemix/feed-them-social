@@ -164,7 +164,7 @@ class Facebook_Feed_Post_Types {
 								)
 							) . '</div>';
 						// Here we display the full description in the popup.
-						if ( 'yes' === $saved_feed_options['facebook_popup']  || 'yes' === $saved_feed_options['facebook_video_album'] ) {
+						if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['facebook_popup']  || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
 							echo '<div class="fts-jal-fb-description fts-jal-fb-description-popup" style="display: none;">' . wp_kses(
 									nl2br( $fb_description ),
 									array(
@@ -519,6 +519,8 @@ class Facebook_Feed_Post_Types {
 				echo $this->feed_functions->fts_share_option( $single_event_id, $description );
 				echo '<a href="' . esc_attr( $single_event_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
 				break;
+            // SRL added case '': to account for posts with descriptions that have no video or photos and were possible made from status_type => mobile_status_update
+            case '':
 			case 'photo':
 				if ( ! empty( $fb_link ) ) {
 					echo '<div class="fts-likes-shares-etc-wrap">';
@@ -691,7 +693,7 @@ class Facebook_Feed_Post_Types {
 			echo '</a>';
 		} else {
 			$saved_feed_options_popup = $saved_feed_options['facebook_popup'] ?? '';
-			if ( 'yes' === $saved_feed_options_popup && 'javascript:;' !== $fb_link ) {
+			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options_popup && 'javascript:;' !== $fb_link ) {
 				echo '<a href="' . esc_url( $photo_source ) . '" target="_blank" rel="noreferrer" class="fts-facebook-link-target fts-jal-fb-picture fts-fb-large-photo"><img border="0" alt="' . esc_html( $photo_from ) . '" src="' . esc_url( $photo_source ) . '"/></a>';
 
 			} else {
@@ -883,7 +885,7 @@ class Facebook_Feed_Post_Types {
 		$facebook_post_picture_gallery_link2 = $facebook_post->attachments->data[0]->subattachments->data[2]->target->url ?? '';
 		$facebook_post_picture_gallery_link3 = $facebook_post->attachments->data[0]->subattachments->data[3]->target->url ?? '';
 
-		if ( isset( $scrollhorz_or_carousel, $saved_feed_options['slider_spacing'] ) && ! empty( $saved_feed_options['slider_spacing'] ) && 'carousel' === $saved_feed_options['scrollhorz_or_carousel']) {
+		if ( isset( $scrollhorz_or_carousel, $saved_feed_options['slider_spacing'] ) && ! empty( $saved_feed_options['slider_spacing'] ) && 'carousel' === $saved_feed_options['scrollhorz_or_carousel'] && 'yes' === $saved_feed_options['fts-slider']) {
 			$saved_feed_options['facebook_space_between_photos'] = '0 ' . $saved_feed_options['slider_spacing'];
 		}
 
@@ -915,8 +917,8 @@ class Facebook_Feed_Post_Types {
 			case 'video_direct_response' :
 			case 'video_inline' :
 				echo '<div class="fts-jal-single-fb-post fts-fb-video-post-wrap" ';
-				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid_column_width'] ) {
-					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important"';
+				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
+					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_space_between_posts'] ) . '!important"';
 				}
 				echo '>';
 
@@ -931,14 +933,14 @@ class Facebook_Feed_Post_Types {
 				echo "<div class='fts-fb-photo-post-wrap fts-jal-single-fb-post' ";
 				if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] || 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
 
-					if ( isset( $saved_feed_options['scrollhorz_or_carousel']) && 'scrollhorz' === $saved_feed_options['scrollhorz_or_carousel']) {
+					if ( 'yes' === $saved_feed_options['fts-slider'] && isset( $saved_feed_options['scrollhorz_or_carousel']) && 'scrollhorz' === $saved_feed_options['scrollhorz_or_carousel']) {
 						echo 'style="max-width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ';height:100%;  margin:' . esc_attr( $saved_feed_options['facebook_space_between_photos'] ) . '!important"';
 					} else {
 						echo 'style="width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ' !important; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_space_between_photos'] ) . '!important"';
 					}
 				}
-				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid_column_width'] ) {
-					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important"';
+				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
+					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_space_between_posts'] ) . '!important"';
 				}
 				echo '>';
 
@@ -946,8 +948,8 @@ class Facebook_Feed_Post_Types {
 			case 'album':
 			default:
 				echo '<div class="fts-jal-single-fb-post"';
-				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid_column_width'] ) {
-					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important"';
+				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
+					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_space_between_posts'] ) . '!important"';
 				}
 				echo '>';
 				break;
@@ -1087,7 +1089,7 @@ class Facebook_Feed_Post_Types {
 				$this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
 
 				// Output Photo Description.
-				if ( isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ) {
+				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ) {
 					echo '<div class="fts-fb-caption fts-fb-album-view-link">';
 					// Album Covers.
 					if ( 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
@@ -1155,7 +1157,7 @@ class Facebook_Feed_Post_Types {
 					} elseif (
 						// Video Albums.
 						isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
-						if ( 'yes' !== $saved_feed_options['facebook_play_btn']  ) {
+						if ( 'yes' !== $saved_feed_options['facebook_show_video_button']  ) {
 
 							echo '<a href="' . esc_url( $facebook_post_embed_html ) . '"  data-poster="' . esc_url( $facebook_post_video_photo ) . '" id="fts-view-vid1-' . esc_attr( $fts_dynamic_vid_name_string ) . '" class="fts-jal-fb-vid-html5video ' . esc_attr( $fts_view_fb_videos_btn ) . ' fts-view-fb-videos-large fts-view-fb-videos-btn fb-video-popup-' . esc_attr( $fts_dynamic_vid_name_string ) . '">' . esc_html__( 'View Video', 'feed-them-social' ) . '</a>';
 
@@ -1283,7 +1285,7 @@ class Facebook_Feed_Post_Types {
 
 				// Output Photo Description.
 				if ( !empty( $event_cover_photo ) ) {
-					echo isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ? '<a href="' . esc_url( $event_cover_photo ) . '" class="fts-jal-fb-picture fts-fb-large-photo" target="_blank" rel="noreferrer"><img class="fts-fb-event-photo" src="' . esc_url( $event_cover_photo ) . '"></a>' : '<a href="https://www.facebook.com/events/' . esc_attr( $single_event_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-picture fts-fb-large-photo"><img class="fts-fb-event-photo" src="' . esc_url( $event_cover_photo ) . '" /></a>';
+					echo is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ? '<a href="' . esc_url( $event_cover_photo ) . '" class="fts-jal-fb-picture fts-fb-large-photo" target="_blank" rel="noreferrer"><img class="fts-fb-event-photo" src="' . esc_url( $event_cover_photo ) . '"></a>' : '<a href="https://www.facebook.com/events/' . esc_attr( $single_event_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-picture fts-fb-large-photo"><img class="fts-fb-event-photo" src="' . esc_url( $event_cover_photo ) . '" /></a>';
 				}
 				echo '<div class="fts-jal-fb-top-wrap">';
 				echo '<div class="fts-jal-fb-message">';
@@ -1372,7 +1374,7 @@ class Facebook_Feed_Post_Types {
 					echo 'jQuery(this).addClass("fts-vid-div");';
 					echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
 					echo '	jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper">' . $json_obj->html . '</div>\');';
-					if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid_column_width'] ) {
+					if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
 						echo 'jQuery(".fts-slicker-facebook-posts").masonry( "reloadItems");';
 						echo 'jQuery(".fts-slicker-facebook-posts").masonry( "layout" );';
 					}
@@ -1498,7 +1500,7 @@ class Facebook_Feed_Post_Types {
 							// echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$facebook_post_id.'" src="http://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';.
 							echo 'jQuery(this).prepend(\'<div class="' . esc_js( $facebook_post_height_class_name ) . ' fts-fb-video-on-page" ><iframe style="background:none !important" class="video-' . esc_js( $facebook_post_id ) . '" src="' . esc_url( $facebook_embed_url ) . '" frameborder="0" allowfullscreen></iframe></div>\');';
 							echo 'jQuery( ".' . esc_js( $fts_dynamic_vid_name ) . ' .fts-greater-than-width-height.fts-fb-video-on-page, .' . esc_js( $fts_dynamic_vid_name ) . ' iframe" ).css({"height": "' . esc_js( $facebook_post_embed_height ) . 'px", "width": "' . esc_js( $facebook_post_embed_width ) . 'px"});';
-							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid_column_width'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
+							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
 								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
 								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
 							}
@@ -1520,7 +1522,7 @@ class Facebook_Feed_Post_Types {
 							echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
 							// echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$facebook_post_id.'" src="https://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';.
 							echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video' . esc_js( $facebook_post_id ) . '" src="' . esc_url( $facebook_post_video_embed ) . '" frameborder="0" allowfullscreen></iframe></div>\');';
-							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid_column_width'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
+							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
 								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
 								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
 							}
@@ -1542,7 +1544,7 @@ class Facebook_Feed_Post_Types {
 							echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
 							// echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$facebook_post_id.'" src="http://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';.
 							echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video' . esc_js( $facebook_post_id ) . '" src="' . esc_url( $facebook_post_video_embed ) . '" frameborder="0" allowfullscreen></iframe></div>\');';
-							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid_column_width'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
+							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
 								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
 								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
 							}
@@ -1565,7 +1567,7 @@ class Facebook_Feed_Post_Types {
 							echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
 							// echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe src="http://player.vimeo.com/video/'.$vimeoURLfinal.'?autoplay=1" class="video'.$facebook_post_id.'" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>\');';.
 							echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( $facebook_post_video_embed ) . '" class="video' . esc_js( $facebook_post_id ) . '" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>\');';
-							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid_column_width'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
+							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
 								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
 								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
 							}
@@ -1619,10 +1621,11 @@ class Facebook_Feed_Post_Types {
 					}
 				}
 				echo '<div class="slicker-facebook-album-photoshadow"></div>';
+                echo $saved_feed_options['facebook_video_album'];
 				// FB Video play button for facebook videos. This button takes data from our a tag and along with additional js in the magnific-popup.js we can now load html5 videos. SO lightweight this way because no pre-loading of videos are on the page. We only show the posterboard on mobile devices because tablets and desktops will auto load the videos. SRL.
 				if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
-					if ( isset( $saved_feed_options['facebook_play_btn']  ) && 'yes' === $saved_feed_options['facebook_play_btn']  ) {
-						$facebook_play_btn_visible = isset( $facebook_play_btn_visible ) && 'yes' === $facebook_play_btn_visible ? ' visible-video-button' : '';
+					if ( isset( $saved_feed_options['facebook_show_video_button']  ) && 'yes' === $saved_feed_options['facebook_show_video_button']  ) {
+						$facebook_play_btn_visible = isset( $saved_feed_options['facebook_show_video_button_in_front'] ) && 'yes' === $saved_feed_options['facebook_show_video_button_in_front'] ? ' visible-video-button' : '';
 
 						// $facebook_post_source = isset($facebook_post_source) ? $facebook_post_source : $facebook_post_embed_html;.
 						// $facebook_post_source = isset($facebook_post_embed_html) ? $facebook_post_embed_html : '';.
@@ -1719,18 +1722,18 @@ class Facebook_Feed_Post_Types {
 						echo '<div class="fts-clear"></div><div class="' . esc_attr( $columns_css . 'fts-fb-more-photos-wrap fts-facebook-inline-block-centered' . $facebook_post_picture_gallery2_check . $facebook_post_picture_gallery3_check ) . '" style="max-width:' . esc_attr( $facebook_post_picture_gallery1_check ) . '" data-ftsi-id=' . esc_attr( $fts_dynamic_vid_name_string ) . ' data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-margin="1px" data-ftsi-force-columns="yes">';
 					}
 					if ( 2 === $fts_fb_image_count ) {
-						echo '<a href="' . (isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $photo_source_final ) : esc_url( $facebook_post_link )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $photo_source_final ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription0 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription0 ) . '"></a>';
+						echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $photo_source_final ) : esc_url( $facebook_post_link )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $photo_source_final ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription0 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription0 ) . '"></a>';
 
 					}
 					if ( '' !== $facebook_post_picture_gallery1 ) {
-						echo '<a href="' . (isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery1 ) : esc_url( $facebook_post_picture_gallery_link1 )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $facebook_post_picture_gallery1 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '"></a>';
+						echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery1 ) : esc_url( $facebook_post_picture_gallery_link1 )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $facebook_post_picture_gallery1 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '"></a>';
 
 						if ( '' !== $facebook_post_picture_gallery2 ) {
-							echo '<a href="' . (isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery2 ) : esc_url( $facebook_post_picture_gallery_link2 )) . '" target="_blank" rel="noreferrer" class="fts-2-or-3-photos slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-one-wrap fts-fb-large-photo" style="background:url(' . esc_url( $facebook_post_picture_gallery2 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '"></a>';
+							echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery2 ) : esc_url( $facebook_post_picture_gallery_link2 )) . '" target="_blank" rel="noreferrer" class="fts-2-or-3-photos slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-one-wrap fts-fb-large-photo" style="background:url(' . esc_url( $facebook_post_picture_gallery2 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '"></a>';
 
 						}
 						if ( '' !== $facebook_post_picture_gallery3 ) {
-							echo '<a href="' . (isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery3 ) : esc_url( $facebook_post_picture_gallery_link3 )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-two-wrap fts-fb-large-photo' . esc_attr( $fts_fb_image_count_check ) . '" style="background:url(' . esc_url( $facebook_post_picture_gallery3 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription2 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription2 ) . '"><div class="fts-image-count-tint-underlay"></div><div class="fts-image-count"><span>+</span>' . esc_html( $fts_fb_image_counter ) . '</div></a>';
+							echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery3 ) : esc_url( $facebook_post_picture_gallery_link3 )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-two-wrap fts-fb-large-photo' . esc_attr( $fts_fb_image_count_check ) . '" style="background:url(' . esc_url( $facebook_post_picture_gallery3 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription2 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription2 ) . '"><div class="fts-image-count-tint-underlay"></div><div class="fts-image-count"><span>+</span>' . esc_html( $fts_fb_image_counter ) . '</div></a>';
 						}
 					}
 					if ( '' !== $facebook_post_picture_gallery1 ) {

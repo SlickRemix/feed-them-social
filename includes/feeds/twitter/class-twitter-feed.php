@@ -621,20 +621,20 @@ class Twitter_Feed {
 			}
 
 			// Data Cache Name!
-			$data_cache = ! empty( $search ) ? 'twitter_data_cache_' . $search . '_num' . $tweets_count : 'twitter_data_cache_' . $twitter_name . '_num' . $tweets_count ;
+			$data_cache = ! empty( $search ) ? 'twitter_data_cache_' . $search . '_num' . $tweets_count : 'twitter_data_cache_' . $twitter_name . '_num' . $tweets_count;
 
+			    //Access Tokens Options.
+                $fts_twitter_custom_access_token = $saved_feed_options['fts_twitter_custom_access_token'];
+                $fts_twitter_custom_access_token_secret = $saved_feed_options['fts_twitter_custom_access_token_secret'];
+                $fts_twitter_custom_consumer_key    = '35mom6axGlf60ppHJYz1dsShc';
+				$fts_twitter_custom_consumer_secret = '7c2TJvUT7lS2EkCULpK6RGHrgXN1BA4oUi396pQEdRj3OEq5QQ';
 
 			// Check Cache.
 			if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$fetched_tweets = json_decode( $this->feed_cache->fts_get_feed_cache( $data_cache ) );
 				$cache_used     = true;
-			} else {
 
-                //Access Tokens Options.
-                $fts_twitter_custom_access_token = $saved_feed_options['fts_twitter_custom_access_token'];
-                $fts_twitter_custom_access_token_secret = $saved_feed_options['fts_twitter_custom_access_token_secret'];
-                $fts_twitter_custom_consumer_key    = '35mom6axGlf60ppHJYz1dsShc';
-				$fts_twitter_custom_consumer_secret = '7c2TJvUT7lS2EkCULpK6RGHrgXN1BA4oUi396pQEdRj3OEq5QQ';
+			} else {
 
 				// Use custom api info.
 				if ( ! empty( $fts_twitter_custom_access_token ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {
@@ -755,6 +755,10 @@ class Twitter_Feed {
 				}
 			} elseif ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
 				// NO Access tokens found.
+
+				echo $fts_twitter_custom_access_token;
+				echo ' <br/>asdfasdf';
+
 				$error_check = __( 'No Access Tokens have been set. Please retrieve Twitter API tokens on the Twitter Options page of Feed Them Social.', 'feed-them-social' );
 			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
 				// No Tweets Found!
@@ -781,6 +785,7 @@ class Twitter_Feed {
 
 					// Cache It.
 					if ( ! isset( $cache_used ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
+
 						$this->feed_cache->fts_create_feed_cache( $data_cache, $fetched_tweets );
 					}
 

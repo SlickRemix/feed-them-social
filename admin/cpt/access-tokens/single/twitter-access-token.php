@@ -89,7 +89,9 @@ class Twitter_Access_Functions {
         ), admin_url( 'post.php' ) );
 
         // Check if new tokens have been returned.
+        // old method, keeping in place for reference.
         // $this->set_new_access_tokens();
+
         $fts_twitter_custom_consumer_key    = '';
         $fts_twitter_custom_consumer_secret = '';
 
@@ -142,7 +144,6 @@ class Twitter_Access_Functions {
         if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) { ?>
             <script>
                 jQuery(document).ready(function () {
-
                     fts_ajax_cpt_save_token();
                 });
             </script>
@@ -157,12 +158,12 @@ class Twitter_Access_Functions {
 
         <div class="fts-settings-does-not-work-wrap">
             <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-            <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+            <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
         </div>
 
         <div class="fts-clear"></div>
 
-        <div class="feed-them-social-admin-input-wrap fts-fb-token-wrap fts-token-wrap" id="fts-twitter-token-wrap">
+        <div class="fts-fb-token-wrap fts-token-wrap" id="fts-twitter-token-wrap">
             <?php
             // && !empty($test_fts_twitter_custom_access_token) && !empty($test_fts_twitter_custom_access_token_secret)!
             if ( ! empty( $fts_twitter_custom_access_token_secret ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {

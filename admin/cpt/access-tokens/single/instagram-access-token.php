@@ -77,10 +77,13 @@ class Instagram_Access_Functions {
         $access_token_expires_in = $saved_feed_options['fts_instagram_custom_api_token_expires_in'];
 
 	    // Decrypt Access Token?
-        $decrypted_access_token  = $this->data_protection->decrypt( $access_token ) ?? $access_token;
+        $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
         ?>
         <script>
             jQuery(document).ready(function ($) {
+
+                // Required because we need to reload the function but only once under the combine streams since all the access tokens are loaded up at once on this tab.
+                fts_show_decrypt_token_text();
 
                 setTimeout(function () {
 
@@ -100,26 +103,16 @@ class Instagram_Access_Functions {
                         var date = date_check + date_add_time;
                         console.log( date );
 
-                        $('#fts_instagram_custom_api_token').val('');
-                        $('#fts_instagram_custom_api_token').val( $('#fts_instagram_custom_api_token').val() + code );
                         $('#fts_instagram_custom_id').val('');
                         $('#fts_instagram_custom_id').val( $('#fts_instagram_custom_id').val() +  user_id );
                         $('#fts_instagram_custom_api_token_expires_in').val('');
                         $('#fts_instagram_custom_api_token_expires_in').val( $('#fts_instagram_custom_api_token_expires_in').val() + date );
 
-                        // Take the code param from url and pass it to our encrypt function to sanitize and save.
+                        // Take the code param from url and pass it to our encrypt function to sanitize and save to db then save all the options.
                         fts_encrypt_token_ajax( code, 'basic', '#fts_instagram_custom_api_token', 'firstRequest');
                     }
-                    else {
-                        $('#fts_instagram_custom_api_token').val('');
-                        $('#fts_instagram_custom_api_token').val(  $('#fts_instagram_custom_api_token').val() + '<?php echo $decrypted_access_token ?>' );
-                        $('#fts_instagram_custom_id').val('');
-                        $('#fts_instagram_custom_id').val( $('#fts_instagram_custom_id').val() + '<?php echo $user_id_basic ?>' );
-                        $('#fts_instagram_custom_api_token_expires_in').val('');
-                        $('#fts_instagram_custom_api_token_expires_in').val( $('#fts_instagram_custom_api_token_expires_in').val() + '<?php echo $access_token_expires_in ?>' );
-                    }
 
-                }, 10);
+                }, 100);
             });
         </script>
         <?php
@@ -146,11 +139,11 @@ class Instagram_Access_Functions {
         ?>
         <div class="fts-settings-does-not-work-wrap">
             <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-            <a href="<?php echo esc_url( 'mailto:support@slickremix.com' ); ?>" target="_blank" class="fts-admin-button-no-work"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+            <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
         </div>
 
         <div class="fts-clear"></div>
-        <div class="feed-them-social-admin-input-wrap fts-instagram-token-wrap fts-token-wrap" id="fts-instagram-token-wrap">
+        <div class="fts-instagram-token-wrap fts-token-wrap" id="fts-instagram-token-wrap">
             <?php
 
             $instagram_generic_response = 'Sorry, this content isn\'t available right now';
@@ -263,7 +256,7 @@ class Instagram_Access_Functions {
             </script>
             <?php
 
-            // YO! making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
+            // Making it be time() < $expiration_time to test ajax, otherwise it should be time() > $expiration_time
             if (  ! empty( $fts_instagram_access_token ) && time() > $expiration_time ) {
                 // Refresh token action!
                 $this->feed_functions->feed_them_instagram_refresh_token( $feed_cpt_id );

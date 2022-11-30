@@ -150,6 +150,7 @@ class Instagram_Additional_Options {
 					'name'             => 'instagram_loadmore_background_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// Load More Button Text Color
@@ -162,6 +163,7 @@ class Instagram_Additional_Options {
 					'name'             => 'instagram_loadmore_text_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 
@@ -175,6 +177,7 @@ class Instagram_Additional_Options {
 					'name'             => 'instagram_load_more_text',
 					'placeholder'      => 'Load More',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// "No More Photos" Text
@@ -187,6 +190,7 @@ class Instagram_Additional_Options {
 					'name'             => 'instagram_no_more_photos_text',
 					'placeholder'      => 'No More Photos',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 			),
 		);

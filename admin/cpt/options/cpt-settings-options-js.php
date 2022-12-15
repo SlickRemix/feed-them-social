@@ -22,9 +22,37 @@ namespace feedthemsocial;
 class Settings_Options_JS {
 
 	public function facebook_js(){
+
+        wp_enqueue_style( 'wp-color-picker' );
+        wp_enqueue_script( 'wp-color-picker' );
+
 		?>
 		<script>
 		jQuery(document).ready(function () {
+
+            var fts_color_picker = jQuery('.fts-color-picker input');
+
+            if( fts_color_picker.length ) {
+                fts_color_picker.wpColorPicker();
+            }
+            jQuery('.fts-color-picker .fts-required-extension-wrap').parent().find('.wp-picker-container').hide();
+
+
+
+            if ( jQuery('.feed-them-social-req-extension:contains("Premium Required")').length > 0 ) {
+                jQuery('.fts-social-selector option:contains("Videos")').attr('disabled', 'disabled').html('Videos - Premium Plugin Required');
+            }
+            if ( jQuery('.feed-them-social-req-extension:contains("Reviews Required")').length > 0 ) {
+                jQuery('.fts-social-selector option:contains("Page Reviews")').attr('disabled', 'disabled').html('Page Reviews - Reviews Plugin Required');;
+            }
+
+
+
+
+
+
+
+
 
             jQuery( '.tabbed' ).click( function (e) {
                 if(  'pointer-events: none !important' === jQuery( 'a', this ).attr( 'style' ) ){
@@ -79,6 +107,17 @@ class Settings_Options_JS {
                 }
                 else {
                     jQuery('.fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap').hide();
+                }
+            }).change();
+
+            // facebook fts-slider
+            jQuery('#fts-slider').bind('change', function (e) {
+                if (jQuery('#fts-slider').val() == 'yes') {
+
+                    jQuery('.slider_options_wrap').show();
+                }
+                else {
+                    jQuery('.slider_options_wrap').hide();
                 }
             }).change();
 

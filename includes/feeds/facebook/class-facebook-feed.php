@@ -606,7 +606,7 @@ class Facebook_Feed {
 			// SOCIAL BUTTON.
 
 			if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
-				$this->fb_social_btn_placement( $saved_feed_options, 'fb-like-top-above-title' );
+				$this->fb_social_btn_placement( $saved_feed_options, 'above_title' );
 			}
 
 			if ( 'reviews' !== $saved_feed_options['facebook_page_feed_type'] ) {
@@ -671,7 +671,7 @@ class Facebook_Feed {
 
 		// SOCIAL BUTTON.
 		if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
-			$this->fb_social_btn_placement( $saved_feed_options, 'fb-like-top-below-title' );
+			$this->fb_social_btn_placement( $saved_feed_options, 'below_title' );
 		}
 
 		// Feed Header.
@@ -686,7 +686,7 @@ class Facebook_Feed {
 
 				if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
 					echo '';
-				} elseif ( isset( $saved_feed_options['slider'] ) && 'yes' !== $saved_feed_options['slider'] && 'yes' === $saved_feed_options['facebook_container_animation'] || isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ) {
+				} elseif ( isset( $saved_feed_options['fts-slider'] ) && 'yes' !== $saved_feed_options['fts-slider'] && 'yes' === $saved_feed_options['facebook_container_animation'] || isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ) {
 					wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 					echo '<script>';
 					echo 'jQuery(window).on(\'load\', function(){';
@@ -697,7 +697,7 @@ class Facebook_Feed {
 					echo '</script>';
 				}
 
-				if ( ! isset( $facebook_post_type ) && 'albums' === $saved_feed_options['facebook_page_feed_type'] || ! isset( $facebook_post_type ) && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && ! isset( $facebook_post_type ) && ! isset( $saved_feed_options['slider'] ) || ! isset( $facebook_post_type ) && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && ! isset( $facebook_post_type ) && isset( $saved_feed_options['slider'] ) && 'yes' !== $saved_feed_options['slider'] ) {
+				if ( ! isset( $facebook_post_type ) && 'albums' === $saved_feed_options['facebook_page_feed_type'] || ! isset( $facebook_post_type ) && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && ! isset( $facebook_post_type ) && ! isset( $saved_feed_options['fts-slider'] ) || ! isset( $facebook_post_type ) && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && ! isset( $facebook_post_type ) && isset( $saved_feed_options['fts-slider'] ) && 'yes' !== $saved_feed_options['fts-slider'] ) {
 					echo '<div class="fts-slicker-facebook-photos fts-slicker-facebook-albums' . ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] && 'yes' === $saved_feed_options['facebook_video_album'] ? ' popup-video-gallery-fb' : '' ) . ( isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ? ' masonry js-masonry' : '' ) . ( isset( $saved_feed_options['images_align'] ) && $saved_feed_options['images_align'] ? ' popup-video-gallery-align-' . esc_attr( $saved_feed_options['images_align'] ) : '' ) . ' popup-gallery-fb ' . esc_attr( $fts_dynamic_class_name ) . '"';
 					if ( 'yes' === $saved_feed_options['facebook_container_animation'] ) {
 						echo 'data-masonry-options=\'{ "isFitWidth": ' . ( 'no' === $saved_feed_options['facebook_container_position'] ? 'false' : 'true' ) . ' ' . ( 'no' === $saved_feed_options['facebook_container_animation'] ? ', "transitionDuration": 0' : '' ) . '}\' style="margin:auto;"';
@@ -705,7 +705,8 @@ class Facebook_Feed {
 					echo '>';
 				} elseif (
 					// slideshow scrollHorz or carousel.
-					! isset( $facebook_post_type ) && isset( $saved_feed_options['slider'] ) && 'yes' === $saved_feed_options['slider'] ) {
+					! isset( $facebook_post_type ) && isset( $saved_feed_options['fts-slider'] ) && 'yes' === $saved_feed_options['fts-slider'] ) {
+
 					$fts_cycle_type = isset( $saved_feed_options['scrollhorz_or_carousel']) ? $saved_feed_options['scrollhorz_or_carousel']: 'scrollHorz';
 
 					if ( isset( $fts_cycle_type ) && 'carousel' === $fts_cycle_type ) {
@@ -732,7 +733,8 @@ class Facebook_Feed {
 					// numbers_below_feed.
 					$fts_controls_bar_color  = ! empty( $saved_feed_options['slider_controls_bar_color'] ) ? $saved_feed_options['slider_controls_bar_color'] : '#000';
 					$fts_controls_text_color = ! empty( $saved_feed_options['slider_controls_text_color'] ) ? $saved_feed_options['slider_controls_text_color'] : '#ddd';
-					if ( isset( $saved_feed_options['slider_controls_width'] ) && 'carousel' !== $saved_feed_options['scrollhorz_or_carousel']) {
+
+					if ( isset( $saved_feed_options['slider_controls_width'] ) && 'carousel' !== $saved_feed_options['scrollhorz_or_carousel'] ) {
 						$max_width_set = isset( $saved_feed_options['facebook_image_width'] ) && '' !== $saved_feed_options['facebook_image_width'] && 'carousel' !== $saved_feed_options['scrollhorz_or_carousel']? $saved_feed_options['facebook_image_width'] : '100%';
 					} else {
 						$max_width_set = isset( $saved_feed_options['slider_controls_width'] ) && '' !== $saved_feed_options['slider_controls_width'] && 'carousel' === $saved_feed_options['scrollhorz_or_carousel']? $saved_feed_options['slider_controls_width'] : '100%';
@@ -932,8 +934,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			}
 		}//End Check
 
-		// Checks for Slider control option is set.
-		if( $saved_feed_options['slider_controls'] ){
+		// Checks for Slider control option.
+		if( $saved_feed_options['slider_controls'] && isset( $saved_feed_options['fts-slider'] ) && 'yes' === $saved_feed_options['fts-slider'] ){
 			//Check at lease one of Slider Controls is set.
 			if (
 				'dots_below_feed' === $saved_feed_options['slider_controls'] ||
@@ -957,6 +959,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 					} else {
 						$max_width_set = isset( $saved_feed_options['slider_controls_width'] ) && '' !== $saved_feed_options['slider_controls_width'] && 'carousel' === $saved_feed_options['scrollhorz_or_carousel']? $saved_feed_options['slider_controls_width'] : '100%';
 					}
+
+                    $fts_controls_text_color = isset( $saved_feed_options['slider_controls_text_color'] ) && '' !== $saved_feed_options['slider_controls_text_color'] ? $saved_feed_options['slider_controls_text_color'] : '#333333';
+                    $fts_controls_bar_color = isset( $saved_feed_options['slider_controls_bar_color'] ) && '' !== $saved_feed_options['slider_controls_bar_color'] ? $saved_feed_options['slider_controls_bar_color'] : '#333333';
 
 					echo '<div class="fts-slider-icons-center" style="margin:auto; width:100%;max-width:' . esc_attr( $max_width_set ) . ';background:' . esc_attr( $fts_controls_bar_color ) . ';color:' . esc_attr( $fts_controls_text_color ) . '"><div class="fts-pager-option fts-custom-pager-' . esc_attr( $fts_dynamic_class_name ) . '"></div></div>';
 				}
@@ -1022,7 +1027,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		// SOCIAL BUTTON
 		// ******************
 		if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
-			$this->fb_social_btn_placement( $saved_feed_options, 'fb-like-below' );
+			$this->fb_social_btn_placement( $saved_feed_options, 'bottom' );
 		}
 
 		return ob_get_clean();
@@ -1488,40 +1493,34 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			return;
 		}
 		// Facebook Follow Button Options.
-		$fb_show_follow_btn = $saved_feed_options['fb_show_follow_btn'];
+		$fb_show_follow_btn = $saved_feed_options['facebook_hide_like_box_button'];
 
-        $fb_show_follow_btn_where = $saved_feed_options['fb_show_follow_btn_where'];
+        $fb_show_follow_btn_where = $saved_feed_options['facebook_position_likebox'];
 
 		if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
-			$like_option_align_final = isset( $saved_feed_options['like_option_align'] ) ? 'fts-fb-social-btn-' . $saved_feed_options['like_option_align'] . '' : '';
+			$like_option_align_final = isset( $saved_feed_options['facebook_align_likebox'] ) ? 'fts-fb-social-btn-' . $saved_feed_options['facebook_align_likebox'] . '' : '';
 
-			if ( $share_loc === $fb_show_follow_btn_where ) {
+			if ( $share_loc === $fb_show_follow_btn_where && isset( $fb_show_follow_btn ) && 'no' === $fb_show_follow_btn ) {
 
 				switch ( $fb_show_follow_btn_where ) {
-					case 'fb-like-top-above-title':
+					case 'above_title':
 						// Top Above Title.
-						if ( isset( $fb_show_follow_btn ) && 'dont-display' !== $fb_show_follow_btn ) {
 							echo '<div class="fb-social-btn-top ' . esc_attr( $like_option_align_final ) . '">';
 							$this->feed_functions->social_follow_button( 'facebook', $saved_feed_options['fts_facebook_custom_api_token_user_id'], $saved_feed_options );
 							echo '</div>';
-						}
 						break;
 					// Top Below Title.
-					case 'fb-like-top-below-title':
-						if ( isset( $fb_show_follow_btn ) && 'dont-display' !== $fb_show_follow_btn ) {
+					case 'below_title':
 							echo '<div class="fb-social-btn-below-description ' . esc_attr( $like_option_align_final ) . '">';
-							$this->feed_functions->social_follow_button( 'facebook', $saved_feed_options['fts_facebook_custom_api_token_user_id'], $this->feed_access_token, $saved_feed_options );
+							$this->feed_functions->social_follow_button( 'facebook', $saved_feed_options['fts_facebook_custom_api_token_user_id'], $saved_feed_options );
 							echo '</div>';
-						}
 						break;
 					// Bottom.
-					case 'fb-like-below':
-						if ( isset( $fb_show_follow_btn ) && 'dont-display' !== $fb_show_follow_btn ) {
+					case 'bottom':
 							echo '<div class="fb-social-btn-bottom ' . esc_attr( $like_option_align_final ) . '">';
-							$this->feed_functions->social_follow_button( 'facebook', $saved_feed_options['fts_facebook_custom_api_token_user_id'], $this->feed_access_token, $saved_feed_options );
+							$this->feed_functions->social_follow_button( 'facebook', $saved_feed_options['fts_facebook_custom_api_token_user_id'],  $saved_feed_options );
 							echo '</div>';
-						}
 						break;
 				}
 			}

@@ -2569,7 +2569,8 @@ h3.sectioned-options-title {
 
 @media (max-width: 1196px) {
     .post-type-fts #postbox-container-2 input[type=text], .post-type-fts #postbox-container-2 select, .post-type-fts_albums #postbox-container-2 input[type=text], .post-type-fts_albums #postbox-container-2 select {
-        /* margin-left: 15px !important; */}
+        margin-left: 25px !important;
+    }
 
     .feed-them-social-admin-input-label {
         margin-bottom: 8px;
@@ -2599,7 +2600,7 @@ h3.sectioned-options-title {
     display:block !important
 }
 #ftg-tab-content5 .feed-them-social-admin-input-wrap h4, #ftg-tab-content5 .feed-them-social-admin-input-wrap select, #ftg-tab-content5 input {
-    margin-left: 20px !important
+    /* margin-left: 20px !important; */
 }
 
 .feed-them-social-admin-input-wrap .tab-section-description {
@@ -3263,8 +3264,11 @@ img.instagram-feed-type-image-tab {
 .fts-combine-streams-shortcode-form .fts-active-success-token, .fts-combine-streams-shortcode-form .fts-active-success-token {
     margin-left:0;
 }
-.fts-combine-streams-shortcode-form .instructional-text, .fts-combine-streams-shortcode-form .fts-facebook-get-access-token, .fts-combine-streams-shortcode-form .fts-instagram-get-access-token {
+.fts-combine-streams-shortcode-form .fts-facebook-get-access-token, .fts-combine-streams-shortcode-form .fts-instagram-get-access-token {
     margin-left:10px;
+}
+.instructional-text {
+    margin:0 20px 30px;
 }
 .combine_facebook_name .fts-token-wrap {
     display:none;
@@ -3393,4 +3397,8 @@ img.instagram-feed-type-image-tab {
 }
 .fts-hide-token, .fts-decrypted-token {
     display:none;
+}
+
+.feed-them-social-admin-input-wrap.combine_grid_option {
+    display:block !important;
 }

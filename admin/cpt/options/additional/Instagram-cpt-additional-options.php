@@ -142,7 +142,7 @@ class Instagram_Additional_Options {
 
 				// Load More Button Color
 				array(
-					'input_wrap_class' => 'instagram_loadmore_background_color',
+					'input_wrap_class' => 'instagram_loadmore_background_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Button Color', 'feed-them-social' ),
 					'type'             => 'text',
@@ -155,7 +155,7 @@ class Instagram_Additional_Options {
 
 				// Load More Button Text Color
 				array(
-					'input_wrap_class' => 'instagram_loadmore_text_color',
+					'input_wrap_class' => 'instagram_loadmore_text_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Button Text Color', 'feed-them-social' ),
 					'type'             => 'text',

@@ -779,12 +779,12 @@ class Metabox_Functions {
                             if( 'feed_them_social_premium' === $option['req_extensions'][0] &&
                                 'feed_them_social_facebook_reviews' === $option['req_extensions'][1] ){
 
-                                $output .= sprintf( '<a class="feed-them-social-req-extention" href="%s">%s</a>',
+                                $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
                                     $this->prem_extension_list[$req_extension]['purchase_url'],
                                     'Premium Required'
                                 );
                                 $output .= 'or';
-                                $output .= sprintf( '<a class="feed-them-social-req-extention" href="%s">%s</a>',
+                                $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
                                     $this->prem_extension_list[$option['req_extensions'][1]]['purchase_url'],
                                     'Reviews Required'
                                 );
@@ -806,7 +806,7 @@ class Metabox_Functions {
                                     break;
                             }
 
-                                $output .= sprintf( '<a class="feed-them-social-req-extention" target="_blank" href="%s">%s</a>',
+                                $output .= sprintf( '<a class="feed-them-social-req-extension" target="_blank" href="%s">%s</a>',
                                     $this->prem_extension_list[$req_extension]['purchase_url'],
                                     $title_change
                                 );

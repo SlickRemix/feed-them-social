@@ -312,7 +312,7 @@ class Twitter_Additional_Options {
 
 				// Feed Text Color
 				array(
-					'input_wrap_class' => 'twitter_text_color',
+					'input_wrap_class' => 'twitter_text_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Text Color', 'feed-them-social' ),
 					'type'             => 'text',
@@ -324,7 +324,7 @@ class Twitter_Additional_Options {
 
                 // Feed Link Color
                 array(
-                    'input_wrap_class' => 'twitter_link_color',
+                    'input_wrap_class' => 'twitter_link_color fts-color-picker',
                     'option_type'      => 'input',
                     'label'            => esc_html__( 'Feed Link Color', 'feed-them-social' ),
                     'type'             => 'text',
@@ -336,7 +336,7 @@ class Twitter_Additional_Options {
 
 				// Feed Link Color Hover
 				array(
-					'input_wrap_class' => 'twitter_link_color_hover',
+					'input_wrap_class' => 'twitter_link_color_hover fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Link Color Hover', 'feed-them-social' ),
 					'type'             => 'text',
@@ -389,7 +389,7 @@ class Twitter_Additional_Options {
 
 				// Feed Background Color
 				array(
-					'input_wrap_class' => 'twitter_feed_background_color',
+					'input_wrap_class' => 'twitter_feed_background_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Background Color', 'feed-them-social' ),
 					'type'             => 'text',
@@ -401,7 +401,7 @@ class Twitter_Additional_Options {
 
 				// Feed Border Bottom Color
 				array(
-					'input_wrap_class' => 'twitter_border_bottom_color',
+					'input_wrap_class' => 'twitter_border_bottom_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Border Bottom Color', 'feed-them-social' ),
 					'type'             => 'text',
@@ -443,7 +443,7 @@ class Twitter_Additional_Options {
 
 				// Posts Background Color
 				array(
-					'input_wrap_class' => 'twitter_grid_posts_background_color',
+					'input_wrap_class' => 'twitter_grid_posts_background_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Posts Background Color', 'feed-them-social' ),
 					'type'             => 'text',
@@ -456,7 +456,7 @@ class Twitter_Additional_Options {
 
 				// Border Bottom Color
 				array(
-					'input_wrap_class' => 'twitter_grid_border_bottom_color',
+					'input_wrap_class' => 'twitter_grid_border_bottom_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Border Bottom Color', 'feed-them-social' ),
 					'type'             => 'text',
@@ -497,7 +497,7 @@ class Twitter_Additional_Options {
 
 				// Button Color
 				array(
-					'input_wrap_class' => 'twitter_loadmore_background_color',
+					'input_wrap_class' => 'twitter_loadmore_background_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Button Color', 'feed-them-social' ),
 					'type'             => 'text',
@@ -510,7 +510,7 @@ class Twitter_Additional_Options {
 
 				// Text Color
 				array(
-					'input_wrap_class' => 'twitter_loadmore_text_color',
+					'input_wrap_class' => 'twitter_loadmore_text_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Text Color', 'feed-them-social' ),
 					'type'             => 'text',

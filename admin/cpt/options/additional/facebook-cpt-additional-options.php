@@ -101,14 +101,6 @@ class Facebook_Additional_Options {
                     'default_value'    => 'dont-display',
                     'options'          => array(
                         array(
-                            'optgroup' => array(
-                                'label' => '',
-
-                            ),
-                            'label' => esc_html__( 'Don\'t Display a Button', 'feed_them_social' ),
-                            'value' => 'dont-display',
-                        ),
-                        array(
                             'label' => esc_html__( 'Like Box', 'feed_them_social' ),
                             'value' => 'like-box',
                         ),
@@ -156,7 +148,7 @@ class Facebook_Additional_Options {
                     ),
                 ),
 
-                // Placement of Like Button.
+               /* // Placement of Like Button. This is really a duplicate, leaving for now but most likely will not need now. in 4.0
                 array(
                     'input_wrap_class' => 'fb-show-follow-btn-where',
                     'option_type'      => 'select',
@@ -179,7 +171,7 @@ class Facebook_Additional_Options {
                             'value' => 'fb-like-below',
                         ),
                     ),
-                ),
+                ),*/
             ),
         );
 
@@ -208,7 +200,7 @@ class Facebook_Additional_Options {
 
 				// Stars Background Color
 				array(
-					'input_wrap_class' => 'fb-reviews-title-color-label ',
+					'input_wrap_class' => 'fb-reviews-title-color-label fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
@@ -225,7 +217,7 @@ class Facebook_Additional_Options {
 				),
 				// Stars & Text Background Color
 				array(
-					'input_wrap_class' => 'fb-reviews-text-color',
+					'input_wrap_class' => 'fb-reviews-text-color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
@@ -362,7 +354,7 @@ class Facebook_Additional_Options {
 
 				// Overall Rating Background Color.
 				array(
-					'input_wrap_class' => 'fb-reviews-title-color-label ',
+					'input_wrap_class' => 'fb-reviews-title-color-label fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
@@ -381,7 +373,7 @@ class Facebook_Additional_Options {
 
 				// Overall Rating Text Color.
 				array(
-					'input_wrap_class' => 'fb-reviews-text-color',
+					'input_wrap_class' => 'fb-reviews-text-color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
@@ -399,7 +391,7 @@ class Facebook_Additional_Options {
 
 				// Overall Rating Border Color.
 				array(
-					'input_wrap_class' => 'fb-reviews-text-color',
+					'input_wrap_class' => 'fb-reviews-text-color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
@@ -720,7 +712,7 @@ class Facebook_Additional_Options {
 
 				// Feed Header Extra Text Color.
 				array(
-					'input_wrap_class' => 'fb_header_extra_text_color',
+					'input_wrap_class' => 'fb_header_extra_text_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Header Extra Text Color', 'feed_them_social' ),
 					'type'             => 'text',
@@ -744,7 +736,7 @@ class Facebook_Additional_Options {
 
 				// Feed Text Color.
 				array(
-					'input_wrap_class' => 'fb_text_color',
+					'input_wrap_class' => 'fb_text_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Text Color', 'feed_them_social' ),
 					'type'             => 'text',
@@ -756,7 +748,7 @@ class Facebook_Additional_Options {
 
 				// Feed Link Color.
 				array(
-					'input_wrap_class' => 'fb_link_color',
+					'input_wrap_class' => 'fb_link_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Link Color', 'feed_them_social' ),
 					'type'             => 'text',
@@ -768,7 +760,7 @@ class Facebook_Additional_Options {
 
 				// Feed Link Color.
 				array(
-					'input_wrap_class' => 'fb_link_color_hover',
+					'input_wrap_class' => 'fb_link_color_hover fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Link Color Hover', 'feed_them_social' ),
 					'type'             => 'text',
@@ -821,7 +813,7 @@ class Facebook_Additional_Options {
 
                 // Post Background Color.
                 array(
-                    'input_wrap_class' => 'fb_post_background_color',
+                    'input_wrap_class' => 'fb_post_background_color fts-color-picker',
                     'option_type'      => 'input',
                     'label'            =>
                         sprintf(
@@ -838,7 +830,7 @@ class Facebook_Additional_Options {
 
 				// Feed Background Color.
 				array(
-					'input_wrap_class' => 'fb_feed_background_color',
+					'input_wrap_class' => 'fb_feed_background_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Feed Background Color', 'feed_them_social' ),
 					'type'             => 'text',
@@ -850,7 +842,7 @@ class Facebook_Additional_Options {
 
 				// Border Bottom Color.
 				array(
-					'input_wrap_class' => 'fb_border_bottom_color',
+					'input_wrap_class' => 'fb_border_bottom_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Border Bottom Color', 'feed_them_social' ),
 					'type'             => 'text',
@@ -899,7 +891,7 @@ class Facebook_Additional_Options {
 
                 // Feed Background Color.
                 array(
-                    'input_wrap_class' => 'fb_feed_background_color',
+                    'input_wrap_class' => 'fb_feed_background_color fts-color-picker',
                     'option_type'      => 'input',
                     'label'            => esc_html__( 'Feed Background Color', 'feed_them_social' ),
                     'type'             => 'text',
@@ -912,7 +904,7 @@ class Facebook_Additional_Options {
 
                 // Border Bottom Color.
                 array(
-                    'input_wrap_class' => 'fb_border_bottom_color',
+                    'input_wrap_class' => 'fb_border_bottom_color fts-color-picker',
                     'option_type'      => 'input',
                     'label'            => esc_html__( 'Border Bottom Color', 'feed_them_social' ),
                     'type'             => 'text',
@@ -954,7 +946,7 @@ class Facebook_Additional_Options {
 
                 // Button Color
                 array(
-                    'input_wrap_class' => 'fb_loadmore_background_color',
+                    'input_wrap_class' => 'fb_loadmore_background_color fts-color-picker',
                     'option_type'      => 'input',
                     'label'            => esc_html__( 'Button Color', 'feed-them-social' ),
                     'type'             => 'text',
@@ -967,7 +959,7 @@ class Facebook_Additional_Options {
 
                 // Text Color
                 array(
-                    'input_wrap_class' => 'fb_loadmore_text_color',
+                    'input_wrap_class' => 'fb_loadmore_text_color fts-color-picker',
                     'option_type'      => 'input',
                     'label'            => esc_html__( 'Text Color', 'feed-them-social' ),
                     'type'             => 'text',

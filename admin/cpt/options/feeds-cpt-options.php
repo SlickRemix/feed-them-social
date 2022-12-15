@@ -1397,7 +1397,6 @@ class Feed_CPT_Options {
 
 			'main_options'       => array(
 
-
 				// Show Description below image or video Name
 				array(
 					'input_wrap_class' => 'fts-social-selector',
@@ -1408,7 +1407,7 @@ class Feed_CPT_Options {
 					'name'        => 'facebook_page_feed_type',
 					'options'     => array(
 						array(
-							'label' => __( 'Facebook Page', 'feed-them-social' ),
+							'label' => __( 'Page Posts', 'feed-them-social' ),
 							'value' => 'page',
 						),
 
@@ -1429,25 +1428,25 @@ class Feed_CPT_Options {
 						// ),
 						// Facebook Album Photos
 						array(
-							'label' => __( 'Facebook Album Photos', 'feed-them-social' ),
+							'label' => __( 'Album Photos', 'feed-them-social' ),
 							'value' => 'album_photos',
 						),
 
 						// Facebook Album Covers
 						array(
-							'label' => __( 'Facebook Album Covers', 'feed-them-social' ),
+							'label' => __( 'Album Covers', 'feed-them-social' ),
 							'value' => 'albums',
 						),
 
 						// Facebook Videos
 						array(
-							'label' => __( 'Facebook Videos', 'feed-them-social' ),
+							'label' => __( 'Videos', 'feed-them-social' ),
 							'value' => 'album_videos',
 						),
 
 						// Facebook Page Reviews
 						array(
-							'label' => __( 'Facebook Page Reviews', 'feed-them-social' ),
+							'label' => __( 'Page Reviews', 'feed-them-social' ),
 							'value' => 'reviews',
 						),
 					),
@@ -1766,6 +1765,7 @@ class Feed_CPT_Options {
 					'id'          => 'facebook_image_width',
 					'name'        => 'facebook_image_width',
 					'placeholder' => '250px',
+                    'default_value' => '250px',
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -1787,6 +1787,7 @@ class Feed_CPT_Options {
 					'id'          => 'facebook_image_height',
 					'name'        => 'facebook_image_height',
 					'placeholder' => '250px',
+                    'default_value' => '250px',
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -2078,7 +2079,7 @@ class Feed_CPT_Options {
 				array(
 					'grouped_options_title' => __( 'Like Box', 'feed-them-social' ),
 					'option_type' => 'select',
-					'label'       => __( 'Hide Like Box or Button', 'feed-them-social' ) . '<br/><small>' . __( 'Choose Type: <a class="fts-settings-tab-facebook-additional-options" href="javascript:;">Additional Options</a>', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Hide Like Box or Button', 'feed-them-social' ) . '<br/><small>' . __( 'More under Additional Options</a>', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'facebook_hide_like_box_button',
 					'name'        => 'facebook_hide_like_box_button',
@@ -2786,12 +2787,13 @@ class Feed_CPT_Options {
 				// Carousel/Slideshow Slider Controls Text Color
 				array(
 					'input_wrap_id' => 'facebook_slider_controls_text_color',
+                    'input_wrap_class' => 'fts-color-picker',
 					'option_type' => 'input',
 					'label'       => __( 'Slider Controls Text Color', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'slider_controls_text_color',
 					'name'        => 'slider_controls_text_color',
-					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
+					'class'       => '',
 					'value'       => '',
 					'placeholder' => '#FFF',
 					'req_extensions'  => array('feed_them_carousel_premium'),
@@ -2809,12 +2811,13 @@ class Feed_CPT_Options {
 				// Carousel/Slideshow Slider Controls Bar Color
 				array(
 					'input_wrap_id' => 'facebook_slider_controls_bar_color',
+                    'input_wrap_class' => 'fts-color-picker',
 					'option_type' => 'input',
 					'label'       => __( 'Slider Controls Bar Color', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'slider_controls_bar_color',
 					'name'        => 'slider_controls_bar_color',
-					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
+					'class'       => '',
 					'value'       => '',
 					'placeholder' => '#000',
 					'req_extensions'  => array('feed_them_carousel_premium'),
@@ -2837,7 +2840,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'slider_controls_width',
 					'name'        => 'slider_controls_width',
-					'class'       => 'fb-text-color-input color {hash:true,caps:false,required:false,adjust:false,pickerFaceColor:\'#eee\',pickerFace:3,pickerBorder:0,pickerInsetColor:\'white\'}',
+					'class'       => '',
 					'value'       => '',
 					'placeholder' => '320px',
 					'req_extensions'  => array('feed_them_carousel_premium'),
@@ -5067,8 +5070,7 @@ class Feed_CPT_Options {
 				// Background Color
 				array(
 					'option_type'  => 'input',
-					'color_picker' => 'yes',
-					'input_wrap_class' => 'combine_background_color',
+					'input_wrap_class' => 'combine_background_color fts-color-picker',
 					'label'        => __( 'Background Color', 'feed-them-social' ),
 					'type'         => 'text',
 					'id'           => 'combine_background_color',
@@ -5245,6 +5247,7 @@ class Feed_CPT_Options {
 					'name'        => 'combine_grid_column_width',
 					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
 					'placeholder' => '310px ' . __( 'for example', 'feed-them-social' ),
+                    'default' => '310px',
 					//'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.
@@ -5269,6 +5272,7 @@ class Feed_CPT_Options {
 					'id'          => 'combine_grid_space_between_posts',
 					'name'        => 'combine_grid_space_between_posts',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
+                    'default' => '10px',
 					//'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.

@@ -143,7 +143,7 @@ class Youtube_Additional_Options {
 
 				// Load More Button Color
 				array(
-					'input_wrap_class' => 'youtube_loadmore_background_color',
+					'input_wrap_class' => 'youtube_loadmore_background_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Overall Rating Background Color', 'feed-them-social' ),
 					'type'             => 'text',
@@ -155,7 +155,7 @@ class Youtube_Additional_Options {
 
 				// Load More Button Text Color
 				array(
-					'input_wrap_class' => 'youtube_loadmore_text_color',
+					'input_wrap_class' => 'youtube_loadmore_text_color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Load More Button Text Color', 'feed-them-social' ),
 					'type'             => 'text',

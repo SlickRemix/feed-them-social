@@ -715,14 +715,9 @@ class Facebook_Feed_Post_Types {
 	 * @param array  $single_event_array_response All post info.
 	 * @since 1.9.6
 	 */
-	public function feed_post_types( $set_zero, $facebook_post_type, $facebook_post, $saved_feed_options, $response_post_array, $single_event_array_response = null ) {
+	public function feed_post_types( $set_zero, $facebook_post_type, $facebook_post, $saved_feed_options, $response_post_array, $single_event_array_response = null, $fts_facebook_reviews = null ) {
 
 		//echo print_r($saved_feed_options);
-
-		// Reviews Plugin.
-		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
-			$fts_facebook_reviews = new FTS_Facebook_Reviews();
-		}
 
 		$fts_dynamic_vid_name_string = sanitize_key( $this->feed_functions->get_random_string( 10 ) . '_' . $saved_feed_options['facebook_page_feed_type'] );
 

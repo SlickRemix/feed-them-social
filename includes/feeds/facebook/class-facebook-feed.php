@@ -109,8 +109,7 @@ class Facebook_Feed {
      *
      * Custom Styles for feed in a shortcode.
      *
-     * @param string $a First Date.
-     * @return false|int
+     * @param string $feed_post_id Feed Post ID.
      * @since 4.0
      */
     public function fb_custom_styles( $feed_post_id ) {
@@ -324,33 +323,31 @@ class Facebook_Feed {
 		// Saved Feed Options!
 		$saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
 
-		//print_r($saved_feed_options);
-
 		// Decrypt Access Token.
 		$this->feed_access_token = $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_custom_api_token'] );
 
-		//print_r( $this->feed_access_token );
-
+		$load_popup_scripts = false;
 		// Eventually add premium page file.
 		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
-
-			$fts_facebook_reviews = new FTS_Facebook_Reviews();
-			$review_atts          = $fts_facebook_reviews->shortcode_attributes();
-			
 			// Load up some scripts for popup.
-			$this->load_popup_scripts( $saved_feed_options );
+			$load_popup_scripts = true;
 		}
         elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 			include WP_PLUGIN_DIR . '/feed-them-premium/feeds/facebook/facebook-premium-feed.php';
 			
 			// Load up some scripts for popup.
-			$this->load_popup_scripts( $saved_feed_options );
+	        $load_popup_scripts = true;
 		}
         else {
 			if ( null === $saved_feed_options['facebook_page_post_count'] ) {
 				$saved_feed_options['facebook_page_post_count'] = '6';
 			}
 		}
+
+        // Load Pop Up Scripts
+        if( $load_popup_scripts ){
+	        $this->load_popup_scripts( $saved_feed_options );
+        }
 
         // Get our Additional Options.
         $this->fb_custom_styles( $feed_post_id );
@@ -495,13 +492,10 @@ class Facebook_Feed {
 			$feed_data = json_decode( $response['feed_data'] );
 		}
 
-		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && true == get_option( 'fts_facebook_custom_api_token_biz' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ||
-		     is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && ! empty( $this->feed_access_token ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ||
-		     is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && ! empty( $this->feed_access_token ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
+		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && ( true == $this->feed_access_token && 'reviews' === $saved_feed_options['facebook_page_feed_type'] || ! empty( $this->feed_access_token ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) ) {
+			$fts_facebook_reviews = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token);
 
-			if ( 'yes' === $saved_feed_options['remove_reviews_no_description']&& ! isset( $_GET['load_more_ajaxing'] ) ) {
-
-				$fts_facebook_reviews = new FTS_Facebook_Reviews();
+            if ( 'yes' === $saved_feed_options['remove_reviews_no_description']&& ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$no_description_count = $fts_facebook_reviews->review_count_check( $saved_feed_options );
 
 				// testing purposes
@@ -889,7 +883,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
 				// echo '<br/><br/>were function gets called <br/><br/>' .
 				// print_r( $post_data );.
-				$this->facebook_post_types->feed_post_types( $set_zero, $facebook_post_type, $post_data, $saved_feed_options, $response_post_array, $single_event_array_response );
+				$this->facebook_post_types->feed_post_types( $set_zero, $facebook_post_type, $post_data, $saved_feed_options, $response_post_array, $single_event_array_response, $fts_facebook_reviews );
 			}
 
 			$set_zero++;
@@ -1251,15 +1245,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 				// echo $fb_cache_name;
 				// Reviews.
 				if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
-					$fts_facebook_reviews = new FTS_Facebook_Reviews();
+					$fts_facebook_reviews = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token );
 
-					$mulit_data = $fts_facebook_reviews->review_connection( $saved_feed_options, $this->feed_access_token, $language );
+					$mulit_data = $fts_facebook_reviews->review_connection( $saved_feed_options, $language );
 
 					$mulit_data['ratings_data'] = esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/?fields=overall_star_rating,rating_count&access_token=' . $this->feed_access_token . '' );
 
 				} else {
 					return 'Please Purchase and Activate the Feed Them Social Reviews plugin.';
-					exit;
 				}
 			} else {
 				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=feed,id,name,description&access_token=' . $this->feed_access_token . $language . '' );

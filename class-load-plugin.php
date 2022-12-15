@@ -138,6 +138,26 @@ class Feed_Them_Social {
 	}
 
 	/**
+	 * Load Extensions
+	 *
+	 * Service function to load up extensions.
+	 *
+	 * @since 1.0.0
+	 */
+	private function load_extensions() {
+		// Load Extension's Classes needed.
+		foreach (FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $extension){
+			if( $extension ){
+				// Is Extension Active?
+				if ( is_plugin_active( $extension['plugin_url'] && $extension['load_class'] ) ) {
+
+				}
+			}
+		}
+	}
+
+
+	/**
 	 * Setup Constants
 	 *
 	 * Setup plugin constants for plugin
@@ -220,6 +240,7 @@ class Feed_Them_Social {
 				),
 				'feed_them_social_facebook_reviews' => array(
 					'title'        => 'Feed Them Social Facebook Reviews',
+					'load_class'   => 'Feed_Them_Social_Facebook_Reviews',
 					'plugin_url'   => 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php',
 					'demo_url'     => 'https://feedthemsocial.com/facebook-page-reviews-demo/',
 					'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-facebook-reviews/',
@@ -230,16 +251,12 @@ class Feed_Them_Social {
 					'demo_url'     => 'https://feedthemsocial.com/facebook-carousels-or-sliders/',
 					'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-carousel-premium/',
 				),
-				'fts_bar'                           => array(
-					'title'        => 'Feed Them Social Bar',
-					'plugin_url'   => 'fts-bar/fts-bar.php',
-					'demo_url'     => 'https://feedthemsocial.com/fts-bar/',
-					'purchase_url' => 'https://www.slickremix.com/downloads/fts-bar/',
-				),
 			  )
 			);
 		}
 	}
+
+
 
 	/**
 	 * Includes Files

@@ -519,9 +519,7 @@ class Facebook_Feed_Post_Types {
 				echo $this->feed_functions->fts_share_option( $single_event_id, $description );
 				echo '<a href="' . esc_attr( $single_event_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
 				break;
-            // SRL added case '': to account for posts with descriptions that have no video or photos and were possible made from status_type => mobile_status_update
-            case '':
-			case 'photo':
+           case 'photo':
 				if ( ! empty( $fb_link ) ) {
 					echo '<div class="fts-likes-shares-etc-wrap">';
 					echo $this->feed_functions->fts_share_option( $fb_link, $description );
@@ -597,7 +595,9 @@ class Facebook_Feed_Post_Types {
 				}
 				echo '&nbsp;' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div></div>';
 				break;
-			default:
+            // SRL added case '': to account for posts with descriptions that have no video or photos and were possible made from status_type => mobile_status_update
+            case '':
+            default:
 				if ( 'yes' !== $saved_feed_options['fb_reviews_remove_see_reviews_link'] ) {
 					if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
 						$fb_reviews_see_more_reviews_language = $saved_feed_options['fb_reviews_see_more_reviews_language'] ?? 'See More Reviews';
@@ -942,6 +942,7 @@ class Facebook_Feed_Post_Types {
 				break;
 			case 'album':
 			default:
+                // This is also the wrapper for reviews posts when using the reviews extension.
 				echo '<div class="fts-jal-single-fb-post"';
 				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
 					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_space_between_posts'] ) . '!important"';
@@ -992,6 +993,7 @@ class Facebook_Feed_Post_Types {
 				// $fts_facebook_reviews->reviews_rating_format CANNOT be esc at this time.
 				$hide_name = 'albums' === $saved_feed_options['facebook_page_feed_type'] ? ' fts-fb-album-hide' : '';
 
+                // FUUUUUKC WHY REVIEWS IS LOADING SO DAMN SLOW... LEAVING OFF HERE.. STATEMENT BELOW DOES NOT HAVE ANYTHING TODO WITH IT FROM WHAT I CAN TELL.
 				echo ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? '<span class="fts-jal-fb-user-name fts-review-name" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">' . esc_attr( $facebook_post->reviewer->name ) . '</span>' . $fts_facebook_reviews->reviews_rating_format( $saved_feed_options, isset( $facebook_post->rating ) ? esc_html( $facebook_post->rating ) : '' ) . '</span>' : '<span class="fts-jal-fb-user-name' . $hide_name . '"><a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' . esc_html( $facebook_post_from_name ) . '</a>' . esc_html( $facebook_hide_shared_by_etc_text ) . '</span>' );
 
 				// tied to date function.
@@ -1854,7 +1856,7 @@ class Facebook_Feed_Post_Types {
 		$single_event_id   = isset( $single_event_id ) ? $single_event_id : '';
 
          /*echo '<pre>';
-        print_r($facebook_post);
+        print_r($facebook_post_type);
          echo '</pre>';*/
 
         $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $facebook_post_id, $saved_feed_options, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );

@@ -135,7 +135,7 @@ class Facebook_Feed {
         $fb_grid_posts_background_color = $saved_feed_options['fb_grid_posts_background_color'] ?? '';
 
         $fb_reviews_backg_color         = $saved_feed_options['fb_reviews_backg_color'] ?? '';
-        $fb_reviews_text_color          = $saved_feed_options['fb_reviews_text_color'] ?? '';
+        $fb_reviews_text_color          = $saved_feed_options['fb-reviews-text-color'] ?? '';
         $fb_reviews_overall_rating_background_color   =  $saved_feed_options['fb_reviews_overall_rating_background_color'] ?? '';
         $fb_reviews_overall_rating_border_color       =  $saved_feed_options['fb_reviews_overall_rating_border_color'] ?? '';
         $fb_reviews_overall_rating_text_color         =  $saved_feed_options['fb_reviews_overall_rating_text_color'] ?? '';
@@ -284,7 +284,55 @@ class Facebook_Feed {
                 .fts-slicker-facebook-posts .fts-jal-single-fb-post {
                 border-bottom-color: <?php echo esc_html( $fb_grid_border_bottom_color ); ?> !important;
                 }
-            <?php } ?>
+            <?php }
+
+            if ( ! empty( $fb_reviews_backg_color ) ) { ?>
+            .fts-review-star {
+                background: <?php echo esc_html( $fb_reviews_backg_color ); ?> !important;
+            }
+			<?php }
+
+            if ( ! empty( $fb_reviews_overall_rating_background_color ) ) { ?>
+            .fts-review-details-master-wrap {
+                background: <?php echo esc_html( $fb_reviews_overall_rating_background_color ); ?> !important;
+            }
+			<?php }
+
+            if ( ! empty( $fb_reviews_overall_rating_border_color ) ) { ?>
+            .fts-review-details-master-wrap {
+                border-bottom-color: <?php echo esc_html( $fb_reviews_overall_rating_border_color ); ?> !important;
+            }
+			<?php }
+
+            if ( ! empty( $fb_reviews_overall_rating_background_padding ) ) { ?>
+            .fts-review-details-master-wrap {
+                padding: <?php echo esc_html( $fb_reviews_overall_rating_background_padding ); ?> !important;
+            }
+			<?php }
+
+            if ( ! empty( $fb_reviews_overall_rating_text_color ) ) { ?>
+            .fts-review-details-master-wrap {
+                color: <?php echo esc_html( $fb_reviews_overall_rating_text_color ); ?> !important;
+            }
+			<?php }
+
+            if ( ! empty( $fb_reviews_text_color ) ) { ?>
+            .fts-review-star {
+                color: <?php echo esc_html( $fb_reviews_text_color ); ?> !important;
+            }
+			<?php }
+
+
+
+
+            if ( ! empty( $fb_text_size ) ) {
+            ?>
+            .fts-jal-fb-group-display .fts-jal-fb-message, .fts-jal-fb-group-display .fts-jal-fb-message p, .fts-jal-fb-group-header-desc, .fts-jal-fb-group-header-desc p, .fts-jal-fb-group-header-desc a {
+                font-size: <?php echo esc_html( $fb_text_size ); ?> !important;
+            }
+			<?php
+            } ?>
+
         </style><?php
     }
 
@@ -492,14 +540,15 @@ class Facebook_Feed {
 			$feed_data = json_decode( $response['feed_data'] );
 		}
 
-		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && ( true == $this->feed_access_token && 'reviews' === $saved_feed_options['facebook_page_feed_type'] || ! empty( $this->feed_access_token ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) ) {
-			$fts_facebook_reviews = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token);
+		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
 
-            if ( 'yes' === $saved_feed_options['remove_reviews_no_description']&& ! isset( $_GET['load_more_ajaxing'] ) ) {
+            $fts_facebook_reviews = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token);
+
+            if ( 'yes' === $saved_feed_options['remove_reviews_no_description'] && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$no_description_count = $fts_facebook_reviews->review_count_check( $saved_feed_options );
 
 				// testing purposes
-				// print ''. $no_description_count - $saved_feed_options['facebook_page_post_count'] .' = The amount of posts with no review text.';
+				print ''. $no_description_count - $saved_feed_options['facebook_page_post_count'] .' = The amount of posts with no review text.';
 				// this count includes our original posts count + the amount of posts we found with no description.
 				$saved_feed_options['facebook_page_post_count'] = $no_description_count;
 			}
@@ -588,10 +637,10 @@ class Facebook_Feed {
 			}
 		}
 		// Reviews Rating Filter.
-		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
+		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
 			foreach ( $feed_data->data as $key => $post_data ) {
-				// we are not going to show the unrecommended reviews in the feed at this point, no options in our plugin srl 8-28-18.
-				if ( isset( $post_data->rating ) && $post_data->rating < $saved_feed_options['reviews_type_to_show'] || isset( $post_data->recommendation_type ) && 'negative' === $post_data->recommendation_type ) {
+				// We are not going to show the unrecommended reviews in the feed at this point, no options in our plugin srl.
+				if ( isset( $post_data->recommendation_type ) && 'negative' === $post_data->recommendation_type ) {
 					unset( $feed_data->data[ $key ] );
 				}
 			}
@@ -619,17 +668,19 @@ class Facebook_Feed {
 			// Header.
 			echo '<div class="fts-jal-fb-header">';
 
-			if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && isset( $saved_feed_options['overall_rating'] ) && 'yes' === $saved_feed_options['overall_rating'] ) {
+			if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && isset( $saved_feed_options['reviews_overall_rating_show'] ) && 'yes' === $saved_feed_options['reviews_overall_rating_show'] ) {
 
-				// echo $this->get_facebook_overall_rating_response($saved_feed_options, $fb_cache_name, $this->feed_access_token);.
-				$fb_reviews_overall_rating_of_5_stars_text        = get_option( 'fb_reviews_overall_rating_of_5_stars_text' );
-				$fb_reviews_overall_rating_of_5_stars_text        = ! empty( $fb_reviews_overall_rating_of_5_stars_text ) ? ' ' . $fb_reviews_overall_rating_of_5_stars_text : ' of 5 stars';
-				$fb_reviews_overall_rating_reviews_text           = get_option( 'fb_reviews_overall_rating_reviews_text' );
+                // $feed_data_rating_overall = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token );
+                // echo $this->get_facebook_overall_rating_response($saved_feed_options, $fb_cache_name, $this->feed_access_token);.
+
+				$fb_reviews_overall_rating_of_5_stars_text        = $saved_feed_options['fb_reviews_overall_rating_of_5_stars_text'];
+				$fb_reviews_star_language                         = ! empty( $fb_reviews_overall_rating_of_5_stars_text ) ? ' ' . $fb_reviews_overall_rating_of_5_stars_text : ' of 5 stars';
+				$fb_reviews_overall_rating_reviews_text           = $saved_feed_options['fb_reviews_overall_rating_reviews_text'];
 				$fb_reviews_overall_rating_reviews_text           = ! empty( $fb_reviews_overall_rating_reviews_text ) ? ' ' . $fb_reviews_overall_rating_reviews_text : ' reviews';
-				$fb_reviews_overall_rating_background_border_hide = get_option( 'fb_reviews_overall_rating_background_border_hide' );
+				$fb_reviews_overall_rating_background_border_hide = $saved_feed_options['fb_reviews_overall_rating_background_border_hide'];
 				$fb_reviews_overall_rating_background_border_hide = ! empty( $fb_reviews_overall_rating_background_border_hide ) && 'yes' === $fb_reviews_overall_rating_background_border_hide ? ' fts-review-details-master-wrap-no-background-or-border' : '';
 				echo '<div class="fts-review-details-master-wrap' . esc_attr( $fb_reviews_overall_rating_background_border_hide ) . '" itemscope itemtype="http://schema.org/CreativeWork"><i class="fts-review-star">' . esc_html( $ratings_data->overall_star_rating ) . ' &#9733;</i>';
-				echo '<div class="fts-review-details-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><div class="fts-review-details"><span itemprop="ratingValue">' . esc_html( $ratings_data->overall_star_rating ) . '</span>' . esc_html( $fb_reviews_overall_rating_of_5_stars_text ) . '</div>';
+				echo '<div class="fts-review-details-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><div class="fts-review-details"><span itemprop="ratingValue">' . esc_html( $ratings_data->overall_star_rating ) . '</span>' . esc_html( $fb_reviews_star_language ) . '</div>';
 				echo '<div class="fts-review-details-count"><span itemprop="reviewCount">' . esc_html( $ratings_data->rating_count ) . '</span>' . esc_html( $fb_reviews_overall_rating_reviews_text ) . '</div></div></div>';
 
 			}
@@ -687,7 +738,7 @@ class Facebook_Feed {
 				if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
 					echo '';
 				} elseif ( isset( $saved_feed_options['fts-slider'] ) && 'yes' !== $saved_feed_options['fts-slider'] && 'yes' === $saved_feed_options['facebook_container_animation'] || isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ) {
-					wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+					wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 					echo '<script>';
 					echo 'jQuery(window).on(\'load\', function(){';
 					echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").masonry({';
@@ -1139,26 +1190,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		return ! empty( $language_option ) ? '&locale=' . $language_option : '';
 	}
 
-	/**
-	 * Get Facebook Overall Rating Response
-	 *
-	 * @param array $saved_feed_options The feed options saved in the CPT.
-	 * @param string $fb_cache_name The Cache Name.
-	 * @since 2.1.3
-	 */
-	public function get_facebook_overall_rating_response( $saved_feed_options, $fb_cache_name ) {
-		
-		$fb_reviews_overall_rating_of_5_stars_text        = $saved_feed_options['fb_reviews_overall_rating_of_5_stars_text'];
-		$fb_reviews_overall_rating_of_5_stars_text        = ! empty( $fb_reviews_overall_rating_of_5_stars_text ) ? ' ' . $fb_reviews_overall_rating_of_5_stars_text : ' of 5 stars';
-		$fb_reviews_overall_rating_reviews_text           = $saved_feed_options['fb_reviews_overall_rating_reviews_text'];
-		$fb_reviews_overall_rating_reviews_text           = ! empty( $fb_reviews_overall_rating_reviews_text ) ? ' ' . $fb_reviews_overall_rating_reviews_text : ' reviews';
-		$fb_reviews_overall_rating_background_border_hide = $saved_feed_options['fb_reviews_overall_rating_background_border_hide'];
-		$fb_reviews_overall_rating_background_border_hide = ! empty( $fb_reviews_overall_rating_background_border_hide ) && 'yes' === $fb_reviews_overall_rating_background_border_hide ? ' fts-review-details-master-wrap-no-background-or-border' : '';
-
-		echo '<div class="fts-review-details-master-wrap' . esc_attr( $fb_reviews_overall_rating_background_border_hide ) . '"><i class="fts-review-star">' . esc_html( $feed_data_rating_overall->overall_star_rating ) . ' &#9733;</i>';
-		echo '<div class="fts-review-details-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><div class="fts-review-details"><span itemprop="ratingValue">' . esc_html( $feed_data_rating_overall->overall_star_rating ) . '</span>' . esc_html( $fb_reviews_overall_rating_of_5_stars_text ) . '</div>';
-		echo '<div class="fts-review-details-count"><span itemprop="reviewCount">' . esc_html( $feed_data_rating_overall->rating_count ) . '</span>' . esc_html( $fb_reviews_overall_rating_reviews_text ) . '</div></div></div>';
-	}
 
 
 	/**

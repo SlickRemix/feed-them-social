@@ -742,7 +742,7 @@ function fts_check_valid() {
                                 $( id + '#hide_see_more_reviews_link option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'remove_reviews_no_description' == attribute ){
-                                $( id + '#reviews_with_no_text option[value=yes]' ).attr('selected','selected');
+                                $( id + '#remove_reviews_with_no_description option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'play_btn' == attribute ){
                                 $( id + '#facebook_show_video_button option[value=yes]' ).attr('selected','selected');
@@ -859,7 +859,7 @@ function fts_check_valid() {
                             $( id + '#reviews_overall_rating_show option[value=no]' ).attr('selected','selected');
                         }
                         else if ( 'remove_reviews_no_description' == attribute && 'no' == value ){
-                            $( id + '#reviews_with_no_text option[value=yes]' ).attr('selected','selected');
+                            $( id + '#remove_reviews_with_no_description option[value=yes]' ).attr('selected','selected');
                         }
                         else if ( 'facebook_play_btn_size' == attribute ){
                             $( id + '#facebook_size_video_play_btn' ).val( value );

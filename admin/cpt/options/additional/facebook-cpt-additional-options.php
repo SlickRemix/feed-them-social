@@ -204,7 +204,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Stars Background Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
+							esc_html__( 'Recommended Background Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -221,7 +221,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Stars & Text Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
+							esc_html__( 'Recommended & Text Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -233,7 +233,7 @@ class Facebook_Additional_Options {
                     'req_extensions'  => array('feed_them_social_facebook_reviews'),
 				),
 				// Text for word Star.
-				array(
+				/*array(
 					'input_wrap_class' => 'fb_reviews_star_language',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Text for the word "star"', 'feed_them_social' ),
@@ -243,7 +243,7 @@ class Facebook_Additional_Options {
 					'placeholder'      => 'star',
 					'default_value'    => '',
                     'req_extensions'  => array('feed_them_social_facebook_reviews'),
-				),
+				),*/
 				// Text for word Recommended.
 				array(
 					'input_wrap_class' => 'fb_reviews_recommended_language',

@@ -1920,89 +1920,13 @@ class Feed_CPT_Options {
 					'sub_options_end' => true,
 				),
 
-				// ******************************************
-				// Facebook Review Options
-				// ******************************************
-				// Reviews to Show
-				array(
-					'grouped_options_title' => __( 'Reviews', 'feed-them-social' ),
-					'option_type' => 'select',
-					'label'       => __( 'Reviews to Show', 'feed-them-social' ),
-					'type'        => 'text',
-					'id'          => 'reviews_type_to_show',
-					'name'        => 'reviews_type_to_show',
-					'options'     => array(
-						1 => array(
-							'label' => __( 'Show all Reviews', 'feed-them-social' ),
-							'value' => '1',
-						),
-						2 => array(
-							'label' => __( '5 Star Reviews only', 'feed-them-social' ),
-							'value' => '5',
-						),
-						3 => array(
-							'label' => __( '4 and 5 Stars Reviews only', 'feed-them-social' ),
-							'value' => '4',
-						),
-						4 => array(
-							'label' => __( '3, 4 and 5 Star Reviews only', 'feed-them-social' ),
-							'value' => '3',
-						),
-						5 => array(
-							'label' => __( '2, 3, 4, and 5 Star Reviews only', 'feed-them-social' ),
-							'value' => '2',
-						),
-					),
-					'req_extensions'  => array('feed_them_social_facebook_reviews'),
-					'short_attr'  => array(
-						'attr_name' => 'reviews_type_to_show',
-						'ifs' => 'reviews',
-					),
-					'sub_options' => array(
-						'sub_options_wrap_class' => 'facebook-reviews-wrap',
-					),
-				),
 
-				// Rating Format
-				array(
-					'option_type' => 'select',
-					'label'       => __( 'Rating Format', 'feed-them-social' ) . '<br/><small>' . __( '8/17/2018: Facebook has moved to what are called "recommendations" so for some people this option may not be necessary.', 'feed-them-premium' ) . '</small>',
-					'type'        => 'text',
-					'id'          => 'reviews_rating_format',
-					'name'        => 'reviews_rating_format',
-					'options'     => array(
-						1 => array(
-							'label' => __( '5 star - &#9733;&#9733;&#9733;&#9733;&#9733;', 'feed-them-social' ),
-							'value' => '1',
-						),
-						2 => array(
-							'label' => __( '5 star &#9733;', 'feed-them-social' ),
-							'value' => '2',
-						),
-						3 => array(
-							'label' => __( '5 star', 'feed-them-social' ),
-							'value' => '3',
-						),
-						4 => array(
-							'label' => __( '5 &#9733;', 'feed-them-social' ),
-							'value' => '4',
-						),
-						5 => array(
-							'label' => __( '&#9733;&#9733;&#9733;&#9733;&#9733;', 'feed-them-social' ),
-							'value' => '5',
-						),
-					),
-					'req_extensions'  => array('feed_them_social_facebook_reviews'),
-					'short_attr'  => array(
-						'attr_name' => 'reviews_rating_format',
-						'ifs' => 'reviews',
-					),
-				),
 
 				// Overall Rating
 				array(
+                    'grouped_options_title' => __( 'Reviews', 'feed-them-social' ),
 					'option_type' => 'select',
-					'label'       => __( 'Overall Rating above Feed', 'feed-them-social' ) . '<br/><small>' . __( 'More settings: <a href="admin.php?page=fts-facebook-feed-styles-submenu-page#overall-rating-options">Facebook Options</a> page.', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Overall Rating above Feed', 'feed-them-social' ) . '<br/><small>' . __( 'More under Additional Options', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'reviews_overall_rating_show',
 					'name'        => 'reviews_overall_rating_show',
@@ -2021,6 +1945,9 @@ class Feed_CPT_Options {
 						'attr_name' => 'overall_rating',
 						'ifs' => 'reviews',
 					),
+                    'sub_options' => array(
+                        'sub_options_wrap_class' => 'facebook-reviews-wrap',
+                    ),
 				),
 
 				// Hide Reviews with no Text
@@ -2028,8 +1955,8 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Hide Reviews with no description', 'feed-them-social' ),
 					'type'        => 'text',
-					'id'          => 'reviews_with_no_text',
-					'name'        => 'reviews_with_no_text',
+					'id'          => 'remove_reviews_with_no_description',
+					'name'        => 'remove_reviews_with_no_description',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'Yes', 'feed-them-social' ),

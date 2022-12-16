@@ -597,62 +597,6 @@ class Feed_Functions {
             <style type="text/css">
 
             <?php
-
-            if ( ! empty( $fb_reviews_backg_color ) ) { ?>
-            .fts-review-star {
-                background: <?php echo esc_html( $fb_reviews_backg_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $fb_reviews_overall_rating_background_color ) ) { ?>
-            .fts-review-details-master-wrap {
-                background: <?php echo esc_html( $fb_reviews_overall_rating_background_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $fb_reviews_overall_rating_border_color ) ) { ?>
-            .fts-review-details-master-wrap {
-                border-bottom-color: <?php echo esc_html( $fb_reviews_overall_rating_border_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $fb_reviews_overall_rating_background_padding ) ) { ?>
-            .fts-review-details-master-wrap {
-                padding: <?php echo esc_html( $fb_reviews_overall_rating_background_padding ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $fb_reviews_overall_rating_text_color ) ) { ?>
-            .fts-review-details-master-wrap {
-                color: <?php echo esc_html( $fb_reviews_overall_rating_text_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $fb_reviews_text_color ) ) { ?>
-            .fts-review-star {
-                color: <?php echo esc_html( $fb_reviews_text_color ); ?> !important;
-            }
-			<?php }
-
-
-
-
-            if ( ! empty( $fb_text_size ) ) {
-            ?>
-            .fts-jal-fb-group-display .fts-jal-fb-message, .fts-jal-fb-group-display .fts-jal-fb-message p, .fts-jal-fb-group-header-desc, .fts-jal-fb-group-header-desc p, .fts-jal-fb-group-header-desc a {
-                font-size: <?php echo esc_html( $fb_text_size ); ?> !important;
-            }
-			<?php
-            }
-
-
-
-
-
-
-
-
-
             if ( ! empty( $youtube_loadmore_background_color ) ) {
 	        ?>
             .fts-youtube-load-more-wrapper .fts-fb-load-more {
@@ -1177,7 +1121,7 @@ class Feed_Functions {
 	 */
 	public function fts_share_option( $fb_link, $description ) {
 
-		$hide_share = get_option( 'fts_disable_share_button', true ) ? get_option( 'fts_disable_share_button', true ) : '';
+		$hide_share = $this->settings_functions->fts_get_option( 'hide_sharing' ) ?? '';
 
 		if ( isset( $hide_share ) && '1' !== $hide_share ) {
 			// Social media sharing URLs

@@ -958,14 +958,13 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
                         <div class='slicker-instaG-photoshadow'></div>
                     </div>
-                            <?php if ( 'no' === $saved_feed_options['instagram_hide_date_likes_comments'] ) { ?>
                         <div class="fts-insta-likes-comments-grab-popup">
-                                <?php
 
+                            <?php
                                 // this is already escaping in the function, re escaping will cause errors.
                                 echo $this->feed_functions->fts_share_option( $this->fts_view_on_instagram_url( $post_data ), $this->fts_instagram_description( $post_data ) );
 
-                                if ( 'basic' !== $saved_feed_options['instagram_feed_type'] ) {
+                                if ( 'basic' !== $saved_feed_options['instagram_feed_type'] && 'no' !== $saved_feed_options['instagram_hide_date_likes_comments'] ) {
                                     ?>
                                     <div class="fts-instagram-reply-wrap-left">
                                         <ul class='slicker-heart-comments-wrap'>
@@ -977,7 +976,6 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                     </div>
                                 <?php } ?>
                         </div>
-                    <?php } ?>
                 </div>
                 <?php
                     if ( isset( $set_zero ) ) {

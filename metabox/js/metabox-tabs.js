@@ -68,7 +68,7 @@ function fts_ajax_cpt_save_token() {
     return false;
 }
 
-function fts_ajax_cpt_save() {
+function fts_ajax_cpt_save( shortcodeConverted ) {
 
     jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
         beforeSend: function () {
@@ -86,17 +86,21 @@ function fts_ajax_cpt_save() {
 
             setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
 
+            // Change the text from Updating... at the bottom of a long page to Update.
+            jQuery('.updatefrombottom a.button-primary').html("Update");
+
             var hash2 = window.location.hash.replace('#', '');
 
             // #fts-feed-type: comes from the url populated by slickremix where we get the access token from.
             // #feed_setup: comes from clicking on the Feed Setup tab
             // if no hash then it's a new feed or possibly the #feed_setup hash was removed from the url.
-            if ( hash2 === 'fts-feed-type' || hash2 === 'feed_setup' || hash2 === '') {
+            if ( hash2 === 'fts-convert-old-shortcode' ||
+                 hash2 === 'fts-feed-type' ||
+                 hash2 === 'feed_setup' ||
+                 hash2 === '') {
                 location.reload();
             }
 
-            // Change the text from Updating... at the bottom of a long page to Update.
-            jQuery('.updatefrombottom a.button-primary').html("Update");
         }
     });
     return false;
@@ -119,7 +123,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
     });
 
-    jQuery('.tab-content-wrap').on('click', '.fts-instagram-successful-api-token', function (e) {
+    jQuery('.tab-content-wrap').on('click', '.fts-instagram-successful-api-token, .fts-instagram-business-successful-api-token', function (e) {
         jQuery('.tab4 a').click();
         var clickedLink = $('.tab4 a').attr('href');
         // push it into the url
@@ -127,7 +131,6 @@ jQuery(document).ready(function ($) {
         // Prevent the anchor's default click action
         e.preventDefault();
     });
-
 
     jQuery('.tab-content-wrap').on('click', '.fts-twitter-successful-api-token', function (e) {
         jQuery('.tab6 a').click();

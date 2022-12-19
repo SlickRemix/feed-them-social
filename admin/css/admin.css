@@ -477,3 +477,20 @@
     display: block;
     color: rgba(221,221,221,.57);
 }
+.fts-shortocde-success-message svg {
+    max-width: 75px;
+    fill: #f40505;
+}
+.fts-shortocde-success-message {
+    padding: 10px 20px 25px 20px;
+    text-align:center;
+}
+.fts-shortocde-success-message h1 {
+    font-size: 24px;
+    font-weight:bold;
+    color: #4dd10a;
+}
+.fts-shortocde-success-message span {
+    font-size: 16px;
+    color: #0f0f0f;
+}

@@ -5775,7 +5775,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'id'          => 'combine_youtube_name',
                     'name'        => 'combine_youtube_name',
-                    'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Username</a> and paste it below.',
+                    'instructional-text' => 'Copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Username</a> and paste it below.',
                     //'req_extensions'  => array('feed_them_social_combined_streams'),
 
                     // Relative to JS.
@@ -5796,7 +5796,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'id'          => 'combine_playlist_id',
                     'name'        => 'combine_playlist_id',
-                    'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Playlist ID</a> and paste them below.',
+                    'instructional-text' => 'Copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Playlist ID</a> and paste them below.',
                     //'req_extensions'  => array('feed_them_social_combined_streams'),
 
                     // Relative to JS.
@@ -5814,7 +5814,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'id'          => 'combine_channel_id',
                     'name'        => 'combine_channel_id',
-                    'instructional-text' => '<strong>REQUIRED:</strong> Make sure you have an <strong>API Key</strong> or <strong>Access Token</strong> in place on the <a class="not-active-title" href="admin.php?page=fts-youtube-feed-styles-submenu-page" target="_blank">Youtube Options</a> page then copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Channel ID</a> and paste it below.',
+                    'instructional-text' => 'Copy your YouTube <a href="https://www.slickremix.com/how-to-get-your-youtube-name/" target="_blank">Channel ID</a> and paste it below.',
                     //'req_extensions'  => array('feed_them_social_combined_streams'),
 
                     // Relative to JS.

@@ -1003,7 +1003,7 @@ class Feeds_CPT {
                 <p>
                     <label><label><?php echo esc_html__( 'Paste your Old shortcode here and click the blue Convert button. This will map your old options to the new input fields.', 'feed_them_social' ); ?></label>
                         <input value="" />
-                </p><div class="publishing-action" style="text-align: right;"><a href="#feed_setup" id="fts-convert-old-shortcode" class="button button-primary button-large"><?php echo esc_html__( 'Convert', 'feed_them_social' ); ?></a></div>
+                </p><div class="publishing-action" style="text-align: right;"><a href="#fts-convert-old-shortcode" id="fts-convert-old-shortcode" class="button button-primary button-large"><?php echo esc_html__( 'Convert', 'feed_them_social' ); ?></a></div>
 
                 <small style="display: none">
                     for testing:<br/>

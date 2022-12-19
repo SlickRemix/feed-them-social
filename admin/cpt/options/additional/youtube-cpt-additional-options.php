@@ -129,7 +129,7 @@ class Youtube_Additional_Options {
 	public function load_more_options() {
 		$this->all_options['youtube_load_more_options'] = array(
 			'section_attr_key'   => 'youtube_load_more_options_',
-			'section_title'      => esc_html__( 'Load More Button Styles & Options', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Load More Button', 'feed_them_social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -145,7 +145,7 @@ class Youtube_Additional_Options {
 				array(
 					'input_wrap_class' => 'youtube_loadmore_background_color fts-color-picker',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Overall Rating Background Color', 'feed-them-social' ),
+					'label'            => esc_html__( 'Button Background Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'youtube_loadmore_background_color',
 					'name'             => 'youtube_loadmore_background_color',
@@ -157,7 +157,7 @@ class Youtube_Additional_Options {
 				array(
 					'input_wrap_class' => 'youtube_loadmore_text_color fts-color-picker',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Load More Button Text Color', 'feed-them-social' ),
+					'label'            => esc_html__( 'Button Text Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'youtube_loadmore_text_color',
 					'name'             => 'youtube_loadmore_text_color',

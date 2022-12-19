@@ -132,7 +132,6 @@ class Facebook_Feed {
         $fb_loadmore_background_color   = $saved_feed_options['fb_loadmore_background_color'] ?? '';
         $fb_loadmore_text_color         = $saved_feed_options['fb_loadmore_text_color'] ?? '';
         $fb_border_bottom_color         = $saved_feed_options['fb_border_bottom_color'] ?? '';
-        $fb_grid_posts_background_color = $saved_feed_options['fb_grid_posts_background_color'] ?? '';
 
         $fb_reviews_backg_color         = $saved_feed_options['fb_reviews_backg_color'] ?? '';
         $fb_reviews_text_color          = $saved_feed_options['fb-reviews-text-color'] ?? '';
@@ -322,9 +321,6 @@ class Facebook_Feed {
             }
 			<?php }
 
-
-
-
             if ( ! empty( $fb_text_size ) ) {
             ?>
             .fts-jal-fb-group-display .fts-jal-fb-message, .fts-jal-fb-group-display .fts-jal-fb-message p, .fts-jal-fb-group-header-desc, .fts-jal-fb-group-header-desc p, .fts-jal-fb-group-header-desc a {
@@ -375,14 +371,7 @@ class Facebook_Feed {
 		$this->feed_access_token = $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_custom_api_token'] );
 
 		$load_popup_scripts = false;
-		// Eventually add premium page file.
-		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
-			// Load up some scripts for popup.
-			$load_popup_scripts = true;
-		}
-        elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-			include WP_PLUGIN_DIR . '/feed-them-premium/feeds/facebook/facebook-premium-feed.php';
-			
+		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 			// Load up some scripts for popup.
 	        $load_popup_scripts = true;
 		}

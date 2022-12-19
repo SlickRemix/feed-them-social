@@ -234,16 +234,10 @@ class Activate_Plugin {
 	 * @since 1.0.0
 	 */
 	public function free_plugin_install_page_links( $install_page_links ) {
-		array_unshift(
-			$install_page_links,
-			sprintf(
-				esc_html__( '%1$sSettings%2$s | %3$sSupport%4$s', 'feed_them_social' ),
-				'<a href="' . esc_url( 'edit.php?post_type=fts&page=fts-settings-page' ) . '">',
-				'</a>',
-				'<a href="' . esc_url( 'https://www.slickremix.com/support/' ) . '">',
-				'</a>'
-			)
-		);
+        array_unshift(
+            $install_page_links,
+            '<a href="/wp-admin/edit.php?post_type=fts">' . esc_html__( 'Feeds', $this->extension_info['translation_label'] ) . '</a> | <a href="/wp-admin/edit.php?post_type=fts&page=fts-settings-page">' . esc_html__( 'Settings', $this->extension_info['translation_label'] ) . '</a> | <a target="_blank" href="' . esc_url( 'https://www.slickremix.com/support/' ) . '">' . esc_html__( 'Support', $this->extension_info['translation_label'] ) . '</a>'
+        );
 		return $install_page_links;
 	}
 

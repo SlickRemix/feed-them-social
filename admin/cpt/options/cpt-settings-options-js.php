@@ -272,17 +272,29 @@ class Settings_Options_JS {
         // business and hashtag select options.
         function instagram_feed_type_select(){
 
+
             if( jQuery('#fts-instagram-business-token-button').hasClass( 'fts-social-icon-wrap-active' ) &&
-                jQuery('#instagram_feed_type').find('[value="business"]').attr('selected') ) {
+                jQuery('#instagram_feed_type').find('[value="business"]').attr('selected') ||
+                jQuery( '#feed_type' ).val() === 'instagram-business-feed-type' &&
+                jQuery('#instagram_feed_type').val() === 'basic' ||
+                jQuery( '#feed_type' ).val() === 'instagram-business-feed-type' &&
+                jQuery('#instagram_feed_type').val() === 'business' ) {
+                //jQuery( '#feed_type' ).val() === 'instagram-business-feed-type' && jQuery('#instagram_feed_type').find('[value="basic"]').attr('selected')
+                // I do the or statement above because basic will always be first in the select so we have to override that by doing a second check.
+
+                jQuery(".main-instagram-profile-options-wrap").show();
 
                 jQuery('#instagram_feed_type').find('[value="basic"]').removeAttr('selected').hide();
                 jQuery('#instagram_feed_type').find('[value="business"]').attr('selected', 'selected').show();
+                jQuery('#instagram_feed_type').find('[value="hashtag"]').show();
                 jQuery('.instagram_feed_type').show();
                 jQuery('.instagram_hashtag, .instagram_hashtag_type').hide();
             }
 
             else if( jQuery('#fts-instagram-business-token-button').hasClass( 'fts-social-icon-wrap-active' ) &&
-                jQuery('#instagram_feed_type').find('[value="hashtag"]').attr('selected') ) {
+                jQuery('#instagram_feed_type').find('[value="hashtag"]').attr('selected') ||
+                jQuery( '#feed_type' ).val() === 'instagram-business-feed-type' &&
+                jQuery('#instagram_feed_type').val() === 'hashtag' ) {
 
                 jQuery('#instagram_feed_type').find('[value="basic"]').removeAttr('selected').hide();
                 jQuery('#instagram_feed_type').find('[value="business"]').removeAttr('selected').show();
@@ -299,7 +311,9 @@ class Settings_Options_JS {
                 jQuery('.instagram_feed_type').show();
             }
 
-            if( jQuery('#fts-instagram-basic-token-button').hasClass( 'fts-social-icon-wrap-active' ) ) {
+            if( jQuery('#fts-instagram-basic-token-button').hasClass( 'fts-social-icon-wrap-active' ) ||
+                jQuery( '#feed_type' ).val() === 'instagram-feed-type' &&
+                jQuery('#instagram_feed_type').val() === 'basic' ) {
 
                 jQuery('#instagram_feed_type').find('[value="basic"]').attr('selected', 'selected');
                 jQuery('#instagram_feed_type').find('[value="business"]').removeAttr('selected').hide();
@@ -336,7 +350,9 @@ class Settings_Options_JS {
                 else {
                     jQuery(".instagram_hashtag, .instagram_hashtag_type").hide();
                 }
+
             }).change();
+
 
             //Instagram Load More Options
             jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide();

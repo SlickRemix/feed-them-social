@@ -151,6 +151,7 @@ class Youtube_Additional_Options {
 					'name'             => 'youtube_loadmore_background_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// Load More Button Text Color
@@ -163,6 +164,7 @@ class Youtube_Additional_Options {
 					'name'             => 'youtube_loadmore_text_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 
@@ -176,6 +178,7 @@ class Youtube_Additional_Options {
 					'name'             => 'youtube_load_more_text',
 					'placeholder'      => 'Load More',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 
 				// "No More Photos" Text
@@ -188,6 +191,7 @@ class Youtube_Additional_Options {
 					'name'             => 'youtube_no_more_photos_text',
 					'placeholder'      => 'No More Videos',
 					'default_value'    => '',
+                    'req_extensions'  => array('feed_them_social_premium'),
 				),
 			),
 		);

@@ -577,9 +577,6 @@ class Twitter_Feed {
 			// option to allow this action or not from the Twitter Options page.
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 
-                // SRL 4.0 commenting out for now till we get into the premium work.
-				//include WP_CONTENT_DIR . '/plugins/feed-them-premium/feeds/twitter/twitter-feed.php';
-
                 $popup                       = $saved_feed_options['twitter_popup_option'] ?? '';
 				$loadmore                    = $saved_feed_options['twitter_load_more_option'] ?? '';
 				$loadmore_style              = $saved_feed_options['twitter_load_more_style'] ?? '';
@@ -663,9 +660,7 @@ class Twitter_Feed {
 				// numTimes = get_option('twitter_replies_offset') == TRUE ? get_option('twitter_replies_offset') : '1' ;.
 
 				// If excluding replies, we need to fetch more than requested as the total is fetched first, and then replies removed.
-				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore_style ) && 'button' === $loadmore_style ||
-				is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore_style ) && 'autoscroll' === $loadmore_style
-				) {
+				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore ) && 'yes' === $loadmore ) {
 					$total_to_fetch = $tweets_count;
 				} else {
 					$total_to_fetch = 'true' === $exclude_replies ? max( 50, $tweets_count * 3 ) : $tweets_count;
@@ -756,8 +751,9 @@ class Twitter_Feed {
 			} elseif ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
 				// NO Access tokens found.
 
-				echo $fts_twitter_custom_access_token;
-				echo ' <br/>asdfasdf';
+                // Testing
+				//echo $fts_twitter_custom_access_token;
+				//echo ' <br/>asdfasdf';
 
 				$error_check = __( 'No Access Tokens have been set. Please retrieve Twitter API tokens on the Twitter Options page of Feed Them Social.', 'feed-them-social' );
 			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
@@ -1174,7 +1170,7 @@ class Twitter_Feed {
 					}
 					// endforeach;.
 					// Make sure it's not ajaxing.
-					if ( ! isset( $_GET['load_more_ajaxing'] ) && ! empty( $loadmore_style ) && 'autoscroll' === $loadmore_style ) {
+					if ( ! isset( $_GET['load_more_ajaxing'] ) && 'yes' === $loadmore && 'autoscroll' === $loadmore_style ) {
 
 						$fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
 
@@ -1238,7 +1234,7 @@ class Twitter_Feed {
 
 				<?php
 				// $loadmore_style = load_more_posts_style shortcode att.
-				if ( 'autoscroll' === $loadmore_style ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
+				if ( 'autoscroll' === $loadmore_style && 'yes' === $loadmore ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
 					?>
 				jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").bind("scroll", function () {
 					if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
@@ -1278,7 +1274,7 @@ class Twitter_Feed {
 								url: "<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>",
 								success: function (data) {
 									console.log('Well Done and got this from sever: ' + data);
-								<?php if ( isset( $loadmore ) && 'autoscroll' === $loadmore ) { ?>
+								<?php if ( 'autoscroll' === $loadmore_style && 'yes' === $loadmore ) { ?>
 									jQuery('#output_<?php echo esc_js( $fts_dynamic_name ); ?>').append(data).filter('#output_<?php echo esc_js( $fts_dynamic_name ); ?>').html();
 									<?php } else { ?>
 									jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
@@ -1311,7 +1307,7 @@ class Twitter_Feed {
 							return false;
 									<?php
 									// string $loadmore_style is at top of this js script. exception for scroll option closing tag.
-									if ( 'autoscroll' === $loadmore_style ) {
+									if ( 'autoscroll' === $loadmore_style && 'yes' === $loadmore ) {
 										?>
 						}; // end of scroll ajax load.
 								<?php } ?>
@@ -1334,7 +1330,7 @@ class Twitter_Feed {
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'button' === $loadmore_style ) {
+				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'button' === $loadmore_style && 'yes' === $loadmore ) {
 					echo '<div class="fts-clear"></div>';
 					echo '<div class="fts-twitter-load-more-wrapper">';
 					echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '"" style="';

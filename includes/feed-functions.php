@@ -589,38 +589,6 @@ class Feed_Functions {
 	public function fts_fb_color_options_head_css() {
 
 
-		$youtube_loadmore_background_color = get_option( 'youtube_loadmore_background_color' );
-		$youtube_loadmore_text_color       = get_option( 'youtube_loadmore_text_color' );
-
-
-        ?>
-            <style type="text/css">
-
-            <?php
-            if ( ! empty( $youtube_loadmore_background_color ) ) {
-	        ?>
-            .fts-youtube-load-more-wrapper .fts-fb-load-more {
-                background: <?php echo esc_html( $youtube_loadmore_background_color ); ?> !important;
-            }
-			<?php }
-
-            if ( ! empty( $youtube_loadmore_text_color ) ) { ?>
-            .fts-youtube-load-more-wrapper .fts-fb-load-more {
-                color: <?php echo esc_html( $youtube_loadmore_text_color ); ?> !important;
-            }
-			<?php
-            }
-
-            if ( ! empty( $youtube_loadmore_text_color ) ) {
-	        ?>
-            .fts-youtube-load-more-wrapper .fts-fb-spinner > div {
-                background: <?php echo esc_html( $youtube_loadmore_text_color ); ?> !important;
-            }
-
-			<?php } ?>
-
-		</style>
-		<?php
 	}
 
 	/**
@@ -706,32 +674,12 @@ class Feed_Functions {
                 exit( 'That is not an FTS shortcode!' );
             }
         }
-
+        // leaving off here, damn youtube and now twitter loadmore are not working.....
         if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ||
              isset( $_REQUEST['feed_name'] ) && 'feed_them_social' === $_REQUEST['feed_name']
-             // ||
-//             isset( $_REQUEST['feed_name'] ) && 'fts_twitter' === $_REQUEST['feed_name'] ||
-//             isset( $_REQUEST['feed_name'] ) && 'fts_youtube' === $_REQUEST['feed_name'] ||
-//             isset( $_REQUEST['feed_name'] ) && 'fts_facebookbiz' === $_REQUEST['feed_name'] ||
-//             isset( $_REQUEST['feed_name'] ) && 'fts_instagram' === $_REQUEST['feed_name']
         ) {
 
-            //$feed_atts = isset( $_REQUEST['feed_attributes'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_REQUEST['feed_attributes'] ) ) : '';
-
-            $build_shortcode = '[' . sanitize_text_field( wp_unslash( $_REQUEST['feed_name'] ) ) . ' cpt_id=' . $_REQUEST['feed_id'];
-//            foreach ( $feed_atts as $attribute => $value ) {
-//                $build_shortcode .= ' ' . $attribute . '=' . $value;
-//            }
-
-            if ( 'fts_twitter' === $_REQUEST['feed_name'] ) {
-               // $loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
-               // $build_shortcode .= ' ' . $loadmore_count . ']';
-            } elseif ( 'fts_youtube' === $_REQUEST['feed_name'] ) {
-                $loadmore_count   = isset( $_REQUEST['loadmore_count'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['loadmore_count'] ) ) : '';
-                $build_shortcode .= ' ' . $loadmore_count . ']';
-            } else {
-                $build_shortcode .= ' ]';
-            }
+            $build_shortcode = '[' . sanitize_text_field( wp_unslash( $_REQUEST['feed_name'] ) ) . ' cpt_id=' . sanitize_text_field( wp_unslash( $_REQUEST['feed_id'] ) ) . ']';
 
             echo do_shortcode( $build_shortcode );
 

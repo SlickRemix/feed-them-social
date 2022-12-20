@@ -4767,15 +4767,15 @@ class Feed_CPT_Options {
 						'ifs' => 'load_more',
 					),
 
-					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
-					'sub_options' => array(
-						'sub_options_wrap_class' => 'fts-youtube-load-more-options-wrap',
-					),
-					'sub_options_end' => true,
+                    // This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+                    'sub_options' => array(
+                        'sub_options_wrap_class' => 'fts-youtube-load-more-options2-wrap',
+                    ),
 				),
 
+                // SRL: commenting out for now.
 				// youtube Page Load more Amount
-				array(
+				/*array(
 					'option_type' => 'input',
 					'label'       => __( 'Load more Amount', 'feed-them-social' ) . '<br/><small>' . __( 'How many more videos will load at a time.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
@@ -4797,7 +4797,7 @@ class Feed_CPT_Options {
 					'sub_options' => array(
 						'sub_options_wrap_class' => 'fts-youtube-load-more-options2-wrap',
 					),
-				),
+				),*/
 
 				// youtube Load more Button Width
 				array(
@@ -4845,7 +4845,7 @@ class Feed_CPT_Options {
 				array(
 					'grouped_options_title' => __( 'Comments', 'feed-them-social' ),
 					'option_type' => 'input',
-					'label'       => __( '# of Comments', 'feed-them-social' ) . '<br/><small>' . __( 'Maximum amount is 50', 'feed-them-social' ) . '</small>',
+					'label'       => __( '# of Comments', 'feed-them-social' ) . '<br/><small>' . __( 'Maximum amount is 50. API Key Required.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'youtube_comments_count',
 					'name'        => 'youtube_comments_count',

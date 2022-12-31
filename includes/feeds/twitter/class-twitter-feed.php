@@ -372,7 +372,6 @@ class Twitter_Feed {
         <?php
 
 
-            $twitter_hide_profile_photo          = $saved_feed_options['twitter_hide_profile_photo'] ?? '';
             $twitter_text_size                   = $saved_feed_options['twitter_text_size'] ?? '';
             $twitter_text_color                  = $saved_feed_options['twitter_text_color'] ?? '';
             $twitter_link_color                  = $saved_feed_options['twitter_link_color'] ?? '';
@@ -572,6 +571,9 @@ class Twitter_Feed {
             // Stats Bar!
             $stats_bar = $saved_feed_options['twitter_stats_bar'] ?? '';
 
+
+            $twitter_hide_profile_photo          = $saved_feed_options['twitter_hide_profile_photo'] ?? '';
+
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			// option to allow this action or not from the Twitter Options page.
@@ -587,7 +589,6 @@ class Twitter_Feed {
                 $space_between_posts         = $saved_feed_options['twitter_grid_space_between_posts'] ?? '';
 				$twitter_load_more_text      = $saved_feed_options['twitter_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
 				$twitter_no_more_tweets_text = $saved_feed_options['twitter_no_more_tweets_text'] ??  __( 'No More Tweets', 'feed-them-social' );
-
 
 				if ( isset( $popup ) && 'yes' === $popup ) {
 					// it's ok if these styles & scripts load at the bottom of the page.
@@ -755,7 +756,7 @@ class Twitter_Feed {
 				//echo $fts_twitter_custom_access_token;
 				//echo ' <br/>asdfasdf';
 
-				$error_check = __( 'No Access Tokens have been set. Please retrieve Twitter API tokens on the Twitter Options page of Feed Them Social.', 'feed-them-social' );
+				$error_check = __( 'Feed Them Social: No Access Token has been set. Please retrieve Twitter Access to view this feed.', 'feed-them-social' );
 			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
 				// No Tweets Found!
 				$error_check = __( ' This account has no tweets. Please Tweet to see this feed. Feed Them Social.', 'feed-them-social' );
@@ -1254,7 +1255,7 @@ class Twitter_Feed {
 							var fts_security = "<?php echo esc_js( $nonce ); ?>";
 							var fts_time = "<?php echo esc_js( $time ); ?>";
 							var feed_name = "feed_them_social";
-                            // SRL 4.0: ommiting this for now.
+                            // SRL 4.0: omitting this for now.
 							//var loadmore_count = "tweets_count=<?php //echo esc_js( $loadmore_count ); ?>";
 							jQuery.ajax({
 								data: {

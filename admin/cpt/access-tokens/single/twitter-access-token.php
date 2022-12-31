@@ -151,7 +151,7 @@ class Twitter_Access_Functions {
 
         echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Tokens%2$s', 'feed-them-social' ),
-            '<a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . $post_url . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . $post_url . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
             '</a>'
         );
         ?>
@@ -188,7 +188,7 @@ class Twitter_Access_Functions {
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div id="fts-combined-twitter-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',
                             '<a class="fts-twitter-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
-                            '</a>'
+                            '</a></div>'
                         );
                     }
                     else {

@@ -736,7 +736,7 @@ class Feeds_CPT {
 	    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['feed_type_options'], null, $this->feed_cpt_id );
 
         ?>
-        <div class="fts-section">
+        <div class="fts-section-notice">
             <?php
             // Error Notice HTML. Happens in JS file.
             $this->metabox_functions->error_notice_html(); ?>

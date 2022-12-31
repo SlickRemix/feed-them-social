@@ -575,7 +575,7 @@ class Feed_CPT_Options {
                 array(
                     'input_wrap_class' => 'fts-success-class fts-exp-time-wrapper',
                     'option_type'      => 'input',
-                    'label'            => esc_html__( 'Access Token Expire Time', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Token Expiration', 'feed_them_social' ),
                     'type'             => 'text',
                     'id'               => 'youtube_custom_token_exp_time',
                     'name'             => 'youtube_custom_token_exp_time',
@@ -1527,7 +1527,7 @@ class Feed_CPT_Options {
 
 				// Facebook page # of Posts
 				array(
-					'option_type' => 'input','label'       => __( '# of Pics <br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social') . '</small>',
+					'option_type' => 'input','label'       => __( 'Number of Pics <br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social') . '</small>',
                     'type'        => 'text',
 					'id'          => 'facebook_page_post_count',
 					'name'        => 'facebook_page_post_count',
@@ -1926,18 +1926,18 @@ class Feed_CPT_Options {
 				array(
                     'grouped_options_title' => __( 'Reviews', 'feed-them-social' ),
 					'option_type' => 'select',
-					'label'       => __( 'Overall Rating above Feed', 'feed-them-social' ) . '<br/><small>' . __( 'More under Additional Options', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Overall Rating above Feed', 'feed-them-social' ) . '<br/><small>' . __( 'More under Style Options Tab', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'reviews_overall_rating_show',
 					'name'        => 'reviews_overall_rating_show',
 					'options'     => array(
 						1 => array(
-							'label' => __( 'Yes', 'feed-them-social' ),
-							'value' => 'yes',
+                            'label' => __( 'No', 'feed-them-social' ),
+                            'value' => 'no',
 						),
 						2 => array(
-							'label' => __( 'No', 'feed-them-social' ),
-							'value' => 'no',
+                            'label' => __( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
 						),
 					),
 					'req_extensions'  => array('feed_them_social_facebook_reviews'),
@@ -2006,7 +2006,7 @@ class Feed_CPT_Options {
 				array(
 					'grouped_options_title' => __( 'Like Box', 'feed-them-social' ),
 					'option_type' => 'select',
-					'label'       => __( 'Hide Like Box or Button', 'feed-them-social' ) . '<br/><small>' . __( 'More under Additional Options</a>', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Hide Like Box or Button', 'feed-them-social' ) . '<br/><small>' . __( 'More under Style Options Tab</a>', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'facebook_hide_like_box_button',
 					'name'        => 'facebook_hide_like_box_button',
@@ -3052,12 +3052,12 @@ class Feed_CPT_Options {
 					'class'       => 'instagram-hashtag-type',
 					'options'     => array(
 						1 => array(
-							'label' => __( 'Recent Media', 'feed-them-social' ),
-							'value' => 'recent-media',
+                            'label' => __( 'Top Media (Most Interactions)', 'feed-them-social' ),
+                            'value' => 'top-media',
 						),
 						2 => array(
-							'label' => __( 'Top Media (Most Interactions)', 'feed-them-social' ),
-							'value' => 'top-media',
+                            'label' => __( 'Recent Media', 'feed-them-social' ),
+                            'value' => 'recent-media',
 						),
 					),
                     'req_extensions'  => array('feed_them_social_premium'),
@@ -3069,7 +3069,7 @@ class Feed_CPT_Options {
 				// Pic Count
 				array(
 					'option_type' => 'input',
-					'label'       => __( '# of Pics <br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social') . '</small>',
+					'label'       => __( 'Number of Pics <br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social') . '</small>',
 					'type'        => 'text',
 					'id'          => 'instagram_pics_count',
 					'name'        => 'instagram_pics_count',
@@ -3127,7 +3127,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'instagram_fixed_height_option',
 					'option_type' => 'input',
-					'label'       => __( 'Gallery Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Use this option to create a scrolling feed.', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Gallery Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Used to create a scrolling feed.', 'feed-them-social' ) . '</small>',
 					'label_note'  => __( 'Leave blank for auto height', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'instagram_page_height',
@@ -3642,7 +3642,7 @@ class Feed_CPT_Options {
 				            'value' => 'user',
 			            ),
 			            array(
-				            'label' => __( 'Hashtag, Search and more Feed', 'feed-them-social' ),
+				            'label' => __( 'Hashtag & Search', 'feed-them-social' ),
 				            'value' => 'hashtag',
 			            ),
 		            ),
@@ -3688,6 +3688,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'id'          => 'twitter_name',
                     'name'        => 'twitter_name',
+                    'default_value'        => 'gopro',
                     'instructional-text' => '<span class="hashtag-option-small-text">' . __( 'Twitter Name is only required if you want to show a', 'feed-them-social' ) . ' <a href="admin.php?page=fts-twitter-feed-styles-submenu-page">' . __( 'Follow Button', 'feed-them-social' ) . '</a>.</span><span class="must-copy-twitter-name">' . __( 'You must copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . __( 'Twitter Name', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ) . '</span>',
                     'value'       => '',
 
@@ -4151,8 +4152,8 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_name',
-					'label'       => __( 'Youtube Username (required)', 'feed-them-social' ),
-					'instructional-text' => __( 'You must copy your YouTube <strong>Username</strong> url and paste it below.<br/><strong>Example:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/user/nationalgeographic" target="_blank">https://www.youtube.com/user/nationalgeographic</a>',
+					'label'       => __( 'Youtube Username', 'feed-them-social' ),
+					'instructional-text' => __( 'You must copy your YouTube <strong>Username</strong> url and paste it below.<br/><strong>Example:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/user/nationalgeographic" target="_blank">nationalgeographic</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_name',
 					'name'        => 'youtube_name',
@@ -4175,7 +4176,7 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_playlistID',
 					'label'       => __( 'Youtube Playlist ID', 'feed-them-social' ),
-					'instructional-text' => __( 'You must copy your YouTube <strong>Playlist</strong> and <strong>Channel</strong> url link and paste them below. Your urls should look similar to our Example urls below. <br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN" target="_blank">https://www.youtube.com/watch?v=_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN</a><br/><strong>' . __( 'Channel ID:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/channel/UCt16NSYjauKclK67LCXvQyA" target="_blank">https://www.youtube.com/channel/UCt16NSYjauKclK67LCXvQyA</a>',
+					'instructional-text' => __( 'You must copy your YouTube <strong>Playlist</strong> and <strong>Channel</strong> url link and paste them below. Your urls should look similar to our Example urls below. <br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN" target="_blank">_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN</a><br/><strong>' . __( 'Channel ID:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/channel/UCt16NSYjauKclK67LCXvQyA" target="_blank">UCt16NSYjauKclK67LCXvQyA</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_playlistID',
 					'name'        => 'youtube_playlistID',
@@ -4199,7 +4200,7 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_playlistID2',
 					'label'       => __( 'Youtube Playlist ID ', 'feed-them-social' ),
-					'instructional-text' => __( 'You must copy your YouTube <strong>Playlist</strong> and <strong>Username</strong> url and paste them below. Your urls should look similar to our Example urls below.<br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=cxrLRbkOwKs&index=10&list=PLivjPDlt6ApS90YoAu-T8VIj6awyflIym" target="_blank">https://www.youtube.com/watch?v=cxrLRbkOwKs&index=10&list=PLivjPDlt6ApS90YoAu-T8VIj6awyflIym</a><br/><strong>' . __( 'Username:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/user/nationalgeographic" target="_blank">https://www.youtube.com/user/nationalgeographic</a>',
+					'instructional-text' => __( 'You must copy your YouTube <strong>Playlist</strong> and <strong>Username</strong> url and paste them below. Your urls should look similar to our Example urls below.<br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=cxrLRbkOwKs&index=10&list=PLivjPDlt6ApS90YoAu-T8VIj6awyflIym" target="_blank">PLivjPDlt6ApS90YoAu-T8VIj6awyflIym</a><br/><strong>' . __( 'Username:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/user/nationalgeographic" target="_blank">nationalgeographic</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_playlistID2',
 					'name'        => 'youtube_playlistID2',
@@ -4222,7 +4223,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_name2',
-					'label'       => __( 'Youtube Username<br/><small>Required if showing <a href="admin.php?page=fts-youtube-feed-styles-submenu-page">Subscribe button</a></small>', 'feed-them-social' ),
+					'label'       => __( 'Youtube Username<br/><small>For Subscribe button. More on the Style Options tab.</small>', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'youtube_name2',
 					'name'        => 'youtube_name2',
@@ -4244,8 +4245,9 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_channelID',
 					'label'       => __( 'Youtube Channel ID', 'feed-them-social' ),
-					'instructional-text' => __( 'You must copy your YouTube <strong>Channel</strong> url and paste it below.<br/><strong>Example:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/channel/UCqhnX4jA0A5paNd1v-zEysw" target="_blank">https://www.youtube.com/channel/UCqhnX4jA0A5paNd1v-zEysw</a>',
+					'instructional-text' => __( 'You must copy your YouTube <strong>Channel</strong> url and paste it below.<br/><strong>Example:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/channel/UCqhnX4jA0A5paNd1v-zEysw" target="_blank">UCqhnX4jA0A5paNd1v-zEysw</a>',
 					'type'        => 'text',
+                    'default_value' => 'UCqhnX4jA0A5paNd1v-zEysw',
 					'id'          => 'youtube_channelID',
 					'name'        => 'youtube_channelID',
 
@@ -4266,7 +4268,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_channelID2',
-					'label'       => __( 'Youtube Channel ID<br/><small>Required if showing <a href="admin.php?page=fts-youtube-feed-styles-submenu-page">Subscribe button</a></small>', 'feed-them-social' ),
+					'label'       => __( 'Youtube Channel ID<br/><small>For Subscribe button. More on the Style Options tab.</small>', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'youtube_channelID2',
 					'name'        => 'youtube_channelID2',
@@ -4437,7 +4439,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'youtube_columns',
 					'name'        => 'youtube_columns',
-					'default_value' => '4',
+					'default_value' => '2',
 					'options'     => array(
 						array(
 							'label' => __( '1', 'feed-them-social' ),
@@ -4558,25 +4560,6 @@ class Feed_CPT_Options {
 					),
 				),
 
-				// Background color for thumbs container
-				array(
-					'input_wrap_class' => 'youtube_hide_option',
-					'option_type'  => 'input',
-					'color_picker' => 'yes',
-					'label'        => __( 'Container Background color ', 'feed-them-social' ),
-					'type'         => 'text',
-					'id'           => 'youtube_thumbs_wrap_color',
-					'name'         => 'youtube_thumbs_wrap_color',
-					'default'      => '#000',
-					'placeholder'  => '#000',
-
-					// Relative to JS.
-					'short_attr'   => array(
-						'attr_name'   => 'thumbs_wrap_color',
-						'empty_error' => 'set',
-						'empty_error_value' => 'thumbs_wrap_color=#000',
-					),
-				),
 
 				// Align container right or left of video
 				array(
@@ -5560,7 +5543,7 @@ class Feed_CPT_Options {
                         // hastag Feed
                         array(
                             'value' => 'hashtag',
-                            'label' => __( 'Hashtag, Search and more Feed', 'feed-them-social' ),
+                            'label' => __( 'Hashtag & Search', 'feed-them-social' ),
                         ),
                     ),
                     'sub_options' => array(
@@ -5664,8 +5647,8 @@ class Feed_CPT_Options {
         $this->all_options['combine_youtube_token_select_options'] = array(
             'section_attr_key'   => 'combine_youtube_token_select_',
             'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'YouTube', 'feed_them_social' ) . '</span>',
-           // 'section_wrap_id'    => 'fts-feed-type',
-            'section_wrap_class' => 'fts-tab-content1-combine ',
+           'section_wrap_id'    => 'fts-feed-type',
+            'section_wrap_class' => 'fts-combined-youtube-feed-type',
             // Form Info.
             'form_wrap_classes'  => 'youtube-page-form-combine',
             'form_wrap_id'       => 'fts-fb-page-form-combine',

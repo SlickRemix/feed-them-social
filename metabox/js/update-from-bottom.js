@@ -28,7 +28,7 @@ function fts_instagram_basic_business_buttons() {
         jQuery('.fts-combine-instagram-business-token-button').addClass('fts-social-icon-wrap-active');
 
         // Only display the hashtag select yes/no if the token is valid.
-        if( jQuery('.combine-instagram-business-access-token-placeholder h3.fts-active-success-token').length > 0 ) {
+        if( jQuery('.fts-instagram-business-combine-successful-api-token.fts-success-token-content.fts-combine-successful-api-token').length > 0 ) {
             jQuery('.combine_instagram_hashtag_select').show();
         }
 
@@ -427,11 +427,12 @@ function fts_check_valid() {
         jQuery( '.fts-twitter-successful-api-token' ).length ||
         jQuery( '.fts-youtube-successful-api-token' ).length ) {
 
-            jQuery( '.fts-token-wrap h3 .fts-valid-text' ).html(' - Valid');
-            jQuery( '.fts-token-wrap h3').addClass('fts-active-success-token').css('color', '#1aae1f');
+        jQuery( '.fts-token-wrap h3 .fts-valid-text' ).html(' - Valid');
+        jQuery( '.fts-token-wrap h3').addClass('fts-active-success-token').css('color', '#1aae1f');
 
     }
 }
+
 
 (function ($) {
     "use strict";
@@ -540,7 +541,7 @@ function fts_check_valid() {
 
 
         //This is for the sub nav tabs under each social network and controls what is visible.
-        var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active">'+ updatefrombottomParams.mainoptions + '</div><div class="fts-settings-tab">'+ updatefrombottomParams.additionaloptions + '</div></div>';
+        var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active"><span>'+ updatefrombottomParams.mainoptions + '</span></div><div class="fts-settings-tab"><span>'+ updatefrombottomParams.additionaloptions + '</span></div></div>';
         // $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-cpt-main-options, .fts-instagram-shortcode-form .instagram_feed_type, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-streams-shortcode-form .combine_post_count' );
         $( fts_sub_tabs ).insertBefore( '.fts-cpt-main-options' );
 

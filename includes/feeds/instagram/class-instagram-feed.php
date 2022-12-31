@@ -393,6 +393,9 @@ class Instagram_Feed {
 				// https://developers.facebook.com/docs/instagram-api/reference/hashtag/recent-media
 				// https://developers.facebook.com/docs/instagram-api/reference/hashtag/top-media
 
+                $hashtag = $saved_feed_options['instagram_hashtag'] ?? '';
+                $search  = $saved_feed_options['instagram_hashtag_type'] ?? '';
+
 				$cache_hashtag_id_array = 'instagram_hashtag_id_cache_' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '_search' . $search . '_hash' . $hashtag . '';
 
 				if ( false === $this->feed_cache->fts_check_feed_cache_exists( $cache_hashtag_id_array ) ) {
@@ -736,9 +739,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
                 ?>
                 <div <?php if ( !empty( $saved_feed_options['instagram_page_width'] ) ) { ?> style="max-width: <?php echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';"';
-                } ?> data-ftsi-columns="<?php echo esc_attr( $saved_feed_options['instagram_columns'] ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $saved_feed_options['instagram_force_columns'] ); ?>" data-ftsi-margin="<?php echo esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ); ?>" data-ftsi-width="<?php echo esc_attr( $image_size ); ?>" class="
-                  <?php
-                    echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
+                } ?> data-ftsi-columns="<?php echo esc_attr( $saved_feed_options['instagram_columns'] ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $saved_feed_options['instagram_force_columns'] ); ?>" data-ftsi-margin="<?php echo esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ); ?>" data-ftsi-width="<?php echo esc_attr( $image_size ); ?>" class="<?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
                     if ( isset( $popup ) && 'yes' === $popup ) {
                         echo ' popup-gallery';
                     }
@@ -749,12 +750,12 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
 			if ( ! isset( $insta_data->data ) || empty( $insta_data->data ) ) {
 				if ( ! function_exists( 'curl_init' ) ) {
-					echo esc_html( 'cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this.', 'feed-them-social' ) . '</div>';
+					echo esc_html( 'cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this.', 'feed-them-social' );
 				} else {
-					echo esc_html( 'To see the Instagram feed you need to add your own API Token to the Instagram Options page of our plugin.', 'feed-them-social' ) . '</div>';
+					echo esc_html( 'To see the Instagram feed you need to add your own API Token to the Instagram Options page of our plugin.', 'feed-them-social' );
 				}
                 //If Instagram Fails show message!
-                echo esc_html( 'Oops, something is wrong. Instagram feed not loaded', 'feed-them-social' ) . '</div>';
+                echo esc_html( 'Oops, something is wrong. Instagram feed not loaded', 'feed-them-social' );
 			}
 
 			// echo '<pre style="text-align: left;">asdfasdf ';

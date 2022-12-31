@@ -235,7 +235,7 @@ class Access_Options {
                         echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_facebook_token_options'], null, $feed_cpt_id );
 
                     ?>
-                     <div class="combine-facebook-access-token-placeholder">
+                        <div class="combine-facebook-access-token-placeholder">
                                 <?php
                         // Facebook Access Functions.
                         $facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
@@ -304,37 +304,6 @@ class Access_Options {
                     break;
 			}
 			// Return Access Options.
-
-
-            // Register Feed Styles.
-            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
-
-            // Register Premium Styles & Scripts.
-            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-                // Register Masonry Script.
-                wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-                // Register Images Loaded Script.
-                wp_register_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
-            }
-
-            // Register Feed Them Carousel Scripts.
-            if ( is_plugin_active( 'feed-them-social/feed-them.php' ) && is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-                wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
-            }
-
-            // masonry snippet in fts-global.
-            wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-
-
-            // SRL. Start of idea to show feed while changing options.
-            ?>
-            <div style="margin: 15px 9px 0 3px; display: none">
-                <?php
-                // Resume work after launch of 4.0
-               // echo do_shortcode('[feed_them_social cpt_id='.$feed_cpt_id.']');
-                ?>
-            </div>
-            <?php
 
 		}
 	}

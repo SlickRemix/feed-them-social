@@ -192,7 +192,15 @@ class Youtube_Feed {
 
 
             $thumbs_play_iframe = $saved_feed_options['youtube_play_thumbs'];
-            $wrap               = $saved_feed_options['youtube_thumbs_wrap'];
+
+
+            if( !empty( $saved_feed_options['youtube_singleVideoID'] ) ){
+                $wrap = $saved_feed_options['youtube_comments_wrap'];
+            }
+            else {
+                $wrap = $saved_feed_options['youtube_thumbs_wrap'];
+            }
+
 
             if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $vid_count > '6' ) {
                 $vid_count = 6;
@@ -402,7 +410,13 @@ class Youtube_Feed {
 
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
-                $video_thumbs_display = $saved_feed_options['youtube_video_thumbs_display'] ?? '2';
+                if( !empty( $saved_feed_options['youtube_video_comments_display'] ) ){
+                    $video_thumbs_display = $saved_feed_options['youtube_video_comments_display'] ?? '1';
+                }
+                else {
+                    $video_thumbs_display = $saved_feed_options['youtube_video_thumbs_display'] ?? '2';
+                }
+
 
                // Video Thumbs Display!
                 switch ( $video_thumbs_display ){
@@ -512,7 +526,7 @@ class Youtube_Feed {
                     echo '<div class="' . esc_attr( $fts_dynamic_class_name . ' fts-youtube-scrollable' . $wrap ) . '" style="height:250px;' . esc_attr( $thumbs_wrap_color_scroll ) . '" >';
                 }
 
-                $youtube_singleVideoID = isset( $saved_feed_options['youtube_singleVideoID'] ) && '' === $saved_feed_options['youtube_singleVideoID'] ? $saved_feed_options['youtube_container_margin'] : '';
+                $youtube_singleVideoID = isset( $saved_feed_options['youtube_singleVideoID'] ) && '' === $saved_feed_options['youtube_singleVideoID'] ? $saved_feed_options['youtube_singleVideoID'] : '';
                 $thumbgallery_class     = isset( $saved_feed_options['youtube_singleVideoID'] ) && '' !== $saved_feed_options['youtube_singleVideoID'] ? ' fts-youtube-no-thumbs-gallery' : '';
 
                 echo '<div data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-force-columns="' . esc_attr( $saved_feed_options['youtube_force_columns'] ) . '" data-ftsi-margin="' . esc_attr( $saved_feed_options['youtube_container_margin'] ) . '" class="' . esc_attr( $fts_dynamic_class_name ) . ' fts-youtube-popup-gallery fts-youtube-inline-block-centered ' . esc_attr( $thumbgallery_class ) . '" style="' . esc_attr( $thumbs_wrap_color_final ) . '"">';
@@ -784,7 +798,7 @@ class Youtube_Feed {
                                         jQuery.fn.slickYoutubePopUpFunction();
                                     <?php } ?>
 
-                                    // Reload the share each funcion otherwise you can't open share option.
+                                    // Reload the share each function otherwise you can't open share option.
                                     jQuery.fn.ftsShare();
 
                                     // Reload our margin for the demo.

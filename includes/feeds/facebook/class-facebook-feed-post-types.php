@@ -519,7 +519,8 @@ class Facebook_Feed_Post_Types {
 				echo $this->feed_functions->fts_share_option( $single_event_id, $description );
 				echo '<a href="' . esc_attr( $single_event_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
 				break;
-           case 'photo':
+            case 'album': // for posts that have more than one photo in them
+            case 'photo':
 				if ( ! empty( $fb_link ) ) {
 					echo '<div class="fts-likes-shares-etc-wrap">';
 					echo $this->feed_functions->fts_share_option( $fb_link, $description );

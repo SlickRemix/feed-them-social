@@ -124,7 +124,7 @@ class Youtube_Access_Functions {
         }
             echo sprintf(
                 esc_html__( '%1$sLogin and Get my Access Token %2$s', 'feed-them-social' ),
-                '<a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . $post_url ) . '" class="fts-youtube-get-access-token">',
+                '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . $post_url ) . '" class="fts-youtube-get-access-token">',
                 '</a>'
             );
             ?>

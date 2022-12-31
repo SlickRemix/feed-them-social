@@ -1,3 +1,9 @@
+// Grab the url so we can do stuff.
+var url_string = window.location.href;
+var url = new URL( url_string );
+var cpt_id = url.searchParams.get("post");
+var feed_type = url.searchParams.get("feed_type");
+
 jQuery(document).ready(ftg_admin_gallery_tabs);
 
 function ftg_admin_gallery_tabs() {
@@ -72,19 +78,26 @@ function fts_ajax_cpt_save( shortcodeConverted ) {
 
     jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
         beforeSend: function () {
-            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
-            jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
-            jQuery('#publishing-action .spinner').css("visibility", "visible");
+            if( 'no-save-message' !== shortcodeConverted ) {
+
+                jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
+                jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
+                jQuery('#publishing-action .spinner').css("visibility", "visible");
+            }
 
         },
         success: function ( response ) {
             // Lets us know the options were saved ok.
             console.log( 'Saved Successfully' );
-            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-success-form'></div></div></div>");
-            jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
-            jQuery('#publishing-action .spinner').css("visibility", "hidden");
 
-            setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
+            if( 'no-save-message' !== shortcodeConverted ) {
+
+                jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-success-form'></div></div></div>");
+                jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.success_msg).show();
+                jQuery('#publishing-action .spinner').css("visibility", "hidden");
+
+                setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
+            }
 
             // Change the text from Updating... at the bottom of a long page to Update.
             jQuery('.updatefrombottom a.button-primary').html("Update");
@@ -101,12 +114,110 @@ function fts_ajax_cpt_save( shortcodeConverted ) {
                 location.reload();
             }
 
+
+            // Refresh the Preview Feed.
+            refresh_feed_ajax();
+
         }
     });
     return false;
 }
 
+function refresh_feed_ajax() {
+
+    // LEAVING OFF HERE, STILL A FEW THINGS TO CLEAN UP BY I GOT THIS!!!!! LOADMORE AND POPUP DO NOT SEEM TO BE RESPONDING TO CHANGE..........
+    jQuery.ajax({
+        data: {
+            action: 'fts_refresh_feed_ajax',
+            cpt_id: cpt_id,
+        },
+        type: 'POST',
+        url: ftsAjax.ajaxurl,
+        success: function ( response ) {
+
+            jQuery( '.fts-shortcode-content' ).html( response );
+
+            fts_show_hide_shortcode_feed();
+
+            console.log( 'Feed Refreshed: ' + response );
+        },
+        error: function ( response ) {
+            console.log( 'Something is not working feed refresh: ' + response );
+        }
+
+    }); // end of ajax()
+    return false;
+}
+
+
+function fts_show_hide_shortcode_feed( feed ) {
+
+    if( jQuery( '.account-tab-highlight.active' ).length ){
+        jQuery( '.fts-shortcode-view' ).hide();
+        jQuery( '.tab-options-content' ).css({'width': '100%' } );
+    }
+    else {
+        jQuery( '.fts-shortcode-view' ).show();
+        jQuery( '.tab-options-content' ).css({'width': '35%' } );
+    }
+
+    jQuery.fn.ftsShare();
+    slickremixImageResizing();
+    slickremixImageResizingFacebook();
+    slickremixImageResizingFacebook2();
+    slickremixImageResizingFacebook3();
+    slickremixImageResizingYouTube();
+    jQuery.fn.slickInstagramPopUpFunction();
+    jQuery.fn.slickFacebookPopUpFunction();
+    jQuery.fn.slickTwitterPopUpFunction();
+    jQuery.fn.slickYoutubePopUpFunction();
+
+}
+
+function checkAnyFormFieldEdited() {
+
+    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input').keypress(function(e) { // text written
+        fts_ajax_cpt_save( 'no-save-message' );
+      //  alert('test 1');
+    });
+
+    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input').keyup(function(e) {
+        if (e.keyCode == 8 || e.keyCode == 46) { //backspace and delete key
+        //     alert('test backspace or delete key');
+            fts_ajax_cpt_save( 'no-save-message' );
+        } else { // rest ignore
+            e.preventDefault();
+        }
+    });
+
+    jQuery('select').keyup(function(e) {
+        fts_ajax_cpt_save( 'no-save-message' );
+        // alert('test 2');
+    });
+
+    jQuery('#instagram_feed, #facebook_feed, #twitter_feed, #youtube_feed').on('input, select, :checkbox', function() {
+        fts_ajax_cpt_save( 'no-save-message' );
+        // alert('test 3');
+    });
+
+    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input').bind('paste', function(e) { // text pasted
+        fts_ajax_cpt_save( 'no-save-message' );
+        // alert('test 4');
+    });
+
+    jQuery('#instagram_feed select, #instagram_feed input, ' +
+        '#facebook_feed select, #facebook_feed input, ' +
+        '#twitter_feed select, #twitter_feed input, ' +
+        '#youtube_feed select, #youtube_feed input').change(function(e) { // select element changed
+        fts_ajax_cpt_save( 'no-save-message' );
+         // alert('test 5');
+    });
+
+}
+
 jQuery(document).ready(function ($) {
+
+    checkAnyFormFieldEdited();
 
     jQuery('.ft-gallery-notice').on('click', '.ft-gallery-notice-close', function () {
         jQuery('.ft-gallery-notice').html('');
@@ -119,8 +230,10 @@ jQuery(document).ready(function ($) {
         var clickedLink = $('.tab5 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
+        fts_show_hide_shortcode_feed( 'facebook');
         // Prevent the anchor's default click action
         e.preventDefault();
+
     });
 
     jQuery('.tab-content-wrap').on('click', '.fts-instagram-successful-api-token, .fts-instagram-business-successful-api-token', function (e) {
@@ -128,6 +241,7 @@ jQuery(document).ready(function ($) {
         var clickedLink = $('.tab4 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
+        fts_show_hide_shortcode_feed('instagram');
         // Prevent the anchor's default click action
         e.preventDefault();
     });
@@ -137,6 +251,7 @@ jQuery(document).ready(function ($) {
         var clickedLink = $('.tab6 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
+        fts_show_hide_shortcode_feed('twitter');
         // Prevent the anchor's default click action
         e.preventDefault();
     });
@@ -146,6 +261,7 @@ jQuery(document).ready(function ($) {
         var clickedLink = $('.tab7 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
+        fts_show_hide_shortcode_feed('youtube');
         // Prevent the anchor's default click action
         e.preventDefault();
     });
@@ -155,6 +271,7 @@ jQuery(document).ready(function ($) {
         var clickedLink = $('.tab8 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
+        fts_show_hide_shortcode_feed('combined');
         // Prevent the anchor's default click action
         e.preventDefault();
     });
@@ -172,10 +289,34 @@ jQuery(document).ready(function ($) {
     });
 
 
+    fts_show_hide_shortcode_feed();
+
     // click event listener
     $('.ft-gallery-settings-tabs-meta-wrap ul.nav-tabs a').click(function (event) {
         // get the id
         var clickedLink = $(this).attr('href');
+
+        if( '#feed_setup' === clickedLink ){
+            // alert(clickedLink);
+            jQuery( '.fts-shortcode-view' ).hide();
+            jQuery( '.tab-options-content' ).css({'width': '100%' } );
+        }
+        else {
+            jQuery( '.fts-shortcode-view' ).show();
+            jQuery( '.tab-options-content' ).css({'width': '35%' } );
+        }
+
+        jQuery.fn.ftsShare();
+        slickremixImageResizing();
+        slickremixImageResizingFacebook();
+        slickremixImageResizingFacebook2();
+        slickremixImageResizingFacebook3();
+        slickremixImageResizingYouTube();
+        jQuery.fn.slickInstagramPopUpFunction();
+        jQuery.fn.slickFacebookPopUpFunction();
+        jQuery.fn.slickTwitterPopUpFunction();
+        jQuery.fn.slickYoutubePopUpFunction();
+
         // push it into the url
         location.hash = clickedLink;
     });
@@ -248,17 +389,6 @@ jQuery(document).ready(function ($) {
         jQuery(".feed-them-social-admin-input-label:contains('Center Facebook Container?')").parent('div').show();
     }
 
-
-});
-
-
-// Grab the url so we can do stuff.
-var url_string = window.location.href;
-var url = new URL( url_string );
-var cpt_id = url.searchParams.get("post");
-var feed_type = url.searchParams.get("feed_type");
-
-jQuery(document).ready(function ($) {
 
     function fts_select_social_network_menu() {
 

@@ -78,15 +78,14 @@ class Youtube_Additional_Options {
 					'type'             => 'text',
 					'id'               => 'youtube_show_follow_btn',
 					'name'             => 'youtube_show_follow_btn',
-					'default_value'    => 'yes',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
-							'value' => 'yes',
+                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'value' => 'no',
 						),
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
-							'value' => 'no',
+                            'label' => esc_html__( 'Yes', 'feed_them_social' ),
+                            'value' => 'yes',
 						),
 
 					),
@@ -111,6 +110,26 @@ class Youtube_Additional_Options {
 						),
 					),
 				),
+
+                // Background color for thumbs container
+                array(
+                    'input_wrap_class' => 'youtube_hide_option fts-color-picker',
+                    'option_type'  => 'input',
+                    'color_picker' => 'yes',
+                    'label'        => __( 'Video Thumbs Container ', 'feed-them-social' ),
+                    'type'         => 'text',
+                    'id'           => 'youtube_thumbs_wrap_color',
+                    'name'         => 'youtube_thumbs_wrap_color',
+                    'default_value'=> '#000',
+                    'placeholder'  => '#000',
+
+                    // Relative to JS.
+                    'short_attr'   => array(
+                        'attr_name'   => 'thumbs_wrap_color',
+                        'empty_error' => 'set',
+                        'empty_error_value' => 'thumbs_wrap_color=#000',
+                    ),
+                ),
 
 			),
 		);

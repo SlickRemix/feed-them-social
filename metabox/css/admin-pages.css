@@ -1401,7 +1401,10 @@ div.fts-section.section-last {
     display: inline-block;
     width: 100%;
 }
-
+.fts-tab-content1-combine.fts-twitter-combine,
+.fts-tab-content1-combine.fts-youtube-combine {
+    margin-top:14px
+}
 .tabs div.fts-section input {
     /* padding: 7px 10px; */
     /* display: inline-block; */
@@ -2779,6 +2782,7 @@ body .ft-gallery-popup a.fts-powered-by-text {
 }
 #ftg-tab-content1 {
     padding-top:15px;
+    padding-left: 0;
 }
 #fts-tab-content h3 {
     text-align:center;
@@ -2894,4 +2898,8 @@ span.fts-toke-not-set {
 }
 #fts_facebook_instagram_custom_api_token {
     margin-bottom:15px;
+}
+.combine-facebook-access-token-placeholder .fts-fb-token-wrap {
+    margin-left: 0;
+    margin-right: 10px;
 }

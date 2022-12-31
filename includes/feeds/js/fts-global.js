@@ -1,6 +1,6 @@
 jQuery(document).ready(function() {
 
-    // Run our funtion after the page has finished loading to retrieve our external urls meta tag details.
+    // Run our function after the page has finished loading to retrieve our external urls meta tag details.
     fts_external_link_meta_content();
 
     jQuery('.fts-youtube-scrollable, .youtube-comments-wrap-premium, .youtube-comments-thumbs').hover(function() {

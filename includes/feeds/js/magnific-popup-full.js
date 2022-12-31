@@ -648,27 +648,31 @@
         }
     }), k()
 }), jQuery(document).ready(function() {
-    jQuery(".popup-gallery-twitter").each(function() {
-        jQuery(this).magnificPopup({
-            delegate: "a.fts-twitter-link-image",
-            type: "image",
-            tLoading: "Loading image #%curr%...",
-            mainClass: "fts-instagram-img-mobile",
-            removalDelay: 100,
-            mainClass: "fts-instagram-fade",
-            gallery: {
-                enabled: !0,
-                navigateByImgClick: !0,
-                preload: [0, 1]
-            },
-            image: {
-                tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
-                titleSrc: function(e) {
-                    return e.el.parents(".fts-tweeter-wrap, .fts-feed-type-twitter").find(".fts-twitter-text, .fts-mashup-description-wrap").html()
+
+    jQuery.fn.slickTwitterPopUpFunction = function() {
+        jQuery(".popup-gallery-twitter").each(function () {
+            jQuery(this).magnificPopup({
+                delegate: "a.fts-twitter-link-image",
+                type: "image",
+                tLoading: "Loading image #%curr%...",
+                mainClass: "fts-instagram-img-mobile",
+                removalDelay: 100,
+                mainClass: "fts-instagram-fade",
+                gallery: {
+                    enabled: !0,
+                    navigateByImgClick: !0,
+                    preload: [0, 1]
+                },
+                image: {
+                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                    titleSrc: function (e) {
+                        return e.el.parents(".fts-tweeter-wrap, .fts-feed-type-twitter").find(".fts-twitter-text, .fts-mashup-description-wrap").html()
+                    }
                 }
-            }
-        })
-    });
+            })
+        });
+    }
+
     var e = jQuery.magnificPopup.instance;
     jQuery("body").on("click", "#fts-photo-prev", function() {
         e.prev(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())

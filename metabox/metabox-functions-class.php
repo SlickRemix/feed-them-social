@@ -284,7 +284,34 @@ class Metabox_Functions {
 			wp_register_script( 'jquery-nested-sortable-js', plugins_url( 'feed-them-social/metabox/js/jquery.mjs.nestedSortable.js' ), array( 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-sortable, ' ), FTS_CURRENT_VERSION, false );
 			// Enqueue jQuery Nested Sortable JS.
 			wp_enqueue_script( 'jquery-nested-sortable-js' );
-		}
+
+
+            // Shortcode preview specific scripts
+            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
+
+            wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+
+            // Register Premium Styles & Scripts.
+            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+
+                wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
+                wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, false );
+                // Register Masonry Script.
+                wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+                // Register Images Loaded Script.
+                wp_register_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
+
+            }
+
+            // Register Feed Them Carousel Scripts.
+            if ( is_plugin_active( 'feed-them-social/feed-them.php' ) && is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+                wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
+            }
+
+
+
+
+        }
 
 		// SRL: THESE SCRIPTS SHOULD ONLY BE LOADED ON THE GALLERY, ALBUM AND TEMPLATE SETTINGS PAGE, BUT THEY ARE ALSO LOADING ON THE GALLERY LIST AND ALBUM LIST PAGE TOO
 		// If is page we need to load extra metabox scripts usually loaded on a post page.
@@ -306,9 +333,9 @@ class Metabox_Functions {
 					'updating'                       => esc_html__( 'Updating...', 'feed_them_social' ),
 					'totop'                          => esc_html__( 'To top', 'feed_them_social' ),
                     // These next 2 options where added for the Main Options and Additional Options sub tabs under each feed.
-                    'mainoptions'                    => esc_html__( 'Main Options', 'feed_them_social' ),
-                    'additionaloptions'              => esc_html__( 'Additional Options', 'feed_them_social' ),
-                    'additionalSettings'             => sprintf( esc_html__( 'Additional Global options available on the %1$sSettings Page%2$s.', 'feed_them_social' ),
+                    'mainoptions'                    => esc_html__( 'Feed Settings', 'feed_them_social' ),
+                    'additionaloptions'              => esc_html__( 'Style Options', 'feed_them_social' ),
+                    'additionalSettings'             => sprintf( esc_html__( 'View Additional %1$sGlobal Options%2$s', 'feed_them_social' ),
                         '<a href="edit.php?post_type=fts&amp;page=fts-settings-page" target="_blank">',
                         '</a>'
                     ),
@@ -532,41 +559,58 @@ class Metabox_Functions {
 							'small'  => array(),
 						)
 					)
+
 					?>
 					<div class="tab-content-wrap">
-						<?php
-						if ( $tabs_list['base_tabs'] ) {
-							foreach ( $tabs_list['base_tabs'] as $base_key => $base_items ) {
-								// If Base array key is equal to current base (page)!
-								if ( $base_key === $current_info['base'] ) {
-									foreach ( $base_items as $base_item ) {
-										foreach ( $tabs_list['tabs_list'] as $tab_key => $tab_item ) {
-											if ( isset( $tab_item['cont_func'] ) && $base_item === $tab_key ) {
-												?>
-												<div class="tab-pane <?php echo esc_attr( $tab_key ); ?>-tab-pane " id="<?php echo esc_attr( $tab_key ); ?>">
+                        <div class="tab-options-shortcode-view-wrap">
+                            <div class="tab-options-content">
+                            <?php
+                                if ( $tabs_list['base_tabs'] ) {
+                                foreach ( $tabs_list['base_tabs'] as $base_key => $base_items ) {
+                                    // If Base array key is equal to current base (page)!
+                                    if ( $base_key === $current_info['base'] ) {
+                                        foreach ( $base_items as $base_item ) {
+                                            foreach ( $tabs_list['tabs_list'] as $tab_key => $tab_item ) {
+                                                if ( isset( $tab_item['cont_func'] ) && $base_item === $tab_key ) {
+                                                    ?>
+                                                    <div class="tab-pane <?php echo esc_attr( $tab_key ); ?>-tab-pane <?php echo esc_attr( $tab_item['cont_wrap_id'] ); ?>" id="<?php echo esc_attr( $tab_key ); ?>">
 
-													<div id="<?php echo esc_attr( $tab_item['cont_wrap_id'] ); ?>" class="tab-content
-												<?php
-												if ( isset( $_GET['tab'] ) && $tab_key === $_GET['tab'] || ! isset( $_GET['tab'] ) ) {
-													echo ' pane-active';
-												}
-												?>
-										">
-														<?php
-                                                        //Dynamic Function to create a Tab using current class.
-														call_user_func( array( $current_class, $tab_item['cont_func'] ) );
-														?>
-													</div> <!-- #tab-content -->
+                                                        <div id="<?php echo esc_attr( $tab_item['cont_wrap_id'] ); ?>" class="tab-content
+                                                    <?php
+                                                    if ( isset( $_GET['tab'] ) && $tab_key === $_GET['tab'] || ! isset( $_GET['tab'] ) ) {
+                                                        echo ' pane-active';
+                                                    }
+                                                    ?>">
+                                                            <?php
+                                                            //Dynamic Function to create a Tab using current class.
+                                                            call_user_func( array( $current_class, $tab_item['cont_func'] ) );
+                                                            ?>
+                                                        </div> <!-- #tab-content -->
 
-												</div><!-- /.tab-pane -->
-												<?php
+                                                    </div><!-- /.tab-pane -->
+                                                    <?php
 
-											}
-										}
-									}
-								}
-							}
-						}
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                                ?>
+                                <div class="clear"></div>
+                            </div>
+
+                            <div class="fts-shortcode-view">
+                                <div class="fts-shortcode-content">
+                                    <?php
+                                    echo do_shortcode('[feed_them_social cpt_id='.$_GET['post'].']');
+                                    ?>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <?php
+
 						?>
 					</div>
 

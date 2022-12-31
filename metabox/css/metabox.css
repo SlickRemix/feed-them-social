@@ -153,8 +153,8 @@
 }
 
 .feed-them-social-admin-input-label {
-    float: left;
-    width: 230px;
+    /* float: left; */
+    /* width: 230px; */
     margin-right: 10px;
     font-size: 13px;
     padding-top: 9px;
@@ -580,14 +580,7 @@ label.toggle-custom-textarea-show {
     max-width: 708px
 }
 
-.fts-special-working-wrap {
-
-    /* padding: 10px 15px 15px !important; */
-    max-width: 100%;
-    color: #21a021;
-    font-size: 13px;
-    /* background:#fbfbfb; */
-    margin: 10px 10px 0 4px;}
+.fts-special-working-wrap {/* padding: 10px 15px 15px !important; */max-width: 100%;color: #21a021;font-size: 13px;/* background:#fbfbfb; */margin: 12px 10px 5px 30px;}
 
 .fts-facebook-successful-api-token {
     /* margin-top:10px; */}
@@ -649,7 +642,8 @@ a.fts-success-token-content:hover {
     margin-bottom: 10px;
     margin-top: 5px;
     text-decoration: none;
-    font-weight: 600
+    font-weight: 600;
+    margin-left: 30px !important;
 }
 
 .fts-instagram-get-access-token, .fts-instagram-get-access-token:focus {
@@ -1162,8 +1156,6 @@ h1.plugin-author-note {
     -moz-transition: all .3s ease-in-out;
     -o-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
-    max-width: 740px !important;
-    font-weight: 700
 }
 
 .toggle-custom-textarea-show span, label.toggle-custom-textarea-show {
@@ -1371,10 +1363,11 @@ h1.plugin-author-note {
 }
 
 #fts-timer {
-    padding: 2px 0 10px 1px;
+    padding: 2px 0 20px 1px;
     float: left;
     line-height: 1.2;
-    /* max-width: 100px; */}
+    /* max-width: 100px; */
+}
 
 @font-face{
     font-family:FontAwesomeSlickFeed;
@@ -1652,10 +1645,7 @@ h1.plugin-author-note {
     transition: all .3s ease-in-out
 }
 
-#ftg-tab-content1 div.fts-section {
-
-    max-width: 100%
-}
+#ftg-tab-content1 div.fts-section {max-width: 100%;display: block;}
 
 div#contact-me.postbox div.inside {
     margin-bottom: 0 !important
@@ -2084,12 +2074,13 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 }
 .post-type-fts .tab-content, .post-type-fts_albums .tab-content {
     padding-top: 25px;
-    padding-left: 20px;
-
+    /* padding-left: 20px; */
     padding-bottom: 25px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    min-height: 320px;}
+    min-height: 320px;
+    margin-right: 20px;
+}
 
 .feed-them-social-admin-input-label small {
     font-weight: 400;
@@ -2140,15 +2131,19 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 #fts-feed-type {
     /* padding-left:5px; */
 }
-#ftg-tab-content1 div.fts-section, #ftg-tab-content6 div.fts-section {
+#ftg-tab-content1 div.fts-section {
+    width: auto;
+    padding-left:20px;
+}
+#ftg-tab-content6 div.fts-section {
     max-width: 100%;
     width: 100%;
 }
 #fts-feed-type {
-    display:
-            block;
+    display: inline-block !important;
     float:
             left;
+    padding-top: 30px;
 }
 
 .tab-content {
@@ -2158,11 +2153,11 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 #poststuff #ft-galleries-upload-mb .inside, .fts_page_template_settings_page .inside {
     padding-left: 0 !important;
     margin-top: 0 !important;
-    padding-right: 15px
+    padding-right: 0;
 }
 
 .tab1 .ft_icon:before, .tab2 .ft_icon:before, .tab3 .ft_icon:before, .tab4 .ft_icon:before, .tab5 .ft_icon:before, .tab6 .ft_icon:before, .tab7 .ft_icon:before {
-    margin-right: 7px;
+    margin-right: 1px;
     font-family: FontAwesomeSlick;
     font-size: 20px;
     top: 3px;
@@ -2187,7 +2182,8 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 }
 
 .tab5 .ft_icon:before {
-    content: "\f39e"
+    content: "\f39e";
+    margin-left: 3px !important;
 }
 
 .tab6 .ft_icon:before {
@@ -2205,10 +2201,12 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     background: #fff
 }
 
-.feed-them-social-admin-input-label {
-    display: inline-block;
-    min-width: 210px;
+#fts-feed-type .feed-them-social-admin-input-label {
+    min-width: 140px;
     float: left;
+    font-weight: 500;
+}
+.feed-them-social-admin-input-label {
     margin-top: 0px;
     font-weight: 500;
 }
@@ -2221,7 +2219,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 }
 .feed-them-social-admin-input-wrap {
     float: left;
-    display: inline-block
+    display: inline-block;
 }
 
 .fb-page-grid-option-border-bottom {
@@ -2232,7 +2230,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     margin-bottom: 20px;
     padding-bottom: 10px;
     margin-left: 20px;
-    max-width: 830px;
+    max-width: 650px;
     padding-right: 40px;
 }
 
@@ -2259,7 +2257,8 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 
 .fts-feed-settings-tabs-wrap {
     text-align: left;
-    /* border-bottom: 2px solid #fff; */
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .fts-feed-settings-tabs-wrap div {
@@ -2544,12 +2543,13 @@ h3.sectioned-options-title {
 }
 .feed-them-social-admin-input-wrap {
     padding: 20px 0;
-    background: #f8f8f8;
-    border-bottom: 1px solid rgb(230 230 230 / 58%);
+    background: #f9f9f9;
+    border-bottom: 1px solid rgb(222 222 222 / 66%);
     min-height: 30px;
     margin-bottom: 1px !important;
     width: 100%;
-    display: inline-block;}
+    display: inline-block;
+}
 
 .feed-them-social-admin-input-label {
     margin-left: 25px;
@@ -2992,11 +2992,18 @@ button.ft-gallery-edit-img-popup {
 }
 
 .fts-feed-settings-tabs-wrap div {
-    padding: 10px 15px;
-    display: inline-block;
     background: #eee;
     margin: 0 1px 0 0;
     cursor: pointer;
+    width:50%;
+    text-align:center;
+}
+.fts-feed-settings-tabs-wrap div span {
+    display:block;
+    padding: 10px 15px;
+    font-size: 13px;
+    color: #1269dd;
+    font-weight: bold;
 }
 
 .fts-feed-settings-tabs-wrap div:hover, div.fts-sub-tab-active {
@@ -3049,7 +3056,7 @@ h3.fts-active-success-token:before {
     display: none;
 }
 .fts-token-wrap .feed-them-social-admin-input-label {
-    margin-top: 15px;
+    margin-top: 12px;
 }
 .fts-token-wrap input {
     margin-top:15px;
@@ -3096,7 +3103,7 @@ h3.fts-active-success-token:before {
     margin-bottom: 20px !important;
 }
 #fts_instagram_custom_id, .fts-instagram-custom-access-token .feed-them-social-admin-input-label {
-    margin-top:20px !important;
+    /* margin-top:20px !important; */
 }
 .tabbed.tab8 svg {
     margin-right: 7px;
@@ -3324,12 +3331,12 @@ img.instagram-feed-type-image-tab {
     margin-bottom:0;
 }
 #fts-combined-twitter-success {
-    margin:5px 0 0;
+    margin: 0;
     float:left;
     width:100%;
 }
 #fts-combined-youtube-success {
-    margin:5px 0 15px;
+    margin: 0 0 15px;
     float:left;
     width:100%;
 }
@@ -3387,7 +3394,7 @@ img.instagram-feed-type-image-tab {
     padding:15px;
     border:1px solid #ebebeb;
     overflow: auto;
-    margin:10px 10px 20px 5px;
+    margin:10px 60px 20px 35px;
     -webkit-touch-callout: all; /* iOS Safari */
     -webkit-user-select: all; /* Safari */
     -khtml-user-select: all; /* Konqueror HTML */
@@ -3401,4 +3408,187 @@ img.instagram-feed-type-image-tab {
 
 .feed-them-social-admin-input-wrap.combine_grid_option {
     display:block !important;
+}
+
+
+
+
+.tab-options-shortcode-view-wrap {
+    margin: 0 15px 0 55px;
+}
+
+.tabs-menu-wrap {
+    max-width: 55px;
+    width: 100%;
+    overflow: hidden;
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    background: #f8f8f8;
+}
+.das-text{
+    display:none;
+}
+.tab-content {
+    border-left: 0 solid #f9f9f9 !important;
+    position: relative;
+    left: 0;
+    /* padding-left:75px !important; */
+}
+
+.tab-options-content {
+    /* width:35%; */
+    display: inline-block;
+    float: left;
+    /* padding-left: 20px; */
+}
+.fts-shortcode-content {
+    margin-left:40px;
+}
+.fts-shortcode-view {width: 65%;float:left;padding:23px 0 20px 0;display: none;}
+.tab-content {
+    width:100%;
+}
+.tab-pane {
+    width: 100%;
+    /* float: left; */
+    padding-left: 20px !important;
+}
+
+#feed_setup {
+    max-width: 100%;
+}
+.tab-pane select, .tab-pane input, .tab-pane .wp-picker-container {
+    margin: 5px 0 0 35px !important;
+    float:none;
+}
+.tab-pane .wp-picker-container input {
+    margin:0 5px !important;
+}
+.tab-pane select, .tab-pane input {
+    /* width: 100% !important; */
+    max-width: 200px !important;
+}
+#fts-feed-type .tab-pane select, .tab-pane #fts-feed-type input {
+    width: 100% !important;
+    max-width: 200px !important;
+}
+.feed-them-social-admin-input-label  {
+    padding-top:0 !important;
+}
+.instructional-text {
+    margin-left: 35px;
+    margin-right: 35px;
+    padding-right:0;
+}
+.feed_setup-tab-pane {
+    width:100%;
+    display:inline-block;
+    float:none;
+    padding-left: 0 !important;
+}
+
+@media ( min-width: 1900px ) {
+    .feed-them-social-admin-input-label {
+        float: left !important;
+        /* display:inline-block !important; */
+        padding-top:15px !important;
+        max-width:165px !important;
+        min-width:165px !important
+    }
+    #fts-feed-type  .feed-them-social-admin-input-label {
+        padding-top:4px !important;
+        /* display:inline-block !important; */
+        max-width:165px !important;
+        min-width:165px !important
+    }
+}
+@media ( max-width: 1295px ) {
+
+    #fts-feed-type  .feed-them-social-admin-input-label  {
+        padding-top: 0 !important;
+    }
+
+    .feed-them-social-admin-input-label {
+        float: left !important;
+        display:inline-block;
+        padding-top: 12px !important;
+        max-width:165px !important;
+        min-width:165px !important
+    }
+
+    .tab-options-content {
+        width:auto !important;
+        margin-right:25px !important;
+    }
+    .fts-shortcode-view  {
+        width:100%;
+    }
+    .fts-shortcode-view .fts-shortcode-content {
+        margin-left:20px !important;
+    }
+}
+.combine-streams-feed-wrap #fts-feed-type {
+    float: none !important;
+    display: block !important;
+    width:100% !important;
+    clear:both;
+}
+.combine-streams-feed-wrap  {
+    margin-right:20px;
+}
+.combine-streams-feed-wrap .feed-them-social-admin-input-label {
+    float: left !important;
+    padding-top:12px !important;
+    max-width:165px !important;
+    min-width:165px !important
+}
+.combine-facebook-access-token-placeholder .feed-them-social-admin-input-label,
+.combine-instagram-access-token-placeholder .feed-them-social-admin-input-label,
+.combine-insta-access-token-placeholder .feed-them-social-admin-input-label,
+.combine-twitter-access-token-placeholder .feed-them-social-admin-input-label,
+.combine-youtube-access-token-placeholder .feed-them-social-admin-input-label {
+    padding-top: 6px !important;
+    margin-top: 6px !important;
+    padding-bottom:14px !important;
+}
+.combine-streams-feed-wrap #fts-feed-type {
+    padding-top: 0;
+}
+.combine-streams-feed-wrap .tab-pane select {
+    margin:0 !important;
+}
+.combine-facebook-access-token-placeholder {
+    margin-left:20px
+}
+.fts-tab-content1-combine.fts-twitter-combine,
+.fts-tab-content1-combine.fts-youtube-combine {
+    margin-left:10px;
+    margin-right:40px
+}
+.combine-streams-feed-wrap .fts-instagram-token-wrap.fts-token-wrap, .combine-streams-feed-wrap #fts-fb-token-wrap {
+    margin-right:30px
+}
+.combine-instagram-wrap {
+    margin-left:10px;
+    margin-right:60px
+}
+#youtube_custom_token_exp_time, #fts_twitter_custom_access_token_secret, #fts_facebook_custom_api_token, #fts_facebook_instagram_custom_api_token {
+    margin-bottom:20px !important;
+}
+#youtube_custom_api_token, #fts_instagram_custom_id, #fts_twitter_custom_access_token, #fts_facebook_custom_api_token_user_id, #fts_facebook_instagram_custom_api_token_user_id {
+    margin-top:20px !important;
+}
+.fts-tab-content1-youtube .instructional-text + div {
+    margin-top:25px !important;
+}
+.fts-instagram-custom-access-token .instructional-text + div,
+.fts-tab-content1-facebook-instagram.fts-token-wrap .instructional-text + div{
+    margin-top:25px !important;
+}
+.fts-twitter-custom-access-token .instructional-text + div {
+    margin-top:28px !important;
+}
+.fts-facebook-custom-access-token .instructional-text + div {
+    margin-top:25px !important;
 }

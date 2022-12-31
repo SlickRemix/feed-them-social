@@ -105,6 +105,9 @@ class Feed_Functions {
         add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
         add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
+        add_action( 'wp_ajax_fts_refresh_feed_ajax', array( $this, 'fts_refresh_feed_ajax' ) );
+
+
 
         if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
             // Load More Options.
@@ -1137,6 +1140,25 @@ class Feed_Functions {
         // We pass the original access token back so we can add it to our input field.
         // Also passing the encrypted token so we can see it in the console.
         echo json_encode( $token_data );
+
+        wp_die();
+    }
+
+
+    /**
+     * FTS Feed Refresh Ajax
+     *
+     * SRL: This will refresh the feed in the CPT while the user is making changes.
+     *
+     * @since 4.0
+     */
+    public function fts_refresh_feed_ajax() {
+
+        $cpt_id = $_REQUEST['cpt_id'];
+
+        // We pass the original access token back so we can add it to our input field.
+        // Also passing the encrypted token so we can see it in the console.
+        echo do_shortcode('[feed_them_social cpt_id='. esc_html( $cpt_id ) .']');
 
         wp_die();
     }

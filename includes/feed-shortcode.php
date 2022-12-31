@@ -139,7 +139,7 @@ class Feed_Shortcode {
 		}
 
 		// masonry snippet in fts-global.
-		wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+		wp_register_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 	}
 
 	/**

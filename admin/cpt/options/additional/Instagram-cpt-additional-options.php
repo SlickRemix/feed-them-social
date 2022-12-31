@@ -148,8 +148,8 @@ class Instagram_Additional_Options {
 					'type'             => 'text',
 					'id'               => 'instagram_loadmore_background_color',
 					'name'             => 'instagram_loadmore_background_color',
-					'placeholder'      => '#ddd',
-					'default_value'    => '',
+					'placeholder'      => '#f0f0f0',
+					'default_value'    => '#f0f0f0',
                     'req_extensions'  => array('feed_them_social_premium'),
 				),
 
@@ -161,8 +161,8 @@ class Instagram_Additional_Options {
 					'type'             => 'text',
 					'id'               => 'instagram_loadmore_text_color',
 					'name'             => 'instagram_loadmore_text_color',
-					'placeholder'      => '#ddd',
-					'default_value'    => '',
+					'placeholder'      => '#000',
+					'default_value'    => '#000',
                     'req_extensions'  => array('feed_them_social_premium'),
 				),
 

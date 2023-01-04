@@ -90,7 +90,12 @@ class Youtube_Access_Functions {
                     // Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
                     $('#youtube_custom_token_exp_time').val($('#youtube_custom_token_exp_time').val() + <?php echo strtotime( '+' . $expiration_time . ' seconds' ) ?> * 1000 );
 
-                    fts_ajax_cpt_save_token();
+                    setTimeout(
+                        function(){
+                            fts_ajax_cpt_save_token();
+                        },
+                        500
+                    );
 
                 <?php } ?>
             });

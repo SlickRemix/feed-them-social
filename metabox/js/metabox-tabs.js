@@ -51,12 +51,19 @@ function fts_ajax_cpt_save_token() {
     var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
     window.location.replace( newUrl + '#fts-feed-type' );
 
+   // alert('test1');
+
     jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
         beforeSend: function () {
+
+            //alert('test2');
             jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-saving-form'></div></div></div>");
             jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
             jQuery('#publishing-action .spinner').css("visibility", "visible");
 
+            // Note: The success message below does not run for the instagram basic, twitter or youtube feed.
+            // It only runs when the save token for the facebook business feed is clicked.
+            // Need to debug. Probably because there is no ( response )
         },
         success: function ( response ) {
             console.log( 'Token Saved Successfully' );
@@ -65,7 +72,7 @@ function fts_ajax_cpt_save_token() {
             jQuery('#publishing-action .spinner').css("visibility", "hidden");
 
             setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
-
+            //alert('test3');
             location.reload();
             // We change the text from Updating... at the bottom of a long page to Update.
             jQuery('.updatefrombottom a.button-primary').html("Update");
@@ -468,7 +475,7 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
             console.log( id + ': OG Token and Encrypted Response........: ' + response );
         },
         error: function ( response ) {
-            console.log( 'Something is not working with encyption: ' + response );
+            console.log( 'Error with encryption process: ' + response );
         }
 
     }); // end of ajax()

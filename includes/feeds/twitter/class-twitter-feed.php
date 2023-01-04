@@ -559,6 +559,9 @@ class Twitter_Feed {
             // Search!
             $search = $saved_feed_options['twitter_hashtag_etc_name'] ?? '';
 
+            // Feed Type!
+            $type = $saved_feed_options['twitter-messages-selector'] ?? '';
+
             // Show Retweets!
             $show_retweets = $saved_feed_options['twitter_show_retweets'] ?? '';
 
@@ -622,8 +625,15 @@ class Twitter_Feed {
 			$data_cache = ! empty( $search ) ? 'twitter_data_cache_' . $search . '_num' . $tweets_count : 'twitter_data_cache_' . $twitter_name . '_num' . $tweets_count;
 
 			    //Access Tokens Options.
-                $fts_twitter_custom_access_token = $saved_feed_options['fts_twitter_custom_access_token'];
+                $fts_twitter_custom_access_token        = $saved_feed_options['fts_twitter_custom_access_token'];
                 $fts_twitter_custom_access_token_secret = $saved_feed_options['fts_twitter_custom_access_token_secret'];
+
+                if ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
+				    // NO Access tokens found.
+				    echo esc_html( 'Feed Them Social: Twitter Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' );
+                    return false;
+			    }
+
                 $fts_twitter_custom_consumer_key    = '35mom6axGlf60ppHJYz1dsShc';
 				$fts_twitter_custom_consumer_secret = '7c2TJvUT7lS2EkCULpK6RGHrgXN1BA4oUi396pQEdRj3OEq5QQ';
 
@@ -664,6 +674,7 @@ class Twitter_Feed {
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore ) && 'yes' === $loadmore ) {
 					$total_to_fetch = $tweets_count;
 				} else {
+                    $tweets_count = !empty( $tweets_count ) ? $tweets_count : 6;
 					$total_to_fetch = 'true' === $exclude_replies ? max( 50, $tweets_count * 3 ) : $tweets_count;
 				}
 				// $total_to_fetch = $tweets_count;.
@@ -680,7 +691,9 @@ class Twitter_Feed {
 
 				// $url_of_status = !empty($url_of_status) ? $url_of_status : "";.
 				// $widget_type_for_videos = !empty($widget_type_for_videos) ? $widget_type_for_videos : "";.
-				if ( ! empty( $search ) ) {
+
+				// LEAVING OFF HERE. TWITTER FEED IS NOT RETURNING SUCCESS ON FIRST RETURN AFTER GETTING TOKEN.
+				if ( ! empty( $search )  && 'hashtag' === $type ) {
 
 					$connection_search_array = array(
 						'q'           => $search,
@@ -749,14 +762,6 @@ class Twitter_Feed {
 				if ( '34' === $fetched_tweets->errors[0]->code ) {
 					$error_check .= __( ' Please check the Twitter Username you have entered is correct in your shortcode for Feed Them Social.', 'feed-them-social' );
 				}
-			} elseif ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
-				// NO Access tokens found.
-
-                // Testing
-				//echo $fts_twitter_custom_access_token;
-				//echo ' <br/>asdfasdf';
-
-				$error_check = __( 'Feed Them Social: No Access Token has been set. Please retrieve Twitter Access to view this feed.', 'feed-them-social' );
 			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
 				// No Tweets Found!
 				$error_check = __( ' This account has no tweets. Please Tweet to see this feed. Feed Them Social.', 'feed-them-social' );

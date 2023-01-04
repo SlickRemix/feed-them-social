@@ -2995,7 +2995,7 @@ class Feed_CPT_Options {
 					'input_wrap_class' => 'instagram_hashtag',
 					'label'       => array(
 						1 => array(
-							'text' => __( 'Hashtag (required)', 'feed-them-social' ),
+							'text' => __( 'Hashtag', 'feed-them-social' ),
 							'class' => 'instagram-hashtag-option-text',
 						),
 					),
@@ -5338,7 +5338,7 @@ class Feed_CPT_Options {
                     'input_wrap_class' => 'combine_instagram_hashtag',
                     'label'       => array(
                         1 => array(
-                            'text' => __( 'Hashtag (required)', 'feed-them-social' ),
+                            'text' => __( 'Hashtag', 'feed-them-social' ),
                             'class' => 'combine-instagram-hashtag-option-text',
                         ),
                     ),

@@ -332,7 +332,7 @@ class Instagram_Feed {
             //$this->feed_access_token = $this->access_options->decrypt_access_token( $saved_feed_options['fts_instagram_custom_api_token'] );
 
             // Get and Decrypt Instagram Business Token.
-            $instagram_business_token    = $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
+            // $instagram_business_token    = $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
             // Get and Decrypt Instagram Basic Token.
 			$instagram_basic_token       = $this->access_options->decrypt_access_token( $saved_feed_options['fts_instagram_custom_api_token'] );
 
@@ -370,13 +370,6 @@ class Instagram_Feed {
 					$fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_key( $_REQUEST['fts_dynamic_name'] );
 				}
 			}
-
-			// New method since Instagram API changes as of April 4th, 2018.
-//			if ( '' === $access_token ) {
-//				$fts_instagram_access_token_final = $fts_instagram_access_token;
-//			} else {
-//				$fts_instagram_access_token_final = $access_token;
-//			}
 
 			if ( isset( $_REQUEST['next_url'] ) ) {
 				$_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
@@ -506,7 +499,6 @@ class Instagram_Feed {
 
                     $insta_data = json_decode( $insta_data );
 
-                   // echo 'eeeeeeeeeeee';
                     // Used for Testing Only.
                     if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
                         esc_html_e( 'Hash 2 Array Check Cached', 'feed-them-social' );
@@ -575,14 +567,16 @@ class Instagram_Feed {
 					// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
 					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.instagram.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 
-                    $feed_data = $this->feed_functions->use_cache_check( $instagram_data_array['data'], $basic_cache, 'instagram' );
+                    if( !empty( $instagram_id ) ) {
+                        $feed_data = $this->feed_functions->use_cache_check( $instagram_data_array['data'], $basic_cache, 'instagram' );
+                    }
 
                     // JSON Decode the Feed Data.
                     $insta_data = json_decode( $feed_data );
 
-                   /* echo '<pre>';
-                     print_r( $insta_data );
-                    echo '</pre>';*/
+                    /* echo '<pre>';
+                      print_r( $insta_data );
+                     echo '</pre>';*/
 
                    //  echo '<br/>asdfasdfasdf<pre>';
                    //  print_r( $insta_data );
@@ -605,18 +599,26 @@ class Instagram_Feed {
 			}
 
 			if ( current_user_can( 'administrator' ) && 'true' === $debug_userinfo ) {
-				echo 'aSDasdasDasdaSDa<pre>';
 				print_r( $instagram_user_info );
 				echo '</pre>';
 			}
 
 			// ->pagination->next_url.
 			if ( current_user_can( 'administrator' ) && 'true' === $debug ) {
-				echo '888888888';
 			    echo '<pre>';
 				print_r( $response );
 				echo '</pre>';
 			}
+
+
+            if ( ! isset( $insta_data->data ) || empty( $insta_data->data ) ) {
+                if ( ! function_exists( 'curl_init' ) ) {
+                    echo esc_html( 'Feed Them Social: cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this.', 'feed-them-social' );
+                } else {
+                    echo esc_html( 'Feed Them Social: Instagram Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' );
+                }
+                return false;
+            }
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -747,16 +749,6 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
 				$set_zero = 0;
 			} // END Make sure it's not ajaxing
-
-			if ( ! isset( $insta_data->data ) || empty( $insta_data->data ) ) {
-				if ( ! function_exists( 'curl_init' ) ) {
-					echo esc_html( 'cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this.', 'feed-them-social' );
-				} else {
-					echo esc_html( 'To see the Instagram feed you need to add your own API Token to the Instagram Options page of our plugin.', 'feed-them-social' );
-				}
-                //If Instagram Fails show message!
-                echo esc_html( 'Oops, something is wrong. Instagram feed not loaded', 'feed-them-social' );
-			}
 
 			// echo '<pre style="text-align: left;">asdfasdf ';
 			// print_r( $insta_data );

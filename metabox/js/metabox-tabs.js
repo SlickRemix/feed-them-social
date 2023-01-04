@@ -135,9 +135,20 @@ function refresh_feed_ajax() {
         url: ftsAjax.ajaxurl,
         success: function ( response ) {
 
-            jQuery( '.fts-shortcode-content' ).html( response );
+            if( response.indexOf('Feed Them Social:') > -1 ){
+                //alert('test');
+                jQuery( '.fts-shortcode-content' ).html('').addClass( 'fts-shortcode-content-no-feed' ).html( response );
+            }
+            else {
+                jQuery( '.fts-shortcode-content' ).removeClass( 'fts-shortcode-content-no-feed' );
+                setTimeout(function () {
 
-            fts_show_hide_shortcode_feed();
+                    jQuery( '.fts-shortcode-content' ).html( response );
+                    fts_show_hide_shortcode_feed();
+
+                }, 500);
+            }
+
 
             console.log( 'Feed Refreshed: ' + response );
         },
@@ -148,6 +159,7 @@ function refresh_feed_ajax() {
     }); // end of ajax()
     return false;
 }
+refresh_feed_ajax();
 
 
 function fts_show_hide_shortcode_feed( feed ) {
@@ -167,11 +179,19 @@ function fts_show_hide_shortcode_feed( feed ) {
     slickremixImageResizingFacebook2();
     slickremixImageResizingFacebook3();
     slickremixImageResizingYouTube();
-    jQuery.fn.slickInstagramPopUpFunction();
-    jQuery.fn.slickFacebookPopUpFunction();
-    jQuery.fn.slickTwitterPopUpFunction();
-    jQuery.fn.slickYoutubePopUpFunction();
 
+    if( jQuery.isFunction(jQuery.fn.slickInstagramPopUpFunction) ){
+        jQuery.fn.slickInstagramPopUpFunction();
+    }
+    if( jQuery.isFunction(jQuery.fn.slickFacebookPopUpFunction) ){
+        jQuery.fn.slickFacebookPopUpFunction();
+    }
+    if( jQuery.isFunction(jQuery.fn.slickTwitterPopUpFunction) ){
+        jQuery.fn.slickTwitterPopUpFunction();
+    }
+    if( jQuery.isFunction(jQuery.fn.slickYoutubePopUpFunction) ){
+        jQuery.fn.slickYoutubePopUpFunction();
+    }
 }
 
 function checkAnyFormFieldEdited() {
@@ -304,6 +324,7 @@ jQuery(document).ready(function ($) {
         else {
             jQuery( '.fts-shortcode-view' ).show();
             jQuery( '.tab-options-content' ).css({'width': '35%' } );
+            fts_ajax_cpt_save( 'no-save-message' );
         }
 
         jQuery.fn.ftsShare();
@@ -312,10 +333,19 @@ jQuery(document).ready(function ($) {
         slickremixImageResizingFacebook2();
         slickremixImageResizingFacebook3();
         slickremixImageResizingYouTube();
-        jQuery.fn.slickInstagramPopUpFunction();
-        jQuery.fn.slickFacebookPopUpFunction();
-        jQuery.fn.slickTwitterPopUpFunction();
-        jQuery.fn.slickYoutubePopUpFunction();
+
+        if( jQuery.isFunction(jQuery.fn.slickInstagramPopUpFunction) ){
+            jQuery.fn.slickInstagramPopUpFunction();
+        }
+        if( jQuery.isFunction(jQuery.fn.slickFacebookPopUpFunction) ){
+            jQuery.fn.slickFacebookPopUpFunction();
+        }
+        if( jQuery.isFunction(jQuery.fn.slickTwitterPopUpFunction) ){
+            jQuery.fn.slickTwitterPopUpFunction();
+        }
+        if( jQuery.isFunction(jQuery.fn.slickYoutubePopUpFunction) ){
+            jQuery.fn.slickYoutubePopUpFunction();
+        }
 
         // push it into the url
         location.hash = clickedLink;

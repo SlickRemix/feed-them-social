@@ -404,8 +404,9 @@ class Facebook_Feed {
 
 		// UserName?.
 		if ( ! $saved_feed_options['fts_facebook_custom_api_token_user_id'] ) {
-			return 'Please enter a username for this feed.';
-		}
+            return esc_html( 'Feed Them Social: Facebook Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' );
+
+        }
 		if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && ! is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
 			return '<div style="clear:both; padding:15px 0;">You must have FTS Facebook Reviews extension active to see this feed.</div>';
 		}
@@ -1237,9 +1238,11 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 				// $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? esc_url_raw($_REQUEST['next_url']) : 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/albums?fields=id,created_time,name,from,cover_photo,count,updated_time&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '';
 			} elseif (
 				// Album Photos.
-				'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
-				$mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description&access_token=' . $this->feed_access_token . $language . '' );
-				if ( $_REQUEST['next_url'] ) {
+            'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
+
+                $photo_stream = 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && empty( $saved_feed_options['facebook_album_id'] ) ? 'photo_stream' : '';
+
+                if ( $_REQUEST['next_url'] ) {
 					$_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
 				}
 				// Check If Ajax next URL needs to be used
@@ -1250,13 +1253,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 					} else {
 						$mulit_data['feed_data'] = $_REQUEST['next_url'] ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/videos?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
 					}
-				} elseif ( isset( $saved_feed_options['facebook_album_id'] ) && 'photo_stream' === $saved_feed_options['facebook_album_id'] ) {
+				} elseif ( 'photo_stream' === $photo_stream ) {
 					if ( ! $fts_count_ids >= 1 ) {
 						$mulit_data['feed_data'] = $_REQUEST['next_url'] ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
 					} else {
 						$mulit_data['feed_data'] = $_REQUEST['next_url'] ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/photos?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
 					}
-				} else {
+
+                } else {
 					if ( ! $fts_count_ids >= 1 ) {
 						$mulit_data['feed_data'] = $_REQUEST['next_url'] ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['facebook_album_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
 					} else {
@@ -1292,6 +1296,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			$response = $this->feed_functions->fts_get_feed_json( $mulit_data );
 
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+
 				// Error Check.
 				$feed_data                = json_decode( $response['feed_data'] );
 				$fts_error_check          = new fts_error_handler();

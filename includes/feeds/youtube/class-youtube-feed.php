@@ -906,7 +906,7 @@ class Youtube_Feed {
             return ob_get_clean();
 
         } else {
-            print 'Please add an access token to the Youtube Options page of Feed Them Social.';
+            echo esc_html( 'Feed Them Social: YouTube Feed not loaded, please add an API Token or Access Token from the Gear Icon Tab of this feed.', 'feed-them-social' );
         }
 	}
 

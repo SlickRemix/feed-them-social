@@ -82,6 +82,7 @@ class Feed_Functions {
         // Settings Functions Class.
         $this->settings_functions = $settings_functions;
 
+        // Add Actions and Filters.
         $this->add_actions_filters();
 
 		// Options Functions Class.
@@ -93,7 +94,7 @@ class Feed_Functions {
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
 
-        // Set Feed Cache object.
+        // Set Data Protection object.
         $this->data_protection = $data_protection;
 
         // Widget Code.
@@ -261,6 +262,26 @@ class Feed_Functions {
 				'href'   => admin_url( 'edit.php?post_type=fts&page=fts-settings-page&tab=sharing' ),
 			)
 		);
+	}
+
+	/**
+	 * Is Extension Active
+	 *
+	 * Checks an the extension currently active.
+	 *
+	 * @param $check_extension_key string underscored name of extension in FEED_THEM_SOCIAL_PREM_EXTENSION_LIST.
+	 *
+	 * @return boolean
+	 */
+	public function is_extension_active( $check_extension_key ) {
+		foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $extension_key => $extension_info ) {
+			if ( $extension_key === $check_extension_key) {
+				if( is_plugin_active( $extension_info['plugin_url']) ){
+					return true;
+                }
+			}
+		}
+        return false;
 	}
 
 	/**
@@ -969,6 +990,7 @@ class Feed_Functions {
 			$random_string .= $characters[ wp_rand( 0, $characters_length - 1 ) ];
 		}
 
+        //Return the Random String.
 		return $random_string;
 	}
 
@@ -977,7 +999,6 @@ class Feed_Functions {
 	 *
 	 * @param string $feed feed type.
 	 * @param string $user_id user id.
-	 * @param null   $access_token access token.
 	 * @param null   $saved_feed_options shortcode attribute.
 	 * @since 1.9.6
 	 */
@@ -1108,7 +1129,6 @@ class Feed_Functions {
      * @since 2.9.7.2
      */
     public function fts_encrypt_token_ajax() {
-
         $fts_refresh_token_nonce = wp_create_nonce( 'fts_encrypt_token_nonce' );
         $access_token            = $_REQUEST['access_token'];
         $encrypt                 = $this->data_protection->encrypt( $access_token );

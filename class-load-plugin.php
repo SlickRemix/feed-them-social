@@ -121,8 +121,13 @@ class Feed_Them_Social {
 		// Youtube Feed.
 		$youtube_feed = new feedthemsocial\Youtube_Feed( $feed_functions, $feed_cache, $access_options );
 
-		// Feed Display.
-		new feedthemsocial\Feed_Shortcode( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed );
+		// Check if Extension is active if so call class.
+		if( $feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+			// Display Combined Streams Feed.
+			$combined_streams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feed_functions, $feed_cache, $access_options, $facebook_feed, $facebook_post_types, $instagram_feed, $twitter_feed, $youtube_feed );
+		}
+			// Feed Display.
+		new feedthemsocial\Feed_Shortcode(  $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams );
 
         // Shorten words in Posts.
         new FeedThemSocialTruncateHTML();

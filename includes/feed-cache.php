@@ -90,7 +90,7 @@ class Feed_Cache {
 			'1209600' => __( '2 Weeks', 'feed_them_social' ),
 		);
 		return $formats;
-	} // fts_get_cache_options
+	}
 
 	/**
 	 * FTS Cachetime amount
@@ -134,7 +134,6 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function fts_create_feed_cache( $transient_name, $response ) {
-
 		// YO!
 		/* echo '<br/><br/>Now we are in the create feed cache function. What is the response at this point just before we encrypt response.<br/>';
 		 print_r($response);*/
@@ -178,7 +177,6 @@ class Feed_Cache {
 			// Permanent Feed cache. NOTE set to 0.
 			set_transient( 'fts_p_' . $transient_name, $encrypted_response, 0 );
 		}
-
 	}
 
 	/**
@@ -221,7 +219,7 @@ class Feed_Cache {
 			}
 			else{
 				// YO!
-				// echo '<br/><br/>Not an array so decrypt string.<br/>';
+				 //echo '<br/><br/>Not an array so decrypt string.<br/>';
 				// Not an array so decrypt string.
 				$decrypted_value = false !== $this->data_protection->decrypt( $trans ) ? $this->data_protection->decrypt( $trans ) : $trans;
 			}
@@ -307,7 +305,7 @@ class Feed_Cache {
 	public function delete_permanent_feed_cache( $transient_name ) {
 		global $wpdb;
 
-		// Clear ONLY Specfic Feeds Cache!
+		// Clear ONLY Specific Feeds Cache!
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_p_' . $transient_name ) );
 
 		wp_reset_query();

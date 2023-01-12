@@ -18,6 +18,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Feed_Shortcode
  */
 class Feed_Shortcode {
+	/**
+	 * Feed Functions
+	 *
+	 * General Feed Functions to be used in most Feeds.
+	 *
+	 * @var object
+	 */
+	public $feed_functions;
 
     /**
      * Options Functions
@@ -29,13 +37,22 @@ class Feed_Shortcode {
     public $options_functions;
 
 	/**
-	 * Feed Functions
+	 * Feed Cache.
 	 *
-	 * General Feed Functions to be used in most Feeds.
+	 * Class used for caching.
 	 *
 	 * @var object
 	 */
-	public $feed_functions;
+	public $feed_cache;
+
+	/**
+	 * Access Options
+	 *
+	 * Access Options for tokens.
+	 *
+	 * @var object
+	 */
+	public $access_options;
 
 	/**
 	 * Facebook Feed
@@ -74,9 +91,19 @@ class Feed_Shortcode {
 	public $youtube_feed;
 
 	/**
+	 * Combined Streams Feed
+	 *
+	 * The Combined Streams feed object.
+	 *
+	 * @var object
+	 */
+	public $combined_streams;
+
+
+	/**
 	 * Feed Display Constructor.
 	 */
-	public function __construct( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed ){
+	public function __construct( $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams = null ){
 		// Add Actions and filters.
 		$this->add_actions_filters();
 
@@ -97,6 +124,9 @@ class Feed_Shortcode {
 
 		// YouTube Feed.
 		$this->youtube_feed = $youtube_feed;
+
+		// Combined Streams Feed.
+		$this->combined_streams = $combined_streams ?? null;
 	}
 
     /**
@@ -253,7 +283,8 @@ class Feed_Shortcode {
 					break;
 				// Combine Streams Feed.
 				case 'combine-streams-feed-type':
-					// Display Combined Streams Feed!
+					// Display Combined Streams Feed.
+					echo $this->combined_streams->display_combined_streams( $feed_post_id );
 					break;
 			}
 		}

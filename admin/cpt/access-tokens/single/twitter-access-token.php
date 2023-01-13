@@ -144,7 +144,14 @@ class Twitter_Access_Functions {
         if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) { ?>
             <script>
                 jQuery(document).ready(function () {
-                    fts_ajax_cpt_save_token();
+
+                    setTimeout(
+                        function(){
+                            fts_ajax_cpt_save_token();
+                        },
+                        500
+                    );
+
                 });
             </script>
          <?php }

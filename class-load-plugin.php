@@ -98,7 +98,7 @@ class Feed_Them_Social {
 		$setting_options_js = new feedthemsocial\Settings_Options_JS();
 
 		// Metabox Functions.
-		$metabox_functions = new feedthemsocial\Metabox_Functions( $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, FEED_THEM_SOCIAL_OPTION_ARRAY_NAME, $data_protection );
+		$metabox_functions = new feedthemsocial\Metabox_Functions( $feed_functions, $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, FEED_THEM_SOCIAL_OPTION_ARRAY_NAME, $data_protection );
 
 		// Access Options.
 		$access_options = new feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );

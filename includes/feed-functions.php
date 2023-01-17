@@ -1009,7 +1009,7 @@ class Feed_Functions {
             // Return Social follow button based on Feed Type.
 			switch ( $feed ) {
 				case 'facebook':
-					// Facebook settings options for follow button!
+					// Facebook settings options for follow button.
 					$fb_show_follow_btn            = $saved_feed_options[ 'fb_show_follow_btn' ];
 					$fb_show_follow_like_box_cover = $saved_feed_options[ 'fb_show_follow_like_box_cover' ];
 					$language_option_check         = $saved_feed_options[ 'fb_language' ];
@@ -1023,19 +1023,28 @@ class Feed_Functions {
 					$show_faces        = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-faces' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ? 'true' : 'false';
 					$share_button      = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-share' === $fb_show_follow_btn ? 'true' : 'false';
 					$page_cover        = 'fb_like_box_cover-yes' === $fb_show_follow_like_box_cover ? 'true' : 'false';
-					if ( ! isset( $_POST['fts_facebook_script_loaded'] ) ) {
-						echo '<div id="fb-root"></div>
-							<script>jQuery(".fb-page").hide(); (function(d, s, id) {
-							  var js, fjs = d.getElementsByTagName(s)[0];
-							  if (d.getElementById(id)) return;
-							  js = d.createElement(s); js.id = id;
-							  js.src = "//connect.facebook.net/' . esc_html( $language_option ) . '/sdk.js#xfbml=1&appId=&version=v3.1";
-							  fjs.parentNode.insertBefore(js, fjs);
-							}(document, "script", "facebook-jssd"));</script>';
-						$_POST['fts_facebook_script_loaded'] = 'yes';
-					}
 
-					// Page Box!
+                    ?><div id="fb-root"></div>
+                    <script>
+                        (function(d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) return;
+                            js = d.createElement(s); js.id = id;
+                            js.src = "//connect.facebook.net/' . <?php echo esc_html( $language_option ) ?> . '/sdk.js#xfbml=1&appId=&version=v3.1";
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }(document, "script", "facebook-jssd"));
+
+                        // Check to see if class .fts-fb-likeb-scripts-loaded is applied to body, this tells us the page has loaded once already
+                        // and now we need to run the FB.XFBML script again so the likebox/button loads.
+                        if( jQuery("body.wp-admin.fts-fb-likeb-scripts-loaded").length ) {
+
+                            FB.XFBML.parse();
+                        }
+                        jQuery("body.wp-admin").addClass("fts-fb-likeb-scripts-loaded");
+
+                    </script>
+                    <?php
+                    // Page Box!
 					if ( 'like-box' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ) {
 
 						$facebook_like_box_width = isset( $saved_feed_options['facebook_like_box_width'] ) && '' !== $saved_feed_options['facebook_like_box_width'] ? $saved_feed_options['facebook_like_box_width'] : '500px';
@@ -1049,36 +1058,56 @@ class Feed_Functions {
 					echo '<a href="' . esc_url( 'https://instagram.com/' . $user_id . '/' ) . '" target="_blank" rel="noreferrer">' . esc_html( 'Follow on Instagram', 'feed-them-social' ) . '</a>';
 					break;
 				case 'twitter':
-					if ( ! isset( $_POST['fts_twitter_script_loaded'] ) ) {
-						echo "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
-						$_POST['fts_twitter_script_loaded'] = 'yes';
-					}
-					// CAN't ESCAPE Twitter link because then JS doesn't work!
-					echo '<a class="twitter-follow-button" href="' . ' https://twitter.com/' . $user_id . ' " data-show-count="false" data-lang="en"> Follow @' . esc_html( $user_id ) . '</a>';
-					break;
-				case 'pinterest':
-					if ( ! isset( $_POST['fts_pinterest_script_loaded'] ) ) {
-						echo '<script>jQuery(function () {jQuery.getScript("//assets.pinterest.com/js/pinit.js");});</script>';
-						$_POST['fts_pinterest_script_loaded'] = 'yes';
-					}
-					// we return this one until we echo out the pinterest feed instead of $output.=.
-					return '<a data-pin-do="buttonFollow" href="https://www.pinterest.com/' . esc_html( $user_id ) . '/">' . esc_html( $user_id ) . '</a>';
-					break;
-				case 'youtube':
-					if ( ! isset( $_POST['fts_youtube_script_loaded'] ) ) {
-						echo '<script src="' . esc_url( 'https://apis.google.com/js/platform.js' ) . '"></script>';
-						$_POST['fts_youtube_script_loaded'] = 'yes';
-					}
-					if ( '' === $saved_feed_options['youtube_channelID'] && '' === $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name'] || '' !== $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name2'] ) {
+                    ?>
+                    <script>
+                        //TWITTER
+                        !function (d, s, id) {
+                            var t, js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) return;
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = "https://platform.twitter.com/widgets.js";
+                            fjs.parentNode.insertBefore(js, fjs);
+                            return window.twttr || (t = {
+                                _e: [], ready: function (f) {
+                                    t._e.push(f)
+                                }
+                            });
+                        }(document, "script", "twitter-wjs");
 
-						if ( '' !== $saved_feed_options['youtube_name2'] ) {
+                       var ftsT = jQuery('<a class="twitter-follow-button" href="<?php echo 'https://twitter.com/' . $user_id; ?>" data-show-count="<?php echo 'yes' === $saved_feed_options['twitter_show_follow_count_inline'] ? 'true' : 'false' ?>" data-lang="en"> Follow @ <?php echo esc_html( $user_id ) ?>');
+                       var ftsTjs = jQuery('<script>').attr('src', '//platform.twitter.com/widgets.js');
+                       jQuery('#fts-twitter-follow-button-wrap').empty();
+                       jQuery(ftsT).appendTo(jQuery('#fts-twitter-follow-button-wrap'));
+                       jQuery(ftsTjs).appendTo(jQuery('#fts-twitter-follow-button-wrap'));
+                    </script>
+                    <?php
+					// Can't ESCAPE Twitter link otherwise the JS doesn't work.
+					echo '<div id="fts-twitter-follow-button-wrap"></div>';
+					break;
+
+
+
+				case 'youtube':
+
+						echo '<script src="' . esc_url( 'https://apis.google.com/js/platform.js' ) . '"></script>';
+					//if ( '' === $saved_feed_options['youtube_channelID'] && '' === $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name'] || '' !== $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name2'] ) {
+
+                       // echo 'wtasdfsadfsadfasfd';
+
+                        if ( 'channelID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID'] ) ||
+                            'playlistID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
+                            echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $saved_feed_options['youtube_channelID'] ) . '" data-layout="full" data-count="default"></div>';
+                        }
+						elseif ( 'userPlaylist' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name2'] ) ) {
 							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name2'] ) . '" data-layout="full" data-count="default"></div>';
-						} else {
-							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $user_id ) . '" data-layout="full" data-count="default"></div>';
 						}
-					} elseif ( '' !== $saved_feed_options['youtube_channelID'] && '' !== $saved_feed_options['youtube_playlistID'] || '' !== $saved_feed_options['youtube_channelID'] ) {
-						echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $saved_feed_options['youtube_channelID'] ) . '" data-layout="full" data-count="default"></div>';
-					}
+                        elseif ( 'username' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name'] ) ) {
+							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name']  ) . '" data-layout="full" data-count="default"></div>';
+						}
+					//}
+
+
 					break;
 			}
 		}
@@ -1103,7 +1132,6 @@ class Feed_Functions {
 			$ft_gallery_share_email    = 'mailto:?subject=Shared Link&body=' . $link . ' - ' . $description;
 			$ft_gallery_share_facebook = 'https://www.facebook.com/sharer/sharer.php?u=' . $link;
 			$ft_gallery_share_twitter  = 'https://twitter.com/intent/tweet?text=' . $link . '+' . $description;
-			$ft_gallery_share_google   = 'https://plus.google.com/share?url=' . $link;
 
             // The share wrap and links
             $output  = '<div class="fts-share-wrap">';
@@ -1112,7 +1140,6 @@ class Feed_Functions {
             $output .= '<div class="ft-gallery-share-wrap">';
             $output .= '<a href="' . esc_attr( $ft_gallery_share_facebook ) . '" target="_blank" rel="noreferrer" class="ft-galleryfacebook-icon" title="Share this post on Facebook"><i class="fa fa-facebook-square"></i></a>';
             $output .= '<a href="' . esc_attr( $ft_gallery_share_twitter ) . '" target="_blank" rel="noreferrer" class="ft-gallerytwitter-icon" title="Share this post on Twitter"><i class="fa fa-twitter"></i></a>';
-            $output .= '<a href="' . esc_attr( $ft_gallery_share_google ) . '" target="_blank" rel="noreferrer" class="ft-gallerygoogle-icon" title="Share this post on Google"><i class="fa fa-google-plus"></i></a>';
             $output .= '<a href="' . esc_attr( $ft_gallery_share_linkedin ) . '" target="_blank" rel="noreferrer" class="ft-gallerylinkedin-icon" title="Share this post on Linkedin"><i class="fa fa-linkedin"></i></a>';
             $output .= '<a href="' . esc_attr( $ft_gallery_share_email ) . '" target="_blank" rel="noreferrer" class="ft-galleryemail-icon" title="Share this post in your email"><i class="fa fa-envelope"></i></a>';
             $output .= '</div>';
@@ -1329,4 +1356,21 @@ class Feed_Functions {
 
 		return $response;
 	}
+
+    /**
+     * XML json Parse. Only being used for the FB Feed Language Option.
+     *
+     * @param string $url string to parse the content for.
+     * @return mixed
+     * @since 1.9.6
+     */
+    public function xml_json_parse( $url ) {
+        $url_to_get['url']      = $url;
+        $file_contents_returned = $this->fts_get_feed_json( $url_to_get );
+        $file_contents          = $file_contents_returned['url'];
+        $file_contents          = str_replace( array( "\n", "\r", "\t" ), '', $file_contents );
+        $file_contents          = trim( str_replace( '"', "'", $file_contents ) );
+        $simple_xml             = simplexml_load_string( $file_contents );
+        return json_encode( $simple_xml );
+    }
 }

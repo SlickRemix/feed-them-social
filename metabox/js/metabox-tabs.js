@@ -104,6 +104,7 @@ function fts_ajax_cpt_save( shortcodeConverted ) {
                 jQuery('#publishing-action .spinner').css("visibility", "hidden");
 
                 setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
+
             }
 
             // Change the text from Updating... at the bottom of a long page to Update.
@@ -132,7 +133,6 @@ function fts_ajax_cpt_save( shortcodeConverted ) {
 
 function refresh_feed_ajax() {
 
-    // LEAVING OFF HERE, STILL A FEW THINGS TO CLEAN UP BY I GOT THIS!!!!! LOADMORE AND POPUP DO NOT SEEM TO BE RESPONDING TO CHANGE..........
     jQuery.ajax({
         data: {
             action: 'fts_refresh_feed_ajax',
@@ -142,25 +142,77 @@ function refresh_feed_ajax() {
         url: ftsAjax.ajaxurl,
         success: function ( response ) {
 
+            // This happens if the shortcode returns an error
+            // 'Feed Them Social:' is text I added to the start of the error messages now in all feeds.
+            // This way we can also detect it on the back end.
             if( response.indexOf('Feed Them Social:') > -1 ){
                 //alert('test');
                 jQuery( '.fts-shortcode-content' ).html('').addClass( 'fts-shortcode-content-no-feed' ).html( response );
             }
             else {
+                //IF no error detected then we return the shortcode contents.
                 jQuery( '.fts-shortcode-content' ).removeClass( 'fts-shortcode-content-no-feed' );
                 setTimeout(function () {
 
                     jQuery( '.fts-shortcode-content' ).html( response );
+
                     fts_show_hide_shortcode_feed();
 
+
+                    if (jQuery.fn.masonry) {
+
+                        if( 'yes' === jQuery('#facebook_grid').val() ){
+
+                            jQuery(".fts-slicker-facebook-posts").masonry({
+                                itemSelector: ".fts-jal-single-fb-post"
+                            });
+                            jQuery(".masonry").masonry("reloadItems");
+                            jQuery(".masonry").masonry("layout");
+                        }
+
+                        if( 'yes' === jQuery('#twitter-grid-option').val() ){
+
+
+                            jQuery(".fts-slicker-twitter-posts").masonry({
+                                itemSelector: ".fts-tweeter-wrap"
+                            });
+
+                            jQuery(".masonry").masonry("reloadItems");
+                            jQuery(".masonry").masonry("layout");
+                        }
+
+                        if( 'yes' === jQuery('#combine_grid_option').val() ){
+
+
+                            jQuery(".fts-mashup").masonry({
+                                itemSelector: ".fts-mashup-post-wrap"
+                            });
+
+                            jQuery(".masonry").masonry("reloadItems");
+                            jQuery(".masonry").masonry("layout");
+                        }
+
+                    }
+
+                    // If the Carousel plugin is installed we recall it otherwise carousel/slideshow
+                    // will not display properly when live editing options.
+                    if( jQuery.isFunction( jQuery.fn.ftsCycle2 ) ){
+                        jQuery( '.fts-fb-slideshow' ).cycle();
+                    }
+
                 }, 500);
+
+
+
+
+
+
+
             }
-
-
             console.log( 'Feed Refreshed: ' + response );
         },
         error: function ( response ) {
-            console.log( 'Something is not working feed refresh: ' + response );
+            console.log( 'Something is not working w/feed refresh: ' + response );
         }
 
     }); // end of ajax()
@@ -203,12 +255,12 @@ function fts_show_hide_shortcode_feed( feed ) {
 
 function checkAnyFormFieldEdited() {
 
-    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input').keypress(function(e) { // text written
+    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input, #combine_streams_feed input').keypress(function(e) { // text written
         fts_ajax_cpt_save( 'no-save-message' );
       //  alert('test 1');
     });
 
-    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input').keyup(function(e) {
+    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input, #combine_streams_feed input').keyup(function(e) {
         if (e.keyCode == 8 || e.keyCode == 46) { //backspace and delete key
         //     alert('test backspace or delete key');
             fts_ajax_cpt_save( 'no-save-message' );
@@ -219,15 +271,16 @@ function checkAnyFormFieldEdited() {
 
     jQuery('select').keyup(function(e) {
         fts_ajax_cpt_save( 'no-save-message' );
+
         // alert('test 2');
     });
 
-    jQuery('#instagram_feed, #facebook_feed, #twitter_feed, #youtube_feed').on('input, select, :checkbox', function() {
+    jQuery('#instagram_feed, #facebook_feed, #twitter_feed, #youtube_feed, #combine_streams_feed').on('input, select, :checkbox', function() {
         fts_ajax_cpt_save( 'no-save-message' );
         // alert('test 3');
     });
 
-    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input').bind('paste', function(e) { // text pasted
+    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input, #combine_streams_feed input').bind('paste', function(e) { // text pasted
         fts_ajax_cpt_save( 'no-save-message' );
         // alert('test 4');
     });
@@ -235,7 +288,8 @@ function checkAnyFormFieldEdited() {
     jQuery('#instagram_feed select, #instagram_feed input, ' +
         '#facebook_feed select, #facebook_feed input, ' +
         '#twitter_feed select, #twitter_feed input, ' +
-        '#youtube_feed select, #youtube_feed input').change(function(e) { // select element changed
+        '#youtube_feed select, #youtube_feed input, ' +
+        '#combine_streams_feed input').change(function(e) { // select element changed
         fts_ajax_cpt_save( 'no-save-message' );
          // alert('test 5');
     });

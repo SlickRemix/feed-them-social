@@ -1582,7 +1582,6 @@ class Feed_CPT_Options {
 							'value' => 'no',
 						),
 					),
-					'req_extensions'  => array('feed_them_social_premium'),
 					'short_attr'  => array(
 						'attr_name' => 'title',
 					),
@@ -1742,11 +1741,11 @@ class Feed_CPT_Options {
 				// Facebook Amount of words
 				array(
 					'option_type' => 'input',
-					'label'       => __( 'Amount of words per post', 'feed-them-social' ) . '<br/><small>' . __( 'Type 0 to remove the posts description', 'feed-them-social' ) . '</small>',
+					'label'       => __( ' # of Words in Post Description', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'facebook_page_word_count',
 					'name'        => 'facebook_page_word_count',
-					'placeholder' => '45 ' . __( 'is the default number', 'feed-them-social' ),
+					'placeholder' => '',
 					'value'       => '',
 					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
 					// Relative to JS.
@@ -2499,16 +2498,18 @@ class Feed_CPT_Options {
 					'option_type' => 'select',
 					'label'       => __( 'Type', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
+                    'default_value' => 'carousel',
 					'id'          => 'scrollhorz_or_carousel',
 					'name'        => 'scrollhorz_or_carousel',
 					'options'     => array(
 						1 => array(
-							'label' => __( 'Slideshow', 'feed-them-social' ),
-							'value' => 'scrollhorz',
+                            'label' => __( 'Carousel', 'feed-them-social' ),
+                            'value' => 'carousel',
+
 						),
 						2 => array(
-							'label' => __( 'Carousel', 'feed-them-social' ),
-							'value' => 'carousel',
+                            'label' => __( 'Slideshow', 'feed-them-social' ),
+                            'value' => 'scrollhorz',
 						),
 					),
 					'req_extensions'  => array('feed_them_carousel_premium'),
@@ -2532,6 +2533,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'slides_visible',
 					'name'        => 'slides_visible',
+                    'default_value'  => '3',
 					'placeholder' => __( '3 is the default number', 'feed-them-social' ),
 					'req_extensions'  => array('feed_them_carousel_premium'),
 
@@ -2647,6 +2649,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'slider_controls',
 					'name'        => 'slider_controls',
+                    'default_value' => 'dots_arrows_and_numbers_below_feed',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'Dots above Feed', 'feed-them-social' ),
@@ -2721,7 +2724,7 @@ class Feed_CPT_Options {
 					'id'          => 'slider_controls_text_color',
 					'name'        => 'slider_controls_text_color',
 					'class'       => '',
-					'value'       => '',
+					'default_value'   => '#828282',
 					'placeholder' => '#FFF',
 					'req_extensions'  => array('feed_them_carousel_premium'),
 
@@ -2745,7 +2748,7 @@ class Feed_CPT_Options {
 					'id'          => 'slider_controls_bar_color',
 					'name'        => 'slider_controls_bar_color',
 					'class'       => '',
-					'value'       => '',
+					'default_value'  => '#f2f2f2',
 					'placeholder' => '#000',
 					'req_extensions'  => array('feed_them_carousel_premium'),
 
@@ -2768,6 +2771,7 @@ class Feed_CPT_Options {
 					'id'          => 'slider_controls_width',
 					'name'        => 'slider_controls_width',
 					'class'       => '',
+                    'default_value'  => '320px',
 					'value'       => '',
 					'placeholder' => '320px',
 					'req_extensions'  => array('feed_them_carousel_premium'),
@@ -3412,11 +3416,11 @@ class Feed_CPT_Options {
 					'options'     => array(
 						1 => array(
 							'label' => __( 'Show', 'feed-them-social' ),
-							'value' => 'no',
+							'value' => 'yes',
 						),
 						2 => array(
 							'label' => __( 'Hide', 'feed-them-social' ),
-							'value' => 'yes',
+							'value' => 'no',
 						),
 					),
 					'short_attr'  => array(
@@ -3652,7 +3656,7 @@ class Feed_CPT_Options {
                 array(
                     'option_type' => 'input',
                     'input_wrap_class' => 'twitter_hashtag_etc_name',
-                    'label'       => __( 'Twitter Search Name (required)', 'feed-them-social' ),
+                    'label'       => __( 'Twitter Search Name', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'twitter_hashtag_etc_name',
                     'name'        => 'twitter_hashtag_etc_name',
@@ -3956,7 +3960,7 @@ class Feed_CPT_Options {
                     'id'          => 'twitter_loadmore_button_width',
                     'name'        => 'twitter_loadmore_button_width',
                     'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
-                    'value'       => '',
+                    'default_value'  => '300px',
                     'prem_req'    => 'yes',
                     'req_extensions'  => array('feed_them_social_premium'),
 
@@ -4864,7 +4868,7 @@ class Feed_CPT_Options {
 			'section_wrap_class' => 'fts-combine-streams-shortcode-form',
 			// Form Info
 			'form_wrap_classes'  => 'combine-streams-shortcode-form',
-			'form_wrap_id'       => 'fts-combine-steams-form',
+			'form_wrap_id'       => 'fts-combine-streams-form',
 
 			// Inputs relative to all Feed_types of this feed. (Eliminates Duplication)[Excluded from loop when creating select]
 			'main_options'       => array(
@@ -4878,7 +4882,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'combine_post_count',
 					'name'        => 'combine_post_count',
-					'value'       => '',
+					'default_value'       => '6',
 					'placeholder' => __( '6 is the default number', 'feed-them-social' ),
                     //'req_extensions'  => array('feed_them_social_combined_streams'),
 
@@ -4901,7 +4905,7 @@ class Feed_CPT_Options {
 					// 'instructional-text' => __('', 'feed-them-social'),
 					'id'          => 'combine_social_network_post_count',
 					'name'        => 'combine_social_network_post_count',
-					'value'       => '',
+					'default_value'       => '1',
 					'placeholder' => __( '1 is the default number', 'feed-them-social' ),
 					//'req_extensions'  => array('feed_them_social_combined_streams'),
 
@@ -4917,11 +4921,11 @@ class Feed_CPT_Options {
 				// Facebook Amount of words
 				array(
 					'option_type' => 'input',
-					'label'       => __( 'Amount of words per post', 'feed-them-social' ) . '<br/><small>' . __( 'Type 0 to remove the posts description', 'feed-them-social' ) . '</small>',
+					'label'       => __( '  # of Words in Post Description', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'combine_word_count_option',
 					'name'        => 'combine_word_count_option',
-					'placeholder' => '45 ' . __( 'is the default number', 'feed-them-social' ),
+					'placeholder' => '',
 					'value'       => '',
 					//'req_extensions'  => array('feed_them_social_combined_streams'),
 
@@ -5241,7 +5245,7 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    //'req_extensions'  => array('feed_them_social_combined_streams'),
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'short_attr'  => array(
                         'attr_name'    => '',
                         'empty_error_value' => '',
@@ -5435,7 +5439,7 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    //'req_extensions'  => array('feed_them_social_combined_streams'),
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                 ),
 
             ),
@@ -5475,7 +5479,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'id'          => 'combine_twitter',
                     'name'        => 'combine_twitter',
-                    //'req_extensions'  => array('feed_them_social_combined_streams'),
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'options'     => array(
                         array(
                             'label' => __( 'No', 'feed-them-social' ),
@@ -5556,11 +5560,12 @@ class Feed_CPT_Options {
                 array(
                     'option_type' => 'input',
                     'input_wrap_class' => 'combine_twitter_hashtag_etc_name',
-                    'label'       => __( 'Twitter Search Name (required)', 'feed-them-social' ),
+                    'label'       => __( 'Twitter Search Name', 'feed-them-social' ),
                     'type'        => 'text',
                     'id'          => 'combine_twitter_hashtag_etc_name',
                     'name'        => 'combine_twitter_hashtag_etc_name',
                     'value'       => '',
+                    'instructional-text' => __( 'You can use #hashtag, @person, or single words. For example, weather or weather-channel.<br/><br/>If you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. <strong style="color:#225DE2;">from:user_name%#YourHashtag</strong>', 'feed-them-social' ),
 
                     // Relative to JS.
                     'short_attr'  => array(
@@ -5673,7 +5678,7 @@ class Feed_CPT_Options {
                             'value' => 'yes',
                         ),
                     ),
-                    //'req_extensions'  => array('feed_them_social_combined_streams'),
+                    'req_extensions'  => array('feed_them_social_combined_streams'),
                     'short_attr'  => array(
                         'attr_name'    => '',
                         'empty_error_value' => '',

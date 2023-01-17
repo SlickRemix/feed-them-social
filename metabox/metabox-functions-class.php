@@ -18,6 +18,15 @@ namespace feedthemsocial;
  */
 class Metabox_Functions {
 
+    /**
+     * Feed Functions
+     *
+     * General Feed Functions to be used in most Feeds.
+     *
+     * @var object
+     */
+    public $feed_functions;
+
 	/**
 	 * Holds the hook id
 	 *
@@ -138,7 +147,10 @@ class Metabox_Functions {
      *
 	 * @since 1.0
 	 */
-	public function __construct( $default_options_array, $settings_functions, $options_functions, $array_options_name, $data_protection, $is_page = null) {
+	public function __construct( $feed_functions, $default_options_array, $settings_functions, $options_functions, $array_options_name, $data_protection, $is_page = null) {
+
+        // Feed Functions Class.
+        $this->feed_functions = $feed_functions;
 
 		// Default Options Array.
 		$this->default_options_array = $default_options_array;
@@ -285,30 +297,27 @@ class Metabox_Functions {
 			// Enqueue jQuery Nested Sortable JS.
 			wp_enqueue_script( 'jquery-nested-sortable-js' );
 
+            wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
             // Shortcode preview specific scripts
             wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
 
-            wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-
             // Register Premium Styles & Scripts.
-            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
 
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, false );
                 // Register Masonry Script.
-                wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+                wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
                 // Register Images Loaded Script.
-                wp_register_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
+                wp_enqueue_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
 
             }
 
             // Register Feed Them Carousel Scripts.
-            if ( is_plugin_active( 'feed-them-social/feed-them.php' ) && is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+            if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                 wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
             }
-
-
 
 
         }
@@ -601,9 +610,9 @@ class Metabox_Functions {
                             </div>
 
                             <div class="fts-shortcode-view">
-                                <div class="fts-shortcode-content">
+                                    <div class="fts-shortcode-content">
                                     <?php
-                                    echo do_shortcode('[feed_them_social cpt_id='.$_GET['post'].']');
+                                    echo do_shortcode( '[feed_them_social cpt_id=' . $_GET['post'] . ']' );
                                     ?>
                                 </div>
                                 <div class="clear"></div>
@@ -795,6 +804,67 @@ class Metabox_Functions {
 							$output .= '</select>';
 
 							break;
+
+                        // Select Option Specific to the Facebook Language Option
+                        case 'select_fb_language':
+
+                            $output .= sprintf(
+                            // Any changes to fields here must be added to list of wp_kses list on output return below.
+                                '<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
+                                $disabled,
+                                $option_name,
+                                $option_id,
+                                isset( $option['class'] ) ? ' ' . $option['class'] : '',
+                                $multiple
+                            );
+
+                            $lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
+
+
+                            if ( ! empty( $lang_options_array->locale ) ) {
+
+                                $i = 0;
+                                foreach ( $lang_options_array->locale as $language ) {
+
+                                    $selected = '';
+
+                                  // $selected = ' selected="'.$language->codes->code->standard->representation .'"';
+                                    if ( ! empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
+                                       $selected = ' selected="selected"';
+                                    }
+
+                                    $output .= '<option ' . $selected . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
+
+
+                                    $i++;
+                                }
+                            }
+
+
+                            /*$i = 0;
+                            foreach ( $option['options'] as $select_option ) {
+                                $selected = '';
+
+                                if ( 'select_multi' == $option['option_type'] )  {
+                                    $final_value = ! is_array( $final_value ) ? array( $final_value ) : $final_value;
+                                    $selected    = in_array( $select_option['value'], $final_value ) ? ' selected="selected"' : '';
+                                } elseif ( ! empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ) {
+                                    $selected = ' selected="selected"';
+                                }
+
+                                $output .= sprintf(
+                                    '<option value="%s"%s>%s</option>',
+                                    $select_option['value'],
+                                    $selected,
+                                    $select_option['label']
+                                );
+                                $i++;
+                            }*/
+
+
+                            $output .= '</select>';
+
+                            break;
 
 						// Checkbox Field.
 						case 'checkbox':

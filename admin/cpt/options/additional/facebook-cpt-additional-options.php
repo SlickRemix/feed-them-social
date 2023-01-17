@@ -276,15 +276,15 @@ class Facebook_Additional_Options {
 					'type'             => 'text',
 					'id'               => 'fb_reviews_remove_see_reviews_link',
 					'name'             => 'fb_reviews_remove_see_reviews_link',
-					'default_value'    => 'yes',
+					'default_value'    => 'no',
 					'options'          => array(
+                        array(
+                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'value' => 'no',
+                        ),
 						array(
 							'label' => esc_html__( 'Yes', 'feed_them_social' ),
 							'value' => 'yes',
-						),
-						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
-							'value' => 'no',
 						),
 					),
                     'req_extensions'  => array('feed_them_social_facebook_reviews'),
@@ -505,7 +505,7 @@ class Facebook_Additional_Options {
 				// Language For Facebook Feeds.
 				array(
 					'input_wrap_class' => 'fb_language',
-					'option_type'      => 'select',
+					'option_type'      => 'select_fb_language',
 					'label'            => esc_html__( 'Facebook Language', 'feed_them_social' ),
                     'instructional-text' => sprintf(
                         esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the FB Titles and Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
@@ -952,8 +952,8 @@ class Facebook_Additional_Options {
                     'type'             => 'text',
                     'id'               => 'fb_loadmore_background_color',
                     'name'             => 'fb_loadmore_background_color',
-                    'placeholder'      => '#ddd',
-                    'default_value'    => '',
+                    'placeholder'      => '#f0f0f0',
+                    'default_value'    => '#f0f0f0',
                     'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
                 ),
 
@@ -965,8 +965,8 @@ class Facebook_Additional_Options {
                     'type'             => 'text',
                     'id'               => 'fb_loadmore_text_color',
                     'name'             => 'fb_loadmore_text_color',
-                    'placeholder'      => '#ddd',
-                    'default_value'    => '',
+                    'placeholder'      => '#000',
+                    'default_value'    => '#000',
                     'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
                 ),
 

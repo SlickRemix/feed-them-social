@@ -75,26 +75,7 @@ class Twitter_Additional_Options {
 			'form_wrap_classes'  => 'fb-page-shortcode-form',
 			'form_wrap_id'       => 'fts-fb-page-form',
 			'main_options'       => array(
-				// Show Follow Count.
-				array(
-					'input_wrap_class' => 'twitter_show_follow_count',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Show Follow Count', 'feed_them_social' ),
-					'type'             => 'text',
-					'id'               => 'twitter_show_follow_count',
-					'name'             => 'twitter_show_follow_count',
-					'default_value'    => 'no',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
-							'value' => 'no',
-						),
-						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
-							'value' => 'yes',
-						),
-					),
-				),
+
                 // Show Follow Button.
                 array(
                     'input_wrap_class' => 'twitter_show_follow_btn',
@@ -103,6 +84,46 @@ class Twitter_Additional_Options {
                     'type'             => 'text',
                     'id'               => 'twitter_show_follow_btn',
                     'name'             => 'twitter_show_follow_btn',
+                    'default_value'    => 'no',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'value' => 'no',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed_them_social' ),
+                            'value' => 'yes',
+                        ),
+                    ),
+                ),
+                // Show Follow Count Singular.
+                array(
+                    'input_wrap_class' => 'twitter_show_follow_count_inline',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Show Follow Count Inline', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'twitter_show_follow_count_inline',
+                    'name'             => 'twitter_show_follow_count_inline',
+                    'default_value'    => 'no',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'value' => 'no',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed_them_social' ),
+                            'value' => 'yes',
+                        ),
+                    ),
+                ),
+                // Show Follow Count Singular.
+                array(
+                    'input_wrap_class' => 'twitter_show_follow_count',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Show Follow Count', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'twitter_show_follow_count',
+                    'name'             => 'twitter_show_follow_count',
                     'default_value'    => 'no',
                     'options'          => array(
                         array(
@@ -503,8 +524,8 @@ class Twitter_Additional_Options {
 					'type'             => 'text',
 					'id'               => 'twitter_loadmore_background_color',
 					'name'             => 'twitter_loadmore_background_color',
-					'placeholder'      => '#ddd',
-					'default_value'    => '',
+                    'placeholder'      => '#f0f0f0',
+                    'default_value'    => '#f0f0f0',
                     'req_extensions'  => array('feed_them_social_premium'),
 				),
 
@@ -516,8 +537,8 @@ class Twitter_Additional_Options {
 					'type'             => 'text',
 					'id'               => 'twitter_loadmore_text_color',
 					'name'             => 'twitter_loadmore_text_color',
-					'placeholder'      => '#ddd',
-					'default_value'    => '',
+                    'placeholder'      => '#000',
+                    'default_value'    => '#000',
                     'req_extensions'  => array('feed_them_social_premium'),
 				),
 

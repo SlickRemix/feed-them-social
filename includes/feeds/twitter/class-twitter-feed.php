@@ -269,8 +269,7 @@ class Twitter_Feed {
 	 * @return string
 	 * @since 1.9.6
 	 */
-	public function tweet_image( $post_data, $popup, $saved_feed_options ) {
-		$fts_twitter_hide_images_in_posts = $saved_feed_options['fts_twitter_hide_images_in_posts'] ?? '';
+	public function tweet_image( $post_data, $popup ) {
 		$permalink                        = 'https://twitter.com/' . $post_data->user->screen_name . '/status/' . $post_data->id;
 
 		$twitter_video_extended = isset( $post_data->extended_entities->media[0]->type ) ? $post_data->extended_entities->media[0]->type : '';
@@ -285,13 +284,12 @@ class Twitter_Feed {
 			$media_url = '';
 		}
 
-		if ( ! empty( $media_url ) && isset( $fts_twitter_hide_images_in_posts ) && 'yes' !== $fts_twitter_hide_images_in_posts ) {
+
 			if ( isset( $popup ) && 'yes' === $popup ) {
 				return '<a href="' . esc_url( $media_url ) . '" class="fts-twitter-link-image" target="_blank"><img class="fts-twitter-description-image" src="' . esc_url( $media_url ) . '" alt="' . esc_attr( $post_data->user->screen_name ) . ' photo"/></a>';
-			} else {
+			} elseif ( !empty( $media_url ) ) {
 				return '<a href="' . esc_url( $permalink ) . '" class="" target="_blank"><img class="fts-twitter-description-image" src="' . esc_url( $media_url ) . '" alt="' . esc_attr( $post_data->user->screen_name ) . ' photo"/></a>';
 			}
-		}
 	}
 
 	/**
@@ -825,8 +823,6 @@ class Twitter_Feed {
 							<?php
 						} elseif ( isset( $twitter_show_follow_btn ) && 'yes' === $twitter_show_follow_btn && 'twitter-follow-above' === $twitter_show_follow_btn_where && ! empty( $twitter_name ) && 'yes' !== $cover_photo ) {
 							echo '<div class="twitter-social-btn-top">';
-							echo "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
-
 							echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name, $saved_feed_options );
 							echo '</div>';
 						}// if cover photo = yes.
@@ -1111,7 +1107,11 @@ class Twitter_Feed {
 								<?php
 							}
 
-							echo $this->tweet_image( $post_data, $popup, $saved_feed_options );
+                            if ( isset( $saved_feed_options['fts_twitter_hide_images_in_posts'] ) && 'yes' !== $saved_feed_options['fts_twitter_hide_images_in_posts'] ) {
+
+							    echo $this->tweet_image( $post_data, $popup );
+
+		                    }
 
 							if ( 'photo' === $twitter_image_quoted_status ) {
 								?>

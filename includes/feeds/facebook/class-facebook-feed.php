@@ -444,6 +444,7 @@ class Facebook_Feed {
 			// Testing options before foreach loop
 			// $idNew = 'tonyhawk';
 			// print_r($feed_data_check->$idNew->data);.
+            // 4.0 This was made for multiple facebook feed, that is no longer an option. Reference for now, delete in future if not used.
 			if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
 				$fts_count_ids = substr_count( $saved_feed_options['fts_facebook_custom_api_token_user_id'], ',' );
 			} else {
@@ -648,10 +649,6 @@ class Facebook_Feed {
 				$this->fb_social_btn_placement( $saved_feed_options, 'above_title' );
 			}
 
-			if ( 'reviews' !== $saved_feed_options['facebook_page_feed_type'] ) {
-				$page_data->description = $page_data->description ?? '';
-				$page_data->name        = $page_data->name ?? '';
-			}
 			// fts-fb-header-wrapper (for grid).
 			echo isset( $saved_feed_options['facebook_grid'] ) && 'yes' !== $saved_feed_options['facebook_grid'] && 'album_photos' !== $saved_feed_options['facebook_page_feed_type'] && 'albums' !== $saved_feed_options['facebook_page_feed_type'] ? '<div class="fts-fb-header-wrapper">' : '';
 
@@ -676,22 +673,24 @@ class Facebook_Feed {
 			}
 			if ( 'reviews' !== $saved_feed_options['facebook_page_feed_type'] ) {
 
+                $page_description = $page_data->description ?? '';
+                $page_name   = $page_data->name ?? '';
 				$fb_title_htag = $saved_feed_options[ 'fb_title_htag' ] ?? 'h1';
 
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 					// echo our Facebook Page Title or About Text. Commented out the group description because in the future we will be adding the about description.
 					$fb_title_htag_size = $saved_feed_options[ 'fb_title_htag_size' ] ? 'font-size:' . $saved_feed_options[ 'fb_title_htag_size' ] . ';' : '';
-					$fts_align_title    = isset( $saved_feed_options['facebook_page_title_align']) && '' !== $saved_feed_options['facebook_page_title_align']? 'style=text-align:' . $saved_feed_options['facebook_page_title_align']. ';' . $fb_title_htag_size . '' : $fb_title_htag_size;
-					echo isset( $saved_feed_options['facebook_page_title'] ) && 'no' !== $saved_feed_options['facebook_page_title'] ? '<' . esc_html( $fb_title_htag ) . ' ' . esc_attr( $fts_align_title ) . '><a href="' . esc_url( $fts_view_fb_link ) . '" target="_blank" rel="noreferrer">' . esc_html( $page_data->name ) . '</a></' . esc_html( $fb_title_htag ) . '>' : '';
+					$fts_align_title    = isset( $saved_feed_options['facebook_page_title_align']) && '' !== $saved_feed_options['facebook_page_title_align'] ? 'style=text-align:' . $saved_feed_options['facebook_page_title_align']. ';' . $fb_title_htag_size . '' : $fb_title_htag_size;
+					echo isset( $saved_feed_options['facebook_page_title'] ) && 'no' !== $saved_feed_options['facebook_page_title'] ? '<' . esc_html( $fb_title_htag ) . ' ' . esc_attr( $fts_align_title ) . '><a href="' . esc_url( $fts_view_fb_link ) . '" target="_blank" rel="noreferrer">' . esc_html( $page_name ) . '</a></' . esc_html( $fb_title_htag ) . '>' : '';
 
 				} else {
 					// echo our Facebook Page Title or About Text. Commented out the group description because in the future we will be adding the about description.
 					$fb_title_htag_size = $saved_feed_options[ 'fb_title_htag_size' ] ? 'style=font-size:' . $saved_feed_options[ 'fb_title_htag_size' ] . ';' : '';
-					echo '<' . esc_html( $fb_title_htag ) . ' ' . esc_attr( $fb_title_htag_size ) . '><a href="' . esc_url( $fts_view_fb_link ) . '" target="_blank" rel="noreferrer">' . esc_html( $page_data->name ) . '</a></' . esc_html( $fb_title_htag ) . '>';
+					echo '<' . esc_html( $fb_title_htag ) . ' ' . esc_attr( $fb_title_htag_size ) . '><a href="' . esc_url( $fts_view_fb_link ) . '" target="_blank" rel="noreferrer">' . esc_html( $page_name ) . '</a></' . esc_html( $fb_title_htag ) . '>';
 				}
 				// Description.
-				echo isset( $saved_feed_options['facebook_page_description'] ) && 'no' !== $saved_feed_options['facebook_page_description'] ? '<div class="fts-jal-fb-group-header-desc">' . wp_kses(
-						$this->facebook_post_types->facebook_tag_filter( $page_data->description ),
+				echo !empty( $saved_feed_options['facebook_page_description'] ) && 'no' !== $saved_feed_options['facebook_page_description'] ? '<div class="fts-jal-fb-group-header-desc">' . wp_kses(
+						$this->facebook_post_types->facebook_tag_filter( $page_description ),
 						array(
 							'a'      => array(
 								'href'  => array(),
@@ -748,7 +747,7 @@ class Facebook_Feed {
 					// slideshow scrollHorz or carousel.
 					! isset( $facebook_post_type ) && isset( $saved_feed_options['fts-slider'] ) && 'yes' === $saved_feed_options['fts-slider'] ) {
 
-					$fts_cycle_type = isset( $saved_feed_options['scrollhorz_or_carousel']) ? $saved_feed_options['scrollhorz_or_carousel']: 'scrollHorz';
+                    $fts_cycle_type = isset( $saved_feed_options['scrollhorz_or_carousel']) ? $saved_feed_options['scrollhorz_or_carousel']: 'scrollHorz';
 
 					if ( isset( $fts_cycle_type ) && 'carousel' === $fts_cycle_type ) {
 						$fts_cycle_slideshow = 'slideshow';
@@ -801,6 +800,7 @@ class Facebook_Feed {
 							echo '<div class="fts-slider-icons-center fts-pager-option-dots-only-top" style="margin:auto; width:100%;max-width:' . esc_attr( $max_width_set . ';background:' . $fts_controls_bar_color . ';color:' . $fts_controls_text_color ) . '"><div class="fts-pager-option fts-custom-pager-' . esc_attr( $fts_dynamic_class_name ) . '"></div></div>';
 						}
 
+                        //LEAVING OFF HERE. SLIDESHOW NOT WORKING IN BACKEND BUT IS IN FRONT END... ALSO POPUP IS NOT WORKING IN ONE INSTANCE
 						// Slider Arrow and Numbers Wrapper.
 						if (
 							isset( $saved_feed_options['slider_controls'] ) && 'dots_and_arrows_above_feed' === $saved_feed_options['slider_controls'] ||
@@ -1240,6 +1240,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 				// Album Photos.
             'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
 
+                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link&access_token=' . $this->feed_access_token . $language . '' );
+
                 $photo_stream = 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && empty( $saved_feed_options['facebook_album_id'] ) ? 'photo_stream' : '';
 
                 if ( $_REQUEST['next_url'] ) {
@@ -1367,22 +1369,31 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		// If Album include album ID in Post Data Cache name.
 		if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
 			$fb_post_data_cache = 'fb_' . $saved_feed_options['facebook_page_feed_type'] . '_post_' . $saved_feed_options['facebook_album_id'] . '_num' . $saved_feed_options['facebook_page_post_count'] . '';
-		} else {
-			$fb_post_data_cache = 'fb_' . $saved_feed_options['facebook_page_feed_type'] . '_post_' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '_num' . $saved_feed_options['facebook_page_post_count'] . '';
-		}
+		    $post_count = $saved_feed_options['facebook_page_post_count'];
+        }
+        elseif ( 'yes' === $saved_feed_options['combine_facebook'] ){
+            $fb_post_data_cache = 'fb_page_combine_post_' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '_num' . $saved_feed_options['combine_social_network_post_count'] . '';
+            $post_count = $saved_feed_options['combine_social_network_post_count'];
+        }
+        else {
+            $fb_post_data_cache = 'fb_' . $saved_feed_options['facebook_page_feed_type'] . '_post_' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '_num' . $saved_feed_options['facebook_page_post_count'] . '';
+            $post_count = $saved_feed_options['facebook_page_post_count'];
+        }
 
 		if ( $this->feed_cache->fts_check_feed_cache_exists( $fb_post_data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 			$response_post_array = $this->feed_cache->fts_get_feed_cache( $fb_post_data_cache );
 		} else {
+
 			// Build the big post counter.
 			$fb_post_array = array();
+
 			// Single Events Array.
 			$set_zero = 0;
 			foreach ( $feed_data->data as $post_data ) {
 
 				$post_data->id = $post_data->id ?? '';
 
-				if ( $set_zero === $saved_feed_options['facebook_page_post_count'] ) {
+				if ( $set_zero === $post_count ) {
 					break;
 				}
 
@@ -1392,9 +1403,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 				// Don't run these if it's a review feed otherwise you will get an error response from facebook.
 				if ( 'reviews' !== $saved_feed_options['facebook_page_feed_type']  ) {
 					// Set Likes URL in post array.
-					$fb_post_array[$post_data_key . '_likes']    = 'https://graph.facebook.com/' . $post_data_key . '/reactions?summary=1&access_token=' . $this->feed_access_token;
+					$fb_post_array[$post_data_key . '_likes']    = 'https://graph.facebook.com/' . $post_data_key . '/reactions?summary=1&access_token=' . $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_custom_api_token'] );
 					// Set Comments URL in post array.
-					$fb_post_array[$post_data_key . '_comments'] = 'https://graph.facebook.com/' . $post_data_key . '/comments?summary=1&access_token=' . $this->feed_access_token;
+					$fb_post_array[$post_data_key . '_comments'] = 'https://graph.facebook.com/' . $post_data_key . '/comments?summary=1&access_token=' . $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_custom_api_token'] );
 				}
 
 				// Video.
@@ -1441,9 +1452,10 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			}
 		}
 		// SHOW THE POST RESPONSE PRINT_R
-		// echo'<pre>';
-		// print_r($response_post_array);
-		// echo'</pre>';.
+		/* echo'uyuyyuyuuyuy<pre>';
+		 print_r($response_post_array);
+		 echo'</pre>';*/
+
 		return $response_post_array;
 	}
 

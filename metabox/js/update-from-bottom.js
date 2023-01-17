@@ -1313,7 +1313,6 @@ function fts_check_valid() {
             $('html, body').animate({scrollTop : 0}, 600);
         });
 
-
         $.fn.isInViewport = function() {
             var elementTop = $(this).offset().top;
             var elementBottom = elementTop + $(this).outerHeight();
@@ -1341,4 +1340,5 @@ function fts_beacon_support_click() {
 }
 
 !function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});
+// Turning off until we push live.
 window.Beacon('init', 'bf9f4457-217a-49e4-b027-dd6b784c6fc0');

@@ -285,6 +285,7 @@ class Metabox_Functions {
 					'submit_msgs' => array(
 						'saving_msg'  => __( 'Saving Options' ),
 						'success_msg' => __( 'Settings Saved Successfully' ),
+                        'plugins_url' => plugins_url(),
                         'fts_post'    => admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ),
                     )
 				)
@@ -513,7 +514,7 @@ class Metabox_Functions {
                                             <div class="ft_icon">
                                                 <?php if( 'combine_streams_feed' === $tab_key ){ ?><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.33 14.33 64 32 64H144.6C164.1 64 182.4 72.84 194.6 88.02L303.4 224H384V176C384 166.3 389.8 157.5 398.8 153.8C407.8 150.1 418.1 152.2 424.1 159L504.1 239C514.3 248.4 514.3 263.6 504.1 272.1L424.1 352.1C418.1 359.8 407.8 361.9 398.8 358.2C389.8 354.5 384 345.7 384 336V288H303.4L194.6 423.1C182.5 439.2 164.1 448 144.6 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H144.6L247 256L144.6 128H32C14.33 128 0 113.7 0 96V96z"/></svg>
                                                 <?php }
-                                                      if( 'instagram_feed' === $tab_key ){ ?><img src="/wp-content/plugins/feed-them-social/metabox/images/instagram-logo-admin.png" class="instagram-feed-type-image-tab">
+                                                      if( 'instagram_feed' === $tab_key ){ ?><img src="<?php echo plugins_url(); ?>/feed-them-social/metabox/images/instagram-logo-admin.png" class="instagram-feed-type-image-tab">
                                                 <?php } ?>
                                             </div>
 											<span class="das-text"><?php echo esc_html( $tab_item['menu_a_text'] ); ?></span>
@@ -655,8 +656,10 @@ class Metabox_Functions {
 		// Is an extension required for this section?
 		$section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->prem_extension_list[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? true : false;
 
+        $section_wrap_id = !empty( $section_info['section_wrap_id'] ) ? $section_info['section_wrap_id'] : '';
+        $section_wrap_class = !empty( $section_info['section_wrap_class'] ) ? $section_info['section_wrap_class'] : '';
 		// Start creation of fields for each Feed.
-		$output = '<div id="' . esc_attr( $section_info['section_wrap_id'] ) . '" class="fts-section ' . $section_info['section_wrap_class'] . '">';
+		$output = '<div id="' . esc_attr( $section_wrap_id ) . '" class="fts-section ' .$section_wrap_class . '">';
 
 		// Section Title.
 		$output .= isset( $section_info['section_title'] ) ? '<h3>' . $section_info['section_title'] . '</h3>' : '';
@@ -672,7 +675,7 @@ class Metabox_Functions {
 			if ( ! isset( $option['no_html'] ) || isset( $option['no_html'] ) && 'yes' !== $option['no_html'] ) {
 
 				// Is an extension required for this option?
-                $required_extension_needed = $option['req_extensions'] && is_array( $option['req_extensions'] ) ? $this->check_req_extensions($option['req_extensions']) : false;
+                $required_extension_needed = isset( $option['req_extensions'] ) && is_array( $option['req_extensions'] ) ? $this->check_req_extensions($option['req_extensions']) : false;
 
 				// Sub option output START?
 				$output .= isset( $option['sub_options'] ) ? '<div class="' . $option['sub_options']['sub_options_wrap_class'] . ( false !== $required_extension_needed ? ' not-active-premium-fields' : '' ) . '">' . ( isset( $option['sub_options']['sub_options_title'] ) ? '<h3>' . $option['sub_options']['sub_options_title'] . '</h3>' : '' ) . ( isset( $option['sub_options']['sub_options_instructional_txt'] ) ? '<div class="instructional-text">' . $option['sub_options']['sub_options_instructional_txt'] . '</div>' : '' ) : '';
@@ -709,8 +712,11 @@ class Metabox_Functions {
 				// Set Option ID.
 				$option_id = $option['id'];
 
+                // note: ?? case will not work
+                $default_value = isset( $option['default_value'] ) ? $option['default_value'] : '';
+
                 // Use Saved Options or Default Value?
-				$final_value = isset( $saved_options[ $option_name ] ) && ! empty( $saved_options[ $option_name ] ) ? $saved_options[ $option_name ] : $option['default_value'];
+				$final_value = isset( $saved_options[ $option_name ] ) && ! empty( $saved_options[ $option_name ] ) ? $saved_options[ $option_name ] : $default_value;
 
 				// Do we need to output any Metabox Specific Form Inputs?
 				if ( isset( $this->metabox_specific_form_inputs ) && true == $this->metabox_specific_form_inputs ) {
@@ -754,11 +760,11 @@ class Metabox_Functions {
 								$option['type'],
 								$option_name,
 								$option_id,
-								$option['class'] ? ' ' . $option['class'] : '',
-								$option['placeholder'] ? $option['placeholder'] : '',
+								isset( $option['class'] ) ? ' ' . $option['class'] : '',
+								isset( $option['placeholder'] ) ? $option['placeholder'] : '',
 								$final_value,
-								$check_encrypted ? ' data-token="' . $check_encrypted :'',
-								$option['autocomplete'] ? ' autocomplete="' . ' ' . $option['autocomplete'] : '',
+								$check_encrypted ? ' data-token="' . $check_encrypted : '',
+								isset( $option['autocomplete'] ) ? ' autocomplete="' . ' ' . $option['autocomplete'] : '',
 								$disabled
 							);
 							break;
@@ -890,7 +896,7 @@ class Metabox_Functions {
                             // For testing.
                            // $output .= print_r( $this->prem_extension_list[$req_extension] );
 
-                            if( 'feed_them_social_premium' === $option['req_extensions'][0] &&
+                            if( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && 'feed_them_social_premium' === $option['req_extensions'][0] &&
                                 'feed_them_social_facebook_reviews' === $option['req_extensions'][1] ){
 
                                 $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',

@@ -126,6 +126,9 @@ class Feed_Them_Social {
 			// Display Combined Streams Feed.
 			$combined_streams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feed_functions, $feed_cache, $access_options, $facebook_feed, $facebook_post_types, $instagram_feed, $twitter_feed, $youtube_feed );
 		}
+        else {
+            $combined_streams = '';
+        }
 			// Feed Display.
 		new feedthemsocial\Feed_Shortcode(  $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams );
 

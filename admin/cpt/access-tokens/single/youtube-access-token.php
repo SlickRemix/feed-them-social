@@ -196,8 +196,8 @@ class Youtube_Access_Functions {
             <div class="clear"></div>
             <div class="fts-token-wrap" id="fts-youtube-token-wrap"><?php
 
-                $user_id = $test_app_token_response;
-                $error_response = $test_app_token_response->error->errors[0]->message ? 'true' : 'false';
+                $user_id = !empty( $test_app_token_response ) ? $test_app_token_response : '';
+                $error_response = isset( $test_app_token_response->error->errors[0]->message ) ? 'true' : 'false';
 
                 // Error Check!
                 if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {

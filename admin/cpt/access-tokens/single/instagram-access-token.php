@@ -72,9 +72,9 @@ class Instagram_Access_Functions {
 	    // Saved Feed Options!
 	    $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
 
-        $user_id_basic           = $saved_feed_options['fts_instagram_custom_id'];
-        $access_token            = $saved_feed_options['fts_instagram_custom_api_token'];
-        $access_token_expires_in = $saved_feed_options['fts_instagram_custom_api_token_expires_in'];
+        $user_id_basic           = !empty( $saved_feed_options['fts_instagram_custom_id'] ) ? $saved_feed_options['fts_instagram_custom_id'] :  '';
+        $access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
+        $access_token_expires_in = !empty( $saved_feed_options['fts_instagram_custom_api_token_expires_in'] ) ? $saved_feed_options['fts_instagram_custom_api_token_expires_in'] : '';
 
 	    // Decrypt Access Token?
         $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;

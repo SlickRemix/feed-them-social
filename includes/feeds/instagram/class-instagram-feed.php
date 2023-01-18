@@ -308,17 +308,17 @@ class Instagram_Feed {
             switch( $saved_feed_options['instagram_feed_type'] ){
                 case 'business':
                 case 'hashtag':
-                    $instagram_id   = $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'];
-                    $access_token   = $saved_feed_options['fts_facebook_instagram_custom_api_token'];
-                    $instagram_name = $saved_feed_options['fts_facebook_instagram_custom_api_token_user_name'];
-                    $fb_name        = $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'];
+                    $instagram_id   = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] : '';
+                    $access_token   = !empty($saved_feed_options['fts_facebook_instagram_custom_api_token'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token'] : '';
+                    $instagram_name = !empty($saved_feed_options['fts_facebook_instagram_custom_api_token_user_name'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token_user_name'] : '';
+                    $fb_name        = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'] : '';
                     break;
 
                 default:
                 case 'basic':
-                    $instagram_id            = $saved_feed_options['fts_instagram_custom_id'];
-                    $access_token            = $saved_feed_options['fts_instagram_custom_api_token'];
-                    $access_token_expires_in = $saved_feed_options['fts_instagram_custom_api_token_expires_in'];
+                    $instagram_id            = !empty( $saved_feed_options['fts_instagram_custom_id'] ) ? $saved_feed_options['fts_instagram_custom_id'] : '';
+                    $access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
+                    $access_token_expires_in = !empty( $saved_feed_options['fts_instagram_custom_api_token_expires_in'] ) ? $saved_feed_options['fts_instagram_custom_api_token_expires_in'] : '';
                     break;
 
             }

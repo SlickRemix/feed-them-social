@@ -539,7 +539,7 @@ class Facebook_Feed {
 				$no_description_count = $fts_facebook_reviews->review_count_check( $saved_feed_options );
 
 				// testing purposes
-				print ''. $no_description_count - $saved_feed_options['facebook_page_post_count'] .' = The amount of posts with no review text.';
+				// print ''. $no_description_count - $saved_feed_options['facebook_page_post_count'] .' = The amount of posts with no review text.';
 				// this count includes our original posts count + the amount of posts we found with no description.
 				$saved_feed_options['facebook_page_post_count'] = $no_description_count;
 			}

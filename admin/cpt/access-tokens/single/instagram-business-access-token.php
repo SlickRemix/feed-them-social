@@ -129,10 +129,10 @@ class Instagram_Business_Access_Functions {
 		        // Saved Feed Options!
                 $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
 
-                $page_id            = $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'];
-                $access_token       = $saved_feed_options['fts_facebook_instagram_custom_api_token'];
-                $instagram_name     = $saved_feed_options['fts_facebook_instagram_custom_api_token_user_name'];
-                $fb_name            = $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'];
+                $page_id            = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] : '';
+                $access_token       = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token'] : '';
+                $instagram_name     = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_user_name'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token_user_name'] : '';
+                $fb_name            = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'] )? $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'] : '';
 
                 // Decrypt Access Token?
                 $decrypted_access_token = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;

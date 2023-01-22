@@ -1021,6 +1021,7 @@ class Metabox_Functions {
                     // SRL 4.0: The proper attr is viewBox however, it needs to be lower case to work here.
                     'viewbox' => true,
                     'xmlns'   => true,
+                    'class'   => true,
                 ),
                 'path'      => array(
                     'd'   => array(),

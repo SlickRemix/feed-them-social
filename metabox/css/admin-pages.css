@@ -2781,13 +2781,11 @@ body .ft-gallery-popup a.fts-powered-by-text {
     background:#ffb12c !important;
 }
 #ftg-tab-content1 {
-    padding-top:15px;
+    padding-top: 25px;
     padding-left: 0;
 }
 #ftg-tab-content1 .instructional-text {
     max-width:100%;
-    margin: 0;
-    padding: 0;
 }
 #fts-tab-content h3 {
     text-align:center;
@@ -2869,6 +2867,7 @@ span.fts-toke-not-set {
 .ft-wp-gallery-type {
     /* background:none !important; */
     border: none !important;
+    padding-top: 0px !important;
 }
 .fts-fb-error-message-wrap {
     word-wrap: break-word;

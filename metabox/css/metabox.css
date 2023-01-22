@@ -2092,6 +2092,12 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
 }
 .fts-select-social-network-menu-instructions {
     display:none;
+    padding: 40px;
+    text-align: left;
+    background: #fff;
+    border-bottom: 15px  solid #f9f9f9;
+    font-size: 15px;
+    line-height: 20px;
 }
 .feed-them-social-admin-input-wrap.ft-wp-gallery-type .instructional-text {
     font-size: 13px;
@@ -2100,6 +2106,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     border: none;
     color: #212121;
     padding: 0;
+    text-align: center;
 }
 .not-active-title:hover h3 {
     color: #028fd2
@@ -2552,6 +2559,17 @@ h3.sectioned-options-title {
 .fts-shortcode-location {
     display: none !important;
 }
+svg.fts-info-icon {
+    max-width:25px;
+    transition:.5s;
+    position:relative;
+    top: -12px;
+    cursor:pointer;
+    fill:#1a77f2;
+}
+svg.fts-info-icon:hover {
+    opacity:.5;
+}
 .feed-them-social-admin-input-wrap {
     padding: 20px 0;
     background: #f9f9f9;
@@ -2560,6 +2578,7 @@ h3.sectioned-options-title {
     margin-bottom: 1px !important;
     width: 100%;
     display: inline-block;
+    /* text-align: center; */
 }
 
 .feed-them-social-admin-input-label {

@@ -217,12 +217,6 @@ function refresh_feed_ajax() {
 
                 }, 500);
 
-
-
-
-
-
-
             }
             console.log( 'Feed Refreshed: ' + response );
         },
@@ -332,6 +326,11 @@ jQuery(document).ready(function ($) {
 
     // Do this so if the users moves quickly so only loading messages displays.
     jQuery('.fts-shortcode-content').addClass('fts-cache-pre-loading');
+
+    $('.fts-info-icon').click(function () {
+        // get the id
+        $('.fts-select-social-network-menu-instructions').slideToggle();
+    });
 
     jQuery('.ft-gallery-notice').on('click', '.ft-gallery-notice-close', function () {
         jQuery('.ft-gallery-notice').html('');

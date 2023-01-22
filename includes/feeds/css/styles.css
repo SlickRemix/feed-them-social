@@ -409,7 +409,8 @@ a.fts-powered-by-text {
 }
 
 .no-more-posts-fts-fb {
-    cursor: auto
+    cursor: auto;
+    margin: 10px 0;
 }
 
 .fts-jal-single-fb-post .slicker-facebook-album-photoshadow {
@@ -1722,7 +1723,7 @@ a.fts-slicker-backg {
     width: 167px;
     color: #fff;
     line-height: 15px;
-    padding: 7px 0 !important
+    padding: 10px 3px !important
 }
 
 .instagram-social-btn-top {
@@ -1750,14 +1751,14 @@ a.fts-slicker-backg {
 
 .instagram-social-btn-bottom a, .instagram-social-btn-top a {
     color: #fff !important;
-    font-weight: 100 !important;
     display: inline-block;
-    text-decoration: none !important
+    text-decoration: none !important;
+    position: relative;
+    top: -2px;
 }
 
 .instagram-social-btn-bottom a:hover, .instagram-social-btn-top a:hover {
     color: #fff;
-    font-weight: 100 !important
 }
 
 .instagram-social-btn-bottom:before, .instagram-social-btn-top:before {
@@ -1765,8 +1766,10 @@ a.fts-slicker-backg {
     content: "\f16d ";
     display: inline-block;
     margin-right: 6px;
-    font-size: 16px !important;
-    -webkit-font-smoothing: antialiased
+    font-size: 20px !important;
+    -webkit-font-smoothing: antialiased;
+    position:relative;
+    top:1px;
 }
 
 .fts-pinterest-boards-wrap * {
@@ -3697,9 +3700,10 @@ a.fts-twitter-at-name {
 }
 
 .fts-isnta-full-name {
-    padding: 0 0 10px;
-    float: left;
-    margin: 4px 20px 0 0
+    padding: 0px;
+    /* float: left; */
+    margin: 4px 20px 0 0;
+    display: inline-block;
 }
 
 .fts-profile-name-wrap .fts-follow-header-wrap {
@@ -3804,7 +3808,7 @@ a.fts-twitter-at-name {
 .fts-facebook-popup.fts-instagram-styles-popup .fts-insta-date-popup-grab {
     clear: both;
     text-align: right;
-    margin: 55px 15px 0px !important;
+    margin: 20px 15px 0px !important;
     color: #999;
     border-top: 1px solid #eee;
     padding-top: 12px;

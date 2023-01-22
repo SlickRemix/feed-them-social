@@ -144,7 +144,7 @@ class Options_Functions {
 		//Update Saved Options.
 		if( $saved_options_array ){
             // Delete Option if no value is set.
-			if ( $saved_options_array[ $option_name ] && empty( $value ) ) {
+			if ( isset( $saved_options_array[ $option_name ] ) && empty( $value ) ) {
 				$this->unset_array_option( $saved_options_array, $option_name );
 				return false;
 			}

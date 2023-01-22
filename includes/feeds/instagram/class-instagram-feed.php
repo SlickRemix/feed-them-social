@@ -334,7 +334,9 @@ class Instagram_Feed {
             // Get and Decrypt Instagram Business Token.
             // $instagram_business_token    = $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
             // Get and Decrypt Instagram Basic Token.
-			$instagram_basic_token       = $this->access_options->decrypt_access_token( $saved_feed_options['fts_instagram_custom_api_token'] );
+
+            $access_token_basic           = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
+			$instagram_basic_token        = $this->access_options->decrypt_access_token( $access_token_basic );
 
             // Use token relative to feed.
 			//$fts_instagram_access_token  = 'hashtag' === $saved_feed_options['instagram_feed_type'] || 'business' === $saved_feed_options['instagram_feed_type'] ? $instagram_business_token : $instagram_basic_token;
@@ -352,8 +354,8 @@ class Instagram_Feed {
 					$this->feed_functions->feed_them_instagram_refresh_token( $feed_post_id );
 				}
 			}
-
-			wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+            // SRL 4.0 Note: no clue why this is here. Pending deletion after launch.
+			//wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			$instagram_data_array = array();
 
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
@@ -598,6 +600,8 @@ class Instagram_Feed {
                  $username = $insta_data->data[0]->username;
 			}
 
+            // For Testing.
+            $debug_userinfo = 'false';
 			if ( current_user_can( 'administrator' ) && 'true' === $debug_userinfo ) {
 				print_r( $instagram_user_info );
 				echo '</pre>';
@@ -741,7 +745,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
                 ?>
                 <div <?php if ( !empty( $saved_feed_options['instagram_page_width'] ) ) { ?> style="max-width: <?php echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';"';
-                } ?> data-ftsi-columns="<?php echo esc_attr( $saved_feed_options['instagram_columns'] ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $saved_feed_options['instagram_force_columns'] ); ?>" data-ftsi-margin="<?php echo esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ); ?>" data-ftsi-width="<?php echo esc_attr( $image_size ); ?>" class="<?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
+                } ?> data-ftsi-columns="<?php echo esc_attr( $saved_feed_options['instagram_columns'] ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $saved_feed_options['instagram_force_columns'] ); ?>" data-ftsi-margin="<?php echo esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['instagram_page_width'] ) ? esc_attr( $saved_feed_options['instagram_page_width']  ) : ''; ?>" class="<?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
                     if ( isset( $popup ) && 'yes' === $popup ) {
                         echo ' popup-gallery';
                     }
@@ -986,8 +990,11 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     // fb api uses limit for the post count and instagram api uses count.
                     $the_count = 'hashtag' === $saved_feed_options['instagram_feed_type'] || 'basic' === $saved_feed_options['instagram_feed_type'] || 'business' === $saved_feed_options['instagram_feed_type'] ? 'limit' : 'count';
                     // we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
-                    //
-                    $_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "'.$the_count.'=". $saved_feed_options['instagram_pics_count'], "'.$the_count.'=$loadmore_count", $next_url ) : $next_url;
+                    // SRL 4.0 slowly get rid of the loadmore count, this is overkill imo and overcomplicates what should be an easy process.
+                    $loadmore_count = '';
+                   // $_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "'.$the_count.'=". $saved_feed_options['instagram_pics_count'], "'.$the_count.'=$loadmore_count", $next_url ) : $next_url;
+                    $_REQUEST['next_url'] = $next_url;
+
                     $access_token         = 'access_token=' . $this->feed_access_token;
                     $_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
                     ?>

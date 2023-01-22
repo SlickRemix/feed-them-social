@@ -285,7 +285,7 @@ class Twitter_Feed {
 		}
 
 
-			if ( isset( $popup ) && 'yes' === $popup ) {
+			if (  !empty( $media_url ) && isset( $popup ) && 'yes' === $popup ) {
 				return '<a href="' . esc_url( $media_url ) . '" class="fts-twitter-link-image" target="_blank"><img class="fts-twitter-description-image" src="' . esc_url( $media_url ) . '" alt="' . esc_attr( $post_data->user->screen_name ) . ' photo"/></a>';
 			} elseif ( !empty( $media_url ) ) {
 				return '<a href="' . esc_url( $permalink ) . '" class="" target="_blank"><img class="fts-twitter-description-image" src="' . esc_url( $media_url ) . '" alt="' . esc_attr( $post_data->user->screen_name ) . ' photo"/></a>';
@@ -623,8 +623,8 @@ class Twitter_Feed {
 			$data_cache = ! empty( $search ) ? 'twitter_data_cache_' . $search . '_num' . $tweets_count : 'twitter_data_cache_' . $twitter_name . '_num' . $tweets_count;
 
 			    //Access Tokens Options.
-                $fts_twitter_custom_access_token        = $saved_feed_options['fts_twitter_custom_access_token'];
-                $fts_twitter_custom_access_token_secret = $saved_feed_options['fts_twitter_custom_access_token_secret'];
+                $fts_twitter_custom_access_token        = !empty( $saved_feed_options['fts_twitter_custom_access_token'] ) ? $saved_feed_options['fts_twitter_custom_access_token'] : '';
+                $fts_twitter_custom_access_token_secret = !empty( $saved_feed_options['fts_twitter_custom_access_token_secret'] ) ? $saved_feed_options['fts_twitter_custom_access_token_secret'] : '';
 
                 if ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
 				    // NO Access tokens found.
@@ -965,10 +965,10 @@ class Twitter_Feed {
 							if ( empty( $post_data->retweeted_status ) && 'yes' !== $fts_twitter_full_width ) {
 								?>
 								<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
-								class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $name ); ?>"/></a>
+								class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
 							<?php } elseif( 'yes' !== $fts_twitter_full_width ) { ?>
 								<a href="<?php echo esc_url( $user_retweet_permalink ); ?>" target="_blank"
-								class="fts-twitter-permalink fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image_retweet ); ?>" alt="<?php echo esc_attr( $name_retweet ); ?>"/></a>
+								class="fts-twitter-permalink fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image_retweet ); ?>" alt="<?php echo esc_attr( $user_name_retweet ); ?>"/></a>
 
 							<?php } ?>
 
@@ -976,7 +976,7 @@ class Twitter_Feed {
 
 									<?php if ( ! isset( $post_data->retweeted_status ) && empty( $post_data->in_reply_to_user_id ) ) { ?>
 
-                                        <a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $post_data->user->name ); ?></a> &#183; <span ><a href="<?php echo esc_url( $permalink ); ?>"
+                                        <a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $post_data->user->name ); ?></a> &#183; <span ><a href="<?php echo esc_url( $user_permalink ); ?>"
 											class="time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a><br/>
                                         <a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-at-name">@<?php echo esc_html( $twitter_name ); ?></a>
 
@@ -987,10 +987,10 @@ class Twitter_Feed {
 		?>
 									<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-at-name"><?php echo esc_html( $post_data->user->name ); ?> <?php echo esc_html( 'Retweeted', 'feed-them-social' ); ?>
 										<strong>&middot;</strong></a>
-									<a href="<?php echo esc_url( $user_retweet_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $name_retweet ); ?></a><br/>
+									<a href="<?php echo esc_url( $user_retweet_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $user_name_retweet ); ?></a><br/>
 									<a href="<?php echo esc_url( $user_retweet_permalink ); ?>" target="_blank" class="fts-twitter-at-name">@<?php echo esc_html( $screen_name_retweet ); ?></a>
 								<?php } else { ?>
-									<a href="<?php echo esc_url( $in_reply_permalink ); ?>" target="_blank" class="fts-twitter-at-name"><?php echo esc_html( 'In reply to', 'feed-them-social' ); ?><?php echo esc_html( $post_data->entities->user_mentions[0]->name ); ?> </a>
+									<a href="<?php echo esc_url( $in_reply_permalink ); ?>" target="_blank" class="fts-twitter-at-name"><?php echo esc_html( 'In reply to', 'feed-them-social' ); ?>&nbsp;<?php echo esc_html( $post_data->entities->user_mentions[0]->name ); ?> </a>
 								<?php } ?>
 							</span>
 		<?php
@@ -1176,13 +1176,13 @@ class Twitter_Feed {
 					}
 					// endforeach;.
 					// Make sure it's not ajaxing.
-					if ( ! isset( $_GET['load_more_ajaxing'] ) && 'yes' === $loadmore && 'autoscroll' === $loadmore_style ) {
+					if ( ! isset( $_GET['load_more_ajaxing'] ) && isset( $loadmore, $loadmore_style ) &&  'yes' === $loadmore && 'autoscroll' === $loadmore_style ) {
 
 						$fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
 
 						// this div returns outputs our ajax request via jquery append html from above.
 						echo '<div id="output_' . esc_attr( $fts_dynamic_name ) . '"></div>';
-						if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'autoscroll' === $loadmore_style ) {
+						if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 							echo '<div class="fts-twitter-load-more-wrapper">';
 							echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">Twitter</div>';
 							echo '</div>';
@@ -1222,7 +1222,7 @@ class Twitter_Feed {
 			$last_key           = isset( $fetched_tweets->data ) ? end( $fetched_tweets->data ) : '';
 			$_REQUEST['max_id'] = $last_key->id_str ?? '';
 
-			if ( 'yes' === $loadmore ) {
+			if ( isset( $loadmore ) && 'yes' === $loadmore ) {
 				?>
 		<script>var sinceID_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( $_REQUEST['since_id'] ); ?>";
 			var maxID_<?php echo esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) ); ?>";</script>
@@ -1230,7 +1230,7 @@ class Twitter_Feed {
 			}
 
 			// Make sure it's not ajaxing.
-			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && 'yes' === $loadmore ) {
+			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && isset( $loadmore ) && 'yes' === $loadmore ) {
 				$fts_dynamic_name = sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
 				$time             = time();
 				$nonce            = wp_create_nonce( $time . 'load-more-nonce' );
@@ -1241,7 +1241,7 @@ class Twitter_Feed {
 				<?php
 				// $loadmore_style = load_more_posts_style shortcode att.
 				if ( 'autoscroll' === $loadmore_style && 'yes' === $loadmore ) { // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
-					?>
+                    ?>
 				jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").bind("scroll", function () {
 					if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
 					<?php

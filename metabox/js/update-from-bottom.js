@@ -1323,14 +1323,17 @@ function fts_check_valid() {
             return elementBottom > viewportTop && elementTop < viewportBottom;
         };
 
-        $(window).on('resize scroll', function() {
-            if ($('#publish, #publishing-action input[type=submit]').isInViewport()) {
-                elements.box.hide();
-            } else {
-                // do something else
-                elements.box.show();
-            }
-        });
+        if ( $('body.post-type-fts #feed_setup').length > 0 ) {
+            $(window).on('resize scroll', function () {
+
+                if ($('#publish, #publishing-action input[type=submit]').isInViewport()) {
+                    elements.box.hide();
+                } else {
+                    // do something else
+                    elements.box.show();
+                }
+            });
+        }
     });
 }(jQuery));
 

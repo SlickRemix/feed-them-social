@@ -342,7 +342,7 @@ class Access_Options {
                 // but then you have to run a call for each page and that seems like overkill if you have hundreds of pages. FB should come up with a simpler way.
                 if( isset( $test_fb_app_token_response->error ) ){
                     // Possibly the user is on a new page experience so let's run the call without locations.
-                    $fb_url = 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
+                    $fb_url = isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
 
                 }
                 $fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : $fb_url;

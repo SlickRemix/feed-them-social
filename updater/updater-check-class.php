@@ -69,7 +69,7 @@ class updater_check_class {
     }
 
     /**
-     * License Key field Empty on Plugin License Page
+     * License Key field Empty on Extension License Page
      *
      * @since 1.0.2
      */

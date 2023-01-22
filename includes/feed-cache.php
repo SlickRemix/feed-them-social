@@ -70,8 +70,9 @@ class Feed_Cache {
 	    add_action( 'init', array( $this, 'fts_clear_cache_script' ) );
 	    add_action( 'wp_ajax_fts_clear_cache_ajax', array( $this, 'fts_clear_cache_ajax' ) );
 
-		add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
-		add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
+        // SRL 4.0: I don't think we need these here.
+		// add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
+		// add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
 	}
 
 	/**
@@ -229,7 +230,7 @@ class Feed_Cache {
 			print_r($decrypted_value);*/
 		}
 
-		return $decrypted_value;
+		return !empty( $decrypted_value ) ? $decrypted_value : '';
 	}
 
 	/**

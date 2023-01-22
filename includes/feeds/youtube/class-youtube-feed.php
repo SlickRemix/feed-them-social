@@ -111,8 +111,8 @@ class Youtube_Feed {
         // Saved Feed Options!
         $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
 
-        $youtube_api_key      = $saved_feed_options['youtube_custom_api_token'];
-        $youtube_access_token = $saved_feed_options['youtube_custom_access_token'];
+        $youtube_api_key      = !empty( $saved_feed_options['youtube_custom_api_token'] ) ? $saved_feed_options['youtube_custom_api_token'] : '';
+        $youtube_access_token = !empty( $saved_feed_options['youtube_custom_access_token'] ) ? $saved_feed_options['youtube_custom_access_token'] : '';
 
 
         wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
@@ -195,10 +195,10 @@ class Youtube_Feed {
 
 
             if( !empty( $saved_feed_options['youtube_singleVideoID'] ) ){
-                $wrap = $saved_feed_options['youtube_comments_wrap'];
+                $wrap = isset( $saved_feed_options['youtube_comments_wrap'] ) ? $saved_feed_options['youtube_comments_wrap'] : '';
             }
             else {
-                $wrap = $saved_feed_options['youtube_thumbs_wrap'];
+                $wrap = isset( $saved_feed_options['youtube_thumbs_wrap'] ) ? $saved_feed_options['youtube_thumbs_wrap'] : '';
             }
 
 
@@ -217,12 +217,12 @@ class Youtube_Feed {
             }
             if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['youtube_load_more_option'] ) {
 
-                    $loadmore                  = $saved_feed_options['youtube_load_more_option'];
-                    $loadmore_type             = $saved_feed_options['youtube_load_more_style'];
-                    $loadmore_btn_margin       = $saved_feed_options['youtube_loadmore_button_margin'];
-                    $loadmore_btn_maxwidth     = $saved_feed_options['youtube_loadmore_button_width'];
-                    $loadmore_background_color = $saved_feed_options['youtube_loadmore_background_color'];
-                    $loadmore_text_color       = $saved_feed_options['youtube_loadmore_text_color'];
+                    $loadmore                  = !empty( $saved_feed_options['youtube_load_more_option']) ? $saved_feed_options['youtube_load_more_option'] : '';
+                    $loadmore_type             = !empty( $saved_feed_options['youtube_load_more_style']) ? $saved_feed_options['youtube_load_more_style'] : '';
+                    $loadmore_btn_margin       = !empty( $saved_feed_options['youtube_loadmore_button_margin']) ? $saved_feed_options['youtube_loadmore_button_margin'] : '';
+                    $loadmore_btn_maxwidth     = !empty( $saved_feed_options['youtube_loadmore_button_width']) ? $saved_feed_options['youtube_loadmore_button_width'] : '';
+                    $loadmore_background_color = !empty( $saved_feed_options['youtube_loadmore_background_color'] ) ? $saved_feed_options['youtube_loadmore_background_color'] : '';
+                    $loadmore_text_color       = !empty( $saved_feed_options['youtube_loadmore_text_color']) ? $saved_feed_options['youtube_loadmore_text_color'] : '';
 
                     if ( ! empty( $loadmore_background_color ) || ! empty( $loadmore_text_color ) ) { ?>
                         <style type="text/css">
@@ -278,9 +278,13 @@ class Youtube_Feed {
                     $fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_key( $_REQUEST['fts_dynamic_name'] );
                 }
             }
+            else {
+
+                $fts_dynamic_class_name = $this->get_fts_dynamic_class_name();
+            }
 
             // check to see of the user added a full youtube link instead of just the id and if so parse out everything but the id we need.
-            if ( preg_match( '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $saved_feed_options['youtube_singleVideoID'], $match ) ) {
+            if ( preg_match( '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', isset( $saved_feed_options['youtube_singleVideoID'] ) ? $saved_feed_options['youtube_singleVideoID'] : '', $match ) ) {
                 $saved_feed_options['youtube_singleVideoID'] = $match[1];
             }
 
@@ -293,6 +297,9 @@ class Youtube_Feed {
                     // Youtube Username.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         $user_cache_name = 'yt_user_' . $saved_feed_options['youtube_name'];
+                    }
+                    else {
+                        $user_cache_name = '';
                     }
 
                     $user_returned = $this->feed_functions->use_cache_check( $youtube_user_id_data, $user_cache_name, 'youtube' );
@@ -381,6 +388,7 @@ class Youtube_Feed {
 
                     // echo ' youtube URL: ';
                     // echo $youtube_feed_api_url;
+                    $feed_cache_name = !empty( $feed_cache_name ) ? $feed_cache_name : '';
                     $feed_returned = $this->feed_functions->use_cache_check( $youtube_feed_api_url, $feed_cache_name, 'youtube' );
 
                     // JSON Decode the Feed Data.
@@ -447,9 +455,9 @@ class Youtube_Feed {
                 }
 
                 $thumbgallery_class_master = empty( $saved_feed_options['youtube_singleVideoID'] ) ? ' fts-youtube-thumbs-gallery-master ' : '';
-
+                $youtube_name = !empty( $saved_feed_options['youtube_name'] ) ? $saved_feed_options['youtube_name'] : '';
                 echo '<div class="et_smooth_scroll_disabled fts_smooth_scroll_disabled">';
-                echo '<div id="fts-yt-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="' . esc_attr( $thumbgallery_class_master . 'fts-master-youtube-wrap fts-yt-videogroup fts-yt-user-' . $saved_feed_options['youtube_name'] . ' fts-yt-vids-in-row' . $saved_feed_options['youtube_columns'] ) . '">';
+                echo '<div id="fts-yt-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="' . esc_attr( $thumbgallery_class_master . 'fts-master-youtube-wrap fts-yt-videogroup fts-yt-user-' . $youtube_name . ' fts-yt-vids-in-row' . $saved_feed_options['youtube_columns'] ) . '">';
                 echo '<div id="fts-yt-videolist-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="fts-yt-videolist">';
 
                 if ( isset( $videos->items ) &&  ( 'yes' === $saved_feed_options['youtube_first_video'] || '1' === $saved_feed_options['youtube_columns'] ) ) {
@@ -706,6 +714,9 @@ class Youtube_Feed {
                 } elseif ( ! empty( $saved_feed_options['youtube_playlistID'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) && ! empty( $saved_feed_options['youtube_channelID'] ) ) {
                     $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token : '';
                 }
+                else {
+                    $next_url = '';
+                }
 
                 if ( ! empty( $loadmore ) && 'yes' === $loadmore && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                     $loadmore_count = isset( $vid_count ) ? $vid_count * 2 : '25';
@@ -859,7 +870,7 @@ class Youtube_Feed {
                 echo '<div id="output_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more-output"></div>';
                 echo '</div><!--END main wrap for thumbnails-->';
                 // END main wrap for thumbnails.
-                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'autoscroll' === $loadmore_type && 'yes' === $loadmore ) {
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore_type ) && 'autoscroll' === $loadmore_type && 'yes' === $loadmore ) {
                     echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader" style="' . esc_attr( $thumbs_wrap_color_final ) . '"></div>';
                 }
                 if ( ! empty( $saved_feed_options['youtube_thumbs_wrap_height'] ) || ! empty( $wrap ) ) {
@@ -876,7 +887,7 @@ class Youtube_Feed {
             // Make sure it's not ajaxing.
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                 echo '<div class="fts-clear"></div>';
-                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'button' === $loadmore_type && 'yes' === $loadmore) {
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore_type ) && 'button' === $loadmore_type && 'yes' === $loadmore ) {
 
                     echo '<div class="fts-youtube-load-more-wrapper">';
                     echo '<div id="loadMore_' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" style="';

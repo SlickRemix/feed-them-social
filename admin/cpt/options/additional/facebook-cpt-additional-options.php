@@ -517,7 +517,7 @@ class Facebook_Additional_Options {
 					'type'             => 'text',
 					'id'               => 'fb-lang-btn',
 					'name'             => 'fb_language',
-					'default_value'    => 'yes',
+					'default_value'    => 'en_US',
 					'options'          => array(
 						array(
 							'label' => esc_html__( 'Yes', 'feed_them_social' ),

@@ -114,7 +114,10 @@ class Settings_Options_JS {
             jQuery('#fts-slider').bind('change', function (e) {
                 if (jQuery('#fts-slider').val() == 'yes') {
 
+                    jQuery("#facebook_load_more").val('no');
+                    jQuery('.fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap').hide();
                     jQuery('.slider_options_wrap').show();
+
                 }
                 else {
                     jQuery('.slider_options_wrap').hide();
@@ -152,6 +155,12 @@ class Settings_Options_JS {
                 jQuery('.fts-super-facebook-options-wrap, .align-images-wrap, .slideshow-wrap ').hide();
                 jQuery('.fixed_height_option,.main-grid-options-wrap').show();
                 jQuery(".feed-them-social-admin-input-label:contains('<?php echo esc_js( 'Display Posts in Grid', 'feed-them-social' ); ?>')").parent('div').show();
+                }
+
+                if (facebooktype == 'albums' ) {
+                    jQuery('.facebook-omit-album-covers').show();           }
+                else {
+                    jQuery('.facebook-omit-album-covers').hide();
                 }
 
                 if (facebooktype == 'page' || facebooktype == 'event' || facebooktype == 'group') {

@@ -191,12 +191,21 @@ class Feed_CPT_Options {
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Feed Type: ', 'feed_them_social' ),
 					'type'             => 'text',
-                   /* 'instructional-text' => sprintf(
-                        esc_html__( '1. Select the Social Network you want to create a feed for. %1$s2. Get your access token. %1$s3. Click on the Social Network tab to the left and set your options. %1$s%1$sNote: To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.', 'feed_them_social' ),
+                    'instructional-text' => sprintf(
+                        esc_html__( '%5$s1. Select the Social Network you want to create a feed for. %1$s2. Get your access token. %1$s3. Click on the Social Network tab to the left and set your options. %1$s%1$sNote: To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.%6$s%4$s', 'feed_them_social' ),
                         '<br/>',
                         '<a href="post-new.php?post_type=fts" >',
                         '</a>',
-                    ),*/
+                        '<div class="fts-select-social-network-menu">
+                            <div class="fts-social-icon-wrap instagram-feed-type" data-fts-feed-type="instagram-feed-type"><img src="'.plugins_url() .'/feed-them-social/metabox/images/instagram-logo-admin.png" class="instagram-feed-type-image" /><span class="fts-instagram"></span><div>Instagram</div></div>
+                            <div class="fts-social-icon-wrap facebook-feed-type" data-fts-feed-type="facebook-feed-type"><span class="fts-facebook"></span><div>Facebook</div></div>
+                            <div class="fts-social-icon-wrap twitter-feed-type" data-fts-feed-type="twitter-feed-type"><span class="fts-twitter"></span><div>Twitter</div></div>
+                            <div class="fts-social-icon-wrap youtube-feed-type" data-fts-feed-type="youtube-feed-type"><span class="fts-youtube"></span><div>YouTube</div></div>
+                            <div class="fts-social-icon-wrap combine-streams-feed-type" data-fts-feed-type="combine-streams-feed-type"><span class="fts-combined"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.33 14.33 64 32 64H144.6C164.1 64 182.4 72.84 194.6 88.02L303.4 224H384V176C384 166.3 389.8 157.5 398.8 153.8C407.8 150.1 418.1 152.2 424.1 159L504.1 239C514.3 248.4 514.3 263.6 504.1 272.1L424.1 352.1C418.1 359.8 407.8 361.9 398.8 358.2C389.8 354.5 384 345.7 384 336V288H303.4L194.6 423.1C182.5 439.2 164.1 448 144.6 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H144.6L247 256L144.6 128H32C14.33 128 0 113.7 0 96V96z"/></svg></span><div>Combined</div></div>
+                        </div>',
+                        '<div class="fts-select-social-network-menu-instructions">',
+                        '</div>',
+                    ),
 
                     'id'               => 'feed_type',
 					'name'             => 'feed_type',
@@ -1544,6 +1553,23 @@ class Feed_CPT_Options {
 					),
 				),
 
+                // Facebook Albums Omit Album Covers
+                array(
+
+                    'input_wrap_class' => 'facebook-omit-album-covers',
+                    'option_type' => 'input',
+                    'label'       => __( 'Omit Album Covers <br/><small>ie* 0,4,5 <a target="_blank" href="https://feedthemsocial.com/facebook-album-covers/">Example</a>', 'feed-them-social') . '</small>',
+                    'type'        => 'text',
+                    'id'          => 'facebook_omit_album_covers',
+                    'name'        => 'facebook_omit_album_covers',
+                    'value'       => '',
+                    'placeholder' => __( '', 'feed-them-social' ),
+                    'default_value' => '',
+                ),
+
+
+
+
 				// Facebook Page Facebook Fixed Height
 				array(
 					'input_wrap_class' => 'fixed_height_option',
@@ -2031,6 +2057,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'facebook_position_likebox',
 					'name'        => 'facebook_position_likebox',
+                    'default_value'        => 'above_title',
 					'options'     => array(
 						1 => array(
 							'label' => __( 'Above Title', 'feed-them-social' ),
@@ -2171,7 +2198,11 @@ class Feed_CPT_Options {
 				array(
 					'grouped_options_title' => __( 'Load More', 'feed-them-social' ),
 					'option_type' => 'select',
-					'label'       => __( 'Load More Button', 'feed-them-social' ),
+                    'label' => sprintf(
+                        esc_html( 'Load More Button%1$sDoes not work with Carousel/Slider%2$s', 'feed-them-social' ),
+                        '<small>',
+                        '</small>'
+                    ),
 					'type'        => 'text',
 					'id'          => 'facebook_load_more',
 					'name'        => 'facebook_load_more',
@@ -2240,7 +2271,7 @@ class Feed_CPT_Options {
 					'id'          => 'facebook_loadmore_button_width',
 					'name'        => 'facebook_loadmore_button_width',
 					'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
-					'value'       => '',
+                   // 'default_value' => '300px',
 					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
 
 					// Relative to JS.
@@ -2267,7 +2298,7 @@ class Feed_CPT_Options {
 					'id'          => 'loadmore_button_margin',
 					'name'        => 'loadmore_button_margin',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
-					'value'       => '',
+					//'default_value'       => '10px',
 					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
 
 					// Relative to JS.
@@ -3530,7 +3561,7 @@ class Feed_CPT_Options {
 					'id'          => 'instagram_loadmore_button_width',
 					'name'        => 'instagram_loadmore_button_width',
 					'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
-					'value'       => '',
+                   // 'default_value' => '300px',
 					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
@@ -3550,7 +3581,7 @@ class Feed_CPT_Options {
 					'id'          => 'instagram_loadmore_button_margin',
 					'name'        => 'instagram_loadmore_button_margin',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
-					'value'       => '',
+					//'default_value' => '10px',
 					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.
@@ -3960,7 +3991,7 @@ class Feed_CPT_Options {
                     'id'          => 'twitter_loadmore_button_width',
                     'name'        => 'twitter_loadmore_button_width',
                     'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
-                    'default_value'  => '300px',
+                   // 'default_value'  => '300px',
                     'prem_req'    => 'yes',
                     'req_extensions'  => array('feed_them_social_premium'),
 
@@ -4794,7 +4825,7 @@ class Feed_CPT_Options {
 					'id'          => 'youtube_loadmore_button_width',
 					'name'        => 'youtube_loadmore_button_width',
 					'placeholder' => '300px ' . __( 'for example', 'feed-them-social' ),
-					'value'       => '',
+                    'default_value' => '300px',
 					'prem_req'    => 'yes',
 					'req_extensions'  => array('feed_them_social_premium'),
 
@@ -4815,7 +4846,7 @@ class Feed_CPT_Options {
 					'id'          => 'youtube_loadmore_button_margin',
 					'name'        => 'youtube_loadmore_button_margin',
 					'placeholder' => '10px ' . __( 'for example', 'feed-them-social' ),
-					'value'       => '',
+                    'default_value'       => '10px',
 					'req_extensions'  => array('feed_them_social_premium'),
 
 					// Relative to JS.

@@ -112,7 +112,7 @@ class Instagram_Access_Functions {
                         fts_encrypt_token_ajax( code, 'basic', '#fts_instagram_custom_api_token', 'firstRequest');
                     }
 
-                }, 100);
+                }, 500);
             });
         </script>
         <?php

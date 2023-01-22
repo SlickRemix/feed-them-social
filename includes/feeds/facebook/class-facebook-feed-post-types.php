@@ -148,7 +148,7 @@ class Facebook_Feed_Post_Types {
 				break;
 			case 'photo':
 				if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
-					if ( $saved_feed_options['facebook_page_word_count'] ) {
+					if ( isset( $saved_feed_options['facebook_page_word_count'] ) ) {
                         $trunacate_words = new \FeedThemSocialTruncateHTML();
 						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
 						echo '<div class="fts-jal-fb-description fts-non-popup-text">' . wp_kses(
@@ -165,7 +165,7 @@ class Facebook_Feed_Post_Types {
 								)
 							) . '</div>';
 						// Here we display the full description in the popup.
-						if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['facebook_popup']  || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
+						if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup'] ) && 'yes' === $saved_feed_options['facebook_popup']  || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_video_album'] ) && isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
 							echo '<div class="fts-jal-fb-description fts-jal-fb-description-popup" style="display: none;">' . wp_kses(
 									nl2br( $fb_description ),
 									array(
@@ -180,7 +180,7 @@ class Facebook_Feed_Post_Types {
 									)
 								) . '</div>';
 						}
-					} elseif ( isset( $saved_feed_options['facebook_page_word_count']) && '0' !== $saved_feed_options['facebook_page_word_count']) {
+					} elseif ( isset( $saved_feed_options['facebook_page_word_count'] ) && '0' !== $saved_feed_options['facebook_page_word_count']) {
 						echo '<div class="fts-jal-fb-description">' . wp_kses(
 								nl2br( $fb_description ),
 								array(
@@ -281,7 +281,7 @@ class Facebook_Feed_Post_Types {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
 					// here we trim the words for the links description text... for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
-					if ( $saved_feed_options['facebook_page_word_count'] && ! empty( $saved_feed_options['facebook_page_word_count']) ) {
+					if ( ! empty( $saved_feed_options['facebook_page_word_count'] ) && $saved_feed_options['facebook_page_word_count'] ) {
 
                         $trunacate_words = new \FeedThemSocialTruncateHTML();
 						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
@@ -300,7 +300,7 @@ class Facebook_Feed_Post_Types {
 									'small'  => array(),
 								)
 							) . '</div>';
-					} elseif ( $saved_feed_options['facebook_page_word_count'] && '0' !== $saved_feed_options['facebook_page_word_count']) {
+					} elseif ( isset( $saved_feed_options['facebook_page_word_count'] ) && '0' !== $saved_feed_options['facebook_page_word_count']) {
 						echo '<div class="jal-fb-description">' . wp_kses(
 								nl2br( $fb_description ),
 								array(
@@ -441,7 +441,7 @@ class Facebook_Feed_Post_Types {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
 					// here we trim the words for the links description text... for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
-					if ( $saved_feed_options['facebook_page_word_count'] ) {
+					if ( isset( $saved_feed_options['facebook_page_word_count'] ) ) {
 						$more            = isset( $more ) ? $more : '';
 
                         $trunacate_words = new \FeedThemSocialTruncateHTML();
@@ -519,6 +519,11 @@ class Facebook_Feed_Post_Types {
 		 print_r( $post_data);
 		 echo'</pre>';*/
 
+        $likes = !empty( $lcs_array['likes'] ) ? $lcs_array['likes'] : '';
+        $comments = !empty( $lcs_array['comments'] ) ? $lcs_array['comments'] : '';
+        $shares = !empty( $lcs_array['shares'] ) ? $lcs_array['shares'] : '';
+
+
 		switch ( $facebook_post_type ) {
 			case 'events':
 				$single_event_id = 'https://www.facebook.com/events/' . $single_event_id;
@@ -542,7 +547,7 @@ class Facebook_Feed_Post_Types {
 				if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && 'yes' === $saved_feed_options['facebook_hide_date_likes_comments'] ) {
 
 					echo '<div class="hide-date-likes-comments-etc">' . wp_kses(
-							$lcs_array['likes'] . ' ' . $lcs_array['comments'] . ' ' . $lcs_array['shares'],
+							$likes . ' ' . $comments . ' ' . $shares,
 							array(
 								'a' => array(
 									'href'  => array(),
@@ -556,7 +561,7 @@ class Facebook_Feed_Post_Types {
 				} else {
 
 					echo wp_kses(
-							$lcs_array['likes'] . ' ' . $lcs_array['comments'] . ' ' . $lcs_array['shares'],
+							$likes . ' ' . $comments . ' ' . $shares,
 							array(
 								'a' => array(
 									'href'  => array(),
@@ -589,7 +594,7 @@ class Facebook_Feed_Post_Types {
 				} else {
 
 					echo '' . wp_kses(
-							$lcs_array['likes'] . ' ' . $lcs_array['comments'],
+							$likes . ' ' . $comments,
 							array(
 								'a' => array(
 									'href'  => array(),
@@ -606,7 +611,7 @@ class Facebook_Feed_Post_Types {
             // SRL added case '': to account for posts with descriptions that have no video or photos and were possible made from status_type => mobile_status_update
             case '':
             default:
-				if ( 'yes' !== $saved_feed_options['fb_reviews_remove_see_reviews_link'] ) {
+				if ( isset( $saved_feed_options['fb_reviews_remove_see_reviews_link'] ) && 'yes' !== $saved_feed_options['fb_reviews_remove_see_reviews_link'] ) {
 					if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
 						$fb_reviews_see_more_reviews_language = $saved_feed_options['fb_reviews_see_more_reviews_language'] ?? 'See More Reviews';
 
@@ -621,7 +626,7 @@ class Facebook_Feed_Post_Types {
 						echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
 
 						echo '' . wp_kses(
-								$lcs_array['likes'] . ' ' . $lcs_array['comments'],
+								$likes . ' ' . $comments,
 								array(
 									'a' => array(
 										'href'  => array(),
@@ -937,27 +942,34 @@ class Facebook_Feed_Post_Types {
 			case 'wall':
 			case 'normal':
 			case 'photo':
-				echo "<div class='fts-fb-photo-post-wrap fts-jal-single-fb-post' ";
+
+                $facebook_grid_space_between_posts = !empty( $saved_feed_options['facebook_grid_space_between_posts'] ) ? $saved_feed_options['facebook_grid_space_between_posts'] : '1px';
+
+                echo "<div class='fts-fb-photo-post-wrap fts-jal-single-fb-post' ";
 				if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] || 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
 
-					if ( 'yes' === $saved_feed_options['fts-slider'] && isset( $saved_feed_options['scrollhorz_or_carousel']) && 'scrollhorz' === $saved_feed_options['scrollhorz_or_carousel']) {
-						echo 'style="max-width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ';height:100%;  margin:' . esc_attr( $saved_feed_options['facebook_space_between_photos'] ) . '!important"';
+                    $facebook_space_between_photos = !empty( $saved_feed_options['facebook_space_between_photos'] ) ? $saved_feed_options['facebook_space_between_photos'] : '1px';
+
+                    if ( isset( $saved_feed_options['fts-slider'] ) && 'yes' === $saved_feed_options['fts-slider'] && isset( $saved_feed_options['scrollhorz_or_carousel']) && 'scrollhorz' === $saved_feed_options['scrollhorz_or_carousel']) {
+						echo 'style="max-width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ';height:100%;  margin:' . esc_attr( $facebook_space_between_photos ) . '!important"';
 					} else {
-						echo 'style="width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ' !important; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_space_between_photos'] ) . '!important"';
+                    	echo 'style="width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ' !important; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '!important; margin:' . esc_attr( $facebook_space_between_photos ) . '!important"';
 					}
 				}
 				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_space_between_posts'] ) . '!important"';
+					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $facebook_grid_space_between_posts ) . '!important"';
 				}
 				echo '>';
 
 				break;
 			case 'album':
 			default:
+                $facebook_grid_space_between_posts = !empty( $saved_feed_options['facebook_grid_space_between_posts'] ) ? $saved_feed_options['facebook_grid_space_between_posts'] : '1px';
+
                 // This is also the wrapper for reviews posts when using the reviews extension.
 				echo '<div class="fts-jal-single-fb-post"';
 				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_space_between_posts'] ) . '!important"';
+					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $facebook_grid_space_between_posts ) . '!important"';
 				}
 				echo '>';
 				break;
@@ -985,7 +997,7 @@ class Facebook_Feed_Post_Types {
                 $show_media = $saved_feed_options['combine_show_media'] ? $saved_feed_options['combine_show_media']: 'bottom';
             }
             else {
-                $show_media = $saved_feed_options['facebook_show_media'] ? $saved_feed_options['facebook_show_media']: 'bottom';
+                $show_media = isset( $saved_feed_options['facebook_show_media'] ) ? $saved_feed_options['facebook_show_media']: 'bottom';
             }
 
 			// Facebook Hide Shared By etc text.
@@ -1053,8 +1065,11 @@ class Facebook_Feed_Post_Types {
 				$itemprop_description_reviews = is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? ' itemprop="description"' : '';
 
 				// here we trim the words for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
-				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_page_word_count'] && 'top' !== $show_media || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) && $saved_feed_options['combine_word_count_option'] && ! empty( $saved_feed_options['combine_word_count_option']) && 'top' !== $show_media || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && $saved_feed_options['facebook_page_word_count'] && 'top' !== $show_media ) {
-					$more = isset( $more ) ? $more : '...';
+				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_page_word_count'] ) && $saved_feed_options['facebook_page_word_count'] && 'top' !== $show_media ||
+                    is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) && isset( $saved_feed_options['combine_word_count_option'] ) && $saved_feed_options['combine_word_count_option'] && 'top' !== $show_media ||
+                    is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && isset( $saved_feed_options['facebook_page_word_count'] ) && $saved_feed_options['facebook_page_word_count'] && 'top' !== $show_media ) {
+                    // SRL 4.0: make this an option eventually.
+                    $more = '...';
 
                     $word_count = !empty( $saved_feed_options['combine_word_count_option'] ) ? $saved_feed_options['combine_word_count_option'] : $saved_feed_options['facebook_page_word_count'];
 
@@ -1156,6 +1171,7 @@ class Facebook_Feed_Post_Types {
 
 							$facebook_album_single_picture_id = isset( $facebook_album_additional_pic->id ) ? $facebook_album_additional_pic->id : '';
 							$facebook_single_image_link = 'https://www.facebook.com/'. $facebook_album_single_picture_id . '';
+                            $single_event_id = isset( $single_event_id ) ?? '';
 							$this->facebook_post_see_more( $facebook_single_image_link, $lcs_array, $facebook_post_type, $facebook_post_id, $saved_feed_options, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
 
 							echo '</div>';
@@ -1168,7 +1184,7 @@ class Facebook_Feed_Post_Types {
 					elseif (
 
 						// Album Photos.
-						'album_photos' === $saved_feed_options['facebook_page_feed_type'] && ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' !== $saved_feed_options['facebook_video_album'] || ! isset( $saved_feed_options['facebook_video_album'] ) ) ) {
+						'album_photos' === $saved_feed_options['facebook_page_feed_type'] && isset( $saved_feed_options['facebook_video_album'] ) && 'yes' !== $saved_feed_options['facebook_video_album'] || ! isset( $saved_feed_options['facebook_video_album'] ) ) {
 						echo '<a href="' . esc_url( $facebook_post_album_picture ) . '" class="fts-view-album-photos-large" target="_blank" rel="noreferrer">' . esc_html__( 'View Photo', 'feed-them-social' ) . '</a></div>';
 
 					} elseif (
@@ -1502,7 +1518,10 @@ class Facebook_Feed_Post_Types {
 						}
 						echo '</div>';
 						// This puts the video on the page instead of the popup if you don't have the premium version.
-						if ( !isset( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'yes' !== $saved_feed_options['facebook_popup']  && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'no' === $saved_feed_options['facebook_popup']  ) {
+						if ( !isset( $saved_feed_options['facebook_popup']  ) ||
+                            isset( $saved_feed_options['facebook_popup']  ) && 'yes' !== $saved_feed_options['facebook_popup']  && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ||
+                            isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) ||
+                            isset( $saved_feed_options['facebook_popup']  ) && 'no' === $saved_feed_options['facebook_popup']  ) {
 
 							$page_id = $facebook_post_from_id ?? '';
 							$video_id = $facebook_post->attachments->data[0]->target->id ?? '';
@@ -1638,8 +1657,10 @@ class Facebook_Feed_Post_Types {
 					}
 				}
 				echo '<div class="slicker-facebook-album-photoshadow"></div>';
-                echo $saved_feed_options['facebook_video_album'];
-				// FB Video play button for facebook videos. This button takes data from our a tag and along with additional js in the magnific-popup.js we can now load html5 videos. SO lightweight this way because no pre-loading of videos are on the page. We only show the posterboard on mobile devices because tablets and desktops will auto load the videos. SRL.
+                // Testing
+                // echo $saved_feed_options['facebook_video_album'];
+
+                // FB Video play button for facebook videos. This button takes data from our a tag and along with additional js in the magnific-popup.js we can now load html5 videos. SO lightweight this way because no pre-loading of videos are on the page. We only show the posterboard on mobile devices because tablets and desktops will auto load the videos. SRL.
 				if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
 					if ( isset( $saved_feed_options['facebook_show_video_button']  ) && 'yes' === $saved_feed_options['facebook_show_video_button']  ) {
 						$facebook_play_btn_visible = isset( $saved_feed_options['facebook_show_video_button_in_front'] ) && 'yes' === $saved_feed_options['facebook_show_video_button_in_front'] ? ' visible-video-button' : '';
@@ -1647,7 +1668,8 @@ class Facebook_Feed_Post_Types {
 						// $facebook_post_source = isset($facebook_post_source) ? $facebook_post_source : $facebook_post_embed_html;.
 						// $facebook_post_source = isset($facebook_post_embed_html) ? $facebook_post_embed_html : '';.
 						// $facebook_post_format_3_picture = isset($facebook_post->format[3]->picture) ? $facebook_post->format[3]->picture : '';.
-						echo '<a href="' . esc_url( $facebook_post_embed_html ) . '"  data-poster="" id="fts-view-vid1-' . esc_attr( $fts_dynamic_vid_name_string ) . '" title="' . esc_html( $facebook_post_description ) . '" class="fts-jal-fb-vid-html5video ' . esc_attr( $fts_view_fb_videos_btn . ' fb-video-popup-' . $fts_dynamic_vid_name_string . ' ' . $facebook_play_btn_visible ) . ' fts-slicker-backg" style="height:' . esc_attr( $saved_feed_options['facebook_play_btn_size'] ) . ' !important; width:' . esc_attr( $saved_feed_options['facebook_play_btn_size'] ) . '; line-height: ' . esc_attr( $saved_feed_options['facebook_play_btn_size'] ) . '; font-size:' . esc_attr( $saved_feed_options['facebook_play_btn_size'] ) . '"><span class="fts-fb-video-icon" style="height:' . esc_attr( $saved_feed_options['facebook_play_btn_size'] ) . '; width:' . esc_attr( $saved_feed_options['facebook_play_btn_size'] ) . '; line-height:' . esc_attr( $saved_feed_options['facebook_play_btn_size'] ) . '; font-size:' . esc_attr( $saved_feed_options['facebook_play_btn_size'] ) . '"></span></a>';
+                        $facebook_play_btn_size = isset( $saved_feed_options['facebook_play_btn_size'] ) ? $saved_feed_options['facebook_play_btn_size'] : '';
+						echo '<a href="' . esc_url( $facebook_post_embed_html ) . '"  data-poster="" id="fts-view-vid1-' . esc_attr( $fts_dynamic_vid_name_string ) . '" title="' . esc_html( $facebook_post_description ) . '" class="fts-jal-fb-vid-html5video ' . esc_attr( $fts_view_fb_videos_btn . ' fb-video-popup-' . $fts_dynamic_vid_name_string . ' ' . $facebook_play_btn_visible ) . ' fts-slicker-backg" style="height:' . esc_attr( $facebook_play_btn_size ) . ' !important; width:' . esc_attr( $facebook_play_btn_size ) . '; line-height: ' . esc_attr( $facebook_play_btn_size ) . '; font-size:' . esc_attr( $facebook_play_btn_size ) . '"><span class="fts-fb-video-icon" style="height:' . esc_attr( $facebook_play_btn_size ) . '; width:' . esc_attr( $facebook_play_btn_size ) . '; line-height:' . esc_attr( $facebook_play_btn_size ) . '; font-size:' . esc_attr( $facebook_play_btn_size ) . '"></span></a>';
 
 						echo '<div class="fts-fb-embed-iframe-check-used-for-popup fts-fb-embed-yes">';
 						if ( $facebook_post_embed_height >= $facebook_post_embed_width ) {
@@ -1851,8 +1873,11 @@ class Facebook_Feed_Post_Types {
 			}
 
 			// here we trim the words for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
-			if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) && $saved_feed_options['combine_word_count_option'] || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_page_word_count'] ) {
-				$more            = $more ?? '';
+			if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) && isset( $saved_feed_options['combine_word_count_option'] ) && $saved_feed_options['combine_word_count_option'] ||
+                is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_page_word_count'] ) && $saved_feed_options['facebook_page_word_count'] ) {
+
+                // SRL 4.0: Make this an option eventually.
+                $more  = '...';
 
                 $word_count = !empty( $saved_feed_options['combine_word_count_option'] ) ? $saved_feed_options['combine_word_count_option'] : $saved_feed_options['facebook_page_word_count'];
 

@@ -285,7 +285,7 @@ class Metabox_Functions {
 					'submit_msgs' => array(
 						'saving_msg'  => __( 'Saving Options' ),
 						'success_msg' => __( 'Settings Saved Successfully' ),
-                        'plugins_url' => plugins_url(),
+                        'fts_loading_message' =>  __( 'Loading Changes & Clearing Cache.' ),
                         'fts_post'    => admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ),
                     )
 				)
@@ -298,7 +298,6 @@ class Metabox_Functions {
 			// Enqueue jQuery Nested Sortable JS.
 			wp_enqueue_script( 'jquery-nested-sortable-js' );
 
-            wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
             // Shortcode preview specific scripts
             wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
@@ -320,12 +319,17 @@ class Metabox_Functions {
                 wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
             }
 
+            wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
         }
 
 		// SRL: THESE SCRIPTS SHOULD ONLY BE LOADED ON THE GALLERY, ALBUM AND TEMPLATE SETTINGS PAGE, BUT THEY ARE ALSO LOADING ON THE GALLERY LIST AND ALBUM LIST PAGE TOO
 		// If is page we need to load extra metabox scripts usually loaded on a post page.
-		if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) || isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] ) {
+		if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ||
+            isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] ||
+            isset( $_GET['page'] ) && 'fts-settings-page' === $_GET['page'] ||
+            isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ||
+            isset( $_GET['page'] ) && 'fts-system-info-submenu-page' === $_GET['page'] ) {
 			wp_enqueue_script( 'common' );
 			wp_enqueue_script( 'wp-lists' );
 			wp_enqueue_script( 'postbox' );
@@ -821,7 +825,7 @@ class Metabox_Functions {
                                 $option_name,
                                 $option_id,
                                 isset( $option['class'] ) ? ' ' . $option['class'] : '',
-                                $multiple
+                                isset( $multiple ) ? $multiple : '',
                             );
 
                             $lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
@@ -974,6 +978,7 @@ class Metabox_Functions {
 					'class' => array(),
 					'id'    => array(),
 					'style' => array(),
+                    'data-fts-feed-type' => array(),
 				),
 				'select' => array(
 					'name'  => array(),
@@ -1000,6 +1005,10 @@ class Metabox_Functions {
 				'h3'     => array(
 					'class' => array(),
 				),
+                'img'     => array(
+                    'src' => array(),
+                    'class' => array(),
+                ),
                 'p'     => array(),
 				'br'     => array(),
 				'em'     => array(),
@@ -1007,6 +1016,14 @@ class Metabox_Functions {
 				'small'  => array(),
                 'span'      => array(
                     'class'   => array(),
+                ),
+                'svg'      => array(
+                    // SRL 4.0: The proper attr is viewBox however, it needs to be lower case to work here.
+                    'viewbox' => true,
+                    'xmlns'   => true,
+                ),
+                'path'      => array(
+                    'd'   => array(),
                 ),
 			)
 		);
@@ -1082,9 +1099,9 @@ class Metabox_Functions {
     }
 
     /**
-     * My FTS Plugin License
+     * My FTS Extension License
      *
-     * Put in place to only show the Activate Plugin license if the input has a value
+     * Put in place to only show the Activate Extension license if the input has a value
      *
      * @since 2.1.4
      */

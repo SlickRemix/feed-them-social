@@ -1,4 +1,4 @@
-function fts_ClearCache() {
+function fts_ClearCache( notice ) {
     console.log('Clicked Clear Cache Function');
 
     jQuery.ajax({
@@ -9,7 +9,8 @@ function fts_ClearCache() {
             //	jQuery('body').hide();
             console.log('Well Done and got this from sever: ' + response);
             // alert and upon clicking refresh the page
-            if (!alert('Cache for all FTS Feeds cleared!')) {
+            if( 'alert' === notice ){
+                alert('Cache for all FTS Feeds cleared!');
                 window.location.reload();
             }
 

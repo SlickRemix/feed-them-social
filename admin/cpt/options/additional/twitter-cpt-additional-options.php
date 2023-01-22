@@ -97,7 +97,7 @@ class Twitter_Additional_Options {
                     ),
                 ),
                 // Show Follow Count Singular.
-                array(
+               /* array(
                     'input_wrap_class' => 'twitter_show_follow_count_inline',
                     'option_type'      => 'select',
                     'label'            => esc_html__( 'Show Follow Count Inline', 'feed_them_social' ),
@@ -115,7 +115,7 @@ class Twitter_Additional_Options {
                             'value' => 'yes',
                         ),
                     ),
-                ),
+                ),*/
                 // Show Follow Count Singular.
                 array(
                     'input_wrap_class' => 'twitter_show_follow_count',

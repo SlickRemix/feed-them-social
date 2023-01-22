@@ -1005,7 +1005,7 @@ h1.plugin-author-note {
     padding-top: 10px
 }
 
-.board-name, .combine-instagram-hashtag-option-text, .combine_instagram_hashtag, .combine_instagram_hashtag_type, .fb-video-play-btn-options-content, .fb-video-play-btn-options-wrap, .fb_album_photos_id, .fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap, .fts-fb-id, .fts-instagram-load-more-options-wrap, .fts-super-facebook-options-wrap, .fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap, .instagram-location-option-text, .instagram_hashtag_type, .page-token, .pinterest-board-and-name-text, .slider_options_wrap, .slideshow-wrap, .youtube_align_comments_wrap, .youtube_channelID2, .youtube_name, .youtube_name2, .youtube_playlistID, .youtube_playlistID2, .youtube_singleVideoID {
+.facebook-omit-album-covers, .board-name, .combine-instagram-hashtag-option-text, .combine_instagram_hashtag, .combine_instagram_hashtag_type, .fb-video-play-btn-options-content, .fb-video-play-btn-options-wrap, .fb_album_photos_id, .fts-facebook-grid-options-wrap, .fts-facebook-load-more-options-wrap, .fts-facebook-load-more-options2-wrap, .fts-fb-id, .fts-instagram-load-more-options-wrap, .fts-super-facebook-options-wrap, .fts-youtube-load-more-options-wrap, .fts-youtube-load-more-options2-wrap, .instagram-location-option-text, .instagram_hashtag_type, .page-token, .pinterest-board-and-name-text, .slider_options_wrap, .slideshow-wrap, .youtube_align_comments_wrap, .youtube_channelID2, .youtube_name, .youtube_name2, .youtube_playlistID, .youtube_playlistID2, .youtube_singleVideoID {
     display: none;
 }
 
@@ -2080,6 +2080,7 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     -moz-osx-font-smoothing: grayscale;
     min-height: 320px;
     margin-right: 20px;
+    overflow: hidden;
 }
 
 .feed-them-social-admin-input-label small {
@@ -2089,7 +2090,17 @@ body.mp6 div#uploaderSection div.drag-drop-inside, body.wp38 div#uploaderSection
     line-height: 14px;
     margin-top: 3px
 }
-
+.fts-select-social-network-menu-instructions {
+    display:none;
+}
+.feed-them-social-admin-input-wrap.ft-wp-gallery-type .instructional-text {
+    font-size: 13px;
+    line-height: 19px;
+    margin: 0;
+    border: none;
+    color: #212121;
+    padding: 0;
+}
 .not-active-title:hover h3 {
     color: #028fd2
 }
@@ -3442,8 +3453,8 @@ img.instagram-feed-type-image-tab {
 
 .tab-options-content {
     /* width:35%; */
-    display: inline-block;
-    float: left;
+    /* display: inline-block; */
+    /* float: left; */
     /* padding-left: 20px; */
 }
 .fts-shortcode-content {
@@ -3602,4 +3613,10 @@ img.instagram-feed-type-image-tab {
 }
 .fts-facebook-custom-access-token .instructional-text + div {
     margin-top:25px !important;
+}
+.fts-loading-feed-admin {
+    padding:20px;
+    background: #f9f9f9;
+    margin-top:20px;
+    font-size: 13px;
 }

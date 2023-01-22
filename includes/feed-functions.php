@@ -216,8 +216,8 @@ class Feed_Functions {
 					'id'     => 'feed_them_social_admin_set_cache',
 					'parent' => 'feed_them_social_admin_bar',
 					'title'  => __( 'Clear Cache', 'feed-them-social' ),
-					'href'   => '#',
-					'meta' => array('onclick' => 'fts_ClearCache();') //JavaScript function trigger just as an example.
+					'href'   => 'javascript:;',
+					'meta' => array('onclick' => 'fts_ClearCache("alert");') //JavaScript function trigger just as an example.
 				)
 			);
 		}
@@ -380,7 +380,7 @@ class Feed_Functions {
 			}
 		}
 		// Do nothing if Curl was Successful!
-		return $data;
+		return !empty( $data ) ? $data : '';
 	}
 
 	/**
@@ -698,7 +698,7 @@ class Feed_Functions {
                 exit( 'That is not an FTS shortcode!' );
             }
         }
-        // leaving off here, damn youtube and now twitter loadmore are not working.....
+
         if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ||
              isset( $_REQUEST['feed_name'] ) && 'feed_them_social' === $_REQUEST['feed_name']
         ) {
@@ -1010,16 +1010,16 @@ class Feed_Functions {
 			switch ( $feed ) {
 				case 'facebook':
 					// Facebook settings options for follow button.
-					$fb_show_follow_btn            = $saved_feed_options[ 'fb_show_follow_btn' ];
-					$fb_show_follow_like_box_cover = $saved_feed_options[ 'fb_show_follow_like_box_cover' ];
-					$language_option_check         = $saved_feed_options[ 'fb_language' ];
+					$fb_show_follow_btn            = isset( $saved_feed_options[ 'fb_show_follow_btn' ] ) ? $saved_feed_options[ 'fb_show_follow_btn' ] : '';
+					$fb_show_follow_like_box_cover = isset( $saved_feed_options[ 'fb_show_follow_like_box_cover' ] ) ? $saved_feed_options[ 'fb_show_follow_like_box_cover' ] : '';
+					$language_option_check         = isset( $saved_feed_options[ 'fb_language' ] ) ? $saved_feed_options[ 'fb_language' ] : '';
 
 					if ( isset( $language_option_check ) && 'Please Select Option' !== $language_option_check ) {
 						$language_option = $saved_feed_options[ 'fb_language' ];
 					} else {
 						$language_option = 'en_US';
 					}
-					$fb_like_btn_color = $saved_feed_options[ 'fb_like_btn_color' ];
+					$fb_like_btn_color = isset( $saved_feed_options[ 'fb_like_btn_color' ] ) ? $saved_feed_options[ 'fb_like_btn_color' ] : '';
 					$show_faces        = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-faces' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ? 'true' : 'false';
 					$share_button      = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-share' === $fb_show_follow_btn ? 'true' : 'false';
 					$page_cover        = 'fb_like_box_cover-yes' === $fb_show_follow_like_box_cover ? 'true' : 'false';
@@ -1075,7 +1075,7 @@ class Feed_Functions {
                             });
                         }(document, "script", "twitter-wjs");
 
-                       var ftsT = jQuery('<a class="twitter-follow-button" href="<?php echo 'https://twitter.com/' . $user_id; ?>" data-show-count="<?php echo 'yes' === $saved_feed_options['twitter_show_follow_count_inline'] ? 'true' : 'false' ?>" data-lang="en"> Follow @ <?php echo esc_html( $user_id ) ?>');
+                       var ftsT = jQuery('<a class="twitter-follow-button" href="<?php echo 'https://twitter.com/' . $user_id; ?>" data-show-count="<?php echo isset( $saved_feed_options['twitter_show_follow_count_inline'] ) && 'yes' === $saved_feed_options['twitter_show_follow_count_inline'] ? 'true' : 'false' ?>" data-lang="en"> Follow @ <?php echo esc_html( $user_id ) ?></a>');
                        var ftsTjs = jQuery('<script>').attr('src', '//platform.twitter.com/widgets.js');
                        jQuery('#fts-twitter-follow-button-wrap').empty();
                        jQuery(ftsT).appendTo(jQuery('#fts-twitter-follow-button-wrap'));

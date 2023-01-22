@@ -2784,6 +2784,11 @@ body .ft-gallery-popup a.fts-powered-by-text {
     padding-top:15px;
     padding-left: 0;
 }
+#ftg-tab-content1 .instructional-text {
+    max-width:100%;
+    margin: 0;
+    padding: 0;
+}
 #fts-tab-content h3 {
     text-align:center;
     float:none;

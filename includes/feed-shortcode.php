@@ -155,10 +155,7 @@ class Feed_Shortcode {
 		// Register Feed Styles.
 		wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
 
-        // masonry snippet in fts-global.
-        wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-
-        // Register Premium Styles & Scripts.
+		// Register Premium Styles & Scripts.
 		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 			// Masonry Script.
             wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
@@ -171,6 +168,8 @@ class Feed_Shortcode {
 			wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
 		}
 
+		// masonry snippet in fts-global.
+        wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 	}
 
 	/**
@@ -285,7 +284,10 @@ class Feed_Shortcode {
 				// Combine Streams Feed.
 				case 'combine-streams-feed-type':
 					// Display Combined Streams Feed.
-					echo $this->combined_streams->display_combined_streams( $feed_post_id );
+                    if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
+
+                        echo $this->combined_streams->display_combined_streams( $feed_post_id );
+                    }
 					break;
 			}
 		}

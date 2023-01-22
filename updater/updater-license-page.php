@@ -98,7 +98,7 @@ class updater_license_page {
 	/**
      * Register Options
      *
-	 * Register Plugin License Page Options (overrides options from prem extensions updater files.
+	 * Register Extension License Page Options (overrides options from prem extensions updater files.
 	 *
 	 * @since 2.1.6
 	 */
@@ -136,7 +136,7 @@ class updater_license_page {
 	/**
      * Add Option Setting
      *
-	 * Add Options to Plugin License page.
+	 * Add Options to Extension License page.
 	 *
 	 * @param $args
 	 * @since 2.1.6
@@ -194,27 +194,27 @@ class updater_license_page {
 	/**
      * License Menu
      *
-	 * Add Plugin License Menu.
+	 * Add Extension License Menu.
 	 *
 	 * @since 2.1.6
 	 */
 	public function license_menu() {
 		global $submenu;
 
-		add_submenu_page( $this->main_menu_slug, __( 'Plugin License', 'feed-them-social' ), __( 'Plugin License', 'feed-them-social' ), 'manage_options', $this->license_page_slug, array( $this, 'license_page' ) );
+		add_submenu_page( $this->main_menu_slug, __( 'Extension License', 'feed-them-social' ), __( 'Extension License', 'feed-them-social' ), 'manage_options', $this->license_page_slug, array( $this, 'license_page' ) );
 	}
 
 	/**
      * License Page
      *
-	 * The Plugin License Page in the admin dashboard for displaying what is available to extend FTS
+	 * The Extension License Page in the admin dashboard for displaying what is available to extend FTS
 	 *
 	 * @since 2.1.6
 	 */
 	public function license_page() {
 		?>
 		<div class="wrap">
-			<h2><?php echo esc_html__( 'Plugin License Options', 'feed-them-social' ); ?></h2>
+			<h2><?php echo esc_html__( 'Extension License Options', 'feed-them-social' ); ?></h2>
 			<div class="license-note">
 				<?php
 				echo sprintf(
@@ -262,7 +262,7 @@ class updater_license_page {
 							$prem_active = true;
 						}
 					}
-					// No Premium plugins Active make Plugin License page.
+					// No Premium plugins Active make Extension License page.
 					if ( true === $prem_active ) {
 						do_settings_fields( $this->license_page_slug, $this->setting_section_name );
 					} else {

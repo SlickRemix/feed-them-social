@@ -3486,6 +3486,9 @@ img.instagram-feed-type-image-tab {
     color:#fff;
     text-align: left;
 }
+.fts-shortcode-content-no-feed .fts-cache-loading {
+    display:none !important;
+}
 .fts-shortcode-view {width: 65%;float:left;padding: 20px 0 20px 0;display: none;}
 .tab-content {
     width:100%;

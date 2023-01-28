@@ -1,5 +1,6 @@
 <?php
 /**
+ * CTBR: File OK.
  * Feed Them Social
  *
  * Class Feed Them Social Load Plugin Class

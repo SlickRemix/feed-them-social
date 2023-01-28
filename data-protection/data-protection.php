@@ -1,4 +1,7 @@
 <?php namespace feedthemsocial;
+/**
+ * CTBR: File OK.
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) )

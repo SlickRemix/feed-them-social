@@ -1,5 +1,6 @@
 <?php
 /**
+ * CTBR: File OK
  * Feed Them Social - Error Handler
  *
  * This class houses some of the errors for FTS

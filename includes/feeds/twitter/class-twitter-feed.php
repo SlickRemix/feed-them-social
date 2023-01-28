@@ -1,5 +1,6 @@
 <?php
 /**
+ * CTBR: File OK
  * Feed Them Social - Twitter Feed
  *
  * This page is used to create the Twitter feed!
@@ -113,7 +114,7 @@ class Twitter_Feed {
 			} else {
 				$vimeo_url_final = (int) substr( parse_url( $twitter_final, PHP_URL_PATH ), 1 );
 			}
-			return '<div class="fts-fluid-videoWrapper"><iframe src="https://player.vimeo.com/video/' . $vimeo_url_final . '?autoplay=0" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';
+			return '<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( 'https://player.vimeo.com/video/' . $vimeo_url_final . '?autoplay=0' ) . '" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';
 		} elseif (
 			// strip Vimeo Staffpics URL then ouput Iframe.
 			strpos( $twitter_final, 'youtube' ) > 0 && ! strpos( $twitter_final, '-youtube' ) > 0 ) {
@@ -121,14 +122,14 @@ class Twitter_Feed {
 			preg_match( $pattern, $twitter_final, $matches );
 			$youtube_url_final = $matches[1];
 
-			return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="https://www.youtube.com/embed/' . $youtube_url_final . '?autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
+			return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="' . esc_url( 'https://www.youtube.com/embed/' . $youtube_url_final . '?autoplay=0') . '" frameborder="0" allowfullscreen></iframe></div>';
 		} elseif (
 			// strip Youtube URL then ouput Iframe and script.
 			strpos( $twitter_final, 'youtu.be' ) > 0 ) {
 			$pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
 			preg_match( $pattern, $twitter_final, $matches );
 			$youtube_url_final = $matches[1];
-			return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="https://www.youtube.com/embed/' . $youtube_url_final . '?autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
+			return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="'. esc_url( 'https://www.youtube.com/embed/' . $youtube_url_final . '?autoplay=0' ) . '" frameborder="0" allowfullscreen></iframe></div>';
 		} elseif (
 			// strip Youtube URL then ouput Iframe and script.
 			strpos( $twitter_final, 'soundcloud' ) > 0 ) {
@@ -142,6 +143,9 @@ class Twitter_Feed {
 			// json decode to convert it as an array.
 			$json_object = json_decode( $decode_iframe );
 
+			/**
+			 * Would wp_kses work here?
+			 */
 			return '<div class="fts-fluid-videoWrapper">' . $json_object->html . '</div>';
 		} else {
 
@@ -194,10 +198,10 @@ class Twitter_Feed {
 			$fts_twitter_output = '<div class="fts-jal-fb-vid-wrap">';
 
 			// This line is here so we can fetch the source to feed into the popup since some html 5 videos can be displayed without the need for a button.
-			$fts_twitter_output .= '<a href="' . $twitter_final . '" style="display:none !important" class="fts-facebook-link-target fts-jal-fb-vid-image fts-video-type"></a>';
+			$fts_twitter_output .= '<a href="' . esc_url( $twitter_final ) . '" style="display:none !important" class="fts-facebook-link-target fts-jal-fb-vid-image fts-video-type"></a>';
 			$fts_twitter_output .= '<div class="fts-fluid-videoWrapper-html5">';
-			$fts_twitter_output .= '<video controls poster="' . $twitter_final_poster . '" width="100%;" style="max-width:100%;">';
-			$fts_twitter_output .= '<source src="' . $twitter_final . '" type="video/mp4">';
+			$fts_twitter_output .= '<video controls poster="' . esc_attr( $twitter_final_poster ) . '" width="100%;" style="max-width:100%;">';
+			$fts_twitter_output .= '<source src="' . esc_url( $twitter_final ) . '" type="video/mp4">';
 			$fts_twitter_output .= '</video>';
 			$fts_twitter_output .= '</div>';
 
@@ -1224,8 +1228,8 @@ class Twitter_Feed {
 
 			if ( isset( $loadmore ) && 'yes' === $loadmore ) {
 				?>
-		<script>var sinceID_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( $_REQUEST['since_id'] ); ?>";
-			var maxID_<?php echo esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) ); ?>";</script>
+		<script>var sinceID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( $_REQUEST['since_id'] ); ?>";
+			var maxID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) ); ?>";</script>
 				<?php
 			}
 
@@ -1265,8 +1269,8 @@ class Twitter_Feed {
 							jQuery.ajax({
 								data: {
 									action: "my_fts_fb_load_more",
-									since_id: sinceID_<?php echo esc_js( $fts_dynamic_name ); ?>,
-									max_id: maxID_<?php echo esc_js( $fts_dynamic_name ); ?>,
+									since_id: sinceID_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
+									max_id: maxID_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
 									fts_dynamic_name: fts_d_name,
 									load_more_ajaxing: yes_ajax,
 									fts_security: fts_security,
@@ -1286,7 +1290,7 @@ class Twitter_Feed {
 									jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
 									<?php } ?>
 
-									if (!maxID_<?php echo sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ); ?> || maxID_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> == 'no more') {
+									if (!maxID_<?php echo sanitize_key( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ); ?> || maxID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> == 'no more') {
 										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $twitter_no_more_tweets_text ); ?></div>');
 										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
 										jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").unbind('scroll');

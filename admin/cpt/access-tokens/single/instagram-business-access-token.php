@@ -1,5 +1,6 @@
 <?php
  /**
+  * CTBR: File OK.
  * Feed Them Social - Instagram Business Access Functions
  *
  * This page is used to retrieve and set access tokens for Instagram Business.
@@ -67,6 +68,7 @@ class Instagram_Business_Access_Functions {
 
         $post_url = add_query_arg( array(
             'post' => $feed_cpt_id,
+            'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_instagram_business' )
         ), admin_url( 'post.php' ) );
 
                 ?>
@@ -115,7 +117,7 @@ class Instagram_Business_Access_Functions {
                 // This redirect url must have an &state= instead of a ?state= otherwise it will not work proper with the fb app. https://www.slickremix.com/instagram-token/&state=.
                 echo sprintf(
                     esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
-                    '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/instagram-token/&state=' . $post_url . '&scope=pages_show_list,pages_read_engagement,instagram_basic' ) . '" class="fts-facebook-get-access-token">',
+                    '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/instagram-token/&state=' . urlencode( $post_url ) . '&scope=pages_show_list,pages_read_engagement,instagram_basic' ) . '" class="fts-facebook-get-access-token">',
                     '</a>'
                 );
                 ?>
@@ -161,7 +163,7 @@ class Instagram_Business_Access_Functions {
                              if ( isset( $data->data->is_valid ) || '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' === $data->error->message ) {
 
 
-                                 $insta_fb_text = '<a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-insta-icon"></span>' . $instagram_name . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $fb_name . '</a>';
+                                 $insta_fb_text = '<a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-insta-icon"></span>' . esc_html( $instagram_name ) . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . esc_html( $fb_name ) . '</a>';
 
                                  if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
                                      echo sprintf(
@@ -207,6 +209,11 @@ class Instagram_Business_Access_Functions {
                     <?php
 
                     if ( isset( $_GET['return_long_lived_token'], $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) {
+                        
+                        if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram_business' ) ) {
+                            wp_die( __( 'Invalid instagram business oauth nonce', 'feed_them_social' ) );
+                        }
+
                         // Echo our shortcode for the page token list with loadmore button
                         // These functions are on feed-functions.php!
                         echo do_shortcode( '[fts_fb_page_token]' );

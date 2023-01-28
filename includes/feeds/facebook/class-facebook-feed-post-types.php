@@ -1,5 +1,6 @@
 <?php
 /**
+ * CTBR: File OK.
  * Feed Them Social - Facebook Feed Post Types
  *
  * This page is used to create the Facebook Feed Post Types!
@@ -529,7 +530,7 @@ class Facebook_Feed_Post_Types {
 				$single_event_id = 'https://www.facebook.com/events/' . $single_event_id;
 				echo '<div class="fts-likes-shares-etc-wrap">';
 				echo $this->feed_functions->fts_share_option( $single_event_id, $description );
-				echo '<a href="' . esc_attr( $single_event_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
+				echo '<a href="' . esc_url( $single_event_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
 				break;
             case 'album': // for posts that have more than one photo in them
             case 'photo':

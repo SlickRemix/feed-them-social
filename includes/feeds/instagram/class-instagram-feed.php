@@ -1,5 +1,6 @@
 <?php
 /**
+ * CTBR: File OK.
  * Feed Them Social - Instagram Feed
  *
  * This file is used to create the Instagram Feeds
@@ -207,6 +208,13 @@ class Instagram_Feed {
 	 * @since 1.9.6
 	 */
 	public function display_instagram( $feed_post_id ) {
+
+		if ( isset( $_REQUEST['next_url'] ) ) {
+			$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
+			if ( 'graph.facebook.com' !== $next_url_host ) {
+				wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
+			}
+		}
 
 		$fts_instagram_feed_nonce = wp_create_nonce( 'fts-instagram-feed-page-nonce' );
 
@@ -441,11 +449,11 @@ class Instagram_Feed {
 				// The below needs to be cached and the hashtag ID above merged with like how we did below on line 493
 				if ( 'recent-media' === $search || '' === $search ) {
 					// Now that we have the Instagram ID we can do a search for the endpoint 'Recent Media'.
-					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/v9.0/' . $hashtag_id . '/recent_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,comments_count,permalink,like_count,media_type,id,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/v9.0/' . $hashtag_id . '/recent_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,comments_count,permalink,like_count,media_type,id,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 
 				} elseif ( 'top-media' === $search ) {
 					// Now that we have the Instagram ID we can do a search for the endpoint 'Top Media'.
-					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/v9.0/' . $hashtag_id . '/top_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,id,comments_count,permalink,like_count,media_type,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/v9.0/' . $hashtag_id . '/top_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,id,comments_count,permalink,like_count,media_type,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 				}
 
 				// First we make sure the feed is not cached already before trying to run the Instagram API.
@@ -518,7 +526,7 @@ class Instagram_Feed {
                 $instagram_data_array['user_info'] = 'https://graph.facebook.com/v3.3/' . $instagram_id . '?fields=biography%2Cid%2Cig_id%2Cfollowers_count%2Cfollows_count%2Cmedia_count%2Cname%2Cprofile_picture_url%2Cusername%2Cwebsite&access_token=' . $this->feed_access_token;
 
                 // This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
-                $instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+                $instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 
                 // First we make sure the feed is not cached already before trying to run the Instagram API.
                 if ( false === $this->feed_cache->fts_check_feed_cache_exists( $business_cache ) ) {
@@ -567,7 +575,7 @@ class Instagram_Feed {
 
 				    $basic_cache = 'instagram_basic_cache' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '';
 					// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
-					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.instagram.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url( $_REQUEST['next_url'] ) : 'https://graph.instagram.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 
                     if( !empty( $instagram_id ) ) {
                         $feed_data = $this->feed_functions->use_cache_check( $instagram_data_array['data'], $basic_cache, 'instagram' );
@@ -998,7 +1006,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     $access_token         = 'access_token=' . $this->feed_access_token;
                     $_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
                     ?>
-            <script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
+            <script>var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url( $_REQUEST['next_url'] ); ?>";</script>
                     <?php
                     // Make sure it's not ajaxing.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {
@@ -1039,7 +1047,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                     jQuery.ajax({
                                         data: {
                                             action: "my_fts_fb_load_more",
-                                            next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ); ?>,
+                                            next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
                                             fts_dynamic_name: fts_d_name,
                                             load_more_ajaxing: yes_ajax,
                                             fts_security: fts_security,

@@ -1,5 +1,6 @@
 <?php
 /**
+ * CTBR: File OK.
  * Settings Options JS
  *
  * This class is for creating a metabox settings pages/sections!

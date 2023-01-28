@@ -1,5 +1,6 @@
 <?php
 /**
+ * CTBR: File OK
  * Feed Them Social - Youtube Feed
  *
  * This page is used to create the YouTube feed!
@@ -108,6 +109,14 @@ class Youtube_Feed {
 	 * @since 2.3.2
 	 */
 	public function display_youtube( $feed_post_id ) {
+
+        if ( isset( $_REQUEST['next_url'] ) ) {
+			$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
+			if ( 'googleapis.com' !== $next_url_host ) {
+				wp_die( esc_html__( 'Invalid google url', 'feed_them_social' ), 403 );
+			}
+		}
+
         // Saved Feed Options!
         $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
 
@@ -457,7 +466,7 @@ class Youtube_Feed {
                 $thumbgallery_class_master = empty( $saved_feed_options['youtube_singleVideoID'] ) ? ' fts-youtube-thumbs-gallery-master ' : '';
                 $youtube_name = !empty( $saved_feed_options['youtube_name'] ) ? $saved_feed_options['youtube_name'] : '';
                 echo '<div class="et_smooth_scroll_disabled fts_smooth_scroll_disabled">';
-                echo '<div id="fts-yt-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="' . esc_attr( $thumbgallery_class_master . 'fts-master-youtube-wrap fts-yt-videogroup fts-yt-user-' . $youtube_name . ' fts-yt-vids-in-row' . $saved_feed_options['youtube_columns'] ) . '">';
+                echo '<div id="fts-yt-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="' . esc_attr( $thumbgallery_class_master . 'fts-master-youtube-wrap fts-yt-videogroup fts-yt-user-' . esc_attr( $youtube_name ) . ' fts-yt-vids-in-row' . esc_attr( $saved_feed_options['youtube_columns'] ) ) . '">';
                 echo '<div id="fts-yt-videolist-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="fts-yt-videolist">';
 
                 if ( isset( $videos->items ) &&  ( 'yes' === $saved_feed_options['youtube_first_video'] || '1' === $saved_feed_options['youtube_columns'] ) ) {
@@ -618,11 +627,11 @@ class Youtube_Feed {
 
                             $youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
 
-                            $href         = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? 'javascript:;' : esc_url_raw( $youtube_video_url );
+                            $href         = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? 'javascript:;' : esc_url( $youtube_video_url );
                             $iframe_embed = '' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque';
                             $iframe       = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? ' fts-youtube-iframe-click' : '';
                             // escaping the $href above because one option is html and one is url raw.
-                            echo '<a href="' . $href . '" rel="' . esc_url_raw( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
+                            echo '<a href="' . $href . '" rel="' . esc_url( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
 
                             if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                                 // echo '<div id="#fts-' . $video_id . '" class="fts-yt-overlay-wrap">';.
@@ -656,11 +665,11 @@ class Youtube_Feed {
 
                             $youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
 
-                            $href         = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? esc_html( 'javascript:;' ) : esc_url_raw( $youtube_video_url );
+                            $href         = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? esc_html( 'javascript:;' ) : esc_url( $youtube_video_url );
                             $iframe_embed = '' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque';
                             $iframe       = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? ' fts-youtube-iframe-click' : '';
                             // escaping the $href above because one option is html and one is url raw.
-                            echo '<a href="' . $href . '" rel="' . esc_url_raw( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
+                            echo '<a href="' . $href . '" rel="' . esc_url( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
 
                             if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                                 echo '<div class="entriestitle fts-youtube-popup fts-facebook-popup"><div class="fts-master-youtube-wrap-close fts-yt-close-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '"></div>';
@@ -724,7 +733,7 @@ class Youtube_Feed {
                     $_REQUEST['next_url'] = ! empty( $loadmore ) && 'yes' === $loadmore ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
 
                     ?><script>
-                        var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ) ?>";
+                        var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>= "<?php echo esc_url( $_REQUEST['next_url'] ) ?>";
                     </script>
                     <?php
                 }
@@ -756,7 +765,7 @@ class Youtube_Feed {
                             var button = jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
 
                             console.log(button);
-                            console.log(nextURL_<?php echo esc_js( $fts_dynamic_name )  ?>);
+                            console.log(nextURL_<?php echo sanitize_key( $fts_dynamic_name )  ?>);
 
                             var yes_ajax = "yes";
                             var feed_id = "<?php echo esc_js( $feed_post_id ); ?>";
@@ -771,7 +780,7 @@ class Youtube_Feed {
                             jQuery.ajax({
                                 data: {
                                     action: "my_fts_fb_load_more",
-                                    next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ) ?>,
+                                    next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ) ?>,
                                     fts_dynamic_name: fts_d_name,
                                     feed_name: feed_name,
                                   //  loadmore_count: loadmore_count,
@@ -790,7 +799,7 @@ class Youtube_Feed {
 
                                     jQuery(".fts-youtube-popup-gallery.<?php echo esc_js( $fts_dynamic_class_name ) ?>").html(result);
 
-                                    if( !nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?> ||  "no more" === nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?> ){
+                                    if( !nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?> ||  "no more" === nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?> ){
                                         jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $youtube_no_more_videos_text ) ?></div>');
                                         jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").removeAttr("id");
                                     }
@@ -930,7 +939,7 @@ class Youtube_Feed {
 	public function get_fts_dynamic_class_name() {
         $fts_dynamic_class_name = '';
         if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
-            $fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
+            $fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_key( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
         }
         return $fts_dynamic_class_name;
 	}
@@ -993,13 +1002,13 @@ class Youtube_Feed {
 						$youtube_comment = $this->fts_youtube_tag_filter( $message );
 
 						echo '<div class="fts-fb-comment">';
-						echo '<a href="' . $comment_data->snippet->topLevelComment->snippet->authorChannelUrl . '" target="_blank" class="">';
-						echo '<img src="' . $comment_data->snippet->topLevelComment->snippet->authorProfileImageUrl . '" class="fts-fb-comment-user-pic"/>';
+						echo '<a href="' . esc_url( $comment_data->snippet->topLevelComment->snippet->authorChannelUrl ) . '" target="_blank" class="">';
+						echo '<img src="' . esc_url( $comment_data->snippet->topLevelComment->snippet->authorProfileImageUrl ) . '" class="fts-fb-comment-user-pic"/>';
 						echo '</a>';
 						echo '<div class="fts-fb-comment-msg">';
 						echo '<span class="fts-fb-comment-user-name">';
-						echo '<a href="' . $comment_data->snippet->topLevelComment->snippet->authorChannelUrl . '" target="_blank" class="">';
-						echo $comment_data->snippet->topLevelComment->snippet->authorDisplayName;
+						echo '<a href="' . esc_url( $comment_data->snippet->topLevelComment->snippet->authorChannelUrl ) . '" target="_blank" class="">';
+						echo esc_html( $comment_data->snippet->topLevelComment->snippet->authorDisplayName );
 						echo '</a>';
 						echo '</span> ';
 						echo '<span class="fts-fb-comment-date">' . esc_html( $this->feed_functions->fts_custom_date( $comment_data->snippet->topLevelComment->snippet->publishedAt, 'youtube' ) ) . '</span><br/>';

@@ -1,6 +1,5 @@
 <?php namespace feedthemsocial;
 /**
- * CTBR: File OK
  * Feeds Functions Class
  *
  * This page is used to create the Facebook Access Token options!

@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * Feed Them Social Class (Main Class)
  *
  * This class is what initiates the Feed Them Social class

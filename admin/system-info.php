@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * System Info
  *
  * This class is for loading up the System Info Page for debugging issues

@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK.
  * Feed Them Social - Feed Cache
  *
  * This page is used to create the Twitter feed!

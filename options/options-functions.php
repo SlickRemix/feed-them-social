@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * Option Functions
  *
  * @package     FeedThemSocial

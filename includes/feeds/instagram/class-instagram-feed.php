@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK.
  * Feed Them Social - Instagram Feed
  *
  * This file is used to create the Instagram Feeds

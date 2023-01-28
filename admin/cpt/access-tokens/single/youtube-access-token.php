@@ -1,6 +1,5 @@
 <?php
  /**
-  * CTBR: File OK
  * Feed Them Social - Youtube Access Functions
  *
  * This page is used to retrieve and set access tokens for Youtube.

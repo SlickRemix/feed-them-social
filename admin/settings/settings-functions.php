@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * Register Settings.
  *
  * @package     FeedThemSocial

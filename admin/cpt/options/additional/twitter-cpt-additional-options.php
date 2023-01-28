@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK.
  * Twitter Additional Options Class
  *
  * This class has the options for building and saving on the Custom Meta Boxes

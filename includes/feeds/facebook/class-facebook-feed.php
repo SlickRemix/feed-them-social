@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * Feed Them Social - Facebook Feed
  *
  * This page is used to create the Facebook feed!

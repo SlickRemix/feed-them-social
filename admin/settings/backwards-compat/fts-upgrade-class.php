@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * Backwards Compat Class
  *
  * @package     FTS

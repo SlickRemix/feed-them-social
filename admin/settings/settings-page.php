@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * Settings Page
  *
  * This class is for loading up the Settings Page

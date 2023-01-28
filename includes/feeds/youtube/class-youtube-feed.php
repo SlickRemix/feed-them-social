@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * Feed Them Social - Youtube Feed
  *
  * This page is used to create the YouTube feed!

@@ -1,6 +1,5 @@
 <?php namespace feedthemsocial;
 /**
- * CTBR: File OK
  * Feed Shortcode
  *
  * This class determines what feed needs to be displayed and outputs it.

@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File OK
  * Feed Them Social - Facebook Options Page
  *
  * This page is used to create the Facebook Access Token options!

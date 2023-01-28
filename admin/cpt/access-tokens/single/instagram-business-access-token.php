@@ -1,6 +1,5 @@
 <?php
  /**
-  * CTBR: File OK.
  * Feed Them Social - Instagram Business Access Functions
  *
  * This page is used to retrieve and set access tokens for Instagram Business.

@@ -1,6 +1,5 @@
 <?php
 /**
- * CTBR: File Ok
  * Feed Them Social - Instagram Access Options
  *
  * This page is used to retrieve and set access tokens for Instagram.

@@ -68,6 +68,7 @@ class Youtube_Access_Functions {
 
         $post_url = add_query_arg( array(
             'post' => $feed_cpt_id,
+            'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_youtube' )
         ), admin_url( 'post.php' ) );
 
         $youtube_api_key        = $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_api_token' );
@@ -76,30 +77,36 @@ class Youtube_Access_Functions {
         $expiration_time        = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['expires_in'] ) : $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
 
         ?>
-        <script>
-            jQuery(document).ready(function ($) {
+            
+            <?php if ( !empty( $_GET['code'] ) && isset( $_GET['feed_type'] ) && 'youtube' === $_GET['feed_type'] ) {
+                
+                if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_youtube' ) ) {
+                    wp_die( __( 'Invalid youtube oauth nonce.', 'feed_them_social' ) );
+                }
+                ?>
+                <script>
+                    jQuery(document).ready(function ($) {
 
-                <?php if ( !empty( $_GET['code'] ) && isset( $_GET['feed_type'] ) && 'youtube' === $_GET['feed_type'] ) {?>
-                    $('#youtube_custom_refresh_token').val('');
-                    $('#youtube_custom_refresh_token').val($('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $youtube_refresh_token ); ?>');
+                        $('#youtube_custom_refresh_token').val('');
+                        $('#youtube_custom_refresh_token').val($('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $youtube_refresh_token ); ?>');
 
-                    $('#youtube_custom_access_token').val('');
-                    $('#youtube_custom_access_token').val($('#youtube_custom_access_token').val() + '<?php echo sanitize_text_field( $youtube_access_token ); ?>');
+                        $('#youtube_custom_access_token').val('');
+                        $('#youtube_custom_access_token').val($('#youtube_custom_access_token').val() + '<?php echo esc_js( $youtube_access_token ); ?>');
 
-                    $('#youtube_custom_token_exp_time').val('');
-                    // Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
-                    $('#youtube_custom_token_exp_time').val($('#youtube_custom_token_exp_time').val() + <?php echo strtotime( '+' . $expiration_time . ' seconds' ) ?> * 1000 );
+                        $('#youtube_custom_token_exp_time').val('');
+                        // Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
+                        $('#youtube_custom_token_exp_time').val($('#youtube_custom_token_exp_time').val() + <?php echo strtotime( '+' . $expiration_time . ' seconds' ) ?> * 1000 );
 
-                    setTimeout(
-                        function(){
-                            fts_ajax_cpt_save_token();
-                        },
-                        500
-                    );
-
+                        setTimeout(
+                            function(){
+                                fts_ajax_cpt_save_token();
+                            },
+                            500
+                        );
+                        
+                    });
+                </script>
                 <?php } ?>
-            });
-        </script>
 
         <?php
 
@@ -114,9 +121,9 @@ class Youtube_Access_Functions {
         if( !empty( $youtube_api_key ) || !empty( $youtube_access_token ) ) {
 
 
-           // $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token );
+           // $youtube_user_id_data = esc_url( 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token );
 
-            $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
+            $youtube_user_id_data = esc_url( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
             // echo '$youtube_user_id_data';
             // echo $youtube_user_id_data;
 
@@ -129,7 +136,7 @@ class Youtube_Access_Functions {
         }
             echo sprintf(
                 esc_html__( '%1$sLogin and Get my Access Token %2$s', 'feed-them-social' ),
-                '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . $post_url ) . '" class="fts-youtube-get-access-token">',
+                '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . urlencode( $post_url ) ) . '" class="fts-youtube-get-access-token">',
                 '</a>'
             );
             ?>
@@ -145,6 +152,7 @@ class Youtube_Access_Functions {
            // echo ' asdfasdfasdf ';
 
             // Test Liner!
+            $expiration_time = (int) $expiration_time;
             if ( time() < $expiration_time && empty( $youtube_api_key ) ) {
                 ?>
                 <script>

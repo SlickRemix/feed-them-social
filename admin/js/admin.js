@@ -2,10 +2,7 @@ function fts_ClearCache( notice ) {
     console.log('Clicked Clear Cache Function');
 
     jQuery.ajax({
-        data: {
-            action: "fts_clear_cache_ajax",
-            _wpnonce: ftsAjax.clearCacheNonce
-        },
+        data: {action: "fts_clear_cache_ajax"},
         type: 'POST',
         url: ftsAjax.ajaxurl,
         success: function (response) {
@@ -33,10 +30,7 @@ jQuery(document).ready(function ($) {
         jQuery('.fts-cache-messages').addClass( 'fts-cache-loading' ).css('display', 'inline-block' ).html( 'Please Wait... Clearing Cache' );
 
         jQuery.ajax({
-            data: {
-                action: "fts_clear_cache_ajax",
-                _wpnonce: ftsAjax.clearCacheNonce
-            },
+            data: {action: "fts_clear_cache_ajax"},
             type: 'POST',
             url: ftsAjax.ajaxurl,
             success: function (response) {

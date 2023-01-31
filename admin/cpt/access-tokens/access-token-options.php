@@ -345,29 +345,15 @@ class Access_Options {
                     $fb_url = isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
 
                 }
-                if ( isset( $_REQUEST['next_url'] ) ) {
-                    $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-                    if ( 'graph.facebook.com' !== $next_url_host ) {
-                        wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
-                    }
-                }
-                $fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url( $_REQUEST['next_url'] ) ) : $fb_url;
+                $fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_url'] ) ) : $fb_url;
                 $test_fb_app_token_response = json_decode( $fb_token_response );
 
                 // Test.
                 //print_r( $test_fb_app_token_response );
 
-                $_REQUEST['next_url']       = isset( $test_fb_app_token_response->paging->next ) ? esc_url( $test_fb_app_token_response->paging->next ) : '';
+                $_REQUEST['next_url']       = isset( $test_fb_app_token_response->paging->next ) ? esc_url_raw( $test_fb_app_token_response->paging->next ) : '';
             } else {
-
-                if ( isset( $_GET['next_location_url'] ) ) {
-                    $next_location_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
-                    if ( 'graph.facebook.com' !== $next_location_url_host ) {
-                        wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
-                    }
-                }
-
-                $fb_token_response          = isset( $_REQUEST['next_location_url'] ) ? wp_remote_fopen( esc_url( $_REQUEST['next_location_url'] ) ) : '';
+                $fb_token_response          = isset( $_REQUEST['next_location_url'] ) ? wp_remote_fopen( esc_url_raw( $_REQUEST['next_location_url'] ) ) : '';
                 $test_fb_app_token_response = json_decode( $fb_token_response );
             }
 
@@ -451,7 +437,7 @@ class Access_Options {
                                 <div class="fts-clear"></div>
                             </div>
                             <?php
-                            $_REQUEST['next_location_url'] = isset( $data->locations->paging->next ) ? esc_url( $data->locations->paging->next ) : '';
+                            $_REQUEST['next_location_url'] = isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : '';
                             $remove_class_or_not           = isset( $data->locations->paging->next ) ? 'fb-sublist-page-id-' . esc_attr( $data_id ) : '';
                             if ( isset( $data->locations->data ) ) {
                                 $location_count     = count( $data->locations->data );
@@ -548,7 +534,7 @@ class Access_Options {
                                                     jQuery.ajax({
                                                         data: {
                                                             action: "my_fts_fb_load_more",
-                                                            next_location_url: nextURL_location_<?php echo sanitize_key( $facebook_page_id ); ?>,
+                                                            next_location_url: nextURL_location_<?php echo esc_js( $facebook_page_id ); ?>,
                                                             fts_dynamic_name: fts_d_name,
                                                             rebuilt_shortcode: build_shortcode,
                                                             load_more_ajaxing: yes_ajax,
@@ -586,7 +572,7 @@ class Access_Options {
                             <?php
                             } //END Make sure it's not ajaxing locations
                             ?>
-                                <script>var nextURL_location_<?php echo sanitize_key( $facebook_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url( $data->locations->paging->next ) : ''; ?>";</script>
+                                <script>var nextURL_location_<?php echo esc_js( $facebook_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url_raw( $data->locations->paging->next ) : ''; ?>";</script>
                             <?php } ?>
                         </li>
 
@@ -620,14 +606,14 @@ class Access_Options {
                             console.log(button);
                             var build_shortcode = "<?php echo esc_js( $build_shortcode ); ?>";
                             var yes_ajax = "yes";
-                            var fts_d_name = "<?php echo sanitize_key( $fts_dynamic_name ); ?>";
+                            var fts_d_name = "<?php echo esc_js( $fts_dynamic_name ); ?>";
                             var fts_security = "<?php echo esc_js( $nonce ); ?>";
                             var fts_time = "<?php echo esc_js( $time ); ?>";
                             var fts_reviews_feed = "<?php echo esc_js( $reviews_token ); ?>";
                             jQuery.ajax({
                                 data: {
                                     action: "my_fts_fb_load_more",
-                                    next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
+                                    next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ); ?>,
                                     fts_dynamic_name: fts_d_name,
                                     rebuilt_shortcode: build_shortcode,
                                     load_more_ajaxing: yes_ajax,
@@ -654,7 +640,7 @@ class Access_Options {
 
                                     $(".feed-them-social-admin-submit-btn").click(function () {
                                         // alert('test');
-                                        var newUrl = "<?php echo esc_url( admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ) ); ?>";
+                                        var newUrl = "<?php echo admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ); ?>";
                                         history.replaceState({}, null, newUrl);
                                     });
 
@@ -684,7 +670,7 @@ class Access_Options {
                                     });
 
 
-                                    if (!nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> || 'no more' === nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
+                                    if (!nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> || 'no more' === nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
                                         jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( 'No More Pages', 'feed-them-social' ); ?></div>');
                                         jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
                                     }
@@ -705,8 +691,8 @@ class Access_Options {
             ?>
             <script>
                 <?php if ( ! isset( $_GET['locations'] ) ) { ?>
-                var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url( $_REQUEST['next_url'] ); ?>";
-                // alert('nextURL_<?php //echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>');
+                var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";
+                // alert('nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>');
                 <?php } ?>
 
 
@@ -722,7 +708,7 @@ class Access_Options {
                         $ = jQuery;
                     $(".feed-them-social-admin-submit-btn").click(function () {
                         // alert('test');
-                            var newUrl = "<?php echo esc_url( admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ) ); ?>";
+                            var newUrl = "<?php echo admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ); ?>";
                         history.replaceState({}, null, newUrl);
                     });
 
@@ -787,8 +773,7 @@ class Access_Options {
      */
     public function fts_access_token_type_ajax() {
 
-        check_ajax_referer( 'fts_update_access_token' );
-        
+        $fts_refresh_token_nonce = wp_create_nonce( 'fts_access_token_type_ajax' );
         $feed_type = $_REQUEST['feed_type'];
         $cpt_id    = $_REQUEST['cpt_id'];
         $combined  = $_REQUEST['feed_combined'];
@@ -832,7 +817,10 @@ class Access_Options {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id );
         }
 
-        echo $this->get_access_token_options( $feed_type, $cpt_id );
+        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_access_token_type_ajax' ) ) {
+
+            echo $this->get_access_token_options( $feed_type, $cpt_id );
+        }
 
         wp_die();
     }

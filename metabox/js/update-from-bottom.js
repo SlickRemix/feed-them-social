@@ -285,7 +285,6 @@ function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
             cpt_id: cpt_id,
             feed_combined: combined_check,
             feed_type: feed_type,
-            _wpnonce: updatefrombottomParams.accessTokenUpdateNonce
         },
         type: 'POST',
         url: ftsAjax.ajaxurl,

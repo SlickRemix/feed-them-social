@@ -3,10 +3,7 @@ jQuery(document).ready(function() {
         console.log('Developer Clear Cache Function');
      
         jQuery.ajax({
-            data: {
-                action: "fts_clear_cache_ajax",
-                _wpnonce: ftsAjax.clearCacheNonce
-            },
+            data: {action: "fts_clear_cache_ajax" },
             type: 'POST',
             url: ftsAjax.ajaxurl,
             success: function( response ) { 

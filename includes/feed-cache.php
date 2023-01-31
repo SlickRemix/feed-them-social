@@ -263,13 +263,6 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function fts_clear_cache_ajax() {
-
-		check_ajax_referer( 'fts_clear_cache' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
-		}
-
 		global $wpdb;
 
 		// Clear UnExpired Timed Cache!
@@ -350,28 +343,14 @@ class Feed_Cache {
 		$fts_dev_mode_cache               = $this->settings_functions->fts_get_option( 'fts_cache_time' );
         if ( '1' === $fts_dev_mode_cache || 'feed_them_social' === $fts_admin_activation_clear_cache ) {
             wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-            wp_localize_script(
-				'fts_clear_cache_script',
-				'ftsAjax',
-				array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
-					'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
-				)
-			);
+            wp_localize_script( 'fts_clear_cache_script', 'ftsAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
             wp_enqueue_script( 'jquery' );
             wp_enqueue_script( 'fts_clear_cache_script' );
         }
         if ( '1' !== $fts_dev_mode_cache ) {
             wp_enqueue_script( 'jquery' );
             wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-            wp_localize_script( 
-				'fts_clear_cache_script',
-				'ftsAjax',
-				array(
-					'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
-					'ajaxurl' => admin_url( 'admin-ajax.php' )
-				) 
-			);
+            wp_localize_script( 'fts_clear_cache_script', 'ftsAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
             wp_enqueue_script( 'fts_clear_cache_script' );
         }
 

@@ -1,6 +1,4 @@
 <?php namespace feedthemsocial;
-/**
- */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) )

@@ -149,7 +149,6 @@ function refresh_feed_ajax() {
         data: {
             action: 'fts_refresh_feed_ajax',
             cpt_id: cpt_id,
-            _wpnonce: ftg_mb_tabs.ajaxRefreshFeedNonce
         },
         type: 'POST',
         url: ftsAjax.ajaxurl,
@@ -537,7 +536,6 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
             cpt_id: cpt_id,
             access_token: access_token,
             token_type: token_type,
-            _wpnonce: ftg_mb_tabs.ajaxEncryptNonce
         },
         type: 'POST',
         url: ftsAjax.ajaxurl,
@@ -613,7 +611,6 @@ function fts_decrypt_token_ajax( encrypted_token, id ) {
         data: {
             action: 'fts_decrypt_token_ajax',
             encrypted_token: encrypted_token,
-            _wpnonce: ftg_mb_tabs.ajaxDecryptNonce
         },
         type: 'POST',
         url: ftsAjax.ajaxurl,

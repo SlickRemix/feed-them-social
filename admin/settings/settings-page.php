@@ -735,7 +735,7 @@ class Settings_Page {
             });
         </script>
 
-        <div class="wrap <?php echo 'wrap-' . esc_attr($active_tab); ?>">
+        <div class="wrap <?php echo 'wrap-' . $active_tab; ?>">
             <h1 class="wp-heading-inline"><?php _e( 'Settings', 'feed-them-social' ); ?></h1>
             <h1 class="nav-tab-wrapper">
                 <?php
@@ -793,7 +793,7 @@ class Settings_Page {
                     if ( $section == $section_id ) {
                         $class = 'current';
                     }
-                    echo '<a class="' . $class . '" href="' . esc_url( $tab_url ) . '">' . esc_html( $section_name ) . '</a>';
+                    echo '<a class="' . $class . '" href="' . esc_url( $tab_url ) . '">' . $section_name . '</a>';
 
                     if ( $number != $number_of_sections ) {
                         echo ' | ';
@@ -803,7 +803,7 @@ class Settings_Page {
                 echo '</ul></div>';
             }
             ?>
-            <div id="tab_container" class="<?php echo esc_attr( $section ); ?>">
+            <div id="tab_container" class="<?php echo $section ?>">
                 <form method="post" action="options.php">
                     <table class="form-table">
                         <?php
@@ -822,7 +822,7 @@ class Settings_Page {
 
                         // If the main section was empty and we overrode the view with the next subsection, prepare the section for saving
                         if ( true === $override ) {
-                            ?><input type="hidden" name="fts_section_override" value="<?php echo esc_attr( $section ); ?>" /><?php
+                            ?><input type="hidden" name="fts_section_override" value="<?php echo $section; ?>" /><?php
                         }
                         ?>
                     </table>

@@ -717,7 +717,8 @@ class Feed_Functions {
 
 			$next_urls = [ 
 				'graph.facebook.com',
-				'www.googleapis.com'
+				'www.googleapis.com',
+				'graph.instagram.com'
 			];
 			
 			if ( isset( $_REQUEST['next_url'] ) ) {

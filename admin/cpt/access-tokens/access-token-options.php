@@ -347,7 +347,7 @@ class Access_Options {
                 }
                 if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
                     $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-                    if ( 'graph.facebook.com' !== $next_url_host ) {
+                    if ( 'graph.facebook.com' !== $next_url_host && $next_url_host !== 'graph.instagram.com' ) {
                         wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
                     }
                 }
@@ -362,7 +362,7 @@ class Access_Options {
 
                 if ( isset( $_GET['next_location_url'] ) && !empty( $_GET['next_location_url'] ) ) {
                     $next_location_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
-                    if ( 'graph.facebook.com' !== $next_location_url_host ) {
+                    if ( 'graph.facebook.com' !== $next_location_url_host && $next_url_host !== 'graph.instagram.com' ) {
                         wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
                     }
                 }

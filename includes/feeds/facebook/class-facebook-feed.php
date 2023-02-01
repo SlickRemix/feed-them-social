@@ -363,7 +363,7 @@ class Facebook_Feed {
 
 		if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
 			$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-			if ( 'graph.facebook.com' !== $next_url_host ) {
+			if ( 'graph.facebook.com' !== $next_url_host && $next_url_host !== 'graph.instagram.com' ) {
 				wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
 			}
 		}
@@ -1244,7 +1244,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
 		if ( isset( $_REQUEST['next_url'] ) && ! empty( $_REQUEST['next_url'] ) ) {
 			$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-			if ( 'graph.facebook.com' !== $next_url_host ) {
+			if ( 'graph.facebook.com' !== $next_url_host && $next_url_host !== 'graph.instagram.com' ) {
 				wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
 			}
 		}

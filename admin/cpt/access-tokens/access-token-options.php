@@ -345,7 +345,7 @@ class Access_Options {
                     $fb_url = isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( 'https://graph.facebook.com/me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
 
                 }
-                if ( isset( $_REQUEST['next_url'] ) ) {
+                if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
                     $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
                     if ( 'graph.facebook.com' !== $next_url_host ) {
                         wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
@@ -360,7 +360,7 @@ class Access_Options {
                 $_REQUEST['next_url']       = isset( $test_fb_app_token_response->paging->next ) ? esc_url( $test_fb_app_token_response->paging->next ) : '';
             } else {
 
-                if ( isset( $_GET['next_location_url'] ) ) {
+                if ( isset( $_GET['next_location_url'] ) && !empty( $_GET['next_location_url'] ) ) {
                     $next_location_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
                     if ( 'graph.facebook.com' !== $next_location_url_host ) {
                         wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );

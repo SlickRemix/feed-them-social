@@ -128,7 +128,7 @@ class Instagram_Access_Functions {
         // $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $fts_instagram_access_token );
 
         if( !empty( $decrypted_access_token ) ) {
-            $insta_url = esc_url( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $decrypted_access_token );
+            $insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $decrypted_access_token );
 
             // Get Data for Instagram!
             $response = wp_remote_fopen( $insta_url );

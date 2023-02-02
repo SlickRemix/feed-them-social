@@ -67,6 +67,7 @@ class Instagram_Access_Functions {
 
         $post_url = add_query_arg( array(
             'post' => $feed_cpt_id,
+            'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_instagram' )
         ), admin_url( 'post.php' ) );
 
 	    // Saved Feed Options!
@@ -78,6 +79,13 @@ class Instagram_Access_Functions {
 
 	    // Decrypt Access Token?
         $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
+        
+        if ( isset( $_GET['code'] ) && ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram' ) ) ) {
+
+            wp_die( __('Invalid instagram oauth nonce.', 'feed_them_social' ) );
+
+        }
+        
         ?>
         <script>
             jQuery(document).ready(function ($) {
@@ -120,7 +128,7 @@ class Instagram_Access_Functions {
         // $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $fts_instagram_access_token );
 
         if( !empty( $decrypted_access_token ) ) {
-            $insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $decrypted_access_token );
+            $insta_url = esc_url( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $decrypted_access_token );
 
             // Get Data for Instagram!
             $response = wp_remote_fopen( $insta_url );
@@ -132,7 +140,7 @@ class Instagram_Access_Functions {
 
         echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
-            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . $post_url ) . '" class="fts-instagram-get-access-token">',
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . urlencode( urlencode( urlencode( $post_url ) ) ) ) . '" class="fts-instagram-get-access-token">',
             '</a>'
         );
 

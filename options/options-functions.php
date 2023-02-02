@@ -47,16 +47,16 @@ class Options_Functions {
     }
 
 	/**
-	 * Check User Perms.
+	 * Check User Manage Options.
 	 *
-	 * Check if the current user can edit posts.
+	 * Check if the current user can manage options.
 	 *
 	 * @since	3.0.0
 	 */
-	function check_user_perms() {
+	function check_user_manage_options() {
         // Can Current User Manage Options? If not Die!
-		if ( ! current_user_can( 'edit_posts' ) ) {
-			wp_die( 'Unauthorized user: Unable to save Posts!' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'Unauthorized user' );
 		}
 	}
 
@@ -131,7 +131,7 @@ class Options_Functions {
 	 */
 	public function update_single_option( $array_option_name, $option_name = '', $value = false, $is_cpt = false, $cpt_id = false ) {
 		// Can Current User Manage Options? If not Die!
-        $this->check_user_perms();
+        $this->check_user_manage_options();
 
 		// If no Option Name, exit!
 		if ( empty( $option_name ) ){
@@ -169,7 +169,7 @@ class Options_Functions {
 	 */
 	public function delete_single_option( $array_option_name, $option_name = '', $is_cpt = false, $cpt_id = false ) {
 		// Can Current User Manage Options? If not Die!
-		$this->check_user_perms();
+		$this->check_user_manage_options();
 
 		// If no Array Option Name or option name isset, exit.
 		if ( $array_option_name || empty( $option_name ) ){
@@ -302,7 +302,7 @@ class Options_Functions {
 	 */
 	public function update_options_array( $array_option_name, $default_options_array, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
 		// Can Current User Manage Options? If not Die!
-		$this->check_user_perms();
+		$this->check_user_manage_options();
 
         // Save Options Array based on CPT or Page
 		$save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $default_options_array, $set_empty ), $is_cpt, $cpt_id);

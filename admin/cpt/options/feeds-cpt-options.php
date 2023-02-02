@@ -267,8 +267,8 @@ class Feed_CPT_Options {
      */
     public function twitter_token_options() {
 
-        $oath_token         = isset( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token'] ) ? sanitize_text_field( wp_unslash( $_GET['oauth_token'] ) ) : '';
-        $oauth_token_secret = isset( $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token_secret'] ) ? sanitize_text_field( wp_unslash( $_GET['oauth_token_secret'] ) ) : '';
+        $oath_token         = isset( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token'] ) ? esc_html( wp_unslash( $_GET['oauth_token'] ) ) : '';
+        $oauth_token_secret = isset( $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token_secret'] ) ? esc_html( wp_unslash( $_GET['oauth_token_secret'] ) ) : '';
 
         $this->all_options['twitter_token_options'] = array(
             'section_attr_key'   => 'twitter_token_',

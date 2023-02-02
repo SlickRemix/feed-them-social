@@ -178,8 +178,8 @@ class Feeds_CPT {
         // Rename Submenu Item to Feeds!
         add_filter( 'attribute_escape', array( $this, 'fts_rename_submenu_name' ), 10, 2 );
 
-        // Add Shortcode!
-        add_shortcode( 'fts_list', array( $this, 'fts_display_list' ) );
+        // Add Shortcode! Not beeing used atm.
+        //add_shortcode( 'fts_list', array( $this, 'fts_display_list' ) );
 
         // Set Current Feed CPT ID.
         add_action( 'current_screen', array( $this, 'current_feed_cpt_id' ) );
@@ -227,7 +227,7 @@ class Feeds_CPT {
 
         if ( 'fts' === $current_screen->post_type && 'post' === $current_screen->base && is_admin() ) {
             // Set Feed CPT ID using _Get or _Post
-	        $this->feed_cpt_id = $current_get['post'] ?? $current_post['post'];
+	        $this->feed_cpt_id = (int) $current_get['post'] ?? $current_post['post'];
         }
     }
 
@@ -471,9 +471,9 @@ class Feeds_CPT {
      * @param $post_id
      * @since 1.0.0
      */
-    public function fts_custom_edit_column( $column, int $post_id ) {
+    public function fts_custom_edit_column( $column, $post_id ) {
 
-        $post_id =  $post_id;
+        $post_id = (int) $post_id;
 
         switch ( $column ) {
 
@@ -509,7 +509,7 @@ class Feeds_CPT {
                             $post = get_post( $id );
                             // Get the post content so we can double check to see if it has a specific shortcode.
                             $the_content = $post->post_content;
-                            $shortcode = '[feed_them_social cpt_id=' . $post_id . ']';
+                            $shortcode = '[feed_them_social cpt_id=' . esc_attr( $post_id ) . ']';
 
                             // As Noted: I can see this failing in some instances like page builders or custom post types.
                             if ( false !== strpos( $the_content, $shortcode ) ) {
@@ -1085,6 +1085,14 @@ class Feeds_CPT {
 		 */
 		$current_user    = wp_get_current_user();
 		$new_post_author = $current_user->ID;
+
+        /**
+         * Make sure that the user has the capability to duplicate this post.
+         */
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            wp_die( esc_html__( 'You are not allowed to duplicate this post.', 'feed_them_social' ) );
+        }
+
 
 		/*
 		 * if post data exists, create the post duplicate

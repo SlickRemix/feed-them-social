@@ -234,7 +234,7 @@ class Settings_Functions {
 		// https://stackoverflow.com/questions/15734105/jquery-ui-tooltip-does-not-support-html-content
 		if ( ! empty( $args['tooltip_desc'] ) ) {
 			$tooltip_class = ! empty( $args['tooltip_class'] ) ? $args['tooltip_class'] : '';
-			$tooltip = '<span alt="f223" class="fts-help-tip dashicons dashicons-editor-help ' . $tooltip_class . '" title="' . $args['tooltip_desc'] . '"></span>';
+			$tooltip = '<span alt="f223" class="fts-help-tip dashicons dashicons-editor-help ' . esc_attr( $tooltip_class ) . '" title="' . esc_attr( $args['tooltip_desc'] ) . '"></span>';
 			$html .= $tooltip;
 		}
 
@@ -529,7 +529,7 @@ class Settings_Functions {
     public function fts_missing_callback($args) {
 		printf(
 			__( 'The callback function used for the %s setting is missing.', 'feed_them_social' ),
-			'<strong>' . $args['id'] . '</strong>'
+			'<strong>' . esc_html( $args['id'] ) . '</strong>'
 		);
 	} // fts_missing_callback
 

@@ -336,7 +336,7 @@
     margin:0px;
     top:20px;
 }
-.form-table input[type=checkbox] {
+.fts_page_fts-settings-page .form-table input[type=checkbox] {
     margin:0 !important;
     top:22px;
     position:absolute;

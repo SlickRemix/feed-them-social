@@ -709,34 +709,21 @@ class Feed_Functions {
 
 		/**
 		 * Mapping the request parameter to the next URL host
-		 * 
-		 * 
 		 */
+		$next_urls = [ 
+			'next_url' => 'graph.facebook.com',
+			'next_location_url' => 'graph.facebook.com'
+		];
+		foreach( $next_urls as $next_url => $expected_url_host ) {
 
-		if ( ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) || ( isset( $_REQUEST['next_location_url'] ) && !empty( $_REQUEST['next_location_url'] ) ) ) {
-
-			$next_urls = [ 
-				'graph.facebook.com',
-				'www.googleapis.com',
-				'graph.instagram.com'
-			];
-			
-			if ( isset( $_REQUEST['next_url'] ) ) {
-
-				$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-				
-
-			} elseif ( isset( $_REQUEST['next_location_url'] ) ) {
-				
-				$next_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
-
+			if ( ! isset( $_REQUEST[$next_url] ) ) {
+				continue;
 			}
 
-			if ( ! in_array( $next_url_host, $next_urls ) ) {
+			$next_url_host = parse_url( $_REQUEST[$next_url],  PHP_URL_HOST );
+			if ( $expected_url_host !== $next_url_host ) {
 				exit( esc_html__( 'Looks like you entered an invalid URL', 'feed_them_social' ) );
 			}
-
-			
 
 		}
 

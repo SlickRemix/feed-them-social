@@ -111,7 +111,7 @@ class Youtube_Feed {
 
         if ( isset( $_REQUEST['next_url'] ) ) {
 			$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-			if ( 'www.googleapis.com' !== $next_url_host ) {
+			if ( 'googleapis.com' !== $next_url_host ) {
 				wp_die( esc_html__( 'Invalid google url', 'feed_them_social' ), 403 );
 			}
 		}

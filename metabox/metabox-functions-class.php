@@ -1074,7 +1074,7 @@ class Metabox_Functions {
 	 */
 	public function save_meta_box( $cpt_id ) {
         // Check if User can Manage Options.
-        $this->options_functions->check_user_perms();
+        $this->options_functions->check_user_manage_options();
 
 		// Verify Nonce by set nonce name.
 		if ( isset( $_POST[$this->metabox_nonce_name] ) && !wp_verify_nonce( $_POST[ $this->metabox_nonce_name ], basename( __FILE__ ) ) ) {

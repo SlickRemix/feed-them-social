@@ -471,9 +471,9 @@ class Feeds_CPT {
      * @param $post_id
      * @since 1.0.0
      */
-    public function fts_custom_edit_column( $column, int $post_id ) {
+    public function fts_custom_edit_column( $column, $post_id ) {
 
-        $post_id =  $post_id;
+        $post_id = (int) $post_id;
 
         $post_id = (int) $post_id;
 

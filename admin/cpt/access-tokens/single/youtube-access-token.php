@@ -123,7 +123,7 @@ class Youtube_Access_Functions {
 
            // $youtube_user_id_data = esc_url( 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token );
 
-            $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
+            $youtube_user_id_data = esc_url( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
             // echo '$youtube_user_id_data';
             // echo $youtube_user_id_data;
 

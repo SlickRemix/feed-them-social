@@ -282,6 +282,9 @@ class Metabox_Functions {
 				'slick-metabox-tabs',
 				'ftg_mb_tabs',
 				array(
+					'ajaxEncryptNonce' => wp_create_nonce( 'fts_encrypt_token' ),
+					'ajaxDecryptNonce' => wp_create_nonce( 'fts_decrypt_token' ),
+					'ajaxRefreshFeedNonce' => wp_create_nonce( 'fts_refresh_feed_nonce' ),
 					'submit_msgs' => array(
 						'saving_msg'  => __( 'Saving Options' ),
 						'success_msg' => __( 'Settings Saved Successfully' ),
@@ -341,6 +344,7 @@ class Metabox_Functions {
 				'updatefrombottom-admin-js',
 				'updatefrombottomParams',
 				array(
+					'accessTokenUpdateNonce'				=> wp_create_nonce( 'fts_update_access_token' ),
 					'update'                         => esc_html__( 'Update', 'feed_them_social' ),
 					'publish'                        => esc_html__( 'Publish', 'feed_them_social' ),
 					'publishing'                     => esc_html__( 'Publishing...', 'feed_them_social' ),
@@ -617,7 +621,8 @@ class Metabox_Functions {
                             <div class="fts-shortcode-view">
                                     <div class="fts-shortcode-content">
                                     <?php
-                                    echo do_shortcode( '[feed_them_social cpt_id=' . $_GET['post'] . ']' );
+									$post_id = (int) $_GET['post'];
+                                    echo do_shortcode( '[feed_them_social cpt_id=' . $post_id . ']' );
                                     ?>
                                 </div>
                                 <div class="clear"></div>

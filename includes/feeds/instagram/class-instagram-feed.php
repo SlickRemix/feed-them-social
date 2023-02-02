@@ -208,6 +208,13 @@ class Instagram_Feed {
 	 */
 	public function display_instagram( $feed_post_id ) {
 
+		if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
+			$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
+			if ( 'graph.facebook.com' !== $next_url_host && $next_url_host !== 'graph.instagram.com' ) {
+				wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
+			}
+		}
+
 		$fts_instagram_feed_nonce = wp_create_nonce( 'fts-instagram-feed-page-nonce' );
 
 		if ( wp_verify_nonce( $fts_instagram_feed_nonce, 'fts-instagram-feed-page-nonce' ) ) {
@@ -998,7 +1005,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     $access_token         = 'access_token=' . $this->feed_access_token;
                     $_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
                     ?>
-            <script>var nextURL_<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url_raw( $_REQUEST['next_url'] ); ?>";</script>
+            <script>var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";</script>
                     <?php
                     // Make sure it's not ajaxing.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {
@@ -1039,7 +1046,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                     jQuery.ajax({
                                         data: {
                                             action: "my_fts_fb_load_more",
-                                            next_url: nextURL_<?php echo esc_js( $fts_dynamic_name ); ?>,
+                                            next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
                                             fts_dynamic_name: fts_d_name,
                                             load_more_ajaxing: yes_ajax,
                                             fts_security: fts_security,

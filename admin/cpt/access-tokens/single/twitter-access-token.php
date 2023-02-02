@@ -86,6 +86,7 @@ class Twitter_Access_Functions {
 
         $post_url = add_query_arg( array(
             'post' => $feed_cpt_id,
+            'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_twitter' )
         ), admin_url( 'post.php' ) );
 
         // Check if new tokens have been returned.
@@ -141,7 +142,13 @@ class Twitter_Access_Functions {
 
         // END TESTING!
 
-        if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) { ?>
+        if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) {
+
+            if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_twitter' ) ) {
+                wp_die( __( 'Invalid twitter oauth nonce', 'feed_them_social' ) );
+            }
+
+            ?>
             <script>
                 jQuery(document).ready(function () {
 
@@ -158,7 +165,7 @@ class Twitter_Access_Functions {
 
         echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Tokens%2$s', 'feed-them-social' ),
-            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . $post_url . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . urlencode( $post_url ) . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
             '</a>'
         );
         ?>

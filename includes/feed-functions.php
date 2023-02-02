@@ -102,7 +102,10 @@ class Feed_Functions {
 
         // Refresh Token for YouTube and Instagram Basic
         add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
-        add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
+        /**
+		 * Token management is not allowed for non authenticated users
+		 */
+		//add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
         add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
         add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
@@ -390,16 +393,13 @@ class Feed_Functions {
 	 * @since 4.0.0
 	 */
 	public function get_feed_dynamic_class_name() {
-		$feed_dynamic_name_nonce = wp_create_nonce( 'feed_dynamic_name_nonce' );
-
-		if ( wp_verify_nonce( $feed_dynamic_name_nonce, 'feed_dynamic_name_nonce' ) ) {
-			$feed_dynamic_class_name = '';
-			if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
-				$feed_dynamic_class_name = 'feed_dynamic_class' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
-			}
-			return $feed_dynamic_class_name;
+		
+		$feed_dynamic_class_name = '';
+		if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
+			$feed_dynamic_class_name = 'feed_dynamic_class' . esc_attr( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
 		}
-		exit;
+		return $feed_dynamic_class_name;
+		
 	}
     
 	/**
@@ -647,15 +647,13 @@ class Feed_Functions {
 	 * @since 1.9.6
 	 */
 	public function feed_them_settings() {
-		$fts_functions_load_settings_nonce = wp_create_nonce( 'fts-functions-load-settings-nonce' );
-
-		if ( wp_verify_nonce( $fts_functions_load_settings_nonce, 'fts-functions-load-settings-nonce' ) ) {
-			wp_register_style( 'feed_them_settings_css', plugins_url( 'admin/css/settings-page.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
-			wp_enqueue_style( 'feed_them_settings_css' );
-			if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-pinterest-feed-styles-submenu-page' === $_GET['page'] ) {
-				wp_enqueue_script( 'feed_them_style_options_color_js', plugins_url( 'admin/js/jscolor/jscolor.js', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
-			}
+		
+		wp_register_style( 'feed_them_settings_css', plugins_url( 'admin/css/settings-page.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
+		wp_enqueue_style( 'feed_them_settings_css' );
+		if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-pinterest-feed-styles-submenu-page' === $_GET['page'] ) {
+			wp_enqueue_script( 'feed_them_style_options_color_js', plugins_url( 'admin/js/jscolor/jscolor.js', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
 		}
+		
 	}
 
     /**
@@ -680,7 +678,7 @@ class Feed_Functions {
     public function my_fts_fb_load_more() {
 
         // Check security token is set.
-        if ( ! isset( $_REQUEST['fts_security'], $_REQUEST['fts_time'] ) ) {
+        if ( ! isset( $_REQUEST['fts_security'], $_REQUEST['fts_time'], $_REQUEST['feed_name'], $_REQUEST['feed_id'] ) ) {
             exit( 'Sorry, You can\'t do that!' );
         }
 
@@ -689,27 +687,65 @@ class Feed_Functions {
             exit( 'Sorry, You can\'t do that!' );
         }
 
-        if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ) {
-            if ( isset( $_REQUEST['next_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ), 'https://graph.facebook.com/' ) ||
-                isset( $_REQUEST['next_location_url'] ) && false === strpos( sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ), 'https://graph.facebook.com/' ) ||
-                isset( $_REQUEST['next_url'] ) && sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) !== sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) ||
-                isset( $_REQUEST['next_location_url'] ) && sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ) !== sanitize_text_field( wp_unslash( $_REQUEST['next_location_url'] ) ) ) {
+		$shortcode = '';
+		switch ( $_REQUEST['feed_name'] ) {
+			case 'feed_them_social':
+				$cpt_id = (int) $_REQUEST['feed_id'];
+				$shortcode = "[feed_them_social cpt_id={$cpt_id}]";
+				break;
+			case 'fts_fb_page_token':
 
-                exit( 'That is not an FTS shortcode!' );
-            }
-        }
+				if ( ! current_user_can( 'manage_options' ) ) {
+					exit( esc_html__( 'Forbidden', 'feed_them_social' ) );
+				}
 
-        if ( isset( $_REQUEST['feed_name'] ) && 'fts_fb_page_token' === $_REQUEST['feed_name'] ||
-             isset( $_REQUEST['feed_name'] ) && 'feed_them_social' === $_REQUEST['feed_name']
-        ) {
+				$cpt_id = (int) $_REQUEST['feed_id'];
+				$shortcode = "[fts_fb_page_token cpt_id={$cpt_id}]";
+				break;
 
-            $build_shortcode = '[' . sanitize_text_field( wp_unslash( $_REQUEST['feed_name'] ) ) . ' cpt_id=' . sanitize_text_field( wp_unslash( $_REQUEST['feed_id'] ) ) . ']';
+			default:
+				exit( esc_html__( 'That is not an FTS shortcode!', 'feed_them_social' ) );
+		}
 
-            echo do_shortcode( $build_shortcode );
+		/**
+		 * Mapping the request parameter to the next URL host
+		 * 
+		 * 
+		 */
 
-        } else {
-            exit( esc_html( 'That is not an FTS shortcode!' ) );
-        }
+		if ( ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) || ( isset( $_REQUEST['next_location_url'] ) && !empty( $_REQUEST['next_location_url'] ) ) ) {
+
+			$next_urls = [ 
+				'graph.facebook.com',
+				'www.googleapis.com',
+				'graph.instagram.com'
+			];
+			
+			if ( isset( $_REQUEST['next_url'] ) ) {
+
+				$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
+				
+
+			} elseif ( isset( $_REQUEST['next_location_url'] ) ) {
+				
+				$next_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
+
+			}
+
+			if ( ! in_array( $next_url_host, $next_urls ) ) {
+				exit( esc_html__( 'Looks like you entered an invalid URL', 'feed_them_social' ) );
+			}
+
+			
+
+		}
+
+		if ( empty( $shortcode ) ) {
+			exit( esc_html__( 'That is not an FTS shortcode!', 'feed_them_social' ) );
+		}
+
+		echo do_shortcode( $shortcode );
+
         die();
     }
 
@@ -721,41 +757,39 @@ class Feed_Functions {
      */
     public function fts_refresh_token_ajax() {
 
-        $fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
+		check_ajax_referer( 'fts_refresh_access_token' );
 
-        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+		}
 
-            if ( !empty( $_REQUEST['access_token'] ) && !empty( $_REQUEST['expires_in'] ) ) {
+		if ( !empty( $_REQUEST['access_token'] ) && !empty( $_REQUEST['expires_in'] ) ) {
 
-                if ( 'youtube' === $_REQUEST['feed'] ) {
-                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', esc_html( $_REQUEST['access_token'] ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
-                    $startoftime = isset( $_REQUEST['expires_in'] ) ? strtotime( '+' . $_REQUEST['expires_in'] . ' seconds' ) : '';
-                    $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
-                }
+			if ( 'youtube' === $_REQUEST['feed'] ) {
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', esc_html( $_REQUEST['access_token'] ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
+				$startoftime = isset( $_REQUEST['expires_in'] ) ? strtotime( '+' . $_REQUEST['expires_in'] . ' seconds' ) : '';
+				$start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
+			}
 
-                if ( 'instagram' === $_REQUEST['feed'] ) {
-                    $encrypted_token = $this->data_protection->encrypt( $_REQUEST['access_token'] );
-                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', esc_html( $encrypted_token ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
-                    $startoftime = $_REQUEST['expires_in'];
-                    $start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
-                }
-                // Testing.
-                // $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
-            }
+			if ( 'instagram' === $_REQUEST['feed'] ) {
+				$encrypted_token = $this->data_protection->encrypt( $_REQUEST['access_token'] );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', esc_html( $encrypted_token ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
+				$startoftime = $_REQUEST['expires_in'];
+				$start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ) );
+			}
+			// Testing.
+			// $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
+		}
 
-            $response = array(
-                'access_token' => $_REQUEST['access_token'],
-                'expires_in'   => $start_of_time_final,
-            );
+		$response = array(
+			'access_token' => esc_html( $_REQUEST['access_token'] ),
+			'expires_in'   => $start_of_time_final,
+		);
 
-            echo json_encode( $response );
-        }
-        else {
-            echo 'Refresh Token Error';
-        }
-
+		echo json_encode( $response );
+        
         wp_die();
     }
 
@@ -766,41 +800,37 @@ class Feed_Functions {
      */
     public function feed_them_instagram_refresh_token( $feed_cpt_id ) {
 
-        $fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
+        // refresh token!
+		$check_token =  $this->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' );
 
-        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
+		$check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
+		$oauth2token_url  = esc_url( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
 
-            // refresh token!
-            $check_token =  $this->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' );
+		$response = wp_remote_get( $oauth2token_url );
 
-            $check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
-            $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
-
-            $response = wp_remote_get( $oauth2token_url );
-
-            $auth_obj = json_decode( wp_remote_retrieve_body( $response  ), true );
+		$auth_obj = json_decode( wp_remote_retrieve_body( $response  ), true );
 
 
-            // Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
-            // For now we are going to get a new token every 7 days just to be on the safe side.
-            // That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
-            // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
-            $time_minus_fiftythree_days = $auth_obj['expires_in'] - 4579200;
-            $expires_in = $time_minus_fiftythree_days + time();
+		// Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
+		// For now we are going to get a new token every 7 days just to be on the safe side.
+		// That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
+		// We get 60 days to refresh the token, if it's not refreshed before then it will expire.
+		$time_minus_fiftythree_days = $auth_obj['expires_in'] - 4579200;
+		$expires_in = $time_minus_fiftythree_days + time();
 
-            // test.
-            // print_r( $expires_in );
-            // echo ' asdfasdfasdfasdf ';
-            // This is our refresh token response;
-            // print_r($response['body']);
-            // test.
-            // $auth_obj['access_token'] = '';
-            // print_r($check_basic_token_value);
+		// test.
+		// print_r( $expires_in );
+		// echo ' asdfasdfasdfasdf ';
+		// This is our refresh token response;
+		// print_r($response['body']);
+		// test.
+		// $auth_obj['access_token'] = '';
+		// print_r($check_basic_token_value);
 
-            // Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
-            if( empty( $auth_obj['access_token'] ) ){
-                return;
-            }
+		// Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
+		if( empty( $auth_obj['access_token'] ) ){
+			return;
+		}
 
         // use for testing in script below.
         //console.log( '<?php print_r($response['body']) ? >' );
@@ -815,6 +845,7 @@ class Feed_Functions {
                         access_token: '<?php echo esc_js( $auth_obj['access_token'] ); ?>',
                         expires_in: '<?php echo esc_js( $expires_in ); ?>',
                         feed_cpt_id: '<?php echo esc_js( $feed_cpt_id ); ?>',
+						_wpnonce: '<?php echo wp_create_nonce( 'fts_refresh_access_token' ); ?>' 
                         feed: 'instagram'
                     },
                     type: 'POST',
@@ -838,7 +869,7 @@ class Feed_Functions {
         </script>
         <?php
         // return $auth_obj['access_token'];
-       }
+       
     }
 
     /**
@@ -848,129 +879,125 @@ class Feed_Functions {
      */
     public function feed_them_youtube_refresh_token( $feed_cpt_id ) {
 
+		$refresh_token = $this->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' );
 
-        $fts_refresh_token_nonce = wp_create_nonce( 'fts_refresh_token_nonce' );
+		$postdata = http_build_query(
+			array(
+				'feed_them_social'  => 'yes',
+				'fts_refresh_token' => $refresh_token,
+				'expires_in'       => $this->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ),
+			)
+		);
 
-        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_refresh_token_nonce' ) ) {
+		$ch = curl_init();
 
-            $refresh_token = $this->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' );
+		curl_setopt($ch, CURLOPT_URL, 'https://youtube-token-refresh.feedthemsocial.com' );
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "' . $postdata . '");
 
-            $postdata = http_build_query(
-                array(
-                    'feed_them_social'  => 'yes',
-                    'fts_refresh_token' => $refresh_token,
-                    'expires_in'       => $this->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ),
-                )
-            );
+		$headers = array();
+		$headers[] = 'Content-Type: application/x-www-form-urlencoded';
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-            $ch = curl_init();
+		$result = curl_exec($ch);
+		if (curl_errno($ch)) {
+			echo 'Error:' . curl_error($ch);
+		}
+		curl_close($ch);
 
-            curl_setopt($ch, CURLOPT_URL, 'https://youtube-token-refresh.feedthemsocial.com' );
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "' . $postdata . '");
+		$response = json_decode($result);
 
-            $headers = array();
-            $headers[] = 'Content-Type: application/x-www-form-urlencoded';
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		/* echo '<br/>';
+			print_r( $response );
+			echo '<br/>';*/
+			//  print_r($result);
 
-            $result = curl_exec($ch);
-            if (curl_errno($ch)) {
-                echo 'Error:' . curl_error($ch);
-            }
-            curl_close($ch);
+		// Get new Access Token using our Refresh Token.
+		if( !empty( $response->access_token ) && !empty( $response->expires_in ) ){
+			$access_token = $response->access_token;
+			$expires_in = $response->expires_in;
+		}
+		else {
+			// Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
+			return  print_r($response);
+		}
+		?>
+		<script>
+			jQuery(document).ready(function () {
+				jQuery.ajax({
+					data: {
+						action: "fts_refresh_token_ajax",
+						refresh_token: '<?php echo esc_js( $refresh_token ) ?>',
+						access_token: '<?php echo esc_js( $access_token ) ?>',
+						feed_cpt_id: '<?php echo esc_js( $feed_cpt_id ); ?>',
+						expires_in: '<?php echo esc_js( $expires_in ) ?>',
+						feed: 'youtube',
+						_wpnonce: '<?php echo wp_create_nonce( 'fts_refresh_access_token' ); ?>' 
+					},
+					type: 'POST',
+					url: ftsAjax.ajaxurl,
+					success: function (response) {
+						console.log(response);
+						<?php
+						if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] ) {
 
-            $response = json_decode($result);
+						$user_id        = $auth_obj;
+						$error_response = $user_id->error->errors[0]->message ? 'true' : 'false';
+						$type_of_key = __( 'Access Token', 'feed-them-social' );
 
-           /* echo '<br/>';
-             print_r( $response );
-             echo '<br/>';*/
-             //  print_r($result);
+						// Error Check!
+						if ( 'true' === $error_response ) {
+							$fts_youtube_message = sprintf(
+								esc_html( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
+								'<div class="fts-failed-api-token">',
+								esc_html( $type_of_key ),
+								esc_html( $user_id->error->errors[0]->message ),
+								'</div><div class="clear"></div>'
+							);
+						}
+						else {
+							$fts_youtube_message = sprintf(
+								esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
+								'<div class="fts-successful-api-token">',
+								esc_html( $type_of_key ),
+								'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
+								'</a>',
+								'</div><div class="clear"></div>'
+							);
+						} ?>
+						jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
 
-            // Get new Access Token using our Refresh Token.
-            if( !empty( $response->access_token ) && !empty( $response->expires_in ) ){
-                $access_token = $response->access_token;
-                $expires_in = $response->expires_in;
-            }
-            else {
-                // Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
-                return  print_r($response);
-            }
-            ?>
-            <script>
-                jQuery(document).ready(function () {
-                    jQuery.ajax({
-                        data: {
-                            action: "fts_refresh_token_ajax",
-                            refresh_token: '<?php echo esc_js( $refresh_token ) ?>',
-                            access_token: '<?php echo esc_js( $access_token ) ?>',
-                            feed_cpt_id: '<?php echo esc_js( $feed_cpt_id ); ?>',
-                            expires_in: '<?php echo esc_js( $expires_in ) ?>',
-                            feed: 'youtube'
-                        },
-                        type: 'POST',
-                        url: ftsAjax.ajaxurl,
-                        success: function (response) {
-                            console.log(response);
-                            <?php
-                            if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] ) {
+						<?php if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) { ?>
+						jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>');
+						jQuery('.fts-failed-api-token').hide();
 
-                            $user_id        = $auth_obj;
-                            $error_response = $user_id->error->errors[0]->message ? 'true' : 'false';
-                            $type_of_key = __( 'Access Token', 'feed-them-social' );
+						if (!jQuery('.fts-successful-api-token').length) {
+							jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
+						}
+						<?php
+						} else {
+						?>
+						if (jQuery('.fts-failed-api-token').length) {
+							jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
+							jQuery('.fts-failed-api-token').hide();
+						}
+						<?php } ?>
 
-                            // Error Check!
-                            if ( 'true' === $error_response ) {
-                                $fts_youtube_message = sprintf(
-                                    esc_html( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
-                                    '<div class="fts-failed-api-token">',
-                                    esc_html( $type_of_key ),
-                                    esc_html( $user_id->error->errors[0]->message ),
-                                    '</div><div class="clear"></div>'
-                                );
-                            }
-                            else {
-                                $fts_youtube_message = sprintf(
-                                    esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
-                                    '<div class="fts-successful-api-token">',
-                                    esc_html( $type_of_key ),
-                                    '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
-                                    '</a>',
-                                    '</div><div class="clear"></div>'
-                                );
-                            } ?>
-                            jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
+						jQuery('#youtube_custom_access_token').val(jQuery('#youtube_custom_access_token').val() + '<?php echo esc_js( $access_token ); ?>');
+						jQuery('#youtube_custom_token_exp_time').val(jQuery('#youtube_custom_token_exp_time').val() + '<?php echo esc_js( strtotime( '+' . $expires_in . ' seconds' ) ); ?>');
+						jQuery('<div class="fa fa-check-circle fa-3x fa-fw fts-success"></div>').insertBefore('.hide-button-tokens-options .feed-them-social-admin-input-wrap .fts-clear');
+						jQuery('.fts-success').fadeIn('slow');
 
-                            <?php if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) { ?>
-                            jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>');
-                            jQuery('.fts-failed-api-token').hide();
-
-                            if (!jQuery('.fts-successful-api-token').length) {
-                                jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
-                            }
-                            <?php
-                            } else {
-                            ?>
-                            if (jQuery('.fts-failed-api-token').length) {
-                                jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
-                                jQuery('.fts-failed-api-token').hide();
-                            }
-                            <?php } ?>
-
-                            jQuery('#youtube_custom_access_token').val(jQuery('#youtube_custom_access_token').val() + '<?php echo esc_js( $access_token ); ?>');
-                            jQuery('#youtube_custom_token_exp_time').val(jQuery('#youtube_custom_token_exp_time').val() + '<?php echo esc_js( strtotime( '+' . $expires_in . ' seconds' ) ); ?>');
-                            jQuery('<div class="fa fa-check-circle fa-3x fa-fw fts-success"></div>').insertBefore('.hide-button-tokens-options .feed-them-social-admin-input-wrap .fts-clear');
-                            jQuery('.fts-success').fadeIn('slow');
-
-                            <?php } ?>
-                            return false;
-                        }
-                    }); // end of ajax()
-                    return false;
-                }); // end of document.ready
-            </script>
-            <?php
-        }
+						<?php } ?>
+						return false;
+					}
+				}); // end of ajax()
+				return false;
+			}); // end of document.ready
+		</script>
+		<?php
+        
     }
 
 	/**
@@ -1003,114 +1030,112 @@ class Feed_Functions {
 	 * @since 1.9.6
 	 */
 	public function social_follow_button( $feed, $user_id, $saved_feed_options = null ) {
-		$fts_social_follow_nonce = wp_create_nonce( 'fts-social-follow-nonce' );
+		
+		// Return Social follow button based on Feed Type.
+		switch ( $feed ) {
+			case 'facebook':
+				// Facebook settings options for follow button.
+				$fb_show_follow_btn            = isset( $saved_feed_options[ 'fb_show_follow_btn' ] ) ? $saved_feed_options[ 'fb_show_follow_btn' ] : '';
+				$fb_show_follow_like_box_cover = isset( $saved_feed_options[ 'fb_show_follow_like_box_cover' ] ) ? $saved_feed_options[ 'fb_show_follow_like_box_cover' ] : '';
+				$language_option_check         = isset( $saved_feed_options[ 'fb_language' ] ) ? $saved_feed_options[ 'fb_language' ] : '';
 
-		if ( wp_verify_nonce( $fts_social_follow_nonce, 'fts-social-follow-nonce' ) ) {
-            // Return Social follow button based on Feed Type.
-			switch ( $feed ) {
-				case 'facebook':
-					// Facebook settings options for follow button.
-					$fb_show_follow_btn            = isset( $saved_feed_options[ 'fb_show_follow_btn' ] ) ? $saved_feed_options[ 'fb_show_follow_btn' ] : '';
-					$fb_show_follow_like_box_cover = isset( $saved_feed_options[ 'fb_show_follow_like_box_cover' ] ) ? $saved_feed_options[ 'fb_show_follow_like_box_cover' ] : '';
-					$language_option_check         = isset( $saved_feed_options[ 'fb_language' ] ) ? $saved_feed_options[ 'fb_language' ] : '';
+				if ( isset( $language_option_check ) && 'Please Select Option' !== $language_option_check ) {
+					$language_option = $saved_feed_options[ 'fb_language' ];
+				} else {
+					$language_option = 'en_US';
+				}
+				$fb_like_btn_color = isset( $saved_feed_options[ 'fb_like_btn_color' ] ) ? $saved_feed_options[ 'fb_like_btn_color' ] : '';
+				$show_faces        = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-faces' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ? 'true' : 'false';
+				$share_button      = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-share' === $fb_show_follow_btn ? 'true' : 'false';
+				$page_cover        = 'fb_like_box_cover-yes' === $fb_show_follow_like_box_cover ? 'true' : 'false';
 
-					if ( isset( $language_option_check ) && 'Please Select Option' !== $language_option_check ) {
-						$language_option = $saved_feed_options[ 'fb_language' ];
-					} else {
-						$language_option = 'en_US';
+				?><div id="fb-root"></div>
+				<script>
+					(function(d, s, id) {
+						var js, fjs = d.getElementsByTagName(s)[0];
+						if (d.getElementById(id)) return;
+						js = d.createElement(s); js.id = id;
+						js.src = "//connect.facebook.net/' . <?php echo esc_html( $language_option ) ?> . '/sdk.js#xfbml=1&appId=&version=v3.1";
+						fjs.parentNode.insertBefore(js, fjs);
+					}(document, "script", "facebook-jssd"));
+
+					// Check to see if class .fts-fb-likeb-scripts-loaded is applied to body, this tells us the page has loaded once already
+					// and now we need to run the FB.XFBML script again so the likebox/button loads.
+					if( jQuery("body.wp-admin.fts-fb-likeb-scripts-loaded").length ) {
+
+						FB.XFBML.parse();
 					}
-					$fb_like_btn_color = isset( $saved_feed_options[ 'fb_like_btn_color' ] ) ? $saved_feed_options[ 'fb_like_btn_color' ] : '';
-					$show_faces        = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-faces' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ? 'true' : 'false';
-					$share_button      = 'like-button-share-faces' === $fb_show_follow_btn || 'like-button-share' === $fb_show_follow_btn ? 'true' : 'false';
-					$page_cover        = 'fb_like_box_cover-yes' === $fb_show_follow_like_box_cover ? 'true' : 'false';
+					jQuery("body.wp-admin").addClass("fts-fb-likeb-scripts-loaded");
 
-                    ?><div id="fb-root"></div>
-                    <script>
-                        (function(d, s, id) {
-                            var js, fjs = d.getElementsByTagName(s)[0];
-                            if (d.getElementById(id)) return;
-                            js = d.createElement(s); js.id = id;
-                            js.src = "//connect.facebook.net/' . <?php echo esc_html( $language_option ) ?> . '/sdk.js#xfbml=1&appId=&version=v3.1";
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }(document, "script", "facebook-jssd"));
+				</script>
+				<?php
+				// Page Box!
+				if ( 'like-box' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ) {
 
-                        // Check to see if class .fts-fb-likeb-scripts-loaded is applied to body, this tells us the page has loaded once already
-                        // and now we need to run the FB.XFBML script again so the likebox/button loads.
-                        if( jQuery("body.wp-admin.fts-fb-likeb-scripts-loaded").length ) {
+					$facebook_like_box_width = isset( $saved_feed_options['facebook_like_box_width'] ) && '' !== $saved_feed_options['facebook_like_box_width'] ? $saved_feed_options['facebook_like_box_width'] : '500px';
 
-                            FB.XFBML.parse();
-                        }
-                        jQuery("body.wp-admin").addClass("fts-fb-likeb-scripts-loaded");
+					echo '<div class="fb-page" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-hide-cover="' . esc_html( $page_cover ) . '" data-width="' . esc_html( $facebook_like_box_width ) . '"  data-show-facepile="' . esc_html( $show_faces ) . '" data-show-posts="false"></div>';
+				} else {
+					echo '<div class="fb-like" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-layout="standard" data-action="like" data-colorscheme="' . esc_html( $fb_like_btn_color ) . '" data-show-faces="' . esc_html( $show_faces ) . '" data-share="' . esc_html( $share_button ) . '" data-width:"100%"></div>';
+				}
+				break;
+			case 'instagram':
+				echo '<a href="' . esc_url( 'https://instagram.com/' . $user_id . '/' ) . '" target="_blank" rel="noreferrer">' . esc_html( 'Follow on Instagram', 'feed-them-social' ) . '</a>';
+				break;
+			case 'twitter':
+				?>
+				<script>
+					//TWITTER
+					!function (d, s, id) {
+						var t, js, fjs = d.getElementsByTagName(s)[0];
+						if (d.getElementById(id)) return;
+						js = d.createElement(s);
+						js.id = id;
+						js.src = "https://platform.twitter.com/widgets.js";
+						fjs.parentNode.insertBefore(js, fjs);
+						return window.twttr || (t = {
+							_e: [], ready: function (f) {
+								t._e.push(f)
+							}
+						});
+					}(document, "script", "twitter-wjs");
 
-                    </script>
-                    <?php
-                    // Page Box!
-					if ( 'like-box' === $fb_show_follow_btn || 'like-box-faces' === $fb_show_follow_btn ) {
+					var ftsT = jQuery('<a class="twitter-follow-button" href="<?php echo esc_url( 'https://twitter.com/' . $user_id ); ?>" data-show-count="<?php echo isset( $saved_feed_options['twitter_show_follow_count_inline'] ) && 'yes' === $saved_feed_options['twitter_show_follow_count_inline'] ? 'true' : 'false' ?>" data-lang="en"> Follow @ <?php echo esc_html( $user_id ) ?></a>');
+					var ftsTjs = jQuery('<script>').attr('src', '//platform.twitter.com/widgets.js');
+					jQuery('#fts-twitter-follow-button-wrap').empty();
+					jQuery(ftsT).appendTo(jQuery('#fts-twitter-follow-button-wrap'));
+					jQuery(ftsTjs).appendTo(jQuery('#fts-twitter-follow-button-wrap'));
+				</script>
+				<?php
+				// Can't ESCAPE Twitter link otherwise the JS doesn't work.
+				echo '<div id="fts-twitter-follow-button-wrap"></div>';
+				break;
 
-						$facebook_like_box_width = isset( $saved_feed_options['facebook_like_box_width'] ) && '' !== $saved_feed_options['facebook_like_box_width'] ? $saved_feed_options['facebook_like_box_width'] : '500px';
 
-						echo '<div class="fb-page" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-hide-cover="' . esc_html( $page_cover ) . '" data-width="' . esc_html( $facebook_like_box_width ) . '"  data-show-facepile="' . esc_html( $show_faces ) . '" data-show-posts="false"></div>';
-					} else {
-						echo '<div class="fb-like" data-href="' . esc_url( 'https://www.facebook.com/' . $user_id ) . '" data-layout="standard" data-action="like" data-colorscheme="' . esc_html( $fb_like_btn_color ) . '" data-show-faces="' . esc_html( $show_faces ) . '" data-share="' . esc_html( $share_button ) . '" data-width:"100%"></div>';
+
+			case 'youtube':
+
+					echo '<script src="' . esc_url( 'https://apis.google.com/js/platform.js' ) . '"></script>';
+				//if ( '' === $saved_feed_options['youtube_channelID'] && '' === $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name'] || '' !== $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name2'] ) {
+
+					// echo 'wtasdfsadfsadfasfd';
+
+					if ( 'channelID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID'] ) ||
+						'playlistID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
+						echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $saved_feed_options['youtube_channelID'] ) . '" data-layout="full" data-count="default"></div>';
 					}
-					break;
-				case 'instagram':
-					echo '<a href="' . esc_url( 'https://instagram.com/' . $user_id . '/' ) . '" target="_blank" rel="noreferrer">' . esc_html( 'Follow on Instagram', 'feed-them-social' ) . '</a>';
-					break;
-				case 'twitter':
-                    ?>
-                    <script>
-                        //TWITTER
-                        !function (d, s, id) {
-                            var t, js, fjs = d.getElementsByTagName(s)[0];
-                            if (d.getElementById(id)) return;
-                            js = d.createElement(s);
-                            js.id = id;
-                            js.src = "https://platform.twitter.com/widgets.js";
-                            fjs.parentNode.insertBefore(js, fjs);
-                            return window.twttr || (t = {
-                                _e: [], ready: function (f) {
-                                    t._e.push(f)
-                                }
-                            });
-                        }(document, "script", "twitter-wjs");
-
-                       var ftsT = jQuery('<a class="twitter-follow-button" href="<?php echo 'https://twitter.com/' . $user_id; ?>" data-show-count="<?php echo isset( $saved_feed_options['twitter_show_follow_count_inline'] ) && 'yes' === $saved_feed_options['twitter_show_follow_count_inline'] ? 'true' : 'false' ?>" data-lang="en"> Follow @ <?php echo esc_html( $user_id ) ?></a>');
-                       var ftsTjs = jQuery('<script>').attr('src', '//platform.twitter.com/widgets.js');
-                       jQuery('#fts-twitter-follow-button-wrap').empty();
-                       jQuery(ftsT).appendTo(jQuery('#fts-twitter-follow-button-wrap'));
-                       jQuery(ftsTjs).appendTo(jQuery('#fts-twitter-follow-button-wrap'));
-                    </script>
-                    <?php
-					// Can't ESCAPE Twitter link otherwise the JS doesn't work.
-					echo '<div id="fts-twitter-follow-button-wrap"></div>';
-					break;
+					elseif ( 'userPlaylist' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name2'] ) ) {
+						echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name2'] ) . '" data-layout="full" data-count="default"></div>';
+					}
+					elseif ( 'username' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name'] ) ) {
+						echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name']  ) . '" data-layout="full" data-count="default"></div>';
+					}
+				//}
 
 
-
-				case 'youtube':
-
-						echo '<script src="' . esc_url( 'https://apis.google.com/js/platform.js' ) . '"></script>';
-					//if ( '' === $saved_feed_options['youtube_channelID'] && '' === $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name'] || '' !== $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name2'] ) {
-
-                       // echo 'wtasdfsadfsadfasfd';
-
-                        if ( 'channelID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID'] ) ||
-                            'playlistID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
-                            echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $saved_feed_options['youtube_channelID'] ) . '" data-layout="full" data-count="default"></div>';
-                        }
-						elseif ( 'userPlaylist' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name2'] ) ) {
-							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name2'] ) . '" data-layout="full" data-count="default"></div>';
-						}
-                        elseif ( 'username' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name'] ) ) {
-							echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name']  ) . '" data-layout="full" data-count="default"></div>';
-						}
-					//}
-
-
-					break;
-			}
+				break;
 		}
+	
 	}
 
 	/**
@@ -1156,27 +1181,31 @@ class Feed_Functions {
      * @since 2.9.7.2
      */
     public function fts_encrypt_token_ajax() {
-        $fts_refresh_token_nonce = wp_create_nonce( 'fts_encrypt_token_nonce' );
+
+		check_ajax_referer( 'fts_encrypt_token' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+		}
+
         $access_token            = $_REQUEST['access_token'];
         $encrypt                 = $this->data_protection->encrypt( $access_token );
 
-        if ( wp_verify_nonce( $fts_refresh_token_nonce, 'fts_encrypt_token_nonce' ) ) {
+		$cpt_id = (int) $_REQUEST['cpt_id'];
 
-            $cpt_id = $_REQUEST['cpt_id'];
+		// $test = 'Testing';
 
-            // $test = 'Testing';
-
-            // Now the encrypted version is saved to the DB.
-            if( 'basic' === $_REQUEST['token_type'] ){
-                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $encrypt, true, $cpt_id );
-            }
-            elseif ( 'business' === $_REQUEST['token_type'] ) {
-                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token', $encrypt, true, $cpt_id );
-            }
-            elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
-                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token', $encrypt, true, $cpt_id );
-            }
-        }
+		// Now the encrypted version is saved to the DB.
+		if( 'basic' === $_REQUEST['token_type'] ){
+			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $encrypt, true, $cpt_id );
+		}
+		elseif ( 'business' === $_REQUEST['token_type'] ) {
+			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token', $encrypt, true, $cpt_id );
+		}
+		elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
+			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token', $encrypt, true, $cpt_id );
+		}
+        
         $token_data = array (
            // 'test'       => $test,
             'id'         => $cpt_id,
@@ -1201,7 +1230,13 @@ class Feed_Functions {
      */
     public function fts_refresh_feed_ajax() {
 
-        $cpt_id = $_REQUEST['cpt_id'];
+		check_ajax_referer( 'fts_refresh_feed_nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+		}
+
+        $cpt_id = (int) $_REQUEST['cpt_id'];
 
         // We pass the original access token back so we can add it to our input field.
         // Also passing the encrypted token so we can see it in the console.
@@ -1219,6 +1254,12 @@ class Feed_Functions {
      * @since 2.9.7.2
      */
     public function fts_decrypt_token_ajax() {
+
+		check_ajax_referer( 'fts_decrypt_token' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+		}
 
         $access_token            = $_REQUEST['encrypted_token'];
         echo $this->data_protection->decrypt( $access_token );

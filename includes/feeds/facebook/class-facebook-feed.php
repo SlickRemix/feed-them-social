@@ -1706,7 +1706,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			$_REQUEST['next_url'] = str_replace( 'access_token='. $this->feed_access_token, 'access_token=XXX', $next_url );
 
 			echo '<script>';
-			echo 'var nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . '= "' . esc_url( $_REQUEST['next_url'] ) . '";';
+			echo 'var nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . '= "' .  str_replace( ['"', "'"], '', $_REQUEST['next_url'] ) . '";';
 			echo '</script>';
 
 			// Make sure it's not ajaxing.

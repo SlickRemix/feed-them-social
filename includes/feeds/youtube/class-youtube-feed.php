@@ -732,7 +732,7 @@ class Youtube_Feed {
                     $_REQUEST['next_url'] = ! empty( $loadmore ) && 'yes' === $loadmore ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
 
                     ?><script>
-                        var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>= "<?php echo esc_url( $_REQUEST['next_url'] ) ?>";
+                        var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>= "<?php echo  str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";
                     </script>
                     <?php
                 }

@@ -80,32 +80,25 @@ class Instagram_Business_Access_Functions {
                         fts_show_decrypt_token_text();
                     }
 
-                    if( jQuery('.combine-instagram-business-access-token-placeholder').length > 0 ) {
-
                         // This click function is specific to fb and instagram fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
-                        jQuery('.combine-instagram-business-access-token-placeholder div.fts-token-save').click( function (e) {
+                        jQuery('.combine-instagram-business-access-token-placeholder div.fts-token-save, div.fts-token-save').click( function (e) {
                             e.preventDefault();
+
+                            const codeArray = {
+                                "feed_type" : 'instagram_business',
+                                "token" : jQuery('#fts_facebook_instagram_custom_api_token').val(),
+                                "user_id" : jQuery('#fts_facebook_instagram_custom_api_token_user_id').val(),
+                                "instagram_user_name" : jQuery('#fts_facebook_instagram_custom_api_token_user_name').val(),
+                                "facebook_user_name" : jQuery('#fts_facebook_instagram_custom_api_token_fb_user_name').val()
+                            };
 
                             // Encrypt: Instagram Business
                             if( jQuery('#fts_facebook_instagram_custom_api_token').length !== 0 ) {
                                 console.log('Instagram Business: Token set, now encrypting.');
-                                fts_encrypt_token_ajax(jQuery('#fts_facebook_instagram_custom_api_token').val(), 'business', '#fts_facebook_instagram_custom_api_token', 'firstRequest');
+                                fts_encrypt_token_ajax( codeArray, 'business', '#fts_facebook_instagram_custom_api_token', 'firstRequest');
                             }
                         });
-                    }
-                    else {
 
-                        // This click function is specific instagram fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
-                        jQuery('div.fts-token-save').click( function (e) {
-                            e.preventDefault();
-
-                            // Encrypt: Instagram Business
-                            if( jQuery('#fts_facebook_instagram_custom_api_token').length !== 0 ) {
-                                console.log('Instagram Business: Token set, now encrypting.');
-                                fts_encrypt_token_ajax(jQuery('#fts_facebook_instagram_custom_api_token').val(), 'business', '#fts_facebook_instagram_custom_api_token', 'firstRequest');
-                            }
-                        });
-                    }
                 });
             </script>
 

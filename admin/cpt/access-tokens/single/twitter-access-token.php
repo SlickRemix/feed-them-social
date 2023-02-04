@@ -152,12 +152,17 @@ class Twitter_Access_Functions {
             <script>
                 jQuery(document).ready(function () {
 
-                    setTimeout(
-                        function(){
-                            fts_ajax_cpt_save_token();
-                        },
-                        500
-                    );
+                    const codeArray = {
+                        "feed_type" : 'twitter',
+                        "token" : jQuery('#fts_twitter_custom_access_token').val(),
+                        "token_secret" : jQuery('#fts_twitter_custom_access_token_secret').val(),
+                    };
+
+                    // Encrypt: Facebook Business
+                    if( jQuery('#fts_twitter_custom_access_token').length !== 0 ) {
+                        console.log('Twitter: Token set, now encrypting.');
+                        fts_encrypt_token_ajax( codeArray, 'twitter', '#fts_twitter_custom_access_token', 'firstRequest');
+                    }
 
                 });
             </script>

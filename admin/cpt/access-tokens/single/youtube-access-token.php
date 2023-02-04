@@ -97,12 +97,18 @@ class Youtube_Access_Functions {
                         // Set the time * 1000 because js uses milliseconds not seconds and that is what youtube gives us is a 3600 seconds of time
                         $('#youtube_custom_token_exp_time').val($('#youtube_custom_token_exp_time').val() + <?php echo strtotime( '+' . $expiration_time . ' seconds' ) ?> * 1000 );
 
-                        setTimeout(
-                            function(){
-                                fts_ajax_cpt_save_token();
-                            },
-                            500
-                        );
+                        const codeArray = {
+                            "feed_type" : 'youtube',
+                            "token" : jQuery('#youtube_custom_access_token').val(),
+                            "refresh_token" : jQuery('#youtube_custom_refresh_token').val(),
+                            "exp_time" : jQuery('#youtube_custom_token_exp_time').val(),
+                        };
+
+                        // Encrypt: Facebook Business
+                        if( jQuery('#youtube_custom_access_token').length !== 0 ) {
+                            console.log('YouTube: Token set, now encrypting.');
+                            fts_encrypt_token_ajax( codeArray, 'youtube', '#youtube_custom_access_token', 'firstRequest');
+                        }
                         
                     });
                 </script>
@@ -123,7 +129,7 @@ class Youtube_Access_Functions {
 
            // $youtube_user_id_data = esc_url( 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token );
 
-            $youtube_user_id_data = esc_url( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
+            $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
             // echo '$youtube_user_id_data';
             // echo $youtube_user_id_data;
 

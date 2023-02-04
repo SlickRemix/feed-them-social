@@ -80,7 +80,7 @@ class Instagram_Access_Functions {
 	    // Decrypt Access Token?
         $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
         
-        if ( isset( $_GET['code'] ) && ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram' ) ) ) {
+        if ( isset( $_GET['code'],  $_GET['instagram_basic'] ) && ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram' ) ) && isset( $_GET['instagram_basic'] ) ) {
 
             wp_die( __('Invalid instagram oauth nonce.', 'feed_them_social' ) );
 
@@ -116,8 +116,21 @@ class Instagram_Access_Functions {
                         $('#fts_instagram_custom_api_token_expires_in').val('');
                         $('#fts_instagram_custom_api_token_expires_in').val( $('#fts_instagram_custom_api_token_expires_in').val() + date );
 
+
                         // Take the code param from url and pass it to our encrypt function to sanitize and save to db then save all the options.
-                        fts_encrypt_token_ajax( code, 'basic', '#fts_instagram_custom_api_token', 'firstRequest');
+
+                        const codeArray = {
+                            "feed_type" : 'instagram_basic',
+                            "user_id" : user_id,
+                            "token" : code,
+                            "expires_in" : date
+                        };
+
+                        // I am passing the user id and expires in and saving too, this creates one less save function in the end.
+                        // so instead I can just refresh the page instead of re-saving again which is not necessary.
+                        fts_encrypt_token_ajax( codeArray, 'basic', '#fts_instagram_custom_api_token', 'firstRequest');
+
+                       // alert('test');
                     }
 
                 }, 500);
@@ -128,12 +141,12 @@ class Instagram_Access_Functions {
         // $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $fts_instagram_access_token );
 
         if( !empty( $decrypted_access_token ) ) {
-            $insta_url = esc_url( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $decrypted_access_token );
+            $insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $decrypted_access_token );
 
-            // Get Data for Instagram!
+            // Get Data for Instagram.
             $response = wp_remote_fopen( $insta_url );
 
-            // Error Check!
+            // Error Check.
             $data = json_decode( $response );
 
         }

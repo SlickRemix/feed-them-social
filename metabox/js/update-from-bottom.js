@@ -275,6 +275,8 @@ function combine_youtube_token_js() {
     });
 }
 
+// This is used to load up the proper access token button and inputs
+// when a social tab is clicked on the first tab which is Feed Setup.
 function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
 
     var combined_check = false !== combined ? combined : false;
@@ -335,6 +337,8 @@ function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
                     fts_reload_toggle_click();
                     break;
                 default:
+                    // This loads the Access Token button and inputs and fades it is nicely.
+                    // This will only load if a Feed Setup Tab has been clicked too, just to not again.
                     jQuery('.fts-access-token').html(response);
                     jQuery('.fts-access-token').fadeIn();
             }

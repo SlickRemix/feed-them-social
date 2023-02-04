@@ -709,21 +709,34 @@ class Feed_Functions {
 
 		/**
 		 * Mapping the request parameter to the next URL host
+		 * 
+		 * 
 		 */
-		$next_urls = [ 
-			'next_url' => 'graph.facebook.com',
-			'next_location_url' => 'graph.facebook.com'
-		];
-		foreach( $next_urls as $next_url => $expected_url_host ) {
 
-			if ( ! isset( $_REQUEST[$next_url] ) ) {
-				continue;
+		if ( ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) || ( isset( $_REQUEST['next_location_url'] ) && !empty( $_REQUEST['next_location_url'] ) ) ) {
+
+			$next_urls = [ 
+				'graph.facebook.com',
+				'www.googleapis.com',
+				'graph.instagram.com'
+			];
+			
+			if ( isset( $_REQUEST['next_url'] ) ) {
+
+				$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
+				
+
+			} elseif ( isset( $_REQUEST['next_location_url'] ) ) {
+				
+				$next_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
+
 			}
 
-			$next_url_host = parse_url( $_REQUEST[$next_url],  PHP_URL_HOST );
-			if ( $expected_url_host !== $next_url_host ) {
+			if ( ! in_array( $next_url_host, $next_urls ) ) {
 				exit( esc_html__( 'Looks like you entered an invalid URL', 'feed_them_social' ) );
 			}
+
+			
 
 		}
 
@@ -1171,37 +1184,56 @@ class Feed_Functions {
 
 		check_ajax_referer( 'fts_encrypt_token' );
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
-		}
+        // Pretty sure this will not work with the refresh token because the user does
+        // not have to be logged in for the refresh token to work.
+		//if ( ! current_user_can( 'manage_options' ) ) {
+		//	wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+		// }
 
-        $access_token            = $_REQUEST['access_token'];
-        $encrypt                 = $this->data_protection->encrypt( $access_token );
+        $access_token = json_decode( wp_unslash( $_REQUEST['access_token'] ) , true );
+        $encrypt      = $this->data_protection->encrypt( $access_token['token'] );
+       // error_log( $access_token  );
 
 		$cpt_id = (int) $_REQUEST['cpt_id'];
-
-		// $test = 'Testing';
 
 		// Now the encrypted version is saved to the DB.
 		if( 'basic' === $_REQUEST['token_type'] ){
 			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $encrypt, true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_id', $access_token['user_id'], true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $access_token['expires_in'], true, $cpt_id );
+
 		}
 		elseif ( 'business' === $_REQUEST['token_type'] ) {
 			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token', $encrypt, true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_user_id', $access_token['user_id'], true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_user_name', $access_token['instagram_user_name'], true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_fb_user_name', $access_token['facebook_user_name'], true, $cpt_id );
 		}
 		elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
 			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token', $encrypt, true, $cpt_id );
-		}
-        
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_id', $access_token['user_id'], true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_name', $access_token['facebook_user_name'], true, $cpt_id );
+        }
+        elseif( 'twitter' === $_REQUEST['token_type'] ){
+            // atm we are not encrypting twitter token.
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_twitter_custom_access_token', $access_token['token'], true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_twitter_custom_access_token_secret', $access_token['token_secret'], true, $cpt_id );
+        }
+        elseif( 'youtube' === $_REQUEST['token_type'] ){
+            // atm we are not encrypting twitter token.
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token['token'], true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $access_token['refresh_token'], true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $access_token['exp_time'], true, $cpt_id );
+        }
+
         $token_data = array (
-           // 'test'       => $test,
+            'feed_type'  => $access_token['feed_type'],
             'id'         => $cpt_id,
-            'token'      => $access_token,
+            'token'      => $access_token['token'],
             'encrypted'  => $encrypt,
         );
 
-        // We pass the original access token back so we can add it to our input field.
-        // Also passing the encrypted token so we can see it in the console.
+        // Passing array so we can see it in the console and do other stuff on success based on the feed type
         echo json_encode( $token_data );
 
         wp_die();

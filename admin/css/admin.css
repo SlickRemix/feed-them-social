@@ -333,7 +333,7 @@
     cursor: help;
 }
 .fts-checkbox-tooltip-no-margin-top, .fts-checkbox-tooltip {
-    margin:0px;
+    margin:0;
     top:20px;
 }
 .fts_page_fts-settings-page .form-table input[type=checkbox] {

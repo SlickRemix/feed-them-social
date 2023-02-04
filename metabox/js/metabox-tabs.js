@@ -72,8 +72,8 @@ function fts_ajax_cpt_save_token() {
             jQuery('#publishing-action .spinner').css("visibility", "hidden");
 
             setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
-            //alert('test3');
-            location.reload();
+          //  alert('test3');
+          //  location.reload();
             // We change the text from Updating... at the bottom of a long page to Update.
             jQuery('.updatefrombottom a.button-primary').html("Update");
         }
@@ -229,8 +229,6 @@ function refresh_feed_ajax() {
     return false;
 }
 
-
-// SRL 4.0 Need to adjust this so UI is smoother on page load. Right now it's shit on slow servers.
 function fts_show_hide_shortcode_feed( feed ) {
 
     if( jQuery( '.account-tab-highlight.active' ).length ){
@@ -520,22 +518,20 @@ jQuery(document).ready(function ($) {
         jQuery(".feed-them-social-admin-input-label:contains('Center Facebook Container?')").parent('div').show();
     }
 
-
-
-
 });
 
 function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
 
-    console.log( 'access_token: ' + access_token );
+    console.log( 'access_token: ' + JSON.stringify(access_token) );
     console.log( 'token_type: ' + token_type );
     console.log( 'id: ' + id );
+
 
     jQuery.ajax({
         data: {
             action: 'fts_encrypt_token_ajax',
             cpt_id: cpt_id,
-            access_token: access_token,
+            access_token: JSON.stringify( access_token ),
             token_type: token_type,
             _wpnonce: ftg_mb_tabs.ajaxEncryptNonce
         },
@@ -543,8 +539,12 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
         url: ftsAjax.ajaxurl,
         success: function ( response ) {
 
+            console.log( response );
 
             var data = JSON.parse( response );
+
+            console.log( data );
+
             // Add the OG token to the input value and add the encrypted token to the data-attribute.
             if( 'firstRequest' === firstRequest) {
 
@@ -556,8 +556,23 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
                 console.log('first request ' + id);
 
                 // Now that we've successfully saved the encrypted token to the db we save all the options again.
-                fts_ajax_cpt_save_token();
+               // fts_ajax_cpt_save_token();
+                // now we are going to try and refresh the page instead of saving..
 
+                if( 'instagram_business' === data.feed_type ||
+                    'facebook_business' === data.feed_type ){
+
+                    // alert( data.feed_type );
+                    location.reload();
+                }
+                if( 'instagram_basic' === data.feed_type ||
+                    'twitter' === data.feed_type ||
+                    'youtube' === data.feed_type ){
+
+                    // alert( data.feed_type );
+                    var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
+                    window.location.replace( newUrl + '#fts-feed-type' );
+                }
             }
 
            // alert('step 2');

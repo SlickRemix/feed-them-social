@@ -88,32 +88,24 @@ class Facebook_Access_Functions {
                     fts_show_decrypt_token_text();
                 }
 
-                if( jQuery('.combine-facebook-access-token-placeholder').length > 0 ) {
+                // This click function is specific to combined fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
+                jQuery('.combine-facebook-access-token-placeholder div.fts-token-save, div.fts-token-save').click( function (e) {
+                    e.preventDefault();
 
-                    // This click function is specific to combined fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
-                    jQuery('.combine-facebook-access-token-placeholder div.fts-token-save').click( function (e) {
-                        e.preventDefault();
+                    const codeArray = {
+                        "feed_type" : 'facebook_business',
+                        "token" : jQuery('#fts_facebook_custom_api_token').val(),
+                        "user_id" : jQuery('#fts_facebook_custom_api_token_user_id').val(),
+                        "facebook_user_name" : jQuery('#fts_facebook_custom_api_token_user_name').val()
+                    };
 
-                        // Encrypt: Facebook Business
-                        if( jQuery('#fts_facebook_custom_api_token').length !== 0 ) {
-                            console.log('Facebook Business: Token set, now encrypting.');
-                            fts_encrypt_token_ajax(jQuery('#fts_facebook_custom_api_token').val(), 'fbBusiness', '#fts_facebook_custom_api_token', 'firstRequest');
-                        }
-                    });
-                }
-                else {
+                    // Encrypt: Facebook Business
+                    if( jQuery('#fts_facebook_custom_api_token').length !== 0 ) {
+                        console.log('Facebook Business: Token set, now encrypting.');
+                        fts_encrypt_token_ajax( codeArray, 'fbBusiness', '#fts_facebook_custom_api_token', 'firstRequest');
+                    }
+                });
 
-                    // This click function is specific fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
-                    jQuery('div.fts-token-save').click( function (e) {
-                        e.preventDefault();
-
-                        // Encrypt: Facebook Business
-                        if( jQuery('#fts_facebook_custom_api_token').length !== 0 ) {
-                            console.log('Facebook Business: Token set, now encrypting.');
-                            fts_encrypt_token_ajax(jQuery('#fts_facebook_custom_api_token').val(), 'fbBusiness', '#fts_facebook_custom_api_token', 'firstRequest');
-                        }
-                    });
-                }
             });
         </script>
 

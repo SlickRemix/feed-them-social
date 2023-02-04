@@ -475,8 +475,6 @@ class Feeds_CPT {
 
         $post_id = (int) $post_id;
 
-        $post_id = (int) $post_id;
-
         switch ( $column ) {
 
             // Display the Shortcode.

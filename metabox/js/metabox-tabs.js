@@ -555,10 +555,8 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
 
                 console.log('first request ' + id);
 
-                // Now that we've successfully saved the encrypted token to the db we save all the options again.
-               // fts_ajax_cpt_save_token();
-                // now we are going to try and refresh the page instead of saving..
-
+                // Now that we've successfully saved the encrypted token to the db \
+                // we are going to try and refresh the page.
                 if( 'instagram_business' === data.feed_type ||
                     'facebook_business' === data.feed_type ){
 

@@ -1699,6 +1699,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			$next_url = $feed_data->paging->next ?? '';
 
 			$posts          = $saved_feed_options['facebook_page_post_count'] ?? '';
+
+            // SRL 4.0 turning this off
 			// $loadmore_count = $saved_feed_options['loadmore_count'] ?? false;
 			// we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of posts.
 			//$_REQUEST['next_url'] = $loadmore_count ? str_replace( "limit=$posts", "limit=$loadmore_count", $next_url ) : $next_url;
@@ -1706,8 +1708,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			$_REQUEST['next_url'] = str_replace( 'access_token='. $this->feed_access_token, 'access_token=XXX', $next_url );
 
 			echo '<script>';
-			echo 'var nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . '= "' . esc_url( $_REQUEST['next_url'] ) . '";';
-			echo '</script>';
+            echo 'var nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . '= "' .  str_replace( ['"', "'"], '', $_REQUEST['next_url'] ) . '";';
+            echo '</script>';
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $saved_feed_options['facebook_load_more_style'] ) ) {

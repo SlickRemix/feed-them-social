@@ -84,7 +84,6 @@ class Instagram_Access_Functions {
 
             wp_die( __('Invalid instagram oauth nonce.', 'feed_them_social' ) );
         }
-        
         ?>
         <script>
             jQuery(document).ready(function ($) {

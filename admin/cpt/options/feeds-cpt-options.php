@@ -548,7 +548,7 @@ class Feed_CPT_Options {
                     'option_type'      => 'input',
                     'label' => sprintf(
                         esc_html__( '%1$sAPI Key%2$s %3$sPress Update to save Key.%4$s', 'feed_them_social' ),
-                        '<a href="https://www.slickremix.com/docs/get-api-key-for-youtube/" target="_blank">',
+                        '<a href="https://www.slickremix.com/documentation/create-youtube-api-key/" target="_blank">',
                         '</a>',
                         '<small>',
                         '</small><br/>'

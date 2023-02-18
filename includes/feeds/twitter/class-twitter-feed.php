@@ -84,7 +84,28 @@ class Twitter_Feed {
 	 *
 	 * @since 4.0.0
 	 */
-	public function add_actions_filters() {}
+	public function add_actions_filters() {
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'twitter_head' ) );
+		add_action( 'wp_ajax_nopriv_fts_twitter_share_url_check', array( $this, 'fts_twitter_share_url_check' ) );
+		add_action( 'wp_ajax_fts_twitter_share_url_check', array( $this, 'fts_twitter_share_url_check' ) );
+	}
+
+    /**
+	 * FTS Twitter Head
+	 *
+	 * Add Styles and Scripts functions.
+	 *
+	 * @since 2.9.6.5
+	 */
+    public function twitter_head() {
+
+        wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+        wp_localize_script( 'fts-global', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'fts-global' );
+
+    }
 
 	/**
 	 * Load Videos
@@ -95,16 +116,13 @@ class Twitter_Feed {
 	 */
 	public function load_videos( $post_data ) {
 
-		// if (!wp_verify_nonce($_REQUEST['fts_security'], $_REQUEST['fts_time'] . 'load-more-nonce')) {.
-		// exit('Sorry, You can\'t do that!');.
-		// } else {.
 		if ( isset( $post_data->quoted_status->entities->media[0]->type ) ) {
 			$twitter_final = isset( $post_data->quoted_status->entities->media[0]->expanded_url ) ? $post_data->quoted_status->entities->media[0]->expanded_url : '';
 		} else {
 			$twitter_final = isset( $post_data->entities->urls[0]->expanded_url ) ? $post_data->entities->urls[0]->expanded_url : '';
 		}
 
-		// strip Vimeo URL then ouput Iframe.
+		// strip Vimeo URL then output iframe.
 		if ( strpos( $twitter_final, 'vimeo' ) > 0 ) {
 			if ( strpos( $twitter_final, 'staffpicks' ) > 0 ) {
 				$parsed_url      = $twitter_final;
@@ -143,7 +161,9 @@ class Twitter_Feed {
 			$json_object = json_decode( $decode_iframe );
 
 			/**
-			 * Would wp_kses work here?
+			 * DC: Would wp_kses work here?
+             * SRL: possibly, have to look deeper into the html structure.
+             * might not be best approach since 3rd party could always make changes.
 			 */
 			return '<div class="fts-fluid-videoWrapper">' . $json_object->html . '</div>';
 		} else {
@@ -206,22 +226,15 @@ class Twitter_Feed {
 
 			$fts_twitter_output .= '</div>';
 
-			// return '<div class="fts-fluid-videoWrapper"><iframe src="' . $twitter_final_video . '" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';.
-			// echo $twitter_final;.
-			//
 			// REMOVING THIS TWITTER VID OPTION TILL WE GET SOME ANSWERS.
-			//
 			// https://twittercommunity.com/t/twitter-statuses-oembed-parameters-not-working/105868.
 			// https://stackoverflow.com/questions/50419158/twitter-statuses-oembed-parameters-not-working.
+			// return '<div class="fts-fluid-videoWrapper"><iframe src="' . $twitter_final_video . '" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';.
+			// echo $twitter_final;.
+
 			return $fts_twitter_output;
-			// }.
-			// else {.
-			// exit('That is not allowed. FTS!');.
-			// }.
-			// } //strip Vine URL then ouput Iframe and script.
 		}
 		// end main else.
-		// die();.
 	}
 	// end function.
 
@@ -264,6 +277,295 @@ class Twitter_Feed {
 		return nl2br( $full_text );
 	}
 
+
+
+
+
+
+
+    /**
+	 * FTS Twitter Quoted Wrap
+	 *
+	 * @param string $post_data The post data.
+	 * @return string
+	 * @since 2.9.6.5
+	 */
+	public function fts_twitter_share_url_check(){
+
+	     // Verify Nonce Security.
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ) , sanitize_text_field( wp_unslash( $_REQUEST['fts_time'] ) ) . 'fts-twitter-nonce' ) ) {
+            exit( 'Sorry, You can\'t do that!' );
+        }
+
+        $twitter_external_url = $_REQUEST['fts_url'];
+	    $no_video_image_check = $_REQUEST['fts_no_video_image'];
+	    $fts_popup = $_REQUEST['fts_popup'];
+
+	            // echo ' test ';
+                // A regular user posted photo or video is not allowed to pass here.
+                if( 'true' === $no_video_image_check ){
+
+                     // There are 2 Types:
+                     // 1. Twitter card data. ie twitter:title, twitter:description, twitter:image.
+                     // 2. Site does not have Twitter info, so we can get the og:title, og:description, og:image
+                     // If 1 or 2 are not found then we return nothing.
+
+                     // FYI sometimes get_meta_tags will not work because a website will block it's usage.
+                     $tags = get_meta_tags( $twitter_external_url );
+                     // First try and us the get_meta_tags php function because this is quicker
+                     // Otherwise we use preg_match to find what we need from the <meta properties"og:image" for example.
+                     // More exceptions might need to be created but this is what's been done so far...
+                     if( !empty( $tags['twitter:image'] ) && true == $tags['twitter:image'] || !empty( $tags['twitter:image:src'] ) && true == $tags['twitter:image:src'] ){
+
+                         $property_image_url = isset( $tags['twitter:image:src'] ) && true == $tags['twitter:image:src'] ? $tags['twitter:image:src'] : $tags['twitter:image'];
+                         $property_image =  true == $property_image_url ? $property_image_url : '';
+                         $property_title =  true == $tags['twitter:title'] ? $tags['twitter:title'] :'';
+                         $property_description =  true == $tags['twitter:description'] ? $tags['twitter:description'] : '';
+                         // echo ' twitter-card ';
+                     }
+                     else {
+                        // error_log( ' og image ' );
+                        // echo ' og image ';
+
+                        $html = $this->feed_functions->fts_get_feed_json( $twitter_external_url );
+                        if( !empty( $html['data'] ) ){
+                            // Try curl
+                            $html = $html['data'];
+                        }
+                        elseif( ini_get('allow_url_fopen') ){
+                            // If curl fails try file get contents
+                            $html = file_get_contents( $twitter_external_url );
+                        }
+
+                        // The first 2 are preg_match_all with single quotes '', the second 2 are with double quotes "". We have to check for both.
+                        // og:image
+                        if( true == preg_match_all( "/ content='(.*?)' property='og:image'/", $html, $matches ) ) {
+                            $property_image =  $matches[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( "/ property='og:image' content='(.*?)'/", $html, $matches )  ){
+                            $property_image =  $matches[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( '/ property="og:image" content="(.*?)"/', $html, $matches ) ){
+                            $property_image =  $matches[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:image"/', $html, $matches )  ){
+                            $property_image =  $matches[ 1 ][ 0 ];
+                        }
+                        else {
+                            $property_image = '';
+                        }
+
+                         // og:title
+                        if(  true == preg_match_all( "/ content='(.*?)' property='og:title'/", $html, $matches2 ) ){
+                            $property_title = $matches2[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( "/ property='og:title' content='(.*?)'/", $html, $matches2 )  ){
+                            $property_title = $matches2[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( '/ property="og:title" content="(.*?)"/', $html, $matches2 ) ){
+                            $property_title = $matches2[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:title"/', $html, $matches2 )  ){
+                            $property_title = $matches2[ 1 ][ 0 ];
+                        }
+                        else {
+                            $property_title = '';
+                        }
+
+                         // og:description
+                        if(  true == preg_match_all( "/ content='(.*?)' property='og:description'/", $html, $matches3 ) ){
+                            $property_description = $matches3[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( "/ property='og:description' content='(.*?)'/", $html, $matches3 )  ){
+                            $property_description = $matches3[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( '/ property="og:description" content="(.*?)"/', $html, $matches3 ) ){
+                            $property_description = $matches3[ 1 ][ 0 ];
+                        }
+                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:description"/', $html, $matches3 )  ){
+                            $property_description = $matches3[ 1 ][ 0 ];
+                        }
+                        else {
+                            $property_description = '';
+                        }
+                }
+		}
+
+	    $twitter_info = array(
+	            'post_url'   => $twitter_external_url,
+	            'image' => $property_image,
+	            'title' => $property_title,
+	            'description' => $property_description,
+	            'popup' => $fts_popup,
+	            // adding this so when we check the ajax data output we have an error message so we can do something if
+	            // and image, title or description are not present. If so then we will not show the external link content in the post.
+	            'error' => 'missing_info',
+	    );
+
+	   if( !empty( $twitter_info[ 'image' ] ) && !empty( $twitter_info[ 'title' ] ) && !empty( $twitter_info[ 'description' ] ) ){
+	        echo $this->fts_twitter_external_link_wrap( $twitter_info );
+	   }
+	   else {
+	       echo $twitter_info[ 'error' ];
+	   }
+
+        wp_die();
+
+	}
+
+	/**
+	 * FTS Twitter Quote Tweet Wrap
+	 *
+     * This occurs when a user retweets a tweet and ads a quote along with it.
+     * It's an option you can choose when you click the retweet icon on twitter.com on any tweet.
+     *
+	 * @param string $post_data The post data.
+	 * @return string
+	 * @since 2.9.6.5
+	 */
+	public function fts_twitter_quoted_wrap( $post_data, $popup, $hide_images_in_posts ) {
+
+	    $post_url = $post_data->quoted_status_permalink->expanded;
+	    $username = $post_data->quoted_status->user->name;
+	    $screen_name = $post_data->quoted_status->user->screen_name;
+
+	    $twitter_image = $this->tweet_image( $post_data, $popup, $hide_images_in_posts );
+	    $twitter_image_class = isset( $twitter_image ) ? 'fts-twitter-image-visible' : 'fts-twitter-no-image';
+
+	    echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
+
+	        echo $twitter_image;
+
+            echo '<div class="fts-twitter-quoted-text fts-quote-tweet ' . esc_html( $twitter_image_class ) . '">';
+
+                echo '<a href="' . esc_url( $post_url ) . '" target="_blank">';
+
+	                echo '<span class="fts-twitter-full-name">'. esc_html( $username ) . '</span>';
+	                echo '<svg viewBox="0 0 24 24" aria-label="Verified account" class="r-1cvl2hr r-4qtqp9 r-yyyyoo r-1xvli5t r-9cviqr r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr"><g><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path></g></svg>';
+            	    echo '<span class="fts-twitter-at-name">@' . esc_html( $screen_name ) . '</span><br/>';
+
+                    echo '<span class="fts-twitter-quoted-description">';
+                       echo \wp_kses(
+                           $this->tweet_quote_description( $post_data ),
+                             array(
+                                  'br'     => array(),
+                                  'em'     => array(),
+                                  'strong' => array(),
+                                  'small'  => array(),
+                                 )
+                             );
+                    echo '</span>';
+                echo '</a>';
+
+            echo '</div>';
+       echo ' </div>';
+	}
+
+
+	/**
+	 * FTS Twitter Quoted Wrap
+	 *
+	 * @param string $post_data The post data.
+	 * @return string
+	 * @since 2.9.6.5
+	 */
+	public function fts_twitter_retweeted_wrap( $post_data, $popup, $hide_images_in_posts ) {
+
+	    $post_url = $post_data->quoted_status_permalink->expanded;
+	    $username = $post_data->retweeted_status->quoted_status->user->name;
+	    $screen_name = $post_data->retweeted_status->quoted_status->user->screen_name;
+
+	    $twitter_image = $this->tweet_image( $post_data, $popup, $hide_images_in_posts );
+	    $twitter_image_class = 'fts-twitter-image-visible';
+
+            if( !empty( $username ) ){
+
+                echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
+
+                    echo $twitter_image;
+
+                            echo '<div class="fts-twitter-quoted-text fts-retweet-quote ' . esc_html( $twitter_image_class ) . '">';
+
+                                echo '<a href="' . esc_url( $post_url ) . '" target="_blank">';
+
+                                    echo '<span class="fts-twitter-full-name">'. esc_html( $username ) . '</span>';
+                                    echo '<svg viewBox="0 0 24 24" aria-label="Verified account" class="r-1cvl2hr r-4qtqp9 r-yyyyoo r-1xvli5t r-9cviqr r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr"><g><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path></g></svg>';
+                                    echo '<span class="fts-twitter-at-name">@' . esc_html( $screen_name ) . '</span><br/>';
+
+                                    echo '<span class="fts-twitter-quoted-description">';
+                                       echo \wp_kses(
+                                           $this->tweet_quote_description( $post_data ),
+                                             array(
+                                                  'br'     => array(),
+                                                  'em'     => array(),
+                                                  'strong' => array(),
+                                                  'small'  => array(),
+                                                 )
+                                             );
+                                    echo '</span>';
+                                echo '</a>';
+
+                            echo '</div>';
+               echo ' </div>';
+
+            }
+            else {
+                    echo $twitter_image;
+            }
+	}
+
+	/**
+	 * FTS Twitter External Link Wrap
+	 *
+	 * @param string $post_data The post data.
+	 * @return string
+	 * @since 2.9.6.5
+	 */
+	public function fts_twitter_external_link_wrap( $details ) {
+
+	    $post_url = $details['post_url'];
+	    $title = $details['title'];
+	    $description = $details['description'];
+
+	    echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
+
+	        echo $this->tweet_image( '', $details, '' );
+
+            echo '<div class="fts-twitter-quoted-text fts-external-link-specific">';
+
+                echo '<a href="' . esc_url( $post_url ) . '" target="_blank">';
+
+                    $domain = wp_parse_url( $post_url );
+                    $domain = str_replace('www.','', $domain['host'] );
+
+                    echo '<span class="fts-twitter-domain-name">'. $domain . '</span>';
+
+                    echo '<span class="fts-twitter-quoted-title">' . $title . '</span>';
+
+                    echo '<span class="fts-twitter-quoted-description">';
+                        // This description comes from the external url getting the meta og:description.
+                       echo \wp_kses(
+                           $description,
+                             array(
+                                  'br'     => array(),
+                                  'em'     => array(),
+                                 'strong' => array(),
+                                 'small'  => array(),
+                                 )
+                             );
+                    echo '</span>';
+                echo '</a>';
+
+            echo '</div>';
+       echo ' </div>';
+
+	}
+
+
+
+
+
+
 	/**
 	 * Tweet Image
 	 *
@@ -272,9 +574,11 @@ class Twitter_Feed {
 	 * @return string
 	 * @since 1.9.6
 	 */
-	public function tweet_image( $post_data, $popup ) {
-		$permalink                        = 'https://twitter.com/' . $post_data->user->screen_name . '/status/' . $post_data->id;
+	public function tweet_image( $post_data, $popup, $hide_images_in_posts ) {
 
+		$screen_name = isset( $post_data->user->screen_name ) ?  $post_data->user->screen_name : '';
+		$post_id = isset( $post_data->id ) ?  $post_data->id : '';
+		$permalink                        = 'https://twitter.com/' . $screen_name . '/status/' . $post_id;
 		$twitter_video_extended = isset( $post_data->extended_entities->media[0]->type ) ? $post_data->extended_entities->media[0]->type : '';
 
 		if ( ! empty( $post_data->entities->media[0]->media_url ) && 'video' !== $twitter_video_extended ) {
@@ -283,16 +587,34 @@ class Twitter_Feed {
 			$media_url = $post_data->retweeted_status->entities->media[0]->media_url_https;
 		} elseif ( ! empty( $post_data->quoted_status->entities->media[0]->media_url_https ) ) {
 			$media_url = $post_data->quoted_status->entities->media[0]->media_url_https;
+			$media_addition = 'yes';
+		} elseif ( ! empty( $post_data->retweeted_status->quoted_status->entities->media[0]->media_url_https ) ) {
+			$media_url = $post_data->retweeted_status->quoted_status->entities->media[0]->media_url_https;
+			$media_addition = 'yes';
+		} elseif ( is_array( $popup ) ) {
+		    // This is specific to function fts_twitter_external_link_wrap. This is the only function where we pass an array through the $popup string.
+	        $details_array = (object)$popup;
+            $popup = $details_array->popup;
+            $permalink = $details_array->post_url;
+            $media_url = $details_array->image;
+			$media_addition = 'yes';
 		} else {
 			$media_url = '';
 		}
+        // small check to see if popup is yes if so then show the medial url instead of the permalink.
+		$permalink = 'yes' === $popup ? $media_url : $permalink;
+        // final check to see of popop equals yes and if so add our custom class so we know it needs to open in popup.
+		$popup = 'yes' === $popup ? 'fts-twitter-link-image' : '';
 
+		if ( ! empty( $media_url ) && isset( $hide_images_in_posts ) && 'yes' !== $hide_images_in_posts ) {
+			if ( isset( $media_addition ) && 'yes' === $media_addition ){
 
-			if (  !empty( $media_url ) && isset( $popup ) && 'yes' === $popup ) {
-				return '<a href="' . esc_url( $media_url ) . '" class="fts-twitter-link-image" target="_blank"><img class="fts-twitter-description-image" src="' . esc_url( $media_url ) . '" alt="' . esc_attr( $post_data->user->screen_name ) . ' photo"/></a>';
-			} elseif ( !empty( $media_url ) ) {
-				return '<a href="' . esc_url( $permalink ) . '" class="" target="_blank"><img class="fts-twitter-description-image" src="' . esc_url( $media_url ) . '" alt="' . esc_attr( $post_data->user->screen_name ) . ' photo"/></a>';
+			     return '<a href="' . esc_url( $permalink ) . '" class="' . esc_attr( $popup ) . '" target="_blank"><span class="fts-twitter-external-backg-image" style="background-image:url( ' . esc_url( $media_url ) . ' );"><img src="' . esc_url( $media_url ) . '" class="fts-og-image" alt="' . esc_attr( $screen_name ) . ' photo" /></span></a>';
 			}
+			else {
+				 return '<a href="' . esc_url( $permalink ) . '" class="' . esc_attr( $popup ) . '" target="_blank"><img class="fts-twitter-description-image" src="' . esc_url( $media_url ) . '" alt="' .  esc_attr( $screen_name ) . ' photo"/></a>';
+			}
+		}
 	}
 
 	/**
@@ -340,7 +662,6 @@ class Twitter_Feed {
 		return '<a href="' . esc_html( 'https://twitter.com/intent/like?tweet_id=' . $post_data->id . '&related=' . $post_data->user->screen_name ) . '" target="_blank" class="fts-twitter-favorites-wrap" title="' . esc_attr( 'Favorite', 'feed-them-social' ) . '" aria-label="' . esc_attr( 'Favorite', 'feed-them-social' ) . '"><div class="fts-twitter-favorites-feed">
 <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="heart" class="svg-inline--fa fa-heart fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M462.3 62.7c-54.5-46.4-136-38.7-186.6 13.5L256 96.6l-19.7-20.3C195.5 34.1 113.2 8.7 49.7 62.7c-62.8 53.6-66.1 149.8-9.9 207.8l193.5 199.8c6.2 6.4 14.4 9.7 22.6 9.7 8.2 0 16.4-3.2 22.6-9.7L472 270.5c56.4-58 53.1-154.2-9.7-207.8zm-13.1 185.6L256.4 448.1 62.8 248.3c-38.4-39.6-46.4-115.1 7.7-161.2 54.8-46.8 119.2-12.9 142.8 11.5l42.7 44.1 42.7-44.1c23.2-24 88.2-58 142.8-11.5 54 46 46.1 121.5 7.7 161.2z"></path></svg>' . esc_html( $favorite_count ) . '</div></a>';
 	}
-
 
     /**
 	 * Feed Fetch Errors Check
@@ -526,6 +847,11 @@ class Twitter_Feed {
 
 		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
 
+            wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+            wp_localize_script( 'fts-global', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+            wp_enqueue_script( 'jquery' );
+            wp_enqueue_script( 'fts-global' );
+
             // Saved Feed Settings!
             $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
 
@@ -549,7 +875,7 @@ class Twitter_Feed {
             $twitter_name = $saved_feed_options['twitter_name'] ?? '';
 
             // Tweets Count!
-            $tweets_count = $saved_feed_options['tweets_count'] ?? '';
+            $tweets_count = $saved_feed_options['tweets_count'] ?? '6';
 
             // Twitter Height!
             $twitter_height = $saved_feed_options['twitter_height'] ?? '';
@@ -577,6 +903,8 @@ class Twitter_Feed {
 
 
             $twitter_hide_profile_photo          = $saved_feed_options['twitter_hide_profile_photo'] ?? '';
+
+            $hide_images_in_posts                = $saved_feed_options['twitter_hide_images_in_posts'] ?? '';
 
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
@@ -693,7 +1021,6 @@ class Twitter_Feed {
 				// $url_of_status = !empty($url_of_status) ? $url_of_status : "";.
 				// $widget_type_for_videos = !empty($widget_type_for_videos) ? $widget_type_for_videos : "";.
 
-				// LEAVING OFF HERE. TWITTER FEED IS NOT RETURNING SUCCESS ON FIRST RETURN AFTER GETTING TOKEN.
 				if ( ! empty( $search )  && 'hashtag' === $type ) {
 
 					$connection_search_array = array(
@@ -740,7 +1067,12 @@ class Twitter_Feed {
 					}
 				}
 
-				$fetched_tweets = ! empty( $search ) ? $fetched_tweets->statuses : $fetched_tweets ;
+                // Check API failure. Return empty array so no fatal error.
+                if ( ! empty( $search ) ) {
+					$fetched_tweets = $fetched_tweets->statuses ?? [];
+				} else {
+					$fetched_tweets = $fetched_tweets ?? [];
+				}
 
 				// get the count based on $exclude_replies.
 				$limit_to_display = min( $tweets_count, count( $fetched_tweets ) );
@@ -888,11 +1220,11 @@ class Twitter_Feed {
 								<?php
 						} else {
 							?>
-	<div id="twitter-feed-<?php echo esc_attr( $twitter_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div 
+	<div id="twitter-feed-<?php echo esc_attr( $twitter_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div
 								 <?php
 									if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
 										?>
-											fts-twitter-scrollable 
+											fts-twitter-scrollable
 										<?php
 									}
 									if ( isset( $popup ) && 'yes' === $popup ) {
@@ -909,9 +1241,10 @@ class Twitter_Feed {
 							<?php
 					}
 
-					// echo'<pre>';
-					// print_r($fetched_tweets->data);
-					// echo'</pre>';
+					 /*echo'<pre>';
+					 print_r($fetched_tweets->data);
+                     echo'</pre>';*/
+
 					$i = 0;
 					foreach ( $fetched_tweets->data as $post_data ) {
 
@@ -1045,18 +1378,22 @@ class Twitter_Feed {
 
 						$twitter_is_video_allowed = $saved_feed_options['twitter_allow_videos'] ?? '';
 						$twitter_allow_videos     = $twitter_is_video_allowed ?? 'yes';
-						if (
-									// These first 4 are the different types of actual twitter videos that can come about!
-									'yes' === $twitter_allow_videos && 'video' === $twitter_final ||
-									'yes' === $twitter_allow_videos && 'video' === $twitter_video_reg ||
-									'yes' === $twitter_allow_videos && 'video' === $twitter_video_quoted_status ||
-									'yes' === $twitter_allow_videos && 'video' === $twitter_video_retweeted ||
+                        $no_video_image_check     =   '' ===  $twitter_video_reg && '' === $twitter_video_retweeted && '' ===  $twitter_video_quoted_status && '' ===  $twitter_image_quoted_status ? 'true' : 'false';
 
-									// 3rd party videos/music we are checking for; youtube, vimeo  and soudcloud
-									'yes' === $twitter_allow_videos && strpos( $twitter_final, 'vimeo' ) > 0 ||
-									'yes' === $twitter_allow_videos && strpos( $twitter_final, 'youtube' ) > 0 && ! strpos( $twitter_final, '-youtube' ) > 0 ||
-									'yes' === $twitter_allow_videos && strpos( $twitter_final, 'youtu.be' ) > 0 ||
-									'yes' === $twitter_allow_videos && strpos( $twitter_final, 'soundcloud' ) > 0 ) {
+                        $fts_image                = $this->tweet_image( $post_data, $popup, $hide_images_in_posts );
+
+						if (
+                            // These first 4 are the different types of actual twitter videos that can come about!
+                            'yes' === $twitter_allow_videos && 'video' === $twitter_final ||
+                            'yes' === $twitter_allow_videos && 'video' === $twitter_video_reg ||
+                            'yes' === $twitter_allow_videos && 'video' === $twitter_video_quoted_status ||
+                            'yes' === $twitter_allow_videos && 'video' === $twitter_video_retweeted ||
+
+                            // 3rd party videos/music we are checking for; youtube, vimeo  and soudcloud
+                            'yes' === $twitter_allow_videos && strpos( $twitter_final, 'vimeo' ) > 0 ||
+                            'yes' === $twitter_allow_videos && strpos( $twitter_final, 'youtube' ) > 0 && ! strpos( $twitter_final, '-youtube' ) > 0 ||
+                            'yes' === $twitter_allow_videos && strpos( $twitter_final, 'youtu.be' ) > 0 ||
+                            'yes' === $twitter_allow_videos && strpos( $twitter_final, 'soundcloud' ) > 0 ) {
 
 							if ( 'video' === $twitter_video_quoted_status ) {
 								?>
@@ -1100,55 +1437,70 @@ class Twitter_Feed {
 								</div>
 								<?php
 							}
-						} else {
-							// Print our IMAGE if one is available.
-							$popup = $popup ?? '';
+                        }
+						elseif ( 'photo' === $twitter_image_quoted_status ) {
 
-							if ( 'photo' === $twitter_image_quoted_status ) {
-								?>
-								<div class="fts-twitter-quoted-text-wrap fts-twitter-quoted-image">
-								<?php
-							}
+                                $this->fts_twitter_quoted_wrap( $post_data, $popup, $hide_images_in_posts );
 
-                            if ( isset( $saved_feed_options['fts_twitter_hide_images_in_posts'] ) && 'yes' !== $saved_feed_options['fts_twitter_hide_images_in_posts'] ) {
+						}
+						else {
+                              //  echo 'sadfasdf<br/>';
+                              //  echo $twitter_final;
+                              //  echo '<br/>';
+                            if( empty( $post_data->quoted_status->full_text ) && ! empty ( $twitter_final ) && ! strpos( $twitter_final, 'twitter.com' ) && empty( $fts_image ) ){
 
-							    echo $this->tweet_image( $post_data, $popup );
+                                // Status: External Tweet
+                                // THIS IS COMPLETE.
+                                // EXTERNAL LINK IMAGE
+                                // EXTERNAL LINK DOMAIN NAME
+                                // EXTERNAL LINK TITLE TEXT
+                                // EXTERNAL LINK DESCRIPTION TEXT
+                                // EXAMPLE: https://twitter.com/trevorwood/status/1437473626371067904
 
-		                    }
+                                // Function to check the url and see if we need to get image, title and description from twitter meta or og meta from external websites.
+                                // Instead of using the function call below I'm running a class check and if so foreach and process the data via ajax.
+                                // Just leaving for reference.
+                                // $property = $this->fts_twitter_share_url_check( $twitter_final, $no_video_image_check, $fts_image );
 
-							if ( 'photo' === $twitter_image_quoted_status ) {
-								?>
+                                // js function is called fts_external_link_meta_content.
+                                // Check to see if the image exists, also check to see if the $no_video_image_check is true or false and lastly check to see the external url is present.
+                                // Get the classes from the div below and results and pass them to our ajax js so we can run the function and replace the html with the results in the fts-twitter-external-url-wrap div below.
+                                // A successful result should include the external ur and true for $fts_image and false $no_video_image_check.
+                                // We hide the div below and only show it when the contents are returned from our ajax success.
+                                $image_exixts = isset( $fts_image ) ? 'true' : 'false';
+                                $time  = time();
+                                $nonce = wp_create_nonce( $time . 'fts-twitter-nonce' );
+                               // echo 'asdfasdf' . $nonce;
+                                echo '<div class="fts-twitter-external-url-wrap" data-twitter-security="' . $nonce . '" data-twitter-time="' . $time . '" data-twitter-url="' . $twitter_final . '" data-image-exists-check="' . $image_exixts . '" data-no-video-image-check="' . $no_video_image_check . '" data-twitter-popup="' . $popup . '"></div>';
 
-								<div class="fts-twitter-quoted-text">
-									<a href="<?php echo esc_url( $user_retweet_permalink ); ?>" target="_blank"
-									   class="fts-twitter-full-name"><?php echo esc_html( $post_data->quoted_status->user->name ); ?></a>
-									<a href="<?php echo esc_url( $user_retweet_permalink ); ?>" target="_blank"
-									   class="fts-twitter-at-name">@<?php echo esc_html( $post_data->quoted_status->user->screen_name ); ?></a><br/>
-									<?php
-									echo \wp_kses(
-										$this->tweet_quote_description( $post_data ),
-										array(
-											'a'      => array(
-												'href'  => array(),
-												'title' => array(),
-											),
-											'br'     => array(),
-											'em'     => array(),
-											'strong' => array(),
-											'small'  => array(),
-										)
-									);
-									?>
-								</div>
-
-									<?php
-							}
-
-							if ( 'photo' === $twitter_image_quoted_status ) {
-								?>
-								</div>
-								<?php
-							}
+                            }
+                            elseif ( !empty( $post_data->quoted_status->full_text ) ){
+                                // Status: quoted retweet
+                                // THIS IS COMPLETE.
+                                // This happens when you click the retweet option and choose Quoted Tweet.
+                                // it will then allow you to add your own text along info from the retweet.
+                                // This will display the quoted text, username, handle name and description, and image if one is present.
+                                // QUOTED RETWEET USERNAME AND HANDLE NAME;
+                                // QUOTED RETWEET DESCRIPTION;
+                                // QUOTED RETWEETED IMAGE
+                                $this->fts_twitter_quoted_wrap( $post_data, $popup, $hide_images_in_posts );
+                            }
+                            elseif ( !empty( $post_data->retweeted_status ) ){
+                                // Status: retweet
+                                // THIS IS WHEN YOU CLICK THE SHARE OPTION IN TWITTER AND COPY THE TWEET LINK
+                                // this will show the short link by itself and below that will display the quoted text,
+                                // username, handle name and description, and image if one is present.
+                                // SHARED A TWITTER LINK USERNAME AND HANDLE NAME;
+                                // SHARED A TWITTER LINK DESCRIPTION;
+                                // SHARED A TWITTER LINK IMAGE
+                                $this->fts_twitter_retweeted_wrap( $post_data, $popup, $hide_images_in_posts );
+                            }
+                            else {
+                                // Status: user tweet with image
+                                // This is a user specific image, not a shared or retweeted image which is $fts_image
+                                //echo 'TEST' . $hide_images_in_posts;
+                                echo $fts_image;
+                            }
 						}
 						?>
 					</div>
@@ -1305,8 +1657,6 @@ class Twitter_Feed {
 									jQuery(".fts-slicker-twitter-posts").masonry("reloadItems");
 
 									setTimeout(function () {
-										// Do something after 3 seconds
-										// This can be direct code, or call to some other function
 										jQuery(".fts-slicker-twitter-posts").masonry("layout");
 									}, 500);
 									<?php } ?>

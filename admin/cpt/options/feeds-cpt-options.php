@@ -547,9 +547,11 @@ class Feed_CPT_Options {
                     'input_wrap_class' => 'fts-youtube-add-all-keys-click-option',
                     'option_type'      => 'input',
                     'label' => sprintf(
-                        esc_html__( '%1$sAPI Key%2$s', 'feed_them_social' ),
+                        esc_html__( '%1$sAPI Key%2$s %3$sPress Update to save Key.%4$s', 'feed_them_social' ),
                         '<a href="https://www.slickremix.com/docs/get-api-key-for-youtube/" target="_blank">',
-                        '</a>'
+                        '</a>',
+                        '<small>',
+                        '</small><br/>'
                     ),
                     'type'             => 'text',
                     'id'               => 'youtube_custom_api_token',
@@ -557,7 +559,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                            esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your YouTube videos. You can also %1$sadd your own API Key%2$s. Once you have your Access Tokens or you have entered an API key, you will be able to create your feed.', 'feed_them_social' ),
+                            esc_html__( 'Click the button below to get an access token, we recommend this for testing. This gives us read-only access to get your YouTube videos. After you are done testing you will need to %1$sadd your own API Key%2$s. This is because Access Tokens have a very limited use. Once you have your Access Tokens or you have entered an API key, you will be able to create your feed.', 'feed_them_social' ),
                         '<span>',
                         '</span>'
                     ),

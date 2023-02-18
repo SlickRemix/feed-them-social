@@ -578,7 +578,7 @@ class Feed_Functions {
 		// Facebook date time!
 		if ( 'facebook' === $feed_type ) {
 			$time_set       = $fts_timezone;
-			$time_set_check = isset( $time_set ) ? $time_set : 'America/New_York';
+			$time_set_check = !empty( $time_set ) ? $time_set : 'America/New_York';
 			date_default_timezone_set( $time_set_check );
 
 			if ( 'one-day-ago' === $custom_date_check ) {
@@ -1111,31 +1111,24 @@ class Feed_Functions {
 				echo '<div id="fts-twitter-follow-button-wrap"></div>';
 				break;
 
-
-
 			case 'youtube':
 
-					echo '<script src="' . esc_url( 'https://apis.google.com/js/platform.js' ) . '"></script>';
-				//if ( '' === $saved_feed_options['youtube_channelID'] && '' === $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name'] || '' !== $saved_feed_options['youtube_playlistID'] && '' !== $saved_feed_options['youtube_name2'] ) {
+                echo '<script src="' . esc_url( 'https://apis.google.com/js/platform.js' ) . '"></script>';
 
-					// echo 'wtasdfsadfsadfasfd';
-
-					if ( 'channelID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID'] ) ||
-						'playlistID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
-						echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $saved_feed_options['youtube_channelID'] ) . '" data-layout="full" data-count="default"></div>';
-					}
-					elseif ( 'userPlaylist' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name2'] ) ) {
-						echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name2'] ) . '" data-layout="full" data-count="default"></div>';
-					}
-					elseif ( 'username' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name'] ) ) {
-						echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name']  ) . '" data-layout="full" data-count="default"></div>';
-					}
-				//}
-
-
+                if ( 'channelID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID'] ) ) {
+                    echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $saved_feed_options['youtube_channelID'] ) . '" data-layout="full" data-count="default"></div>';
+                }
+                elseif ( 'playlistID' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
+                    echo '<div class="g-ytsubscribe" data-channelid="' . esc_html( $saved_feed_options['youtube_channelID2'] ) . '" data-layout="full" data-count="default"></div>';
+                }
+                elseif ( 'userPlaylist' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name2'] ) ) {
+                    echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name2'] ) . '" data-layout="full" data-count="default"></div>';
+                }
+                elseif ( 'username' === $saved_feed_options['youtube_feed_type'] && !empty( $saved_feed_options['youtube_name'] ) ) {
+                    echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name']  ) . '" data-layout="full" data-count="default"></div>';
+                }
 				break;
 		}
-	
 	}
 
 	/**

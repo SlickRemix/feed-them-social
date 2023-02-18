@@ -407,7 +407,7 @@ function fts_external_link_meta_content () {
                     url: fts_twitter_ajax.ajax_url,
                     success: function (data) {
                         fts_twitter = data;
-                        fts_url_wrap.removeAttr( 'class data-twitter-security data-twitter-time' );
+                      //  fts_url_wrap.removeAttr( 'class data-twitter-security data-twitter-time' );
 
                         console.log("FTS Twitter external link success");
                         // console.log( data );

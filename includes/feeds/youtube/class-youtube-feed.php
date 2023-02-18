@@ -122,7 +122,6 @@ class Youtube_Feed {
         $youtube_api_key      = !empty( $saved_feed_options['youtube_custom_api_token'] ) ? $saved_feed_options['youtube_custom_api_token'] : '';
         $youtube_access_token = !empty( $saved_feed_options['youtube_custom_access_token'] ) ? $saved_feed_options['youtube_custom_access_token'] : '';
 
-
         wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
         // the way this refresh token works atm is. if the token is expired then we fetch a new token when any front end user views a page the feed is on.
@@ -157,36 +156,36 @@ class Youtube_Feed {
 
             include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-//            else {
-//                extract(
-//                    shortcode_atts(
-//                        array(
-//                            //'username'                => '',
-//                            //'vid_count'               => '1',
-//                            //'large_vid'               => '',
-//                            //'thumbs_play_in_iframe'   => '',
-//                            //'large_vid_description'   => 'yes',
-//                            //'large_vid_title'         => 'yes',
-//                            //'vids_in_row'             => '4',
-//                            //'channel_id'              => '',
-//                            //'playlist_id'             => '',
-//                            //'username_subscribe_btn'  => '',
-//                            //'space_between_videos'    => '',
-//                            //'force_columns'           => 'no',
-//                            //'thumbs_wrap_color'       => '',
-//                            //'thumbs_wrap_height'      => '',
-//                            //'maxres_thumbnail_images' => '',
-//                            //'video_wrap_display'      => '',
-//                            // for single videos.
-//                            //'video_id_or_link'        => '',
-//                            //'comments_visible'        => '',
-//                            //'comments_count'          => '',
-//
-//                        ),
-//                        $atts
-//                    )
-//                );
-//            }
+                //            else {
+                //                extract(
+                //                    shortcode_atts(
+                //                        array(
+                //                            //'username'                => '',
+                //                            //'vid_count'               => '1',
+                //                            //'large_vid'               => '',
+                //                            //'thumbs_play_in_iframe'   => '',
+                //                            //'large_vid_description'   => 'yes',
+                //                            //'large_vid_title'         => 'yes',
+                //                            //'vids_in_row'             => '4',
+                //                            //'channel_id'              => '',
+                //                            //'playlist_id'             => '',
+                //                            //'username_subscribe_btn'  => '',
+                //                            //'space_between_videos'    => '',
+                //                            //'force_columns'           => 'no',
+                //                            //'thumbs_wrap_color'       => '',
+                //                            //'thumbs_wrap_height'      => '',
+                //                            //'maxres_thumbnail_images' => '',
+                //                            //'video_wrap_display'      => '',
+                //                            // for single videos.
+                //                            //'video_id_or_link'        => '',
+                //                            //'comments_visible'        => '',
+                //                            //'comments_count'          => '',
+                //
+                //                        ),
+                //                        $atts
+                //                    )
+                //                );
+                //            }
 
 	        //$saved_feed_options['youtube_channelID'];
 
@@ -202,7 +201,7 @@ class Youtube_Feed {
             $thumbs_play_iframe = $saved_feed_options['youtube_play_thumbs'];
 
 
-            if( !empty( $saved_feed_options['youtube_singleVideoID'] ) ){
+            if( $saved_feed_options['youtube_feed_type'] === 'singleID' && !empty( $saved_feed_options['youtube_singleVideoID'] ) ){
                 $wrap = isset( $saved_feed_options['youtube_comments_wrap'] ) ? $saved_feed_options['youtube_comments_wrap'] : '';
             }
             else {
@@ -296,8 +295,9 @@ class Youtube_Feed {
                 $saved_feed_options['youtube_singleVideoID'] = $match[1];
             }
 
-            if ( empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
-                if ( ! empty( $saved_feed_options['youtube_name'] ) ) {
+
+            if ( $saved_feed_options['youtube_feed_type'] !== 'singleID' ) {
+                if ( $saved_feed_options['youtube_feed_type'] === 'username' && ! empty( $saved_feed_options['youtube_name'] ) ) {
                     // here we are getting the users channel ID for their uploaded videos.
                     $youtube_user_id_data = 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=' . $saved_feed_options['youtube_name'] . '&' . $youtube_api_key_or_token;
                     // $user_id_returned              = $this->feed_functions->fts_get_feed_json( $youtube_user_id_data );
@@ -333,8 +333,9 @@ class Youtube_Feed {
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_name'] . '_bnum' . $vid_count . '_user';
                     }
-                } elseif ( ! empty( $saved_feed_options['youtube_channelID'] ) && empty( $saved_feed_options['youtube_playlistID'] ) ) {
+                }
 
+                elseif ( $saved_feed_options['youtube_feed_type'] === 'channelID' && ! empty( $saved_feed_options['youtube_channelID'] ) ) {
                     /*
                     $youtube_channel_id_data['items'] = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token ) );
                     $user_channel_returned            = $this->feed_functions->fts_get_feed_json( $youtube_channel_id_data );
@@ -374,7 +375,9 @@ class Youtube_Feed {
                         // Youtube Channel Cache.
                         $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_channelID'] . '_bnum' . $vid_count . '_channel';
                     }
-                } elseif ( ! empty( $saved_feed_options['youtube_playlistID'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) && ! empty( $saved_feed_options['youtube_channelID'] ) ) {
+                }
+
+                elseif ( $saved_feed_options['youtube_feed_type'] === 'playlistID' && ! empty( $saved_feed_options['youtube_playlistID'] )  ) {
 
                     // I don't understand the section here.. blllaaaaaahh need to clean this mess up!
                    // echo '<br/>playlistID shortcode in use: ';
@@ -384,6 +387,16 @@ class Youtube_Feed {
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         // Youtube Playlist Cache Folder.
                         $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_playlistID'] . '_bnum' . $vid_count . '_playlist';
+                    }
+                }
+
+                elseif ( $saved_feed_options['youtube_feed_type'] === 'userPlaylist' && ! empty( $saved_feed_options['youtube_playlistID2'] )  ) {
+
+                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID2'] . '&order=date&' . $youtube_api_key_or_token ) );
+
+                    if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+                        // Youtube Playlist Cache Folder.
+                        $feed_cache_name = 'pics_user_vids_list_' . $saved_feed_options['youtube_playlistID'] . '_bnum' . $vid_count . '_playlist';
                     }
                 }
 
@@ -412,12 +425,16 @@ class Youtube_Feed {
             ob_start();
 
             // SOCIAL BUTTON TOP.
-            if ( ! isset( $_GET['load_more_ajaxing'] ) && empty( $saved_feed_options['youtube_singleVideoID'] ) && 'yes' === $youtube_show_follow_btn && 'youtube-follow-above' === $youtube_show_follow_btn_where && ! isset( $_GET['load_more_ajaxing'] ) ) {
+            if ( ! isset( $_GET['load_more_ajaxing'] ) && $saved_feed_options['youtube_feed_type'] !== 'singleID' && 'yes' === $youtube_show_follow_btn && 'youtube-follow-above' === $youtube_show_follow_btn_where && ! isset( $_GET['load_more_ajaxing'] ) ) {
                 echo '<div class="youtube-social-btn-top">';
-                if ( '' !== $saved_feed_options['youtube_name']  || '' !== $saved_feed_options['youtube_name2'] ) {
+                if ( $saved_feed_options['youtube_feed_type'] === 'username' && !empty( $saved_feed_options['youtube_name'] ) || $saved_feed_options['youtube_feed_type'] === 'userPlaylist'  && !empty( $saved_feed_options['youtube_name2'] ) ) {
                     echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_name'], $saved_feed_options );
-                } elseif ( '' !== $saved_feed_options['youtube_channelID'] ) {
+                }
+                elseif (  $saved_feed_options['youtube_feed_type'] === 'channelID' && !empty( $saved_feed_options['youtube_channelID'] )  ) {
                     echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID'], $saved_feed_options );
+                }
+                elseif (  $saved_feed_options['youtube_feed_type'] === 'playlistID' && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
+                    echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID2'], $saved_feed_options );
                 }
                 echo '</div>';
             }
@@ -462,7 +479,7 @@ class Youtube_Feed {
 	                }
                 }
 
-                $thumbgallery_class_master = empty( $saved_feed_options['youtube_singleVideoID'] ) ? ' fts-youtube-thumbs-gallery-master ' : '';
+                $thumbgallery_class_master = $saved_feed_options['youtube_feed_type'] !== 'singleID' ? ' fts-youtube-thumbs-gallery-master ' : '';
                 $youtube_name = !empty( $saved_feed_options['youtube_name'] ) ? $saved_feed_options['youtube_name'] : '';
                 echo '<div class="et_smooth_scroll_disabled fts_smooth_scroll_disabled">';
                 echo '<div id="fts-yt-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="' . esc_attr( $thumbgallery_class_master . 'fts-master-youtube-wrap fts-yt-videogroup fts-yt-user-' . esc_attr( $youtube_name ) . ' fts-yt-vids-in-row' . esc_attr( $saved_feed_options['youtube_columns'] ) ) . '">';
@@ -522,7 +539,7 @@ class Youtube_Feed {
                 $thumbs_wrap_color_final  = isset( $saved_feed_options['youtube_thumbs_wrap_color']) ? 'background:' . $saved_feed_options['youtube_thumbs_wrap_color']. '!important' : '';
                 $thumbs_wrap_color_scroll = isset( $saved_feed_options['youtube_thumbs_wrap_color']) ? 'background:' . $saved_feed_options['youtube_thumbs_wrap_color'] : '';
 
-                if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
+                if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) && $saved_feed_options['youtube_feed_type'] === 'singleID' ) {
                     echo '<div id="fts-yt-large-' . esc_attr( $saved_feed_options['youtube_singleVideoID'] ) . '" class="fts-yt-large' . esc_attr( $wrap ) . '">';
                     echo '<div class="fts-yt-first-video">';
                     echo '<div class="fts-fluid-videoWrapper">';
@@ -542,12 +559,12 @@ class Youtube_Feed {
                     echo '<div class="' . esc_attr( $fts_dynamic_class_name . ' fts-youtube-scrollable' . $wrap ) . '" style="height:250px;' . esc_attr( $thumbs_wrap_color_scroll ) . '" >';
                 }
 
-                $youtube_singleVideoID = isset( $saved_feed_options['youtube_singleVideoID'] ) && '' === $saved_feed_options['youtube_singleVideoID'] ? $saved_feed_options['youtube_singleVideoID'] : '';
-                $thumbgallery_class     = isset( $saved_feed_options['youtube_singleVideoID'] ) && '' !== $saved_feed_options['youtube_singleVideoID'] ? ' fts-youtube-no-thumbs-gallery' : '';
+                $youtube_singleVideoID =  $saved_feed_options['youtube_feed_type'] === 'singleID' && !empty( $saved_feed_options['youtube_singleVideoID'] ) ? $saved_feed_options['youtube_singleVideoID'] : '';
+                $thumbgallery_class     = $saved_feed_options['youtube_feed_type'] !== 'singleID' ? ' fts-youtube-no-thumbs-gallery' : '';
 
                 echo '<div data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-force-columns="' . esc_attr( $saved_feed_options['youtube_force_columns'] ) . '" data-ftsi-margin="' . esc_attr( $saved_feed_options['youtube_container_margin'] ) . '" class="' . esc_attr( $fts_dynamic_class_name ) . ' fts-youtube-popup-gallery fts-youtube-inline-block-centered ' . esc_attr( $thumbgallery_class ) . '" style="' . esc_attr( $thumbs_wrap_color_final ) . '"">';
 
-                if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
+                if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) && $saved_feed_options['youtube_feed_type'] === 'singleID' ) {
 
                     $youtube_video_url = 'https://www.youtube.com/watch?v=' . $saved_feed_options['youtube_singleVideoID'];
 
@@ -579,7 +596,7 @@ class Youtube_Feed {
 
                 }
             }
-            if ( '0' !== $saved_feed_options['youtube_columns'] && empty( $saved_feed_options['youtube_singleVideoID'] ) && 'yes' !== $saved_feed_options['youtube_large_vid_title'] && 'yes' !==  $saved_feed_options['youtube_large_vid_description'] && isset( $videos->items ) ) {
+            if ( '0' !== $saved_feed_options['youtube_columns'] && $saved_feed_options['youtube_feed_type'] !== 'singleID' && 'yes' !== $saved_feed_options['youtube_large_vid_title'] && 'yes' !==  $saved_feed_options['youtube_large_vid_description'] && isset( $videos->items ) ) {
 
                 $count = '0';
                 foreach ( $videos->items as $post_data ) {
@@ -708,7 +725,7 @@ class Youtube_Feed {
                 }
             }
 
-            if ( !isset( $saved_feed_options['youtube_singleVideoID'] ) && empty( $saved_feed_options['youtube_singleVideoID'] ) ) {
+            if ( $saved_feed_options['youtube_feed_type'] !== 'singleID' ) {
 
                 // Load More BUTTON Start.
                 $youtube_load_more_text      = $saved_feed_options['youtube_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
@@ -911,13 +928,17 @@ class Youtube_Feed {
             unset( $_REQUEST['next_url'] );
 
             // SOCIAL BUTTON BOTTOM.
-            if ( isset( $youtube_show_follow_btn ) && 'yes' === $youtube_show_follow_btn && 'youtube-follow-below' === $youtube_show_follow_btn_where && ! isset( $_GET['load_more_ajaxing'] ) ) {
+            if (  ! isset( $_GET['load_more_ajaxing'] ) && $saved_feed_options['youtube_feed_type'] !== 'singleID' && isset( $youtube_show_follow_btn ) && 'yes' === $youtube_show_follow_btn && 'youtube-follow-below' === $youtube_show_follow_btn_where ) {
                 echo '<div class="youtube-social-btn-bottom">';
 
-                if ( ! empty( $saved_feed_options['youtube_name'] ) || ! empty( $saved_feed_options['youtube_name2'] ) ) {
+                if ( $saved_feed_options['youtube_feed_type'] === 'username' && !empty( $saved_feed_options['youtube_name'] ) || $saved_feed_options['youtube_feed_type'] === 'userPlaylist'  && !empty( $saved_feed_options['youtube_name2'] ) ) {
                     echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_name'], $saved_feed_options );
-                } elseif ( ! empty( $saved_feed_options['youtube_channelID'] ) ) {
+                }
+                elseif (  $saved_feed_options['youtube_feed_type'] === 'channelID' && !empty( $saved_feed_options['youtube_channelID'] )  ) {
                     echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID'], $saved_feed_options );
+                }
+                elseif (  $saved_feed_options['youtube_feed_type'] === 'playlistID' && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
+                    echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID2'], $saved_feed_options );
                 }
                 echo '</div>';
             }
@@ -1099,14 +1120,19 @@ class Youtube_Feed {
 	 */
 	public function fts_youtube_video_and_wrap( $post_data, $feed_type ) {
 		$ssl                                = is_ssl() ? 'https' : 'http';
-		$youtube_video_user_or_playlist_url = $post_data->snippet->resourceId->videoId ?? '';
-		$youtube_video_channel_url          = $post_data->id->videoId ?? '';
 
-		if ( 'userPlaylist' === $feed_type || 'playlistID' === $feed_type ) {
+        /*echo '<pre>';
+        echo print_r($post_data);
+        echo '</pre>';*/
+
+		if ( 'username' === $feed_type || 'userPlaylist' === $feed_type || 'playlistID' === $feed_type ) {
+            $youtube_video_user_or_playlist_url = !empty( $post_data->snippet->resourceId->videoId ) ? $post_data->snippet->resourceId->videoId : '';
 			$youtube_video_iframe = '<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( $ssl . '://www.youtube.com/embed/' . $youtube_video_user_or_playlist_url ) . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
 
-		} else {
+		}
+        else {
             // This is a channel
+            $youtube_video_channel_url          = !empty( $post_data->id->videoId ) ? $post_data->id->videoId : '';
 			$youtube_video_iframe = '<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( $ssl . '://www.youtube.com/embed/' . $youtube_video_channel_url ) . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
 		}
 		return $youtube_video_iframe;

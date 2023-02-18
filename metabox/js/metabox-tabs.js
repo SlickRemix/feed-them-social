@@ -188,7 +188,6 @@ function refresh_feed_ajax() {
 
                         if( 'yes' === jQuery('#twitter-grid-option').val() ){
 
-
                             jQuery(".fts-slicker-twitter-posts").masonry({
                                 itemSelector: ".fts-tweeter-wrap"
                             });

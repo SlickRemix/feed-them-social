@@ -751,7 +751,7 @@ class Facebook_Feed {
 
 				if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
 					echo '';
-				} elseif ( isset( $saved_feed_options['fts-slider'] ) && 'yes' !== $saved_feed_options['fts-slider'] && 'yes' === $saved_feed_options['facebook_container_animation'] || isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ) {
+				} elseif ( isset( $saved_feed_options['fts-slider'], $saved_feed_options['facebook_container_animation'] ) && 'yes' !== $saved_feed_options['fts-slider'] && 'yes' === $saved_feed_options['facebook_container_animation'] || isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ) {
 					wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 					echo '<script>';
 					echo 'jQuery(window).on(\'load\', function(){';

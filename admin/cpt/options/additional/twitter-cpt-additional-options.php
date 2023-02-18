@@ -286,12 +286,12 @@ class Twitter_Additional_Options {
 
 				// Hide Images in Posts.
 				array(
-					'input_wrap_class' => 'fts_twitter_hide_images_in_posts',
+					'input_wrap_class' => 'twitter_hide_images_in_posts',
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Hide Images in Posts', 'feed_them_social' ),
 					'type'             => 'text',
-					'id'               => 'fts_twitter_hide_images_in_posts',
-					'name'             => 'fts_twitter_hide_images_in_posts',
+					'id'               => 'twitter_hide_images_in_posts',
+					'name'             => 'twitter_hide_images_in_posts',
 					'default_value'    => 'no',
 					'options'          => array(
                         array(

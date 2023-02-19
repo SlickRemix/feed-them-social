@@ -491,6 +491,9 @@
     color: #4dd10a;
 }
 .fts-shortocde-success-message span {
-    font-size: 16px;
+    font-size: 15px;
     color: #0f0f0f;
+    display: block;
+    padding: 0 20px;
+    line-height: 24px;
 }

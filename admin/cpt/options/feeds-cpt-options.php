@@ -192,7 +192,7 @@ class Feed_CPT_Options {
 					'label'            => esc_html__( 'Feed Type: ', 'feed_them_social' ),
 					'type'             => 'text',
                     'instructional-text' => sprintf(
-                        esc_html__( '%5$s %7$s1.%8$s Choose the Social Network you want to create a feed for below. %1$s%7$s2.%8$s Click on the "Login and Get my Access Token" button. %1$s%7$s3.%8$s Once your Access Token is Valid you can set your feed options from the menu on the left. %1$s%1$s%7$sNote:%8$s To Create another social feed click %2$sAdd New%3$s and follow the same 3 steps.%6$s%4$s', 'feed_them_social' ),
+                        esc_html__( '%5$s %7$s1.%8$s Choose the Social Network you want to create a feed for below. %1$s%7$s2.%8$s Click on the "Login and Get my Access Token" button. %1$s%7$s3.%8$s Once your Access Token is Valid you can set your feed options from the menu on the left. %1$s%7$s4.%8$s To view your feed copy the Feed Shortcode from the right side bar and paste it to any page, post or widget. %1$s%1$s%7$sNote:%8$s To Create another social feed click %2$sAdd New%3$s and follow the same 4 steps.%6$s%4$s', 'feed_them_social' ),
                         '<br/>',
                         '<a href="post-new.php?post_type=fts" >',
                         '</a>',

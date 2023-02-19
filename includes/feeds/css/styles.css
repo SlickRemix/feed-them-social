@@ -6085,3 +6085,15 @@ div.cycle-carousel-wrap div.fts-jal-fb-top-wrap {
 .fts-slicker-facebook-albums .fts-jal-fb-see-more {
     color: #fff;
 }
+.fts-legacy-shortcode-wrap span {
+    font-weight:bold;
+}
+.fts-legacy-shortcode {
+    cursor:pointer;
+}
+.fts-legacy-shortcode:hover {
+    color:#ff0000ed;
+}
+.fts-legacy-shortcode-wrap span.fts-convert-shortcode-message-success {
+    font-weight:normal;
+}

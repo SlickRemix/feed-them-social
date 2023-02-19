@@ -354,7 +354,8 @@ class Feed_Cache {
 				'fts_clear_cache_script',
 				'ftsAjax',
 				array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'createNewFeedUrl'=> admin_url( 'edit.php?post_type=fts&page=create-new-feed' ),
+                    'ajaxurl'         => admin_url( 'admin-ajax.php' ),
 					'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
 				)
 			);
@@ -368,8 +369,9 @@ class Feed_Cache {
 				'fts_clear_cache_script',
 				'ftsAjax',
 				array(
+                    'createNewFeedUrl'=> admin_url( 'edit.php?post_type=fts&page=create-new-feed' ),
+                    'ajaxurl' => admin_url( 'admin-ajax.php' ),
 					'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
-					'ajaxurl' => admin_url( 'admin-ajax.php' )
 				) 
 			);
             wp_enqueue_script( 'fts_clear_cache_script' );

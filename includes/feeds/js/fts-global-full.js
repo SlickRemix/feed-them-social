@@ -1,6 +1,45 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function($) {
 
-    // Run our funtion after the page has finished loading to retrieve our external urls meta tag details.
+    // Find all text nodes on the page and filter for those that start with "[fts_"
+    var $ftsTextNodes = $('body').find('*').contents().filter(function() {
+        return this.nodeType === 3 && this.textContent.indexOf('[fts_') === 0;
+    });
+
+    // Loop through each matching text node and wrap it in a div with a specific style
+    $ftsTextNodes.each(function() {
+        var text = $(this).text();
+        var $div = $('<div>').text(text).addClass('fts-legacy-shortcode');
+        var $legacyDiv = $('<div>').addClass('fts-legacy-shortcode-wrap');
+        var $legacySpan = $('<span class="fts-legacy-code-instruction">').text('Only visible to admins. This is a legacy shortcode, click on the shortcode below to start the conversion process.');
+        var $successSpan = $('<span>').text('Success, shortcode copied to clipboard. ').addClass('success-message');
+        var $successSpan2 = $('<span>').text('After clicking the Next Step link a new Feed post should be created, now paste your old shortcode in the Convert Shortcode widget. Once complete you will replace your old shortcode with the new one. ').addClass('fts-convert-shortcode-message-success');
+
+        var $link = $('<a>').text('Click here for Next Step.').attr('href', ftsAjax.createNewFeedUrl).attr('target', '_blank').addClass('fts-convert-shortcode-next-step-link').append('<br/>') ;
+        var $link2 = $('<a>').text('Convert Shortcode Documentation Reference').attr('href', 'https://www.slickremix.com/documentation/convert-old-shortcode/').attr('target', '_blank') ;
+        $legacyDiv.append($legacySpan).append($div);
+        $(this).replaceWith($legacyDiv);
+
+        // Add a click event handler to the div that copies the shortcode to clipboard and shows the success message
+        $legacyDiv.click(function() {
+            var el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            $div.css('display', 'none');
+            $('.fts-legacy-code-instruction').hide();
+            $legacyDiv.append($successSpan).append($link).append($successSpan2).append($link2);
+        });
+    });
+
+    // Hide the fts-legacy-shortcode-wrap element when the body does not have the "logged-in" class
+    if (!$('body').hasClass('logged-in')) {
+        $('.fts-legacy-shortcode-wrap').css('display', 'none');
+    }
+
+
+    // Run our function after the page has finished loading to retrieve our external urls meta tag details.
     fts_external_link_meta_content();
 
     jQuery('.fts-youtube-scrollable, .youtube-comments-wrap-premium, .youtube-comments-thumbs').hover(function() {
@@ -303,7 +342,6 @@ function slickremixImageResizingYouTube() {
         ftsInstagramColumns === '4' ||
         ftsInstagramColumns === '5' ||
         ftsInstagramColumns === '6') {
-        //   alert('wtf');
         // if the container is 376px or less we force the image size to be 100%
         if (ftsContainerWidth <= '376' && ftsForceColumns === 'no') {
             var og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';
@@ -381,7 +419,9 @@ function fts_external_link_meta_content () {
     jQuery('.fts-tweeter-wrap').each(function () {
 
         var fts_url_wrap = jQuery( this ).find( '.fts-twitter-external-url-wrap' );
-        if ( fts_url_wrap[0] ) {
+
+        if ( fts_url_wrap.length > 0 ) {
+
             // alert( fts_url_wrap );
             var fts_security = fts_url_wrap.attr('data-twitter-security');
             var fts_time = fts_url_wrap.attr('data-twitter-time');
@@ -407,7 +447,7 @@ function fts_external_link_meta_content () {
                     url: fts_twitter_ajax.ajax_url,
                     success: function (data) {
                         fts_twitter = data;
-                      //  fts_url_wrap.removeAttr( 'class data-twitter-security data-twitter-time' );
+                        fts_url_wrap.removeAttr( 'class data-twitter-security data-twitter-time' );
 
                         console.log("FTS Twitter external link success");
                         // console.log( data );

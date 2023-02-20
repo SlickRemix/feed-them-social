@@ -112,12 +112,12 @@ function fts_ajax_cpt_save( shortcodeConverted ) {
                 jQuery('#publishing-action .spinner').css("visibility", "hidden");
 
                 setTimeout("jQuery('.ftg-overlay-background').hide();", 400);
-
             }
 
             // Change the text from Updating... at the bottom of a long page to Update.
             jQuery('.updatefrombottom a.button-primary').html("Update");
 
+            // Remove any hashtag data from the url
             var hash2 = window.location.hash.replace('#', '');
 
             // #fts-feed-type: comes from the url populated by slickremix where we get the access token from.
@@ -127,17 +127,18 @@ function fts_ajax_cpt_save( shortcodeConverted ) {
                 hash2 === 'fts-feed-type' ||
                 hash2 === 'feed_setup' ||
                 hash2 === '') {
+                jQuery(window).off('beforeunload');
                 location.reload();
             }
-
-
-            // Refresh the Preview Feed.
-            refresh_feed_ajax();
-
+            else {
+                // Refresh the Preview Feed.
+                refresh_feed_ajax();
+            }
         }
     });
     return false;
 }
+
 
 function refresh_feed_ajax() {
 

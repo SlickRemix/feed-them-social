@@ -184,12 +184,10 @@ class Feeds_CPT {
         // Set Current Feed CPT ID.
         add_action( 'current_screen', array( $this, 'current_feed_cpt_id' ) );
 
-        if ( '' === get_option( 'fts_duplicate_post_show' ) ) {
-            add_action( 'admin_action_fts_duplicate_post_as_draft', array( $this, 'fts_duplicate_post_as_draft' ) );
-            add_filter( 'page_row_actions', array( $this, 'fts_duplicate_post_link' ), 10, 2 );
-            add_filter( 'fts_row_actions', array( $this, 'fts_duplicate_post_link' ), 10, 2 );
-            add_action( 'post_submitbox_start', array( $this, 'fts_duplicate_post_add_duplicate_post_button' ) );
-        }
+        add_action( 'admin_action_fts_duplicate_post_as_draft', array( $this, 'fts_duplicate_post_as_draft' ) );
+        add_filter( 'page_row_actions', array( $this, 'fts_duplicate_post_link' ), 10, 2 );
+        add_filter( 'fts_row_actions', array( $this, 'fts_duplicate_post_link' ), 10, 2 );
+        add_action( 'post_submitbox_start', array( $this, 'fts_duplicate_post_add_duplicate_post_button' ) );
 
         // Remove Edit Menu Links.
 	    add_filter( 'page_row_actions', array( $this, 'remove_edit_menu_links' ), 10, 2 );
@@ -1111,7 +1109,7 @@ class Feeds_CPT {
 				'post_name'      => $post->post_name,
 				'post_parent'    => $post->post_parent,
 				'post_password'  => $post->post_password,
-				'post_status'    => 'draft',
+				'post_status'    => 'publish',
 				'post_title'     => $post->post_title,
 				'post_type'      => $post->post_type,
 				'to_ping'        => $post->to_ping,
@@ -1176,7 +1174,7 @@ class Feeds_CPT {
     public function fts_duplicate_post_link( $actions, $post ) {
         // make sure we only show the duplicate gallery link on our pages
         if ( current_user_can( 'edit_posts' ) && FEED_THEM_SOCIAL_POST_TYPE === $_GET['post_type'] ) {
-            $actions['duplicate'] = '<a id="ft-gallery-duplicate-action" href="' . esc_url( wp_nonce_url( 'admin.php?action=fts_duplicate_post_as_draft&post=' . $post->ID, basename( __FILE__ ), 'duplicate_nonce' ) ) . '" title="Duplicate this item" rel="permalink">' . esc_html__( 'Duplicate', 'feed_them_social' ) . '</a>';
+            $actions['duplicate'] = '<a id="ft-gallery-duplicate-action" href="' . esc_url( wp_nonce_url( 'admin.php?action=fts_duplicate_post_as_draft&post=' . $post->ID, basename( __FILE__ ), 'duplicate_nonce' ) ) . '" title="Duplicate this item" rel="permalink">' . esc_html__( 'Duplicate Feed', 'feed_them_social' ) . '</a>';
         }
 
         return $actions;

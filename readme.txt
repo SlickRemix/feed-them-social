@@ -2,8 +2,8 @@
 Contributors: slickremix , slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
-Tested up to: 5.7.1
-Stable tag: 4.0
+Tested up to: 6.1.1
+Stable tag: 4.0.0
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,7 +75,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 3.0  =
+= Version 4.0.0  Monday, February 20th, 2023 =
   * NEW: Custom Post type now houses all feed types.
   * NEW: All Social feed settings can now be saved making it easier to edit your social feed when necessary.
   * NEW: Shortcode Location column under the Feeds menu option. This will display a link to the page where the shortcode was placed.
@@ -84,6 +84,174 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * NEW: Add you own Custom JS options
   * NEW: Option to map old shortcodes to the new format.
   * NEW: Migrates all old Global Options settings to our new Settings page.
+
+= Version 3.0.2 Sunday, Nov 13th, 2022 =
+* NOTE: Tested with WordPress Version 6.1
+* COMING SOON: We are almost done with major version release 4.0. This will include a complete overhaul of the framework and interface to simplify the Feed Them Social experience.
+Version 4.0 release will require all paid extensions to be updated to work with the new framework of the free plugin.
+
+= Version 3.0.1 Wednesday, July 20th, 2022 =
+ * FIX: Facebook Options Page: notice if $test_fb_app_token_response->error was empty.
+ * FIX: XSS Vulnerability: fts_fb_page_token_func, fts_instagram_token_ajax, feed_them_instagram_save_token
+ * FIX: Remove unnecessary/redundant nonce checks.
+
+= Version 2.9.9 Tuesday, July 12th, 2022 =
+ * FIX: Sanitize output of access_token from fts_refresh_token_ajax function.
+
+= Version 2.9.8.6 Monday, July 11th, 2022 =
+ * FIX: Facebook Feed: Share option was throwing invalid APP ID error.
+ * FIX: XSS Vulnerability: Instagram Refresh Token.
+ * FIX: Phar Vulnerability: Twitter Share url check.
+
+= Version 2.9.8.5 Saturday, May 28th, 2022 =
+ * FIX: Combined Streams: Twitter User Name not linking properly.
+ * NOTE: Tested with WordPress Version 6.0
+
+= Version 2.9.8.4 Saturday, April 23rd, 2022 =
+ * FIX: Facebook & Instagram Options Page: Access Token: If the users Facebook Business Page was converted to the New Page Experience a list of Pages would not return. New error message if response still fails.
+
+= Version 2.9.8.2-3 Friday, April 22nd, 2022 =
+ * FIX: Instagram Basic Feed: If access token on options page did not match the one in shortcode the feed would not display properly.
+ * FIX: Instagram Business Feed: Profile info above feed.
+ * PREMIUM FIX: Instagram Business Feed: User thumbnail not appearing in popup.
+
+= Version 2.9.8.10 Friday, April 15th, 2022 =
+  * NEW: Instagram Basic Feed: Access Token. As long as an Instagram User does not change their password then the Instagram Basic token will automatically refresh after 7 days. This will resolve a long standing issue where users would have to get a new token every 60 days. This option will only work if the access token is not in the shortcode. FTS 3.0 will be released soon and the process to create a feed will be amazingly simple and will address the access token in shortcode.
+  * NEW: Instagram and YouTube Feeds: Even if token fails and the cache is deleted the feed will still be visible.
+  * NEW: YouTube Options: Access Token Refresh.
+  * FIX: YouTube: Access Token Refresh.
+  * FIX: Misc Styles and general options text.
+  * FIX: Twitter options: Remove the create your own Twitter Keys options. Twitter APPs must now be approved and the process is not so simple. It's better to use the Access Token Option for a quicker setup.
+  * FIX: Premium: All Feeds: Depreciated jQuery call for .bind(), now .off(). This caused issue with autoscroll loadmore option on YouTube Specifically.
+  * NOTE: Tested with WordPress Version 5.9.3
+
+= Version 2.9.8 Thursday, March 17th, 2022 =
+  * NEW: All feeds are now encrypted before saving cache to the database. Just another way we are safeguarding your personal data.
+  * NEW: Facebook and Instagram Access Tokens are being encrypted before saving to the database. YouTube & Twitter will be updated in 3.0.
+  * FIX: YouTube Options: Error response for API Tokens.
+  * FIX: YouTube Feed caching.
+  * NOTE: Tested with WordPress Version 5.9.2
+
+= Version 2.9.7.1 Monday, January 31st, 2022 =
+  * NOTE: Tested with WordPress Version 5.9
+
+= Version 2.9.7 Tuesday, December 14th, 2021 =
+  * FIX: Facebook & Instagram Options: Problem getting access token if you were running the New Page Experience.
+  * NEW: Facebook & Instagram Options: Revised description text for users to make it more clear what permissions we are requesting.
+
+= Version 2.9.6.5 Thursday, October 14th, 2021 =
+  * NEW: [Twitter Feed](https://feedthemsocial.com/twitter-feed-demo/): Brand New Styles. Images from externally shared posts now appear and retweeted text also now appears along with images or videos if present.
+  * PREMIUM NEW: [Twitter Feed Grid](https://feedthemsocial.com/twitter-feed-grid-demo/): The grid format now has all the new styles and additions as the regular feed.
+
+= Version 2.9.6.4 Saturday, September 25th, 2021 =
+  * NOTE: Tested with WordPress Version 5.8.1
+
+= Version 2.9.6.3 Tuesday, July 20th, 2021 =
+  * FIX: FACEBOOK FEED: Profile, Cover photo and Address change posts have been removed from displaying in the feed.
+  * PREMIUM FIX: TWITTER FEED: remove _blank target when using the popup option.
+  * FB REVIEWS FIX: Admins added to Facebook Pages can now retrieve a working access token.
+  * NOTE: Added notation about upcoming update to 3.0
+
+= Version 2.9.6.2 Wednesday, June 9th, 2021 =
+  * FIX: INSTAGRAM FEED: Remove blank spaces on hrefs causing issues with URLs
+  * PREMIUM FIX: FACEBOOK VIDEOS FEED: Some videos when clicked on were loading an image in the popup instead of the video and some video thumbnails were blurry.
+
+= Version 2.9.6.1 Friday, May 21st, 2021 =
+  * FIX: FACEBOOK ALBUMS FEED: The View on Facebook link was not going to the album.
+  * PREMIUM NEW: FACEBOOK ALBUMS FEED: Additional album photos in the popup go to its respective image on Facebook now instead of the main album page.
+  * PREMIUM NEW: FACEBOOK FEEDS: The X (close) button is now on the inside, top right, of the popup on smaller devices.
+
+= Version 2.9.6 Friday, May 7th, 2021 =
+  * FIX: FACEBOOK FEED: 3.2 API depreciation
+
+= Version 2.9.5 Monday, April 12th, 2021 =
+  * FIX: PHP 8.0 compatible.
+
+= Version 2.9.4 Tuesday, March 9th, 2021 =
+   * FIX: FACEBOOK FEED: Change .load(function()... call to .on('load', function(). Thanks to @thewebtailors for the fix.
+   * PREMIUM FIX: FACEBOOK FEED: Stray closing a tag for the profile photo when setting show_media=top Thanks to @thewebtailors for the fix.. Also change profile pic call from plugin_dir_url( dirname( __FILE__ ) ) to plugin_dir_url( __DIR__ )
+
+= Version 2.9.3 Wednesday, January 27th, 2021 =
+  * FIX: INSTAGRAM & FACEBOOK OPTIONS PAGE: #100 error was returning on tokens even though they were valid. FB changed the error text which resulted in the error message showing up instead of the success message.
+  * FIX: GLOBAL OPTIONS: Date Time was not working proper for Instagram if you chose something other than the 'One Day Ago' option. The text Minute or Minutes was not returning either for the 'One Day Ago' option.
+  * PREMIUM NEW: INSTAGRAM HASHTAG FEED: Timestamp is now added to media.
+  * PREMIUM FIX: INSTAGRAM HASHTAG FEED: Better caching.
+  * PREMIUM FIX: INSTAGRAM HASHTAG FEED: Video image was not displaying correctly.
+
+= Version 2.9.2 Wednesday, January 6th, 2021 =
+  * NOTE: Pinterest Feed: Removed options until Pinterest starts approving apps for the new API.
+  * NEW: A feed-them-social.pot file is in the languages folder of our plugin along with our latest translatable strings.
+  * FIX: FACEBOOK, INSTAGRAM & YOUTUBE OPTIONS PAGE: access_token in the url was causing some websites to return a "The link you followed has expired" message making it impossible to get an access token.
+
+= Version 2.9.1 Wednesday, December 9th, 2020 =
+  * NOTE: Pinterest Feed: We will be removing this feed and options page on our next update temporarily until they get the API complete.
+  * TESTED: Tested plugin with WordPress version 5.6.0.
+
+= Version 2.9.0 Thursday, October 29th, 2020 =
+  * FIX: INSTAGRAM FEED: Missing images for videos.
+  * PREMIUM FIX: INSTAGRAM FEED: Pop for images.
+  * PREMIUM FIX COMING: INSTAGRAM HASHTAG FEED: Images for Videos are missing.
+
+= Version 2.8.9 Friday, September 18th, 2020 =
+  * FIX: FACEBOOK & INSTAGRAM OPTIONS PAGE: missing pages_read_engagement scope so non admins of our APP can gain access to pages they manage.
+
+= Version 2.8.8 Thursday, September 17th, 2020 =
+  * TESTED: Tested plugin with WordPress version 5.5.1.
+  * FIX: Use WP_PLUGIN_DIR instead of WP_CONTENT_DIR to prevent fatal errors. Thanks to [stodorovic](https://github.com/stodorovic) for making the Pull Request on github.
+  * FIX: FACEBOOK & INSTAGRAM OPTIONS PAGE: manage_pages permission is deprecated in favor of pages_show_list. This is required when going through the login flow allowing you to choose the facebook business pages you are an admin of that you want to get an access token for.
+
+= Version 2.8.7 Tuesday, August 25th, 2020 =
+  * TESTED: Tested plugin with WordPress version 5.5.0.
+  * FIX: Security Fixes.
+
+= Version 2.8.6 Thursday, July 23rd, 2020 =
+  * NEW: Facebook Feed: All target="_blank" a tag elements now have rel="noreferrer" for better SEO results.
+  * NEW: Facebook Options: Option to change the main page title htag (h1-h6) and font size.
+  * REMOVE: G+ from the share options since the Google Plus social network has been shutdown.
+  * REMOVE: Facebook Albums Feed: Date the Album was created.
+  * PREMIUM NEW: Facebook Albums: Now you can see 25 photos per album using the popup option. On the 25th photo a link will appear to see the rest of the Album on Facebook.
+  * PREMIUM FIX: Facebook Photo & Album Feed: The popup description was missing link and tag conversions to clickable links.
+  * PREMIUM FIX: Add h6 in the list of tags to avoid appending the ellipsis. This works when using the words=45 shortcode option.
+  * FACEBOOK REVIEWS FIX: If no profile photo set on Facebook use our default fts icon so the profile image does not appear broken.
+
+= Version 2.8.5 Friday, June 26th, 2020 =
+  * NEW: Works with WordPress 5.4.2
+  * FTS BAR EXTENSION NEW: Instagram: Now includes, Basic, Business and Hashtag Feed options.
+  * FTS BAR EXTENSION NEW: Option to display FTS bar on a specific page ID.
+
+= Version 2.8.4 Friday, June 19th, 2020 =
+  * FIX: Custom CSS Option: Replace wp_enqueue_scripts with wp_print_styles.
+  * FIX: Facebook Albums Feed: The main photos are now appearing for album feeds again.
+  * FIX: Facebook Feed: php Warning for 'host': Add check for FB link to make sure it exists.
+  * FIX: Instagram Feed: Accessibility additions for links, titles, and fixed multiple ids issue.
+
+= Version 2.8.3.4 Thursday, June 4th, 2020 =
+  * FIX: Facebook Options: The access token button was not returning pages a user had linked to instagram.
+
+= Version 2.8.3.3 Tuesday, April 28th, 2020 =
+  * DISABLED: Pinterest Feed: Without notice or warning the Pinterest API has become unavailable. Once the API is available to us again we will make an update to correct the issue. For the time being we are going to disable the access token button.
+  * NEW: System Info: Added Instagram Basic and Business token checks to aid in support.
+
+= Version 2.8.3.2 Wednesday, April 8th, 2020 =
+  * FIXED: Instagram Feed: Profile info options not showing on the Settings page shortcode generator, follow button was not displaying and misspelling of Instagram name on legacy API error message.
+
+= Version 2.8.3.1 Monday, March 30th, 2020 =
+  * NOTICE: Instagram Feed: The Legacy API will be depreciated as of March 31st, 2020 in favor of the new Instagram Graph API and the Instagram Basic Display API. Please click the the button on the instagram Options page of our plugin to reconnect your account. You must also generate a new shortcode and replace your existing one.
+
+= Version 2.8.2 Friday, January 17th, 2020 =
+  * FIXED: Instagram Options & Feed: Premium feature was visible and not working properly. Please upgrade to the premium or combined streams extension to use the hashtag feed.
+
+= Version 2.8.1 Wednesday, January 15th, 2020 =
+  * FIXED: Instagram Options: The button for hashtag feed was not functioning properly.
+
+= Version 2.8.0 Friday, January 10th, 2020 =
+  * NEW: Instagram Feed: Video posts now have a video icon indicating it's a video post and also a carousel icon for posts containing more than one image and now those images are also displayed in the popup if you have the premium version.
+  * NEW: Twitter Feed: Add a title tag with the date on the post date link.
+  * BACK AGAIN: Happy New Year Everyone! If you are a premium user we have good news for you. The Instagram Hashtag feed is back :) You can show the latest or most popular pics and videos tagged with whatever hashtag you add to the shortcode. If you are not using the premium version, well you have just one more thing to look forward to if you upgrade at some point.
+  * PLUGIN NOTICE: In a few months from now we will be releasing a new version of Feed Them Social that will contain a custom post type instead of a shortcode with all the options in it. This will allow you to make option changes in a flash, and this will also allow you to have more than one feed of ALL the social networks we offer in this plugin. This major overhaul will be in the free version too so existing free users will gain these additions.
+
+= Version 2.7.9 Saturday, December 28th, 2019 =
+  * UPDATED: Updated Readme to better reflect abilities of plugin.
 
 = Version 2.7.8 Monday, November 18th, 2019 =
   * TESTED: Tested plugin with WordPress version 5.3.0.

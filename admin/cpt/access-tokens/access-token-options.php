@@ -348,7 +348,7 @@ class Access_Options {
                 if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
                     $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
                     if ( 'graph.facebook.com' !== $next_url_host && $next_url_host !== 'graph.instagram.com' ) {
-                        wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
+                        wp_die( esc_html__( 'Invalid facebook url', 'feed-them-social' ), 403 );
                     }
                 }
                 $fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url( $_REQUEST['next_url'] ) ) : $fb_url;
@@ -363,7 +363,7 @@ class Access_Options {
                 if ( isset( $_GET['next_location_url'] ) && !empty( $_GET['next_location_url'] ) ) {
                     $next_location_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
                     if ( 'graph.facebook.com' !== $next_location_url_host && $next_url_host !== 'graph.instagram.com' ) {
-                        wp_die( esc_html__( 'Invalid facebook url', 'feed_them_social' ), 403 );
+                        wp_die( esc_html__( 'Invalid facebook url', 'feed-them-social' ), 403 );
                     }
                 }
 

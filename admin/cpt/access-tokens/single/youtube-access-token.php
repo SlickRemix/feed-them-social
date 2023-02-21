@@ -81,7 +81,7 @@ class Youtube_Access_Functions {
             <?php if ( !empty( $_GET['code'] ) && isset( $_GET['feed_type'] ) && 'youtube' === $_GET['feed_type'] ) {
                 
                 if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_youtube' ) ) {
-                    wp_die( __( 'Invalid youtube oauth nonce.', 'feed_them_social' ) );
+                    wp_die( __( 'Invalid youtube oauth nonce.', 'feed-them-social' ) );
                 }
                 ?>
                 <script>

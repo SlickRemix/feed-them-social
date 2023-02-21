@@ -67,7 +67,7 @@ class Twitter_Additional_Options {
 	public function follow_btn_options() {
 		$this->all_options['twitter_follow_btn_options'] = array(
 			'section_attr_key'   => 'twitter_follow_btn_options_',
-			//'section_title'      => esc_html__( 'Follow Button Options', 'feed_them_social' ),
+			//'section_title'      => esc_html__( 'Follow Button Options', 'feed-them-social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -79,18 +79,18 @@ class Twitter_Additional_Options {
                 array(
                     'input_wrap_class' => 'twitter_show_follow_btn',
                     'option_type'      => 'select',
-                    'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Show Follow Button', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'twitter_show_follow_btn',
                     'name'             => 'twitter_show_follow_btn',
                     'default_value'    => 'no',
                     'options'          => array(
                         array(
-                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
                             'value' => 'no',
                         ),
                         array(
-                            'label' => esc_html__( 'Yes', 'feed_them_social' ),
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
                             'value' => 'yes',
                         ),
                     ),
@@ -99,18 +99,18 @@ class Twitter_Additional_Options {
                /* array(
                     'input_wrap_class' => 'twitter_show_follow_count_inline',
                     'option_type'      => 'select',
-                    'label'            => esc_html__( 'Show Follow Count Inline', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Show Follow Count Inline', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'twitter_show_follow_count_inline',
                     'name'             => 'twitter_show_follow_count_inline',
                     'default_value'    => 'no',
                     'options'          => array(
                         array(
-                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
                             'value' => 'no',
                         ),
                         array(
-                            'label' => esc_html__( 'Yes', 'feed_them_social' ),
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
                             'value' => 'yes',
                         ),
                     ),
@@ -119,18 +119,18 @@ class Twitter_Additional_Options {
                 array(
                     'input_wrap_class' => 'twitter_show_follow_count',
                     'option_type'      => 'select',
-                    'label'            => esc_html__( 'Show Follow Count', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Show Follow Count', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'twitter_show_follow_count',
                     'name'             => 'twitter_show_follow_count',
                     'default_value'    => 'no',
                     'options'          => array(
                         array(
-                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
                             'value' => 'no',
                         ),
                         array(
-                            'label' => esc_html__( 'Yes', 'feed_them_social' ),
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
                             'value' => 'yes',
                         ),
                     ),
@@ -139,18 +139,18 @@ class Twitter_Additional_Options {
 				array(
 					'input_wrap_class' => 'twitter_show_follow_btn_where',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Placement of the Buttons', 'feed_them_social' ),
+					'label'            => esc_html__( 'Placement of the Buttons', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'twitter_show_follow_btn_where',
 					'name'             => 'twitter_show_follow_btn_where',
 					'default_value'    => 'twitter-follow-above',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Show Above Feed', 'feed_them_social' ),
+							'label' => esc_html__( 'Show Above Feed', 'feed-them-social' ),
 							'value' => 'twitter-follow-above',
 						),
 						array(
-							'label' => esc_html__( 'Show Below Feed', 'feed_them_social' ),
+							'label' => esc_html__( 'Show Below Feed', 'feed-them-social' ),
 							'value' => 'twitter-follow-below',
 						),
 					),
@@ -172,7 +172,7 @@ class Twitter_Additional_Options {
 	public function video_player_options() {
 		$this->all_options['twitter_video_player_options'] = array(
 			'section_attr_key'   => 'twitter_video_player_options_',
-			//section_title'      => esc_html__( 'Video Player Options', 'feed_them_social' ),
+			//section_title'      => esc_html__( 'Video Player Options', 'feed-them-social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -189,18 +189,18 @@ class Twitter_Additional_Options {
 					'input_wrap_class' => 'twitter_allow_videos',
                     'grouped_options_title' => __( 'Video Player Options', 'feed-them-social' ),
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Show videos', 'feed_them_social' ),
+					'label'            => esc_html__( 'Show videos', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'twitter_allow_videos',
 					'name'             => 'twitter_allow_videos',
 					'default_value'    => 'yes',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'label' => esc_html__( 'No', 'feed-them-social' ),
 							'value' => 'no',
 						),
 
@@ -223,7 +223,7 @@ class Twitter_Additional_Options {
 	public function profile_photo_options() {
 		$this->all_options['twitter_profile_photo_options'] = array(
 			'section_attr_key'   => 'twitter_profile_photo_options_',
-			//'section_title'      => esc_html__( 'Profile Photo', 'feed_them_social' ),
+			//'section_title'      => esc_html__( 'Profile Photo', 'feed-them-social' ),
 			//'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -239,18 +239,18 @@ class Twitter_Additional_Options {
 					'input_wrap_class' => 'twitter_hide_profile_photo',
                     'grouped_options_title' => __( 'Profile Photo', 'feed-them-social' ),
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Profile Photo', 'feed_them_social' ),
+					'label'            => esc_html__( 'Hide Profile Photo', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'twitter_full_width',
 					'name'             => 'twitter_full_width',
 					'default_value'    => 'no',
 					'options'          => array(
                         array(
-                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
                             'value' => 'no',
                         ),
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 
@@ -273,7 +273,7 @@ class Twitter_Additional_Options {
 	public function style_options() {
 		$this->all_options['twitter_style_options'] = array(
 			'section_attr_key'   => 'twitter_style_options_',
-            'section_title'      => esc_html__( 'Styles and Options', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Styles and Options', 'feed-them-social' ),
 			//'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -288,18 +288,18 @@ class Twitter_Additional_Options {
 				array(
 					'input_wrap_class' => 'twitter_hide_images_in_posts',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Images in Posts', 'feed_them_social' ),
+					'label'            => esc_html__( 'Hide Images in Posts', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'twitter_hide_images_in_posts',
 					'name'             => 'twitter_hide_images_in_posts',
 					'default_value'    => 'no',
 					'options'          => array(
                         array(
-                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
                             'value' => 'no',
                         ),
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 
@@ -449,7 +449,7 @@ class Twitter_Additional_Options {
 	public function grid_style_options() {
 		$this->all_options['twitter_grid_style_options'] = array(
 			'section_attr_key'   => 'twitter_grid_style_options_',
-			'section_title'      => esc_html__( 'Grid Styles', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Grid Styles', 'feed-them-social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -503,7 +503,7 @@ class Twitter_Additional_Options {
 	public function load_more_options() {
 		$this->all_options['twitter_load_more_options'] = array(
 			'section_attr_key'   => 'twitter_grid_style_options_',
-			'section_title'      => esc_html__( 'Load More Button', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Load More Button', 'feed-them-social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.

@@ -63,7 +63,7 @@ class Instagram_Additional_Options {
 	public function follow_btn_options() {
 		$this->all_options['instagram_follow_btn_options'] = array(
 			'section_attr_key'   => 'instagram_follow_btn_options_',
-			//'section_title'      => esc_html__( 'Follow Button', 'feed_them_social' ),
+			//'section_title'      => esc_html__( 'Follow Button', 'feed-them-social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -74,18 +74,18 @@ class Instagram_Additional_Options {
 				array(
 					'input_wrap_class' => 'instagram_show_follow_btn',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
+					'label'            => esc_html__( 'Show Follow Button', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'instagram_show_follow_btn',
 					'name'             => 'instagram_show_follow_btn',
 					'default_value'    => 'no',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'label' => esc_html__( 'No', 'feed-them-social' ),
 							'value' => 'no',
 						),
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 					),
@@ -94,18 +94,18 @@ class Instagram_Additional_Options {
 				array(
 					'input_wrap_class' => 'instagram_show_follow_btn_where',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Placement of the Buttons', 'feed_them_social' ),
+					'label'            => esc_html__( 'Placement of the Buttons', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'instagram_show_follow_btn_where',
 					'name'             => 'instagram_show_follow_btn_where',
 					'default_value'    => 'instagram-follow-above',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Show Above Feed', 'feed_them_social' ),
+							'label' => esc_html__( 'Show Above Feed', 'feed-them-social' ),
 							'value' => 'instagram-follow-above',
 						),
 						array(
-							'label' => esc_html__( 'Show Below Feed', 'feed_them_social' ),
+							'label' => esc_html__( 'Show Below Feed', 'feed-them-social' ),
 							'value' => 'instagram-follow-below',
 						),
 					),
@@ -128,7 +128,7 @@ class Instagram_Additional_Options {
 	public function load_more_options() {
 		$this->all_options['instagram_load_more_options'] = array(
 			'section_attr_key'   => 'instagram_load_more_options',
-			'section_title'      => esc_html__( 'Load More Button', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Load More Button', 'feed-them-social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.

@@ -83,12 +83,12 @@ class Feed_Cache {
 	 */
 	public function fts_get_cache_options()	{
 		$formats = array(
-			'1'       => __( '( Devs Only ) Every page load', 'feed_them_social' ),
-			'86400'   => __( '1 Day', 'feed_them_social' ),
-			'172800'  => __( '2 Days', 'feed_them_social' ),
-			'259200'  => __( '3 Days', 'feed_them_social' ),
-			'604800'  => __( '1 Week', 'feed_them_social' ),
-			'1209600' => __( '2 Weeks', 'feed_them_social' ),
+			'1'       => __( '( Devs Only ) Every page load', 'feed-them-social' ),
+			'86400'   => __( '1 Day', 'feed-them-social' ),
+			'172800'  => __( '2 Days', 'feed-them-social' ),
+			'259200'  => __( '3 Days', 'feed-them-social' ),
+			'604800'  => __( '1 Week', 'feed-them-social' ),
+			'1209600' => __( '2 Weeks', 'feed-them-social' ),
 		);
 		return $formats;
 	}
@@ -267,7 +267,7 @@ class Feed_Cache {
 		check_ajax_referer( 'fts_clear_cache' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+			wp_send_json_error( esc_html__( 'Forbidden', 'feed-them-social' ), 403 );
 		}
 
 		global $wpdb;

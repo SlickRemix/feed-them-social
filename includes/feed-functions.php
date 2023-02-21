@@ -5,9 +5,9 @@
  * This page is used to create the Facebook Access Token options!
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2022, SlickRemix
+ * @copyright   Copyright (c) 2012-2023, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       3.0.0
+ * @since       4.0.0
  */
 
 // Exit if accessed directly!

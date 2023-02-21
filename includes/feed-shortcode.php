@@ -317,8 +317,12 @@ class Feed_Shortcode {
 			// Shortcode Location.
 			$this->shortcode_location( $feed_post_id );
 
+            // Prevent the shortcode from appearing above page content.
+            ob_start();
 			// Display Feed by the Feed Post ID and Feed Type.
 			$this->display_feed( $feed_post_id, $feed_type);
+
+            return ob_get_clean();
 		}
     }
 }

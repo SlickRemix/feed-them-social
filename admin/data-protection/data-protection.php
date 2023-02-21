@@ -1,4 +1,6 @@
 <?php namespace feedthemsocial;
+/**
+ */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) )
@@ -68,11 +70,10 @@ class Data_Protection {
             return false;
         }
 
-        // print_r( $encrypted_value, true  );
+        //error_log( print_r( $encrypted_value, true ) );
 
         return base64_encode( $iv . $encrypted_value );
     }
-
     /**
      * Decrypt.
      *
@@ -82,7 +83,6 @@ class Data_Protection {
      * @return false|mixed|string
      */
     public function decrypt( $encrypted_value ) {
-
         if ( ! extension_loaded( 'openssl' ) || empty( $encrypted_value ) ) {
             return false;
         }
@@ -92,6 +92,7 @@ class Data_Protection {
         $ivlen  = openssl_cipher_iv_length( $method );
         $iv     = substr( $encrypted_value, 0, $ivlen );
 
+
         $encrypted_value = substr( $encrypted_value, $ivlen );
 
         $decrypted_value = openssl_decrypt( $encrypted_value, $method, $this->key, 0, $iv );
@@ -100,7 +101,6 @@ class Data_Protection {
         }
 
         return substr( $decrypted_value, 0, - strlen( $this->salt ) );
-
     }
 
     /**
@@ -128,7 +128,6 @@ class Data_Protection {
      * @return string Encryption salt.
      */
     private function get_default_salt() {
-
         if ( defined( 'AUTH_KEY' ) && '' !== AUTH_KEY ) {
             return AUTH_KEY;
         }

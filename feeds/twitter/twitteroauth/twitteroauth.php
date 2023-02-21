@@ -7,7 +7,7 @@ namespace feedthemsocial;
  */
 
 /* Load OAuth lib. You can find it at http://oauth.net */
-require_once('OAuth.php');
+require_once( 'OAuth.php' );
 
 /**
  * Twitter OAuth class

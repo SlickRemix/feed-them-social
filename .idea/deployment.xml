@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="FTS.com" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="FTS Staging 2">
     <serverData>
-      <paths name="FTS.com">
+      <paths name="FTS Staging 2">
         <serverdata>
           <mappings>
-            <mapping deploy="/public_html/staging2/wp-content/plugins/feed-them-social/" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/wp-content/plugins/feed-them-social" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

@@ -2,10 +2,10 @@
 /**
  * Feed Them Social - Updater License Page
  *
- * In the Free Version this is NOT an updater but displays the license page for users to see they can extend the Free plugin with Extensions
+ * Update License Page handles the License keys activation and deactivation process. This page is also used to show the paid extensions available for FTS.
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2018, SlickRemix
+ * @copyright   Copyright (c) 2012-2023, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */
@@ -25,8 +25,26 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class updater_license_page {
 
-	// static variables!
-	private static $instance = false;
+    // static variables
+    private static $instance = false;
+
+	/**
+	 * Feed Functions
+	 *
+	 * General Feed Functions to be used in most Feeds.
+	 *
+	 * @var object
+	 */
+	public $feed_functions;
+
+	/**
+	 * Premium Extension List.
+	 *
+	 * A list of the Premium Extensions and its urls to SlickRemix.com.
+	 *
+	 * @var array
+	 */
+	public $prem_extension_list;
 
 	/**
 	 * Construct
@@ -35,23 +53,29 @@ class updater_license_page {
 	 *
 	 * @since 2.1.6
 	 */
-	function __construct( $updater_options_info, $prem_plugins_list ) {
+	function __construct( $updater_options_info,  $feed_functions) {
 
-		// Set License Page Variables!
-		$this->store_url            = $updater_options_info['store_url'];
-		$this->main_menu_slug       = $updater_options_info['main_menu_slug'];
-		$this->license_page_slug    = $updater_options_info['license_page_slug'];
-		$this->setting_section_name = $updater_options_info['setting_section_name'];
-		$this->setting_option_name  = $updater_options_info['setting_option_name'];
+        // Set License Page Variables
+        $this->store_url = $updater_options_info['store_url'];
+        $this->main_menu_slug = $updater_options_info['main_menu_slug'];
+        $this->license_page_slug = $updater_options_info['license_page_slug'];
+        $this->setting_section_name = $updater_options_info['setting_section_name'];
+        $this->setting_option_name = $updater_options_info['setting_option_name'];
 
-		$this->prem_plugins = $prem_plugins_list;
+		// Premium Extension List.
+        $this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
-		// Add the License Page!
-		$this->add_license_page();
-	}
+		// Set Feed Functions object.
+		$this->feed_functions = $feed_functions;
+
+        //Add the License Page.
+        $this->add_license_page();
+    }
 
 	/**
-	 * Add the License Page
+     * Add License Page
+     *
+	 * Add the License Page for handling License keys activation/deactivation.
 	 *
 	 * @since 2.1.6
 	 */
@@ -61,18 +85,20 @@ class updater_license_page {
 		}
 
 		$prem_active = false;
-		foreach ( $this->prem_plugins as $plugin ) {
+		foreach ( $this->prem_extension_list as $plugin ) {
 			if ( is_plugin_active( $plugin['plugin_url'] ) ) {
 				$prem_active = true;
 			}
 		}
 
-		add_action( 'admin_menu', array( $this, 'license_menu' ) );
-		add_action( 'admin_init', array( $this, 'register_options' ) );
-	}
+        add_action('admin_menu', array($this, 'license_menu'));
+        add_action('admin_init', array($this, 'register_options'));
+    }
 
 	/**
-	 * Register Plugin License Page Options (overrides options from prem extensions updater files
+     * Register Options
+     *
+	 * Register Extension License Page Options (overrides options from prem extensions updater files.
 	 *
 	 * @since 2.1.6
 	 */
@@ -83,32 +109,34 @@ class updater_license_page {
 		// Register Option for settings array!
 		register_setting( $this->license_page_slug, $this->setting_option_name, array( $this, 'fts_sanitize_license' ) );
 
-		// Add settings fields for each plugin/extension!
-		foreach ( $this->prem_plugins as $key => $plugin ) {
-			// For plugins/extensions that are active!
-			if ( is_plugin_active( $plugin['plugin_url'] ) ) {
-				$args = array(
-					'key'         => $key,
-					'plugin_name' => $plugin['title'],
-				);
+        //Add settings fields for each plugin/extension
+        foreach ( $this->prem_extension_list as $key => $plugin) {
+            //For plugins/extensions that are active
+            if (is_plugin_active($plugin['plugin_url'])) {
+                $args = array(
+                    'key' => $key,
+                    'plugin_name' => $plugin['title'],
+                );
 
-				add_settings_field( $this->setting_option_name . '[' . $key . '][license_key]', '', array( $this, 'add_option_setting' ), $this->license_page_slug, $this->setting_section_name, $args );
-			} // Show Special Box for non actives plugins/extensions!
-			else {
-				// Set Variables!
-				$args = array(
-					'plugin_name'  => $plugin['title'],
-					'demo_url'     => $plugin['demo_url'],
-					'purchase_url' => $plugin['purchase_url'],
-				);
-				// show Premium needed box!
-				add_settings_field( $this->setting_option_name . '[' . $key . '][license_key]', '', array( $this, 'display_premium_needed_license' ), $this->license_page_slug, $this->setting_section_name, $args );
-			}
-		}
-	}
+                add_settings_field( $this->setting_option_name . '[' . $key . '][license_key]', '', array($this, 'add_option_setting'), $this->license_page_slug, $this->setting_section_name, $args);
+            } //Show Special Box for non actives plugins/extensions!
+            else {
+                //Set Variables
+                $args = array(
+                    'plugin_name' => $plugin['title'],
+                    'demo_url' => $plugin['demo_url'],
+                    'purchase_url' => $plugin['purchase_url'],
+                );
+                //show Premium needed box
+                add_settings_field($this->setting_option_name . '[' . $key . '][license_key]', '', array($this, 'display_premium_needed_license'), $this->license_page_slug, $this->setting_section_name, $args);
+            }
+        }
+    }
 
 	/**
-	 * Add Options to Plugin License page
+     * Add Option Setting
+     *
+	 * Add Options to Extension License page.
 	 *
 	 * @param $args
 	 * @since 2.1.6
@@ -117,8 +145,8 @@ class updater_license_page {
 		$key         = $args['key'];
 		$plugin_name = $args['plugin_name'];
 
-		// License Key Array Option!
-		$settings_array = get_option( $this->setting_option_name );
+        //License Key Array Option
+        $settings_array = get_option($this->setting_option_name);
 
 		$license       = isset( $settings_array[ $key ]['license_key'] ) ? $settings_array[ $key ]['license_key'] : '';
 		$status        = isset( $settings_array[ $key ]['license_status'] ) ? $settings_array[ $key ]['license_status'] : '';
@@ -159,31 +187,34 @@ class updater_license_page {
 				}
 				?>
 			</td>
-		</tr> 
+		</tr>
 		<?php
 	}
 
 	/**
-	 * Add Plugin License Menu
+     * License Menu
+     *
+	 * Add Extension License Menu.
 	 *
 	 * @since 2.1.6
 	 */
 	public function license_menu() {
 		global $submenu;
 
-		add_submenu_page( $this->main_menu_slug, __( 'Plugin License', 'feed-them-social' ), __( 'Plugin License', 'feed-them-social' ), 'manage_options', $this->license_page_slug, array( $this, 'license_page' ) );
+		add_submenu_page( $this->main_menu_slug, __( 'Extension License', 'feed-them-social' ), __( 'Extension License', 'feed-them-social' ), 'manage_options', $this->license_page_slug, array( $this, 'license_page' ) );
 	}
 
 	/**
-	 * Add FREE Plugin License Page for displaying what is available to extend FTS
+     * License Page
+     *
+	 * The Extension License Page in the admin dashboard for displaying what is available to extend FTS
 	 *
 	 * @since 2.1.6
 	 */
 	public function license_page() {
-
 		?>
 		<div class="wrap">
-			<h2><?php echo esc_html__( 'Plugin License Options', 'feed-them-social' ); ?></h2>
+			<h2><?php echo esc_html__( 'Extension License Options', 'feed-them-social' ); ?></h2>
 			<div class="license-note">
 				<?php
 				echo sprintf(
@@ -224,17 +255,19 @@ class updater_license_page {
 
 					<?php
 					$prem_active = false;
-					foreach ( $this->prem_plugins as $plugin ) {
+
+					//$this->prem_extension_list;
+					foreach ( $this->prem_extension_list as $plugin ) {
 						if ( is_plugin_active( $plugin['plugin_url'] ) ) {
 							$prem_active = true;
 						}
 					}
-					// No Premium plugins Active make Plugin License page.
+					// No Premium plugins Active make Extension License page.
 					if ( true === $prem_active ) {
 						do_settings_fields( $this->license_page_slug, $this->setting_section_name );
 					} else {
 						// Each Premium Plugin wrap!
-						foreach ( $this->prem_plugins as $plugin ) {
+						foreach ( $this->prem_extension_list as $plugin ) {
 							// Set Variables!
 							$args = array(
 								'plugin_name'  => $plugin['title'],
@@ -242,11 +275,10 @@ class updater_license_page {
 								'purchase_url' => $plugin['purchase_url'],
 							);
 
-							// show Premium needed box!
-							$this->display_premium_needed_license( $args );
-						}
-					}
-					?>
+                            //show Premium needed box
+                            $this->display_premium_needed_license( $args );
+                        }
+                    } ?>
 
 					</tbody>
 				</table>
@@ -256,17 +288,16 @@ class updater_license_page {
 				}
 				?>
 			</form>
-			<div style="margin-top:0px;">
-				<a href="https://www.slickremix.com/downloads/feed-them-gallery/" target="_blank"><img style="max-width: 100%;" src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/images/ft-gallery-promo.jpg' ) ); ?>"/></a>
-			</div>
 		</div>
 		<?php
 	}
 
 	/**
-	 * Display Premium Needed boxes for plugins not active/installed for FTS
+     * Display Premium Needed License
+     *
+	 * Display Premium Needed boxes for plugins not active/installed for FTS.
 	 *
-	 * @param string $args by function or add_settings_field!
+	 * @param array $args by function or add_settings_field!
 	 * @since 2.1.6
 	 */
 	public function display_premium_needed_license( $args ) {
@@ -298,6 +329,8 @@ class updater_license_page {
 	}
 
 	/**
+     * Upgrade License Button
+     *
 	 * Generates an Upgrade license button based on information from SlickRemix's license keys
 	 *
 	 * @param $license_key
@@ -307,22 +340,26 @@ class updater_license_page {
 		if ( isset( $license_key ) && ! empty( $license_key ) && false !== $status && 'valid' === $status ) {
 			$response[ $plugin_key ] = 'https://www.slickremix.com/wp-json/slick-license/v2/get-license-info?license_key=' . $license_key;
 
-			$fts_functions = new feed_them_social_functions();
+            // Get License Info From SlickRemix.com
+            $response = $this->feed_functions->fts_get_feed_json($response);
 
-			$response = $fts_functions->fts_get_feed_json( $response );
+            $license_data = json_decode($response[$plugin_key]);
 
-			$license_data = json_decode( $response[ $plugin_key ] );
-
-			if ( isset( $license_data->payment_id ) && ! empty( $license_data->payment_id ) && isset( $license_data->payment_id ) && ! empty( $license_data->payment_id ) ) {
-				echo '<a class="edd-upgrade-license-btn button-secondary" target="_blank" href="' . esc_url( 'https://www.slickremix.com/my-account/?&view=upgrades&license_key=' . $license_data->license_id ) . '">Upgrade License</a>';
-			}
-			return;
-		}
-		return;
-	}
+            if (isset($license_data->payment_id) && !empty($license_data->payment_id) && isset($license_data->payment_id) && !empty($license_data->payment_id)) {
+                echo sprintf(__('%1$sUpgrade License%2$s', 'feed_them_social'),
+                    '<a class="edd-upgrade-license-btn button-secondary" href="'.esc_url('https://www.slickremix.com/my-account/?&view=upgrades&license_key=' . $license_data->license_id).'" target="_blank">',
+                    '</a>'
+                );
+            }
+            return;
+        }
+        return;
+    }
 
 	/**
-	 * Sanitize License Keys
+     * Sanitize License
+     *
+	 * Sanitize License Keys for database entry.
 	 *
 	 * @param $new
 	 * @return mixed
@@ -341,7 +378,7 @@ class updater_license_page {
 				$settings_array = array_merge( $settings_array, $new );
 			}
 
-			foreach ( $this->prem_plugins as $key => $plugin ) {
+			foreach ( $this->prem_extension_list as $key => $plugin ) {
 				if ( is_plugin_active( $plugin['plugin_url'] ) ) {
 
 					// listen for our activate button to be clicked!
@@ -367,20 +404,22 @@ class updater_license_page {
 		}
 	}
 
-	/**
-	 * Activate License Key
-	 *
-	 * @since 1.5.6
-	 */
-	public function activate_license( $key, $license, $settings_array ) {
+    /**
+     * Activate License
+     *
+     * Activate the License Key.
+     *
+     * @since 1.5.6
+     */
+    function activate_license($key, $license, $settings_array) {
 
-		$license = trim( $license );
+        $license = trim($license);
 
 		// data to send in our API request!
 		$api_params = array(
 			'edd_action' => 'activate_license',
 			'license'    => $license,
-			'item_name'  => rawurlencode( $this->prem_plugins[ $key ]['title'] ), // the name of our product in EDD!
+			'item_name'  => rawurlencode( $this->prem_extension_list[ $key ]['title'] ), // the name of our product in EDD!
 			'url'        => home_url(),
 		);
 
@@ -394,84 +433,96 @@ class updater_license_page {
 			)
 		);
 
-		// make sure the response came back okay!
-		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+        // make sure the response came back okay
+        if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
 
-			if ( is_wp_error( $response ) ) {
-				$message = $response->get_error_message();
-			} else {
-				$message = __( 'An error occurred, please try again.' );
-			}
-		} else {
-			$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+            if (is_wp_error($response)) {
+                $message = $response->get_error_message();
+            } else {
+                $message = __('An error occurred, please try again.', 'feed_them_social');
+            }
 
-			if ( false === $license_data->success ) {
+        } else {
+            $license_data = json_decode(wp_remote_retrieve_body($response));
 
-				switch ( $license_data->error ) {
+            if (false == $license_data->success) {
 
-					case 'expired':
-						$message = sprintf(
-							esc_html__( 'Your license key expired on %s.', 'feed-them-social' ),
-							date_i18n( get_option( 'date_format' ), strtotime( $license_data->expires, time() ) )
-						);
-						break;
+                switch ($license_data->error) {
 
-					case 'revoked':
-						$message = __( 'Your license key has been disabled.' );
-						break;
+                    case 'expired' :
 
-					case 'missing':
-						$message = __( 'Invalid license.' );
-						break;
+                        $message = sprintf(
+                            __('Your license key expired on %s.', 'feed_them_social'),
+                            date_i18n(get_option('date_format'), strtotime($license_data->expires, time()))
+                        );
+                        break;
 
-					case 'invalid':
-					case 'site_inactive':
-						$message = __( 'Your license is not active for this URL.' );
-						break;
+                    case 'revoked' :
+
+                        $message = __('Your license key has been disabled.', 'feed_them_social');
+                        break;
+
+                    case 'missing' :
+
+                        $message = __('Invalid license.', 'feed_them_social');
+                        break;
+
+                    case 'invalid' :
+                    case 'site_inactive' :
+
+                        $message = __('Your license is not active for this URL.', 'feed_them_social');
+                        break;
 
 					case 'item_name_mismatch':
-						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $this->prem_plugins[ $key ]['title'] );
+						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $this->prem_extension_list[ $key ]['title'] );
 						break;
 
-					case 'no_activations_left':
-						$message = __( 'Your license key has reached its activation limit.' );
-						break;
+                    case 'no_activations_left':
 
-					default:
-						$message = __( 'An error occurred, please try again.' );
-						break;
-				}
-			}
-		}
+                        $message = __('Your license key has reached its activation limit.', 'feed_them_social');
+                        break;
 
-		// There is an error so set it in array!
-		if ( ! empty( $message ) ) {
-			unset( $settings_array[ $key ]['license_status'] );
-			$settings_array[ $key ]['license_error'] = $message;
+                    default :
 
-			return $settings_array;
-		}
+                        $message = __('An error occurred, please try again.', 'feed_them_social');
+                        break;
+                }
+            }
+        }
 
-		// No errors. Set License Status in array!
-		unset( $settings_array[ $key ]['license_error'] );
-		$settings_array[ $key ]['license_status'] = $license_data->license;
+        //There is an error so set it in array
+        if (!empty($message)) {
+            unset($settings_array[$key]['license_status']);
+            $settings_array[$key]['license_error'] = $message;
 
-		return $settings_array;
-	}
+            return $settings_array;
+        }
 
-	/***********************************************
-	 * Illustrates how to deactivate a license key.
-	 * This will decrease the site count
-	 ***********************************************/
-	public function deactivate_license( $key, $license, $settings_array ) {
-		// retrieve the license from the database!
-		$license = trim( $license );
+        //No errors. Set License Status in array
+        unset($settings_array[$key]['license_error']);
+        $settings_array[$key]['license_status'] = $license_data->license;
+
+        return $settings_array;
+    }
+
+	/**
+	 * Deactivate License
+	 *
+	 * Deactivate a license key. (This will decrease the site count!)
+	 *
+	 * @param $new
+	 * @return mixed
+	 * @since 1.5.6
+	 */
+    function deactivate_license($key, $license, $settings_array) {
+        // retrieve the license from the database
+        $license = trim($license);
 
 		// data to send in our API request!
 		$api_params = array(
 			'edd_action' => 'deactivate_license',
 			'license'    => $license,
-			'item_name'  => rawurlencode( $this->prem_plugins[ $key ]['title'] ), // the name of our product in EDD!
+			'item_name'  => rawurlencode( $this->prem_extension_list[ $key ]['title'] ), // the name of our product in EDD!
 			'url'        => home_url(),
 		);
 
@@ -485,26 +536,26 @@ class updater_license_page {
 			)
 		);
 
-		// make sure the response came back okay!
-		if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+        // make sure the response came back okay
+        if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
 
-			if ( is_wp_error( $response ) ) {
-				$message = $response->get_error_message();
-			} else {
-				$message = __( 'An error occurred, please try again.' );
-			}
-		}
+            if (is_wp_error($response)) {
+                $message = $response->get_error_message();
+            } else {
+                $message = __('An error occurred, please try again.', 'feed_them_social');
+            }
+        }
 
-		// decode the license data!
-		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
+        // decode the license data
+        $license_data = json_decode(wp_remote_retrieve_body($response));
 
-		// There is an error so set it in array!
-		if ( ! empty( $message ) ) {
-			unset( $settings_array[ $key ]['license_status'] );
-			$settings_array[ $key ]['license_error'] = $message;
+        //There is an error so set it in array
+        if (!empty($message)) {
+            unset($settings_array[$key]['license_status']);
+            $settings_array[$key]['license_error'] = $message;
 
-			return $settings_array;
-		}
+            return $settings_array;
+        }
 
 		// $license_data->license will be either "deactivated" or "failed"
 		if ( 'deactivated' === $license_data->license ) {
@@ -512,32 +563,33 @@ class updater_license_page {
 			unset( $settings_array[ $key ] );
 		}
 
-		return $settings_array;
-	}
+        return $settings_array;
+    }
 
 	/**
-	 * This is a means of catching errors from the activation method above and displaying it to the customer
+     * Update Admin Notices
+     *
+	 * Update the admin notices in dashboard. This will catch errors from the activation method above and displaying it to the customer.
 	 *
 	 * @since 2.1.6
 	 */
 	public function update_admin_notices() {
 		if ( isset( $_GET['sl_activation'] ) && ! empty( $_GET['message'] ) ) {
 
-			switch ( $_GET['sl_activation'] ) {
+            switch ($_GET['sl_activation']) {
 
 				case 'false':
 					$message = rawurldecode( $_GET['message'] );
 					echo $message;
 					break;
 
-				case 'true':
-				default:
-					// Developers can put a custom success message here for when activation is successful if they want.
-					break;
-			}
-		}
-	}
+                case 'true':
+                default:
+                    // Developers can put a custom success message here for when activation is successful if they want.
+                    break;
+            }
+        }
+    }
 
-}//end class
-
+}//End CLASS
 ?>

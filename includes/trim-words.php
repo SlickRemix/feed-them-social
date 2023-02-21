@@ -35,8 +35,9 @@
 */
 
 class FeedThemSocialTruncateHTML {
-
-    public static function fts_custom_trim_words($html, $limit, $ellipsis = '...') {
+    // https://php.watch/versions/8.1/ReturnTypeWillChange
+    // #[\ReturnTypeWillChange]
+    public static function fts_custom_trim_words($html, $limit, $ellipsis = null) {
 
         if($limit <= 0 || $limit >= self::countWords(strip_tags($html)))
             return $html;
@@ -50,7 +51,7 @@ class FeedThemSocialTruncateHTML {
         // Restore error level
         libxml_use_internal_errors($internalErrors);
 
-        $body = $dom->getElementsByTagName("body")->item(0);
+        $body = $dom->getElementsByTagName( 'body' )->item(0);
 
         $it = new FeedThemSocialDOMWordsIterator($body);
 

@@ -56,11 +56,8 @@ class Options_Functions {
 	 * @since	4.0.2
 	 */
 	function check_user_perms() {
-		// Get Current Screen
-		$current_screen = get_current_screen();
-
 		// Can Current User Manage Options? If not Die!
-		if ( ! current_user_can( 'edit_posts' ) && $current_screen = get_current_screen() ) {
+		if ( ! current_user_can( 'edit_posts' ) & ! empty( $_GET['post_type'] )  && 'fts' === $_GET['post_type'] ) {
 			wp_die( 'Unauthorized User: Unable to save Feeds!' );
 		}
 	}

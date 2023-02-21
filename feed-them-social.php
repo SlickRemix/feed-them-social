@@ -15,7 +15,7 @@
  * Requires at least: WordPress 5.4
  * Tested up to: WordPress 6.1.1
  * Stable tag: 3.0
- * License: GPLv2 or later
+ * License: GPLv3 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
  * @version    4.0.2

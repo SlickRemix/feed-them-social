@@ -3,7 +3,7 @@ Contributors: slickremix , slickchris
 Tags: Facebook, Instagram, Twitter, YouTube, Feed
 Requires at least: 3.6.0
 Tested up to: 6.1.1
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GPLv2 or later
 
 Custom feeds for Facebook Pages, Album Photos, Videos & Covers, Instagram, Twitter, Pinterest & YouTube on pages, posts or widgets.
@@ -75,7 +75,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * Log into WordPress dashboard then click **Plugins** > **Add new** > Then under the title "Install Plugins" click **Upload** > **choose the zip** > **Activate the plugin!**
 
 == Changelog ==
-= Version 4.0.0  Monday, February 20th, 2023 =
+= Version 4.0.0 - 4.0.1  Monday, February 20th, 2023 =
   * NEW: Custom Post type now houses all feed types.
   * NEW: All Social feed settings can now be saved making it easier to edit your social feed when necessary.
   * NEW: Shortcode Location column under the Feeds menu option. This will display a link to the page where the shortcode was placed.
@@ -84,6 +84,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * NEW: Add you own Custom JS options
   * NEW: Option to map old shortcodes to the new format.
   * NEW: Migrates all old Global Options settings to our new Settings page.
+  * 4.0.1 FIX: Shortcode appearing above content on the page and json error on shortcode page save.
 
 = Version 3.0.2 Sunday, Nov 13th, 2022 =
 * NOTE: Tested with WordPress Version 6.1

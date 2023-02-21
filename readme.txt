@@ -128,6 +128,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * 4.0.1 FIX: Shortcode appearing above content on the page and json error on shortcode page save.
   * 4.0.2 FIX: Re-added missing language files causing is_readable error for some users.
   * 4.0.2 UPDATED: Readme and PHP Required notation.
+  * 4.0.2 FIX: Fix Permissions and remove it effecting global capabilities.
 
 = Version 3.0.2 Sunday, Nov 13th, 2022 =
 * NOTE: Tested with WordPress Version 6.1

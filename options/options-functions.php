@@ -51,6 +51,8 @@ class Options_Functions {
 	 *
 	 * Check if the current user can edit posts.
 	 *
+	 * @TODO Replace manage_options checks with this check_user_perms function.
+	 *
 	 * @since	4.0.2
 	 */
 	function check_user_perms() {

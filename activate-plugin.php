@@ -121,7 +121,7 @@ class Activate_Plugin {
 	 */
 	public function load_translations_languages() {
 		// Localization. (Plugin string translations).
-		load_plugin_textdomain( 'feed_them_social', false, FEED_THEM_SOCIAL_PLUGIN_BASENAME . '/languages' );
+		load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_BASENAME . '/languages' );
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Activate_Plugin {
 	 */
 	public function failed_php_version_notice() {
 		echo sprintf(
-			esc_html__( '%1$sWarning:%2$s Your server PHP version is %3$s. You need to be running at least %4$s or greater to use this plugin. Please upgrade the php by contacting your host provider. Some host providers will allow you to change this yourself in the hosting control panel too.%5$sIf you are hosting with BlueHost or Godaddy and the php version above is saying you are running 5.2.17 but you are really running something higher please %6$sclick here for the fix%7$s. If you cannot get it to work using the method described in the link please contact your hosting provider and explain the problem so they can fix it.%8$s', 'feed_them_social' ),
+			esc_html__( '%1$sWarning:%2$s Your server PHP version is %3$s. You need to be running at least %4$s or greater to use this plugin. Please upgrade the php by contacting your host provider. Some host providers will allow you to change this yourself in the hosting control panel too.%5$sIf you are hosting with BlueHost or Godaddy and the php version above is saying you are running 5.2.17 but you are really running something higher please %6$sclick here for the fix%7$s. If you cannot get it to work using the method described in the link please contact your hosting provider and explain the problem so they can fix it.%8$s', 'feed-them-social' ),
 			'<div class="error"><p><strong>',
 			'</strong>',
 			PHP_VERSION,
@@ -170,7 +170,7 @@ class Activate_Plugin {
 		// Check the transient to see if we've just activated the plugin.
 		if ( get_transient( 'fts_activated' ) ) {
 			echo sprintf(
-				esc_html__( '%1$sThanks for installing Feed Them Social. To get started please view our %2$sSettings%3$s page.%4$s', 'feed_them_social' ),
+				esc_html__( '%1$sThanks for installing Feed Them Social. To get started please view our %2$sSettings%3$s page.%4$s', 'feed-them-social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
 				'<a href="' . esc_url( 'edit.php?post_type=fts&page=fts-settings-page' ) . '">',
 				'</a>',
@@ -192,7 +192,7 @@ class Activate_Plugin {
 		// Check the transient to see if we've just updated the plugin.
 		if ( get_transient( 'fts_updated' ) ) {
 			echo sprintf(
-				esc_html__( '%1$sThanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.%2$s', 'feed_them_social' ),
+				esc_html__( '%1$sThanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.%2$s', 'feed-them-social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
 				'</p></div>'
 			);
@@ -236,7 +236,7 @@ class Activate_Plugin {
 	public function free_plugin_install_page_links( $install_page_links ) {
         array_unshift(
             $install_page_links,
-            '<a href="' . admin_url() . 'edit.php?post_type=fts">' . esc_html__( 'Feeds', 'feed_them_social' ) . '</a> | <a href="' . admin_url() . 'edit.php?post_type=fts&page=fts-settings-page">' . esc_html__( 'Settings',  'feed_them_social' ) . '</a> | <a target="_blank" href="' . esc_url( 'https://www.slickremix.com/support/' ) . '">' . esc_html__( 'Support',  'feed_them_social' ) . '</a>'
+            '<a href="' . admin_url() . 'edit.php?post_type=fts">' . esc_html__( 'Feeds', 'feed-them-social' ) . '</a> | <a href="' . admin_url() . 'edit.php?post_type=fts&page=fts-settings-page">' . esc_html__( 'Settings',  'feed-them-social' ) . '</a> | <a target="_blank" href="' . esc_url( 'https://www.slickremix.com/support/' ) . '">' . esc_html__( 'Support',  'feed-them-social' ) . '</a>'
         );
 		return $install_page_links;
 	}
@@ -254,7 +254,7 @@ class Activate_Plugin {
 	public function leave_feedback_link( $links, $file ) {
 		if ( FEED_THEM_SOCIAL_PLUGIN_BASENAME === $file ) {
 			$links['feedback'] = sprintf(
-				esc_html__( '%1$sRate Plugin%2$s', 'feed_them_social' ),
+				esc_html__( '%1$sRate Plugin%2$s', 'feed-them-social' ),
 				'<a href="' . esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/' ) . '" target="_blank">',
 				'</a>'
 			);
@@ -272,7 +272,7 @@ class Activate_Plugin {
 	public function plugin_activation() {
 		// we add an db option to check then delete the db option after activation and the cache has emptied.
 		// the delete_option is on the feed-them-functions.php file at the bottom of the function ftg_clear_cache_script.
-		add_option( 'Feed_Them_Social_Activated_Plugin', 'feed_them_social' );
+		add_option( 'Feed_Them_Social_Activated_Plugin', 'feed-them-social' );
 	}
 
 	/**
@@ -284,7 +284,7 @@ class Activate_Plugin {
 	 */
 	public function set_plugin_timezone() {
 
-		if ( is_admin() && 'feed_them_social' === get_option( 'Feed_Them_Social_Activated_Plugin' ) ) {
+		if ( is_admin() && 'feed-them-social' === get_option( 'Feed_Them_Social_Activated_Plugin' ) ) {
 
 			// Activation Options.
 			$activation_options = array(
@@ -397,13 +397,13 @@ class Activate_Plugin {
 				<div class="ftg_notice ftg_review_notice">
 					<img src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/images/feed-them-social-logo.png' ) ); ?>" alt="Feed Them Social">
 					<div class='fts-notice-text'>
-						<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed_them_social' ); ?></p>
+						<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed-them-social' ); ?></p>
 						<p class="fts-links">
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Sure, I\'d love to', 'feed_them_social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed_them_social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', 'later' ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed_them_social' ); ?> </a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Not working, I need support', 'feed_them_social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed_them_social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Sure, I\'d love to', 'feed-them-social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', 'later' ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed-them-social' ); ?> </a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Not working, I need support', 'feed-them-social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed-them-social' ); ?></a>
 						</p>
 
 					</div>

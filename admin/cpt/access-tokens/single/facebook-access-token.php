@@ -197,7 +197,7 @@ class Facebook_Access_Functions {
             if ( isset( $_GET['return_long_lived_token'], $_GET['feed_type'] ) && 'facebook' === $_GET['feed_type'] ) {
                 
                 if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_facebook' ) ) {
-                    wp_die( __( 'Invalid facebook oauth nonce', 'feed_them_social' ) );
+                    wp_die( __( 'Invalid facebook oauth nonce', 'feed-them-social' ) );
                 }
 
                 // Echo our shortcode for the page token list with loadmore button

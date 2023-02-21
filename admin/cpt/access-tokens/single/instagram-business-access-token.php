@@ -201,9 +201,9 @@ class Instagram_Business_Access_Functions {
                     <?php
 
                     if ( isset( $_GET['return_long_lived_token'], $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) {
-                        
+
                         if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram_business' ) ) {
-                            wp_die( __( 'Invalid instagram business oauth nonce', 'feed_them_social' ) );
+                            wp_die( __( 'Invalid instagram business oauth nonce', 'feed-them-social' ) );
                         }
 
                         // Echo our shortcode for the page token list with loadmore button

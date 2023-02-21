@@ -63,7 +63,7 @@ class Youtube_Additional_Options {
 	public function follow_btn_options() {
 		$this->all_options['youtube_follow_btn_options'] = array(
 			'section_attr_key'   => 'youtube_follow_btn_options_',
-			//'section_title'      => esc_html__( 'Follow Button Options', 'feed_them_social' ),
+			//'section_title'      => esc_html__( 'Follow Button Options', 'feed-them-social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -74,17 +74,17 @@ class Youtube_Additional_Options {
 				array(
 					'input_wrap_class' => 'youtube_show_follow_btn',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
+					'label'            => esc_html__( 'Show Follow Button', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'youtube_show_follow_btn',
 					'name'             => 'youtube_show_follow_btn',
 					'options'          => array(
 						array(
-                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
                             'value' => 'no',
 						),
 						array(
-                            'label' => esc_html__( 'Yes', 'feed_them_social' ),
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
                             'value' => 'yes',
 						),
 
@@ -94,18 +94,18 @@ class Youtube_Additional_Options {
 				array(
 					'input_wrap_class' => 'youtube-show-follow-btn-where',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Placement of the Buttons', 'feed_them_social' ),
+					'label'            => esc_html__( 'Placement of the Buttons', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'youtube-show-follow-btn-where',
 					'name'             => 'youtube-show-follow-btn-where',
 					'default_value'    => 'youtube-follow-above',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Show Above Feed', 'feed_them_social' ),
+							'label' => esc_html__( 'Show Above Feed', 'feed-them-social' ),
 							'value' => 'youtube-follow-above',
 						),
 						array(
-							'label' => esc_html__( 'Show Below Feed', 'feed_them_social' ),
+							'label' => esc_html__( 'Show Below Feed', 'feed-them-social' ),
 							'value' => 'youtube-follow-below',
 						),
 					),
@@ -148,7 +148,7 @@ class Youtube_Additional_Options {
 	public function load_more_options() {
 		$this->all_options['youtube_load_more_options'] = array(
 			'section_attr_key'   => 'youtube_load_more_options_',
-			'section_title'      => esc_html__( 'Load More Button', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Load More Button', 'feed-them-social' ),
 			'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.

@@ -67,7 +67,7 @@ class Facebook_Additional_Options {
     public function like_button_box_options() {
         $this->all_options['facebook_like_button_box_options'] = array(
             'section_attr_key'   => 'facebook_like_button_box_options_',
-           // 'section_title'      => esc_html__( 'Like Button or Box', 'feed_them_social' ),
+           // 'section_title'      => esc_html__( 'Like Button or Box', 'feed-them-social' ),
             // 'section_wrap_id' => 'fts-tab-content1',
             'section_wrap_class' => 'fts-tab-content',
             // Form Info.
@@ -94,34 +94,34 @@ class Facebook_Additional_Options {
                 array(
                     'input_wrap_class' => 'fb_show_follow_btn',
                     'option_type'      => 'select',
-                    'label'            => esc_html__( 'Show Follow Button', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Show Follow Button', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'fb-show-follow-btn',
                     'name'             => 'fb_show_follow_btn',
                     'default_value'    => 'dont-display',
                     'options'          => array(
                         array(
-                            'label' => esc_html__( 'Like Box', 'feed_them_social' ),
+                            'label' => esc_html__( 'Like Box', 'feed-them-social' ),
                             'value' => 'like-box',
                         ),
                         array(
-                            'label' => esc_html__( 'Like Box with Faces', 'feed_them_social' ),
+                            'label' => esc_html__( 'Like Box with Faces', 'feed-them-social' ),
                             'value' => 'like-box-faces',
                         ),
                         array(
-                            'label' => esc_html__( 'Like Button', 'feed_them_social' ),
+                            'label' => esc_html__( 'Like Button', 'feed-them-social' ),
                             'value' => 'like-button',
                         ),
                         array(
-                            'label' => esc_html__( 'Like Button and Share Button', 'feed_them_social' ),
+                            'label' => esc_html__( 'Like Button and Share Button', 'feed-them-social' ),
                             'value' => 'like-button-share',
                         ),
                         array(
-                            'label' => esc_html__( 'Like Button with Faces', 'feed_them_social' ),
+                            'label' => esc_html__( 'Like Button with Faces', 'feed-them-social' ),
                             'value' => 'like-button-faces',
                         ),
                         array(
-                            'label' => esc_html__( 'Like Button and Share Button with Faces', 'feed_them_social' ),
+                            'label' => esc_html__( 'Like Button and Share Button with Faces', 'feed-them-social' ),
                             'value' => 'like-button-share-faces',
                         ),
                     ),
@@ -131,18 +131,18 @@ class Facebook_Additional_Options {
                 array(
                     'input_wrap_class' => 'fb_like_btn_color',
                     'option_type'      => 'select',
-                    'label'            => esc_html__( 'Like Button Color', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Like Button Color', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'fb_like_btn_color',
                     'name'             => 'fb_like_btn_color',
                     'default_value'    => 'light',
                     'options'          => array(
                         array(
-                            'label' => esc_html__( 'Light', 'feed_them_social' ),
+                            'label' => esc_html__( 'Light', 'feed-them-social' ),
                             'value' => 'light',
                         ),
                         array(
-                            'label' => esc_html__( 'Dark', 'feed_them_social' ),
+                            'label' => esc_html__( 'Dark', 'feed-them-social' ),
                             'value' => 'dark',
                         ),
                     ),
@@ -152,22 +152,22 @@ class Facebook_Additional_Options {
                 array(
                     'input_wrap_class' => 'fb-show-follow-btn-where',
                     'option_type'      => 'select',
-                    'label'            => esc_html__( 'Placement of the Button(s)', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Placement of the Button(s)', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'fb_show_follow_btn_where',
                     'name'             => 'fb_show_follow_btn_where',
                     'default_value'    => 'fb-like-top-above-title',
                     'options'          => array(
                         array(
-                            'label' => esc_html__( 'Show Top of Feed Above Title', 'feed_them_social' ),
+                            'label' => esc_html__( 'Show Top of Feed Above Title', 'feed-them-social' ),
                             'value' => 'fb-like-top-above-title',
                         ),
                         array(
-                            'label' => esc_html__( 'Show Top of Feed Below Title', 'feed_them_social' ),
+                            'label' => esc_html__( 'Show Top of Feed Below Title', 'feed-them-social' ),
                             'value' => 'fb-like-top-below-title',
                         ),
                         array(
-                            'label' => esc_html__( 'Show Bottom of Feed', 'feed_them_social' ),
+                            'label' => esc_html__( 'Show Bottom of Feed', 'feed-them-social' ),
                             'value' => 'fb-like-below',
                         ),
                     ),
@@ -190,7 +190,7 @@ class Facebook_Additional_Options {
 	public function reviews_text_styles() {
 		$this->all_options['facebook_reviews_text_styles'] = array(
 			'section_attr_key'   => 'facebook_reviews_text_styles_',
-            'section_title'      => esc_html__( 'Reviews: Style and Text Options', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Reviews: Style and Text Options', 'feed-them-social' ),
 			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content fts-fb-reviews-styles',
 			// Form Info.
@@ -236,7 +236,7 @@ class Facebook_Additional_Options {
 				/*array(
 					'input_wrap_class' => 'fb_reviews_star_language',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Text for the word "star"', 'feed_them_social' ),
+					'label'            => esc_html__( 'Text for the word "star"', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_reviews_star_language',
 					'name'             => 'fb_reviews_star_language',
@@ -248,7 +248,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_reviews_recommended_language',
 					'option_type'      => 'input',
-					'label'            => esc_html__( '"Recommended" text', 'feed_them_social' ),
+					'label'            => esc_html__( '"Recommended" text', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_reviews_recommended_language',
 					'name'             => 'fb_reviews_recommended_language',
@@ -260,7 +260,7 @@ class Facebook_Additional_Options {
                 array(
                     'input_wrap_class' => 'fb_reviews_see_more_reviews_language',
                     'option_type'      => 'input',
-                    'label'            => esc_html__( '"See More Reviews" text', 'feed_them_social' ),
+                    'label'            => esc_html__( '"See More Reviews" text', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'fb_reviews_see_more_reviews_language',
                     'name'             => 'fb_reviews_see_more_reviews_language',
@@ -272,18 +272,18 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_reviews_remove_see_reviews_link',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Remove "See More Reviews"', 'feed_them_social' ),
+					'label'            => esc_html__( 'Remove "See More Reviews"', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_reviews_remove_see_reviews_link',
 					'name'             => 'fb_reviews_remove_see_reviews_link',
 					'default_value'    => 'no',
 					'options'          => array(
                         array(
-                            'label' => esc_html__( 'No', 'feed_them_social' ),
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
                             'value' => 'no',
                         ),
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 					),
@@ -307,7 +307,7 @@ class Facebook_Additional_Options {
 	public function reviews_overall_rating_styles() {
 		$this->all_options['facebook_reviews_overall_rating_styles'] = array(
 			'section_attr_key'   => 'facebook_reviews_overall_rating_styles_',
-			'section_title'      => esc_html__( 'Reviews: Overall Rating Style Options', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Reviews: Overall Rating Style Options', 'feed-them-social' ),
 			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content  fts-fb-reviews-styles',
 			// Form Info.
@@ -334,18 +334,18 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_reviews_overall_rating_background_border_hide',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Background & Border', 'feed_them_social' ),
+					'label'            => esc_html__( 'Hide Background & Border', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_reviews_overall_rating_background_border_hide',
 					'name'             => 'fb_reviews_overall_rating_background_border_hide',
 					'default_value'    => 'yes',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'label' => esc_html__( 'No', 'feed-them-social' ),
 							'value' => 'no',
 						),
 					),
@@ -478,7 +478,7 @@ class Facebook_Additional_Options {
 	public function language_options() {
 		$this->all_options['facebook_languages_options'] = array(
 			'section_attr_key'   => 'facebook_languages_options_',
-			'section_title'      => esc_html__( 'Language Options', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Language Options', 'feed-them-social' ),
 
 			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content  fts-fb-language-options',

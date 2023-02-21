@@ -368,7 +368,7 @@ class Options_Functions {
 		}
 
 		// No Array Option name set.
-		wp_die( esc_html__( 'No Array Option Name Set.', 'feed_them_social' ) );
+		wp_die( esc_html__( 'No Array Option Name Set.', 'feed-them-social' ) );
 	}
 
 	/**

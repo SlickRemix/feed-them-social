@@ -52,7 +52,7 @@ Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twi
 *"Hammering out issues with most plugin teams usually takes at least 24 hours. For more complicated support issues, it can take a handful of days to fix a problem. The time between messages with the Feed Them Social support team was around 15 minutes instead of 15 hours. Fantastic."* ~ [tunare](https://wordpress.org/support/topic/freaky-fast-support?replies=2#post-)
 
 ###Feed Demos
- All Demos can be found on [www.FeedThemSocial.com](https://feedthemsocial.com/)
+ All Demos can be found on [FeedThemSocial.com](https://feedthemsocial.com/)
  * [Facebook Page Feed Demo](https://feedthemsocial.com/)
  * [Facebook Album Photos Feed Demo](https://feedthemsocial.com/facebook-album-photos-demo/)
  * [Facebook Album Covers Feed Demo](https://feedthemsocial.com/facebook-album-covers/)

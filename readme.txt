@@ -84,7 +84,7 @@ Feed Them Social was Developed By SlickRemix --> [https://www.slickremix.com/](h
   * NEW: Add you own Custom JS options
   * NEW: Option to map old shortcodes to the new format.
   * NEW: Migrates all old Global Options settings to our new Settings page.
-  * 4.0.1 FIX: Shortcode appearing above content on the page.
+  * 4.0.1 FIX: Shortcode appearing above content on the page and json error on shortcode page save.
 
 = Version 3.0.2 Sunday, Nov 13th, 2022 =
 * NOTE: Tested with WordPress Version 6.1

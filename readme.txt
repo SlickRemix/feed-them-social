@@ -1,7 +1,7 @@
 === Feed Them Social - Page, Post, Video, and Photo Galleries ===
 Contributors: slickremix, slickchris
 Donate link: https://www.slickremix.com/
-Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media
+Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.1.1

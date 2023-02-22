@@ -5,7 +5,7 @@ Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagr
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.1.1
-Stable tag: 4.0.2
+Stable tag: 4.0.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,6 +116,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.0.3 Wednesday, February 22th, 2023 =
+  * FIX: Label for Facebook option on Feed edit page changed to "Number of Posts".
+
 = Version 4.0.0 - 4.0.2 Monday, February 20th, 2023 =
   * NEW: Custom Post type now houses all feed types.
   * NEW: All Social feed settings can now be saved making it easier to edit your social feed when necessary.

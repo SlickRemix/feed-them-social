@@ -1541,7 +1541,7 @@ class Feed_CPT_Options {
 
 				// Facebook page # of Posts
 				array(
-					'option_type' => 'input','label'       => __( 'Number of Pics <br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social') . '</small>',
+					'option_type' => 'input','label'       => __( 'Number of Posts <br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social') . '</small>',
                     'type'        => 'text',
 					'id'          => 'facebook_page_post_count',
 					'name'        => 'facebook_page_post_count',

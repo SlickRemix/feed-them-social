@@ -1,3 +1,6 @@
+html {
+    display:block !important;
+}
 .clear, .fts-clear {
     clear: both
 }

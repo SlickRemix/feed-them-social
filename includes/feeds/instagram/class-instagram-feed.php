@@ -229,15 +229,16 @@ class Instagram_Feed {
             // Get our Additional Options.
             $this->instagram_custom_styles( $feed_post_id );
 
-          //  print_r( $saved_feed_options );
+            // Testing
+            // print_r( $saved_feed_options );
+
+            $height                = $saved_feed_options['instagram_page_height'] ?? '';
 
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 
                 // SRL commented out for new 4.0 testing.. passing vars below.
 				//include WP_PLUGIN_DIR . '/feed-them-premium/feeds/instagram/instagram-feed.php';
-
                 $popup                 = $saved_feed_options['instagram_popup_option'] ?? '';
-                $height                = $saved_feed_options['instagram_page_height']?? '';
                 $loadmore_option       = $saved_feed_options['instagram_load_more_option'] ?? '';
                 $loadmore              = $saved_feed_options['instagram_load_more_style'] ?? '';
                 $loadmore_btn_margin   = $saved_feed_options['instagram_loadmore_button_margin'] ?? '';

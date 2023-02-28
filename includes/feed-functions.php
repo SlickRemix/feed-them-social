@@ -102,8 +102,12 @@ class Feed_Functions {
 
         // Refresh Token for YouTube and Instagram Basic
         add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
+
         /**
-		 * Token management is not allowed for non authenticated users
+		 * Token management is not allowed for non authenticated users. Need to think about this.
+         * It would make sense the token should really only update if an admin logs in to the site at least once every 60 days,
+         * which is the length of time the token is valid for at this time. If the token expires the feed will still show it just won't update.
+         * It would seem to reason this is a better approach so as to not just let things go on auto pilot.
 		 */
 		//add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
         add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
@@ -111,16 +115,12 @@ class Feed_Functions {
         add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_refresh_feed_ajax', array( $this, 'fts_refresh_feed_ajax' ) );
 
-
-
         if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
             // Load More Options.
             add_action( 'wp_ajax_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
             add_action( 'wp_ajax_nopriv_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
         }
 	}
-
-
 
     /**
      * Add Actions & Filters
@@ -523,81 +523,61 @@ class Feed_Functions {
 
 		$fts_custom_date         = $this->settings_functions->fts_get_option( 'custom_date' );
 		$fts_custom_time         = $this->settings_functions->fts_get_option( 'custom_time' );
-		$custom_date_check       = $this->settings_functions->fts_get_option( 'date_time_format' );
+		$custom_date             = $this->settings_functions->fts_get_option( 'date_time_format' );
 		$fts_twitter_offset_time = $this->settings_functions->fts_get_option( 'twitter_time' );
-		$fts_timezone            = $this->settings_functions->fts_get_option( 'timezone' );
+        $timezone_set            = $this->settings_functions->fts_get_option( 'timezone' );
+
+        // Facebook & Twitter Feed: Create a new DateTimeZone object.
+        // Using the default WordPress timezone options does not always work so users need a way to correct the time if needed.
+        $fts_timezone = wp_timezone_supported($timezone_set) ? new \DateTimeZone($timezone_set) : null;
 
 		if ( empty( $fts_custom_date ) && empty( $fts_custom_time ) ) {
-			$custom_date_check = $custom_date_check;
+			$custom_date_check = $custom_date;
 		} elseif ( '' !== $fts_custom_date || '' !== $fts_custom_time ) {
 			$custom_date_check = $fts_custom_date . ' ' . $fts_custom_time;
 		} else {
             $custom_date_check = 'F jS, Y \a\t g:ia';
 		}
-		// Always store the current timezone so that it can be restored later
-		$fts_old_timezone = date_default_timezone_get();
-		if ( ! empty( $fts_timezone ) ) {
-			date_default_timezone_set( $fts_timezone );
-		}
-		// Twitter date time!
+
+		// Twitter date time.
 		if ( 'twitter' === $feed_type ) {
 
-			$fts_twitter_offset_time_final = 1 === $fts_twitter_offset_time ? strtotime( $created_time ) : strtotime( $created_time ) - 3 * 3600;
+			$fts_twitter_offset_time_final = $fts_twitter_offset_time === '1' ? strtotime( $created_time ) - 3 * 3600 : strtotime( $created_time );
 
 			if ( 'one-day-ago' === $custom_date_check ) {
 				$u_time = $this->fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, $fts_twitter_offset_time_final ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, $fts_twitter_offset_time_final, $fts_timezone ) : $this->fts_ago( $created_time );
 			}
 		}
 
-		// Instagram date time!
+		// Instagram date time.
 		if ( 'instagram' === $feed_type ) {
 			if ( 'one-day-ago' === $custom_date_check ) {
 				$u_time = $this->fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, strtotime( $created_time ), null ) : $this->fts_ago( $created_time );
 			}
 		}
-		// Youtube and Pinterest date time!
-		if ( 'pinterest' === $feed_type ) {
-			if ( 'one-day-ago' === $custom_date_check ) {
-				$u_time = $this->fts_ago( $created_time );
-			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
-			}
-		}
-		// WP Gallery and Pinterest date time!
-		if ( 'wp_gallery' === $feed_type ) {
-			if ( 'one-day-ago' === $custom_date_check ) {
-				$u_time = $this->fts_ago( $created_time );
-			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
-			}
-		}
-		// Facebook date time!
+
+		// Facebook date time.
 		if ( 'facebook' === $feed_type ) {
-			$time_set       = $fts_timezone;
-			$time_set_check = !empty( $time_set ) ? $time_set : 'America/New_York';
-			date_default_timezone_set( $time_set_check );
 
 			if ( 'one-day-ago' === $custom_date_check ) {
 				$u_time = $this->fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, $created_time ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, $created_time, $fts_timezone ) : $this->fts_ago( $created_time );
 			}
 		}
-		// Instagram date time!
+
+		// YouTube date time.
 		if ( 'youtube' === $feed_type ) {
 			if ( 'one-day-ago' === $custom_date_check ) {
 				$u_time = $this->fts_ago( $created_time );
 			} else {
-				$u_time = ! empty( $custom_date_check ) ? date_i18n( $custom_date_check, strtotime( $created_time ) ) : $this->fts_ago( $created_time );
+				$u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, strtotime( $created_time ), null ) : $this->fts_ago( $created_time );
 			}
 		}
-
-		// Restore the timezone to its value when entering this function to avoid side-effects
-		date_default_timezone_set( $fts_old_timezone );
 
 		// Return the time!
 		return $u_time;
@@ -610,9 +590,14 @@ class Feed_Functions {
 	 *
 	 * @since 1.9.6
 	 */
-	public function fts_fb_color_options_head_css() {
+	public function fts_custom_head_css() {
 
-
+        if ( empty( $this->settings_functions->fts_get_option( 'use_custom_css' ) !== '1' ) ) {
+            return;
+        }
+        ?>
+        <style type="text/css"><?php echo esc_html(  !empty( $this->settings_functions->fts_get_option( 'custom_css' ) ) ?  $this->settings_functions->fts_get_option( 'custom_css' ) : ''  ); ?></style>
+        <?php
 	}
 
 	/**

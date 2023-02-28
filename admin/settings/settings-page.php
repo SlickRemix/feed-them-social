@@ -327,7 +327,7 @@ class Settings_Page {
                         // we don't need to set a timezone so use this option for something else.
                         'timezone' => array(
                         		'id'      => 'timezone',
-                        		'name'    => __( 'TimeZone', 'feed-them-gallery' ),
+                        		'name'    => __( 'TimeZone for Facebook/Twitter', 'feed-them-gallery' ),
                         		'type'    => 'select',
                         		'options' => $this->settings_functions->fts_get_timezone_setting_options(),
                         		'std'     => 'America/Los_Angeles',

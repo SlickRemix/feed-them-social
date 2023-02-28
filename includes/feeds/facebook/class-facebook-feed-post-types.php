@@ -1307,7 +1307,6 @@ class Facebook_Feed_Post_Types {
 				$facebook_event_latitude = isset( $single_event_location->place->location->latitude ) ? $single_event_location->place->location->latitude : '';
 				$facebook_event_longitude = isset( $single_event_location->place->location->longitude ) ? $single_event_location->place->location->longitude : '';
 				$facebook_event_ticket_info = isset( $single_event_ticket_info->ticket_uri ) ? $single_event_ticket_info->ticket_uri : '';
-				date_default_timezone_set( $this->settings_functions->fts_get_option( 'timezone' ) );
 
 				// custom one day ago check.
 				if ( 'one-day-ago' === $custom_date_check ) {

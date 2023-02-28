@@ -119,6 +119,11 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 = Version 4.0.3 Wednesday, February 22th, 2023 =
   * FIX: Label for Facebook option on Feed edit page changed to "Number of Posts".
   * FIX: Instagram: Height option to create scrolling feed.
+  * FIX: do_action upgrader_process_complete call.
+  * FIX: Custom CSS option on Settings page.
+  * FIX: Date & Time options on Settings page.
+  * FIX: Site Health error about date and time default.
+  * REMOVED: Old trim_words function as it was depreciated already.
 
 = Version 4.0.0 - 4.0.2 Monday, February 20th, 2023 =
   * NEW: Custom Post type now houses all feed types.

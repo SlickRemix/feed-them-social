@@ -490,7 +490,7 @@
    * NEW: Facebook Event feed now had Ticket Info link next to the Get Directions link on each post if you filled out the ticket info option on facebook when creating an event.
    * NEW: Adjusted author note at the bottom of the Settings page to include premium support ticket system link as well.
    * NEW: Plugin License page now shows the Extensions available for Feed Them Social if you don't already have one installed. And if you do it will show you upgrade license options should you ever need them.
-   * NEW: Settings, Global Options: Additinoal Timezone options.
+   * NEW: Settings, Global Options: Additional Timezone options.
    * FIXED: Pinterest: Boards not displaying properly in text widgets.
    * FIXED: Facebook: Spacing and alignment issues for likeboxes, buttons etc.
    * FIXED: Facebook Combined: Post limit was stuck at 6.

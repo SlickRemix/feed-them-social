@@ -120,7 +120,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * FIX: Twitter: Follow Button not displaying.
   * FIX: Label for Facebook option on Feed edit page changed to "Number of Posts".
   * FIX: Instagram: Height option to create scrolling feed.
-  * FIX: do_action upgrader_process_complete call causing Fatal Error in some instances.
+  * FIX: do_action upgrader_process_complete call causing Fatal Error in some instances. Right after update you may see the notice again however, that is the last time you will see it.
   * FIX: Settings: Custom CSS & JS option.
   * FIX: Settings: Date & Time options on Settings page.
   * FIX: Settings: Twitter Time offset.

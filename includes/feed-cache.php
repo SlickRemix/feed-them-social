@@ -67,7 +67,9 @@ class Feed_Cache {
 	 * @since 1.9.6
 	 */
 	public function add_actions_filters() {
+
 	    add_action( 'init', array( $this, 'fts_clear_cache_script' ) );
+        add_action( 'init', array( $this, 'fts_dev_mode_clear_cache_script' ) );
 	    add_action( 'wp_ajax_fts_clear_cache_ajax', array( $this, 'fts_clear_cache_ajax' ) );
 
         // SRL 4.0: I don't think we need these here.
@@ -345,39 +347,56 @@ class Feed_Cache {
 	 *
 	 * @since 1.9.6
 	 */
-	public function fts_clear_cache_script() {
-		$fts_admin_activation_clear_cache = get_option( 'Feed_Them_Social_Activated_Plugin' );
-		$fts_dev_mode_cache               = $this->settings_functions->fts_get_option( 'fts_cache_time' );
-        if ( '1' === $fts_dev_mode_cache || 'feed_them_social' === $fts_admin_activation_clear_cache ) {
-            wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-            wp_localize_script(
-				'fts_clear_cache_script',
-				'ftsAjax',
-				array(
-					'createNewFeedUrl'=> admin_url( 'edit.php?post_type=fts&page=create-new-feed' ),
-                    'ajaxurl'         => admin_url( 'admin-ajax.php' ),
-					'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
-				)
-			);
-            wp_enqueue_script( 'jquery' );
-            wp_enqueue_script( 'fts_clear_cache_script' );
+	public function fts_clear_cache_script()
+    {
+        if( is_user_logged_in() ) {
+            $fts_dev_mode_cache = $this->settings_functions->fts_get_option( 'fts_cache_time' );
+            if ( '1' !== $fts_dev_mode_cache ) {
+                wp_enqueue_script( 'jquery' );
+                wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/admin.js' ), array('jquery'), FTS_CURRENT_VERSION, false );
+                wp_localize_script(
+                    'fts_clear_cache_script',
+                    'ftsAjax',
+                    array(
+                        'createNewFeedUrl' => admin_url( 'edit.php?post_type=fts&page=create-new-feed' ),
+                        'ajaxurl' => admin_url( 'admin-ajax.php' ),
+                        'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
+                    )
+                );
+                wp_enqueue_script( 'fts_clear_cache_script' );
+            }
         }
-        if ( '1' !== $fts_dev_mode_cache ) {
-            wp_enqueue_script( 'jquery' );
-            wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/admin.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-            wp_localize_script( 
-				'fts_clear_cache_script',
-				'ftsAjax',
-				array(
-                    'createNewFeedUrl'=> admin_url( 'edit.php?post_type=fts&page=create-new-feed' ),
+    }
+
+    /**
+     * FTS Clear Cache Script
+     *
+     * This is for the fts_clear_cache_ajax submission.
+     *
+     * @since 1.9.6
+     */
+    public
+    function fts_dev_mode_clear_cache_script ()
+    {
+        $fts_admin_activation_clear_cache = get_option( 'Feed_Them_Social_Activated_Plugin' );
+        $fts_dev_mode_cache = $this->settings_functions->fts_get_option( 'fts_cache_time' );
+        if ( '1' === $fts_dev_mode_cache || 'feed_them_social' === $fts_admin_activation_clear_cache ) {
+            wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.js' ), array('jquery'), FTS_CURRENT_VERSION, false );
+            wp_localize_script(
+                'fts_clear_cache_script',
+                'ftsAjax',
+                array(
+                    'createNewFeedUrl' => admin_url( 'edit.php?post_type=fts&page=create-new-feed' ),
                     'ajaxurl' => admin_url( 'admin-ajax.php' ),
-					'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
-				) 
-			);
+                    'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
+                )
+            );
+            wp_enqueue_script( 'jquery' );
             wp_enqueue_script( 'fts_clear_cache_script' );
         }
 
-		// we delete this option if found so we only empty the cache once when the plugin is ever activated or updated!
-		delete_option( 'Feed_Them_Social_Activated_Plugin' );
-	}
+        // We delete this option if found so we only empty the cache once when the plugin is ever activated or updated!
+        delete_option( 'Feed_Them_Social_Activated_Plugin' );
+    }
+
 }

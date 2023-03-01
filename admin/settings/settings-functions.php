@@ -1052,7 +1052,6 @@ class Settings_Functions {
      * @return	array	Array of timezone options
      */
     public function fts_get_timezone_setting_options()	{
-        date_default_timezone_set( $this->fts_get_option( 'timezone', 'America/Los_Angeles' ) );
 
         $timezones = array(
             'Pacific/Midway'                 => __( '(GMT-11:00) Midway Island, Samoa', 'feed_them_social' ),
@@ -1154,21 +1153,28 @@ class Settings_Functions {
      * @return	array	Array of date format options
      */
     public function fts_get_date_format_setting_options()	{
+
+        // Set your custom timezone string
+        $timezone_set = $this->fts_get_option( 'timezone', 'America/Los_Angeles' );
+
+        // Create a new DateTimeZone object
+        $timezone = \in_array( $timezone_set, timezone_identifiers_list(), true ) ? new \DateTimeZone($timezone_set) : null;
+
         $formats = array(
             'one-day-ago'          => __( '1 day ago', 'feed_them_social' ),
             'fts-custom-date'      => __( 'Custom Date and Time', 'feed_them_social' ),
-            'l, F jS, Y \a\t g:ia' => date( 'l, F jS, Y \a\t g:ia' ),
-            'F j, Y \a\t g:ia'     => date( 'F j, Y \a\t g:ia' ),
-            'F j, Y g:ia'          => date( 'F j, Y g:ia' ),
-            'F, Y \a\t g:ia'       => date( 'F, Y \a\t g:ia' ),
-            'M j, Y @ g:ia'        => date( 'M j, Y @ g:ia' ),
-            'M j, Y @ G:i'         => date( 'M j, Y @ G:i' ),
-            'm/d/Y \a\t g:ia'      => date( 'm/d/Y \a\t g:ia' ),
-            'm/d/Y @ G:i'          => date( 'm/d/Y @ G:i' ),
-            'd/m/Y \a\t g:ia'      => date( 'd/m/Y \a\t g:ia' ),
-            'd/m/Y @ G:i'          => date( 'd/m/Y @ G:i' ),
-            'Y/m/d \a\t g:ia'      => date( 'Y/m/d \a\t g:ia' ),
-            'Y/m/d @ G:i'          => date( 'Y/m/d @ G:i' ),
+            'l, F jS, Y \a\t g:ia' => wp_date( 'l, F jS, Y \a\t g:ia', null, $timezone ),
+            'F j, Y \a\t g:ia'     => wp_date( 'F j, Y \a\t g:ia', null, $timezone ),
+            'F j, Y g:ia'          => wp_date( 'F j, Y g:ia', null, $timezone ),
+            'F, Y \a\t g:ia'       => wp_date( 'F, Y \a\t g:ia', null, $timezone ),
+            'M j, Y @ g:ia'        => wp_date( 'M j, Y @ g:ia', null, $timezone ),
+            'M j, Y @ G:i'         => wp_date( 'M j, Y @ G:i', null, $timezone ),
+            'm/d/Y \a\t g:ia'      => wp_date( 'm/d/Y \a\t g:ia', null, $timezone ),
+            'm/d/Y @ G:i'          => wp_date( 'm/d/Y @ G:i', null, $timezone ),
+            'd/m/Y \a\t g:ia'      => wp_date( 'd/m/Y \a\t g:ia', null, $timezone ),
+            'd/m/Y @ G:i'          => wp_date( 'd/m/Y @ G:i', null, $timezone ),
+            'Y/m/d \a\t g:ia'      => wp_date( 'Y/m/d \a\t g:ia', null, $timezone ),
+            'Y/m/d @ G:i'          => wp_date( 'Y/m/d @ G:i', null, $timezone ),
         );
 
         return $formats;

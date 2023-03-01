@@ -119,7 +119,7 @@ class Feed_Them_Social {
 		$twitter_feed = new feedthemsocial\Twitter_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
 		// Youtube Feed.
-		$youtube_feed = new feedthemsocial\Youtube_Feed( $feed_functions, $feed_cache, $access_options );
+		$youtube_feed = new feedthemsocial\Youtube_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
 		// Check if Extension is active if so call class.
 		if( $feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
@@ -130,7 +130,7 @@ class Feed_Them_Social {
             $combined_streams = '';
         }
 			// Feed Display.
-		new feedthemsocial\Feed_Shortcode(  $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams );
+		new feedthemsocial\Feed_Shortcode( $settings_functions, $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams );
 
         // Shorten words in Posts.
         new FeedThemSocialTruncateHTML();

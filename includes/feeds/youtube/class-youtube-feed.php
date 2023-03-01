@@ -24,6 +24,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Youtube_Feed {
 
+    /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
+
 	/**
 	 * Feed Functions
 	 *
@@ -58,10 +67,13 @@ class Youtube_Feed {
 	 *
 	 * @since 2.3.2
 	 */
-	public function __construct( $feed_functions, $feed_cache, $access_options ) {
+	public function __construct( $settings_functions, $feed_functions, $feed_cache, $access_options ) {
 
         // Add Actions and Filters.
         $this->add_actions_filters();
+
+        // Settings Functions Class.
+        $this->settings_functions = $settings_functions;
 
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
@@ -81,24 +93,7 @@ class Youtube_Feed {
 	 * @since 4.0.0
 	 */
 	public function add_actions_filters() {
-        // Enqueue Youtube frontend scripts.
-		add_action( 'wp_enqueue_scripts', array( $this, 'fts_youtube_head' ) );
-	}
-
-	/**
-	 * FTS Youtube Head
-	 *
-	 * @since 2.3.2
-	 */
-	public function fts_youtube_head() {
-		wp_enqueue_style( 'fts-feeds', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), array(), FTS_CURRENT_VERSION, false );
-		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
-			$fts_fix_magnific = get_option( 'fts_fix_magnific' ) ? get_option( 'fts_fix_magnific' ) : '';
-			if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
-				wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
-			}
-			wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, false );
-		}
+        // no actions or filters to load at this time.
 	}
 
 	/**
@@ -121,8 +116,6 @@ class Youtube_Feed {
 
         $youtube_api_key      = !empty( $saved_feed_options['youtube_custom_api_token'] ) ? $saved_feed_options['youtube_custom_api_token'] : '';
         $youtube_access_token = !empty( $saved_feed_options['youtube_custom_access_token'] ) ? $saved_feed_options['youtube_custom_access_token'] : '';
-
-        wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
         // the way this refresh token works atm is. if the token is expired then we fetch a new token when any front end user views a page the feed is on.
         // the ajax runs to fetch a new token if it's expired, then it saves it to the db, but because that happens after the user has already loaded the page,
@@ -197,9 +190,7 @@ class Youtube_Feed {
             $youtube_show_follow_btn       = $saved_feed_options['youtube_show_follow_btn'];
             $youtube_show_follow_btn_where = $saved_feed_options['youtube-show-follow-btn-where'];
 
-
             $thumbs_play_iframe = $saved_feed_options['youtube_play_thumbs'];
-
 
             if( $saved_feed_options['youtube_feed_type'] === 'singleID' && !empty( $saved_feed_options['youtube_singleVideoID'] ) ){
                 $wrap = isset( $saved_feed_options['youtube_comments_wrap'] ) ? $saved_feed_options['youtube_comments_wrap'] : '';
@@ -219,8 +210,16 @@ class Youtube_Feed {
                 $thumbs_play_iframe = 'yes';
             }
             if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'popup' === $saved_feed_options['youtube_play_thumbs'] ) {
+
                 $popup                 = 'yes';
                 $saved_feed_options['youtube_play_thumbs'] = 'yes';
+
+                $fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
+                if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
+                    wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
+                }
+                wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+
             }
             if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['youtube_load_more_option'] ) {
 

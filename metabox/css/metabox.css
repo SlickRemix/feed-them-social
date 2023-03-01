@@ -1,3 +1,6 @@
+html {
+    display:block !important;
+}
 .clear, .fts-clear {
     clear: both
 }
@@ -952,9 +955,8 @@ h1.plugin-author-note {
 }
 
 .fb-page-list {
-    margin: 0;
+    margin: 0 25px !important;
     display: block;
-    max-width: 740px
 }
 
 .fb-page-list li {
@@ -1011,11 +1013,11 @@ h1.plugin-author-note {
 
 .fts-pages-info {
     background: #3b5999;
-    max-width: 710px;
     padding: 10px 15px 12px;
     color: #fff;
     margin-top: 1px;
-    letter-spacing: .5px
+    letter-spacing: .5px;
+    margin: 1px 25px 0 25px;
 }
 
 .fts-fb-page-thumb {
@@ -2852,7 +2854,7 @@ ul.ftg-free-list {
 }
 
 .ft-gallery-settings-tabs-meta-wrap ul {
-    margin: 0
+    margin: 0;
 }
 
 .ft-gallery-settings-tabs-meta-wrap .tab-content-wrap #images, .fts_page_template_settings_page .tab-content-wrap #layout, .post-type-fts_albums .tab-content-wrap #galleries {

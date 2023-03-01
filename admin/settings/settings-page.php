@@ -331,7 +331,7 @@ class Settings_Page {
                         		'type'    => 'select',
                         		'options' => $this->settings_functions->fts_get_timezone_setting_options(),
                         		'std'     => 'America/Los_Angeles',
-                                'tooltip_desc'    => __( 'Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
+                                'tooltip_desc'    => __( 'This option is only for FaceBook or Twitter. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
 
                         ),
                         'date_time_format' => array(

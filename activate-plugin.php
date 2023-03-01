@@ -50,7 +50,7 @@ class Activate_Plugin {
 		add_action( 'admin_notices', array( $this, 'display_update_notice' ) );
         
         // Upgrade Completed Add Action.
-		add_action( 'upgrader_process_complete', array( $this, 'upgrade_completed', 10, 2 ) );
+		add_action( 'upgrader_process_complete', array( $this, 'upgrade_completed' ), 10, 2 );
 
 		// Add Support/Settings links on plugin install page.
 		add_filter( 'plugin_action_links_' . FEED_THEM_SOCIAL_PLUGIN_BASENAME, array( $this, 'free_plugin_install_page_links' ), 10, 4 );

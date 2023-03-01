@@ -99,12 +99,7 @@ class Twitter_Feed {
 	 * @since 2.9.6.5
 	 */
     public function twitter_head() {
-
-        wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-        wp_localize_script( 'fts-global', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-        wp_enqueue_script( 'jquery' );
-        wp_enqueue_script( 'fts-global' );
-
+        // no actions or filters to load at this time.
     }
 
 	/**
@@ -847,10 +842,7 @@ class Twitter_Feed {
 
 		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
 
-            wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-            wp_localize_script( 'fts-global', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-            wp_enqueue_script( 'jquery' );
-            wp_enqueue_script( 'fts-global' );
+            wp_localize_script( 'fts-global-js', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
             // Saved Feed Settings!
             $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
@@ -923,9 +915,8 @@ class Twitter_Feed {
 				$twitter_no_more_tweets_text = $saved_feed_options['twitter_no_more_tweets_text'] ??  __( 'No More Tweets', 'feed-them-social' );
 
 				if ( isset( $popup ) && 'yes' === $popup ) {
-					// it's ok if these styles & scripts load at the bottom of the page.
-					$fts_fix_magnific = $saved_feed_options['fts_fix_magnific'] ?? '';
-					if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
+					$fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
+			        if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
 						wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, true );
 					}
 					wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, true );
@@ -1144,7 +1135,7 @@ class Twitter_Feed {
 
 						if ( isset( $profile_banner_url ) && isset( $cover_photo ) && 'yes' === $cover_photo ) {
 							?>
-	<div class="fts-twitter-backg-image">
+	                        <div class="fts-twitter-backg-image">
 							<?php
 							if ( isset( $twitter_show_follow_btn ) && 'yes' === $twitter_show_follow_btn && 'twitter-follow-above' === $twitter_show_follow_btn_where && ! empty( $twitter_name ) ) {
 								echo '<div class="twitter-social-btn-top">';
@@ -1152,9 +1143,9 @@ class Twitter_Feed {
 								echo '</div>';
 							}
 							?>
-		<img src="<?php echo esc_url( $profile_banner_url ); ?>"/>
+		                    <img src="<?php echo esc_url( $profile_banner_url ); ?>"/>
 
-	</div>
+	                        </div>
 							<?php
 						} elseif ( isset( $twitter_show_follow_btn ) && 'yes' === $twitter_show_follow_btn && 'twitter-follow-above' === $twitter_show_follow_btn_where && ! empty( $twitter_name ) && 'yes' !== $cover_photo ) {
 							echo '<div class="twitter-social-btn-top">';

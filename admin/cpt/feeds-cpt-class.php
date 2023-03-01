@@ -223,9 +223,10 @@ class Feeds_CPT {
         $current_get  = stripslashes_deep( $_GET );
         $current_post = stripslashes_deep( $_POST );
 
-        if ( 'fts' === $current_screen->post_type && 'post' === $current_screen->base && is_admin() ) {
-            // Set Feed CPT ID using _Get or _Post
-	        $this->feed_cpt_id = (int) $current_get['post'] ?? $current_post['post'];
+        // Set Feed CPT ID using _Get or _Post
+        // Previous version that threw warning: $this->feed_cpt_id = (int) $current_get['post'] ?? $current_post['post'];
+        if ( 'fts' === $current_screen->post_type && 'post' === $current_screen->base && is_admin() && isset( $current_get['post'] ) ) {
+            $this->feed_cpt_id = (int) $current_get['post'];
         }
     }
 
@@ -358,7 +359,7 @@ class Feeds_CPT {
 	                    if ( 'main_options' === $option_section_key ) {
 		                    // Loop through the options array.
 		                    foreach ( $main_options as $option ) {
-                                if ( $option['name'] ) {
+                                if ( !empty( $option['name'] ) ) {
                                     // If anything has changed update options!
                                     $access_token_options_array[ $option['name'] ] =  $option['default_value'] ?? '';
                                 }
@@ -767,8 +768,11 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function tab_layout_content() {
-
-        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['layout'], null, $this->feed_cpt_id );
+        $layout = null;
+        if ( isset( $this->feed_cpt_options_array, $this->feed_cpt_options_array['layout'] ) ) {
+            $layout = $this->feed_cpt_options_array['layout'];
+        }
+        echo $this->metabox_functions->options_html_form( $layout, null, $this->feed_cpt_id );
     }
 
     /**
@@ -779,8 +783,11 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function tab_colors_content() {
-
-        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['colors'], null, $this->feed_cpt_id );
+        $layout = null;
+        if ( isset( $this->feed_cpt_options_array, $this->feed_cpt_options_array['colors'] ) ) {
+            $layout = $this->feed_cpt_options_array['colors'];
+        }
+        echo $this->metabox_functions->options_html_form( $layout, null, $this->feed_cpt_id );
     }
 
     /**

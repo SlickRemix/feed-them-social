@@ -247,32 +247,8 @@ class Metabox_Functions {
 			// Enqueue jQuery. (Registered in WordPress Core)!
 			wp_enqueue_script( 'jquery' );
 
-			// Enqueue jQuery Form JS. (Registered in WordPress Core)!
-			wp_enqueue_script( 'jquery-form' );
-
-			// Enqueue jQuery UI Progressbar JS. (Registered in WordPress Core)!
-			// wp_enqueue_script( 'jquery-ui-progressbar' );
-
-			// Enqueue JS Color JS.
-			wp_enqueue_script( 'js_color', plugins_url( '/feed-them-social/metabox/js/jscolor/jscolor.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
-
-			// Register Metabox JS.
-			// wp_register_script( 'slick-metabox-js', plugins_url( 'feed-them-social/metabox/js/metabox.js' ), array(), FTS_CURRENT_VERSION, true );
-
-			// Localize Metabox JS.
-			wp_localize_script(
-				'slick-metabox-js',
-				'dgd_strings',
-				array(
-					'panel' => array(
-						'title'  => __( 'Upload Images for Feed Them Social' ),
-						'button' => __( 'Save and Close Popup' ),
-					),
-				)
-			);
-
-			// Enqueue Metabox JS.
-			wp_enqueue_script( 'slick-metabox-js' );
+            // Enqueue jQuery Form JS. (Registered in WordPress Core)!
+            wp_enqueue_script( 'jquery-form' );
 
 			// Register Metabox Tabs JS.
 			wp_register_script( 'slick-metabox-tabs', plugins_url( 'feed-them-social/metabox/js/metabox-tabs.js' ), array(), FTS_CURRENT_VERSION, true );
@@ -296,11 +272,6 @@ class Metabox_Functions {
 
 			// Enqueue Metabox Tabs JS.
 			wp_enqueue_script( 'slick-metabox-tabs' );
-			// Register jQuery Nested Sortable JS.
-			wp_register_script( 'jquery-nested-sortable-js', plugins_url( 'feed-them-social/metabox/js/jquery.mjs.nestedSortable.js' ), array( 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-sortable, ' ), FTS_CURRENT_VERSION, false );
-			// Enqueue jQuery Nested Sortable JS.
-			wp_enqueue_script( 'jquery-nested-sortable-js' );
-
 
             // Shortcode preview specific scripts
             wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
@@ -322,19 +293,20 @@ class Metabox_Functions {
                 wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
             }
 
-            wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-            wp_localize_script( 'fts-global', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+            wp_enqueue_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+            wp_localize_script( 'fts-global-js', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
             wp_enqueue_script( 'jquery' );
-            wp_enqueue_script( 'fts-global' );
+            wp_enqueue_script( 'fts-global-js' );
         }
 
-		// SRL: THESE SCRIPTS SHOULD ONLY BE LOADED ON THE GALLERY, ALBUM AND TEMPLATE SETTINGS PAGE, BUT THEY ARE ALSO LOADING ON THE GALLERY LIST AND ALBUM LIST PAGE TOO
 		// If is page we need to load extra metabox scripts usually loaded on a post page.
 		if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ||
             isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] ||
             isset( $_GET['page'] ) && 'fts-settings-page' === $_GET['page'] ||
             isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ||
             isset( $_GET['page'] ) && 'fts-system-info-submenu-page' === $_GET['page'] ) {
+
+            // SRL 4.0.3: pretty sure we don't need these anymore.
 			wp_enqueue_script( 'common' );
 			wp_enqueue_script( 'wp-lists' );
 			wp_enqueue_script( 'postbox' );
@@ -682,233 +654,234 @@ class Metabox_Functions {
 		$output .= isset( $section_info['options_wrap_class'] ) ? '<div class="'.$section_info['options_wrap_class'].'">' : '';
 
 		// Create settings fields for Feed OPTIONS.
-		foreach ( (array) $section_info['main_options'] as $option ) {
-			if ( ! isset( $option['no_html'] ) || isset( $option['no_html'] ) && 'yes' !== $option['no_html'] ) {
+        if ( !empty( $section_info['main_options'] ) ) {
+            foreach ( (array) $section_info['main_options'] as $option) {
+                if ( !isset( $option['no_html'] ) || isset( $option['no_html'] ) && 'yes' !== $option['no_html'] ) {
 
-				// Is an extension required for this option?
-                $required_extension_needed = isset( $option['req_extensions'] ) && is_array( $option['req_extensions'] ) ? $this->check_req_extensions($option['req_extensions']) : false;
+                    // Is an extension required for this option?
+                    $required_extension_needed = isset( $option['req_extensions'] ) && is_array( $option['req_extensions'] ) ? $this->check_req_extensions( $option['req_extensions'] ) : false;
 
-				// Sub option output START?
-				$output .= isset( $option['sub_options'] ) ? '<div class="' . $option['sub_options']['sub_options_wrap_class'] . ( false !== $required_extension_needed ? ' not-active-premium-fields' : '' ) . '">' . ( isset( $option['sub_options']['sub_options_title'] ) ? '<h3>' . $option['sub_options']['sub_options_title'] . '</h3>' : '' ) . ( isset( $option['sub_options']['sub_options_instructional_txt'] ) ? '<div class="instructional-text">' . $option['sub_options']['sub_options_instructional_txt'] . '</div>' : '' ) : '';
+                    // Sub option output START?
+                    $output .= isset( $option['sub_options'] ) ? '<div class="' . $option['sub_options']['sub_options_wrap_class'] . (false !== $required_extension_needed ? ' not-active-premium-fields' : '') . '">' . (isset( $option['sub_options']['sub_options_title'] ) ? '<h3>' . $option['sub_options']['sub_options_title'] . '</h3>' : '') . (isset( $option['sub_options']['sub_options_instructional_txt'] ) ? '<div class="instructional-text">' . $option['sub_options']['sub_options_instructional_txt'] . '</div>' : '') : '';
 
-				$output .= isset( $option['grouped_options_title'] ) ? '<h3 class="sectioned-options-title">' . $option['grouped_options_title'] . '</h3>' : '';
+                    $output .= isset( $option['grouped_options_title'] ) ? '<h3 class="sectioned-options-title">' . $option['grouped_options_title'] . '</h3>' : '';
 
-				// Only on a few options generally.
-				$output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '<div ' . ( isset( $option['outer_wrap_class'] ) ? 'class="' . $option['outer_wrap_class'] . '"' : '' ) . ' ' . ( isset( $option['outer_wrap_display'] ) && ! empty( $option['outer_wrap_display'] ) ? 'style="display:' . $option['outer_wrap_display'] . '"' : '' ) . '>' : '';
-				// Main Input Wrap.
-				$output .= '<div class="feed-them-social-admin-input-wrap ' . ( isset( $option['input_wrap_class'] ) ? $option['input_wrap_class'] : '' ) . '" ' . ( isset( $section_info['input_wrap_id'] ) ? 'id="' . $section_info['input_wrap_id'] . '"' : '' ) . '>';
-				// Instructional Text.
-				$output .= ! empty( $option['instructional-text'] ) && ! is_array( $option['instructional-text'] ) ? '<div class="instructional-text ' . ( isset( $option['instructional-class'] ) ? $option['instructional-class'] : '' ) . '">' . $option['instructional-text'] . '</div>' : '';
+                    // Only on a few options generally.
+                    $output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '<div ' . (isset( $option['outer_wrap_class'] ) ? 'class="' . $option['outer_wrap_class'] . '"' : '') . ' ' . (isset( $option['outer_wrap_display'] ) && !empty( $option['outer_wrap_display'] ) ? 'style="display:' . $option['outer_wrap_display'] . '"' : '') . '>' : '';
+                    // Main Input Wrap.
+                    $output .= '<div class="feed-them-social-admin-input-wrap ' . (isset( $option['input_wrap_class'] ) ? $option['input_wrap_class'] : '') . '" ' . (isset( $section_info['input_wrap_id'] ) ? 'id="' . $section_info['input_wrap_id'] . '"' : '') . '>';
+                    // Instructional Text.
+                    $output .= !empty( $option['instructional-text'] ) && !is_array( $option['instructional-text'] ) ? '<div class="instructional-text ' . (isset( $option['instructional-class'] ) ? $option['instructional-class'] : '') . '">' . $option['instructional-text'] . '</div>' : '';
 
-				if ( ! empty( $option['instructional-text'] ) && is_array( $option['instructional-text'] ) ) {
-					foreach ( $option['instructional-text'] as $instructional_txt ) {
-						// Instructional Text.
-						$output .= '<div class="instructional-text ' . ( isset( $instructional_txt['class'] ) ? $instructional_txt['class'] : '' ) . '">' . $instructional_txt['text'] . '</div>';
-					}
-				}
-
-				// Label Text.
-				$output .= isset( $option['label'] ) && ! is_array( $option['label'] ) ? '<div class="feed-them-social-admin-input-label ' . ( isset( $option['label_class'] ) ? $option['label_class'] : '' ) . '">' . $option['label'] . '</div>' : '';
-
-				if ( ! empty( $option['label'] ) && is_array( $option['label'] ) ) {
-					foreach ( $option['label'] as $label_txt ) {
-						// Label Text.
-						$output .= '<div class="feed-them-social-admin-input-label ' . ( isset( $label_txt['class'] ) ? $label_txt['class'] : '' ) . '">' . $label_txt['text'] . '</div>';
-					}
-				}
-
-				// Set Option name.
-				$option_name = $option['name'];
-
-				// Set Option ID.
-				$option_id = $option['id'];
-
-                // note: ?? case will not work
-                $default_value = isset( $option['default_value'] ) ? $option['default_value'] : '';
-
-                // Use Saved Options or Default Value?
-				$final_value = isset( $saved_options[ $option_name ] ) && ! empty( $saved_options[ $option_name ] ) ? $saved_options[ $option_name ] : $default_value;
-
-				// Do we need to output any Metabox Specific Form Inputs?
-				if ( isset( $this->metabox_specific_form_inputs ) && true == $this->metabox_specific_form_inputs ) {
-					// Set Current Params.
-					$params = array(
-						// 'This' Class object.
-						//'this'         => $this->current_this,
-						// Option Info.
-						//'input_option' => $option,
-					);
-
-					$output .= call_user_func( array( $this, 'metabox_specific_form_inputs' ), $params );
-				}
-
-				if ( isset( $option['option_type'] ) ) {
-
-                    $check_encrypted = '';
-
-                    // Decrypt if Access token option based on option id.
-                    switch ( $option_id ){
-                        case 'fts_instagram_custom_api_token':
-	                    case 'fts_facebook_instagram_custom_api_token':
-	                    case 'fts_facebook_custom_api_token':
-	                    case 'fts_twitter_custom_access_token':
-	                    case 'youtube_custom_api_token':
-	                    case 'youtube_custom_access_token':
-                                $check_encrypted = false !== $this->data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
-                            break;
+                    if ( !empty( $option['instructional-text'] ) && is_array( $option['instructional-text'] ) ) {
+                        foreach ( $option['instructional-text'] as $instructional_txt ) {
+                            // Instructional Text.
+                            $output .= '<div class="instructional-text ' . (isset( $instructional_txt['class'] ) ? $instructional_txt['class'] : '') . '">' . $instructional_txt['text'] . '</div>';
+                        }
                     }
 
-                    // Check if field needs to be set to 'disabled'.
-					$disabled = false !== $required_extension_needed ? ' disabled="disabled"' : '';
+                    // Label Text.
+                    $output .= isset( $option['label'] ) && !is_array( $option['label'] ) ? '<div class="feed-them-social-admin-input-label ' . (isset( $option['label_class'] ) ? $option['label_class'] : '') . '">' . $option['label'] . '</div>' : '';
 
-					// Build Fields for output based on Option Type.
-					switch ( $option['option_type'] ) {
-						// Input Field.
-						case 'input':
-							$output .= sprintf(
-							    // Any changes to fields here must be added to list of wp_kses list on output return below.
-								'<input type="%s" name="%s" id="%s" class="feed-them-social-admin-input%s" placeholder="%s" value="%s" %s%s%s/>',
-								$option['type'],
-								$option_name,
-								$option_id,
-								isset( $option['class'] ) ? ' ' . $option['class'] : '',
-								isset( $option['placeholder'] ) ? $option['placeholder'] : '',
-								$final_value,
-								$check_encrypted ? ' data-token="' . $check_encrypted : '',
-								isset( $option['autocomplete'] ) ? ' autocomplete="' . ' ' . $option['autocomplete'] : '',
-								$disabled
-							);
-							break;
+                    if ( !empty( $option['label'] ) && is_array( $option['label'] ) ) {
+                        foreach ( $option['label'] as $label_txt ) {
+                            // Label Text.
+                            $output .= '<div class="feed-them-social-admin-input-label ' . (isset( $label_txt['class'] ) ? $label_txt['class'] : '') . '">' . $label_txt['text'] . '</div>';
+                        }
+                    }
 
-						// Select & Multi-Select Fields.
-						case 'select':
-						case 'select_multi':
-							$multiple = '';
-                            // Set Multi Select Array.
-							if ( 'select_multi' == $option['option_type'] )	{
-								$multiple    = ' multiple';
-								$option_name = $option_name . '[]';
-							}
-							$output .= sprintf(
-							    // Any changes to fields here must be added to list of wp_kses list on output return below.
-								'<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
-								$disabled,
-								$option_name,
-								$option_id,
-								isset( $option['class'] ) ? ' ' . $option['class'] : '',
-								$multiple
-							);
-							$i = 0;
+                    // Set Option name.
+                    $option_name = $option['name'];
 
-							foreach ( $option['options'] as $select_option ) {
-								$selected = '';
+                    // Set Option ID.
+                    $option_id = $option['id'];
 
-								if ( 'select_multi' == $option['option_type'] )  {
-									$final_value = ! is_array( $final_value ) ? array( $final_value ) : $final_value;
-									$selected    = in_array( $select_option['value'], $final_value ) ? ' selected="selected"' : '';
-								} elseif ( ! empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ) {
-									$selected = ' selected="selected"';
-								}
+                    // note: ?? case will not work
+                    $default_value = isset( $option['default_value'] ) ? $option['default_value'] : '';
 
-								$output .= sprintf(
-									'<option value="%s"%s>%s</option>',
-									$select_option['value'],
-									$selected,
-									$select_option['label']
-								);
-								$i++;
-							}
-							$output .= '</select>';
+                    // Use Saved Options or Default Value?
+                    $final_value = isset( $saved_options[$option_name] ) && !empty( $saved_options[$option_name] ) ? $saved_options[$option_name] : $default_value;
 
-							break;
+                    // Do we need to output any Metabox Specific Form Inputs?
+                    if ( isset( $this->metabox_specific_form_inputs ) && true == $this->metabox_specific_form_inputs ) {
+                        // Set Current Params.
+                        $params = array(
+                            // 'This' Class object.
+                            //'this'         => $this->current_this,
+                            // Option Info.
+                            //'input_option' => $option,
+                        );
 
-                        // Select Option Specific to the Facebook Language Option
-                        case 'select_fb_language':
+                        $output .= call_user_func( array($this, 'metabox_specific_form_inputs'), $params );
+                    }
 
-                            $output .= sprintf(
-                            // Any changes to fields here must be added to list of wp_kses list on output return below.
-                                '<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
-                                $disabled,
-                                $option_name,
-                                $option_id,
-                                isset( $option['class'] ) ? ' ' . $option['class'] : '',
-                                isset( $multiple ) ? $multiple : '',
-                            );
+                    if ( isset( $option['option_type'] ) ) {
 
-                            $lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
+                        $check_encrypted = '';
 
+                        // Decrypt if Access token option based on option id.
+                        switch ($option_id) {
+                            case 'fts_instagram_custom_api_token':
+                            case 'fts_facebook_instagram_custom_api_token':
+                            case 'fts_facebook_custom_api_token':
+                            case 'fts_twitter_custom_access_token':
+                            case 'youtube_custom_api_token':
+                            case 'youtube_custom_access_token':
+                                $check_encrypted = false !== $this->data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
+                                break;
+                        }
 
-                            if ( ! empty( $lang_options_array->locale ) ) {
+                        // Check if field needs to be set to 'disabled'.
+                        $disabled = false !== $required_extension_needed ? ' disabled="disabled"' : '';
 
+                        // Build Fields for output based on Option Type.
+                        switch ($option['option_type']) {
+                            // Input Field.
+                            case 'input':
+                                $output .= sprintf(
+                                // Any changes to fields here must be added to list of wp_kses list on output return below.
+                                    '<input type="%s" name="%s" id="%s" class="feed-them-social-admin-input%s" placeholder="%s" value="%s" %s%s%s/>',
+                                    $option['type'],
+                                    $option_name,
+                                    $option_id,
+                                    isset( $option['class'] ) ? ' ' . $option['class'] : '',
+                                    isset( $option['placeholder'] ) ? $option['placeholder'] : '',
+                                    $final_value,
+                                    $check_encrypted ? ' data-token="' . $check_encrypted : '',
+                                    isset( $option['autocomplete'] ) ? ' autocomplete="' . ' ' . $option['autocomplete'] : '',
+                                    $disabled
+                                );
+                                break;
+
+                            // Select & Multi-Select Fields.
+                            case 'select':
+                            case 'select_multi':
+                                $multiple = '';
+                                // Set Multi Select Array.
+                                if ( 'select_multi' == $option['option_type'] ) {
+                                    $multiple = ' multiple';
+                                    $option_name = $option_name . '[]';
+                                }
+                                $output .= sprintf(
+                                // Any changes to fields here must be added to list of wp_kses list on output return below.
+                                    '<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
+                                    $disabled,
+                                    $option_name,
+                                    $option_id,
+                                    isset( $option['class'] ) ? ' ' . $option['class'] : '',
+                                    $multiple
+                                );
                                 $i = 0;
-                                foreach ( $lang_options_array->locale as $language ) {
 
+                                foreach ( $option['options'] as $select_option ) {
                                     $selected = '';
 
-                                  // $selected = ' selected="'.$language->codes->code->standard->representation .'"';
-                                    if ( ! empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
-                                       $selected = ' selected="selected"';
+                                    if ( 'select_multi' == $option['option_type'] ) {
+                                        $final_value = !is_array( $final_value ) ? array($final_value) : $final_value;
+                                        $selected = in_array( $select_option['value'], $final_value ) ? ' selected="selected"' : '';
+                                    } elseif ( !empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ) {
+                                        $selected = ' selected="selected"';
                                     }
 
-                                    $output .= '<option ' . $selected . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
-
-
+                                    $output .= sprintf(
+                                        '<option value="%s"%s>%s</option>',
+                                        $select_option['value'],
+                                        $selected,
+                                        $select_option['label']
+                                    );
                                     $i++;
                                 }
-                            }
+                                $output .= '</select>';
 
+                                break;
 
-                            /*$i = 0;
-                            foreach ( $option['options'] as $select_option ) {
-                                $selected = '';
-
-                                if ( 'select_multi' == $option['option_type'] )  {
-                                    $final_value = ! is_array( $final_value ) ? array( $final_value ) : $final_value;
-                                    $selected    = in_array( $select_option['value'], $final_value ) ? ' selected="selected"' : '';
-                                } elseif ( ! empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ) {
-                                    $selected = ' selected="selected"';
-                                }
+                            // Select Option Specific to the Facebook Language Option
+                            case 'select_fb_language':
 
                                 $output .= sprintf(
-                                    '<option value="%s"%s>%s</option>',
-                                    $select_option['value'],
-                                    $selected,
-                                    $select_option['label']
+                                // Any changes to fields here must be added to list of wp_kses list on output return below.
+                                    '<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
+                                    $disabled,
+                                    $option_name,
+                                    $option_id,
+                                    isset( $option['class'] ) ? ' ' . $option['class'] : '',
+                                    isset( $multiple ) ? $multiple : '',
                                 );
-                                $i++;
-                            }*/
+
+                                $lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
 
 
-                            $output .= '</select>';
+                                if ( !empty( $lang_options_array->locale ) ) {
 
-                            break;
+                                    $i = 0;
+                                    foreach ( $lang_options_array->locale as $language ) {
 
-						// Checkbox Field.
-						case 'checkbox':
-							$output .= sprintf(
-							    // Any changes to fields here must be added to list of wp_kses list on output return below.
-								'<input type="checkbox" name="%s" id="%s"%s%s/>',
-								$option_name,
-								$option_id,
-								checked( 'true', $final_value, false ),
-								$disabled
-							);
-							break;
-					}
-				}
+                                        $selected = '';
 
-                // SRL: @Justin I'm taking this out cause it does not appear to be doing anything that I can tell.
-                // !$required_extension_needed ||
-				if( $required_extension_needed && true === $required_extension_needed ){
-					$output .= '<div class="fts-required-extension-wrap">';
+                                        // $selected = ' selected="'.$language->codes->code->standard->representation .'"';
+                                        if ( !empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
+                                            $selected = ' selected="selected"';
+                                        }
+
+                                        $output .= '<option ' . $selected . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
+
+
+                                        $i++;
+                                    }
+                                }
+
+
+                                /*$i = 0;
+                                foreach ( $option['options'] as $select_option ) {
+                                    $selected = '';
+
+                                    if ( 'select_multi' == $option['option_type'] )  {
+                                        $final_value = ! is_array( $final_value ) ? array( $final_value ) : $final_value;
+                                        $selected    = in_array( $select_option['value'], $final_value ) ? ' selected="selected"' : '';
+                                    } elseif ( ! empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ) {
+                                        $selected = ' selected="selected"';
+                                    }
+
+                                    $output .= sprintf(
+                                        '<option value="%s"%s>%s</option>',
+                                        $select_option['value'],
+                                        $selected,
+                                        $select_option['label']
+                                    );
+                                    $i++;
+                                }*/
+
+
+                                $output .= '</select>';
+
+                                break;
+
+                            // Checkbox Field.
+                            case 'checkbox':
+                                $output .= sprintf(
+                                // Any changes to fields here must be added to list of wp_kses list on output return below.
+                                    '<input type="checkbox" name="%s" id="%s"%s%s/>',
+                                    $option_name,
+                                    $option_id,
+                                    checked( 'true', $final_value, false ),
+                                    $disabled
+                                );
+                                break;
+                        }
+                    }
+
+                    // SRL: @Justin I'm taking this out cause it does not appear to be doing anything that I can tell.
+                    // !$required_extension_needed ||
+                    if ( $required_extension_needed && true === $required_extension_needed ) {
+                        $output .= '<div class="fts-required-extension-wrap">';
 
                         foreach ( $option['req_extensions'] as $req_extension ) {
 
                             // For testing.
-                           // $output .= print_r( $this->prem_extension_list[$req_extension] );
+                            // $output .= print_r( $this->prem_extension_list[$req_extension] );
 
-                            if( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && 'feed_them_social_premium' === $option['req_extensions'][0] &&
-                                'feed_them_social_facebook_reviews' === $option['req_extensions'][1] ){
+                            if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && 'feed_them_social_premium' === $option['req_extensions'][0] &&
+                                'feed_them_social_facebook_reviews' === $option['req_extensions'][1] ) {
 
                                 $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
                                     $this->prem_extension_list[$req_extension]['purchase_url'],
@@ -937,35 +910,36 @@ class Metabox_Functions {
                                     break;
                             }
 
-                                $output .= sprintf( '<a class="feed-them-social-req-extension" target="_blank" href="%s">%s</a>',
-                                    $this->prem_extension_list[$req_extension]['purchase_url'],
-                                    $title_change
-                                );
+                            $output .= sprintf( '<a class="feed-them-social-req-extension" target="_blank" href="%s">%s</a>',
+                                $this->prem_extension_list[$req_extension]['purchase_url'],
+                                $title_change
+                            );
 
                         }
 
-					$output .= '</div>';
-				}
+                        $output .= '</div>';
+                    }
 
-				$output .= '<div class="clear"></div>';
-				$output .= '</div><!--/feed-them-social-admin-input-wrap-->';
+                    $output .= '<div class="clear"></div>';
+                    $output .= '</div><!--/feed-them-social-admin-input-wrap-->';
 
-				$output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '</div>' : '';
+                    $output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '</div>' : '';
 
-				// Sub option output END?
-				if ( isset( $option['sub_options_end'] ) ) {
-					$output .= ! is_numeric( $option['sub_options_end'] ) ? '</div>' : '';
-					// Multiple Div needed?
-					if ( is_numeric( $option['sub_options_end'] ) ) {
-						$x = 1;
-						while ( $x <= $option['sub_options_end'] ) {
-							$output .= '</div>';
-							$x++;
-						}
-					}
-				}
-			}
-		}
+                    // Sub option output END?
+                    if ( isset( $option['sub_options_end'] ) ) {
+                        $output .= !is_numeric( $option['sub_options_end'] ) ? '</div>' : '';
+                        // Multiple Div needed?
+                        if ( is_numeric( $option['sub_options_end'] ) ) {
+                            $x = 1;
+                            while ($x <= $option['sub_options_end']) {
+                                $output .= '</div>';
+                                $x++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
 		//END Section Options Wrap Class.
 		$output .= isset( $section_info['options_wrap_class'] ) ? '</div>' : '';

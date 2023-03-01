@@ -107,7 +107,7 @@ class Instagram_Feed {
 	 * @since 4.0.0
 	 */
 	public function add_actions_filters() {
-        add_action( 'wp_enqueue_scripts', array( $this, 'fts_instagram_head' ) );
+        // no actions or filters to load at this time.
 	}
 
     /**
@@ -187,17 +187,6 @@ class Instagram_Feed {
 	}
 
 	/**
-	 * FTS Instagram Head
-	 *
-	 * Enqueue styles for this feed.
-	 *
-	 * @since 1.9.6
-	 */
-	public function fts_instagram_head() {
-		wp_enqueue_style( 'fts-feeds', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), array(), FTS_CURRENT_VERSION );
-	}
-
-	/**
 	 * Display Instagram Feed
 	 *
 	 * Outputs the Instagram Feed.
@@ -215,7 +204,7 @@ class Instagram_Feed {
 			}
 		}
 
-		$fts_instagram_feed_nonce = wp_create_nonce( 'fts-instagram-feed-page-nonce' );
+        $fts_instagram_feed_nonce = wp_create_nonce( 'fts-instagram-feed-page-nonce' );
 
 		if ( wp_verify_nonce( $fts_instagram_feed_nonce, 'fts-instagram-feed-page-nonce' ) ) {
 
@@ -229,15 +218,16 @@ class Instagram_Feed {
             // Get our Additional Options.
             $this->instagram_custom_styles( $feed_post_id );
 
-          //  print_r( $saved_feed_options );
+            // Testing
+            // print_r( $saved_feed_options );
+
+            $height                = $saved_feed_options['instagram_page_height'] ?? '';
 
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 
                 // SRL commented out for new 4.0 testing.. passing vars below.
 				//include WP_PLUGIN_DIR . '/feed-them-premium/feeds/instagram/instagram-feed.php';
-
                 $popup                 = $saved_feed_options['instagram_popup_option'] ?? '';
-                $height                = $saved_feed_options['instagram_page_height']?? '';
                 $loadmore_option       = $saved_feed_options['instagram_load_more_option'] ?? '';
                 $loadmore              = $saved_feed_options['instagram_load_more_style'] ?? '';
                 $loadmore_btn_margin   = $saved_feed_options['instagram_loadmore_button_margin'] ?? '';
@@ -298,9 +288,6 @@ class Instagram_Feed {
 //			);
 
 
-            // NEXT TASK IS TO MOVE OVER THE CUSTOM CSS OPTIONS LIKE I DID FOR FB FEED ALREADY. JUST COPY WORK OVER...
-
-
 			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['instagram_pics_count'] > '6' ) {
                 $saved_feed_options['instagram_pics_count'] = '6';
 			}
@@ -328,6 +315,12 @@ class Instagram_Feed {
                     $access_token_expires_in = !empty( $saved_feed_options['fts_instagram_custom_api_token_expires_in'] ) ? $saved_feed_options['fts_instagram_custom_api_token_expires_in'] : '';
                     break;
 
+            }
+
+            if( empty($access_token) ){
+                // SRL 4.0 I need to wrap this in something so I can hide it with js to clean this up when a feed is loaded.
+                echo esc_html( 'Feed Them Social: Instagram Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' );
+                return;
             }
 
             // Decrypt Access Token.
@@ -361,9 +354,7 @@ class Instagram_Feed {
 					$this->feed_functions->feed_them_instagram_refresh_token( $feed_post_id );
 				}
 			}
-            // SRL 4.0 Note: no clue why this is here. Pending deletion after launch.
-			//wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-			$instagram_data_array = array();
+         	$instagram_data_array = array();
 
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				$instagram_load_more_text      = $saved_feed_options['instagram_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
@@ -545,6 +536,7 @@ class Instagram_Feed {
                         $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
                         $instagram_business_output->data[]     = $instagram_business_media;
                     }
+
                     // The reason we array_merge the $instagram_business_output is because it contains the paging for next and previous links so we can loadmore posts
                     $insta_data = (object) array_merge( (array) $instagram_business_user_info, (array) $instagram_business, (array) $instagram_business_output );
 

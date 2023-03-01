@@ -129,6 +129,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * FIX: Error.log: PHP 7-9.19: Warnings notices.
   * FIX: PHP 8+ Warning: suppress Trim words functions with #[\ReturnTypeWillChange] Full fix coming soon.
   * REMOVED: Old trim_words function as it was depreciated already.
+  * NOTE: Please update any Paid extensions as well.
 
 = Version 4.0.0 - 4.0.2 Monday, February 20th, 2023 =
   * NEW: Custom Post type now houses all feed types.

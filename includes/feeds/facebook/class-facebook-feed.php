@@ -889,7 +889,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
 				if ( 'page' === $saved_feed_options['facebook_page_feed_type'] && isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] ||
                     'reviews' === $saved_feed_options['facebook_page_feed_type'] && isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-					echo '<div class="fts-slicker-facebook-posts masonry js-masonry ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['facebook_popup']  ? 'popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ( 'no' === $saved_feed_options['facebook_container_position'] ? 'false' : 'true' ) . ' ' . ( isset( $saved_feed_options['facebook_container_animation'] ) && 'no' === $saved_feed_options['facebook_container_animation'] ? ', "transitionDuration": 0' : '' ) . '}\'>';
+					echo '<div class="fts-slicker-facebook-posts masonry js-masonry ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['facebook_popup']  ? 'popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ( 'no' === $saved_feed_options['facebook_container_position'] ? 'false' : 'true' ) . ',"transitionDuration": 0 }\'>';
 				}
 			} else {
                 $facebook_page_height = isset( $saved_feed_options['facebook_page_height'] ) ? $saved_feed_options['facebook_page_height'] : '';
@@ -1666,10 +1666,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			}
 			wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 			wp_enqueue_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-			// SRL 4.0: pretty sure we don' need to load this here. now.
-            /*if ( ! isset( $saved_feed_options['facebook_video_album'] ) && isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
-				wp_enqueue_script( 'fts-global', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
-			}*/
 		}
 	}
 

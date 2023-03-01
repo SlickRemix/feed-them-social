@@ -1158,7 +1158,7 @@ class Settings_Functions {
         $timezone_set = $this->fts_get_option( 'timezone', 'America/Los_Angeles' );
 
         // Create a new DateTimeZone object
-        $timezone = wp_timezone_supported($timezone_set) ? new \DateTimeZone($timezone_set) : null;
+        $timezone = \in_array( $timezone_set, timezone_identifiers_list(), true ) ? new \DateTimeZone($timezone_set) : null;
 
         $formats = array(
             'one-day-ago'          => __( '1 day ago', 'feed_them_social' ),

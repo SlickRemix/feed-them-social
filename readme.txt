@@ -116,13 +116,18 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.0.3 Wednesday, February 22th, 2023 =
+= Version 4.0.3 Wednesday, March 1st, 2023 =
+  * FIX: Twitter: Follow Button not displaying.
   * FIX: Label for Facebook option on Feed edit page changed to "Number of Posts".
   * FIX: Instagram: Height option to create scrolling feed.
-  * FIX: do_action upgrader_process_complete call.
-  * FIX: Custom CSS option on Settings page.
-  * FIX: Date & Time options on Settings page.
-  * FIX: Site Health error about date and time default.
+  * FIX: do_action upgrader_process_complete call causing Fatal Error in some instances.
+  * FIX: Settings: Custom CSS & JS option.
+  * FIX: Settings: Date & Time options on Settings page.
+  * FIX: Settings: Twitter Time offset.
+  * FIX: Site Health: error about date and time default.
+  * FIX: Enqueue scripts only on pages that display our shortcode.
+  * FIX: Error.log: PHP 7-9.19: Warnings notices.
+  * FIX: PHP 8+ Warning: suppress Trim words functions with #[\ReturnTypeWillChange] Full fix coming soon.
   * REMOVED: Old trim_words function as it was depreciated already.
 
 = Version 4.0.0 - 4.0.2 Monday, February 20th, 2023 =

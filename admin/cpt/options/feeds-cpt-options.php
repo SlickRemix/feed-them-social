@@ -1579,7 +1579,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'fixed_height_option',
 					'option_type' => 'input',
-					'label'       => __( 'Facebook Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto height', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Facebook Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Cannot use with Grid', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'facebook_page_height',
 					'name'        => 'facebook_page_height',
@@ -3168,7 +3168,7 @@ class Feed_CPT_Options {
 					'input_wrap_class' => 'instagram_fixed_height_option',
 					'option_type' => 'input',
 					'label'       => __( 'Gallery Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Used to create a scrolling feed.', 'feed-them-social' ) . '</small>',
-					'label_note'  => __( 'Leave blank for auto height', 'feed-them-social' ),
+					'label_note'  => __( 'Cannot use with Grid', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'instagram_page_height',
 					'name'        => 'instagram_page_height',
@@ -3771,7 +3771,7 @@ class Feed_CPT_Options {
                 // Twitter Fixed Height
                 array(
                     'option_type' => 'input',
-                    'label'       => __( 'Twitter Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto height', 'feed-them-social' ) . '</small>',
+                    'label'       => __( 'Twitter Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Cannot use with Grid', 'feed-them-social' ) . '</small>',
                     'type'        => 'text',
                     'id'          => 'twitter_height',
                     'name'        => 'twitter_height',
@@ -5000,7 +5000,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'combine_height',
 					'option_type' => 'input',
-					'label'       => __( 'Feed Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto height', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Feed Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Cannot use with Grid', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'combine_height',
 					'name'        => 'combine_height',

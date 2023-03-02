@@ -1,44 +1,5 @@
 jQuery(document).ready(function($) {
 
-    // Find all text nodes on the page and filter for those that start with "[fts_"
-    var $ftsTextNodes = $('body').find('*').contents().filter(function() {
-        return this.nodeType === 3 && this.textContent.indexOf('[fts_') === 0;
-    });
-
-    // Loop through each matching text node and wrap it in a div with a specific style
-    $ftsTextNodes.each(function() {
-        var text = $(this).text();
-        var $div = $('<div>').text(text).addClass('fts-legacy-shortcode');
-        var $legacyDiv = $('<div>').addClass('fts-legacy-shortcode-wrap');
-        var $legacySpan = $('<span class="fts-legacy-code-instruction">').text('Only visible to admins. This is a legacy shortcode, click on the shortcode below to start the conversion process.');
-        var $successSpan = $('<span>').text('Success, shortcode copied to clipboard. ').addClass('success-message');
-        var $successSpan2 = $('<span>').text('After clicking the Next Step link a new Feed post should be created, now paste your old shortcode in the Convert Shortcode widget. Once complete you will replace your old shortcode with the new one. ').addClass('fts-convert-shortcode-message-success');
-
-        var $link = $('<a>').text('Click here for Next Step.').attr('href', ftsAjax.createNewFeedUrl).attr('target', '_blank').addClass('fts-convert-shortcode-next-step-link').append('<br/>') ;
-        var $link2 = $('<a>').text('Convert Shortcode Documentation Reference').attr('href', 'https://www.slickremix.com/documentation/convert-old-shortcode/').attr('target', '_blank') ;
-        $legacyDiv.append($legacySpan).append($div);
-        $(this).replaceWith($legacyDiv);
-
-        // Add a click event handler to the div that copies the shortcode to clipboard and shows the success message
-        $legacyDiv.click(function() {
-            var el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            $div.css('display', 'none');
-            $('.fts-legacy-code-instruction').hide();
-            $legacyDiv.append($successSpan).append($link).append($successSpan2).append($link2);
-        });
-    });
-
-    // Hide the fts-legacy-shortcode-wrap element when the body does not have the "logged-in" class
-    if (!$('body').hasClass('logged-in')) {
-        $('.fts-legacy-shortcode-wrap').css('display', 'none');
-    }
-
-
     // Run our function after the page has finished loading to retrieve our external urls meta tag details.
     fts_external_link_meta_content();
 
@@ -47,7 +8,6 @@ jQuery(document).ready(function($) {
     }, function() {
         jQuery("body").css("overflow","auto");
     });
-
 
     jQuery( document ).on( 'keydown', function ( e ) {
         if ( e.keyCode === 27 ) { // ESC
@@ -87,13 +47,6 @@ jQuery(document).ready(function($) {
 if (!jQuery.trim(jQuery('.fts-jal-fb-group-display').html()).length) {
     jQuery('.fts-jal-fb-group-display').append('<div class="fts-facebook-add-more-posts-notice"><p>Please go to the <strong>Facebook Options</strong> page of our plugin and look for the "<strong>Change Post Limit</strong>" option and add the number <strong>7</strong> or more. You can also hide this notice on the Facebook Options page if you want.</p>If you are trying to add a Personal Facebook feed and you are seeing this message too, please note: <strong>Personal Facebook Accounts generally do not work with our plugin.</strong></div>')
 }
-jQuery(window).on('load', function() {
-    if (jQuery.fn.masonry) {
-        setTimeout(function () {
-            jQuery(".fts-pinterest-wrapper.masonry").masonry("layout");
-        }, 200);
-    }
-});
 
 // https://www.w3schools.com/js/js_comparisons.asp
 // >	greater than   x > 8	true
@@ -108,7 +61,6 @@ function slickremixImageResizing() {
     var ftsBlockCenteredAttr = jQuery('.fts-instagram-inline-block-centered');
     // var ftsname = arguments["0"]
     //  var ftsBlockCenteredAttr = jQuery(ftsname);
-
 
     // alert(ftsBlockCenteredAttr);
 

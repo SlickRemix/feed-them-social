@@ -117,7 +117,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.0.4 Thursday, March 2nd, 2023 =
-  * FIX: Missing Convert Legacy Shortcode instructions on the front end for legacy shortocdes.
+  * FIX: Missing Convert Legacy Shortcode instructions on the front end for legacy shortcodes.
   * COMING SOON: Import/Export: Single Feed Options.
 
 = Version 4.0.3 Wednesday, March 1st, 2023 =

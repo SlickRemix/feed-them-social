@@ -261,6 +261,8 @@ class Metabox_Functions {
 					'ajaxEncryptNonce' => wp_create_nonce( 'fts_encrypt_token' ),
 					'ajaxDecryptNonce' => wp_create_nonce( 'fts_decrypt_token' ),
 					'ajaxRefreshFeedNonce' => wp_create_nonce( 'fts_refresh_feed_nonce' ),
+                    'ajaxExportFeedOptionsNonce' => wp_create_nonce( 'fts_export_feed_options_nonce' ),
+                    'ajaxImportFeedOptionsNonce' => wp_create_nonce( 'fts_import_feed_options_nonce' ),
 					'submit_msgs' => array(
 						'saving_msg'  => __( 'Saving Options' ),
 						'success_msg' => __( 'Settings Saved Successfully' ),

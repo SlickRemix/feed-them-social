@@ -115,6 +115,8 @@ class Feed_Functions {
         add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_refresh_feed_ajax', array( $this, 'fts_refresh_feed_ajax' ) );
+        add_action( 'wp_ajax_fts_export_feed_options_ajax', array( $this, 'fts_export_feed_options_ajax' ) );
+        add_action( 'wp_ajax_fts_import_feed_options_ajax', array( $this, 'fts_import_feed_options_ajax' ) );
 
         if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
             // Load More Options.
@@ -1218,6 +1220,81 @@ class Feed_Functions {
         wp_die();
     }
 
+    /**
+     * FTS Export Options Ajax
+     *
+     * SRL: Used when users request support. This will export the options
+     * of a feed and decrypt the access token for FaceBook or Instagram.
+     *
+     * @since 4.0.4
+     */
+    public function fts_export_feed_options_ajax() {
+
+        check_ajax_referer( 'fts_export_feed_options_nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+        }
+
+        $cpt_id = (int) $_REQUEST['cpt_id'];
+        $saved_feed_options = $this->get_saved_feed_options( esc_html( $cpt_id ) );
+
+        // If Instagram token decrypt.
+        if ( isset($saved_feed_options['fts_instagram_custom_api_token']) ) {
+           $saved_feed_options['fts_instagram_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_instagram_custom_api_token'] );
+        }
+        // If Instagram Business token decrypt.
+        if ( isset($saved_feed_options['fts_facebook_instagram_custom_api_token']) ) {
+            $saved_feed_options['fts_facebook_instagram_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
+        }
+
+        // If Facebook Business token decrypt.
+        if ( isset($saved_feed_options['fts_facebook_custom_api_token']) ) {
+            $saved_feed_options['fts_facebook_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
+        }
+
+        echo json_encode( $saved_feed_options );
+
+        wp_die();
+    }
+
+    /**
+     * FTS Import Options Ajax
+     *
+     * SRL: Used when users request support. This will import the options
+     * of a feed and encrypt the access token for FaceBook or Instagram.
+     *
+     * @since 4.0.4
+     */
+    public function fts_import_feed_options_ajax() {
+
+        check_ajax_referer( 'fts_import_feed_options_nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+        }
+
+        $cpt_id = (int) $_REQUEST['cpt_id'];
+
+        $saved_feed_options = json_decode( stripslashes( $_REQUEST['cpt_import'] ) , true );
+
+        // If Instagram token encrypt.
+        if ( isset($saved_feed_options['fts_instagram_custom_api_token']) ) {
+            $saved_feed_options['fts_instagram_custom_api_token'] = $this->data_protection->encrypt( $saved_feed_options['fts_instagram_custom_api_token'] );
+        }
+        // If Instagram Business token encrypt.
+        if ( isset($saved_feed_options['fts_facebook_instagram_custom_api_token']) ) {
+            $saved_feed_options['fts_facebook_instagram_custom_api_token'] = $this->data_protection->encrypt( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
+        }
+        // If Facebook Business token decrypt.
+        if ( isset($saved_feed_options['fts_facebook_custom_api_token']) ) {
+            $saved_feed_options['fts_facebook_custom_api_token'] = $this->data_protection->encrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
+        }
+
+        update_post_meta( $cpt_id, 'fts_feed_options_array', $saved_feed_options );
+
+        wp_die();
+    }
 
     /**
      * FTS Instagram Token Ajax

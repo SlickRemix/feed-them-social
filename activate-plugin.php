@@ -121,7 +121,7 @@ class Activate_Plugin {
 	 */
 	public function load_translations_languages() {
 		// Localization. (Plugin string translations).
-		load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_BASENAME . '/languages' );
+		load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/languages' );
 	}
 
 	/**

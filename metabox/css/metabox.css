@@ -2772,13 +2772,19 @@ svg.fts-info-icon:hover {
     margin: 5px
 }
 
-.ft-gallery-meta-wrap input.readonly, .ft-gallery-meta-wrap input[readonly], #ft-galleries-old-shortcode-side-mb label input {
+.ft-gallery-meta-wrap input.readonly, .ft-gallery-meta-wrap input[readonly], #ft-galleries-old-shortcode-side-mb input,
+#fts-import-export-feed-options-side-mb input {
     background: rgba(238, 238, 238, .51);
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
+    display:block;
+    width:100%;
 }
-
+.fts-export-feed-widget-wrap label, .fts-import-feed-widget-wrap label {
+    margin-bottom:5px;
+    display:block;
+}
 .ft-gallery-premium-mesg {
     background: #fff;
     padding: 10px;
@@ -3643,4 +3649,67 @@ img.instagram-feed-type-image-tab {
     background: #f9f9f9;
     margin-top:20px;
     font-size: 13px;
+}
+.fts-import-feed-widget-wrap .publishing-action .fts-import-feed-success {
+    position:absolute;
+    left:2px;
+    top:-5px;
+    font-weight:bold;
+    color:#1cae20;
+}
+.fts-import-feed-widget-wrap .publishing-action {
+    position:relative;
+}
+
+
+
+
+#fts-import-export-feed-options-side-mb .fts-import-export-tabs {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-top: 10px;
+}
+
+#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li {
+    flex: 1;
+    text-align: center;
+}
+
+#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    background-color: #f6f3f3;
+    color: #565758;
+}
+
+#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li a.active {
+    background-color: #1a77f2;
+    color: #fff;
+}
+
+#fts-import-export-feed-options-side-mb .fts-import-export-tab-content {
+    flex: 1;
+    overflow: auto;
+    padding: 10px;
+}
+
+#fts-import-export-feed-options-side-mb .fts-import-export-tab-content > div {
+    display: none;
+}
+
+#fts-import-export-feed-options-side-mb .fts-import-export-tab-content > div.active {
+    display: block;
+}
+#fts-import-export-feed-options-side-mb  p {
+    margin-top:0;
 }

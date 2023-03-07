@@ -609,8 +609,8 @@ class Feeds_CPT {
         // Covert Old Shortcode Metabox.
         add_meta_box( 'ft-galleries-old-shortcode-side-mb', esc_html__( 'Convert Old Shortcode', 'feed_them_social' ), array( $this, 'fts_old_shortcode_meta_box' ), 'fts', 'side', 'high', null );
 
-        // Covert Old Shortcode Metabox.
-        add_meta_box( 'fts-import-export-feed-options-side-mb', esc_html__( 'Advanced', 'feed_them_social' ), array( $this, 'fts_import_export_feed_options_meta_box' ), 'fts', 'side', 'low', null );
+        // Export/Import feed options
+        add_meta_box( 'fts-import-export-feed-options-side-mb', esc_html__( 'Export/Import', 'feed_them_social' ), array( $this, 'fts_import_export_feed_options_meta_box' ), 'fts', 'side', 'low', null );
     }
 
     /**

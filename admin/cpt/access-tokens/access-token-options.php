@@ -785,7 +785,7 @@ class Access_Options {
     /**
      * FTS Instagram Token Ajax
      *
-     * SRL: This will save the encrypted version of the token to the database and return the original token to the input field upon page submit.
+     * This will save the encrypted version of the token to the database and return the original token to the input field upon page submit.
      *
      * @since 2.9.7.2
      */

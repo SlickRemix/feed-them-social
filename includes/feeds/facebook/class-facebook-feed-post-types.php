@@ -511,7 +511,8 @@ class Facebook_Feed_Post_Types {
 	 * @param string $post_data The post data.
 	 * @since 1.9.6
 	 */
-	public function facebook_post_see_more( $fb_link, $lcs_array, $facebook_post_type, $fb_post_id = null, $saved_feed_options, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data = null ) {
+     public function facebook_post_see_more($fb_link, $lcs_array, $facebook_post_type, $saved_feed_options, $fb_post_id = null, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data = null ) {
+    //public function facebook_post_see_more( $fb_link, $lcs_array, $facebook_post_type, $fb_post_id = null, $saved_feed_options, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data = null ) {
 
 		$description = isset( $post_data->message ) ?? '';
 		// SHOW THE FB FEED PRINT_R
@@ -1172,7 +1173,7 @@ class Facebook_Feed_Post_Types {
 							$facebook_album_single_picture_id = isset( $facebook_album_additional_pic->id ) ? $facebook_album_additional_pic->id : '';
 							$facebook_single_image_link = 'https://www.facebook.com/'. $facebook_album_single_picture_id . '';
                             $single_event_id = isset( $single_event_id ) ?? '';
-							$this->facebook_post_see_more( $facebook_single_image_link, $lcs_array, $facebook_post_type, $facebook_post_id, $saved_feed_options, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
+							$this->facebook_post_see_more( $facebook_single_image_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
 
 							echo '</div>';
 							echo '</div>';
@@ -1908,7 +1909,7 @@ class Facebook_Feed_Post_Types {
         print_r($facebook_post_type);
          echo '</pre>';*/
 
-        $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $facebook_post_id, $saved_feed_options, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
+        $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
         // old call..
            // $this->fts_facebook_post_see_more( $fb_link, $lcs_array, $fb_type, $fb_post_id, $fb_shortcode, $fb_post_user_id, $fb_post_single_id, $single_event_id, $post_data );
 

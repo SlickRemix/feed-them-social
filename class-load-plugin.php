@@ -88,6 +88,9 @@ class Feed_Them_Social {
 		// Feed Functions.
 		$feed_functions = new feedthemsocial\Feed_Functions( $settings_functions, $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
 
+		// Feed Options Import/Export.
+		new feedthemsocial\Feed_Options_Import_Export( $feed_functions, $data_protection );
+
 		// Settings Page.
         new feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
 
@@ -300,6 +303,9 @@ class Feed_Them_Social {
 
 		// Error Handler.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/error-handler.php';
+
+		// Feed Options Import Export.
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feed-options-import-export.php';
 
 		// Setting Options Js.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/cpt-settings-options-js.php';

@@ -5,7 +5,7 @@ Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagr
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.1.1
-Stable tag: 4.0.4
+Stable tag: 4.0.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,6 +116,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.0.5 Tuesday, March 7th, 2023 =
+  * NEW: Import/Export: Single Feed Options. With the click of a button you can submit your feed options and get support.
+  * FIX: More Depreciated notices for PHP 7-8.1
+
 = Version 4.0.4 Thursday, March 2nd, 2023 =
   * FIX: Missing Convert Legacy Shortcode instructions on the front end for legacy shortcodes.
   * COMING SOON: Import/Export: Single Feed Options.

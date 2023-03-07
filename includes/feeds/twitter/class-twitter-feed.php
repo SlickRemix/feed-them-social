@@ -1370,8 +1370,9 @@ class Twitter_Feed {
 						$twitter_is_video_allowed = $saved_feed_options['twitter_allow_videos'] ?? '';
 						$twitter_allow_videos     = $twitter_is_video_allowed ?? 'yes';
                         $no_video_image_check     =   '' ===  $twitter_video_reg && '' === $twitter_video_retweeted && '' ===  $twitter_video_quoted_status && '' ===  $twitter_image_quoted_status ? 'true' : 'false';
+                        $popup_set = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) ? $popup :  'no';
 
-                        $fts_image                = $this->tweet_image( $post_data, $popup, $hide_images_in_posts );
+                        $fts_image = $this->tweet_image( $post_data, $popup_set, $hide_images_in_posts );
 
 						if (
                             // These first 4 are the different types of actual twitter videos that can come about!

@@ -608,6 +608,9 @@ class Feeds_CPT {
 
         // Covert Old Shortcode Metabox.
         add_meta_box( 'ft-galleries-old-shortcode-side-mb', esc_html__( 'Convert Old Shortcode', 'feed_them_social' ), array( $this, 'fts_old_shortcode_meta_box' ), 'fts', 'side', 'high', null );
+
+        // Covert Old Shortcode Metabox.
+        add_meta_box( 'fts-import-export-feed-options-side-mb', esc_html__( 'Advanced', 'feed_them_social' ), array( $this, 'fts_import_export_feed_options_meta_box' ), 'fts', 'side', 'low', null );
     }
 
     /**
@@ -1008,7 +1011,7 @@ class Feeds_CPT {
                 // [fts_mashup posts=12 social_network_posts=4 words=55 center_container=no height=450px background_color=#75a3ff show_social_icon=left show_media=top show_date=no show_name=no padding=20px facebook_name=1562664650673366 twitter_name=twittername hashtag=tytytyty instagram_search=top-media grid=yes instagram_type=business hashtag=asdfasdfasdf instagram_name=17841400646076739  channel_id=mnmnmnm playlist_id=vasdfbvbvb column_width=310px space_between_posts=10px]
                 ?>
                 <p>
-                    <label><label><?php echo esc_html__( 'Paste your Old shortcode here and click the blue Convert button. This will map your old options to the new input fields.', 'feed_them_social' ); ?></label>
+                    <label><?php echo esc_html__( 'Paste your Old shortcode here and click the blue Convert button. This will map your old options to the new input fields.', 'feed_them_social' ); ?></label>
                         <input value="" />
                 </p><div class="publishing-action" style="text-align: right;"><a href="#fts-convert-old-shortcode" id="fts-convert-old-shortcode" class="button button-primary button-large"><?php echo esc_html__( 'Convert', 'feed_them_social' ); ?></a></div>
 
@@ -1028,6 +1031,48 @@ class Feeds_CPT {
         <?php
     }
 
+    /**
+     *  Export Options Meta Box
+     *
+     *  Copy Exported Feed Options input box. This is used for support purposes.
+     *
+     * @param $object
+     * @since 1.0.0
+     */
+    public function fts_import_export_feed_options_meta_box() {
+        ?>
+        <div class="fts-import-export-tabs">
+            <ul class="fts-import-export-tab-nav">
+                <li><a href="#fts-import-export-tab1">Export</a></li>
+                <li><a href="#fts-import-export-tab2">Import</a></li>
+            </ul>
+            <div class="fts-import-export-tab-content">
+                <div id="fts-import-export-tab1">
+                    <div class="fts-export-feed-widget-wrap">
+                        <p>
+                            <label><?php echo esc_html__( 'Having trouble with your feed or want to copy options to a new feed?', 'feed-them-social' ); ?></label>
+                            <input readonly="readonly" value="" onclick="this.select();"/>
+                        </p>
+                        <div class="publishing-action" style="text-align: right;">
+                            <a href="#fts-export-feed-options" id="fts-export-feed-options" class="button button-primary button-large"><?php echo esc_html__( 'Export', 'feed-them-social' ); ?></a>
+                        </div>
+                    </div>
+                </div>
+                <div id="fts-import-export-tab2">
+                    <div class="fts-import-feed-widget-wrap">
+                        <p>
+                            <label><?php echo esc_html__( 'Helpful when debugging problems and copying options to another feed.', 'feed-them-social' ); ?></label>
+                            <input value="" onclick="this.select();"/>
+                        </p>
+                        <div class="publishing-action" style="text-align: right;">
+                            <a href="#fts-import-feed-options" id="fts-import-feed-options" class="button button-primary button-large"><?php echo esc_html__( 'Import', 'feed-them-social' ); ?></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
 
     /**
      *  Shortcode Meta Box
@@ -1044,13 +1089,13 @@ class Feeds_CPT {
 
             $feed_id = isset( $_GET['post'] ) ? $_GET['post'] : '';
 
-                // Copy Shortcode
-                ?>
-                <p>
-                    <label><label><?php echo esc_html__( 'Copy and Paste this shortcode to any page, post or widget.', 'feed_them_social' ); ?></label>
-                        <input readonly="readonly" value="[feed_them_social cpt_id=<?php echo esc_html( $feed_id ); ?>]" onclick="this.select();"/>
-                </p>
-                <?php
+            // Copy Shortcode
+            ?>
+            <p>
+                <label><?php echo esc_html__( 'Copy and Paste this shortcode to any page, post or widget.', 'feed_them_social' ); ?></label>
+                    <input readonly="readonly" value="[feed_them_social cpt_id=<?php echo esc_html( $feed_id ); ?>]" onclick="this.select();"/>
+            </p>
+            <?php
             ?>
         </div>
         <?php

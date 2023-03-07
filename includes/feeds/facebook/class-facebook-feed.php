@@ -1621,37 +1621,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 	}
 
 	/**
-	 * FTS Custom Trim Words
-	 *
-	 * Not using this anymore but keeping it as a fallback function for the combined if user has not updated the free version before the combined extension
-	 *
-	 * @param string $text The description text.
-	 * @param int    $num_words Number of words you want to be showm.
-	 * @param string $more The ...
-	 * @return mixed
-	 * @since 1.9.6
-	 */
-	public function fts_custom_trim_words_NOT_USING( $text, $num_words = 45, $more ) {
-		$more = ! empty( $num_words ) && 0 !== $num_words ? __( '...' ) : '';
-		$text = nl2br( $text );
-		// Filter for Hashtags and Mentions Before returning.
-		$text = $this->facebook_post_types->facebook_tag_filter( $text );
-		$text = strip_shortcodes( $text );
-		// Add tags that you don't want stripped.
-		$text        = strip_tags( $text, '<strong><br><em><i><a>' );
-		$words_array = preg_split( "/[\n\r\t ]+/", $text, $num_words + 1, PREG_SPLIT_NO_EMPTY );
-		$sep         = ' ';
-		if ( count( $words_array ) > $num_words ) {
-			array_pop( $words_array );
-			$text = implode( $sep, $words_array );
-			$text = $text . $more;
-		} else {
-			$text = implode( $sep, $words_array );
-		}
-		return wpautop( $text );
-	}
-
-	/**
 	 * Load PopUp Scripts
 	 *
 	 * @param array $saved_feed_options The feed options saved in the CPT.

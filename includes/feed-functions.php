@@ -1193,7 +1193,6 @@ class Feed_Functions {
         wp_die();
     }
 
-
     /**
      * FTS Feed Refresh Ajax
      *
@@ -1217,8 +1216,6 @@ class Feed_Functions {
 
         wp_die();
     }
-
-
 
     /**
      * FTS Instagram Token Ajax

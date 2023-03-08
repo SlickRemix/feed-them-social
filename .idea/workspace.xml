@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="3.0.0 - Get 3.0.0 caught up with current version 2.9.5 of FTS">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metabox-settings/css/metabox.css" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/css/metabox.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metabox-settings/js/metabox.js" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/js/metabox.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/metabox-settings/js/update-from-bottom.js" beforeDir="false" afterPath="$PROJECT_DIR$/metabox-settings/js/update-from-bottom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/cpt/feed-options-import-export.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cpt/feed-options-import-export.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/class-load-plugin.php" beforeDir="false" afterPath="$PROJECT_DIR$/class-load-plugin.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +37,6 @@
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="746b94c9-492a-4d87-b8e7-d09b497ec58e" />
   </component>
-  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpServers">
     <servers>
       <server host="fts-cpt-refactor.local" id="acb04482-b4f9-42a6-9221-aff5ca0f1fe4" name="fts-cpt-refactor.local" port="10018" />
@@ -47,30 +48,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/admin" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/includes/cpt/css/font" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
-    <property name="node.js.path.for.package.eslint" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
-    <property name="two.files.diff.last.used.file" value="$USER_HOME$/Desktop/feed-them-social/updater/updater-license-page.php" />
-    <property name="two.files.diff.last.used.folder" value="$USER_HOME$/Downloads/feed-them-social" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Git.Branch.Popup.ShowAllRemotes&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/includes/cpt/css/font" />
@@ -97,6 +85,8 @@
       <workItem from="1619113945914" duration="8748000" />
       <workItem from="1622656980734" duration="20000" />
       <workItem from="1628620387815" duration="28291000" />
+      <workItem from="1678224729016" duration="1581000" />
+      <workItem from="1678285820127" duration="554000" />
     </task>
     <task id="LOCAL-00001" summary="3.0.0 - CPT Refactor Branch!">
       <created>1618278949335</created>
@@ -149,7 +139,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="3.0.0 - CPT Refactor Branch!" />
@@ -177,7 +166,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/class-load-plugin.php</url>
-          <line>310</line>
+          <line>316</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>

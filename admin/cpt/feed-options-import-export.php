@@ -38,14 +38,26 @@ class Feed_Options_Import_Export {
 	public $data_protection;
 
 	/**
+	 * System Info
+	 *
+	 * System Info page functions.
+	 *
+	 * @var object
+	 */
+	public $system_info;
+
+	/**
 	 * Feed Options Import Export constructor.
 	 */
-	public function __construct( $feed_functions, $data_protection ) {
+	public function __construct( $feed_functions, $data_protection, $system_info ) {
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
 
 		// Set Data Protection object.
 		$this->data_protection = $data_protection;
+
+		// Set System info object.
+		$this->system_info = $system_info;
 
 		// Export Feed Options AJAX
 		add_action( 'wp_ajax_fts_export_feed_options_ajax', array( $this, 'fts_export_feed_options_ajax' ) );
@@ -85,9 +97,8 @@ class Feed_Options_Import_Export {
 			$saved_feed_options['fts_facebook_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
 		}
 
-        ///  SRL: Leaving Off Here
-        //   $system_info = new System_Info();
-        //   echo $system_info->fts_system_info_support_ticket();
+        echo $this->system_info->fts_system_info_support_ticket();
+
 		echo json_encode( $saved_feed_options );
 
 		wp_die();

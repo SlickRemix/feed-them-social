@@ -88,14 +88,14 @@ class Feed_Them_Social {
 		// Feed Functions.
 		$feed_functions = new feedthemsocial\Feed_Functions( $settings_functions, $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
 
-		// Feed Options Import/Export.
-		new feedthemsocial\Feed_Options_Import_Export( $feed_functions, $data_protection );
-
 		// Settings Page.
         new feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
 
 		// System Info.
-		new feedthemsocial\System_Info( $settings_functions, $feed_cache );
+		$system_info = new feedthemsocial\System_Info( $settings_functions, $feed_cache );
+
+		// Feed Options Import/Export.
+		new feedthemsocial\Feed_Options_Import_Export( $feed_functions, $data_protection, $system_info );
 
 		// Setting Options JS.
 		$setting_options_js = new feedthemsocial\Settings_Options_JS();

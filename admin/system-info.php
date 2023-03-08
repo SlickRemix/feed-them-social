@@ -40,6 +40,7 @@ class System_Info {
 	 * System_Info constructor.
 	 */
 	public function __construct( $settings_functions, $feed_cache ) {
+
 		// Settings Functions.
 		$this->settings_functions = $settings_functions;
 
@@ -107,11 +108,20 @@ class System_Info {
 			</p>
 			<form action="<?php echo esc_url( admin_url( 'admin.php?page=ft-gallery-system-info-submenu-page' ) ); ?>" method="post" dir="ltr">
 		<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="ft-gallery-sysinfo" title="<?php esc_html_e( 'To copy the system info, click here then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed_them_social' ); ?>">
+<?php echo $this->fts_system_info_support_ticket(); ?></textarea>
+			</form>
+		</div>
+		</div>
+
+		<?php
+	}
+
+function fts_system_info_support_ticket(){?>
 ### Begin System Info ###
-			<?php
-			$theme_data = wp_get_theme();
-			$theme      = $theme_data->name . ' ' . $theme_data->version;
-			?>
+<?php
+$theme_data = wp_get_theme();
+$theme      = $theme_data->name . ' ' . $theme_data->version;
+?>
 
 SITE_URL: <?php echo esc_url( site_url() ) . "\n"; ?>
 Feed Them Social Version: <?php echo esc_html( FEED_THEM_SOCIAL_VERSION ) . "\n"; ?>
@@ -126,9 +136,9 @@ WP_DEBUG: <?php echo esc_html( defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' . "\
 
 -- Webserver Configuration:
 PHP Version: <?php
-		echo PHP_VERSION . "\n";
-		$my_request = stripslashes_deep( $_SERVER );
-		?>
+echo PHP_VERSION . "\n";
+$my_request = stripslashes_deep( $_SERVER );
+?>
 Web Server Info: <?php echo esc_html( $my_request['SERVER_SOFTWARE'] ) . "\n"; ?>
 
 -- PHP Configuration:
@@ -153,52 +163,47 @@ Cache time: <?php echo esc_html( $this->feed_cache->fts_cachetime_amount( $fts_c
 
 -- Active Plugins:
 <?php
-		$plugins        = get_plugins();
-		$active_plugins = get_option( 'active_plugins', array() );
-		foreach ( $plugins as $plugin_path => $plugin ) {
-				// If the plugin isn't active, don't show it.
-			if ( ! in_array( $plugin_path, $active_plugins, true ) ) {
-					continue;
-			}
-			echo esc_html( $plugin['Name'] . ': ' . $plugin['Version'] . "\n" );
-		}
-		if ( is_multisite() ) :
-			?>
--- Network Active Plugins:
-<?php
-				$plugins        = wp_get_active_network_plugins();
-				$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
+$plugins        = get_plugins();
+$active_plugins = get_option( 'active_plugins', array() );
+foreach ( $plugins as $plugin_path => $plugin ) {
+    // If the plugin isn't active, don't show it.
+    if ( ! in_array( $plugin_path, $active_plugins, true ) ) {
+        continue;
+    }
+    echo esc_html( $plugin['Name'] . ': ' . $plugin['Version'] . "\n" );
+}
+if ( is_multisite() ) :
+    ?>
+    -- Network Active Plugins:
+    <?php
+    $plugins        = wp_get_active_network_plugins();
+    $active_plugins = get_site_option( 'active_sitewide_plugins', array() );
 
-			foreach ( $plugins as $plugin_path ) {
-				$plugin_base = plugin_basename( $plugin_path );
+    foreach ( $plugins as $plugin_path ) {
+        $plugin_base = plugin_basename( $plugin_path );
 
-				// If the plugin isn't active, don't show it.
-				if ( ! array_key_exists( $plugin_base, $active_plugins ) ) {
-					continue;
-				}
+        // If the plugin isn't active, don't show it.
+        if ( ! array_key_exists( $plugin_base, $active_plugins ) ) {
+            continue;
+        }
 
-				$plugin = get_plugin_data( $plugin_path );
+        $plugin = get_plugin_data( $plugin_path );
 
-				echo esc_html( $plugin['Name'] . ' :' . $plugin['Version'] . "\n" );
+        echo esc_html( $plugin['Name'] . ' :' . $plugin['Version'] . "\n" );
 
-			}
-			endif;
+    }
+endif;
 
-		if ( is_plugin_active( 'feed-them-social/feed-them-social.php' ) ) {
-			$feed_them_social_license_key = get_option( 'feed_them_social_license_key' );
-			?>
+if ( is_plugin_active( 'feed-them-social/feed-them-social.php' ) ) {
+    $feed_them_social_license_key = get_option( 'feed_them_social_license_key' );
+    ?>
 
 -- License
 License Active: <?php
-			echo isset( $feed_them_social_license_key ) && '' !== $feed_them_social_license_key ? 'Yes' . "\n" : 'No' . "\n";
-		}
-		?>
+echo isset( $feed_them_social_license_key ) && '' !== $feed_them_social_license_key ? 'Yes' . "\n" : 'No' . "\n";
+}
+?>
 
-### End System Info ###</textarea>
-			</form>
-		</div>
-		</div>
+### End System Info ###<?php } // end fts_system_info_support_ticket
 
-		<?php
-	}
 }//end class

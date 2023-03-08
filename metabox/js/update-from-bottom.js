@@ -579,97 +579,6 @@ function fts_check_valid() {
             }
         );
 
-
-        // Add active class to first tab
-        $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li:first-child a').addClass('active');
-        $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-content > div:first-child').addClass('active');
-
-        // Switch tabs
-        $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li a').click(function(event) {
-            event.preventDefault();
-
-            // Remove active class from previous tab
-            $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li a.active').removeClass('active');
-            $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-content > div.active').removeClass('active');
-
-            // Add active class to clicked tab
-            $(this).addClass('active');
-            $($(this).attr('href')).addClass('active');
-        });
-
-
-
-        // Export Feed Options
-        $( '#fts-export-feed-options' ).click( function () {
-
-            // Grab the url so we can do stuff.
-            var url_string = window.location.href;
-            var url = new URL( url_string );
-            var cpt_id = url.searchParams.get("post");
-
-            jQuery.ajax({
-                data: {
-                    action: "fts_export_feed_options_ajax",
-                    cpt_id: cpt_id,
-                    _wpnonce: ftg_mb_tabs.ajaxExportFeedOptionsNonce
-                },
-                type: 'POST',
-                url: ftsAjax.ajaxurl,
-                success: function (response) {
-                    console.log('Well Done and got this from sever: ' + response);
-                   // var data = JSON.parse( response );
-                    $( '#fts-import-export-feed-options-side-mb  .fts-export-feed-widget-wrap input' ).val( response );
-                    return false;
-                }
-            }); // end of ajax()
-            return false;
-
-         });
-
-        // Import Feed Options
-        $( '#fts-import-feed-options' ).click( function () {
-
-            // Grab the url so we can do stuff.
-            var url_string = window.location.href;
-            var url = new URL( url_string );
-            var cpt_id = url.searchParams.get("post");
-            var cpt_import =  $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap input' ).val();
-
-            try {
-                // Make sure this is valid JSON before proceeding.
-                var cpt_import = JSON.parse( cpt_import ) ? cpt_import : null;
-                console.log('JSON is valid');
-            } catch (e) {
-                alert( 'JSON is not valid' );
-                console.log('JSON is not valid: ' + e);
-                return false;
-            }
-
-            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
-            jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
-            jQuery('#publishing-action .spinner').css("visibility", "visible");
-            jQuery.ajax({
-                data: {
-                    action: "fts_import_feed_options_ajax",
-                    cpt_id: cpt_id,
-                    cpt_import: cpt_import,
-                    _wpnonce: ftg_mb_tabs.ajaxImportFeedOptionsNonce
-                },
-                type: 'POST',
-                url: ftsAjax.ajaxurl,
-                success: function (response) {
-                    console.log('Well Done and got this from sever: ' + response);
-                    $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap input' ).val('');
-                    $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap .publishing-action' ).append('<div class="fts-import-feed-success">Import Success</div>');
-
-                    location.reload();
-                    return false;
-                }
-            }); // end of ajax()
-            return false;
-
-        });
-
         // Convert Old Shortcode click function
         $( '#fts-convert-old-shortcode' ).click(
             function () {
@@ -1419,9 +1328,100 @@ function fts_check_valid() {
                 }
             });
         }
+
+        // Add active class to first tab
+        $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li:first-child a').addClass('active');
+        $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-content > div:first-child').addClass('active');
+
+        // Switch tabs
+        $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li a').click(function(event) {
+            event.preventDefault();
+
+            // Remove active class from previous tab
+            $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-nav li a.active').removeClass('active');
+            $('#fts-import-export-feed-options-side-mb .fts-import-export-tab-content > div.active').removeClass('active');
+
+            // Add active class to clicked tab
+            $(this).addClass('active');
+            $($(this).attr('href')).addClass('active');
+        });
+
+        // Import Feed Options
+        $( '#fts-import-feed-options' ).click( function () {
+
+            // Grab the url so we can do stuff.
+            var url_string = window.location.href;
+            var url = new URL( url_string );
+            var cpt_id = url.searchParams.get("post");
+            var cpt_import =  $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap input' ).val();
+
+            try {
+                // Make sure this is valid JSON before proceeding.
+                var cpt_import = JSON.parse( cpt_import ) ? cpt_import : null;
+                console.log('JSON is valid');
+            } catch (e) {
+                alert( 'JSON is not valid' );
+                console.log('JSON is not valid: ' + e);
+                return false;
+            }
+
+            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
+            jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
+            jQuery('#publishing-action .spinner').css("visibility", "visible");
+            jQuery.ajax({
+                data: {
+                    action: "fts_import_feed_options_ajax",
+                    cpt_id: cpt_id,
+                    cpt_import: cpt_import,
+                    _wpnonce: ftg_mb_tabs.ajaxImportFeedOptionsNonce
+                },
+                type: 'POST',
+                url: ftsAjax.ajaxurl,
+                success: function (response) {
+                    console.log('Well Done and got this from sever: ' + response);
+                    $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap input' ).val('');
+                    $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap .publishing-action' ).append('<div class="fts-import-feed-success">Import Success</div>');
+
+                    location.reload();
+                    return false;
+                }
+            }); // end of ajax()
+            return false;
+
+        });
+
+        // Export Feed Options
+        $( '#fts-export-feed-options' ).click( function () {
+            // Grab the url so we can do stuff.
+            var url_string = window.location.href;
+            var url = new URL( url_string );
+            var cpt_id = url.searchParams.get("post");
+
+            jQuery.ajax({
+                data: {
+                    action: "fts_export_feed_options_ajax",
+                    cpt_id: cpt_id,
+                    _wpnonce: ftg_mb_tabs.ajaxExportFeedOptionsNonce
+                },
+                type: 'POST',
+                url: ftsAjax.ajaxurl,
+                success: function (response) {
+                    console.log('Well Done and got this from sever: ' + response);
+                    $( '#fts-import-export-feed-options-side-mb  .fts-export-feed-widget-wrap input' ).val( response );
+
+                    fts_beacon_support_auto_fill_json_options( response );
+
+                    return false;
+                }
+            }); // end of ajax()
+            return false;
+        });
+
     });
 }(jQuery));
 
+// Specific to the "Not Working?" button next to Settings button
+// which is next to each Login and Get My Access Token button for each feed.
 function fts_beacon_support_click() {
     Beacon('toggle');
     Beacon('search', 'Access Token Not Working');
@@ -1433,12 +1433,95 @@ if( jQuery('.post-type-fts').length ) {
             var e = t.getElementsByTagName("script")[0], n = t.createElement("script");
             n.type = "text/javascript", n.async = !0, n.src = "https://beacon-v2.helpscout.net", e.parentNode.insertBefore(n, e)
         }
-
         if (e.Beacon = n = function (t, n, a) {
             e.Beacon.readyQueue.push({method: t, options: n, data: a})
         }, n.readyQueue = [], "complete" === t.readyState) return a();
         e.attachEvent ? e.attachEvent("onload", a) : e.addEventListener("load", a, !1)
     }(window, document, window.Beacon || function () {
     });
-    window.Beacon('init', 'bf9f4457-217a-49e4-b027-dd6b784c6fc0');
+
+    // Test Version.
+    window.Beacon('init', '79dd74cf-0b71-4291-8dbb-412523d95abb');
+    // Live Version.
+    // window.Beacon('init', 'bf9f4457-217a-49e4-b027-dd6b784c6fc0');
+
+    // For Testing Only.
+    Beacon('reset');
+    Beacon('config', {
+        showPrefilledCustomFields: true,
+    });
+
+    Beacon('once', 'open', () => {
+        jQuery("#fts-export-feed-options").trigger("click");
+    });
+
+    function fts_beacon_support_auto_fill_json_options( response ){
+
+        const importExportOptions = response ?? '';
+        const systemInfo = '### Begin System Info ###\n' +
+            '\n' +
+            'SITE_URL: http://fts30.local\n' +
+            'Feed Them Social Version: 4.0.5\n' +
+            '\n' +
+            '-- WordPress Configuration:\n' +
+            'WordPress Version: 6.1.1\n' +
+            'Multisite: No\n' +
+            'Permalink Structure: /%postname%/\n' +
+            'Active Theme: Astra 4.0.2\n' +
+            'PHP Memory Limit: 256M\n' +
+            'WP_DEBUG: Enabled\n' +
+            '\n' +
+            '-- Webserver Configuration:\n' +
+            'PHP Version: 8.0.22\n' +
+            'Web Server Info: nginx/1.16.0\n' +
+            '\n' +
+            '-- PHP Configuration:\n' +
+            'Safe Mode: No\n' +
+            'Upload Max Size: 300M\n' +
+            'Post Max Size: 1000M\n' +
+            'Upload Max Filesize: 300M\n' +
+            'Time Limit: 1200\n' +
+            'Max Input Vars: 4000\n' +
+            'Allow URL File Open: On (0)\n' +
+            'Display Erros: N/A\n' +
+            '\n' +
+            '-- PHP Extensions:\n' +
+            'json:                     Your server supports json.\n' +
+            'FSOCKOPEN:                Your server supports fsockopen.\n' +
+            'cURL:                     Your server supports cURL.\n' +
+            'curl_multi:               Your server supports curl_multi_select.\n' +
+            '\n' +
+            '-- FTS Settings->Global Options: \n' +
+            'Cache time: 1 Day (Default)\n' +
+            '\n' +
+            '-- Active Plugins:\n' +
+            'Download Plugins and Themes from Dashboard: 1.8.1\n' +
+            'Error Log Monitor: 1.7.4\n' +
+            'Feed Them Carousel Premium: 2.0.1\n' +
+            'Feed Them Social - Page, Post, Video and Photo Galleries: 4.0.5\n' +
+            'Feed Them Social Premium: 2.0.1\n' +
+            'Query Monitor: 3.11.2\n' +
+            '\n' +
+            '-- License\n' +
+            'License Active: Yes\n' +
+            '\n' +
+            '### End System Info ###' ?? '';
+
+        Beacon('prefill', {
+            name: 'Spencer Labadie',
+            email: 'spencer@slickremix.com',
+            subject: 'Testing System Info & JSON Feed Options Auto Fill',
+            text: 'Testy Test was quite the Tester',
+            fields: [
+                {
+                    id: 42859, //  field ID. System Info
+                    value: systemInfo,
+                },
+                {
+                    id: 42860, // field ID. Feed Options JSON
+                    value: importExportOptions,
+                },
+            ],
+        })
+    }
 }

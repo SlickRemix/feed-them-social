@@ -1050,7 +1050,7 @@ class Feeds_CPT {
                 <div id="fts-import-export-tab1">
                     <div class="fts-export-feed-widget-wrap">
                         <p>
-                            <label><?php echo esc_html__( 'Having trouble with your feed or want to copy options to a new feed?', 'feed-them-social' ); ?></label>
+                            <label><?php echo esc_html__( 'Need Support with your feed or want to copy options to a new feed?', 'feed-them-social' ); ?></label>
                             <input readonly="readonly" value="" onclick="this.select();"/>
                         </p>
                         <div class="publishing-action" style="text-align: right;">

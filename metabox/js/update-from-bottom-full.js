@@ -1440,5 +1440,7 @@ if( jQuery('.post-type-fts').length ) {
         e.attachEvent ? e.attachEvent("onload", a) : e.addEventListener("load", a, !1)
     }(window, document, window.Beacon || function () {
     });
-    window.Beacon('init', 'bf9f4457-217a-49e4-b027-dd6b784c6fc0');
+
+    window.Beacon('init', '79dd74cf-0b71-4291-8dbb-412523d95abb');
+   // window.Beacon('init', 'bf9f4457-217a-49e4-b027-dd6b784c6fc0');
 }

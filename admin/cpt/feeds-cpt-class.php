@@ -1054,7 +1054,7 @@ class Feeds_CPT {
                             <input readonly="readonly" value="" onclick="this.select();"/>
                         </p>
                         <div class="publishing-action" style="text-align: right;">
-                            <a href="#fts-export-feed-options" id="fts-export-feed-options" class="button button-primary button-large"><?php echo esc_html__( 'Export', 'feed-them-social' ); ?></a>
+                            <a href="javascript:;" id="fts-export-feed-options" class="button button-primary button-large"><?php echo esc_html__( 'Export', 'feed-them-social' ); ?></a>
                         </div>
                     </div>
                 </div>

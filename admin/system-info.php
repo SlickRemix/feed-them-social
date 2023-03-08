@@ -116,7 +116,7 @@ class System_Info {
 		<?php
 	}
 
-function fts_system_info_support_ticket(){?>
+function fts_system_info_support_ticket(){ ob_start() ?>
 ### Begin System Info ###
 <?php
 $theme_data = wp_get_theme();
@@ -204,6 +204,6 @@ echo isset( $feed_them_social_license_key ) && '' !== $feed_them_social_license_
 }
 ?>
 
-### End System Info ###<?php } // end fts_system_info_support_ticket
+### End System Info ###<?php return ob_get_clean(); } // end fts_system_info_support_ticket
 
 }//end class

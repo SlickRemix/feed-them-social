@@ -116,8 +116,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.0.5 Tuesday, March 7th, 2023 =
+= Version 4.0.5 Wednesday, March 8th, 2023 =
   * NEW: Import/Export: Single Feed Options. With the click of a button, you can submit your feed options and get support.
+  * NEW: When requesting support through our beacon on a Feed edit page, the System Info and Feed Options are already copied to the form.
   * FIX: More Depreciated notices for PHP 7-8.1
 
 = Version 4.0.4 Thursday, March 2nd, 2023 =

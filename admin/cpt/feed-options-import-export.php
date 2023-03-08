@@ -97,9 +97,12 @@ class Feed_Options_Import_Export {
 			$saved_feed_options['fts_facebook_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
 		}
 
-        echo $this->system_info->fts_system_info_support_ticket();
+        $data = array(
+            'system_info' => $this->system_info->fts_system_info_support_ticket(),
+            'feed_options' => json_encode( $saved_feed_options )
+        );
 
-		echo json_encode( $saved_feed_options );
+        echo json_encode( $data );
 
 		wp_die();
 	}

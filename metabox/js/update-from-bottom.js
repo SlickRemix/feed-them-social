@@ -1458,54 +1458,7 @@ if( jQuery('.post-type-fts').length ) {
     function fts_beacon_support_auto_fill_json_options( response ){
 
         const importExportOptions = response ?? '';
-        const systemInfo = '### Begin System Info ###\n' +
-            '\n' +
-            'SITE_URL: http://fts30.local\n' +
-            'Feed Them Social Version: 4.0.5\n' +
-            '\n' +
-            '-- WordPress Configuration:\n' +
-            'WordPress Version: 6.1.1\n' +
-            'Multisite: No\n' +
-            'Permalink Structure: /%postname%/\n' +
-            'Active Theme: Astra 4.0.2\n' +
-            'PHP Memory Limit: 256M\n' +
-            'WP_DEBUG: Enabled\n' +
-            '\n' +
-            '-- Webserver Configuration:\n' +
-            'PHP Version: 8.0.22\n' +
-            'Web Server Info: nginx/1.16.0\n' +
-            '\n' +
-            '-- PHP Configuration:\n' +
-            'Safe Mode: No\n' +
-            'Upload Max Size: 300M\n' +
-            'Post Max Size: 1000M\n' +
-            'Upload Max Filesize: 300M\n' +
-            'Time Limit: 1200\n' +
-            'Max Input Vars: 4000\n' +
-            'Allow URL File Open: On (0)\n' +
-            'Display Erros: N/A\n' +
-            '\n' +
-            '-- PHP Extensions:\n' +
-            'json:                     Your server supports json.\n' +
-            'FSOCKOPEN:                Your server supports fsockopen.\n' +
-            'cURL:                     Your server supports cURL.\n' +
-            'curl_multi:               Your server supports curl_multi_select.\n' +
-            '\n' +
-            '-- FTS Settings->Global Options: \n' +
-            'Cache time: 1 Day (Default)\n' +
-            '\n' +
-            '-- Active Plugins:\n' +
-            'Download Plugins and Themes from Dashboard: 1.8.1\n' +
-            'Error Log Monitor: 1.7.4\n' +
-            'Feed Them Carousel Premium: 2.0.1\n' +
-            'Feed Them Social - Page, Post, Video and Photo Galleries: 4.0.5\n' +
-            'Feed Them Social Premium: 2.0.1\n' +
-            'Query Monitor: 3.11.2\n' +
-            '\n' +
-            '-- License\n' +
-            'License Active: Yes\n' +
-            '\n' +
-            '### End System Info ###' ?? '';
+        const systemInfo = response ?? '';
 
         Beacon('prefill', {
             name: 'Spencer Labadie',

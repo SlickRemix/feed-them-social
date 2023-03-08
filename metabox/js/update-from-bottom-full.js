@@ -1453,15 +1453,15 @@ if( jQuery('.post-type-fts').length ) {
     window.Beacon('init', 'bf9f4457-217a-49e4-b027-dd6b784c6fc0');
 
     // For Testing Only.
-    Beacon('reset');
-    Beacon('config', {
-        // https://developer.helpscout.com/beacon-2/web/javascript-api/#beacon-event-eventobject
-        // leaving this for reference. The way it works now is this.
-        // If the system info and or feed options are not passed to the
-        // beacon then the input field will show. Otherwise they are hidden.
-        // Less clutter and fields the user needs to look at.
-        // showPrefilledCustomFields: true,
-    });
+    // Beacon('reset');
+    // Beacon('config', {
+    // https://developer.helpscout.com/beacon-2/web/javascript-api/#beacon-event-eventobject
+    // leaving this for reference. The way it works now is this.
+    // If the system info and or feed options are not passed to the
+    // beacon then the input field will show. Otherwise they are hidden.
+    // Less clutter and fields the user needs to look at.
+    // showPrefilledCustomFields: true,
+    // });
 
     Beacon('once', 'open', () => {
         // SRL: For now we are only loading this option on the feed edit pages.

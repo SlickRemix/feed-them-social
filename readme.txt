@@ -117,8 +117,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.0.6 Thursday, March 9th, 2023 =
-  * FIX: Fix SMTP issue by removing pluggable call in feeds-cpt-class.php
-  * FIX: Depreciated warnings in updater-check-class.php and updater-check-init.php
+  * FIX: Facebook Feed: PHP warnings for position of social icon. Thanks to @thewebtailors for fixing this.
+  * FIX: Twitter Feed: PHP warnings for popup. Thanks to @ericbourges for letting us know about this.
+  * FIX: SMTP issue by removing pluggable call in feeds-cpt-class.php
+  * FIX: Depreciated warnings in updater-check-class.php and updater-check-init.php. Thanks to @jpniekamp for bringing this to our attention.
 
 = Version 4.0.5 Wednesday, March 8th, 2023 =
   * NEW: Import/Export: Single Feed Options. With the click of a button, you can submit your feed options and get support.

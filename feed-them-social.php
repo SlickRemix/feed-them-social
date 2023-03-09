@@ -7,7 +7,7 @@
  * Plugin Name: Feed Them Social - Page, Post, Video and Photo Galleries
  * Plugin URI: https://feedthemsocial.com/
  * Description: Custom feeds for Instagram, Facebook Pages, Album Photos, Videos & Covers, Twitter & YouTube on pages, posts or widgets.
- * Version: 4.0.5
+ * Version: 4.0.6
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social

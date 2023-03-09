@@ -41,7 +41,7 @@ class updater_check_class {
      * @param string $_plugin_file Path to the plugin file.
      * @param array $_api_data Optional data to send with API calls.
      */
-    public function __construct($_api_url, $_plugin_file, $_api_data = null, $plugin_identifier, $item_name) {
+    public function __construct($_api_url, $_plugin_file, $plugin_identifier, $item_name, $_api_data = null) {
 
         global $edd_plugin_data;
 

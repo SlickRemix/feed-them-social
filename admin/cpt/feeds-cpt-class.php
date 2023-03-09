@@ -117,18 +117,8 @@ class Feeds_CPT {
         // Settings Options JS.
         $this->setting_options_js = $setting_options_js;
 
-        // we set current_user_can so our backend functions don't get loaded to the front end.
-        // this came about after a ticket we received about our plugin being active and
-        // causing a woo booking plugin to not be able to checkout proper, when checking out it would show the cart was empty.
-        // this current_user_can resolves that problem.
-        if ( ! function_exists( 'wp_get_current_user' ) ) {
-            include ABSPATH . 'wp-includes/pluggable.php';
-        }
-
-        if ( current_user_can( 'manage_options' ) ) {
-            // Metabox Functions.
-            $this->metabox_functions = $metabox_functions;
-        }
+        // Metabox Functions.
+        $this->metabox_functions = $metabox_functions;
 
         // If Premium add Functionality!
         if ( is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {

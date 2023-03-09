@@ -213,7 +213,7 @@ class updater_init {
                 );
 
                 // setup the updater
-                new updater_check_class($this->updater_options_info['store_url'], $plugin_info['plugin_url'], $plugin_details, $plugin_identifier, $plugin_info['title']);
+                new updater_check_class($this->updater_options_info['store_url'], $plugin_info['plugin_url'], $plugin_identifier, $plugin_info['title'], $plugin_details);
             }
         }
     }

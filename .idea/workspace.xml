@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="3.0.0 - Get 3.0.0 caught up with current version 2.9.5 of FTS">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="a28ebbb8-9a38-46d1-b922-d0cdc2db4d11" name="Default Changelist" comment="Fix SMTP issue by removing pluggable call in feeds-cpt-class.php and fixed depreciated warnings in updater-check-class.php and updater-check-init.php">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/cpt/feed-options-import-export.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/cpt/feed-options-import-export.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/class-load-plugin.php" beforeDir="false" afterPath="$PROJECT_DIR$/class-load-plugin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feed-them-social.php" beforeDir="false" afterPath="$PROJECT_DIR$/feed-them-social.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/readme.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="4.0.5" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -36,6 +35,9 @@
   </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="746b94c9-492a-4d87-b8e7-d09b497ec58e" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="PhpServers">
     <servers>
@@ -86,7 +88,7 @@
       <workItem from="1622656980734" duration="20000" />
       <workItem from="1628620387815" duration="28291000" />
       <workItem from="1678224729016" duration="1581000" />
-      <workItem from="1678285820127" duration="554000" />
+      <workItem from="1678285820127" duration="6774000" />
     </task>
     <task id="LOCAL-00001" summary="3.0.0 - CPT Refactor Branch!">
       <created>1618278949335</created>
@@ -123,7 +125,21 @@
       <option name="project" value="LOCAL" />
       <updated>1628886062695</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Dependency inject the System Info into the feed-options-import-export.php">
+      <created>1678286497542</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1678286497542</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fix SMTP issue by removing pluggable call in feeds-cpt-class.php and fixed depreciated warnings in updater-check-class.php and updater-check-init.php">
+      <created>1678385094074</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1678385094074</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,7 +160,9 @@
     <MESSAGE value="3.0.0 - CPT Refactor Branch!" />
     <MESSAGE value="Shortcode converter" />
     <MESSAGE value="Shortcode Converter" />
-    <option name="LAST_COMMIT_MESSAGE" value="Shortcode Converter" />
+    <MESSAGE value="Dependency inject the System Info into the feed-options-import-export.php" />
+    <MESSAGE value="Fix SMTP issue by removing pluggable call in feeds-cpt-class.php and fixed depreciated warnings in updater-check-class.php and updater-check-init.php" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix SMTP issue by removing pluggable call in feeds-cpt-class.php and fixed depreciated warnings in updater-check-class.php and updater-check-init.php" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

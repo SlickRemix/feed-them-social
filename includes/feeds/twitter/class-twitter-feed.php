@@ -837,11 +837,8 @@ class Twitter_Feed {
 	 * @since 1.9.6
 	 */
 	public function display_twitter( $feed_post_id ) {
-
-		$fts_twitter_feed_nonce = wp_create_nonce( 'fts-twitter-feed-nonce' );
-
-		if ( wp_verify_nonce( $fts_twitter_feed_nonce, 'fts-twitter-feed-nonce' ) ) {
-
+            // SRL: this needs attention on because this will not load proper on block based themes. ie* 2022, 2020 WordPress Themes.
+            // Here is a fix reference. https://wordpress.org/support/topic/issue-with-wp_localize_script-or-similar-on-block-themes/
             wp_localize_script( 'fts-global-js', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
             // Saved Feed Settings!
@@ -893,17 +890,17 @@ class Twitter_Feed {
             // Stats Bar!
             $stats_bar = $saved_feed_options['twitter_stats_bar'] ?? '';
 
-
             $twitter_hide_profile_photo          = $saved_feed_options['twitter_hide_profile_photo'] ?? '';
 
             $hide_images_in_posts                = $saved_feed_options['twitter_hide_images_in_posts'] ?? '';
+
+            $popup_check                         = $saved_feed_options['twitter_popup_option'] ?? '';
 
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			// option to allow this action or not from the Twitter Options page.
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 
-                $popup                       = $saved_feed_options['twitter_popup_option'] ?? '';
 				$loadmore                    = $saved_feed_options['twitter_load_more_option'] ?? '';
 				$loadmore_style              = $saved_feed_options['twitter_load_more_style'] ?? '';
                 $loadmore_btn_margin         = $saved_feed_options['twitter_loadmore_button_margin'] ?? '';
@@ -914,14 +911,16 @@ class Twitter_Feed {
 				$twitter_load_more_text      = $saved_feed_options['twitter_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
 				$twitter_no_more_tweets_text = $saved_feed_options['twitter_no_more_tweets_text'] ??  __( 'No More Tweets', 'feed-them-social' );
 
-				if ( isset( $popup ) && 'yes' === $popup ) {
+				if ( isset( $popup_check ) && $popup_check === 'yes' ) {
 					$fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
-			        if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
+			        if ( isset( $fts_fix_magnific ) && $fts_fix_magnific !== '1' ) {
 						wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, true );
 					}
 					wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, true );
 				}
 			}
+
+            $popup = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup_check ) ? $popup_check :  'no';
 
             // Premium Tweets Count Check!
 			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $tweets_count > '6' ) {
@@ -929,7 +928,7 @@ class Twitter_Feed {
 			}
 
 			// Exclude Replies?
-			$exclude_replies = 'no' === $show_replies ? 'true' : 'false' ;
+			$exclude_replies = $show_replies === 'no' ? 'true' : 'false' ;
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -1370,9 +1369,7 @@ class Twitter_Feed {
 						$twitter_is_video_allowed = $saved_feed_options['twitter_allow_videos'] ?? '';
 						$twitter_allow_videos     = $twitter_is_video_allowed ?? 'yes';
                         $no_video_image_check     =   '' ===  $twitter_video_reg && '' === $twitter_video_retweeted && '' ===  $twitter_video_quoted_status && '' ===  $twitter_image_quoted_status ? 'true' : 'false';
-                        $popup_set = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) ? $popup :  'no';
-
-                        $fts_image = $this->tweet_image( $post_data, $popup_set, $hide_images_in_posts );
+                        $fts_image = $this->tweet_image( $post_data, $popup, $hide_images_in_posts );
 
 						if (
                             // These first 4 are the different types of actual twitter videos that can come about!
@@ -1704,7 +1701,6 @@ class Twitter_Feed {
 			}
 
 			return ob_get_clean();
-		}
 	}
 
 }//end class

@@ -1843,11 +1843,11 @@ class Facebook_Feed_Post_Types {
 		if ( isset( $saved_feed_options['facebook_show_media']) && 'top' === $show_media ||
             isset( $saved_feed_options['combine_show_media']) && 'top' === $show_media ) {
 
-			if ( 'right' === $saved_feed_options['facebook_show_social_icon'] || 'right' === $saved_feed_options['combine_show_social_icon'] ) {
+			if ( 'right' === ($saved_feed_options['facebook_show_social_icon'] ?? '') || 'right' === ($saved_feed_options['combine_show_social_icon'] ?? '') ) {
 				echo '<div class="fts-mashup-icon-wrap-right fts-mashup-facebook-icon"><a href="' . esc_url( 'https://www.facebook.com/' . $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"></a></div>';
 			}
 			// show icon.
-			if ( 'left' === $saved_feed_options['facebook_show_social_icon'] || 'left' === $saved_feed_options['combine_show_social_icon'] ) {
+			if ( 'left' === ($saved_feed_options['facebook_show_social_icon'] ?? '') || 'left' === ($saved_feed_options['combine_show_social_icon'] ?? '') ) {
 				echo '<div class="fts-mashup-icon-wrap-left fts-mashup-facebook-icon"><a href="' . esc_url( 'https://www.facebook.com/' . $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"></a></div>';
 			}
 			echo '<div class="fts-jal-fb-top-wrap ' . esc_attr( $saved_feed_options['facebook_hide_date_likes_comments'] ) . '" style="display:block !important;">';

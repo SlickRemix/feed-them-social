@@ -5,7 +5,7 @@ Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagr
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.1.1
-Stable tag: 4.0.6
+Stable tag: 4.0.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -116,6 +116,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.0.7 Tuesday, March 13th, 2023 =
+  * FIX: Carousel Feed: Script not loading.
+
 = Version 4.0.6 Thursday, March 9th, 2023 =
   * FIX: Facebook Feed: PHP warnings for position of social icon. Thanks to @thewebtailors for fixing this.
   * FIX: Twitter Feed: PHP warnings for popup. Thanks to @ericbourges for letting us know about this.

@@ -232,6 +232,11 @@ class Feed_Shortcode {
 			// Images Loaded
 			wp_enqueue_script('fts-images-loaded');
 		}
+
+        // Carousel Feed Scripts.
+        if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+            wp_enqueue_script( 'fts-feeds');
+        }
 	}
 
 	/**

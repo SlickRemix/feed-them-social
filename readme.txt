@@ -116,8 +116,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.0.7 Tuesday, March 13th, 2023 =
+= Version 4.0.7 Tuesday, March 14th, 2023 =
   * FIX: Carousel Feed: Script not loading.
+  * FIX: PHP: Trailing commas making it impossible to load the plugin in vs 7.0-7.2. Depreciated safe_mode call for System Info details.
 
 = Version 4.0.6 Thursday, March 9th, 2023 =
   * FIX: Facebook Feed: PHP warnings for position of social icon. Thanks to @thewebtailors for fixing this.

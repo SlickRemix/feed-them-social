@@ -508,10 +508,10 @@ class Facebook_Additional_Options {
 					'option_type'      => 'select_fb_language',
 					'label'            => esc_html__( 'Facebook Language', 'feed_them_social' ),
                     'instructional-text' => sprintf(
-                        esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the FB Titles and Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
+                        esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the Facebook Titles, Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
                         '<a href="' . esc_url( 'options-general.php' ) . '" target="_blank">',
                         '</a>',
-                        '<a href="' . esc_url( 'http://translate.slickremix.com/glotpress/projects/feed-them-social/' ) . '" target="_blank">',
+                        '<a href="' . esc_url( 'https://translate.wordpress.org/projects/wp-plugins/feed-them-social/' ) . '" target="_blank">',
                         '</a>'
                     ),
 					'type'             => 'text',
@@ -657,7 +657,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'select',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Text after your FB name %1$sie* Shared by or New Photo Added etc.%2$s', 'feed-them-social' ),
+							esc_html__( 'Text after your Facebook name %1$sie* Shared by or New Photo Added etc.%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -815,12 +815,7 @@ class Facebook_Additional_Options {
                 array(
                     'input_wrap_class' => 'fb_post_background_color fts-color-picker',
                     'option_type'      => 'input',
-                    'label'            =>
-                        sprintf(
-                            esc_html__( 'Post Background Color %1$sOnly works when show_media=top%2$s', 'feed-them-social' ),
-                            '<br/><small>',
-                            '</small>'
-                        ),
+                    'label'            => esc_html__( 'Post Background Color', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'fb_post_background_color',
                     'name'             => 'fb_post_background_color',

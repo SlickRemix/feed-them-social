@@ -292,7 +292,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => $oath_token,
                     'instructional-text' => sprintf(
-                        esc_html__( '%1$s %2$s Click the button below to get an access token. This gives us read-only access to get your Twitter posts. Once you have your Access Tokens you will be able to create your feed.', 'feed_them_social' ),
+                        esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your Twitter posts. Once you have your Access Token you will be able to create a feed.', 'feed_them_social' ),
                         '<strong>',
                         '</strong>'
                     ),
@@ -346,7 +346,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is simply used to display the feed. You must be an admin of the business page to get your token. This will NOT work for personal profiles or groups.%3$sClick the button below to get an access token. This gives us read-only access to get your Facebook posts. Once you have your Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s%4$s', 'feed_them_social' ),
+                        esc_html__( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is used to display the feed. You must be an admin of the business page to get token. This will NOT work for personal profiles or groups.%3$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. Once you have an Access Token can create a feed. Please note, use of this plugin is subject to %Meta\'s Platform Terms%2$s%4$s', 'feed_them_social' ),
                         '<a href="https://developers.facebook.com/terms/" target="_blank">',
                         '</a>',
                         '<p>',
@@ -411,7 +411,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Once you have your Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sFacebook\'s Platform Terms%2$s', 'feed_them_social' ),
+                        esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. Once you have an Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sMeta\'s Platform Terms%2$s', 'feed_them_social' ),
                         '<a href="https://developers.facebook.com/terms/" target="_blank">',
                         '</a>'
                     ),
@@ -475,7 +475,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'Click the button below to get an access token. This gives us read-only access to get your Instagram posts. Your Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create your feed. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sFacebook\'s Platform Terms%4$s', 'feed_them_social' ),
+                        esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. Your Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta\'s Platform Terms%4$s', 'feed_them_social' ),
                         '<a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">',
                         '</a>',
                         '<a href="https://developers.facebook.com/terms/" target="_blank">',
@@ -559,7 +559,7 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                            esc_html__( 'Click the button below to get an access token, we recommend this for testing. This gives us read-only access to get your YouTube videos. After you are done testing you will need to %1$sadd your own API Key%2$s. This is because Access Tokens have a very limited use. Once you have your Access Tokens or you have entered an API key, you will be able to create your feed.', 'feed_them_social' ),
+                            esc_html__( 'Click the button below to get an access token, we recommend this for testing. This gives the plugin read-only access to get your YouTube videos. After testing, you must %1$sadd your own API Key%2$s. This is because Access Tokens expire. Once you have Access Tokens or entered an API key, you can create a feed.', 'feed_them_social' ),
                         '<span>',
                         '</span>'
                     ),
@@ -718,34 +718,6 @@ class Feed_CPT_Options {
 					),
 				),
 
-				// ******************************************
-				// Facebook Grid Options
-				// ******************************************
-				// Facebook Page Display Posts in Grid
-				// array(
-				// 'grouped_options_title' => __('Grid', 'feed_them_social'),
-				// 'input_wrap_class' => 'fb-posts-in-grid-option-wrap',
-				// 'option_type' => 'select',
-				// 'label' => __('Display Posts in Grid', 'feed_them_social'),
-				// 'type' => 'text',
-				// 'id' => 'fts_grid_option',
-				// 'name' => 'fts_grid_option',
-				// 'default_value' => 'no',
-				// 'options' => array(
-				// array(
-				// 'label' => __('No', 'feed_them_social'),
-				// 'value' => 'no',
-				// ),
-				// array(
-				// 'label' => __('Yes', 'feed_them_social'),
-				// 'value' => 'yes',
-				// ),
-				// ),
-				// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
-				// 'sub_options' => array(
-				// 'sub_options_wrap_class' => 'main-grid-options-wrap',
-				// ),
-				// ),
 				array(
 					'input_wrap_class'   => 'fb-page-columns-option-hide',
 					'option_type'        => 'select',
@@ -1012,14 +984,6 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class'   => 'ft-images-sizes-page',
 					'option_type'        => 'ft-images-sizes-page',
-					'instructional-text' =>
-						sprintf(
-							esc_html__( '%1$sNOTE:%2$s If for some reason the image size you choose does not appear on the front end you may need to regenerate your images. This free plugin called %3$sRegenerate Thumbnails%4$s does an amazing job of that.', 'feed_them_social' ),
-							'<strong>',
-							'</strong>',
-							'<a href="' . esc_url( 'plugin-install.php?s=regenerate+thumbnails&tab=search&type=term' ) . '" target="_blank">',
-							'</a>'
-						),
 					'label'              => esc_html__( 'Image Size on Page', 'feed_them_social' ),
 					'class'              => 'ft-gallery-images-sizes-page',
 					'type'               => 'select',
@@ -1122,14 +1086,6 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class'   => 'ft-images-sizes-popup',
 					'option_type'        => 'ft-images-sizes-popup',
-					'instructional-text' =>
-						sprintf(
-							esc_html__( '%1$sNOTE:%2$s If for some reason the image size you choose does not appear on the front end you may need to regenerate your images. This free plugin called %3$sRegenerate Thumbnails%4$s does an amazing job of that.', 'feed_them_social' ),
-							'<strong>',
-							'</strong>',
-							'<a href="' . esc_url( 'plugin-install.php?s=regenerate+thumbnails&tab=search&type=term' ) . '" target="_blank">',
-							'</a>'
-						),
 					'label'              => esc_html__( 'Image Size in Popup', 'feed_them_social' ),
 					'class'              => 'ft-gallery-images-sizes-popup',
 					'type'               => 'select',

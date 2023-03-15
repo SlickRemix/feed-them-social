@@ -409,7 +409,7 @@ class Access_Options {
             $reviews_token = isset( $_GET['reviews_token'] ) ? 'yes' : 'no';
             ?>
             <div id="fb-list-wrap">
-                <div class="fts-pages-info"> <?php echo esc_html__( 'Click on a page in the list below and then click save.', 'feed-them-social' ); ?></div>
+                <div class="fts-pages-info"> <?php echo esc_html__( 'Click on a page below and click save.', 'feed-them-social' ); ?></div>
                 <ul class="fb-page-list fb-page-master-list">
                     <?php
                     } //End make sure it's not ajaxing!

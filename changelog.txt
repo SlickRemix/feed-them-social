@@ -370,7 +370,7 @@
 
 = Version 2.3.5 Friday, December 22nd, 2017 =
    * NEW: Added Set Cache Time link in the admin menu along with the actual cache time that is currently set.
-   * NEW: YouTube Feed: Hide the first thumbnail in the list. Useful if displaying videos on the page. omit_first_thumbnail=yes
+   * NEW: YouTube Feed: Hide first thumbnail in the list. Useful if displaying videos on the page. omit_first_thumbnail=yes
    * FIX: YouTube Feed: Show videos in a row with title and description. Actual iframe is displayed and not thumbnails.
    * FIX: YouTube Feed: Foreach loop error if 51 or more was entered as the number of vids. YouTube API is 50 per page max and to loadmore you need the premium version.
    * FIX: YouTube Feed: API/Access Token Issue where page would not return the feed after a certain amount of time and you would have to refresh the page to get it to work again.

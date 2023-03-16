@@ -1177,7 +1177,7 @@ class Feed_CPT_Options {
 					'name'               => 'fts_load_more_style',
 					'instructional-text' =>
 						sprintf(
-							esc_html__( '%1$sNOTE:%2$s The Button option will show a "Load More Posts" button under your feed. The AutoScroll option will load more posts when you reach the bottom of the feed. AutoScroll ONLY works if you\'ve filled in a Fixed Height for your feed.', 'feed_them_social' ),
+							esc_html__( '%1$sNOTE:%2$s The Button option displays "Load More Posts" button below feed. The AutoScroll option loads more posts when user reaches the bottom of feed. AutoScroll ONLY works if option is filled in a Fixed Height for feed.', 'feed_them_social' ),
 							'<strong>',
 							'</strong>'
 						),
@@ -2198,7 +2198,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'facebook_load_more_style',
 					'name'        => 'facebook_load_more_style',
-					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option will show a "Load More Posts" button under your feed. The AutoScroll option will load more posts when you reach the bottom of the feed. AutoScroll ONLY works if you\'ve filled in a Fixed Height for your feed.', 'feed-them-social' ),
+					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option displays "Load More Posts" button below feed. The AutoScroll option loads more posts when user reaches the bottom of feed. AutoScroll ONLY works if option is filled in a Fixed Height for feed.', 'feed-them-social' ),
 					'options'     => array(
 						1 => array(
 							'label' => __( 'Button', 'feed-them-social' ),
@@ -2317,7 +2317,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'facebook_grid_column_width',
 					'name'        => 'facebook_grid_column_width',
-					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
+					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
 					'placeholder' => '310px ' . __( 'for example', 'feed-them-social' ),
 					'value'       => '',
 					'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_facebook_reviews'),
@@ -2453,7 +2453,7 @@ class Feed_CPT_Options {
 				array(
 					'grouped_options_title' => __( 'Carousel/Slider', 'feed-them-social' ),
 					'input_wrap_id' => 'facebook_slider',
-					'instructional-text' => __( 'Create a Carousel or Slideshow with these options.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/facebook-carousels-or-sliders/" target="_blank">' . __( 'View Demos', 'feed-them-social' ) . '</a> ' . __( 'and copy easy to use shortcode examples.', 'feed-them-social' ),
+					'instructional-text' => __( 'Create Carousel or Slideshow with these options.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/facebook-carousels-or-sliders/" target="_blank">' . __( 'View Demos', 'feed-them-social' ) . '</a> ' . __( 'and copy easy to use shortcode examples.', 'feed-them-social' ),
 					'option_type' => 'select',
 					'label'       => __( 'Carousel/Slideshow', 'feed-them-social' ),
 					'type'        => 'text',
@@ -2548,7 +2548,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_id' => 'facebook_slider_spacing',
 					'option_type' => 'input',
-					'label'       => __( 'Spacing in between Slides', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Spacing between Slides', 'feed-them-social' ) . '<br/><small>' . __( '', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'slider_spacing',
 					'name'        => 'slider_spacing',
@@ -2593,7 +2593,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_id' => 'facebook_slider_speed',
 					'option_type' => 'input',
-					'label'       => __( 'Slider Speed', 'feed-them-social' ) . '<br/><small>' . __( 'How fast the slider changes', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Slider Speed', 'feed-them-social' ) . '<br/><small>' . __( 'How fast slides change', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'slider_speed',
 					'name'        => 'slider_speed',
@@ -2615,7 +2615,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_id' => 'facebook_slider_timeout',
 					'option_type' => 'input',
-					'label'       => __( 'Slider Timeout', 'feed-them-social' ) . '<br/><small>' . __( 'Amount of Time before the next slide.', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Slider Timeout', 'feed-them-social' ) . '<br/><small>' . __( 'Amount of Time before next slide.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'slider_timeout',
 					'name'        => 'slider_timeout',
@@ -3073,7 +3073,7 @@ class Feed_CPT_Options {
 
 					// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
                     'prem_req_more_msg' => '',
-					'placeholder' => __( '6 is the default value', 'feed-them-social' ),
+					'placeholder' => __( '6 is default value', 'feed-them-social' ),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -3123,7 +3123,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'instagram_fixed_height_option',
 					'option_type' => 'input',
-					'label'       => __( 'Gallery Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Used to create a scrolling feed.', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Gallery Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Creates scrolling feed.', 'feed-them-social' ) . '</small>',
 					'label_note'  => __( 'Cannot use with Grid', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'instagram_page_height',
@@ -3339,7 +3339,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'fb-page-columns-option-hide',
 					'option_type' => 'select',
-					'label'       => __( 'Force Columns', 'feed-them-social' ) . '<br/><small>' . __( 'No, will allow the images to be responsive for smaller devices. Yes, will force columns.', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Force Columns', 'feed-them-social' ) . '<br/><small>' . __( 'No, allows images to be responsive for smaller devices. Yes, forces columns.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'instagram_force_columns',
 					'name'        => 'instagram_force_columns',
@@ -3381,8 +3381,8 @@ class Feed_CPT_Options {
 				// Icon Size
 				array(
 					'option_type' => 'input',
-					'label'       => __( 'Size of the Instagram Icon', 'feed-them-social' ),
-					'label_note'  => __( 'Visible when you hover over photo', 'feed-them-social' ),
+					'label'       => __( 'Size of Instagram Icon', 'feed-them-social' ),
+					'label_note'  => __( 'Visible when hovering over photo', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'instagram_icon_size',
 					'name'        => 'instagram_icon_size',
@@ -3462,7 +3462,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'instagram_load_more_style',
 					'name'        => 'instagram_load_more_style',
-					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option will show a "Load More Posts" button under your feed. The AutoScroll option will load more posts when you reach the bottom of the feed. AutoScroll ONLY works if you\'ve filled in a Fixed Height for your feed.', 'feed-them-social' ),
+					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option displays "Load More Posts" button below feed. The AutoScroll option loads more posts when user reaches the bottom of feed. AutoScroll ONLY works if option is filled in a Fixed Height for feed.', 'feed-them-social' ),
 					'options'     => array(
 						1 => array(
 							'label' => __( 'Button', 'feed-them-social' ),
@@ -3711,7 +3711,7 @@ class Feed_CPT_Options {
 
                     // Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
                     // 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
-                    'placeholder' => __( '6 is the default value', 'feed-them-social' ),
+                    'placeholder' => __( '6 is default value', 'feed-them-social' ),
                     'value'       => '',
 
                     // Relative to JS.
@@ -3894,7 +3894,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'id'          => 'twitter_load_more_style',
                     'name'        => 'twitter_load_more_style',
-                    'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option will show a "Load More Posts" button under your feed. The AutoScroll option will load more posts when you reach the bottom of the feed. AutoScroll ONLY works if you\'ve filled in a Fixed Height for your feed.', 'feed-them-social' ),
+                    'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option displays "Load More Posts" button below feed. The AutoScroll option loads more posts when user reaches the bottom of feed. AutoScroll ONLY works if option is filled in a Fixed Height for feed.', 'feed-them-social' ),
                     'options'     => array(
                         array(
                             'label' => __( 'Button', 'feed-them-social' ),
@@ -4030,7 +4030,7 @@ class Feed_CPT_Options {
                     'type'        => 'text',
                     'id'          => 'twitter_grid_column_width',
                     'name'        => 'twitter_grid_column_width',
-                    'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
+                    'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
                     'placeholder' => '310px ' . __( 'for example', 'feed-them-social' ),
                     'value'       => '',
                     'req_extensions'  => array('feed_them_social_premium'),
@@ -4172,7 +4172,7 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_playlistID',
 					'label'       => __( 'Youtube Playlist ID', 'feed-them-social' ),
-					'instructional-text' => __( 'You must copy your YouTube <strong>Playlist</strong> and <strong>Channel</strong> url link and paste them below. Your urls should look similar to our Example urls below. <br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN" target="_blank">_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN</a><br/><strong>' . __( 'Channel ID:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/channel/UCt16NSYjauKclK67LCXvQyA" target="_blank">UCt16NSYjauKclK67LCXvQyA</a>',
+					'instructional-text' => __( 'Copy your YouTube <strong>Playlist</strong> and <strong>Channel</strong> url link and paste them below. URLs should look similar to Example urls below. <br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN" target="_blank">_-sySjjthB0&list=PL7V-xVyJYY3cI-A9ZHkl6A3r31yiVz0XN</a><br/><strong>' . __( 'Channel ID:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/channel/UCt16NSYjauKclK67LCXvQyA" target="_blank">UCt16NSYjauKclK67LCXvQyA</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_playlistID',
 					'name'        => 'youtube_playlistID',
@@ -4196,7 +4196,7 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_playlistID2',
 					'label'       => __( 'Youtube Playlist ID ', 'feed-them-social' ),
-					'instructional-text' => __( 'You must copy your YouTube <strong>Playlist</strong> and <strong>Username</strong> url and paste them below. Your urls should look similar to our Example urls below.<br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=cxrLRbkOwKs&index=10&list=PLivjPDlt6ApS90YoAu-T8VIj6awyflIym" target="_blank">PLivjPDlt6ApS90YoAu-T8VIj6awyflIym</a><br/><strong>' . __( 'Username:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/user/nationalgeographic" target="_blank">nationalgeographic</a>',
+					'instructional-text' => __( 'Copy your YouTube <strong>Playlist</strong> and <strong>Username</strong> url and paste them below. URLs should look similar to Example urls below.<br/><br/><strong>Playlist ID:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=cxrLRbkOwKs&index=10&list=PLivjPDlt6ApS90YoAu-T8VIj6awyflIym" target="_blank">PLivjPDlt6ApS90YoAu-T8VIj6awyflIym</a><br/><strong>' . __( 'Username:', 'feed-them-social' ) . '</strong> <a href="https://www.youtube.com/user/nationalgeographic" target="_blank">nationalgeographic</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_playlistID2',
 					'name'        => 'youtube_playlistID2',
@@ -4219,7 +4219,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_name2',
-					'label'       => __( 'Youtube Username<br/><small>For Subscribe button. More on the Style Options tab.</small>', 'feed-them-social' ),
+					'label'       => __( 'Youtube Username<br/><small>For Subscribe button. More on Style Options tab.</small>', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'youtube_name2',
 					'name'        => 'youtube_name2',
@@ -4241,7 +4241,7 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_channelID',
 					'label'       => __( 'Youtube Channel ID', 'feed-them-social' ),
-					'instructional-text' => __( 'You must copy your YouTube <strong>Channel</strong> url and paste it below.<br/><strong>Example:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/channel/UCqhnX4jA0A5paNd1v-zEysw" target="_blank">UCqhnX4jA0A5paNd1v-zEysw</a>',
+					'instructional-text' => __( 'Copy your YouTube <strong>Channel</strong> url and paste it below.<br/><strong>Example:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/channel/UCqhnX4jA0A5paNd1v-zEysw" target="_blank">UCqhnX4jA0A5paNd1v-zEysw</a>',
 					'type'        => 'text',
                     'default_value' => 'UCqhnX4jA0A5paNd1v-zEysw',
 					'id'          => 'youtube_channelID',
@@ -4264,7 +4264,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_channelID2',
-					'label'       => __( 'Youtube Channel ID<br/><small>For Subscribe button. More on the Style Options tab.</small>', 'feed-them-social' ),
+					'label'       => __( 'Youtube Channel ID<br/><small>For Subscribe button. More on Style Options tab.</small>', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'youtube_channelID2',
 					'name'        => 'youtube_channelID2',
@@ -4286,7 +4286,7 @@ class Feed_CPT_Options {
 					'option_type' => 'input',
 					'input_wrap_class' => 'youtube_singleVideoID',
 					'label'       => __( 'Single Youtube Video ID', 'feed-them-social' ),
-					'instructional-text' => __( 'You must copy your <strong>YouTube Video</strong> url link and paste it below.<br/><strong>Video URL:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=_-sySjjthB0" target="_blank">https://www.youtube.com/watch?v=_-sySjjthB0</a>',
+					'instructional-text' => __( 'Copy your <strong>YouTube Video</strong> url link and paste it below.<br/><strong>Video URL:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/watch?v=_-sySjjthB0" target="_blank">https://www.youtube.com/watch?v=_-sySjjthB0</a>',
 					'type'        => 'text',
 					'id'          => 'youtube_singleVideoID',
 					'name'        => 'youtube_singleVideoID',
@@ -4313,7 +4313,7 @@ class Feed_CPT_Options {
 					'id'          => 'youtube_vid_count',
 					'name'        => 'youtube_vid_count',
 					'default_value'        => '4',
-					'placeholder' => __( '4 is the default value', 'feed-them-social' ),
+					'placeholder' => __( '4 is default value', 'feed-them-social' ),
 
 					// Relative to JS.
 					'short_attr'  => array(
@@ -4404,7 +4404,7 @@ class Feed_CPT_Options {
 					'grouped_options_title' => __( 'Video Thumbnails', 'feed-them-social' ),
 					'input_wrap_class' => 'youtube_hide_option',
 					'option_type' => 'select',
-					'label'       => __( 'Click thumb to play Video', 'feed-them-social' ),
+					'label'       => __( 'Click thumbnail to play Video', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'youtube_play_thumbs',
 					'name'        => 'youtube_play_thumbs',
@@ -4471,7 +4471,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'youtube_hide_option',
 					'option_type' => 'select',
-					'label'       => __( 'Hide the first thumbnail', 'feed-them-social' ) . '<br/><small>' . __( 'Useful if playing videos on the page.', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Hide first thumbnail', 'feed-them-social' ) . '<br/><small>' . __( 'Useful if playing videos on the page.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'youtube_omit_first_thumbnail',
 					'name'        => 'youtube_omit_first_thumbnail',
@@ -4513,7 +4513,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class' => 'youtube_hide_option',
 					'option_type' => 'select',
-					'label'       => __( 'Force thumbnails rows', 'feed-them-social' ) . '<br/><small>' . __( 'No, will allow the video images to be responsive for smaller devices. Yes, will force the selected rows.', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Force thumbnails rows', 'feed-them-social' ) . '<br/><small>' . __( 'No, allows video images to be responsive for smaller devices. Yes, forces selected rows.', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'youtube_force_columns',
 					'name'        => 'youtube_force_columns',
@@ -4727,7 +4727,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'youtube_load_more_style',
 					'name'        => 'youtube_load_more_style',
-					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option will show a "Load More Posts" button under your feed. The AutoScroll option will load more posts when you reach the bottom of the feed. AutoScroll ONLY works if you\'ve filled in a Fixed Height for your feed.', 'feed-them-social' ),
+					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option displays "Load More Posts" button below feed. The AutoScroll option loads more posts when user reaches the bottom of feed. AutoScroll ONLY works if option is filled in a Fixed Height for feed.', 'feed-them-social' ),
 					'options'     => array(
 						array(
 							'label' => __( 'Button', 'feed-them-social' ),
@@ -4898,7 +4898,7 @@ class Feed_CPT_Options {
 					'id'          => 'combine_social_network_post_count',
 					'name'        => 'combine_social_network_post_count',
 					'default_value'       => '1',
-					'placeholder' => __( '1 is the default number', 'feed-them-social' ),
+					'placeholder' => __( '1 is default number', 'feed-them-social' ),
 					//'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.
@@ -5151,7 +5151,7 @@ class Feed_CPT_Options {
 					'type'        => 'text',
 					'id'          => 'combine_grid_column_width',
 					'name'        => 'combine_grid_column_width',
-					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define the Width of each post and the Space between each post below. You must add px after any number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
+					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
 					'placeholder' => '310px ' . __( 'for example', 'feed-them-social' ),
                     'default' => '310px',
 					//'req_extensions'  => array('feed_them_social_combined_streams'),

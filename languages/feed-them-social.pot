@@ -984,7 +984,7 @@ msgid "NOT the combined total"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:111
-msgid "1 is the default number"
+msgid "1 is default number"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:126
@@ -2062,7 +2062,7 @@ msgid "# of videos"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:3052
-msgid "4 is the default value"
+msgid "4 is default value"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:3069
@@ -2087,7 +2087,7 @@ msgid "Video Thumbnails"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:3143
-msgid "Click thumb to play Video"
+msgid "Click thumbnail to play Video"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:3149
@@ -2138,7 +2138,7 @@ msgid "6"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:3210
-msgid "Hide the first thumbnail"
+msgid "Hide first thumbnail"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:3210
@@ -2301,7 +2301,7 @@ msgstr ""
 #: admin/class-fts-settings-page-options.php:3800
 #: admin/class-fts-settings-page-options.php:3959
 #: admin/class-fts-settings-page-options.php:4562
-msgid "6 is the default value"
+msgid "6 is default value"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:3793
@@ -2502,7 +2502,7 @@ msgid "Size of the Instagram Icon"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:4869
-msgid "Visible when you hover over photo"
+msgid "Visible when hovering over photo"
 msgstr ""
 
 #: admin/class-fts-settings-page-options.php:4886
@@ -3366,7 +3366,7 @@ msgstr ""
 
 #: updater/updater-license-page.php:212
 #, php-format
-msgid "Now Enter your License Key and Click the %1$sSave Changes button%2$s."
+msgid "Enter your License Key and Click the %1$sSave Changes button%2$s."
 msgstr ""
 
 #: updater/updater-license-page.php:403 updater/updater-license-page.php:441

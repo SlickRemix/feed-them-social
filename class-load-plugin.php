@@ -146,6 +146,9 @@ class Feed_Them_Social {
 
 		// Updater Init.
 		new feedthemsocial\updater_init( $feed_functions );
+
+		// Block Init
+		new feedthemsocial\BlockLoader();
 	}
 
 	/**
@@ -380,5 +383,9 @@ class Feed_Them_Social {
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php';
+
+		// Feed Block
+		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'blocks/block-loader.php';
+
 	}
 }

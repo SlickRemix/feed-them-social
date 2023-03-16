@@ -1,0 +1,9 @@
+{
+    "apiVersion": 2,
+    "title": "Feed Them Social",
+    "name": "feed-them-social/feeds",
+    "category": "embed",
+    "icon": "feed-them-social",
+    "editorStyle": "file:./editor-style.css",
+    "editorScript": "file:./block.js"
+}

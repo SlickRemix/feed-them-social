@@ -57,7 +57,7 @@ class Options_Functions {
 	 */
 	function check_user_perms() {
 		// Can Current User Manage Options? If not Die!
-		if ( ! current_user_can( 'edit_posts' ) & ! empty( $_GET['post_type'] )  && 'fts' === $_GET['post_type'] ) {
+		if ( ! current_user_can( 'edit_posts' ) ) {
 			wp_die( 'Unauthorized User: Unable to save Feeds!' );
 		}
 	}

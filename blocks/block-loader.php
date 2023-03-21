@@ -37,7 +37,7 @@ class BlockLoader {
 
     }
 
-    public function feeds_block() {
+    public static function feeds_block() {
 
         \register_block_type(
             __DIR__ . '/feeds/block.json',

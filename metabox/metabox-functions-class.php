@@ -810,7 +810,7 @@ class Metabox_Functions {
                                     $option_name,
                                     $option_id,
                                     isset( $option['class'] ) ? ' ' . $option['class'] : '',
-                                    isset( $multiple ) ? $multiple : '',
+                                    isset( $multiple ) ? $multiple : ''
                                 );
 
                                 $lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );

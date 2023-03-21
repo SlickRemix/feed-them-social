@@ -142,7 +142,6 @@ $my_request = stripslashes_deep( $_SERVER );
 Web Server Info: <?php echo esc_html( $my_request['SERVER_SOFTWARE'] ) . "\n"; ?>
 
 -- PHP Configuration:
-Safe Mode: <?php echo esc_html( ini_get( 'safe_mode' ) ? 'Yes' : "No\n" ); ?>
 Upload Max Size: <?php echo esc_html( ini_get( 'upload_max_filesize' ) . "\n" ); ?>
 Post Max Size: <?php echo esc_html( ini_get( 'post_max_size' ) . "\n" ); ?>
 Upload Max Filesize: <?php echo esc_html( ini_get( 'upload_max_filesize' ) . "\n" ); ?>

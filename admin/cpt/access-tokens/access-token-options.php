@@ -137,8 +137,16 @@ class Access_Options {
                     // Load Facebook Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
 
-                    // Get Access button for Facebook.
-					$facebook_access_functions->get_access_token_button( $feed_cpt_id );
+                    ?>
+
+                    <div class="facebook-access-token-placeholder">
+                        <?php
+                            // Get Access button for Facebook.
+                            $facebook_access_functions->get_access_token_button( $feed_cpt_id );
+                        ?>
+                    </div>
+
+                <?php
 
                     break;
 
@@ -158,12 +166,19 @@ class Access_Options {
 	                // Instagram Business Access Functions.
 	                $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
 
+                    ?>
+
+
                     // Load Instagram Business Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+                    <div class="instagram-facebook-access-token-placeholder">
+                        <?php
+                            // Load the options.
+                            $instagram_business_access_functions->get_access_token_button( $feed_cpt_id );
+                        ?>
+                    </div>
 
-                    // Load the options.
-	                $instagram_business_access_functions->get_access_token_button( $feed_cpt_id );
-
+                <?php
 	               break;
 
 				case 'twitter-feed-type':
@@ -823,14 +838,14 @@ class Access_Options {
         }
 
         if( 'combined-twitter' === $combined ) {
-            // This option is to save the combine facebook type if a user clicks on one of the tabs. The reason we need to do this is so
+            // This option is to save the combine twitter type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_twitter', 'yes', true, $cpt_id );
         }
 
         if( 'combined-youtube' === $combined ) {
-            // This option is to save the combine facebook type if a user clicks on one of the tabs. The reason we need to do this is so
+            // This option is to save the combine youtube type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id );

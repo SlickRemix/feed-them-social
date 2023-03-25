@@ -1055,7 +1055,7 @@ class Metabox_Functions {
 	 */
 	public function save_meta_box( $cpt_id ) {
 
-        if ( ! isset( $_REQUEST['post_type'] ) || 'fts' !== $_REQUEST['post_type'] ) {
+        if ( ! isset( $_REQUEST['post_type'] ) || 'fts' !== $_REQUEST['post_type'] || ! isset( $_REQUEST['action'] ) ) {
             return;
         }
 

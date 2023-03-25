@@ -50,7 +50,7 @@ class BlockLoader {
 
     }
 
-    public function get_rendered_block( $block_attributes, $content ) {
+    public static function get_rendered_block( $block_attributes, $content ) {
 
         if ( ! isset( $block_attributes['feed'] ) ) {
             return 'No feed selected';
@@ -62,7 +62,7 @@ class BlockLoader {
 
     }
 
-    public function localize_post_data( $post ) {
+    public static function localize_post_data( $post ) {
 
         $current_user_id = \get_current_user_id();
 

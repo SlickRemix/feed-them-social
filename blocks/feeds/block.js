@@ -1,6 +1,7 @@
 ( function ( blocks, blockEditor, element ) {
 
-    var RichText = blockEditor.RichText;
+    const { __ } = wp.i18n;
+
     var AlignmentToolbar = blockEditor.AlignmentToolbar;
     var BlockControls = blockEditor.BlockControls;
     var useBlockProps = blockEditor.useBlockProps;
@@ -12,7 +13,6 @@
         attributes: {
             feed: {
                 type: 'string',
-                default: 'facebook'
             },
             alignment: {
                 type: 'string',
@@ -20,12 +20,27 @@
             },
         },
 
-       
+        /**
+         * Displays block content for the editor mode
+         * 
+         * @since 4.0.7
+         * 
+         * @param {object} props 
+         * @returns Element-Object
+         */
         edit: function ( props ) {
 
             var value = props.attributes.feed;
             var alignment = props.attributes.alignment;
 
+            /**
+             * Handles feed select changes.
+             * 
+             * @since 4.0.7
+             * 
+             * @param {String} value 
+             * @param {Object} event 
+             */
             function onChangeContent( value, event ) {
 
                 props.setAttributes(
@@ -35,6 +50,13 @@
                 )
             }
 
+            /**
+             * Handles block alignment changes
+             * 
+             * @since 4.0.7
+             * 
+             * @param {String} newAlignment 
+             */
             function onChangeAlignment( newAlignment ) {
                 props.setAttributes( {
                     alignment:
@@ -52,7 +74,7 @@
                     {
                         style: { textAlign: alignment },
                     },
-                    'No Feeds found.'
+                    __( 'No Feeds found.', 'feed-them-social' )
                 );
 
             } else {
@@ -60,7 +82,7 @@
                 let options = [
                     {
                         value: '',
-                        label: 'Select a Feed'
+                        label: __( 'Select a Feed', 'feed-them-social' )
                     }
                 ];
                 
@@ -78,7 +100,7 @@
                 feedElement = el( 
                     wp.components.SelectControl,
                     {
-                        label: 'Select a Feed',
+                        label: __( 'Select a Feed', 'feed-them-social' ),
                         value: value,
                         options: options,
                         style: { textAlign: alignment },
@@ -103,6 +125,15 @@
             );
         },
 
+        /**
+         * Display the rendered block content
+         * 
+         * This is a dynamic block. The block content is rendered on the server side.
+         * This means that this function must return null.
+         * 
+         * @param {object} props 
+         * @returns null
+         */
         save: function ( props ) {
             return null;
         }

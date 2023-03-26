@@ -1055,7 +1055,12 @@ class Metabox_Functions {
 	 */
 	public function save_meta_box( $cpt_id ) {
 
-        if ( ! isset( $_REQUEST['post_type'] ) || 'fts' !== $_REQUEST['post_type'] || ! isset( $_REQUEST['action'] ) ) {
+        if ( 
+            ! isset( $_REQUEST['post_type'] ) ||
+            'fts' !== $_REQUEST['post_type'] ||
+            ! isset( $_REQUEST['action'] ) || 
+            ! isset( $_POST[$this->metabox_nonce_name] )
+        ) {
             return;
         }
 
@@ -1063,7 +1068,7 @@ class Metabox_Functions {
         $this->options_functions->check_user_perms();
 
 		// Verify Nonce by set nonce name.
-		if ( ! isset( $_POST[$this->metabox_nonce_name] ) || !wp_verify_nonce( $_POST[ $this->metabox_nonce_name ], basename( __FILE__ ) ) ) {
+		if ( !wp_verify_nonce( $_POST[ $this->metabox_nonce_name ], basename( __FILE__ ) ) ) {
 			return wp_die( 'Cannot Verify This form!' );
 		}
 

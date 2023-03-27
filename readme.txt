@@ -122,6 +122,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * NEW: Feed Them Social Gutenberg Block support added.
   * FIX: Security fixes.
   * UPDATED: Text strings for internationalization shortened and cleaned up.
+  * FIX: Combined Streams: Facebook & Instagram Business Access Token clash.
 
 = Version 4.0.7 Tuesday, March 14th, 2023 =
   * FIX: Carousel Feed: Script not loading.

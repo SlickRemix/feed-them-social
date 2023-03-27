@@ -346,10 +346,10 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => '',
                     'instructional-text' => sprintf(
-                        esc_html__( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is used to display the feed. You must be an admin of the business page to get token. This will NOT work for personal profiles or groups.%3$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. Once you have an Access Token can create a feed. Please note, use of this plugin is subject to %Meta\'s Platform Terms%2$s%4$s', 'feed_them_social' ),
+                        esc_html__( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is used to display the feed. You must be an admin of the business page to get token. This will NOT work for personal profiles or groups.%1$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. Once you have an Access Token can create a feed. Please note, use of this plugin is subject to %2$sMeta\'s Platform Terms%3$s%4$s', 'feed_them_social' ),
+	                    '<p>',
                         '<a href="https://developers.facebook.com/terms/" target="_blank">',
                         '</a>',
-                        '<p>',
                         '</p>'
                     ),
                 ),

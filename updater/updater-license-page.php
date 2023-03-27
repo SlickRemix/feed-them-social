@@ -231,7 +231,7 @@ class updater_license_page {
 					<li>
 					<?php
 					echo sprintf(
-						esc_html__( 'Install the zip file of the plugin you should have received after purchase on the %1$splugins page%2$s and leave the free version active too.', 'feed-them-social' ),
+						esc_html__( 'Install the plugin zip file you\'ve received after purchase on the %1$splugins page%2$s and leave the free version active.', 'feed-them-social' ),
 						'<a href="' . esc_url( 'plugin-install.php' ) . '" target="_blank">',
 						'</a>'
 					);
@@ -240,7 +240,7 @@ class updater_license_page {
 					<li>
 					<?php
 					echo sprintf(
-						esc_html__( 'Now Enter your License Key and Click the %1$sSave Changes button%2$s.', 'feed-them-social' ),
+						esc_html__( 'Enter your License Key and Click the %1$sSave Changes button%2$s.', 'feed-them-social' ),
 						'<strong>',
 						'</strong>'
 					);

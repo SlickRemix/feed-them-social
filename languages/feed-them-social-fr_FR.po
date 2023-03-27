@@ -1337,7 +1337,7 @@ msgid "Size of the Instagram Icon"
 msgstr "Taille de l'icône Instragram"
 
 #: includes/feed-them-functions.php:1356
-msgid "Visible when you hover over photo"
+msgid "Visible when hovering over photo"
 msgstr "Visible quand focus au-dessus de la photo"
 
 #: includes/feed-them-functions.php:1362

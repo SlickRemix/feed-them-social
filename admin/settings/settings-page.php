@@ -280,7 +280,7 @@ class Settings_Page {
                             'name'    => __( 'Hide Powered by Text', 'feed-them-gallery' ),
                             'type'    => 'checkbox',
                             //'std'     => '',
-                            'tooltip_desc'    => __( 'Check this to hide the Powered by Feed Them Social text that appears under the feed or in popups.', 'feed-them-social' ),
+                            'tooltip_desc'    => __( 'Check to hide Powered by Feed Them Social text.', 'feed-them-social' ),
 
                         ),
                         'remove_magnific_css' => array(

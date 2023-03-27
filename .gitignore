@@ -2,3 +2,5 @@
 .DS_Store
 .git
 workspace.xml
+php.xml
+Project_Default.xml

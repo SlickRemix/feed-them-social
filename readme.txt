@@ -118,7 +118,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.0.8.1 Tuesday, March 28th, 2023 =
+= Version 4.0.81 Tuesday, March 28th, 2023 =
   * FIX: Instagram Business: Access Token Inputs not displaying correctly.
   * UPDATED: POT file.
 

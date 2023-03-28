@@ -166,11 +166,10 @@ class Access_Options {
 	                // Instagram Business Access Functions.
 	                $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
 
-                    ?>
-
-
                     // Load Instagram Business Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+                    ?>
+
                     <div class="instagram-facebook-access-token-placeholder">
                         <?php
                             // Load the options.

@@ -387,7 +387,7 @@ class Feeds_CPT {
 					wp_die( esc_html__( 'Oops, Feed was not created.', 'feed_them_social' ) );
 				}
 			}
-			wp_die( esc_html__( 'Not allowed to create this feed. User does not have permissions.', 'feed_them_social' ) );
+			wp_die( esc_html__( 'Not allowed to create feed. User permissions denied.', 'feed_them_social' ) );
         }
 	}
 
@@ -409,7 +409,7 @@ class Feeds_CPT {
             3  => esc_html__( 'Custom field deleted.', 'feed_them_social' ),
             4  => esc_html__( 'Feed updated.', 'feed_them_social' ),
             /* translators: %s: date and time of the revision */
-            5  => isset( $_GET['revision'] ) ? sprintf( esc_html__( 'Response restored to revision from %s', 'feed_them_social' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+            5  => isset( $_GET['revision'] ) ? sprintf( esc_html__( 'Feed restored to revision from %s', 'feed_them_social' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
             6  => esc_html__( 'Feed created.', 'feed_them_social' ),
             7  => esc_html__( 'Feed saved.', 'feed_them_social' ),
             8  => esc_html__( 'Feed submitted.', 'feed_them_social' ),
@@ -1001,7 +1001,7 @@ class Feeds_CPT {
                 // [fts_mashup posts=12 social_network_posts=4 words=55 center_container=no height=450px background_color=#75a3ff show_social_icon=left show_media=top show_date=no show_name=no padding=20px facebook_name=1562664650673366 twitter_name=twittername hashtag=tytytyty instagram_search=top-media grid=yes instagram_type=business hashtag=asdfasdfasdf instagram_name=17841400646076739  channel_id=mnmnmnm playlist_id=vasdfbvbvb column_width=310px space_between_posts=10px]
                 ?>
                 <p>
-                    <label><?php echo esc_html__( 'Paste your Old shortcode here and click the blue Convert button. This will map your old options to the new input fields.', 'feed_them_social' ); ?></label>
+                    <label><?php echo esc_html__( 'Paste an Old shortcode here and click Convert button. This converts old options to new, saved input fields.', 'feed_them_social' ); ?></label>
                         <input value="" />
                 </p><div class="publishing-action" style="text-align: right;"><a href="#fts-convert-old-shortcode" id="fts-convert-old-shortcode" class="button button-primary button-large"><?php echo esc_html__( 'Convert', 'feed_them_social' ); ?></a></div>
 
@@ -1040,7 +1040,7 @@ class Feeds_CPT {
                 <div id="fts-import-export-tab1">
                     <div class="fts-export-feed-widget-wrap">
                         <p>
-                            <label><?php echo esc_html__( 'Need Support with your feed or want to copy options to a new feed?', 'feed-them-social' ); ?></label>
+                            <label><?php echo esc_html__( 'Need Support with your feed or want to copy options to new feed?', 'feed-them-social' ); ?></label>
                             <input readonly="readonly" value="" onclick="this.select();"/>
                         </p>
                         <div class="publishing-action" style="text-align: right;">
@@ -1127,10 +1127,10 @@ class Feeds_CPT {
 		$new_post_author = $current_user->ID;
 
         /**
-         * Make sure that the user has the capability to duplicate this post.
+         * Make sure that the user has the capability to duplicate this feed.
          */
         if ( ! current_user_can( 'edit_post', $post_id ) ) {
-            wp_die( esc_html__( 'You are not allowed to duplicate this post.', 'feed_them_social' ) );
+            wp_die( esc_html__( 'You are not allowed to duplicate this feed.', 'feed_them_social' ) );
         }
 
 

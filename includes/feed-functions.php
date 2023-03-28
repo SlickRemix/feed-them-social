@@ -1169,12 +1169,12 @@ class Feed_Functions {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_name', $access_token['facebook_user_name'], true, $cpt_id );
         }
         elseif( 'twitter' === $_REQUEST['token_type'] ){
-            // atm we are not encrypting twitter token.
+            // atm we are not encrypting twitter tokens.
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_twitter_custom_access_token', $access_token['token'], true, $cpt_id );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_twitter_custom_access_token_secret', $access_token['token_secret'], true, $cpt_id );
         }
         elseif( 'youtube' === $_REQUEST['token_type'] ){
-            // atm we are not encrypting twitter token.
+            // atm we are not encrypting youtube tokens.
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token['token'], true, $cpt_id );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $access_token['refresh_token'], true, $cpt_id );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $access_token['exp_time'], true, $cpt_id );

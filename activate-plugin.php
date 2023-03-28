@@ -133,14 +133,11 @@ class Activate_Plugin {
 	 */
 	public function failed_php_version_notice() {
 		echo sprintf(
-			esc_html__( '%1$sWarning:%2$s Your server PHP version is %3$s. You need to be running at least %4$s or greater to use this plugin. Please upgrade the php by contacting your host provider. Some host providers will allow you to change this yourself in the hosting control panel too.%5$sIf you are hosting with BlueHost or Godaddy and the php version above is saying you are running 5.2.17 but you are really running something higher please %6$sclick here for the fix%7$s. If you cannot get it to work using the method described in the link please contact your hosting provider and explain the problem so they can fix it.%8$s', 'feed-them-social' ),
+			esc_html__( '%1$sWarning:%2$s Your server PHP version is %3$s. You need to be running at least %4$s or greater to use this plugin. Please upgrade the php by contacting your host provider.%5$s', 'feed-them-social' ),
 			'<div class="error"><p><strong>',
 			'</strong>',
 			PHP_VERSION,
 			FEED_THEM_SOCIAL_MIN_PHP,
-			'<br/><br/>',
-			'<a href="' . esc_url( 'https://wordpress.org/support/topic/php-version-difference-after-changing-it-at-bluehost-php-config?replies=4' ) . '" target="_blank">',
-			'</a>',
 			'</p></div>'
 		);
 	}
@@ -170,7 +167,7 @@ class Activate_Plugin {
 		// Check the transient to see if we've just activated the plugin.
 		if ( get_transient( 'fts_activated' ) ) {
 			echo sprintf(
-				esc_html__( '%1$sThanks for installing Feed Them Social. To get started please view our %2$sSettings%3$s page.%4$s', 'feed-them-social' ),
+				esc_html__( '%1$sThanks for installing Feed Them Social. To get started please view the %2$sSettings%3$s page.%4$s', 'feed-them-social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
 				'<a href="' . esc_url( 'edit.php?post_type=fts&page=fts-settings-page' ) . '">',
 				'</a>',
@@ -192,7 +189,7 @@ class Activate_Plugin {
 		// Check the transient to see if we've just updated the plugin.
 		if ( get_transient( 'fts_updated' ) ) {
 			echo sprintf(
-				esc_html__( '%1$sThanks for updating Feed Them Social. We have deleted the cache in our plugin so you can view any changes we have made.%2$s', 'feed-them-social' ),
+				esc_html__( '%1$sThanks for updating Feed Them Social. The plugins cache has been cleared.%2$s', 'feed-them-social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
 				'</p></div>'
 			);

@@ -252,7 +252,11 @@ class Feed_Shortcode {
             return;
         }
 
-        global $post;
+		global $post;
+		if ( 'fts' !== $post->post_type ) {
+			return;
+		}
+
         $array_check = $this->feed_functions->get_feed_option( $cpt_id, 'fts_shortcode_location' );
         $array_check_decode = json_decode( $array_check );
 

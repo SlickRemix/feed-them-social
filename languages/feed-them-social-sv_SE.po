@@ -1199,7 +1199,7 @@ msgid "Twitter Search"
 msgstr "Twitter sök"
 
 #: includes/feed-them-functions.php:1194
-msgid "You can use #hashtag, @person, or single words. For example, weather or weather-channel.<br/><br/>If you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. <strong style=\"color:#225DE2;\">from:user_name%#YourHashtag</strong>"
+msgid "Use #hashtag, @person, or single words. For example, weather or weather-channel.<br/><br/>If you want to filter a specific users hashtag copy this example to first input below and replace user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. <strong style=\"color:#225DE2;\">from:user_name%#YourHashtag</strong>"
 msgstr "Du kan använda #hastag, @person, eller singel ord. Till exempel, väder eller väder-kanal.<br/><br/>Om du vill filtrera en specifik användares hashtag kopiera detta exempel till den första fältet nedan och ersätt user_name och YourHashtag namnet. TA INTE BORT from:%# . NOT: Det visas bara de senaste 7 dagarna tweets. <strong style=\"color:#225DE2;\">from:user_name%#YourHashtag</strong>"
 
 #: includes/feed-them-functions.php:1196
@@ -1363,7 +1363,7 @@ msgid "Size of the Instagram Icon"
 msgstr "Storlek av Instagram ikon"
 
 #: includes/feed-them-functions.php:1371
-msgid "Visible when you hover over photo"
+msgid "Visible when hovering over photo"
 msgstr "Visas när du håller musen över foton"
 
 #: includes/feed-them-functions.php:1377

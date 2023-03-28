@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.1.1
-Stable tag: 4.0.7
+Tested up to: 6.2
+Stable tag: 4.0.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -26,6 +26,8 @@ Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twi
  * **Convert** old shortcodes to saved feed options.
  * **Share** buttons for Instagram, Facebook, Twitter, and YouTube Feeds.
  * **Add** Like and/or Follow Buttons above or below any feeds.
+ * **Works** with Gutenberg Blocks or Classic Editor.
+
 
 ###Benefits
  * **Easy-to-use** features.
@@ -116,6 +118,12 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.0.8 Monday, March 27th, 2023 =
+  * NEW: Feed Them Social Gutenberg Block support added.
+  * FIX: Security fixes.
+  * UPDATED: Text strings for internationalization shortened and cleaned up.
+  * FIX: Combined Streams: Facebook & Instagram Business Access Token clash.
+
 = Version 4.0.7 Tuesday, March 14th, 2023 =
   * FIX: Carousel Feed: Script not loading.
   * FIX: PHP: Trailing commas making it impossible to load the plugin in vs 7.0-7.2. Depreciated safe_mode call for System Info details.

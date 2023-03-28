@@ -129,7 +129,7 @@ class BlockLoader {
         }
 
         $user_feeds = $GLOBALS['wpdb']->get_results(
-            "SELECT `id` AS `ID`, `post_title` AS `Feed` FROM `{$GLOBALS['wpdb']->posts}` WHERE `post_status`='publish' AND `post_author`={$current_user_id} AND `post_type`='fts'"
+            "SELECT `id` AS `ID`, `post_title` AS `Feed` FROM `{$GLOBALS['wpdb']->posts}` WHERE `post_status`='publish' AND `post_author`={$current_user_id} AND `post_type`='fts' ORDER BY `post_title` DESC"
         );
 
         \wp_localize_script(

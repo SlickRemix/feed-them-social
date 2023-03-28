@@ -26,7 +26,7 @@
  * Paid Extension Support: https://www.slickremix.com/my-account/#tab-support
  */
 
-// Set Plugin Current Version.
+// Set Plugin's Current Version.
 define( 'FTS_CURRENT_VERSION', '4.0.81' );
 
 // Require file for plugin loading.

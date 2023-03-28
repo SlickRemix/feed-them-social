@@ -32,5 +32,5 @@ define( 'FTS_CURRENT_VERSION', '4.0.81' );
 // Require file for plugin loading.
 require_once __DIR__ . '/class-load-plugin.php';
 
-// Feed Them Social Class. Load up the plugin!
+// Feed Them Social Class. Load up the plugin.
 new Feed_Them_Social();

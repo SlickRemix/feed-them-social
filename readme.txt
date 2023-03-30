@@ -5,7 +5,7 @@ Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagr
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.2
-Stable tag: 4.0.81
+Stable tag: 4.0.9
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,13 +118,18 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.0.9 Wednesday, March 29th, 2023 =
+  * FIX: Facebook Feed. WordPress 6.2 conflict. PSR-0 depreciated, must use PSR-4 now.
+  * FIX: Instagram Basic Feed. Expiration refresh time increased from 7 days to 55 days.
+  * UPDATED: readme.txt to credit WebFX.com for reporting security vulnerability.
+
 = Version 4.0.81 Tuesday, March 28th, 2023 =
   * FIX: Instagram Business: Access Token Inputs not displaying correctly.
   * UPDATED: POT file.
 
 = Version 4.0.8 Monday, March 27th, 2023 =
   * NEW: Feed Them Social Gutenberg Block support added.
-  * FIX: Security fixes.
+  * FIX: Security fixes. (Thanks WebFX.com for reporting the security vulnerability.)
   * UPDATED: Text strings for internationalization shortened and cleaned up.
   * FIX: Combined Streams: Facebook & Instagram Business Access Token clash.
 

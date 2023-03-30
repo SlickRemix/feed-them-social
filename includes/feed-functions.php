@@ -16,6 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Call Requests Class for PSR-4 requests.
+ *
+ * Required for WP-6.2+
+ *
+ * @since 4.0.9
+ */
+use WpOrg\Requests\Requests;
+
+/**
  * Feed Functions Class
  */
 class Feed_Functions {
@@ -109,8 +118,8 @@ class Feed_Functions {
          * which is the length of time the token is valid for at this time. If the token expires the feed will still show it just won't update.
          * It would seem to reason this is a better approach so as to not just let things go on auto pilot.
          * Need to look out for possible warnings or errors.
+         * add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
 		 */
-		//add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
         add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
         add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
@@ -318,20 +327,25 @@ class Feed_Functions {
 	 */
 	public function fts_get_feed_json( $feeds_mulit_data ) {
 		// Make Multiple Requests from array with more than 2 keys!
+        // Multi is only being used with Facebook
+        // This is so we can return the page data and the feed data all at once.
 		if ( is_array( $feeds_mulit_data ) && count( $feeds_mulit_data ) > 1 ) {
+
 			$new_feeds_mulit_data = array();
 
 			foreach ( $feeds_mulit_data as $key => $url ) {
+
 				$new_feeds_mulit_data[ $key ]['url']  = $url;
 				$new_feeds_mulit_data[ $key ]['type'] = 'GET';
 			}
-			// Fetch Multiple Requests!
-			$responses = \Requests::request_multiple( $new_feeds_mulit_data );
+
+            // Fetch Multiple Requests!
+			$responses = Requests::request_multiple( $new_feeds_mulit_data );
 
 			$data = array();
 			foreach ( $responses as $key => $response ) {
 
-				if ( is_a( $response, 'Requests_Response' ) ) {
+				if ( is_a($response, 'WpOrg\Requests\Response') ) {
 					$data[ $key ] = $response->body;
 				}
 			}
@@ -340,10 +354,11 @@ class Feed_Functions {
 			if ( is_array( $feeds_mulit_data ) ) {
 				foreach ( $feeds_mulit_data as $key => $url ) {
 
-					$single_response = \Requests::get( $url );
+					$single_response = Requests::get( $url );
 
 					$data = array();
-					if ( is_a( $single_response, 'Requests_Response' ) ) {
+					if ( is_a($single_response, 'WpOrg\Requests\Response') ) {
+                       // print_r($single_response);
 						$data[ $key ] = $single_response->body;
 					}
 				}
@@ -352,9 +367,9 @@ class Feed_Functions {
 				$single_response_url = $feeds_mulit_data;
 
 				if ( ! empty( $single_response_url ) ) {
-					$single_response = \Requests::get( $single_response_url );
+					$single_response = Requests::get( $single_response_url );
 
-					if ( is_a( $single_response, 'Requests_Response' ) ) {
+					if ( is_a($single_response, 'WpOrg\Requests\Response') ) {
 						$data['data'] = $single_response->body;
 					}
 				}
@@ -714,7 +729,7 @@ class Feed_Functions {
 
 
     /**
-     * FTS Refresh YouTube Token
+     * FTS Refresh Instagram Basic or YouTube Token
      *
      * @since 2.3.3
      */
@@ -773,13 +788,15 @@ class Feed_Functions {
 
 		$auth_obj = json_decode( wp_remote_retrieve_body( $response  ), true );
 
-
 		// Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
-		// For now we are going to get a new token every 7 days just to be on the safe side.
-		// That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
+		// For now we are going to get a new token every 45 days just to be on the safe side.
+		// That means we will negate 5 days from the seconds which is 432000 <-- https://www.convertunits.com/from/60+days/to/seconds
 		// We get 60 days to refresh the token, if it's not refreshed before then it will expire.
-		$time_minus_fiftythree_days = $auth_obj['expires_in'] - 4579200;
-		$expires_in = $time_minus_fiftythree_days + time();
+        // used for testing, get todays timestamp and some time.
+        // $time_minus_fiftythree_days = 1677574786979 + 5173728;
+        $time_minus_fiftythree_days = $auth_obj['expires_in'] - 432000;
+
+        $expires_in = $time_minus_fiftythree_days + time();
 
 		// test.
 		// print_r( $expires_in );
@@ -1301,7 +1318,6 @@ class Feed_Functions {
 		// echo ' TTTTTTTT ';
 		// print_r( $fts_error_check_complete );
 
-		// YO!
 		// An Access token will expire every 60 minutes for Youtube.
 		// Instagram Basic token expires everyting 60 days, but we are going to refresh the token every 7 days for now.
 		// When a user refreshes any page on the front end or backend settings page we user our refresh token to get a new access token if the time has expired.

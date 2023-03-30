@@ -100,7 +100,12 @@ class Instagram_Access_Functions {
                     var code              = url.searchParams.get("code");
                     var feed_type         = url.searchParams.get("feed_type");
                     var user_id           = url.searchParams.get("user_id");
-                    var expires_in_check  = url.searchParams.get("expires_in") - 4579200;
+
+                     /* Testing
+                     1677574786979 get today's timestamp and add some seconds to it so we can test.
+                     var expires_in_check  = 1677574786979 + 5173728; */
+
+                     var expires_in_check  = url.searchParams.get("expires_in") - 432000;
 
                     if( undefined!== cpt_id && undefined!== feed_type && 'instagram_basic' === feed_type ) {
 
@@ -114,9 +119,7 @@ class Instagram_Access_Functions {
                         $('#fts_instagram_custom_api_token_expires_in').val('');
                         $('#fts_instagram_custom_api_token_expires_in').val( $('#fts_instagram_custom_api_token_expires_in').val() + date );
 
-
                         // Take the code param from url and pass it to our encrypt function to sanitize and save to db then save all the options.
-
                         const codeArray = {
                             "feed_type" : 'instagram_basic',
                             "user_id" : user_id,

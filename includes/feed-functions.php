@@ -16,15 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Call Requests Class for PSR-4 requests.
- *
- * Required for WP-6.2+
- *
- * @since 4.0.9
- */
-use WpOrg\Requests\Requests;
-
-/**
  * Feed Functions Class
  */
 class Feed_Functions {
@@ -321,62 +312,87 @@ class Feed_Functions {
 	 *
 	 * Generate Get Json (includes MultiCurl).
 	 *
-	 * @param array $feeds_mulit_data feeds data info.
+	 * @param array $request_feed_data feeds data info.
 	 * @return array
 	 * @since 1.9.6
 	 */
-	public function fts_get_feed_json( $feeds_mulit_data ) {
+	public function fts_get_feed_json( $request_feed_data ) {
 		// Make Multiple Requests from array with more than 2 keys!
         // Multi is only being used with Facebook
         // This is so we can return the page data and the feed data all at once.
-		if ( is_array( $feeds_mulit_data ) && count( $feeds_mulit_data ) > 1 ) {
+		if ( is_array( $request_feed_data ) && count( $request_feed_data ) > 1 ) {
 
-			$new_feeds_mulit_data = array();
+			$multi_request_data = array();
 
-			foreach ( $feeds_mulit_data as $key => $url ) {
-
-				$new_feeds_mulit_data[ $key ]['url']  = $url;
-				$new_feeds_mulit_data[ $key ]['type'] = 'GET';
+            // Build Multiple Feed request data.
+			foreach ( $request_feed_data as $key => $url ) {
+				$multi_request_data[ $key ]['url']  = $url;
+				$multi_request_data[ $key ]['type'] = 'GET';
 			}
 
-            // Fetch Multiple Requests!
-			$responses = Requests::request_multiple( $new_feeds_mulit_data );
+			// Fetch Multiple Requests!
+			$responses = $this->get_response( $multi_request_data, true);
 
 			$data = array();
 			foreach ( $responses as $key => $response ) {
-
-				if ( is_a($response, 'WpOrg\Requests\Response') ) {
-					$data[ $key ] = $response->body;
-				}
+                $data[ $key ] = $response->body;
 			}
 		} else {
-			// Make Single Requests from array with 1 keys!
-			if ( is_array( $feeds_mulit_data ) ) {
-				foreach ( $feeds_mulit_data as $key => $url ) {
-
-					$single_response = Requests::get( $url );
+			// Make Single Requests from array with 1 key!
+			if ( is_array( $request_feed_data ) ) {
+				foreach ( $request_feed_data as $key => $url ) {
+					$single_response = $this->get_response( $url, false);
 
 					$data = array();
-					if ( is_a($single_response, 'WpOrg\Requests\Response') ) {
-                       // print_r($single_response);
-						$data[ $key ] = $single_response->body;
-					}
+                    $data[ $key ] = $single_response->body;
 				}
 			} else {
 				// Make Single request from just url!
-				$single_response_url = $feeds_mulit_data;
+				if ( ! empty( $request_feed_data ) ) {
+					$single_response = $this->get_response( $request_feed_data, false );
 
-				if ( ! empty( $single_response_url ) ) {
-					$single_response = Requests::get( $single_response_url );
-
-					if ( is_a($single_response, 'WpOrg\Requests\Response') ) {
-						$data['data'] = $single_response->body;
-					}
+                    $data['data'] = $single_response->body;
 				}
 			}
 		}
 		// Do nothing if Curl was Successful!
 		return !empty( $data ) ? $data : '';
+	}
+
+	/**
+	 * Get Response
+	 *
+	 * Get response using proper request class. (The request class is shipped with WordPress's Core even though it is third party.)
+	 *
+	 * @param array $request_feed_data feeds data info.
+     * @param boolean $multiple Multiple feed requests.
+     *
+	 * @return array
+	 * @since 4.0.9
+	 */
+	public function get_response( $request_feed_data, $multiple = false ) {
+        // WordPress 6.2 or greater. Call Requests Class for PSR-4 requests.
+		if ( class_exists('\WpOrg\Requests\Requests') ) {
+			// Multiple Requests.
+            if( true === $multiple ){
+	            return \WpOrg\Requests\Requests::request_multiple( $request_feed_data );
+            }
+            // Single Request.
+			else{
+				return \WpOrg\Requests\Requests::get( $request_feed_data );
+            }
+		}
+		// WordPress 6.1 or less. Call Requests Class for PSR-0 requests.
+        else{
+            // Multiple Requests.
+	        if( true === $multiple ){
+		        return \Requests::request_multiple( $request_feed_data );
+	        }
+            // Single Request.
+	        else{
+		        return \Requests::get( $request_feed_data );
+	        }
+        }
 	}
 
 	/**

@@ -118,6 +118,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.1.2 Tuesday, April 4th, 2023 =
+  * FIX: Twitter Feed: We have created a new APP that allows access to v1.1 of the API. To get your feed working again simply click the Get Access Token button under your Twitter Feed.
+
 = Version 4.1.1 Monday, April 3rd, 2023 =
   * NOTE: Twitter Feed: Twitter API is not functioning anymore with our current App. Resolution pending. Waiting for feedback from the Twitter API Developer Team as to when we might be restored. This appears to be a blackout for many developers at the moment.
 

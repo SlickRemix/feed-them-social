@@ -121,7 +121,7 @@ class Twitter_Access_Functions {
         $fetched_tweets = $test_connection->get(
             'statuses/user_timeline',
             array(
-                'screen_name' => 'slickremix',
+                'screen_name' => 'twitter',
                 'count'       => '1',
             )
         );

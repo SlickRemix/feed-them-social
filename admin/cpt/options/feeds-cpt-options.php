@@ -292,10 +292,15 @@ class Feed_CPT_Options {
                     'placeholder'      => '',
                     'default_value'    => $oath_token,
                     'instructional-text' => sprintf(
+                        esc_html__( '%1$sMonday, April 3rd, 2023: Abruptly and without warning, Twitter has suspended our App for Feed Them Social. At the moment none of our users can create or view their Twitter timeline via the Feed Them Social plugin. We have reached out to Twitter and have been given an unspecified time frame as to when this will be resolved.%2$s We do apologize for the interruption in service at this time. It appears Twitter will now be charging a fee to view Tweets coming from the API. Keep everyone posted as we climb the ladder here to a solution.', 'feed_them_social' ),
+                        '<p>',
+                        '</p><br/>'
+                    ),
+                    /*'instructional-text' => sprintf(
                         esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your Twitter posts. Once you have your Access Token you will be able to create a feed.', 'feed_them_social' ),
                         '<strong>',
                         '</strong>'
-                    ),
+                    ),*/
                 ),
                 array(
                     'input_wrap_class' => 'fts-twitter-custom-access-token-secret',

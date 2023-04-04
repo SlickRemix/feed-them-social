@@ -118,6 +118,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.1.1 Monday, April 3rd, 2023 =
+  * NOTE: Twitter Feed: Twitter API is not functioning anymore with our current App. Resolution pending. Waiting for feedback from the Twitter API Developer Team as to when we might be restored. This appears to be a blackout for many developers at the moment.
+
 = Version 4.1.0 Wednesday, March 29th, 2023 =
   * FIX: Facebook Feed. WordPress 6.2 conflict. PSR-0 depreciated, must use PSR-4 now.
   * FIX: Instagram Basic Feed. Expiration refresh time increased from 7 days to 55 days.

@@ -1064,15 +1064,29 @@ class Twitter_Feed {
 					$fetched_tweets = $fetched_tweets ?? [];
 				}
 
-				// get the count based on $exclude_replies.
-				$limit_to_display = min( $tweets_count, count( $fetched_tweets ) );
-				for ( $i = 0; $i < $limit_to_display; $i++ ) {
-					$tweets_count = $limit_to_display;
-					break;
-				}
-				$convert_array1['data'] = $fetched_tweets;
-				$fetched_tweets         = (object) $convert_array1;
+				// Check if $tweets_count and $fetched_tweets are valid and defined
+                if (isset($tweets_count) && isset($fetched_tweets) && is_array($fetched_tweets)) {
+                    // Get the count based on $exclude_replies.
+                    $limit_to_display = min($tweets_count, count($fetched_tweets));
+                    for ($i = 0; $i < $limit_to_display; $i++) {
+                        $tweets_count = $limit_to_display;
+                        break;
+                    }
+                    $convert_array1['data'] = $fetched_tweets;
 
+                    // Check if $convert_array1 is a valid array
+                    if (is_array($convert_array1)) {
+                        $fetched_tweets = (object) $convert_array1;
+                    } else {
+                        // Let our error handler below take over. This is just a placeholder.
+                        // Handle the error when $convert_array1 is not a valid array
+                        // echo 'Error: \$convert_array1 is not a valid array';
+                    }
+                } else {
+                    // Let our error handler below take over. This is just a placeholder.
+                    // Handle the error when $tweets_count or $fetched_tweets are not valid or defined
+                    // echo 'Error: \$tweets_count or \$fetched_tweets are not valid or defined';
+                }
 			}
 
 			// END ELSE.

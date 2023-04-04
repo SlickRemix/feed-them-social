@@ -96,8 +96,8 @@ class Twitter_Access_Functions {
         $fts_twitter_custom_consumer_key    = '';
         $fts_twitter_custom_consumer_secret = '';
 
-        $test_fts_twitter_custom_consumer_key    = '35mom6axGlf60ppHJYz1dsShc';
-        $test_fts_twitter_custom_consumer_secret = '7c2TJvUT7lS2EkCULpK6RGHrgXN1BA4oUi396pQEdRj3OEq5QQ';
+        $test_fts_twitter_custom_consumer_key    = 'DKWMIoc4s6hH3ED0nNFNwcTe3';
+        $test_fts_twitter_custom_consumer_secret = 'U7XeBfbx1mU3vV1uPcYGmUr5e0a15evwpYY2QSbRfAYoNjum2q';
 
         $fts_twitter_custom_consumer_key    = isset( $fts_twitter_custom_consumer_key ) && '' !== $fts_twitter_custom_consumer_key ? $fts_twitter_custom_consumer_key : $test_fts_twitter_custom_consumer_key;
         $fts_twitter_custom_consumer_secret = isset( $fts_twitter_custom_consumer_secret ) && '' !== $fts_twitter_custom_consumer_secret ? $fts_twitter_custom_consumer_secret : $test_fts_twitter_custom_consumer_secret;
@@ -121,7 +121,7 @@ class Twitter_Access_Functions {
         $fetched_tweets = $test_connection->get(
             'statuses/user_timeline',
             array(
-                'screen_name' => 'twitter',
+                'screen_name' => 'slickremix',
                 'count'       => '1',
             )
         );
@@ -136,7 +136,7 @@ class Twitter_Access_Functions {
         // )
         // );
 
-        /* echo '<pre>';
+         /*echo '<pre>';
          print_r( $fetched_tweets) ;
          echo '</pre>';*/
 
@@ -187,7 +187,7 @@ class Twitter_Access_Functions {
             // && !empty($test_fts_twitter_custom_access_token) && !empty($test_fts_twitter_custom_access_token_secret)!
             if ( ! empty( $fts_twitter_custom_access_token_secret ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {
                 if ( 200 !== $test_connection->http_code || isset( $fetched_tweets->errors ) ) {
-                    /*echo sprintf(
+                    echo sprintf(
                         esc_html__( '%1$sOh No, something\'s wrong. ', 'feed-them-social' ),
                         '<div class="fts-failed-api-token">'
                     );
@@ -199,7 +199,7 @@ class Twitter_Access_Functions {
                             '</strong>',
                             '</div>'
                         );
-                    }*/
+                    }
                 } else {
 
                     if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){

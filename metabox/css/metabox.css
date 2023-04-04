@@ -1346,8 +1346,6 @@ h1.plugin-author-note {
     background-size: 48px 40px;
     color:#1c9bef;
     margin: 10px 0 10px 5px;
-    pointer-events: none;
-    cursor: default;
 }
 .fts-twitter-get-access-token:hover {
     color: #252525;

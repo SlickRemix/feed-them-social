@@ -953,8 +953,8 @@ class Twitter_Feed {
                     return false;
 			    }
 
-                $fts_twitter_custom_consumer_key    = '35mom6axGlf60ppHJYz1dsShc';
-				$fts_twitter_custom_consumer_secret = '7c2TJvUT7lS2EkCULpK6RGHrgXN1BA4oUi396pQEdRj3OEq5QQ';
+                $fts_twitter_custom_consumer_key    = 'DKWMIoc4s6hH3ED0nNFNwcTe3';
+				$fts_twitter_custom_consumer_secret = 'U7XeBfbx1mU3vV1uPcYGmUr5e0a15evwpYY2QSbRfAYoNjum2q';
 
 			// Check Cache.
 			if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {

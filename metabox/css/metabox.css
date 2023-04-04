@@ -3122,6 +3122,9 @@ h3.fts-active-success-token:before {
 #fts_twitter_custom_access_token_secret {
     margin-bottom: 10px !important;
 }
+.fts-twitter-custom-access-token .instructional-text {
+    color:#2271b1
+}
 .fts-token-wrap .instructional-text  {
     padding:0;
     background:none;

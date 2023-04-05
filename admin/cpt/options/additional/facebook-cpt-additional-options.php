@@ -625,15 +625,15 @@ class Facebook_Additional_Options {
 							'value' => 'h3',
 						),
 						array(
-							'label' => esc_html__( 'h4', 'feed_them_social' ),
+							'label' => esc_html__( 'h4', 'feed-them-social' ),
 							'value' => 'h4',
 						),
 						array(
-							'label' => esc_html__( 'h5', 'feed_them_social' ),
+							'label' => esc_html__( 'h5', 'feed-them-social' ),
 							'value' => 'h5',
 						),
 						array(
-							'label' => esc_html__( 'h6', 'feed_them_social' ),
+							'label' => esc_html__( 'h6', 'feed-them-social' ),
 							'value' => 'h6',
 						),
 					),
@@ -643,7 +643,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_title_htag_size',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Page Title Size', 'feed_them_social' ),
+					'label'            => esc_html__( 'Page Title Size', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_title_htag_size',
 					'name'             => 'fb_title_htag_size',
@@ -667,11 +667,11 @@ class Facebook_Additional_Options {
 					'default_value'    => 'no',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'label' => esc_html__( 'No', 'feed-them-social' ),
 							'value' => 'no',
 						),
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 					),
@@ -681,18 +681,18 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_hide_images_in_posts',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Images in Posts', 'feed_them_social' ),
+					'label'            => esc_html__( 'Hide Images in Posts', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_hide_images_in_posts',
 					'name'             => 'fb_hide_images_in_posts',
 					'default_value'    => 'no',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'label' => esc_html__( 'No', 'feed-them-social' ),
 							'value' => 'no',
 						),
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 					),
@@ -702,7 +702,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_max_image_width',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Max-width for Images & Videos', 'feed_them_social' ),
+					'label'            => esc_html__( 'Max-width for Images & Videos', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_max_image_width',
 					'name'             => 'fb_max_image_width',
@@ -714,7 +714,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_header_extra_text_color fts-color-picker',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Header Extra Text Color', 'feed_them_social' ),
+					'label'            => esc_html__( 'Feed Header Extra Text Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_header_extra_text_color',
 					'name'             => 'fb_header_extra_text_color',
@@ -726,7 +726,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_text_size',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Description Text Size', 'feed_them_social' ),
+					'label'            => esc_html__( 'Feed Description Text Size', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_text_size',
 					'name'             => 'fb_text_size',
@@ -738,7 +738,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_text_color fts-color-picker',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Text Color', 'feed_them_social' ),
+					'label'            => esc_html__( 'Feed Text Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_text_color',
 					'name'             => 'fb_text_color',
@@ -750,7 +750,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_link_color fts-color-picker',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Link Color', 'feed_them_social' ),
+					'label'            => esc_html__( 'Feed Link Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_link_color',
 					'name'             => 'fb_link_color',

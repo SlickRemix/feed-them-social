@@ -506,7 +506,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_language',
 					'option_type'      => 'select_fb_language',
-					'label'            => esc_html__( 'Facebook Language', 'feed_them_social' ),
+					'label'            => esc_html__( 'Facebook Language', 'feed-them-social' ),
                     'instructional-text' => sprintf(
                         esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the Facebook Titles, Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
                         '<a href="' . esc_url( 'options-general.php' ) . '" target="_blank">',
@@ -520,11 +520,11 @@ class Facebook_Additional_Options {
 					'default_value'    => 'en_US',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'label' => esc_html__( 'No', 'feed-them-social' ),
 							'value' => 'no',
 						),
 					),
@@ -533,18 +533,18 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_hide_no_posts_message',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Notice on Front End', 'feed_them_social' ),
+					'label'            => esc_html__( 'Hide Notice on Front End', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_hide_no_posts_message',
 					'name'             => 'fb_hide_no_posts_message',
 					'default_value'    => 'yes',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'label' => esc_html__( 'No', 'feed-them-social' ),
 							'value' => 'no',
 						),
 					),
@@ -554,12 +554,12 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_view_on_fb_fts',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'View on Facebook', 'feed_them_social' ),
+					'label'            => esc_html__( 'View on Facebook', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'facebook_view_on_facebook',
 					'name'             => 'facebook_view_on_facebook',
 					'placeholder'      => 'View on Facebook',
-					'default_value'    => esc_html__( 'View on Facebook', 'feed_them_social' ),
+					'default_value'    => esc_html__( 'View on Facebook', 'feed-them-social' ),
 				),
 			),
 		);
@@ -579,7 +579,7 @@ class Facebook_Additional_Options {
 	public function global_facebook_style_options() {
 		$this->all_options['facebook_style_options'] = array(
 			'section_attr_key'   => 'facebook_style_options_',
-			'section_title'      => esc_html__( 'Facebook Styles', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Facebook Styles', 'feed-them-social' ),
 			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content  fts-fb-styles',
 			// Form Info.
@@ -606,22 +606,22 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_title_htag',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Page Title Tag', 'feed_them_social' ),
+					'label'            => esc_html__( 'Page Title Tag', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_title_htag',
 					'name'             => 'fb_title_htag',
 					'default_value'    => 'h1',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'h1 (Default)', 'feed_them_social' ),
+							'label' => esc_html__( 'h1 (Default)', 'feed-them-social' ),
 							'value' => 'h1',
 						),
 						array(
-							'label' => esc_html__( 'h2', 'feed_them_social' ),
+							'label' => esc_html__( 'h2', 'feed-them-social' ),
 							'value' => 'h2',
 						),
 						array(
-							'label' => esc_html__( 'h3', 'feed_them_social' ),
+							'label' => esc_html__( 'h3', 'feed-them-social' ),
 							'value' => 'h3',
 						),
 						array(

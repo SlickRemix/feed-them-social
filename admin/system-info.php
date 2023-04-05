@@ -76,8 +76,8 @@ class System_Info {
 		// System Info.
 		add_submenu_page(
 			'edit.php?post_type=fts',
-			__( 'System Info', 'feed_them_social' ),
-			__( 'System Info', 'feed_them_social' ),
+			__( 'System Info', 'feed-them-social' ),
+			__( 'System Info', 'feed-them-social' ),
 			'manage_options',
 			'fts-system-info-submenu-page',
 			array( $this, 'fts_system_info_page' )
@@ -97,17 +97,17 @@ class System_Info {
 
 		<div class="ft-gallery-settings-admin-wrap" id="theme-settings-wrap">
 			<h2>
-				<?php esc_html_e( 'System Info', 'feed_them_social' ); ?>
+				<?php esc_html_e( 'System Info', 'feed-them-social' ); ?>
 			</h2>
 			<p>
-				<?php esc_html_e( 'Please click the box below and copy the report. You will need to paste this information along with your question when creating a', 'feed_them_social' ); ?>
+				<?php esc_html_e( 'Please click the box below and copy the report. You will need to paste this information along with your question when creating a', 'feed-them-social' ); ?>
 				<a href="https://www.slickremix.com/my-account/#tab-support" target="_blank">
-					<?php esc_html_e( 'Support Ticket', 'feed_them_social' ); ?></a>.</p>
+					<?php esc_html_e( 'Support Ticket', 'feed-them-social' ); ?></a>.</p>
 			<p>
-				<?php esc_html_e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed_them_social' ); ?>
+				<?php esc_html_e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>
 			</p>
 			<form action="<?php echo esc_url( admin_url( 'admin.php?page=ft-gallery-system-info-submenu-page' ) ); ?>" method="post" dir="ltr">
-		<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="ft-gallery-sysinfo" title="<?php esc_html_e( 'To copy the system info, click here then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed_them_social' ); ?>">
+		<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="ft-gallery-sysinfo" title="<?php esc_html_e( 'To copy the system info, click here then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>">
 <?php echo $this->fts_system_info_support_ticket(); ?></textarea>
 			</form>
 		</div>

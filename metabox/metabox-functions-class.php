@@ -320,14 +320,14 @@ class Metabox_Functions {
 				'updatefrombottomParams',
 				array(
 					'accessTokenUpdateNonce'				=> wp_create_nonce( 'fts_update_access_token' ),
-					'update'                         => esc_html__( 'Update', 'feed_them_social' ),
-					'publish'                        => esc_html__( 'Publish', 'feed_them_social' ),
-					'publishing'                     => esc_html__( 'Publishing...', 'feed_them_social' ),
-					'updating'                       => esc_html__( 'Updating...', 'feed_them_social' ),
-					'totop'                          => esc_html__( 'To top', 'feed_them_social' ),
+					'update'                         => esc_html__( 'Update', 'feed-them-social' ),
+					'publish'                        => esc_html__( 'Publish', 'feed-them-social' ),
+					'publishing'                     => esc_html__( 'Publishing...', 'feed-them-social' ),
+					'updating'                       => esc_html__( 'Updating...', 'feed-them-social' ),
+					'totop'                          => esc_html__( 'To top', 'feed-them-social' ),
                     // These next 2 options where added for the Main Options and Additional Options sub tabs under each feed.
-                    'mainoptions'                    => esc_html__( 'Feed Settings', 'feed_them_social' ),
-                    'additionaloptions'              => esc_html__( 'Style Options', 'feed_them_social' ),
+                    'mainoptions'                    => esc_html__( 'Feed Settings', 'feed-them-social' ),
+                    'additionaloptions'              => esc_html__( 'Style Options', 'feed-them-social' ),
                     'additionalSettings'             => sprintf( esc_html__( 'View Additional %1$sGlobal Options%2$s', 'feed_them_social' ),
                         '<a href="edit.php?post_type=fts&amp;page=fts-settings-page" target="_blank">',
                         '</a>'

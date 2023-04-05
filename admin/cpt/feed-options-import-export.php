@@ -77,7 +77,7 @@ class Feed_Options_Import_Export {
 		check_ajax_referer( 'fts_export_feed_options_nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+			wp_send_json_error( esc_html__( 'Forbidden', 'feed-them-social' ), 403 );
 		}
 
 		$cpt_id = (int) $_REQUEST['cpt_id'];
@@ -119,13 +119,13 @@ class Feed_Options_Import_Export {
 		check_ajax_referer( 'fts_import_feed_options_nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
+			wp_send_json_error( esc_html__( 'Forbidden', 'feed-them-social' ), 403 );
 		}
 
 		if ( ! isset( $_REQUEST['cpt_id'] ) ) {
-			wp_send_json_error( esc_html__( 'Missing cpt id.', 'feed_them_social' ), 400  );
+			wp_send_json_error( esc_html__( 'Missing feed id.', 'feed-them-social' ), 400  );
 		} elseif ( ! isset( $_REQUEST['cpt_import'] ) || empty( $_REQUEST['cpt_import'] ) ) {
-			wp_send_json_error( esc_html__( 'Missing import data.', 'feed_them_social' ), 400 );
+			wp_send_json_error( esc_html__( 'Missing import data.', 'feed-them-social' ), 400 );
 		}
 
 		$cpt_id = (int) $_REQUEST['cpt_id'];
@@ -133,7 +133,7 @@ class Feed_Options_Import_Export {
 		$saved_feed_options = json_decode( stripslashes( $_REQUEST['cpt_import'] ) , true );
 
 		if ( JSON_ERROR_NONE !== json_last_error() ) {
-			wp_send_json_error( esc_html__( 'Failed to decode json string: ' . json_last_error_msg(), 'feed_them_social' ), 400 );
+			wp_send_json_error( esc_html__( 'Failed to decode json string: ' . json_last_error_msg(), 'feed-them-social' ), 400 );
 		}
 		// Settings Sanitization Array
 		$possible_setting_keys = [

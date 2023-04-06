@@ -11,7 +11,7 @@
  * Author: SlickRemix
  * Author URI: https://www.slickremix.com/
  * Text Domain: feed-them-social
- * Domain Path: /includes/languages
+ * Domain Path: /languages
  * Requires at least: WordPress 5.4
  * Tested up to: WordPress 6.2
  * Stable tag: 4.1.2

@@ -145,7 +145,7 @@ class Twitter_Access_Functions {
         if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) {
 
             if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_twitter' ) ) {
-                wp_die( __( 'Invalid twitter oauth nonce', 'feed_them_social' ) );
+                wp_die( __( 'Invalid twitter oauth nonce', 'feed-them-social' ) );
             }
 
             ?>

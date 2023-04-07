@@ -528,7 +528,7 @@ class Settings_Functions {
 	 */
     public function fts_missing_callback($args) {
 		printf(
-			__( 'The callback function used for the %s setting is missing.', 'feed_them_social' ),
+			__( 'The callback function used for the %s setting is missing.', 'feed-them-social' ),
 			'<strong>' . esc_html( $args['id'] ) . '</strong>'
 		);
 	} // fts_missing_callback
@@ -840,7 +840,7 @@ class Settings_Functions {
 					case 'item_name_mismatch' :
 
 						$class = 'error';
-						$messages[] = sprintf( __( 'This appears to be an invalid license key for %s.', 'feed_them_social' ), $args['name'] );
+						$messages[] = sprintf( __( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $args['name'] );
 
 						$license_status = 'license-' . $class . '-notice';
 
@@ -849,7 +849,7 @@ class Settings_Functions {
 					case 'no_activations_left':
 
 						$class = 'error';
-						$messages[] = sprintf( __( 'Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'feed_them_social' ), 'https://slickremix.com/your-account/' );
+						$messages[] = sprintf( __( 'Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'feed-them-social' ), 'https://slickremix.com/your-account/' );
 
 						$license_status = 'license-' . $class . '-notice';
 
@@ -858,7 +858,7 @@ class Settings_Functions {
 					case 'license_not_activable':
 
 						$class = 'error';
-						$messages[] = __( 'The key you entered belongs to a bundle, please use the product specific license key.', 'feed_them_social' );
+						$messages[] = __( 'The key you entered belongs to a bundle, please use the product specific license key.', 'feed-them-social' );
 
 						$license_status = 'license-' . $class . '-notice';
 						break;

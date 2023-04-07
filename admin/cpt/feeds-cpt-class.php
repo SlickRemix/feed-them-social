@@ -192,7 +192,7 @@ class Feeds_CPT {
      */
     public function fts_tab_premium_msg() {
         echo sprintf(
-            esc_html__( '%1$sPlease purchase, install and activate %2$sFeed Them Social Premium%3$s for these additional awesome features!%4$s', 'feed_them_social' ),
+            esc_html__( '%1$sPlease purchase, install and activate %2$sFeed Them Social Premium%3$s for these additional awesome features!%4$s', 'feed-them-social' ),
             '<div class="ft-gallery-premium-mesg">',
             '<a href="' . esc_url( 'https://www.slickremix.com/downloads/feed-them-social/' ) . '" target="_blank">',
             '</a>',
@@ -229,19 +229,19 @@ class Feeds_CPT {
      */
     public function fts_cpt() {
         $responses_cpt_args = array(
-            'label'               => esc_html__( 'Feed Them Social', 'feed_them_social' ),
+            'label'               => esc_html__( 'Feed Them Social', 'feed-them-social' ),
             'labels'              => array(
-                'menu_name'          => esc_html__( 'Feeds', 'feed_them_social' ),
-                'name'               => esc_html__( 'Feeds', 'feed_them_social' ),
-                'singular_name'      => esc_html__( 'Feed', 'feed_them_social' ),
-                'add_new'            => esc_html__( 'Add New Feed', 'feed_them_social' ),
-                'add_new_item'       => esc_html__( 'Add New Feed', 'feed_them_social' ),
-                'edit_item'          => esc_html__( 'Edit Feed', 'feed_them_social' ),
-                'new_item'           => esc_html__( 'New Feed', 'feed_them_social' ),
-                'view_item'          => esc_html__( 'View Feed', 'feed_them_social' ),
-                'search_items'       => esc_html__( 'Search Feeds', 'feed_them_social' ),
-                'not_found'          => esc_html__( 'No Feeds Found', 'feed_them_social' ),
-                'not_found_in_trash' => esc_html__( 'No Feeds Found In Trash', 'feed_them_social' ),
+                'menu_name'          => esc_html__( 'Feeds', 'feed-them-social' ),
+                'name'               => esc_html__( 'Feeds', 'feed-them-social' ),
+                'singular_name'      => esc_html__( 'Feed', 'feed-them-social' ),
+                'add_new'            => esc_html__( 'Add New Feed', 'feed-them-social' ),
+                'add_new_item'       => esc_html__( 'Add New Feed', 'feed-them-social' ),
+                'edit_item'          => esc_html__( 'Edit Feed', 'feed-them-social' ),
+                'new_item'           => esc_html__( 'New Feed', 'feed-them-social' ),
+                'view_item'          => esc_html__( 'View Feed', 'feed-them-social' ),
+                'search_items'       => esc_html__( 'Search Feeds', 'feed-them-social' ),
+                'not_found'          => esc_html__( 'No Feeds Found', 'feed-them-social' ),
+                'not_found_in_trash' => esc_html__( 'No Feeds Found In Trash', 'feed-them-social' ),
             ),
 
             'public'              => false,
@@ -285,7 +285,7 @@ class Feeds_CPT {
         // We are on the main menu item now. The filter is not needed anymore.
         remove_filter( 'attribute_escape', array( $this, 'fts_rename_submenu_name' ) );
 
-        return esc_html( 'FT Social', 'feed_them_social' );
+        return esc_html( 'FT Social', 'feed-them-social' );
     }
 
     /**
@@ -309,8 +309,8 @@ class Feeds_CPT {
 	public function add_feed_sub_menu() {
 		add_submenu_page(
 			'edit.php?post_type=fts', // Main Menu Item.
-			esc_html__( 'Add New Feed' , 'feed_them_social' ),
-			esc_html__( 'Add New Feed' , 'feed_them_social' ),
+			esc_html__( 'Add New Feed' , 'feed-them-social' ),
+			esc_html__( 'Add New Feed' , 'feed-them-social' ),
 			'manage_options',
 			'create-new-feed',
 			array( $this, 'add_new_feed' ),
@@ -326,7 +326,7 @@ class Feeds_CPT {
 	 * @since 4.0.0
 	 */
 	public function add_new_feed() {
-		wp_die( esc_html__( 'Oops, Could not create feed.', 'feed_them_social' ) );
+		wp_die( esc_html__( 'Oops, Could not create feed.', 'feed-them-social' ) );
     }
 
 	/**
@@ -384,10 +384,10 @@ class Feeds_CPT {
 				}
 				// Feed Creation Failed!
 				else{
-					wp_die( esc_html__( 'Oops, Feed was not created.', 'feed_them_social' ) );
+					wp_die( esc_html__( 'Oops, Feed was not created.', 'feed-them-social' ) );
 				}
 			}
-			wp_die( esc_html__( 'Not allowed to create feed. User permissions denied.', 'feed_them_social' ) );
+			wp_die( esc_html__( 'Not allowed to create feed. User permissions denied.', 'feed-them-social' ) );
         }
 	}
 
@@ -404,10 +404,10 @@ class Feeds_CPT {
         // global $post, $post_ID;
         $messages['fts'] = array(
             0  => '', // Unused. Messages start at index 1.
-            1  => esc_html__( 'Feed updated.', 'feed_them_social' ),
-            2  => esc_html__( 'Custom field updated.', 'feed_them_social' ),
-            3  => esc_html__( 'Custom field deleted.', 'feed_them_social' ),
-            4  => esc_html__( 'Feed updated.', 'feed_them_social' ),
+            1  => esc_html__( 'Feed updated.', 'feed-them-social' ),
+            2  => esc_html__( 'Custom field updated.', 'feed-them-social' ),
+            3  => esc_html__( 'Custom field deleted.', 'feed-them-social' ),
+            4  => esc_html__( 'Feed updated.', 'feed-them-social' ),
             /* translators: %s: date and time of the revision */
             5  => isset( $_GET['revision'] ) ? sprintf( esc_html__( 'Feed restored to revision from %s', 'feed_them_social' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
             6  => esc_html__( 'Feed created.', 'feed_them_social' ),

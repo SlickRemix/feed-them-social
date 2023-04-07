@@ -82,7 +82,7 @@ class Instagram_Access_Functions {
         
         if ( isset( $_GET['feed_type'] ) && $_GET['feed_type'] === 'instagram_basic' && 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram' ) ) {
 
-            wp_die( __('Invalid instagram oauth nonce.', 'feed_them_social' ) );
+            wp_die( __('Invalid instagram oauth nonce.', 'feed-them-social' ) );
         }
         ?>
         <script>

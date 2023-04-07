@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Feed Them Social - Page, Post, Video and Photo Galleries package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Feed Them Social - Page, Post, Video and Photo Galleries 4.0.8\n"
+"Project-Id-Version: Feed Them Social - Page, Post, Video and Photo Galleries 4.1.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/feed-them-social\n"
-"POT-Creation-Date: 2023-03-28 15:17:55+00:00\n"
+"POT-Creation-Date: 2023-04-06 16:22:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: activate-plugin.php:236
 #: admin/cpt/access-tokens/single/facebook-access-token.php:113
-#: admin/cpt/access-tokens/single/instagram-access-token.php:160
+#: admin/cpt/access-tokens/single/instagram-access-token.php:163
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:120
 #: admin/cpt/access-tokens/single/twitter-access-token.php:179
 #: admin/cpt/access-tokens/single/youtube-access-token.php:151
@@ -68,52 +68,52 @@ msgstr ""
 msgid "No thanks"
 msgstr ""
 
-#: admin/cpt/access-tokens/access-token-options.php:366
-#: admin/cpt/access-tokens/access-token-options.php:381
+#: admin/cpt/access-tokens/access-token-options.php:365
+#: admin/cpt/access-tokens/access-token-options.php:380
 #: includes/feeds/facebook/class-facebook-feed.php:367
 #: includes/feeds/facebook/class-facebook-feed.php:1248
 #: includes/feeds/instagram/class-instagram-feed.php:203
 msgid "Invalid facebook url"
 msgstr ""
 
-#: admin/cpt/access-tokens/access-token-options.php:427
+#: admin/cpt/access-tokens/access-token-options.php:426
 msgid "Click on a page below and click save."
 msgstr ""
 
-#: admin/cpt/access-tokens/access-token-options.php:455
-#: admin/cpt/access-tokens/access-token-options.php:509
+#: admin/cpt/access-tokens/access-token-options.php:454
+#: admin/cpt/access-tokens/access-token-options.php:508
 msgid "ID: "
 msgstr ""
 
-#: admin/cpt/access-tokens/access-token-options.php:463
-#: admin/cpt/access-tokens/access-token-options.php:524
+#: admin/cpt/access-tokens/access-token-options.php:462
+#: admin/cpt/access-tokens/access-token-options.php:523
 msgid "Save"
 msgstr ""
 
-#: admin/cpt/access-tokens/access-token-options.php:474
+#: admin/cpt/access-tokens/access-token-options.php:473
 msgid "Location for"
 msgstr ""
 
-#: admin/cpt/access-tokens/access-token-options.php:474
+#: admin/cpt/access-tokens/access-token-options.php:473
 msgid "Locations for"
 msgstr ""
 
-#: admin/cpt/access-tokens/access-token-options.php:514
+#: admin/cpt/access-tokens/access-token-options.php:513
 msgid "Location:"
 msgstr ""
 
-#: admin/cpt/access-tokens/access-token-options.php:540
+#: admin/cpt/access-tokens/access-token-options.php:539
 msgid "Scroll to view more Locations"
 msgstr ""
 
 #: admin/cpt/access-tokens/single/facebook-access-token.php:76
-#: admin/cpt/access-tokens/single/instagram-access-token.php:153
+#: admin/cpt/access-tokens/single/instagram-access-token.php:156
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:113
 msgid "%1$sLogin and Get my Access Token%2$s"
 msgstr ""
 
 #: admin/cpt/access-tokens/single/facebook-access-token.php:114
-#: admin/cpt/access-tokens/single/instagram-access-token.php:161
+#: admin/cpt/access-tokens/single/instagram-access-token.php:164
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:121
 #: admin/cpt/access-tokens/single/twitter-access-token.php:180
 #: admin/cpt/access-tokens/single/youtube-access-token.php:152
@@ -130,8 +130,8 @@ msgstr ""
 
 #: admin/cpt/access-tokens/single/facebook-access-token.php:175
 #: admin/cpt/access-tokens/single/facebook-access-token.php:183
-#: admin/cpt/access-tokens/single/instagram-access-token.php:196
-#: admin/cpt/access-tokens/single/instagram-access-token.php:204
+#: admin/cpt/access-tokens/single/instagram-access-token.php:199
+#: admin/cpt/access-tokens/single/instagram-access-token.php:207
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:183
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:191
 msgid "%1$sOh No something's wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s"
@@ -145,19 +145,19 @@ msgstr ""
 msgid "Invalid instagram oauth nonce."
 msgstr ""
 
-#: admin/cpt/access-tokens/single/instagram-access-token.php:176
+#: admin/cpt/access-tokens/single/instagram-access-token.php:179
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:164
 #: admin/cpt/access-tokens/single/twitter-access-token.php:207
 #: admin/cpt/access-tokens/single/youtube-access-token.php:221
 msgid "%1$s%2$sCreate Combined Feed%3$s"
 msgstr ""
 
-#: admin/cpt/access-tokens/single/instagram-access-token.php:185
+#: admin/cpt/access-tokens/single/instagram-access-token.php:188
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:173
 msgid "%1$s%2$sCreate Instagram Feed%3$s"
 msgstr ""
 
-#: admin/cpt/access-tokens/single/instagram-access-token.php:212
+#: admin/cpt/access-tokens/single/instagram-access-token.php:215
 msgid "%1$sOh No something's wrong. Instagram Responded with: %2$s. Please click the button above to retrieve a new Access Token.%3$s"
 msgstr ""
 
@@ -204,13 +204,13 @@ msgstr ""
 
 #: admin/cpt/feed-options-import-export.php:80
 #: admin/cpt/feed-options-import-export.php:122 includes/feed-cache.php:272
-#: includes/feed-functions.php:662 includes/feed-functions.php:726
-#: includes/feed-functions.php:1208 includes/feed-functions.php:1232
+#: includes/feed-functions.php:693 includes/feed-functions.php:757
+#: includes/feed-functions.php:1241 includes/feed-functions.php:1265
 msgid "Forbidden"
 msgstr ""
 
 #: admin/cpt/feed-options-import-export.php:126
-msgid "Missing cpt id."
+msgid "Missing feed id."
 msgstr ""
 
 #: admin/cpt/feed-options-import-export.php:128
@@ -361,19 +361,19 @@ msgstr ""
 
 #: admin/cpt/feeds-cpt-class.php:648
 #: admin/cpt/options/feeds-cpt-options.php:218
-#: admin/cpt/options/feeds-cpt-options.php:5213
+#: admin/cpt/options/feeds-cpt-options.php:5218
 msgid "Instagram"
 msgstr ""
 
 #: admin/cpt/feeds-cpt-class.php:655
 #: admin/cpt/options/feeds-cpt-options.php:226
-#: admin/cpt/options/feeds-cpt-options.php:5407
+#: admin/cpt/options/feeds-cpt-options.php:5412
 msgid "Facebook"
 msgstr ""
 
 #: admin/cpt/feeds-cpt-class.php:662
 #: admin/cpt/options/feeds-cpt-options.php:230
-#: admin/cpt/options/feeds-cpt-options.php:5456
+#: admin/cpt/options/feeds-cpt-options.php:5461
 msgid "Twitter"
 msgstr ""
 
@@ -433,7 +433,7 @@ msgid "Show Follow Button"
 msgstr ""
 
 #: admin/cpt/options/additional/facebook-cpt-additional-options.php:104
-#: admin/cpt/options/feeds-cpt-options.php:1993
+#: admin/cpt/options/feeds-cpt-options.php:1998
 msgid "Like Box"
 msgstr ""
 
@@ -507,60 +507,60 @@ msgstr ""
 #: admin/cpt/options/additional/twitter-cpt-additional-options.php:249
 #: admin/cpt/options/additional/twitter-cpt-additional-options.php:298
 #: admin/cpt/options/additional/youtube-cpt-additional-options.php:83
-#: admin/cpt/options/feeds-cpt-options.php:859
-#: admin/cpt/options/feeds-cpt-options.php:953
-#: admin/cpt/options/feeds-cpt-options.php:978
-#: admin/cpt/options/feeds-cpt-options.php:1076
-#: admin/cpt/options/feeds-cpt-options.php:1141
-#: admin/cpt/options/feeds-cpt-options.php:1568
-#: admin/cpt/options/feeds-cpt-options.php:1622
-#: admin/cpt/options/feeds-cpt-options.php:1671
-#: admin/cpt/options/feeds-cpt-options.php:1695
-#: admin/cpt/options/feeds-cpt-options.php:1719
-#: admin/cpt/options/feeds-cpt-options.php:1815
-#: admin/cpt/options/feeds-cpt-options.php:1842
-#: admin/cpt/options/feeds-cpt-options.php:1921
-#: admin/cpt/options/feeds-cpt-options.php:1952
-#: admin/cpt/options/feeds-cpt-options.php:1972
-#: admin/cpt/options/feeds-cpt-options.php:2005
-#: admin/cpt/options/feeds-cpt-options.php:2109
-#: admin/cpt/options/feeds-cpt-options.php:2136
-#: admin/cpt/options/feeds-cpt-options.php:2172
-#: admin/cpt/options/feeds-cpt-options.php:2289
-#: admin/cpt/options/feeds-cpt-options.php:2375
-#: admin/cpt/options/feeds-cpt-options.php:2432
-#: admin/cpt/options/feeds-cpt-options.php:3156
-#: admin/cpt/options/feeds-cpt-options.php:3179
-#: admin/cpt/options/feeds-cpt-options.php:3203
-#: admin/cpt/options/feeds-cpt-options.php:3224
-#: admin/cpt/options/feeds-cpt-options.php:3245
-#: admin/cpt/options/feeds-cpt-options.php:3349
-#: admin/cpt/options/feeds-cpt-options.php:3440
-#: admin/cpt/options/feeds-cpt-options.php:3568
-#: admin/cpt/options/feeds-cpt-options.php:3753
-#: admin/cpt/options/feeds-cpt-options.php:3775
-#: admin/cpt/options/feeds-cpt-options.php:3797
-#: admin/cpt/options/feeds-cpt-options.php:3819
-#: admin/cpt/options/feeds-cpt-options.php:3842
-#: admin/cpt/options/feeds-cpt-options.php:3870
-#: admin/cpt/options/feeds-cpt-options.php:4003
-#: admin/cpt/options/feeds-cpt-options.php:4346
-#: admin/cpt/options/feeds-cpt-options.php:4366
-#: admin/cpt/options/feeds-cpt-options.php:4389
-#: admin/cpt/options/feeds-cpt-options.php:4481
-#: admin/cpt/options/feeds-cpt-options.php:4523
-#: admin/cpt/options/feeds-cpt-options.php:4550
-#: admin/cpt/options/feeds-cpt-options.php:4703
-#: admin/cpt/options/feeds-cpt-options.php:4945
-#: admin/cpt/options/feeds-cpt-options.php:5012
-#: admin/cpt/options/feeds-cpt-options.php:5058
-#: admin/cpt/options/feeds-cpt-options.php:5082
-#: admin/cpt/options/feeds-cpt-options.php:5124
-#: admin/cpt/options/feeds-cpt-options.php:5232
-#: admin/cpt/options/feeds-cpt-options.php:5316
-#: admin/cpt/options/feeds-cpt-options.php:5426
-#: admin/cpt/options/feeds-cpt-options.php:5477
-#: admin/cpt/options/feeds-cpt-options.php:5665
+#: admin/cpt/options/feeds-cpt-options.php:864
+#: admin/cpt/options/feeds-cpt-options.php:958
+#: admin/cpt/options/feeds-cpt-options.php:983
+#: admin/cpt/options/feeds-cpt-options.php:1081
+#: admin/cpt/options/feeds-cpt-options.php:1146
+#: admin/cpt/options/feeds-cpt-options.php:1573
+#: admin/cpt/options/feeds-cpt-options.php:1627
+#: admin/cpt/options/feeds-cpt-options.php:1676
+#: admin/cpt/options/feeds-cpt-options.php:1700
+#: admin/cpt/options/feeds-cpt-options.php:1724
+#: admin/cpt/options/feeds-cpt-options.php:1820
+#: admin/cpt/options/feeds-cpt-options.php:1847
+#: admin/cpt/options/feeds-cpt-options.php:1926
+#: admin/cpt/options/feeds-cpt-options.php:1957
+#: admin/cpt/options/feeds-cpt-options.php:1977
+#: admin/cpt/options/feeds-cpt-options.php:2010
+#: admin/cpt/options/feeds-cpt-options.php:2114
+#: admin/cpt/options/feeds-cpt-options.php:2141
+#: admin/cpt/options/feeds-cpt-options.php:2177
+#: admin/cpt/options/feeds-cpt-options.php:2294
+#: admin/cpt/options/feeds-cpt-options.php:2380
+#: admin/cpt/options/feeds-cpt-options.php:2437
+#: admin/cpt/options/feeds-cpt-options.php:3161
+#: admin/cpt/options/feeds-cpt-options.php:3184
+#: admin/cpt/options/feeds-cpt-options.php:3208
+#: admin/cpt/options/feeds-cpt-options.php:3229
+#: admin/cpt/options/feeds-cpt-options.php:3250
+#: admin/cpt/options/feeds-cpt-options.php:3354
+#: admin/cpt/options/feeds-cpt-options.php:3445
+#: admin/cpt/options/feeds-cpt-options.php:3573
+#: admin/cpt/options/feeds-cpt-options.php:3758
+#: admin/cpt/options/feeds-cpt-options.php:3780
+#: admin/cpt/options/feeds-cpt-options.php:3802
+#: admin/cpt/options/feeds-cpt-options.php:3824
+#: admin/cpt/options/feeds-cpt-options.php:3847
+#: admin/cpt/options/feeds-cpt-options.php:3875
+#: admin/cpt/options/feeds-cpt-options.php:4008
+#: admin/cpt/options/feeds-cpt-options.php:4351
+#: admin/cpt/options/feeds-cpt-options.php:4371
+#: admin/cpt/options/feeds-cpt-options.php:4394
+#: admin/cpt/options/feeds-cpt-options.php:4486
+#: admin/cpt/options/feeds-cpt-options.php:4528
+#: admin/cpt/options/feeds-cpt-options.php:4555
+#: admin/cpt/options/feeds-cpt-options.php:4708
+#: admin/cpt/options/feeds-cpt-options.php:4950
+#: admin/cpt/options/feeds-cpt-options.php:5017
+#: admin/cpt/options/feeds-cpt-options.php:5063
+#: admin/cpt/options/feeds-cpt-options.php:5087
+#: admin/cpt/options/feeds-cpt-options.php:5129
+#: admin/cpt/options/feeds-cpt-options.php:5237
+#: admin/cpt/options/feeds-cpt-options.php:5321
+#: admin/cpt/options/feeds-cpt-options.php:5431
+#: admin/cpt/options/feeds-cpt-options.php:5482
+#: admin/cpt/options/feeds-cpt-options.php:5670
 msgid "No"
 msgstr ""
 
@@ -578,59 +578,59 @@ msgstr ""
 #: admin/cpt/options/additional/twitter-cpt-additional-options.php:253
 #: admin/cpt/options/additional/twitter-cpt-additional-options.php:302
 #: admin/cpt/options/additional/youtube-cpt-additional-options.php:87
-#: admin/cpt/options/feeds-cpt-options.php:863
-#: admin/cpt/options/feeds-cpt-options.php:949
-#: admin/cpt/options/feeds-cpt-options.php:974
-#: admin/cpt/options/feeds-cpt-options.php:1072
-#: admin/cpt/options/feeds-cpt-options.php:1145
-#: admin/cpt/options/feeds-cpt-options.php:1564
-#: admin/cpt/options/feeds-cpt-options.php:1618
-#: admin/cpt/options/feeds-cpt-options.php:1667
-#: admin/cpt/options/feeds-cpt-options.php:1691
-#: admin/cpt/options/feeds-cpt-options.php:1715
-#: admin/cpt/options/feeds-cpt-options.php:1819
-#: admin/cpt/options/feeds-cpt-options.php:1838
-#: admin/cpt/options/feeds-cpt-options.php:1925
-#: admin/cpt/options/feeds-cpt-options.php:1948
-#: admin/cpt/options/feeds-cpt-options.php:1976
-#: admin/cpt/options/feeds-cpt-options.php:2001
-#: admin/cpt/options/feeds-cpt-options.php:2113
-#: admin/cpt/options/feeds-cpt-options.php:2140
-#: admin/cpt/options/feeds-cpt-options.php:2176
-#: admin/cpt/options/feeds-cpt-options.php:2293
-#: admin/cpt/options/feeds-cpt-options.php:2379
-#: admin/cpt/options/feeds-cpt-options.php:2436
-#: admin/cpt/options/feeds-cpt-options.php:3160
-#: admin/cpt/options/feeds-cpt-options.php:3183
-#: admin/cpt/options/feeds-cpt-options.php:3207
-#: admin/cpt/options/feeds-cpt-options.php:3228
-#: admin/cpt/options/feeds-cpt-options.php:3249
-#: admin/cpt/options/feeds-cpt-options.php:3353
-#: admin/cpt/options/feeds-cpt-options.php:3444
-#: admin/cpt/options/feeds-cpt-options.php:3572
-#: admin/cpt/options/feeds-cpt-options.php:3757
-#: admin/cpt/options/feeds-cpt-options.php:3779
-#: admin/cpt/options/feeds-cpt-options.php:3801
-#: admin/cpt/options/feeds-cpt-options.php:3823
-#: admin/cpt/options/feeds-cpt-options.php:3846
-#: admin/cpt/options/feeds-cpt-options.php:3874
-#: admin/cpt/options/feeds-cpt-options.php:4007
-#: admin/cpt/options/feeds-cpt-options.php:4342
-#: admin/cpt/options/feeds-cpt-options.php:4370
-#: admin/cpt/options/feeds-cpt-options.php:4393
-#: admin/cpt/options/feeds-cpt-options.php:4485
-#: admin/cpt/options/feeds-cpt-options.php:4527
-#: admin/cpt/options/feeds-cpt-options.php:4546
-#: admin/cpt/options/feeds-cpt-options.php:4707
-#: admin/cpt/options/feeds-cpt-options.php:4941
-#: admin/cpt/options/feeds-cpt-options.php:5054
-#: admin/cpt/options/feeds-cpt-options.php:5078
-#: admin/cpt/options/feeds-cpt-options.php:5128
-#: admin/cpt/options/feeds-cpt-options.php:5236
-#: admin/cpt/options/feeds-cpt-options.php:5321
-#: admin/cpt/options/feeds-cpt-options.php:5430
-#: admin/cpt/options/feeds-cpt-options.php:5481
-#: admin/cpt/options/feeds-cpt-options.php:5669
+#: admin/cpt/options/feeds-cpt-options.php:868
+#: admin/cpt/options/feeds-cpt-options.php:954
+#: admin/cpt/options/feeds-cpt-options.php:979
+#: admin/cpt/options/feeds-cpt-options.php:1077
+#: admin/cpt/options/feeds-cpt-options.php:1150
+#: admin/cpt/options/feeds-cpt-options.php:1569
+#: admin/cpt/options/feeds-cpt-options.php:1623
+#: admin/cpt/options/feeds-cpt-options.php:1672
+#: admin/cpt/options/feeds-cpt-options.php:1696
+#: admin/cpt/options/feeds-cpt-options.php:1720
+#: admin/cpt/options/feeds-cpt-options.php:1824
+#: admin/cpt/options/feeds-cpt-options.php:1843
+#: admin/cpt/options/feeds-cpt-options.php:1930
+#: admin/cpt/options/feeds-cpt-options.php:1953
+#: admin/cpt/options/feeds-cpt-options.php:1981
+#: admin/cpt/options/feeds-cpt-options.php:2006
+#: admin/cpt/options/feeds-cpt-options.php:2118
+#: admin/cpt/options/feeds-cpt-options.php:2145
+#: admin/cpt/options/feeds-cpt-options.php:2181
+#: admin/cpt/options/feeds-cpt-options.php:2298
+#: admin/cpt/options/feeds-cpt-options.php:2384
+#: admin/cpt/options/feeds-cpt-options.php:2441
+#: admin/cpt/options/feeds-cpt-options.php:3165
+#: admin/cpt/options/feeds-cpt-options.php:3188
+#: admin/cpt/options/feeds-cpt-options.php:3212
+#: admin/cpt/options/feeds-cpt-options.php:3233
+#: admin/cpt/options/feeds-cpt-options.php:3254
+#: admin/cpt/options/feeds-cpt-options.php:3358
+#: admin/cpt/options/feeds-cpt-options.php:3449
+#: admin/cpt/options/feeds-cpt-options.php:3577
+#: admin/cpt/options/feeds-cpt-options.php:3762
+#: admin/cpt/options/feeds-cpt-options.php:3784
+#: admin/cpt/options/feeds-cpt-options.php:3806
+#: admin/cpt/options/feeds-cpt-options.php:3828
+#: admin/cpt/options/feeds-cpt-options.php:3851
+#: admin/cpt/options/feeds-cpt-options.php:3879
+#: admin/cpt/options/feeds-cpt-options.php:4012
+#: admin/cpt/options/feeds-cpt-options.php:4347
+#: admin/cpt/options/feeds-cpt-options.php:4375
+#: admin/cpt/options/feeds-cpt-options.php:4398
+#: admin/cpt/options/feeds-cpt-options.php:4490
+#: admin/cpt/options/feeds-cpt-options.php:4532
+#: admin/cpt/options/feeds-cpt-options.php:4551
+#: admin/cpt/options/feeds-cpt-options.php:4712
+#: admin/cpt/options/feeds-cpt-options.php:4946
+#: admin/cpt/options/feeds-cpt-options.php:5059
+#: admin/cpt/options/feeds-cpt-options.php:5083
+#: admin/cpt/options/feeds-cpt-options.php:5133
+#: admin/cpt/options/feeds-cpt-options.php:5241
+#: admin/cpt/options/feeds-cpt-options.php:5326
+#: admin/cpt/options/feeds-cpt-options.php:5435
+#: admin/cpt/options/feeds-cpt-options.php:5486
+#: admin/cpt/options/feeds-cpt-options.php:5674
 msgid "Yes"
 msgstr ""
 
@@ -643,16 +643,16 @@ msgid "Hide Background & Border"
 msgstr ""
 
 #: admin/cpt/options/additional/facebook-cpt-additional-options.php:361
-#: admin/cpt/options/feeds-cpt-options.php:1257
-#: admin/cpt/options/feeds-cpt-options.php:1294
-#: admin/cpt/options/feeds-cpt-options.php:4980
+#: admin/cpt/options/feeds-cpt-options.php:1262
+#: admin/cpt/options/feeds-cpt-options.php:1299
+#: admin/cpt/options/feeds-cpt-options.php:4985
 msgid "Background Color"
 msgstr ""
 
 #: admin/cpt/options/additional/facebook-cpt-additional-options.php:380
 #: admin/cpt/options/additional/facebook-cpt-additional-options.php:959
 #: admin/cpt/options/additional/twitter-cpt-additional-options.php:535
-#: admin/cpt/options/feeds-cpt-options.php:1306
+#: admin/cpt/options/feeds-cpt-options.php:1311
 msgid "Text Color"
 msgstr ""
 
@@ -794,7 +794,7 @@ msgstr ""
 #: admin/cpt/options/additional/facebook-cpt-additional-options.php:842
 #: admin/cpt/options/additional/facebook-cpt-additional-options.php:904
 #: admin/cpt/options/additional/twitter-cpt-additional-options.php:481
-#: admin/cpt/options/feeds-cpt-options.php:1281
+#: admin/cpt/options/feeds-cpt-options.php:1286
 msgid "Border Bottom Color"
 msgstr ""
 
@@ -806,8 +806,8 @@ msgstr ""
 #: admin/cpt/options/additional/instagram-cpt-additional-options.php:131
 #: admin/cpt/options/additional/twitter-cpt-additional-options.php:506
 #: admin/cpt/options/additional/youtube-cpt-additional-options.php:151
-#: admin/cpt/options/feeds-cpt-options.php:3864
-#: admin/cpt/options/feeds-cpt-options.php:4697
+#: admin/cpt/options/feeds-cpt-options.php:3869
+#: admin/cpt/options/feeds-cpt-options.php:4702
 msgid "Load More Button"
 msgstr ""
 
@@ -930,7 +930,7 @@ msgid "View"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:162
-#: admin/cpt/options/feeds-cpt-options.php:3414
+#: admin/cpt/options/feeds-cpt-options.php:3419
 msgid "Hide"
 msgstr ""
 
@@ -963,1482 +963,1482 @@ msgid "Twitter Access Token"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:288
-#: admin/cpt/options/feeds-cpt-options.php:371
-#: admin/cpt/options/feeds-cpt-options.php:422
-#: admin/cpt/options/feeds-cpt-options.php:508
-#: admin/cpt/options/feeds-cpt-options.php:572 includes/feed-functions.php:910
+#: admin/cpt/options/feeds-cpt-options.php:376
+#: admin/cpt/options/feeds-cpt-options.php:427
+#: admin/cpt/options/feeds-cpt-options.php:513
+#: admin/cpt/options/feeds-cpt-options.php:577 includes/feed-functions.php:943
 msgid "Access Token"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:295
+#: admin/cpt/options/feeds-cpt-options.php:300
 msgid "%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your Twitter posts. Once you have your Access Token you will be able to create a feed."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:303
+#: admin/cpt/options/feeds-cpt-options.php:308
 msgid "Access Token Secret"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:329
+#: admin/cpt/options/feeds-cpt-options.php:334
 msgid "Facebook Access Token"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:342
-#: admin/cpt/options/feeds-cpt-options.php:471
+#: admin/cpt/options/feeds-cpt-options.php:347
+#: admin/cpt/options/feeds-cpt-options.php:476
 msgid "Page ID"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:349
+#: admin/cpt/options/feeds-cpt-options.php:354
 msgid "This Facebook Access Token is for Business Pages, Photos and Videos only and is used to display the feed. You must be an admin of the business page to get token. This will NOT work for personal profiles or groups.%1$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. Once you have an Access Token can create a feed. Please note, use of this plugin is subject to %2$sMeta's Platform Terms%3$s%4$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:360
+#: admin/cpt/options/feeds-cpt-options.php:365
 msgid "User Name "
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:397
+#: admin/cpt/options/feeds-cpt-options.php:402
 msgid "Instagram Basic Access Token"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:407
+#: admin/cpt/options/feeds-cpt-options.php:412
 msgid "Instagram ID"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:414
+#: admin/cpt/options/feeds-cpt-options.php:419
 msgid "Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. Once you have an Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sMeta's Platform Terms%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:432
+#: admin/cpt/options/feeds-cpt-options.php:437
 msgid "Refresh Expire Time"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:458
+#: admin/cpt/options/feeds-cpt-options.php:463
 msgid "Instagram Business Access Token"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:478
+#: admin/cpt/options/feeds-cpt-options.php:483
 msgid "Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. Your Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta's Platform Terms%4$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:488
+#: admin/cpt/options/feeds-cpt-options.php:493
 msgid "Instagram Name "
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:498
+#: admin/cpt/options/feeds-cpt-options.php:503
 msgid "Facebook Name "
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:536
+#: admin/cpt/options/feeds-cpt-options.php:541
 msgid "YouTube Access Token"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:550
+#: admin/cpt/options/feeds-cpt-options.php:555
 msgid "%1$sAPI Key%2$s %3$sPress Update to save Key.%4$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:562
+#: admin/cpt/options/feeds-cpt-options.php:567
 msgid "Click the button below to get an access token, we recommend this for testing. This gives the plugin read-only access to get your YouTube videos. After testing, you must %1$sadd your own API Key%2$s. This is because Access Tokens expire. Once you have Access Tokens or entered an API key, you can create a feed."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:582
+#: admin/cpt/options/feeds-cpt-options.php:587
 msgid "Refresh Token"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:592
+#: admin/cpt/options/feeds-cpt-options.php:597
 msgid "Token Expiration"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:642
+#: admin/cpt/options/feeds-cpt-options.php:647
 msgid "Choose the gallery type%1$s View all Gallery %2$sDemos%3$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:654
+#: admin/cpt/options/feeds-cpt-options.php:659
 msgid "Responsive Image Gallery "
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:658
+#: admin/cpt/options/feeds-cpt-options.php:663
 msgid "Image Gallery Collage (Masonry)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:662
+#: admin/cpt/options/feeds-cpt-options.php:667
 msgid "Image Post"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:666
+#: admin/cpt/options/feeds-cpt-options.php:671
 msgid "Image Post in Grid (Masonry)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:675
+#: admin/cpt/options/feeds-cpt-options.php:680
 msgid "Show Photo Caption"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:682
+#: admin/cpt/options/feeds-cpt-options.php:687
 msgid "Title and Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:686
+#: admin/cpt/options/feeds-cpt-options.php:691
 msgid "Title"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:690
+#: admin/cpt/options/feeds-cpt-options.php:695
 msgid "Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:694
-#: admin/cpt/options/feeds-cpt-options.php:4632
-#: admin/cpt/options/feeds-cpt-options.php:4667
+#: admin/cpt/options/feeds-cpt-options.php:699
+#: admin/cpt/options/feeds-cpt-options.php:4637
+#: admin/cpt/options/feeds-cpt-options.php:4672
 msgid "None"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:704
+#: admin/cpt/options/feeds-cpt-options.php:709
 msgid "Photo Caption Placement"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:711
+#: admin/cpt/options/feeds-cpt-options.php:716
 msgid "Caption Above Photo"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:715
+#: admin/cpt/options/feeds-cpt-options.php:720
 msgid "Caption Below Photo"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:724
-#: admin/cpt/options/feeds-cpt-options.php:772
-#: admin/cpt/options/feeds-cpt-options.php:3289
+#: admin/cpt/options/feeds-cpt-options.php:729
+#: admin/cpt/options/feeds-cpt-options.php:777
+#: admin/cpt/options/feeds-cpt-options.php:3294
 msgid "Number of Columns"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:727
-#: admin/cpt/options/feeds-cpt-options.php:775
+#: admin/cpt/options/feeds-cpt-options.php:732
+#: admin/cpt/options/feeds-cpt-options.php:780
 msgid "%1$sNOTE:%2$s Choose the Number of Columns and Space between each image below."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:736
-#: admin/cpt/options/feeds-cpt-options.php:3297
-#: admin/cpt/options/feeds-cpt-options.php:4441
+#: admin/cpt/options/feeds-cpt-options.php:741
+#: admin/cpt/options/feeds-cpt-options.php:3302
+#: admin/cpt/options/feeds-cpt-options.php:4446
 msgid "1"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:740
-#: admin/cpt/options/feeds-cpt-options.php:784
-#: admin/cpt/options/feeds-cpt-options.php:3301
-#: admin/cpt/options/feeds-cpt-options.php:4445
+#: admin/cpt/options/feeds-cpt-options.php:745
+#: admin/cpt/options/feeds-cpt-options.php:789
+#: admin/cpt/options/feeds-cpt-options.php:3306
+#: admin/cpt/options/feeds-cpt-options.php:4450
 msgid "2"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:744
-#: admin/cpt/options/feeds-cpt-options.php:788
-#: admin/cpt/options/feeds-cpt-options.php:3305
-#: admin/cpt/options/feeds-cpt-options.php:4449
+#: admin/cpt/options/feeds-cpt-options.php:749
+#: admin/cpt/options/feeds-cpt-options.php:793
+#: admin/cpt/options/feeds-cpt-options.php:3310
+#: admin/cpt/options/feeds-cpt-options.php:4454
 msgid "3"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:748
-#: admin/cpt/options/feeds-cpt-options.php:792
-#: admin/cpt/options/feeds-cpt-options.php:3309
-#: admin/cpt/options/feeds-cpt-options.php:4453
+#: admin/cpt/options/feeds-cpt-options.php:753
+#: admin/cpt/options/feeds-cpt-options.php:797
+#: admin/cpt/options/feeds-cpt-options.php:3314
+#: admin/cpt/options/feeds-cpt-options.php:4458
 msgid "4"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:752
-#: admin/cpt/options/feeds-cpt-options.php:796
-#: admin/cpt/options/feeds-cpt-options.php:3313
-#: admin/cpt/options/feeds-cpt-options.php:4457
+#: admin/cpt/options/feeds-cpt-options.php:757
+#: admin/cpt/options/feeds-cpt-options.php:801
+#: admin/cpt/options/feeds-cpt-options.php:3318
+#: admin/cpt/options/feeds-cpt-options.php:4462
 msgid "5"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:756
-#: admin/cpt/options/feeds-cpt-options.php:3317
-#: admin/cpt/options/feeds-cpt-options.php:4461
+#: admin/cpt/options/feeds-cpt-options.php:761
+#: admin/cpt/options/feeds-cpt-options.php:3322
+#: admin/cpt/options/feeds-cpt-options.php:4466
 msgid "6"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:760
-#: admin/cpt/options/feeds-cpt-options.php:3321
+#: admin/cpt/options/feeds-cpt-options.php:765
+#: admin/cpt/options/feeds-cpt-options.php:3326
 msgid "7"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:764
-#: admin/cpt/options/feeds-cpt-options.php:3325
+#: admin/cpt/options/feeds-cpt-options.php:769
+#: admin/cpt/options/feeds-cpt-options.php:3330
 msgid "8"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:804
-#: admin/cpt/options/feeds-cpt-options.php:894
+#: admin/cpt/options/feeds-cpt-options.php:809
+#: admin/cpt/options/feeds-cpt-options.php:899
 msgid "Space between Images"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:811
+#: admin/cpt/options/feeds-cpt-options.php:816
 msgid "1px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:815
-#: admin/cpt/options/feeds-cpt-options.php:2556
+#: admin/cpt/options/feeds-cpt-options.php:820
+#: admin/cpt/options/feeds-cpt-options.php:2561
 msgid "2px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:819
+#: admin/cpt/options/feeds-cpt-options.php:824
 msgid "3px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:823
+#: admin/cpt/options/feeds-cpt-options.php:828
 msgid "4px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:827
+#: admin/cpt/options/feeds-cpt-options.php:832
 msgid "5px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:831
+#: admin/cpt/options/feeds-cpt-options.php:836
 msgid "10px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:835
+#: admin/cpt/options/feeds-cpt-options.php:840
 msgid "15px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:839
+#: admin/cpt/options/feeds-cpt-options.php:844
 msgid "20px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:849
+#: admin/cpt/options/feeds-cpt-options.php:854
 msgid "Force Columns%1$s Yes, will force image columns. No, will allow the images to be responsive for smaller devices%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:898
-#: admin/cpt/options/feeds-cpt-options.php:1210
-#: admin/cpt/options/feeds-cpt-options.php:1224
-#: admin/cpt/options/feeds-cpt-options.php:1543
-#: admin/cpt/options/feeds-cpt-options.php:2234
-#: admin/cpt/options/feeds-cpt-options.php:2261
-#: admin/cpt/options/feeds-cpt-options.php:2321
-#: admin/cpt/options/feeds-cpt-options.php:2348
-#: admin/cpt/options/feeds-cpt-options.php:2405
-#: admin/cpt/options/feeds-cpt-options.php:3109
-#: admin/cpt/options/feeds-cpt-options.php:3131
-#: admin/cpt/options/feeds-cpt-options.php:3524
-#: admin/cpt/options/feeds-cpt-options.php:3544
-#: admin/cpt/options/feeds-cpt-options.php:3734
-#: admin/cpt/options/feeds-cpt-options.php:3954
-#: admin/cpt/options/feeds-cpt-options.php:3975
-#: admin/cpt/options/feeds-cpt-options.php:4034
-#: admin/cpt/options/feeds-cpt-options.php:4061
-#: admin/cpt/options/feeds-cpt-options.php:4788
-#: admin/cpt/options/feeds-cpt-options.php:4809
-#: admin/cpt/options/feeds-cpt-options.php:4965
-#: admin/cpt/options/feeds-cpt-options.php:5155
-#: admin/cpt/options/feeds-cpt-options.php:5180
+#: admin/cpt/options/feeds-cpt-options.php:903
+#: admin/cpt/options/feeds-cpt-options.php:1215
+#: admin/cpt/options/feeds-cpt-options.php:1229
+#: admin/cpt/options/feeds-cpt-options.php:1548
+#: admin/cpt/options/feeds-cpt-options.php:2239
+#: admin/cpt/options/feeds-cpt-options.php:2266
+#: admin/cpt/options/feeds-cpt-options.php:2326
+#: admin/cpt/options/feeds-cpt-options.php:2353
+#: admin/cpt/options/feeds-cpt-options.php:2410
+#: admin/cpt/options/feeds-cpt-options.php:3114
+#: admin/cpt/options/feeds-cpt-options.php:3136
+#: admin/cpt/options/feeds-cpt-options.php:3529
+#: admin/cpt/options/feeds-cpt-options.php:3549
+#: admin/cpt/options/feeds-cpt-options.php:3739
+#: admin/cpt/options/feeds-cpt-options.php:3959
+#: admin/cpt/options/feeds-cpt-options.php:3980
+#: admin/cpt/options/feeds-cpt-options.php:4039
+#: admin/cpt/options/feeds-cpt-options.php:4066
+#: admin/cpt/options/feeds-cpt-options.php:4793
+#: admin/cpt/options/feeds-cpt-options.php:4814
+#: admin/cpt/options/feeds-cpt-options.php:4970
+#: admin/cpt/options/feeds-cpt-options.php:5160
+#: admin/cpt/options/feeds-cpt-options.php:5185
 msgid "for example"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:908
+#: admin/cpt/options/feeds-cpt-options.php:913
 msgid "User Name%1$s Company or user who took this photo%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:923
+#: admin/cpt/options/feeds-cpt-options.php:928
 msgid "User Custom Link%1$s Custom about page or social media page link%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:939
+#: admin/cpt/options/feeds-cpt-options.php:944
 msgid "Show Share Options%1$s Appears in the bottom left corner and in popup%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:964
+#: admin/cpt/options/feeds-cpt-options.php:969
 msgid "Show Date%1$s Date image was uploaded%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:987
+#: admin/cpt/options/feeds-cpt-options.php:992
 msgid "Image Size on Page"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1000
+#: admin/cpt/options/feeds-cpt-options.php:1005
 msgid "Max-width for Images"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1010
+#: admin/cpt/options/feeds-cpt-options.php:1015
 msgid "Gallery Max-width"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1023
+#: admin/cpt/options/feeds-cpt-options.php:1028
 msgid "Gallery Height%1$s Set the height to have a scrolling feed. Only works for Responsive Image Gallery and the Image Post option.%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1038
+#: admin/cpt/options/feeds-cpt-options.php:1043
 msgid "Gallery Margin%1$s To center feed type auto%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1051
+#: admin/cpt/options/feeds-cpt-options.php:1056
 msgid "Gallery Padding"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1063
-#: admin/cpt/options/feeds-cpt-options.php:2101
-#: admin/cpt/options/feeds-cpt-options.php:3560
-#: admin/cpt/options/feeds-cpt-options.php:3831
+#: admin/cpt/options/feeds-cpt-options.php:1068
+#: admin/cpt/options/feeds-cpt-options.php:2106
+#: admin/cpt/options/feeds-cpt-options.php:3565
+#: admin/cpt/options/feeds-cpt-options.php:3836
 msgid "Popup"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1065
-#: admin/cpt/options/feeds-cpt-options.php:2103
+#: admin/cpt/options/feeds-cpt-options.php:1070
+#: admin/cpt/options/feeds-cpt-options.php:2108
 msgid "Display Photos in Popup"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1089
+#: admin/cpt/options/feeds-cpt-options.php:1094
 msgid "Image Size in Popup"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1101
+#: admin/cpt/options/feeds-cpt-options.php:1106
 msgid "Popup Options"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1108
+#: admin/cpt/options/feeds-cpt-options.php:1113
 msgid "Default"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1112
+#: admin/cpt/options/feeds-cpt-options.php:1117
 msgid "Full Width & Info below Photo"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1116
+#: admin/cpt/options/feeds-cpt-options.php:1121
 msgid "Full Width, Photo Only"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1127
+#: admin/cpt/options/feeds-cpt-options.php:1132
 msgid "Load More Images"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1131
+#: admin/cpt/options/feeds-cpt-options.php:1136
 msgid "Load More Button%1$s Load More unavailable while using the Pagination option.%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1158
+#: admin/cpt/options/feeds-cpt-options.php:1163
 msgid "# of Photos Visible"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1174
-#: admin/cpt/options/feeds-cpt-options.php:2197
-#: admin/cpt/options/feeds-cpt-options.php:3893
-#: admin/cpt/options/feeds-cpt-options.php:4726
+#: admin/cpt/options/feeds-cpt-options.php:1179
+#: admin/cpt/options/feeds-cpt-options.php:2202
+#: admin/cpt/options/feeds-cpt-options.php:3898
+#: admin/cpt/options/feeds-cpt-options.php:4731
 msgid "Load More Style"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1180
+#: admin/cpt/options/feeds-cpt-options.php:1185
 msgid "%1$sNOTE:%2$s The Button option displays \"Load More Posts\" button below feed. The AutoScroll option loads more posts when user reaches the bottom of feed. AutoScroll ONLY works if option is filled in a Fixed Height for feed."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1187
-#: admin/cpt/options/feeds-cpt-options.php:2204
-#: admin/cpt/options/feeds-cpt-options.php:3468
-#: admin/cpt/options/feeds-cpt-options.php:3900
-#: admin/cpt/options/feeds-cpt-options.php:4733
+#: admin/cpt/options/feeds-cpt-options.php:1192
+#: admin/cpt/options/feeds-cpt-options.php:2209
+#: admin/cpt/options/feeds-cpt-options.php:3473
+#: admin/cpt/options/feeds-cpt-options.php:3905
+#: admin/cpt/options/feeds-cpt-options.php:4738
 msgid "Button"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1191
-#: admin/cpt/options/feeds-cpt-options.php:2208
-#: admin/cpt/options/feeds-cpt-options.php:3472
-#: admin/cpt/options/feeds-cpt-options.php:3904
-#: admin/cpt/options/feeds-cpt-options.php:4737
+#: admin/cpt/options/feeds-cpt-options.php:1196
+#: admin/cpt/options/feeds-cpt-options.php:2213
+#: admin/cpt/options/feeds-cpt-options.php:3477
+#: admin/cpt/options/feeds-cpt-options.php:3909
+#: admin/cpt/options/feeds-cpt-options.php:4742
 msgid "AutoScroll"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1203
+#: admin/cpt/options/feeds-cpt-options.php:1208
 msgid "Load more Button Width%1$s Leave blank for auto width%2$s"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1220
-#: admin/cpt/options/feeds-cpt-options.php:2257
-#: admin/cpt/options/feeds-cpt-options.php:3540
-#: admin/cpt/options/feeds-cpt-options.php:3971
-#: admin/cpt/options/feeds-cpt-options.php:4805
+#: admin/cpt/options/feeds-cpt-options.php:1225
+#: admin/cpt/options/feeds-cpt-options.php:2262
+#: admin/cpt/options/feeds-cpt-options.php:3545
+#: admin/cpt/options/feeds-cpt-options.php:3976
+#: admin/cpt/options/feeds-cpt-options.php:4810
 msgid "Load more Button Margin"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1247
+#: admin/cpt/options/feeds-cpt-options.php:1252
 msgid "Feed Color Options"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1263
-#: admin/cpt/options/feeds-cpt-options.php:1275
-#: admin/cpt/options/feeds-cpt-options.php:1287
-#: admin/cpt/options/feeds-cpt-options.php:1300
-#: admin/cpt/options/feeds-cpt-options.php:1312
-#: admin/cpt/options/feeds-cpt-options.php:1324
+#: admin/cpt/options/feeds-cpt-options.php:1268
+#: admin/cpt/options/feeds-cpt-options.php:1280
+#: admin/cpt/options/feeds-cpt-options.php:1292
+#: admin/cpt/options/feeds-cpt-options.php:1305
+#: admin/cpt/options/feeds-cpt-options.php:1317
+#: admin/cpt/options/feeds-cpt-options.php:1329
 #: admin/settings/settings-page.php:416 admin/settings/settings-page.php:423
 #: admin/settings/settings-page.php:430
 msgid "#ddd"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1269
+#: admin/cpt/options/feeds-cpt-options.php:1274
 msgid "Grid Posts Background Color"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1292
+#: admin/cpt/options/feeds-cpt-options.php:1297
 msgid "Loadmore Button"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1318
+#: admin/cpt/options/feeds-cpt-options.php:1323
 msgid "Image Count Text Color"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1374
-#: admin/cpt/options/feeds-cpt-options.php:2936
-#: admin/cpt/options/feeds-cpt-options.php:3618
-#: admin/cpt/options/feeds-cpt-options.php:3629
-#: admin/cpt/options/feeds-cpt-options.php:4116
-#: admin/cpt/options/feeds-cpt-options.php:5523
+#: admin/cpt/options/feeds-cpt-options.php:1379
+#: admin/cpt/options/feeds-cpt-options.php:2941
+#: admin/cpt/options/feeds-cpt-options.php:3623
+#: admin/cpt/options/feeds-cpt-options.php:3634
+#: admin/cpt/options/feeds-cpt-options.php:4121
+#: admin/cpt/options/feeds-cpt-options.php:5528
 msgid "Feed Type"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1380
+#: admin/cpt/options/feeds-cpt-options.php:1385
 msgid "Page Posts"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1401
+#: admin/cpt/options/feeds-cpt-options.php:1406
 msgid "Album Photos"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1407
+#: admin/cpt/options/feeds-cpt-options.php:1412
 msgid "Album Covers"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1413
+#: admin/cpt/options/feeds-cpt-options.php:1418
 msgid "Videos"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1419
+#: admin/cpt/options/feeds-cpt-options.php:1424
 msgid "Page Reviews"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1453
+#: admin/cpt/options/feeds-cpt-options.php:1458
 msgid "Album ID "
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1453
+#: admin/cpt/options/feeds-cpt-options.php:1458
 msgid "Leave blank to show all uploaded photos"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1478
+#: admin/cpt/options/feeds-cpt-options.php:1483
 msgid "Post Type Visible"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1484
+#: admin/cpt/options/feeds-cpt-options.php:1489
 msgid "Display Posts made by Page only"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1488
+#: admin/cpt/options/feeds-cpt-options.php:1493
 msgid "Display Posts made by Page and Others"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1500
+#: admin/cpt/options/feeds-cpt-options.php:1505
 msgid "Number of Posts <br/><small>More than 6 Requires <a target=\"_blank\" href=\"https://www.slickremix.com/downloads/feed-them-social-premium-extension/\">Premium</a>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1505
-#: admin/cpt/options/feeds-cpt-options.php:4878
+#: admin/cpt/options/feeds-cpt-options.php:1510
+#: admin/cpt/options/feeds-cpt-options.php:4883
 msgid "6 is the default number"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1522
+#: admin/cpt/options/feeds-cpt-options.php:1527
 msgid "Omit Album Covers <br/><small>ie* 0,4,5 <a target=\"_blank\" href=\"https://feedthemsocial.com/facebook-album-covers/\">Example</a>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1538
+#: admin/cpt/options/feeds-cpt-options.php:1543
 msgid "Facebook Fixed Height"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1538
-#: admin/cpt/options/feeds-cpt-options.php:3127
-#: admin/cpt/options/feeds-cpt-options.php:3730
-#: admin/cpt/options/feeds-cpt-options.php:4959
+#: admin/cpt/options/feeds-cpt-options.php:1543
+#: admin/cpt/options/feeds-cpt-options.php:3132
+#: admin/cpt/options/feeds-cpt-options.php:3735
+#: admin/cpt/options/feeds-cpt-options.php:4964
 msgid "Cannot use with Grid"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1558
+#: admin/cpt/options/feeds-cpt-options.php:1563
 msgid "Show Page Title"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1558
-#: admin/cpt/options/feeds-cpt-options.php:1612
-#: admin/cpt/options/feeds-cpt-options.php:1660
-#: admin/cpt/options/feeds-cpt-options.php:1684
-#: admin/cpt/options/feeds-cpt-options.php:1708
-#: admin/cpt/options/feeds-cpt-options.php:5047
-#: admin/cpt/options/feeds-cpt-options.php:5071
+#: admin/cpt/options/feeds-cpt-options.php:1563
+#: admin/cpt/options/feeds-cpt-options.php:1617
+#: admin/cpt/options/feeds-cpt-options.php:1665
+#: admin/cpt/options/feeds-cpt-options.php:1689
+#: admin/cpt/options/feeds-cpt-options.php:1713
+#: admin/cpt/options/feeds-cpt-options.php:5052
+#: admin/cpt/options/feeds-cpt-options.php:5076
 msgid "Yes or No"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1584
+#: admin/cpt/options/feeds-cpt-options.php:1589
 msgid "Align Title"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1584
+#: admin/cpt/options/feeds-cpt-options.php:1589
 msgid "Left, Center or Right"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1590
-#: admin/cpt/options/feeds-cpt-options.php:1887
-#: admin/cpt/options/feeds-cpt-options.php:2056
-#: admin/cpt/options/feeds-cpt-options.php:4578
-#: admin/cpt/options/feeds-cpt-options.php:4609
-#: admin/cpt/options/feeds-cpt-options.php:5008
+#: admin/cpt/options/feeds-cpt-options.php:1595
+#: admin/cpt/options/feeds-cpt-options.php:1892
+#: admin/cpt/options/feeds-cpt-options.php:2061
+#: admin/cpt/options/feeds-cpt-options.php:4583
+#: admin/cpt/options/feeds-cpt-options.php:4614
+#: admin/cpt/options/feeds-cpt-options.php:5013
 msgid "Left"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1594
-#: admin/cpt/options/feeds-cpt-options.php:1891
-#: admin/cpt/options/feeds-cpt-options.php:2060
+#: admin/cpt/options/feeds-cpt-options.php:1599
+#: admin/cpt/options/feeds-cpt-options.php:1896
+#: admin/cpt/options/feeds-cpt-options.php:2065
 msgid "Center"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1598
-#: admin/cpt/options/feeds-cpt-options.php:1895
-#: admin/cpt/options/feeds-cpt-options.php:2064
-#: admin/cpt/options/feeds-cpt-options.php:4574
-#: admin/cpt/options/feeds-cpt-options.php:4605
-#: admin/cpt/options/feeds-cpt-options.php:5004
+#: admin/cpt/options/feeds-cpt-options.php:1603
+#: admin/cpt/options/feeds-cpt-options.php:1900
+#: admin/cpt/options/feeds-cpt-options.php:2069
+#: admin/cpt/options/feeds-cpt-options.php:4579
+#: admin/cpt/options/feeds-cpt-options.php:4610
+#: admin/cpt/options/feeds-cpt-options.php:5009
 msgid "Right"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1612
+#: admin/cpt/options/feeds-cpt-options.php:1617
 msgid "Show Page Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1636
-#: admin/cpt/options/feeds-cpt-options.php:5025
+#: admin/cpt/options/feeds-cpt-options.php:1641
+#: admin/cpt/options/feeds-cpt-options.php:5030
 msgid "Show Image/Video"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1636
+#: admin/cpt/options/feeds-cpt-options.php:1641
 msgid "Bottom or Top of Post"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1643
-#: admin/cpt/options/feeds-cpt-options.php:5032
+#: admin/cpt/options/feeds-cpt-options.php:1648
+#: admin/cpt/options/feeds-cpt-options.php:5037
 msgid "Below Username, Date & Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1647
-#: admin/cpt/options/feeds-cpt-options.php:5036
+#: admin/cpt/options/feeds-cpt-options.php:1652
+#: admin/cpt/options/feeds-cpt-options.php:5041
 msgid "Above Username, Date & Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1660
+#: admin/cpt/options/feeds-cpt-options.php:1665
 msgid "Show User Thumbnail"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1684
-#: admin/cpt/options/feeds-cpt-options.php:5071
+#: admin/cpt/options/feeds-cpt-options.php:1689
+#: admin/cpt/options/feeds-cpt-options.php:5076
 msgid "Show Username"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1708
-#: admin/cpt/options/feeds-cpt-options.php:5047
+#: admin/cpt/options/feeds-cpt-options.php:1713
+#: admin/cpt/options/feeds-cpt-options.php:5052
 msgid "Show Date"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1731
+#: admin/cpt/options/feeds-cpt-options.php:1736
 msgid " # of Words in Post Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1749
+#: admin/cpt/options/feeds-cpt-options.php:1754
 msgid "Facebook Image Width"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1749
-#: admin/cpt/options/feeds-cpt-options.php:1771
+#: admin/cpt/options/feeds-cpt-options.php:1754
+#: admin/cpt/options/feeds-cpt-options.php:1776
 msgid "Max width is 640px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1771
+#: admin/cpt/options/feeds-cpt-options.php:1776
 msgid "Facebook Image Height"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1790
-#: admin/cpt/options/feeds-cpt-options.php:3366
+#: admin/cpt/options/feeds-cpt-options.php:1795
+#: admin/cpt/options/feeds-cpt-options.php:3371
 msgid "The space between photos"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1808
+#: admin/cpt/options/feeds-cpt-options.php:1813
 msgid "Hide Date, Likes and Comments"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1809
-#: admin/cpt/options/feeds-cpt-options.php:3404
+#: admin/cpt/options/feeds-cpt-options.php:1814
+#: admin/cpt/options/feeds-cpt-options.php:3409
 msgid "Good for image sizes under 120px"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1832
+#: admin/cpt/options/feeds-cpt-options.php:1837
 msgid "Center Facebook Container"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1856
+#: admin/cpt/options/feeds-cpt-options.php:1861
 msgid "Image Stacking Animation On"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1857
+#: admin/cpt/options/feeds-cpt-options.php:1862
 msgid "This happens when resizing browser"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1881
+#: admin/cpt/options/feeds-cpt-options.php:1886
 msgid "Align Images"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1913
+#: admin/cpt/options/feeds-cpt-options.php:1918
 msgid "Reviews"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1915
+#: admin/cpt/options/feeds-cpt-options.php:1920
 msgid "Overall Rating above Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1915
+#: admin/cpt/options/feeds-cpt-options.php:1920
 msgid "More under Style Options Tab"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1942
+#: admin/cpt/options/feeds-cpt-options.php:1947
 msgid "Hide Reviews with no description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1966
+#: admin/cpt/options/feeds-cpt-options.php:1971
 msgid "Hide the text \"See More Reviews\""
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1995
+#: admin/cpt/options/feeds-cpt-options.php:2000
 msgid "Hide Like Box or Button"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:1995
+#: admin/cpt/options/feeds-cpt-options.php:2000
 msgid "More under Style Options Tab</a>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2017
+#: admin/cpt/options/feeds-cpt-options.php:2022
 msgid "Position of Like Box or Button"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2024
+#: admin/cpt/options/feeds-cpt-options.php:2029
 msgid "Above Title"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2028
+#: admin/cpt/options/feeds-cpt-options.php:2033
 msgid "Below Title"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2032
+#: admin/cpt/options/feeds-cpt-options.php:2037
 msgid "Bottom of Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2050
+#: admin/cpt/options/feeds-cpt-options.php:2055
 msgid "Align Like Box or Button"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2079
+#: admin/cpt/options/feeds-cpt-options.php:2084
 msgid "Width of Like Box"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2079
+#: admin/cpt/options/feeds-cpt-options.php:2084
 msgid "This only works for the Like Box"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2083
+#: admin/cpt/options/feeds-cpt-options.php:2088
 msgid "500px max"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2130
+#: admin/cpt/options/feeds-cpt-options.php:2135
 msgid "Hide Comments in Popup"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2160
-#: admin/cpt/options/feeds-cpt-options.php:3429
-#: admin/cpt/options/feeds-cpt-options.php:3862
-#: admin/cpt/options/feeds-cpt-options.php:4695
+#: admin/cpt/options/feeds-cpt-options.php:2165
+#: admin/cpt/options/feeds-cpt-options.php:3434
+#: admin/cpt/options/feeds-cpt-options.php:3867
+#: admin/cpt/options/feeds-cpt-options.php:4700
 #: includes/feeds/instagram/class-instagram-feed.php:360
 #: includes/feeds/twitter/class-twitter-feed.php:911
 #: includes/feeds/youtube/class-youtube-feed.php:730
 msgid "Load More"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2201
-#: admin/cpt/options/feeds-cpt-options.php:2320
-#: admin/cpt/options/feeds-cpt-options.php:3465
-#: admin/cpt/options/feeds-cpt-options.php:3897
-#: admin/cpt/options/feeds-cpt-options.php:4033
-#: admin/cpt/options/feeds-cpt-options.php:4730
-#: admin/cpt/options/feeds-cpt-options.php:5154
+#: admin/cpt/options/feeds-cpt-options.php:2206
+#: admin/cpt/options/feeds-cpt-options.php:2325
+#: admin/cpt/options/feeds-cpt-options.php:3470
+#: admin/cpt/options/feeds-cpt-options.php:3902
+#: admin/cpt/options/feeds-cpt-options.php:4038
+#: admin/cpt/options/feeds-cpt-options.php:4735
+#: admin/cpt/options/feeds-cpt-options.php:5159
 msgid "NOTE:"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2201
-#: admin/cpt/options/feeds-cpt-options.php:3465
-#: admin/cpt/options/feeds-cpt-options.php:3897
-#: admin/cpt/options/feeds-cpt-options.php:4730
+#: admin/cpt/options/feeds-cpt-options.php:2206
+#: admin/cpt/options/feeds-cpt-options.php:3470
+#: admin/cpt/options/feeds-cpt-options.php:3902
+#: admin/cpt/options/feeds-cpt-options.php:4735
 msgid "The Button option displays \"Load More Posts\" button below feed. The AutoScroll option loads more posts when user reaches the bottom of feed. AutoScroll ONLY works if option is filled in a Fixed Height for feed."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2230
-#: admin/cpt/options/feeds-cpt-options.php:3520
-#: admin/cpt/options/feeds-cpt-options.php:3950
-#: admin/cpt/options/feeds-cpt-options.php:4784
+#: admin/cpt/options/feeds-cpt-options.php:2235
+#: admin/cpt/options/feeds-cpt-options.php:3525
+#: admin/cpt/options/feeds-cpt-options.php:3955
+#: admin/cpt/options/feeds-cpt-options.php:4789
 msgid "Load more Button Width"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2230
-#: admin/cpt/options/feeds-cpt-options.php:3520
-#: admin/cpt/options/feeds-cpt-options.php:3950
-#: admin/cpt/options/feeds-cpt-options.php:4784
+#: admin/cpt/options/feeds-cpt-options.php:2235
+#: admin/cpt/options/feeds-cpt-options.php:3525
+#: admin/cpt/options/feeds-cpt-options.php:3955
+#: admin/cpt/options/feeds-cpt-options.php:4789
 msgid "Leave blank for auto width"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2280
-#: admin/cpt/options/feeds-cpt-options.php:3994
-#: admin/cpt/options/feeds-cpt-options.php:5115
+#: admin/cpt/options/feeds-cpt-options.php:2285
+#: admin/cpt/options/feeds-cpt-options.php:3999
+#: admin/cpt/options/feeds-cpt-options.php:5120
 msgid "Grid"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2283
-#: admin/cpt/options/feeds-cpt-options.php:3997
-#: admin/cpt/options/feeds-cpt-options.php:5118
+#: admin/cpt/options/feeds-cpt-options.php:2288
+#: admin/cpt/options/feeds-cpt-options.php:4002
+#: admin/cpt/options/feeds-cpt-options.php:5123
 msgid "Display Posts in Grid"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2316
-#: admin/cpt/options/feeds-cpt-options.php:4029
-#: admin/cpt/options/feeds-cpt-options.php:5150
+#: admin/cpt/options/feeds-cpt-options.php:2321
+#: admin/cpt/options/feeds-cpt-options.php:4034
+#: admin/cpt/options/feeds-cpt-options.php:5155
 msgid "Grid Column Width"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2320
-#: admin/cpt/options/feeds-cpt-options.php:4033
-#: admin/cpt/options/feeds-cpt-options.php:5154
+#: admin/cpt/options/feeds-cpt-options.php:2325
+#: admin/cpt/options/feeds-cpt-options.php:4038
+#: admin/cpt/options/feeds-cpt-options.php:5159
 msgid "Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2344
-#: admin/cpt/options/feeds-cpt-options.php:4057
-#: admin/cpt/options/feeds-cpt-options.php:5176
+#: admin/cpt/options/feeds-cpt-options.php:2349
+#: admin/cpt/options/feeds-cpt-options.php:4062
+#: admin/cpt/options/feeds-cpt-options.php:5181
 msgid "Grid Spaces Between Posts"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2367
+#: admin/cpt/options/feeds-cpt-options.php:2372
 msgid "Video Button Options"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2369
+#: admin/cpt/options/feeds-cpt-options.php:2374
 msgid "Video Play Button"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2369
+#: admin/cpt/options/feeds-cpt-options.php:2374
 msgid "Displays over Video Thumbnail"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2401
+#: admin/cpt/options/feeds-cpt-options.php:2406
 msgid "Size of the Play Button"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2426
+#: admin/cpt/options/feeds-cpt-options.php:2431
 msgid "Show Play Button in Front"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2426
+#: admin/cpt/options/feeds-cpt-options.php:2431
 msgid "Displays before hovering over thumbnail"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2454
+#: admin/cpt/options/feeds-cpt-options.php:2459
 msgid "Carousel/Slider"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2456
+#: admin/cpt/options/feeds-cpt-options.php:2461
 msgid "Create Carousel or Slideshow with these options."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2456
+#: admin/cpt/options/feeds-cpt-options.php:2461
 msgid "View Demos"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2456
+#: admin/cpt/options/feeds-cpt-options.php:2461
 msgid "and copy easy to use shortcode examples."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2458
+#: admin/cpt/options/feeds-cpt-options.php:2463
 msgid "Carousel/Slideshow"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2464
+#: admin/cpt/options/feeds-cpt-options.php:2469
 msgid "Off"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2468
+#: admin/cpt/options/feeds-cpt-options.php:2473
 msgid "On"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2491
+#: admin/cpt/options/feeds-cpt-options.php:2496
 msgid "Type"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2498
+#: admin/cpt/options/feeds-cpt-options.php:2503
 msgid "Carousel"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2503
+#: admin/cpt/options/feeds-cpt-options.php:2508
 msgid "Slideshow"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2524
+#: admin/cpt/options/feeds-cpt-options.php:2529
 msgid "Carousel Slides Visible"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2524
+#: admin/cpt/options/feeds-cpt-options.php:2529
 msgid "Not for Slideshow. Example: 1-500"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2529
+#: admin/cpt/options/feeds-cpt-options.php:2534
 msgid "3 is the default number"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2551
+#: admin/cpt/options/feeds-cpt-options.php:2556
 msgid "Spacing between Slides"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2574
+#: admin/cpt/options/feeds-cpt-options.php:2579
 msgid "Carousel/Slideshow Margin"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2574
+#: admin/cpt/options/feeds-cpt-options.php:2579
 msgid "Center feed. Add space above/below."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2579
+#: admin/cpt/options/feeds-cpt-options.php:2584
 msgid "-6px auto 1px auto"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2596
+#: admin/cpt/options/feeds-cpt-options.php:2601
 msgid "Slider Speed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2596
+#: admin/cpt/options/feeds-cpt-options.php:2601
 msgid "How fast slides change"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2601
-#: admin/cpt/options/feeds-cpt-options.php:2623
+#: admin/cpt/options/feeds-cpt-options.php:2606
+#: admin/cpt/options/feeds-cpt-options.php:2628
 msgid "0-10000"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2618
+#: admin/cpt/options/feeds-cpt-options.php:2623
 msgid "Slider Timeout"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2618
+#: admin/cpt/options/feeds-cpt-options.php:2623
 msgid "Amount of Time before next slide."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2640
+#: admin/cpt/options/feeds-cpt-options.php:2645
 msgid "Slider Controls"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2647
+#: admin/cpt/options/feeds-cpt-options.php:2652
 msgid "Dots above Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2651
+#: admin/cpt/options/feeds-cpt-options.php:2656
 msgid "Dots and Arrows above Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2655
+#: admin/cpt/options/feeds-cpt-options.php:2660
 msgid "Dots and Numbers above Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2659
+#: admin/cpt/options/feeds-cpt-options.php:2664
 msgid "Dots, Arrows and Numbers above Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2663
+#: admin/cpt/options/feeds-cpt-options.php:2668
 msgid "Arrows and Numbers above feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2667
+#: admin/cpt/options/feeds-cpt-options.php:2672
 msgid "Arrows above Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2671
+#: admin/cpt/options/feeds-cpt-options.php:2676
 msgid "Numbers above Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2675
+#: admin/cpt/options/feeds-cpt-options.php:2680
 msgid "Dots below Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2679
+#: admin/cpt/options/feeds-cpt-options.php:2684
 msgid "Dots and Arrows below Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2683
+#: admin/cpt/options/feeds-cpt-options.php:2688
 msgid "Dots and Numbers below Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2687
+#: admin/cpt/options/feeds-cpt-options.php:2692
 msgid "Dots, Arrows and Numbers below Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2691
+#: admin/cpt/options/feeds-cpt-options.php:2696
 msgid "Arrows below Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2695
+#: admin/cpt/options/feeds-cpt-options.php:2700
 msgid "Numbers Below Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2714
+#: admin/cpt/options/feeds-cpt-options.php:2719
 msgid "Slider Controls Text Color"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2738
+#: admin/cpt/options/feeds-cpt-options.php:2743
 msgid "Slider Controls Bar Color"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2761
+#: admin/cpt/options/feeds-cpt-options.php:2766
 msgid "Slider Controls Max Width"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2944
+#: admin/cpt/options/feeds-cpt-options.php:2949
 msgid "Basic"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2948
+#: admin/cpt/options/feeds-cpt-options.php:2953
 msgid "Business"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:2952
-#: admin/cpt/options/feeds-cpt-options.php:2994
-#: admin/cpt/options/feeds-cpt-options.php:5337
+#: admin/cpt/options/feeds-cpt-options.php:2957
+#: admin/cpt/options/feeds-cpt-options.php:2999
+#: admin/cpt/options/feeds-cpt-options.php:5342
 msgid "Hashtag"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3004
+#: admin/cpt/options/feeds-cpt-options.php:3009
 msgid "Add your hashtag below. <strong>DO NOT</strong> add the #, just the name. Only one hashtag allowed at this time. Hashtag media only stays on Instagram for 24 hours and the API does not give us a date/time. In order to use the Instagram hashtag feed you must have your Instagram account linked to a Facebook Business Page. <a target=\"_blank\" href=\"https://www.slickremix.com/docs/link-instagram-account-to-facebook/\">Read Instructions.</a>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3043
-#: admin/cpt/options/feeds-cpt-options.php:5365
+#: admin/cpt/options/feeds-cpt-options.php:3048
+#: admin/cpt/options/feeds-cpt-options.php:5370
 msgid "Hashtag Search Type"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3051
-#: admin/cpt/options/feeds-cpt-options.php:5377
+#: admin/cpt/options/feeds-cpt-options.php:3056
+#: admin/cpt/options/feeds-cpt-options.php:5382
 msgid "Top Media (Most Interactions)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3055
-#: admin/cpt/options/feeds-cpt-options.php:5373
+#: admin/cpt/options/feeds-cpt-options.php:3060
+#: admin/cpt/options/feeds-cpt-options.php:5378
 msgid "Recent Media"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3068
+#: admin/cpt/options/feeds-cpt-options.php:3073
 msgid "Number of Pics <br/><small>More than 6 Requires <a target=\"_blank\" href=\"https://www.slickremix.com/downloads/feed-them-social-premium-extension/\">Premium</a>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3076
-#: admin/cpt/options/feeds-cpt-options.php:3714
+#: admin/cpt/options/feeds-cpt-options.php:3081
+#: admin/cpt/options/feeds-cpt-options.php:3719
 msgid "6 is default value"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3104
+#: admin/cpt/options/feeds-cpt-options.php:3109
 msgid "Gallery Width"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3105
+#: admin/cpt/options/feeds-cpt-options.php:3110
 msgid "Leave blank for auto height"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3126
+#: admin/cpt/options/feeds-cpt-options.php:3131
 msgid "Gallery Fixed Height"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3126
+#: admin/cpt/options/feeds-cpt-options.php:3131
 msgid "Creates scrolling feed."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3148
+#: admin/cpt/options/feeds-cpt-options.php:3153
 msgid "Profile"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3150
+#: admin/cpt/options/feeds-cpt-options.php:3155
 msgid "Show Profile Info"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3173
+#: admin/cpt/options/feeds-cpt-options.php:3178
 msgid "Show Profile Photo"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3197
+#: admin/cpt/options/feeds-cpt-options.php:3202
 msgid "Show Profile Stats"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3218
+#: admin/cpt/options/feeds-cpt-options.php:3223
 msgid "Show Profile Name"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3239
+#: admin/cpt/options/feeds-cpt-options.php:3244
 msgid "Show Profile Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3286
+#: admin/cpt/options/feeds-cpt-options.php:3291
 msgid "Responsive Gallery"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3291
+#: admin/cpt/options/feeds-cpt-options.php:3296
 msgid "NOTE: "
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3291
+#: admin/cpt/options/feeds-cpt-options.php:3296
 msgid "Choose the Number of Columns and Space between each image below. Please add px after any number."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3291
+#: admin/cpt/options/feeds-cpt-options.php:3296
 msgid "View demo"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3342
+#: admin/cpt/options/feeds-cpt-options.php:3347
 msgid "Force Columns"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3342
+#: admin/cpt/options/feeds-cpt-options.php:3347
 msgid "No, allows images to be responsive for smaller devices. Yes, forces columns."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3384
+#: admin/cpt/options/feeds-cpt-options.php:3389
 msgid "Size of Instagram Icon"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3385
+#: admin/cpt/options/feeds-cpt-options.php:3390
 msgid "Visible when hovering over photo"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3403
+#: admin/cpt/options/feeds-cpt-options.php:3408
 msgid "Date, Heart & Comment icon"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3403
+#: admin/cpt/options/feeds-cpt-options.php:3408
 msgid "Heart and Comment counts only work when using Feed Type: Business Feed."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3410
+#: admin/cpt/options/feeds-cpt-options.php:3415
 msgid "Show"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3431
+#: admin/cpt/options/feeds-cpt-options.php:3436
 msgid "Load more posts"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3461
+#: admin/cpt/options/feeds-cpt-options.php:3466
 msgid "Load more style"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3562
-#: admin/cpt/options/feeds-cpt-options.php:3833
+#: admin/cpt/options/feeds-cpt-options.php:3567
+#: admin/cpt/options/feeds-cpt-options.php:3838
 msgid "Display Photos & Videos"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3597
-#: admin/cpt/options/feeds-cpt-options.php:4091
+#: admin/cpt/options/feeds-cpt-options.php:3602
+#: admin/cpt/options/feeds-cpt-options.php:4096
 msgid "<br/><small>More than 6 Requires <a target=\"_blank\" href=\"https://www.slickremix.com/downloads/feed-them-social-premium-extension/\">Premium</a>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3637
-#: admin/cpt/options/feeds-cpt-options.php:5536
+#: admin/cpt/options/feeds-cpt-options.php:3642
+#: admin/cpt/options/feeds-cpt-options.php:5541
 msgid "User Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3641
-#: admin/cpt/options/feeds-cpt-options.php:5542
+#: admin/cpt/options/feeds-cpt-options.php:3646
+#: admin/cpt/options/feeds-cpt-options.php:5547
 msgid "Hashtag & Search"
-msgstr ""
-
-#: admin/cpt/options/feeds-cpt-options.php:3651
-#: admin/cpt/options/feeds-cpt-options.php:5555
-msgid "Twitter Search Name"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:3656
 #: admin/cpt/options/feeds-cpt-options.php:5560
+msgid "Twitter Search Name"
+msgstr ""
+
+#: admin/cpt/options/feeds-cpt-options.php:3661
+#: admin/cpt/options/feeds-cpt-options.php:5565
 msgid "You can use #hashtag, @person, or single words. For example, weather or weather-channel.<br/><br/>If you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. <strong style=\"color:#225DE2;\">from:user_name%#YourHashtag</strong>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3674
+#: admin/cpt/options/feeds-cpt-options.php:3679
 msgid "Search"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3683
 #: admin/cpt/options/feeds-cpt-options.php:3688
-#: admin/cpt/options/feeds-cpt-options.php:5588
-#: admin/cpt/options/feeds-cpt-options.php:5592
+#: admin/cpt/options/feeds-cpt-options.php:3693
+#: admin/cpt/options/feeds-cpt-options.php:5593
+#: admin/cpt/options/feeds-cpt-options.php:5597
 msgid "Twitter Name"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3688
+#: admin/cpt/options/feeds-cpt-options.php:3693
 msgid "Twitter Name is only required if you want to show a"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3688
+#: admin/cpt/options/feeds-cpt-options.php:3693
 msgid "Follow Button"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3688
-#: admin/cpt/options/feeds-cpt-options.php:5592
+#: admin/cpt/options/feeds-cpt-options.php:3693
+#: admin/cpt/options/feeds-cpt-options.php:5597
 msgid "You must copy your"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3688
-#: admin/cpt/options/feeds-cpt-options.php:5592
+#: admin/cpt/options/feeds-cpt-options.php:3693
+#: admin/cpt/options/feeds-cpt-options.php:5597
 msgid "and paste it in the first input below."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3707
+#: admin/cpt/options/feeds-cpt-options.php:3712
 msgid "# of Tweets"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3730
+#: admin/cpt/options/feeds-cpt-options.php:3735
 msgid "Twitter Fixed Height"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3747
+#: admin/cpt/options/feeds-cpt-options.php:3752
 msgid "Show Cover Photo"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3769
+#: admin/cpt/options/feeds-cpt-options.php:3774
 msgid "Stats Bar"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3791
+#: admin/cpt/options/feeds-cpt-options.php:3796
 msgid "Show Retweets"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:3813
+#: admin/cpt/options/feeds-cpt-options.php:3818
 msgid "Show Replies"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4124
-#: admin/cpt/options/feeds-cpt-options.php:5720
+#: admin/cpt/options/feeds-cpt-options.php:4129
+#: admin/cpt/options/feeds-cpt-options.php:5725
 msgid "Channel Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4128
-#: admin/cpt/options/feeds-cpt-options.php:5724
+#: admin/cpt/options/feeds-cpt-options.php:4133
+#: admin/cpt/options/feeds-cpt-options.php:5729
 msgid "Channel's Specific Playlist"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4133
-#: admin/cpt/options/feeds-cpt-options.php:5730
+#: admin/cpt/options/feeds-cpt-options.php:4138
+#: admin/cpt/options/feeds-cpt-options.php:5735
 msgid "User's Most Recent Videos"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4137
-#: admin/cpt/options/feeds-cpt-options.php:5735
+#: admin/cpt/options/feeds-cpt-options.php:4142
+#: admin/cpt/options/feeds-cpt-options.php:5740
 msgid "User's Specific Playlist"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4141
+#: admin/cpt/options/feeds-cpt-options.php:4146
 msgid "Single Video with title, date & description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4151
+#: admin/cpt/options/feeds-cpt-options.php:4156
 msgid "Youtube Username"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4152
+#: admin/cpt/options/feeds-cpt-options.php:4157
 msgid "You must copy your YouTube <strong>Username</strong> url and paste it below.<br/><strong>Example:</strong>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4174
+#: admin/cpt/options/feeds-cpt-options.php:4179
 msgid "Youtube Playlist ID"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4175
+#: admin/cpt/options/feeds-cpt-options.php:4180
 msgid "Copy your YouTube <strong>Playlist</strong> and <strong>Channel</strong> url link and paste them below. URLs should look similar to Example urls below. <br/><br/><strong>Playlist ID:</strong>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4175
+#: admin/cpt/options/feeds-cpt-options.php:4180
 msgid "Channel ID:"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4198
+#: admin/cpt/options/feeds-cpt-options.php:4203
 msgid "Youtube Playlist ID "
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4199
+#: admin/cpt/options/feeds-cpt-options.php:4204
 msgid "Copy your YouTube <strong>Playlist</strong> and <strong>Username</strong> url and paste them below. URLs should look similar to Example urls below.<br/><br/><strong>Playlist ID:</strong>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4199
+#: admin/cpt/options/feeds-cpt-options.php:4204
 msgid "Username:"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4222
+#: admin/cpt/options/feeds-cpt-options.php:4227
 msgid "Youtube Username<br/><small>For Subscribe button. More on Style Options tab.</small>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4243
+#: admin/cpt/options/feeds-cpt-options.php:4248
 msgid "Youtube Channel ID"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4244
+#: admin/cpt/options/feeds-cpt-options.php:4249
 msgid "Copy your YouTube <strong>Channel</strong> url and paste it below.<br/><strong>Example:</strong>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4267
+#: admin/cpt/options/feeds-cpt-options.php:4272
 msgid "Youtube Channel ID<br/><small>For Subscribe button. More on Style Options tab.</small>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4288
+#: admin/cpt/options/feeds-cpt-options.php:4293
 msgid "Single Youtube Video ID"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4289
+#: admin/cpt/options/feeds-cpt-options.php:4294
 msgid "Copy your <strong>YouTube Video</strong> url link and paste it below.<br/><strong>Video URL:</strong>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4311
+#: admin/cpt/options/feeds-cpt-options.php:4316
 msgid "# of videos"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4316
+#: admin/cpt/options/feeds-cpt-options.php:4321
 msgid "4 is default value"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4333
+#: admin/cpt/options/feeds-cpt-options.php:4338
 msgid "First Video Display"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4336
+#: admin/cpt/options/feeds-cpt-options.php:4341
 msgid "Display First video full size"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4360
+#: admin/cpt/options/feeds-cpt-options.php:4365
 msgid "Show Large Video Title"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4383
+#: admin/cpt/options/feeds-cpt-options.php:4388
 msgid "Show Large Video Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4404
+#: admin/cpt/options/feeds-cpt-options.php:4409
 msgid "Video Thumbnails"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4407
+#: admin/cpt/options/feeds-cpt-options.php:4412
 msgid "Click thumbnail to play Video"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4413
+#: admin/cpt/options/feeds-cpt-options.php:4418
 msgid "Play on Page"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4417
+#: admin/cpt/options/feeds-cpt-options.php:4422
 msgid "Open in YouTube"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4421
+#: admin/cpt/options/feeds-cpt-options.php:4426
 msgid "Open in Popup (Premium Version Required)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4434
+#: admin/cpt/options/feeds-cpt-options.php:4439
 msgid "# of videos in each row"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4474
+#: admin/cpt/options/feeds-cpt-options.php:4479
 msgid "Hide first thumbnail"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4474
+#: admin/cpt/options/feeds-cpt-options.php:4479
 msgid "Useful if playing videos on the page."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4498
+#: admin/cpt/options/feeds-cpt-options.php:4503
 msgid "Space between video thumbnails"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4516
+#: admin/cpt/options/feeds-cpt-options.php:4521
 msgid "Force thumbnails rows"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4516
+#: admin/cpt/options/feeds-cpt-options.php:4521
 msgid "No, allows video images to be responsive for smaller devices. Yes, forces selected rows."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4540
+#: admin/cpt/options/feeds-cpt-options.php:4545
 msgid "High quality thumbnail images"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4564
+#: admin/cpt/options/feeds-cpt-options.php:4569
 msgid "Align Thumbs"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4564
+#: admin/cpt/options/feeds-cpt-options.php:4569
 msgid "Bottom (default), Right, or left of Videoo"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4570
-#: admin/cpt/options/feeds-cpt-options.php:4601
+#: admin/cpt/options/feeds-cpt-options.php:4575
+#: admin/cpt/options/feeds-cpt-options.php:4606
 msgid "Below Video"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4595
+#: admin/cpt/options/feeds-cpt-options.php:4600
 msgid "Align Title, Description etc."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4595
+#: admin/cpt/options/feeds-cpt-options.php:4600
 msgid "Bottom (default), Right, or left of Video"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4626
+#: admin/cpt/options/feeds-cpt-options.php:4631
 msgid "Video/Thumbs width options"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4626
-#: admin/cpt/options/feeds-cpt-options.php:4661
+#: admin/cpt/options/feeds-cpt-options.php:4631
+#: admin/cpt/options/feeds-cpt-options.php:4666
 msgid "Sizes: 80/20, 60/40 or 50/50"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4636
+#: admin/cpt/options/feeds-cpt-options.php:4641
 msgid "Option 1 (Video 80%, Thumbs Container 20%)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4640
+#: admin/cpt/options/feeds-cpt-options.php:4645
 msgid "Option 1 (Video 60%, Thumbs Container 40%)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4644
+#: admin/cpt/options/feeds-cpt-options.php:4649
 msgid "Option 1 (Video 50%, Thumbs Container 50%)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4661
+#: admin/cpt/options/feeds-cpt-options.php:4666
 msgid "Video/Info width options"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4671
+#: admin/cpt/options/feeds-cpt-options.php:4676
 msgid "Option 1 (Video 80%, Info Container 20%)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4675
+#: admin/cpt/options/feeds-cpt-options.php:4680
 msgid "Option 1 (Video 60%, Info Container 40%)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4679
+#: admin/cpt/options/feeds-cpt-options.php:4684
 msgid "Option 1 (Video 50%, Info Container 50%)"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4825
+#: admin/cpt/options/feeds-cpt-options.php:4830
 msgid "Comments"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4827
+#: admin/cpt/options/feeds-cpt-options.php:4832
 msgid "# of Comments"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4827
+#: admin/cpt/options/feeds-cpt-options.php:4832
 msgid "Maximum amount is 50. API Key Required."
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4870
+#: admin/cpt/options/feeds-cpt-options.php:4875
 msgid "Combined Streams Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4873
+#: admin/cpt/options/feeds-cpt-options.php:4878
 msgid "Combined Total # of Posts"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4894
+#: admin/cpt/options/feeds-cpt-options.php:4899
 msgid "# of Posts per Social Network"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4894
+#: admin/cpt/options/feeds-cpt-options.php:4899
 msgid "NOT the combined total"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4901
+#: admin/cpt/options/feeds-cpt-options.php:4906
 msgid "1 is default number"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4916
+#: admin/cpt/options/feeds-cpt-options.php:4921
 msgid "  # of Words in Post Description"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4935
+#: admin/cpt/options/feeds-cpt-options.php:4940
 msgid "Center Feed Container"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4959
+#: admin/cpt/options/feeds-cpt-options.php:4964
 msgid "Feed Fixed Height"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4997
+#: admin/cpt/options/feeds-cpt-options.php:5002
 msgid "Show Social Icon"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:4997
+#: admin/cpt/options/feeds-cpt-options.php:5002
 msgid "Right, Left or No"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5025
+#: admin/cpt/options/feeds-cpt-options.php:5030
 msgid "Bottom (default) or Top of Post"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5095
+#: admin/cpt/options/feeds-cpt-options.php:5100
 msgid "Padding"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5226
+#: admin/cpt/options/feeds-cpt-options.php:5231
 msgid "Combine Instagram"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5283
+#: admin/cpt/options/feeds-cpt-options.php:5288
 msgid "Instagram Type"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5293
+#: admin/cpt/options/feeds-cpt-options.php:5298
 msgid "Basic Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5298
+#: admin/cpt/options/feeds-cpt-options.php:5303
 msgid "Business Feed"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5307
+#: admin/cpt/options/feeds-cpt-options.php:5312
 msgid "Instagram Hashtag"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5347
+#: admin/cpt/options/feeds-cpt-options.php:5352
 msgid "Add your hashtag below. <strong>DO NOT</strong> add the #, just the name. Only one hashtag allowed at this time. Hashtag media only stays on Instagram for 24 hours and the API does not give us a date/time. That also means if you decide to combine this feed these media posts will appear before any other posts because we cannot sort them by date. In order to use the Instagram hashtag feed you must have your Instagram account linked to a Facebook Business Page. <a target=\"_blank\" href=\"https://www.slickremix.com/docs/link-instagram-account-to-facebook/\">Read Instructions.</a>"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5420
+#: admin/cpt/options/feeds-cpt-options.php:5425
 msgid "Combine Facebook"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5470
+#: admin/cpt/options/feeds-cpt-options.php:5475
 msgid "Combine Twitter"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5646
+#: admin/cpt/options/feeds-cpt-options.php:5651
 msgid "YouTube"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5659
+#: admin/cpt/options/feeds-cpt-options.php:5664
 msgid "Combine Youtube"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5714
+#: admin/cpt/options/feeds-cpt-options.php:5719
 msgid "Youtube Type"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5754
+#: admin/cpt/options/feeds-cpt-options.php:5759
 msgid "YouTube Username"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5775
+#: admin/cpt/options/feeds-cpt-options.php:5780
 msgid "YouTube Playlist ID"
 msgstr ""
 
-#: admin/cpt/options/feeds-cpt-options.php:5793
+#: admin/cpt/options/feeds-cpt-options.php:5798
 msgid "YouTube Channel ID"
 msgstr ""
 
@@ -3060,63 +3060,63 @@ msgstr ""
 msgid "Documentation on date and time formatting"
 msgstr ""
 
-#: admin/settings/settings-page.php:953 includes/feed-functions.php:396
+#: admin/settings/settings-page.php:953 includes/feed-functions.php:427
 msgid "second"
 msgstr ""
 
-#: admin/settings/settings-page.php:954 includes/feed-functions.php:400
+#: admin/settings/settings-page.php:954 includes/feed-functions.php:431
 msgid "seconds"
 msgstr ""
 
-#: admin/settings/settings-page.php:955 includes/feed-functions.php:404
+#: admin/settings/settings-page.php:955 includes/feed-functions.php:435
 msgid "minute"
 msgstr ""
 
-#: admin/settings/settings-page.php:956 includes/feed-functions.php:408
+#: admin/settings/settings-page.php:956 includes/feed-functions.php:439
 msgid "minutes"
 msgstr ""
 
-#: admin/settings/settings-page.php:957 includes/feed-functions.php:412
+#: admin/settings/settings-page.php:957 includes/feed-functions.php:443
 msgid "hour"
 msgstr ""
 
-#: admin/settings/settings-page.php:958 includes/feed-functions.php:416
+#: admin/settings/settings-page.php:958 includes/feed-functions.php:447
 msgid "hours"
 msgstr ""
 
-#: admin/settings/settings-page.php:959 includes/feed-functions.php:420
+#: admin/settings/settings-page.php:959 includes/feed-functions.php:451
 msgid "day"
 msgstr ""
 
-#: admin/settings/settings-page.php:960 includes/feed-functions.php:425
+#: admin/settings/settings-page.php:960 includes/feed-functions.php:456
 msgid "days"
 msgstr ""
 
-#: admin/settings/settings-page.php:961 includes/feed-functions.php:429
+#: admin/settings/settings-page.php:961 includes/feed-functions.php:460
 msgid "week"
 msgstr ""
 
-#: admin/settings/settings-page.php:962 includes/feed-functions.php:433
+#: admin/settings/settings-page.php:962 includes/feed-functions.php:464
 msgid "weeks"
 msgstr ""
 
-#: admin/settings/settings-page.php:963 includes/feed-functions.php:437
+#: admin/settings/settings-page.php:963 includes/feed-functions.php:468
 msgid "month"
 msgstr ""
 
-#: admin/settings/settings-page.php:964 includes/feed-functions.php:441
+#: admin/settings/settings-page.php:964 includes/feed-functions.php:472
 msgid "months"
 msgstr ""
 
-#: admin/settings/settings-page.php:965 includes/feed-functions.php:445
+#: admin/settings/settings-page.php:965 includes/feed-functions.php:476
 msgid "year"
 msgstr ""
 
-#: admin/settings/settings-page.php:966 includes/feed-functions.php:449
+#: admin/settings/settings-page.php:966 includes/feed-functions.php:480
 msgid "years"
 msgstr ""
 
-#: admin/settings/settings-page.php:967 includes/feed-functions.php:453
+#: admin/settings/settings-page.php:967 includes/feed-functions.php:484
 msgid "ago"
 msgstr ""
 
@@ -3236,15 +3236,15 @@ msgstr ""
 msgid "Set Cache Time %1$s%2$s%3$s"
 msgstr ""
 
-#: includes/feed-functions.php:670 includes/feed-functions.php:707
+#: includes/feed-functions.php:701 includes/feed-functions.php:738
 msgid "That is not an FTS shortcode!"
 msgstr ""
 
-#: includes/feed-functions.php:699
+#: includes/feed-functions.php:730
 msgid "Looks like you entered an invalid URL"
 msgstr ""
 
-#: includes/feed-functions.php:1117
+#: includes/feed-functions.php:1150
 msgid "Social Share Options"
 msgstr ""
 
@@ -3301,23 +3301,23 @@ msgstr ""
 msgid "No More Tweets"
 msgstr ""
 
-#: includes/feeds/twitter/class-twitter-feed.php:1081
+#: includes/feeds/twitter/class-twitter-feed.php:1095
 msgid "Oops, Somethings wrong. "
 msgstr ""
 
-#: includes/feeds/twitter/class-twitter-feed.php:1083
+#: includes/feeds/twitter/class-twitter-feed.php:1097
 msgid " Please check that you have entered your Twitter API token information correctly on the Twitter Options page of Feed Them Social."
 msgstr ""
 
-#: includes/feeds/twitter/class-twitter-feed.php:1086
+#: includes/feeds/twitter/class-twitter-feed.php:1100
 msgid " Please check the Twitter Username you have entered is correct in your shortcode for Feed Them Social."
 msgstr ""
 
-#: includes/feeds/twitter/class-twitter-feed.php:1090
+#: includes/feeds/twitter/class-twitter-feed.php:1104
 msgid " This account has no tweets. Please Tweet to see this feed. Feed Them Social."
 msgstr ""
 
-#: includes/feeds/twitter/class-twitter-feed.php:1105
+#: includes/feeds/twitter/class-twitter-feed.php:1119
 msgid "No Tweets available. Login as Admin to see more details."
 msgstr ""
 

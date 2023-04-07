@@ -346,7 +346,7 @@ class updater_license_page {
             $license_data = json_decode($response[$plugin_key]);
 
             if (isset($license_data->payment_id) && !empty($license_data->payment_id) && isset($license_data->payment_id) && !empty($license_data->payment_id)) {
-                echo sprintf(__('%1$sUpgrade License%2$s', 'feed_them_social'),
+                echo sprintf(__('%1$sUpgrade License%2$s', 'feed-them-social'),
                     '<a class="edd-upgrade-license-btn button-secondary" href="'.esc_url('https://www.slickremix.com/my-account/?&view=upgrades&license_key=' . $license_data->license_id).'" target="_blank">',
                     '</a>'
                 );
@@ -439,7 +439,7 @@ class updater_license_page {
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
             } else {
-                $message = __('An error occurred, please try again.', 'feed_them_social');
+                $message = __('An error occurred, please try again.', 'feed-them-social');
             }
 
         } else {
@@ -452,25 +452,25 @@ class updater_license_page {
                     case 'expired' :
 
                         $message = sprintf(
-                            __('Your license key expired on %s.', 'feed_them_social'),
+                            __('Your license key expired on %s.', 'feed-them-social'),
                             date_i18n(get_option('date_format'), strtotime($license_data->expires, time()))
                         );
                         break;
 
                     case 'revoked' :
 
-                        $message = __('Your license key has been disabled.', 'feed_them_social');
+                        $message = __('Your license key has been disabled.', 'feed-them-social');
                         break;
 
                     case 'missing' :
 
-                        $message = __('Invalid license.', 'feed_them_social');
+                        $message = __('Invalid license.', 'feed-them-social');
                         break;
 
                     case 'invalid' :
                     case 'site_inactive' :
 
-                        $message = __('Your license is not active for this URL.', 'feed_them_social');
+                        $message = __('Your license is not active for this URL.', 'feed-them-social');
                         break;
 
 					case 'item_name_mismatch':
@@ -479,12 +479,12 @@ class updater_license_page {
 
                     case 'no_activations_left':
 
-                        $message = __('Your license key has reached its activation limit.', 'feed_them_social');
+                        $message = __('Your license key has reached its activation limit.', 'feed-them-social');
                         break;
 
                     default :
 
-                        $message = __('An error occurred, please try again.', 'feed_them_social');
+                        $message = __('An error occurred, please try again.', 'feed-them-social');
                         break;
                 }
             }
@@ -542,7 +542,7 @@ class updater_license_page {
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
             } else {
-                $message = __('An error occurred, please try again.', 'feed_them_social');
+                $message = __('An error occurred, please try again.', 'feed-them-social');
             }
         }
 

@@ -121,7 +121,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 = Version 4.1.3 Friday, April 7th, 2023 =
   * FIX: Translations were broken from wrong Domain Path set in main file.
   * FIX: Text strings had the wrong Text Domain set. The strings with feed_them_social are now updated to feed-them-social.
-  * NOTE: We are working to get the plugin translated into more languages. If you speak another language other then English, we could use your help. Please go to [Feed Them Social Translations](https://translate.wordpress.org/projects/wp-plugins/feed-them-social/) Any languages beyond 90% translated will automatically be included in the plugin.
+  * NOTE: We are working to get the plugin translated into more languages. If you speak another language other than English, we could use your help. Please go to [Feed Them Social Translations](https://translate.wordpress.org/projects/wp-plugins/feed-them-social/) Any languages beyond 90% translated will automatically be included in the plugin.
 
 = Version 4.1.2 Tuesday, April 4th, 2023 =
   * FIX: Twitter Feed: We have created a new APP that allows access to v1.1 of the API. To get your feed working again simply click the Get Access Token button under your Twitter Feed.

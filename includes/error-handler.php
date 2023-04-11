@@ -202,7 +202,7 @@ class fts_error_handler {
 	}
 
 	/**
-	 * Youtube Error Check
+	 * YouTube Error Check
 	 *
 	 * @param string|array $feed_data feed data.
 	 * @return string|array

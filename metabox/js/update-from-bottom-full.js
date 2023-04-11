@@ -331,7 +331,7 @@ function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
                     fts_reload_toggle_click();
                     break;
                 case 'combined-youtube':
-                    console.log('Combined Youtube Name');
+                    console.log('Combined YouTube Name');
                     // Make sure when we reload our toggle click option otherwise users won't be able to
                     // see the token options if they so desire.
                     fts_reload_toggle_click();

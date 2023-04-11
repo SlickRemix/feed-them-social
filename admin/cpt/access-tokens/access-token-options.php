@@ -193,10 +193,10 @@ class Access_Options {
 					break;
 
 				case 'youtube-feed-type':
-					// Youtube Access Functions.
+					// YouTube Access Functions.
 					$youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
 
-                    // Load Youtube Token Option Fields.
+                    // Load YouTube Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
 
                     // Load the options.
@@ -298,7 +298,7 @@ class Access_Options {
                             // Twitter Access Functions.
                             $youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
 
-                            // Load Youtube Token Option Fields.
+                            // Load YouTube Token Option Fields.
                             echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
 
                             // Get Access button for youtube.
@@ -308,7 +308,7 @@ class Access_Options {
                         </div>
                         <?php
 
-                        // Load Combine Youtube Token Option Fields.
+                        // Load Combine YouTube Token Option Fields.
                         echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_options'], null, $feed_cpt_id );
                       ?>
                 </div>
@@ -362,7 +362,7 @@ class Access_Options {
                 if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
                     $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
                     if ( 'graph.facebook.com' !== $next_url_host && $next_url_host !== 'graph.instagram.com' ) {
-                        wp_die( esc_html__( 'Invalid facebook url', 'feed-them-social' ), 403 );
+                        wp_die( esc_html__( 'Invalid Facebook URL', 'feed-them-social' ), 403 );
                     }
                 }
                 $fb_token_response          = isset( $_REQUEST['next_url'] ) ? wp_remote_fopen( esc_url( $_REQUEST['next_url'] ) ) : $fb_url;
@@ -377,7 +377,7 @@ class Access_Options {
                 if ( isset( $_GET['next_location_url'] ) && !empty( $_GET['next_location_url'] ) ) {
                     $next_location_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
                     if ( 'graph.facebook.com' !== $next_location_url_host && $next_url_host !== 'graph.instagram.com' ) {
-                        wp_die( esc_html__( 'Invalid facebook url', 'feed-them-social' ), 403 );
+                        wp_die( esc_html__( 'Invalid Facebook URL', 'feed-them-social' ), 403 );
                     }
                 }
 
@@ -784,7 +784,7 @@ class Access_Options {
                 echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more">' . esc_html( 'Load More', 'feed-them-social' ) . '</div>';
             }//End make sure it's not ajaxing
 
-            // Lastly if we can't find a next url we unset the next url from the page to not let the loadmore button be active.
+            // Lastly if we can't find a next url we unset the next url from the page to not let the  Load More be active.
             if ( isset( $_GET['locations'] ) ) {
                 unset( $_REQUEST['next_location_url'] );
             } else {

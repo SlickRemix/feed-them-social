@@ -79,7 +79,7 @@ class Feed_Them_Social {
 		// Twitter Additional Options.
 		$twitter_additional_options = new feedthemsocial\Twitter_Additional_Options();
 
-		// Youtube Additional Options.
+		// YouTube Additional Options.
 		$youtube_additional_options = new feedthemsocial\Youtube_Additional_Options();
 
 		// Feed Options.
@@ -121,7 +121,7 @@ class Feed_Them_Social {
 		// Twitter Feed.
 		$twitter_feed = new feedthemsocial\Twitter_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
-		// Youtube Feed.
+		// YouTube Feed.
 		$youtube_feed = new feedthemsocial\Youtube_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
 		// Check if Extension is active if so call class.
@@ -325,7 +325,7 @@ class Feed_Them_Social {
 		// Twitter Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/twitter-access-token.php';
 
-		// Youtube Access Token API.
+		// YouTube Access Token API.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/youtube-access-token.php';
 
 		// Access Token Options.
@@ -343,7 +343,7 @@ class Feed_Them_Social {
 		// Twitter Additional Options
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/twitter-cpt-additional-options.php';
 
-		// Youtube Additional Options
+		// YouTube Additional Options
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/youtube-cpt-additional-options.php';
 
 		// Feeds CPT Class.

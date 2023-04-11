@@ -653,7 +653,7 @@ class Feed_Functions {
     /**
      * My FTS Ajaxurl
      *
-     * Ajax var on front end for twitter videos and loadmore button (if premium active).
+     * Ajax var on front end for twitter videos and  Load More (if premium active).
      *
      * @since 1.9.6
      */

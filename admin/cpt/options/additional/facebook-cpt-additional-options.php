@@ -221,7 +221,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Recommended & Text Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
+							esc_html__( 'Recommended Text Color %1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),

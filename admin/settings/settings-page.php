@@ -331,7 +331,7 @@ class Settings_Page {
                         		'type'    => 'select',
                         		'options' => $this->settings_functions->fts_get_timezone_setting_options(),
                         		'std'     => 'America/Los_Angeles',
-                                'tooltip_desc'    => __( 'This option is only for FaceBook or Twitter. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
+                                'tooltip_desc'    => __( 'This option is only for Facebook or Twitter. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
 
                         ),
                         'date_time_format' => array(
@@ -1024,7 +1024,7 @@ class Settings_Page {
         <div class="clear"></div>
         <p>
             <?php
-            _e( 'Use attachment renaming when importing/uploading attachments. This will overwrite original Filename.', 'feed-them-social' ); ?>
+            _e( 'Use attachment renaming when importing/uploading attachments. This will overwrite the original filename.', 'feed-them-social' ); ?>
             <br>
             <?php
             _e( '<strong>Below are examples of what the attachment filenames and titles will look like after uploading</strong>: (Click "Save All Changes" to view Examples)', 'feed-them-social' ); ?>

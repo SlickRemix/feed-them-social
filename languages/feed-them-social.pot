@@ -73,7 +73,7 @@ msgstr ""
 #: includes/feeds/facebook/class-facebook-feed.php:367
 #: includes/feeds/facebook/class-facebook-feed.php:1248
 #: includes/feeds/instagram/class-instagram-feed.php:203
-msgid "Invalid facebook url"
+msgid "Invalid Facebook URL"
 msgstr ""
 
 #: admin/cpt/access-tokens/access-token-options.php:426
@@ -158,7 +158,7 @@ msgid "%1$s%2$sCreate Instagram Feed%3$s"
 msgstr ""
 
 #: admin/cpt/access-tokens/single/instagram-access-token.php:215
-msgid "%1$sOh No something's wrong. Instagram Responded with: %2$s. Please click the button above to retrieve a new Access Token.%3$s"
+msgid "%1$sOh No something's wrong. Instagram responded with: %2$s. Please click the button above to retrieve a new Access Token.%3$s"
 msgstr ""
 
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:208
@@ -478,7 +478,7 @@ msgid "Recommended Background Color%1$sApplies to Overall Rating too.%2$s"
 msgstr ""
 
 #: admin/cpt/options/additional/facebook-cpt-additional-options.php:224
-msgid "Recommended & Text Color%1$sApplies to Overall Rating too.%2$s"
+msgid "Recommended Text Color %1$sApplies to Overall Rating too.%2$s"
 msgstr ""
 
 #: admin/cpt/options/additional/facebook-cpt-additional-options.php:251
@@ -1373,7 +1373,7 @@ msgid "Grid Posts Background Color"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:1297
-msgid "Loadmore Button"
+msgid " Load More"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:1323
@@ -1709,7 +1709,7 @@ msgstr ""
 #: admin/cpt/options/feeds-cpt-options.php:2325
 #: admin/cpt/options/feeds-cpt-options.php:4038
 #: admin/cpt/options/feeds-cpt-options.php:5159
-msgid "Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s."
+msgid "Define width and space between each post. You must add px after number. %1$sLearn how%2$s to make the grid responsive."
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:2349
@@ -1804,10 +1804,6 @@ msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:2579
 msgid "Center feed. Add space above/below."
-msgstr ""
-
-#: admin/cpt/options/feeds-cpt-options.php:2584
-msgid "-6px auto 1px auto"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:2601
@@ -2141,7 +2137,7 @@ msgid "Single Video with title, date & description"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4156
-msgid "Youtube Username"
+msgid "YouTube Username"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4157
@@ -2149,7 +2145,7 @@ msgid "You must copy your YouTube <strong>Username</strong> url and paste it bel
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4179
-msgid "Youtube Playlist ID"
+msgid "YouTube Playlist ID"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4180
@@ -2161,7 +2157,7 @@ msgid "Channel ID:"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4203
-msgid "Youtube Playlist ID "
+msgid "YouTube Playlist ID "
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4204
@@ -2173,11 +2169,11 @@ msgid "Username:"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4227
-msgid "Youtube Username<br/><small>For Subscribe button. More on Style Options tab.</small>"
+msgid "YouTube Username<br/><small>For Subscribe button. More on Style Options tab.</small>"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4248
-msgid "Youtube Channel ID"
+msgid "YouTube Channel ID"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4249
@@ -2185,11 +2181,11 @@ msgid "Copy your YouTube <strong>Channel</strong> url and paste it below.<br/><s
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4272
-msgid "Youtube Channel ID<br/><small>For Subscribe button. More on Style Options tab.</small>"
+msgid "YouTube Channel ID<br/><small>For Subscribe button. More on Style Options tab.</small>"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4293
-msgid "Single Youtube Video ID"
+msgid "Single YouTube Video ID"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4294
@@ -2273,7 +2269,7 @@ msgid "Align Thumbs"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4569
-msgid "Bottom (default), Right, or left of Videoo"
+msgid "Bottom (default), Right, or left of Video"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:4575
@@ -2427,7 +2423,7 @@ msgid "Combine Youtube"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:5719
-msgid "Youtube Type"
+msgid "YouTube Type"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:5759
@@ -2480,7 +2476,7 @@ msgid "The key you entered belongs to a bundle, please use the product specific 
 msgstr ""
 
 #: admin/settings/settings-functions.php:869
-msgid "unknown_error"
+msgid "Unknown error."
 msgstr ""
 
 #: admin/settings/settings-functions.php:870
@@ -2548,7 +2544,7 @@ msgid "(GMT-09:00) Alaska"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1063
-msgid "((GMT-08:00) Tijuana, Baja California"
+msgid "(GMT-08:00) Tijuana, Baja California"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1064
@@ -2612,7 +2608,7 @@ msgid "(GMT-04:00) La Paz"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1079
-msgid "(GMT-04:00) Faukland Islands"
+msgid "(GMT-04:00) Falkland Islands"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1080
@@ -2672,7 +2668,7 @@ msgid "(GMT) Greenwich Mean Time : Dublin"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1094
-msgid "GMT) Greenwich Mean Time : Lisbon"
+msgid "(GMT) Greenwich Mean Time : Lisbon"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1095
@@ -2700,7 +2696,7 @@ msgid "(GMT+01:00) Windhoek"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1101
-msgid "GMT+02:00) Beirut"
+msgid "(GMT+02:00) Beirut"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1102
@@ -2780,7 +2776,7 @@ msgid "(GMT+06:30) Yangon (Rangoon)"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1121
-msgid "GMT+07:00) Bangkok, Hanoi, Jakarta"
+msgid "(GMT+07:00) Bangkok, Hanoi, Jakarta"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1122
@@ -2788,7 +2784,7 @@ msgid "(GMT+07:00) Krasnoyarsk"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1123
-msgid "GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi"
+msgid "(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1124
@@ -2860,7 +2856,7 @@ msgid "(GMT+12:00) Fiji, Kamchatka, Marshall Is."
 msgstr ""
 
 #: admin/settings/settings-functions.php:1141
-msgid "GMT+12:45) Chatham Islands"
+msgid "(GMT+12:45) Chatham Islands"
 msgstr ""
 
 #: admin/settings/settings-functions.php:1142
@@ -2932,7 +2928,7 @@ msgid "TimeZone"
 msgstr ""
 
 #: admin/settings/settings-page.php:334
-msgid "This option is only for FaceBook or Twitter. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct."
+msgid "This option is only for Facebook or Twitter. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct."
 msgstr ""
 
 #: admin/settings/settings-page.php:339
@@ -3125,7 +3121,7 @@ msgid "Custom Date & Time Options"
 msgstr ""
 
 #: admin/settings/settings-page.php:1027
-msgid "Use attachment renaming when importing/uploading attachments. This will overwrite original Filename."
+msgid "Use attachment renaming when importing/uploading attachments. This will overwrite the original filename."
 msgstr ""
 
 #: admin/settings/settings-page.php:1030
@@ -3302,7 +3298,7 @@ msgid "No More Tweets"
 msgstr ""
 
 #: includes/feeds/twitter/class-twitter-feed.php:1095
-msgid "Oops, Somethings wrong. "
+msgid "Oops, Something is wrong. "
 msgstr ""
 
 #: includes/feeds/twitter/class-twitter-feed.php:1097
@@ -3322,7 +3318,7 @@ msgid "No Tweets available. Login as Admin to see more details."
 msgstr ""
 
 #: includes/feeds/youtube/class-youtube-feed.php:110
-msgid "Invalid google url"
+msgid "Invalid Google URL."
 msgstr ""
 
 #: includes/feeds/youtube/class-youtube-feed.php:581

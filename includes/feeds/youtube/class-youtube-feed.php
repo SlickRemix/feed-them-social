@@ -1,6 +1,6 @@
 <?php
 /**
- * Feed Them Social - Youtube Feed
+ * Feed Them Social - YouTube Feed
  *
  * This page is used to create the YouTube feed!
  *
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Youtube Feed
+ * Class YouTube Feed
  *
  * @package feedthemsocial
  */
@@ -63,7 +63,7 @@ class Youtube_Feed {
 	/**
 	 * Construct
 	 * u
-	 * FTS Youtube Feed constructor.
+	 * FTS YouTube Feed constructor.
 	 *
 	 * @since 2.3.2
 	 */
@@ -107,7 +107,7 @@ class Youtube_Feed {
         if ( isset( $_REQUEST['next_url'] ) ) {
 			$next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
 			if ( 'www.googleapis.com' !== $next_url_host ) {
-				wp_die( esc_html__( 'Invalid google url', 'feed-them-social' ), 403 );
+				wp_die( esc_html__( 'Invalid Google URL.', 'feed-them-social' ), 403 );
 			}
 		}
 
@@ -186,7 +186,7 @@ class Youtube_Feed {
 
 	        $vid_count = $saved_feed_options['youtube_vid_count'] ?? '4';
 
-            // Youtube Show Follow Button Options.
+            // YouTube Show Follow Button Options.
             $youtube_show_follow_btn       = $saved_feed_options['youtube_show_follow_btn'];
             $youtube_show_follow_btn_where = $saved_feed_options['youtube-show-follow-btn-where'];
 
@@ -301,7 +301,7 @@ class Youtube_Feed {
                     $youtube_user_id_data = 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=' . $saved_feed_options['youtube_name'] . '&' . $youtube_api_key_or_token;
                     // $user_id_returned              = $this->feed_functions->fts_get_feed_json( $youtube_user_id_data );
                     // $user_id_final                 = json_decode( $user_id_returned['items'] );
-                    // Youtube Username.
+                    // YouTube Username.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         $user_cache_name = 'yt_user_' . $saved_feed_options['youtube_name'];
                     }
@@ -328,7 +328,7 @@ class Youtube_Feed {
                         }
                     }
 
-                    // Youtube Playlist Cache Name.
+                    // YouTube Playlist Cache Name.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_name'] . '_bnum' . $vid_count . '_user';
                     }
@@ -371,7 +371,7 @@ class Youtube_Feed {
                     $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token ) );
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                        // Youtube Channel Cache.
+                        // YouTube Channel Cache.
                         $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_channelID'] . '_bnum' . $vid_count . '_channel';
                     }
                 }
@@ -384,7 +384,7 @@ class Youtube_Feed {
                     $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token ) );
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                        // Youtube Playlist Cache Folder.
+                        // YouTube Playlist Cache Folder.
                         $feed_cache_name = 'pics_vids_list_' . $saved_feed_options['youtube_playlistID'] . '_bnum' . $vid_count . '_playlist';
                     }
                 }
@@ -394,7 +394,7 @@ class Youtube_Feed {
                     $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID2'] . '&order=date&' . $youtube_api_key_or_token ) );
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                        // Youtube Playlist Cache Folder.
+                        // YouTube Playlist Cache Folder.
                         $feed_cache_name = 'pics_user_vids_list_' . $saved_feed_options['youtube_playlistID'] . '_bnum' . $vid_count . '_playlist';
                     }
                 }
@@ -980,10 +980,10 @@ class Youtube_Feed {
 	}
 
 	/**
-	 * Youtube Comments Thread
+	 * YouTube Comments Thread
 	 *
 	 * @param string  $video_id Video id.
-	 * @param string  $youtube_api_key_or_token Youtube token.
+	 * @param string  $youtube_api_key_or_token YouTube token.
 	 * @param integer $youtube_comments_count Comments Count.
 	 * @since 1.9.6
 	 */
@@ -993,11 +993,11 @@ class Youtube_Feed {
 		if ( wp_verify_nonce( $fts_comments_thread_nonce, 'fts-comments-thread-nonce' ) ) {
 
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-				// Youtube Comment Cache!
+				// YouTube Comment Cache!
 				$youtube_comments_cache_url = 'video_comments_list_' . $video_id . '_number_comments_' . $youtube_comments_count . '';
 			}
 
-			// Youtube Use Comments Cache!
+			// YouTube Use Comments Cache!
 			if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $youtube_comments_cache_url ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$comments = json_decode( $this->feed_cache->fts_get_feed_cache( $youtube_comments_cache_url ) );
 			} else {
@@ -1056,10 +1056,10 @@ class Youtube_Feed {
 
 
 	/**
-	 * FTS Youtube Single Video Info
+	 * FTS YouTube Single Video Info
 	 *
 	 * @param string $video_id Video id.
-	 * @param string $youtube_api_key_or_token Youtube token.
+	 * @param string $youtube_api_key_or_token YouTube token.
 	 * @since 1.9.6
 	 */
 	public function fts_youtube_single_video_info( $video_id, $youtube_api_key_or_token ) {
@@ -1069,7 +1069,7 @@ class Youtube_Feed {
 
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
-				// Youtube Comment Cache.
+				// YouTube Comment Cache.
 				$youtube_single_video_cache_name = 'video_single_' . $video_id . '';
 			}
 			// https://developers.google.com/youtube/v3/docs/comments/list.
@@ -1110,7 +1110,7 @@ class Youtube_Feed {
 	}
 
 	/**
-	 * FTS Youtube Video and Wrap
+	 * FTS YouTube Video and Wrap
 	 *
 	 * @param object $post_data post data.
 	 * @param string $username username.
@@ -1139,7 +1139,7 @@ class Youtube_Feed {
 
 
 	/**
-	 * Youtube Description
+	 * YouTube Description
 	 *
 	 * @param object $post_data post data.
 	 * @return string
@@ -1151,7 +1151,7 @@ class Youtube_Feed {
 	}
 
 	/**
-	 * Youtube Title
+	 * YouTube Title
 	 *
 	 * @param object $post_data post data.
 	 * @return string

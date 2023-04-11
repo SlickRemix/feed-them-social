@@ -399,8 +399,8 @@ msgid "Hide Admin Bar Menu"
 msgstr "Göm Adminmenyn på site"
 
 #: admin/feed-them-settings-page.php:117
-msgid "FaceBook & Twitter Date Format"
-msgstr "FaceBook & Twitter Datumformat"
+msgid "Facebook & Twitter Date Format"
+msgstr "Facebook & Twitter Datumformat"
 
 #: admin/feed-them-settings-page.php:13
 msgid "Warning: cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this."
@@ -735,7 +735,7 @@ msgid "Load More Options"
 msgstr "Visa mer val"
 
 #: admin/feed-them-settings-page.php:386
-msgid "Check this if you are using the loadmore button for Facebook or Instagram and are seeing a bunch of code under it."
+msgid "Check this if you are using the  Load More for Facebook or Instagram and are seeing a bunch of code under it."
 msgstr "Kryssa i denna om du använder visa mer knapp för Facebook eller Instagram och ser en massa kod under den."
 
 #: admin/feed-them-settings-page.php:39

@@ -399,8 +399,8 @@ msgid "Hide Admin Bar Menu"
 msgstr "Skjul administrationspanel"
 
 #: admin/feed-them-settings-page.php:117
-msgid "FaceBook & Twitter Date Format"
-msgstr "FaceBook & Twitter datoformat"
+msgid "Facebook & Twitter Date Format"
+msgstr "Facebook & Twitter datoformat"
 
 #: admin/feed-them-settings-page.php:13
 msgid "Warning: cURL is not installed on this server. It is required to use this plugin. Please contact your host provider to install this."
@@ -735,7 +735,7 @@ msgid "Load More Options"
 msgstr "Indlæse flere muligheder"
 
 #: admin/feed-them-settings-page.php:386
-msgid "Check this if you are using the loadmore button for Facebook or Instagram and are seeing a bunch of code under it."
+msgid "Check this if you are using the  Load More for Facebook or Instagram and are seeing a bunch of code under it."
 msgstr "Marker dette, hvis du bruger knappen loadmore til Facebook eller Instagram og oplever en masse kode under den."
 
 #: admin/feed-them-settings-page.php:39

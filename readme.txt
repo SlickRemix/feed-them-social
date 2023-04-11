@@ -112,7 +112,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 10. Vine Feed. Show as many vine videos as you want. [Demo](https://feedthemsocial.com/vine-demo/)
 11. Vine Popup that shows video. Available in the Free Version. [Demo](https://feedthemsocial.com/vine-demo/)
 12. Our premium version also offers the YouTube Feed. [Demo](https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
-13. Youtube Feed Popup. [Demo](https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
+13. YouTube Feed Popup. [Demo](https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
 14. Settings page where you can generate a shortcode for any of the feeds and more.
 15. Facebook Options page of our plugin. The other pages have similar options.
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.

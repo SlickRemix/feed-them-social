@@ -1545,7 +1545,7 @@ class Facebook_Feed_Post_Types {
 							echo '</script>';
 						}
 					}
-					// strip Youtube URL then ouput Iframe and script.
+					// strip YouTube URL then ouput Iframe and script.
 					if ( strpos( $facebook_post_link, 'youtube' ) > 0 ) {
 						// $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';.
 						// preg_match($pattern, $facebook_post_link, $matches);.
@@ -1566,7 +1566,7 @@ class Facebook_Feed_Post_Types {
 							echo '});</script>';
 						}
 					} elseif (
-						// strip Youtube URL then ouput Iframe and script.
+						// strip YouTube URL then ouput Iframe and script.
 						strpos( $facebook_post_link, 'youtu.be' ) > 0 ) {
 						// $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';.
 						// preg_match($pattern, $facebook_post_link, $matches);.

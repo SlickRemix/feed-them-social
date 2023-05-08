@@ -335,7 +335,7 @@ msgid "Pinterest Feed Options"
 msgstr ""
 
 #: admin/feed-them-settings-page.php:111
-msgid "FaceBook & Twitter Date Format"
+msgid "Facebook & Twitter Date Format"
 msgstr "Формат даты"
 
 #: admin/feed-them-settings-page.php:129
@@ -551,7 +551,7 @@ msgid "Load More Options"
 msgstr ""
 
 #: admin/feed-them-settings-page.php:278
-msgid "Check this if you are using the loadmore button for Facebook or Instagram and are seeing a bunch of code under it."
+msgid "Check this if you are using the  Load More for Facebook or Instagram and are seeing a bunch of code under it."
 msgstr ""
 
 #: admin/feed-them-settings-page.php:283

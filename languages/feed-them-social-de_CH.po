@@ -335,8 +335,8 @@ msgid "Pinterest Feed Options"
 msgstr "Pinterest Feed Optionen"
 
 #: admin/feed-them-settings-page.php:111
-msgid "FaceBook & Twitter Date Format"
-msgstr "Datums Format für FaceBook & Twitter "
+msgid "Facebook & Twitter Date Format"
+msgstr "Datums Format für Facebook & Twitter "
 
 #: admin/feed-them-settings-page.php:129
 msgid "TimeZone"
@@ -551,7 +551,7 @@ msgid "Load More Options"
 msgstr "Zeige mehr Optionen"
 
 #: admin/feed-them-settings-page.php:278
-msgid "Check this if you are using the loadmore button for Facebook or Instagram and are seeing a bunch of code under it."
+msgid "Check this if you are using the  Load More for Facebook or Instagram and are seeing a bunch of code under it."
 msgstr "Setze hier einen Haken wenn du den Zeige mehr Optionen Button für Facebook oder Instagram nutzt und dir ein Codeblock darunter angezeigt wird."
 
 #: admin/feed-them-settings-page.php:283
@@ -918,7 +918,7 @@ msgstr "Feed Optionen"
 
 #: admin/feed-them-youtube-style-options-page.php:70
 msgid "YouTube API Key"
-msgstr "Youtube API Schlüssel"
+msgstr "YouTube API Schlüssel"
 
 #: admin/feed-them-youtube-style-options-page.php:71
 msgid "Read here and learn how to <a href=\"http://www.slickremix.com/docs/get-api-key-for-youtube\" target=\"_blank\">GET AN API KEY</a>."
@@ -934,11 +934,11 @@ msgstr "Dein API Key funktioniert!"
 
 #: admin/feed-them-youtube-style-options-page.php:87
 msgid "This API key does not appear to be valid. YouTube responded with: "
-msgstr "Der eingegebene API Key scheint nicht zu funktionieren. Youtube antwortet mit:"
+msgstr "Der eingegebene API Key scheint nicht zu funktionieren. YouTube antwortet mit:"
 
 #: admin/feed-them-youtube-style-options-page.php:90
 msgid "You must register for an API token to use the youtube feed."
-msgstr "Du musst dir ein API Token besorgen um den Youtube Feed nutzen zu können."
+msgstr "Du musst dir ein API Token besorgen um den YouTube Feed nutzen zu können."
 
 #: feed-them.php:106
 msgid "<strong>Warning:</strong> Your php version is "
@@ -1362,7 +1362,7 @@ msgstr "YouTube Shortcode Generator"
 
 #: includes/feed-them-functions.php:1425
 msgid "You must copy your YouTube "
-msgstr "Du musst dein Youtube kopieren"
+msgstr "Du musst dein YouTube kopieren"
 
 #: includes/feed-them-functions.php:1425
 msgid "Username, Channel ID and or Playlist ID"
@@ -1466,7 +1466,7 @@ msgstr "Pinterest Optionen"
 
 #: includes/feed-them-functions.php:402 includes/feed-them-functions.php:403
 msgid "YouTube Options"
-msgstr "Youtube Optionen"
+msgstr "YouTube Optionen"
 
 #: includes/feed-them-functions.php:413 includes/feed-them-functions.php:414
 msgid "Instagram Options"

@@ -866,7 +866,7 @@ class Settings_Functions {
 					default :
 
 						$class = 'error';
-						$error = ! empty(  $license->error ) ?  $license->error : __( 'unknown_error', 'feed_them_social' );
+						$error = ! empty(  $license->error ) ?  $license->error : __( 'Unknown error.', 'feed_them_social' );
 						$messages[] = sprintf( __( 'There was an error with this license key: %s. Please <a href="%s">contact our support team</a>.', 'feed_them_social' ), $error, 'https://slickremix.com/support' );
 
 						$license_status = 'license-' . $class . '-notice';
@@ -1060,7 +1060,7 @@ class Settings_Functions {
             'Pacific/Marquesas'              => __( '(GMT-09:30) Marquesas Islands', 'feed_them_social' ),
             'Pacific/Gambier'                => __( '(GMT-09:00) Gambier Islands', 'feed_them_social' ),
             'America/Anchorage'              => __( '(GMT-09:00) Alaska', 'feed_them_social' ),
-            'America/Ensenada'               => __( '((GMT-08:00) Tijuana, Baja California', 'feed_them_social' ),
+            'America/Ensenada'               => __( '(GMT-08:00) Tijuana, Baja California', 'feed_them_social' ),
             'Etc/GMT+8'                      => __( '(GMT-08:00) Pitcairn Islands', 'feed_them_social' ),
             'America/Los_Angeles'            => __( '(GMT-08:00) Pacific Time (US & Canada)', 'feed_them_social' ),
             'America/Denver'                 => __( '(GMT-07:00) Mountain Time (US & Canada)', 'feed_them_social' ),
@@ -1076,7 +1076,7 @@ class Settings_Functions {
             'America/Caracas'                => __( '(GMT-04:30) Caracas', 'feed_them_social' ),
             'America/Santiago'               => __( '(GMT-04:00) Santiago', 'feed_them_social' ),
             'America/La_Paz'                 => __( '(GMT-04:00) La Paz', 'feed_them_social' ),
-            'Atlantic/Stanley'               => __( '(GMT-04:00) Faukland Islands', 'feed_them_social' ),
+            'Atlantic/Stanley'               => __( '(GMT-04:00) Falkland Islands', 'feed_them_social' ),
             'America/Goose_Bay'              => __( '(GMT-04:00) Atlantic Time (Goose Bay)', 'feed_them_social' ),
             'America/Glace_Bay'              => __( '(GMT-04:00) Atlantic Time (Canada)', 'feed_them_social' ),
             'America/St_Johns'               => __( '(GMT-03:30) Newfoundland', 'feed_them_social' ),
@@ -1091,14 +1091,14 @@ class Settings_Functions {
             'Atlantic/Azores'                => __( '(GMT-01:00) Azores', 'feed_them_social' ),
             'Europe/Belfast'                 => __( '(GMT) Greenwich Mean Time : Belfast', 'feed_them_social' ),
             'Europe/Dublin'                  => __( '(GMT) Greenwich Mean Time : Dublin', 'feed_them_social' ),
-            'Europe/Lisbon'                  => __( 'GMT) Greenwich Mean Time : Lisbon', 'feed_them_social' ),
+            'Europe/Lisbon'                  => __( '(GMT) Greenwich Mean Time : Lisbon', 'feed_them_social' ),
             'Europe/London'                  => __( '(GMT) Greenwich Mean Time : London', 'feed_them_social' ),
             'Africa/Abidjan'                 => __( '(GMT) Monrovia, Reykjavik', 'feed_them_social' ),
             'Europe/Amsterdam'               => __( '(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna', 'feed_them_social' ),
             'Europe/Belgrade'                => __( '(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague', 'feed_them_social' ),
             'Africa/Algiers'                 => __( '(GMT+01:00) West Central Africa', 'feed_them_social' ),
             'Africa/Windhoek'                => __( '(GMT+01:00) Windhoek', 'feed_them_social' ),
-            'Asia/Beirut'                    => __( 'GMT+02:00) Beirut', 'feed_them_social' ),
+            'Asia/Beirut'                    => __( '(GMT+02:00) Beirut', 'feed_them_social' ),
             'Africa/Cairo'                   => __( '(GMT+02:00) Cairo', 'feed_them_social' ),
             'Asia/Gaza'                      => __( '(GMT+02:00) Gaza', 'feed_them_social' ),
             'Africa/Blantyre'                => __( '(GMT+02:00) Harare, Pretoria', 'feed_them_social' ),
@@ -1118,9 +1118,9 @@ class Settings_Functions {
             'Asia/Dhaka'                     => __( '(GMT+06:00) Astana, Dhaka', 'feed_them_social' ),
             'Asia/Novosibirsk'               => __( '(GMT+06:00) Novosibirsk', 'feed_them_social' ),
             'Asia/Rangoon'                   => __( '(GMT+06:30) Yangon (Rangoon)', 'feed_them_social' ),
-            'Asia/Bangkok'                   => __( 'GMT+07:00) Bangkok, Hanoi, Jakarta', 'feed_them_social' ),
+            'Asia/Bangkok'                   => __( '(GMT+07:00) Bangkok, Hanoi, Jakarta', 'feed_them_social' ),
             'Asia/Krasnoyarsk'               => __( '(GMT+07:00) Krasnoyarsk', 'feed_them_social' ),
-            'Asia/Hong_Kong'                 => __( 'GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi', 'feed_them_social' ),
+            'Asia/Hong_Kong'                 => __( '(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi', 'feed_them_social' ),
             'Asia/Irkutsk'                   => __( '(GMT+08:00) Irkutsk, Ulaan Bataar', 'feed_them_social' ),
             'Australia/Perth'                => __( '(GMT+08:00) Perth', 'feed_them_social' ),
             'Australia/Eucla'                => __( '(GMT+08:45) Eucla', 'feed_them_social' ),
@@ -1138,7 +1138,7 @@ class Settings_Functions {
             'Asia/Anadyr'                    => __( '(GMT+12:00) Anadyr, Kamchatka', 'feed_them_social' ),
             'Pacific/Auckland'               => __( '(GMT+12:00) Auckland, Wellington', 'feed_them_social' ),
             'Etc/GMT-12'                     => __( '(GMT+12:00) Fiji, Kamchatka, Marshall Is.', 'feed_them_social' ),
-            'Pacific/Chatham'                => __( 'GMT+12:45) Chatham Islands', 'feed_them_social' ),
+            'Pacific/Chatham'                => __( '(GMT+12:45) Chatham Islands', 'feed_them_social' ),
             'Pacific/Tongatapu'              => __( '(GMT+13:00) Nuku\'alofa', 'feed_them_social' ),
             'Pacific/Kiritimati'             => __( '(GMT+14:00) Kiritimati', 'feed_them_social' )
         );

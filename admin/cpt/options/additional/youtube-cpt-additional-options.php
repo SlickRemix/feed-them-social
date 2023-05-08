@@ -1,6 +1,6 @@
 <?php
 /**
- * Youtube Additional Options Class
+ * YouTube Additional Options Class
  *
  * This class has the options for building and saving on the Custom Meta Boxes
  *
@@ -39,9 +39,9 @@ class Youtube_Additional_Options {
 	}
 
 	/**
-	 * All Youtube Additional Options
+	 * All YouTube Additional Options
 	 *
-	 * Function to return all Youtube Additional Options.
+	 * Function to return all YouTube Additional Options.
 	 *
 	 * @return array
 	 * @since 1.0.0
@@ -53,7 +53,7 @@ class Youtube_Additional_Options {
 	}
 
 	/**
-	 * Youtube Follow Button Options
+	 * YouTube Follow Button Options
 	 *
 	 * Follow Button Options for Youtube.
 	 *
@@ -135,10 +135,10 @@ class Youtube_Additional_Options {
 		);
 
 		return $this->all_options['youtube_follow_btn_options'];
-	} //END Youtube Follow Button Options.
+	} //END YouTube Follow Button Options.
 
 	/**
-	 * Youtube Load More Styles
+	 * YouTube Load More Styles
 	 *
 	 * Options for the Load More buttons.
 	 *
@@ -216,5 +216,5 @@ class Youtube_Additional_Options {
 		);
 
 		return $this->all_options['youtube_load_more_options'];
-	} //END Youtube Load More Styles.
+	} //END YouTube Load More Styles.
 }

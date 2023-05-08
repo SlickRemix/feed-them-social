@@ -68,7 +68,7 @@ class Feed_Options_Import_Export {
 	/**
 	 * FTS Export Options Ajax
 	 *
-	 * This will export the option of a feed and decrypt the access token for FaceBook or Instagram. Used when users request support.
+	 * This will export the option of a feed and decrypt the access token for Facebook or Instagram. Used when users request support.
 	 *
 	 * @since 4.0.5
 	 */
@@ -110,7 +110,7 @@ class Feed_Options_Import_Export {
 	/**
 	 * FTS Import Options Ajax
 	 *
-	 * This will import the options of a feed and encrypt the access token for FaceBook or Instagram. Used when users request support.
+	 * This will import the options of a feed and encrypt the access token for Facebook or Instagram. Used when users request support.
 	 *
 	 * @since 4.0.5
 	 */

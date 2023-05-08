@@ -332,7 +332,7 @@ function slickremixImageResizingYouTube() {
         ftsYoutubeThumbsContainer.css({
             'padding': ftsInstagramMargin
         });
-        var ftsImageHeightYoutube = ftsYoutubeImageSize.width() - '150';
+        var ftsImageHeightYouTube = ftsYoutubeImageSize.width() - '150';
         ftsYoutubeImageSize.css({
             'width': og_size,
             'height': ftsImageHeightYoutube,

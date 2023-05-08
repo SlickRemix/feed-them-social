@@ -313,7 +313,7 @@
    * FIX: Facebook Feed: Add missing js functions to make posts with 2 or more photos display properly.
    * FIXED: fts-global.js: Depreciated .load() call. [https://github.com/SlickRemix/feed-them-social/issues/24](https://github.com/SlickRemix/feed-them-social/issues/24)
    * PREMIUM: You must also update your Premium version to get the access_token= option in the facebook feed.
-   * PREMIUM FIXED: Facebook Video Feed: If loadmore button max width isset the loadmore button will show now. [https://github.com/SlickRemix/feed-them-social/issues/33](https://github.com/SlickRemix/feed-them-social/issues/33)
+   * PREMIUM FIXED: Facebook Video Feed: If  Load More max width isset the  Load More will show now. [https://github.com/SlickRemix/feed-them-social/issues/33](https://github.com/SlickRemix/feed-them-social/issues/33)
 
 = Version 2.4.4 Friday, June 29th, 2018 =
    * FIX: Facebook Cover photos, Album photos and Video Albums to have proper image file types to work in Firefox and Safari.
@@ -374,7 +374,7 @@
    * FIX: YouTube Feed: Show videos in a row with title and description. Actual iframe is displayed and not thumbnails.
    * FIX: YouTube Feed: Foreach loop error if 51 or more was entered as the number of vids. YouTube API is 50 per page max and to loadmore you need the premium version.
    * FIX: YouTube Feed: API/Access Token Issue where page would not return the feed after a certain amount of time and you would have to refresh the page to get it to work again.
-   * FIX: Facebook Options: Facebook, and Facebook Reviews Get Access Token: If you had more than 25 pages and clicked the loadmore button it would not return anymore results.
+   * FIX: Facebook Options: Facebook, and Facebook Reviews Get Access Token: If you had more than 25 pages and clicked the  Load More it would not return anymore results.
    * FIX: YouTube, Instagram and FB Feed: Fix image/js issue if you had 2 or more of these feeds on a page.
    * FIX: Misc CSS overrides
 
@@ -399,7 +399,7 @@
    * MOVED: All the buttons used to connect to your social media account have been moved to the top of each of our options pages to make getting started a little quicker.
    * REMOVED: Settings Page: Vine Icon and Feed Shortcode Options.
    * PREMIUM NEW: YouTube Options: New Load More Button Styles & Options
-   * PREMIUM NEW: YouTube Feed: Loadmore Button and Autoscoll shortcode options added.
+   * PREMIUM NEW: YouTube Feed:  Load More and Autoscoll shortcode options added.
    * PREMIUM NEW: YouTube Feed: Tons of new options and a new popup where you can show the video description and comments if you want.
    * PREMIUM NEW: Facebook Feed: Now you can display the photos/videos above the date, description etc. works in grid format and regular.
    * PREMIUM NEW: Facebook Feed: Hide your Profile Thumbnail.
@@ -477,7 +477,7 @@
    * FIXED: Words option not working if using combined stream for multiple facebook feeds.
    * FIXED: Settings Page: Column width issue on settings page for Twitter.
    * FIXED: Fatal Error coming from Free plugin license page on some installs.
-   * COMBINED FEEDS NEW: If you have the combined streams extension you will see share icons on the Facebook, Instagram, Twitter, Pinterest and Youtube posts.
+   * COMBINED FEEDS NEW: If you have the combined streams extension you will see share icons on the Facebook, Instagram, Twitter, Pinterest and YouTube posts.
 
 = Version 2.1.9 Thursday, April 27th, 2017 =
    * FIXED: Facebook: Type ablum_photos not caching proper if more than one of the same album on the page with different album_id's. The likes, comments, share options area was not displaying.
@@ -496,7 +496,7 @@
    * FIXED: Facebook Combined: Post limit was stuck at 6.
    * FIXED: Facebook: Likes and Shares function used to house FB event calls. The Event calls have been added to a new function now. This speeds up the load time overall now :)
    * FIXED: FB Events: Events Feed now caches properly.
-   * FIXED: Settings: Fixed misc required plugin API token message not showing for Pinterest or Youtube and a few js issues when selecting feed types.
+   * FIXED: Settings: Fixed misc required plugin API token message not showing for Pinterest or YouTube and a few js issues when selecting feed types.
    * FIXED: System Info: Pinterest Access Token check missing.
    * EDIT: System Info: Text change under system report.
 
@@ -534,7 +534,7 @@
    * NEW: Instagram: Now you can show your profile photo, name, description and the count for your posts, followers and following. [View Demo](https://feedthemsocial.com/instagram-feed-demo/)
    * NEW: Instagram, Twitter and Pinterest: Truncated specfic calls into functions.
    * PREMIUM NEW: YouTube: Truncated specfic calls into functions.
-   * NEW EXTENSION: [Feed Them Social Combined Streams](https://www.slickremix.com/downloads/feed-them-social-combined-streams/). With this extension you can combine your facebook feeds or you can combine Facebook, Instagram, Twitter, Pinterest or Youtube into one feed.
+   * NEW EXTENSION: [Feed Them Social Combined Streams](https://www.slickremix.com/downloads/feed-them-social-combined-streams/). With this extension you can combine your facebook feeds or you can combine Facebook, Instagram, Twitter, Pinterest or YouTube into one feed.
 
 = Version 2.0.9 Tuesday, October 4th, 2016 =
    * FIX: Twitter: Search type feeds (@, #, etc) not showing the full text.
@@ -590,7 +590,7 @@
    * FIXED: Instagram: Now hashtag feeds will work and if you are a premium user you can load more than 20 photos.
 
 = Version 1.9.7 Thursday, June 9th, 2016 =
-   * NOTE: As of June 1st, 2016 Instagram has made some limitation to the API that may impact your install. Please go to the Instagram Options page of our plugin and get a NEW Access Token. Hashtag feeds are not allowed at this time. If you are using the premium version please note: You are limited to 20 photos, even with the loadmore button. Once our app is approved these limitations should be resolved.
+   * NOTE: As of June 1st, 2016 Instagram has made some limitation to the API that may impact your install. Please go to the Instagram Options page of our plugin and get a NEW Access Token. Hashtag feeds are not allowed at this time. If you are using the premium version please note: You are limited to 20 photos, even with the  Load More. Once our app is approved these limitations should be resolved.
    * FIXED: Instagram Options: Button to Get Access Token.
    * FIXED: Settings page: Instagram: Convert username to ID.
    * FIXED: Pinterest: Links in descriptions are now clickable.
@@ -738,7 +738,7 @@
  * NEW: Instagram height option available when you generate a shortcode so you can create a scrolling feed.
  * NEW: Instagram comment and like counts have proper number formatting including rounding for numbers above 10k and 1m like Instagram.
  * REMOVED: Unneeded get_curl function for retrieving short url for Twitter videos.
- * NEW IN PREMIUM: Instagram Load More Options. Includes loadmore button, or if you set the height of the Instagram feed you can choose Autoscroll so when the scrollbar reaches the bottom it will automatically load the next set of images.
+ * NEW IN PREMIUM: Instagram Load More Options. Includes  Load More, or if you set the height of the Instagram feed you can choose Autoscroll so when the scrollbar reaches the bottom it will automatically load the next set of images.
 
 = Version 1.7.8 Friday, May 8th, 2015 =
  * NEW: Language Selection added to Facebook Settings Page in Wordpress Admin. List of Languages come directly from Facebook which means if they add a language our plugin automatically supports it.
@@ -803,7 +803,7 @@
  * FIXED: Reflected XSS vulnerability and possibly an arbitrary shortcode execution vulnerability with the load more button for the Facebook Feeds. Thanks to James Hooker at [g0blinResearch](https://research.g0blin.co.uk/) for pointing out this problem. Check out his [twitter here](https://twitter.com/g0blinResearch).
 
 = Version 1.6.9 Monday, January 26th, 2015 =
- * FIXED: Loadmore button showing extra code and not working when Nextgen Gallery Active.
+ * FIXED:  Load More showing extra code and not working when Nextgen Gallery Active.
  * FIXED: Notice: Undefined variable: _plugin_file
 
 = Version 1.6.8 Sunday, January 18th, 2015 =

@@ -200,7 +200,7 @@ class Facebook_Access_Functions {
                     wp_die( __( 'Invalid facebook oauth nonce', 'feed-them-social' ) );
                 }
 
-                // Echo our shortcode for the page token list with loadmore button
+                // Echo our shortcode for the page token list with  Load More
                 // These functions are on feed-functions.php!
                 echo do_shortcode( '[fts_fb_page_token]' );
 

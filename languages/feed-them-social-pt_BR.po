@@ -399,7 +399,7 @@ msgid "Hide Admin Bar Menu"
 msgstr ""
 
 #: admin/feed-them-settings-page.php:117
-msgid "FaceBook & Twitter Date Format"
+msgid "Facebook & Twitter Date Format"
 msgstr ""
 
 #: admin/feed-them-settings-page.php:13
@@ -735,7 +735,7 @@ msgid "Load More Options"
 msgstr ""
 
 #: admin/feed-them-settings-page.php:386
-msgid "Check this if you are using the loadmore button for Facebook or Instagram and are seeing a bunch of code under it."
+msgid "Check this if you are using the  Load More for Facebook or Instagram and are seeing a bunch of code under it."
 msgstr ""
 
 #: admin/feed-them-settings-page.php:39

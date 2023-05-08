@@ -1,6 +1,6 @@
 <?php
  /**
- * Feed Them Social - Youtube Access Functions
+ * Feed Them Social - YouTube Access Functions
  *
  * This page is used to retrieve and set access tokens for Youtube.
  *
@@ -46,7 +46,7 @@ class Youtube_Access_Functions {
 	/**
 	 * Construct
 	 *
-	 * Youtube Style Options Page constructor.
+	 * YouTube Style Options Page constructor.
 	 *
 	 * @since 4.0.0
 	 */

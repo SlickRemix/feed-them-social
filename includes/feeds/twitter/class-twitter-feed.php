@@ -136,14 +136,14 @@ class Twitter_Feed {
 
 			return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="' . esc_url( 'https://www.youtube.com/embed/' . $youtube_url_final . '?autoplay=0') . '" frameborder="0" allowfullscreen></iframe></div>';
 		} elseif (
-			// strip Youtube URL then ouput Iframe and script.
+			// strip YouTube URL then ouput Iframe and script.
 			strpos( $twitter_final, 'youtu.be' ) > 0 ) {
 			$pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
 			preg_match( $pattern, $twitter_final, $matches );
 			$youtube_url_final = $matches[1];
 			return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="'. esc_url( 'https://www.youtube.com/embed/' . $youtube_url_final . '?autoplay=0' ) . '" frameborder="0" allowfullscreen></iframe></div>';
 		} elseif (
-			// strip Youtube URL then ouput Iframe and script.
+			// strip YouTube URL then ouput Iframe and script.
 			strpos( $twitter_final, 'soundcloud' ) > 0 ) {
 
 			// Get the JSON data of song details with embed code from SoundCloud oEmbed.
@@ -1092,7 +1092,7 @@ class Twitter_Feed {
 			// END ELSE.
 			// Error Check.
 			if ( isset( $fetched_tweets->errors ) ) {
-				$error_check = __( 'Oops, Somethings wrong. ', 'feed-them-social' ) . $fetched_tweets->errors[0]->message;
+				$error_check = __( 'Oops, Something is wrong. ', 'feed-them-social' ) . $fetched_tweets->errors[0]->message;
 				if ( '32' === $fetched_tweets->errors[0]->code ) {
 					$error_check .= __( ' Please check that you have entered your Twitter API token information correctly on the Twitter Options page of Feed Them Social.', 'feed-them-social' );
 				}

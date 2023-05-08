@@ -112,15 +112,16 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 10. Vine Feed. Show as many vine videos as you want. [Demo](https://feedthemsocial.com/vine-demo/)
 11. Vine Popup that shows video. Available in the Free Version. [Demo](https://feedthemsocial.com/vine-demo/)
 12. Our premium version also offers the YouTube Feed. [Demo](https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
-13. Youtube Feed Popup. [Demo](https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
+13. YouTube Feed Popup. [Demo](https://feedthemsocial.com/youtube-demo-1-large-with-4-video-per-row/)
 14. Settings page where you can generate a shortcode for any of the feeds and more.
 15. Facebook Options page of our plugin. The other pages have similar options.
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.1.3 Friday, April 7th, 2023 =
+= Version 4.1.3 Monday, May 8th, 2023 =
   * FIX: Translations were broken from wrong Domain Path set in main file.
   * FIX: Text strings had the wrong Text Domain set. The strings with feed_them_social are now updated to feed-them-social.
+  * ADDED: Accidentally removed the.md file in version 4.0.0. It's back now.
   * NOTE: We are working to get the plugin translated into more languages. If you speak another language other than English, we could use your help. Please go to [Feed Them Social Translations](https://translate.wordpress.org/projects/wp-plugins/feed-them-social/) Any languages beyond 90% translated will automatically be included in the plugin.
 
 = Version 4.1.2 Tuesday, April 4th, 2023 =

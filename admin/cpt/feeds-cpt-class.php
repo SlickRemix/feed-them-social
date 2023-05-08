@@ -663,7 +663,7 @@ class Feeds_CPT {
                     'cont_wrap_id'  => 'ftg-tab-content7',
                     'cont_func'     => 'tab_twitter_feed',
                 ),
-                // Youtube Feed Settings Tab!
+                // YouTube Feed Settings Tab!
                 'youtube_feed'  => array(
                     'menu_li_class' => 'tab7',
                     'menu_a_text'   => esc_html__( 'Youtube', 'feed_them_social' ),
@@ -924,7 +924,7 @@ class Feeds_CPT {
 
 
     /**
-     * Tab Youtube Feed
+     * Tab YouTube Feed
      *
      * Outputs Feed's settings tab's content for metabox.
      *
@@ -945,12 +945,12 @@ class Feeds_CPT {
 
             $youtube_add_all_options = $youtube_additional_options->get_all_options();
 
-            //Youtube Follow Button Options.
+            //YouTube Follow Button Options.
             echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->feed_cpt_id );
 
             // FTS Premium ACTIVE
             if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
-                //Youtube Load More Options.
+                //YouTube Load More Options.
                 echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $this->feed_cpt_id );
             }?>
             <div class="clear"></div>

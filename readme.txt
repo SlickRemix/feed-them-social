@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.2
-Stable tag: 4.1.3
+Tested up to: 6.2.2
+Stable tag: 4.1.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.1.4 Tuesday, May 23rd, 2023 =
+  * NOTE: Tested with WordPress version 6.2.2.
+  * FIX: Instagram Feed: Load more button was not working unless you had the option popup set to yes.
+
 = Version 4.1.3 Monday, May 8th, 2023 =
   * FIX: Translations were broken from wrong Domain Path set in main file.
   * FIX: Text strings had the wrong Text Domain set. The strings with feed_them_social are now updated to feed-them-social.
@@ -192,11 +196,6 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * 4.0.2 FIX: Re-added missing language files causing is_readable error for some users.
   * 4.0.2 UPDATED: Readme and PHP Required notation.
   * 4.0.2 FIX: Fix Permissions and remove it effecting global capabilities.
-
-= Version 3.0.2 Sunday, Nov 13th, 2022 =
-* NOTE: Tested with WordPress Version 6.1
-* COMING SOON: We are almost done with major version release 4.0. This will include a complete overhaul of the framework and interface to simplify the Feed Them Social experience.
-Version 4.0 release will require all paid extensions to be updated to work with the new framework of the free plugin.
 
 See Changelog.txt in the plugin for the full changelog.
 

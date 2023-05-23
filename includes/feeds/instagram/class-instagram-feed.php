@@ -1060,8 +1060,13 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                             }
                                             jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $instagram_load_more_text ); ?>');
                                             jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
-                                            jQuery.fn.ftsShare(); // Reload the share each funcion otherwise you can't open share option
-                                            jQuery.fn.slickInstagramPopUpFunction(); // Reload this function again otherwise the popup won't work correctly for the newly loaded items
+
+											if ( jQuery.isFunction(jQuery.fn.ftsShare) ) {
+												jQuery.fn.ftsShare(); // Reload the share each function otherwise you can't open share option
+											}
+											if( jQuery.isFunction(jQuery.fn.slickInstagramPopUpFunction) ){
+												jQuery.fn.slickInstagramPopUpFunction(); // Reload this function again otherwise the popup won't work correctly for the newly loaded items
+											}
                                             if (typeof outputSRmargin === "function") {
                                                 outputSRmargin(document.querySelector('#margin').value)
                                             } // Reload our margin for the demo

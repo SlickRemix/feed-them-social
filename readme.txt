@@ -12,7 +12,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Custom social media feeds for Instagram, Facebook Pages, Album Photos, Videos & Covers, Twitter, & YouTube on pages, posts, or widgets.
 
 == Description ==
-Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twitter, or Youtube. Responsive on Desktops, Tablets, and Mobile Devices.
+Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twitter, or YouTube. Responsive on Desktops, Tablets, and Mobile Devices.
 
 ###Features
  * **Quick** Install and Set up.

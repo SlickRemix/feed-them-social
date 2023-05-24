@@ -19,7 +19,7 @@ require_once( 'OAuth.php' );
 	  /* Contains the last API call. */
 	  public $url;
 	  /* Set up the API root URL. */
-	  public $host = "https://api.twitter.com/1.1/";
+	  public $host = TWITTER_V2 ? "https://api.twitter.com/2/" : "https://api.twitter.com/1.1/";
 	  /* Set timeout default. */
 	  public $timeout = 30;
 	  /* Set connect timeout. */
@@ -139,6 +139,19 @@ require_once( 'OAuth.php' );
 		$this->token = new OAuthConsumerFTS($token['oauth_token'], $token['oauth_token_secret']);
 		return $token;
 	  }
+
+
+	  /**
+	   * Wrapper for fetching data from Twitter API v 2.0
+	   *
+	   * @param [type] $url
+	   * @param array $parameters
+	   * @return void
+	   */
+	  function getv2($url, $parameters = array()) {
+
+	  }
+
 	
 	  /**
 	   * GET wrapper for oAuthRequest.
@@ -178,24 +191,136 @@ require_once( 'OAuth.php' );
 	   */
 	  function oAuthRequest($url, $method, $parameters) {
 		if (strrpos($url, 'https://') !== 0 && strrpos($url, 'http://') !== 0) {
-		  $url = "{$this->host}{$url}.{$this->format}";
+			if(TWITTER_V2) {
+				$url = "{$this->host}{$url}";
+			} else {
+				$url = "{$this->host}{$url}.{$this->format}";
+			}			
 		}
-		$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
-		$request->sign_request($this->sha1_method, $this->consumer, $this->token);
+		
+		
 		switch ($method) {
 		case 'GET':
-		  return $this->http($request->to_url(), 'GET');
+			if(TWITTER_V2) {
+				//var_dump($url);
+				//var_dump($parameters);
+				//echo "<br/><br/>";
+				//
+				// todo - send this data along in the headers
+				// $request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
+				$header = ["Authorization: Bearer AAAAAAAAAAAAAAAAAAAAAAFsngEAAAAAbn6klacKCm%2FoW1d5%2Fa2pij9tWKk%3DlzuyN5pxOfylAeN95jALsTp9vbUGdYidt7Z8koAwB53CviE8uO"];
+				//$data = $this->extractOauthParams($request->to_url());
+				$fullUrl = $url."?".http_build_query($parameters);
+				return $this->http_v2($fullUrl, $header);
+			} else {
+				$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
+				$request->sign_request($this->sha1_method, $this->consumer, $this->token);
+				return $this->http($request->to_url(), 'GET');
+			}
+		  
 		default:
 		  return $this->http($request->get_normalized_http_url(), $method, $request->to_postdata());
 		}
 	  }
+
+	  /**
+	   * Temporary function which converts a 1.1 URL containing oauth params
+	   * and returns those in an array to pass to curl as headers
+	   */
+	  function extractOauthParams($url) {
+		// Parse URL into different components
+		$urlParts = parse_url($url);
+		
+		// Initialize the results array
+		$results = array(
+			'oauth_params' => '',
+			'cleaned_url' => ''
+		);
+		
+		// Check if the query string exists
+		if (isset($urlParts['query'])) {
+			// Parse the query string into an array
+			parse_str($urlParts['query'], $queryParams);
+			
+			// Prepare an array to store OAuth parameters
+			$oauthParams = [];
+			
+			// Loop through each query parameter
+			foreach ($queryParams as $key => $value) {
+				// If the key starts with 'oauth_', add it to the results
+				if (strpos($key, 'oauth_') === 0) {
+					$oauthParams[] = $key . '="' . $value . '"';
+					
+					// Remove this key from the original array
+					unset($queryParams[$key]);
+				}
+			}
+			
+			// If there are any OAuth parameters, prepare the final string
+			if (!empty($oauthParams)) {
+				$results['oauth_params'] = 'authorization: OAuth ' . implode(', ', $oauthParams);
+			}
+			
+			// Build the cleaned query string
+			$urlParts['query'] = http_build_query($queryParams);
+		}
+		
+		// Build the cleaned URL
+		$results['cleaned_url'] = (isset($urlParts['scheme']) ? "{$urlParts['scheme']}://" : '') .
+								  (isset($urlParts['user']) ? "{$urlParts['user']}" : '') .
+								  (isset($urlParts['pass']) ? ":{$urlParts['pass']}" : '') .
+								  (isset($urlParts['user']) ? "@" : '') .
+								  (isset($urlParts['host']) ? "{$urlParts['host']}" : '') .
+								  (isset($urlParts['port']) ? ":{$urlParts['port']}" : '') .
+								  (isset($urlParts['path']) ? "{$urlParts['path']}" : '') .
+								  (isset($urlParts['query']) ? "?{$urlParts['query']}" : '') .
+								  (isset($urlParts['fragment']) ? "#{$urlParts['fragment']}" : '');
+	
+		return $results;
+	}
+
+
+
+	/**
+	 * HTTP Get function for Api V2
+	 *
+	 * @return void
+	 */
+	function http_v2($url, $header = []) {
+		
+		$ci = curl_init();
+		$this->http_info = array();
+		
+		curl_setopt($ci, CURLOPT_USERAGENT, $this->useragent);
+		curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
+		curl_setopt($ci, CURLOPT_TIMEOUT, $this->timeout);
+		curl_setopt($ci, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, $this->ssl_verifypeer);
+		curl_setopt($ci, CURLOPT_HEADERFUNCTION, array($this, 'getHeader'));
+		curl_setopt($ci, CURLOPT_HEADER, FALSE);
+
+		// Todo - change this to proper behaviour
+
+		curl_setopt($ci, CURLOPT_HTTPHEADER, $header);	
+		curl_setopt($ci, CURLOPT_URL, $url);
+		$response = curl_exec($ci);
+		$this->http_code = curl_getinfo($ci, CURLINFO_HTTP_CODE);
+		$this->http_info = array_merge($this->http_info, curl_getinfo($ci));
+		$this->url = $url;
+		curl_close ($ci);
+		return $response;	
+
+	}
+
+
+
 	
 	  /**
 	   * Make an HTTP request
 	   *
 	   * @return API results
 	   */
-	  function http($url, $method, $postfields = NULL) {
+	  function http($url, $method, $postfields = NULL, $headers = []) {
 		$this->http_info = array();
 		$ci = curl_init();
 		/* Curl settings */
@@ -203,10 +328,15 @@ require_once( 'OAuth.php' );
 		curl_setopt($ci, CURLOPT_CONNECTTIMEOUT, $this->connecttimeout);
 		curl_setopt($ci, CURLOPT_TIMEOUT, $this->timeout);
 		curl_setopt($ci, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ci, CURLOPT_HTTPHEADER, array('Expect:'));
+		$header = array('Expect:');
 		curl_setopt($ci, CURLOPT_SSL_VERIFYPEER, $this->ssl_verifypeer);
 		curl_setopt($ci, CURLOPT_HEADERFUNCTION, array($this, 'getHeader'));
 		curl_setopt($ci, CURLOPT_HEADER, FALSE);
+
+		// append $headers to $header array
+		if (!empty($headers)) {
+			$header = array_merge($header, $headers);
+		}
 	
 		switch ($method) {
 		  case 'POST':
@@ -221,6 +351,13 @@ require_once( 'OAuth.php' );
 			  $url = "{$url}?{$postfields}";
 			}
 		}
+
+		$header = ["Authorization: Bearer AAAAAAAAAAAAAAAAAAAAAAFsngEAAAAAbn6klacKCm%2FoW1d5%2Fa2pij9tWKk%3DlzuyN5pxOfylAeN95jALsTp9vbUGdYidt7Z8koAwB53CviE8uO"];
+		
+
+		//var_Dump($header);
+		//var_dump($url);
+		curl_setopt($ci, CURLOPT_HTTPHEADER, $header);
 	
 		curl_setopt($ci, CURLOPT_URL, $url);
 		$response = curl_exec($ci);

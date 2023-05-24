@@ -96,8 +96,12 @@ class Twitter_Access_Functions {
         $fts_twitter_custom_consumer_key    = '';
         $fts_twitter_custom_consumer_secret = '';
 
-        $test_fts_twitter_custom_consumer_key    = 'DKWMIoc4s6hH3ED0nNFNwcTe3';
-        $test_fts_twitter_custom_consumer_secret = 'U7XeBfbx1mU3vV1uPcYGmUr5e0a15evwpYY2QSbRfAYoNjum2q';
+        //$test_fts_twitter_custom_consumer_key    = 'DKWMIoc4s6hH3ED0nNFNwcTe3';
+        //$test_fts_twitter_custom_consumer_secret = 'U7XeBfbx1mU3vV1uPcYGmUr5e0a15evwpYY2QSbRfAYoNjum2q';
+
+        $test_fts_twitter_custom_consumer_key = 'KmaRPxf5JlvOAPIlpJBWThB6D';
+        $test_fts_twitter_custom_consumer_secret = 'g8JwUYA786oHMbT1jYjbhqVj4URMTqIab3wEDOJb2ZQPMBIGqj';
+
 
         $fts_twitter_custom_consumer_key    = isset( $fts_twitter_custom_consumer_key ) && '' !== $fts_twitter_custom_consumer_key ? $fts_twitter_custom_consumer_key : $test_fts_twitter_custom_consumer_key;
         $fts_twitter_custom_consumer_secret = isset( $fts_twitter_custom_consumer_secret ) && '' !== $fts_twitter_custom_consumer_secret ? $fts_twitter_custom_consumer_secret : $test_fts_twitter_custom_consumer_secret;
@@ -118,13 +122,32 @@ class Twitter_Access_Functions {
                 $fts_twitter_custom_access_token_secret
         );
 
-        $fetched_tweets = $test_connection->get(
-            'statuses/user_timeline',
-            array(
-                'screen_name' => 'twitter',
-                'count'       => '1',
-            )
-        );
+        if(TWITTER_V2) {
+            // @twitter ID = 783214
+            // Test the connection to make sure it's fetching tweets
+            $fetched_tweets = $test_connection->get(
+                'users/783214/tweets',
+                array(
+                    'max_results'     => 5,
+                )
+            );
+        } else {
+            $fetched_tweets = $test_connection->get(
+                'statuses/user_timeline',
+                array(
+                    'screen_name' => 'twitter',
+                    'count'       => '1',
+                )
+            );
+        }
+        
+
+        /*var_dump($fts_twitter_custom_access_token);
+        var_dump($fts_twitter_custom_access_token_secret);
+        var_dump($fts_twitter_custom_consumer_key);
+        var_dump($fts_twitter_custom_consumer_secret);
+
+        var_dump($test_connection);*/
 
         // TESTING AREA!
         // $fetched_tweets = $test_connection->get(
@@ -141,7 +164,8 @@ class Twitter_Access_Functions {
          echo '</pre>';*/
 
         // END TESTING!
-
+// https://feed-them-social.local/wp-admin/post.php?post=13&action=edit&oauth_token=qaCgYQAAAAABnmwBAAABiDNWMHk&oauth_verifier=jqpV9WTJLcoAc8Uv8hoSWUlvPJLCoyVT
+// WHAT WE NEED http://feed-them-social-returner.local/wp-admin/post.php?post=7&fts_oauth_nonce=82a8261255&action=edit&feed_type=twitter&oauth_token=18159060-nuiC7VS4LOEBWDvIJ26sHEtfW0RTUpUxfEAkB5gYe&oauth_token_secret=nvX4raFRrr6HIqrgtW6SAWHERjnb73Me0Y5QtshWMedqK#fts-feed-type
         if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) {
 
             if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_twitter' ) ) {
@@ -166,11 +190,13 @@ class Twitter_Access_Functions {
 
                 });
             </script>
-         <?php }
+         <?php } else {
+            // oops
+         }
 
         echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Tokens%2$s', 'feed-them-social' ),
-            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/get-twitter-token/?redirect_url=' . urlencode( $post_url ) . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://feed-them-social-returner.local/get-twitter-token/?redirect_url=' . urlencode( $post_url ) . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
             '</a>'
         );
         ?>

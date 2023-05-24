@@ -29,6 +29,8 @@
 // Set Plugin's Current Version.
 define( 'FTS_CURRENT_VERSION', '4.1.3' );
 
+define( 'TWITTER_V2', true );
+
 // Require file for plugin loading.
 require_once __DIR__ . '/class-load-plugin.php';
 

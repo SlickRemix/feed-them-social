@@ -680,7 +680,11 @@ class Twitter_Feed {
 	 */
 	public function feed_fetch_error_check( $post_data ) {
         // Favorite count.
-        $favorite_count = isset( $post_data->favorite_count ) && '0' !== $post_data->favorite_count ? $post_data->favorite_count : '';
+        if(TWITTER_V2):
+        	$favorite_count = isset( $post_data->public_metrics->like_count ) && '0' !== $post_data->public_metrics->like_count ? $post_data->public_metrics->like_count : '';
+		else:
+			$favorite_count = isset( $post_data->favorite_count ) && '0' !== $post_data->favorite_count ? $post_data->favorite_count : '';
+		endif;
 
 		return '<a href="' . esc_html( 'https://twitter.com/intent/like?tweet_id=' . $post_data->id . '&related=' . $post_data->user->screen_name ) . '" target="_blank" class="fts-twitter-favorites-wrap" title="' . esc_attr( 'Favorite', 'feed-them-social' ) . '" aria-label="' . esc_attr( 'Favorite', 'feed-them-social' ) . '"><div class="fts-twitter-favorites">' . esc_html( $favorite_count ) . '</div></a>';
 	}
@@ -1090,25 +1094,45 @@ class Twitter_Feed {
 
 				if ( ! empty( $search )  && 'hashtag' === $type ) {
 
-					$connection_search_array = array(
-						'q'           => $search,
-						'count'       => $total_to_fetch,
-						'result_type' => 'recent',
-						'include_rts' => $show_retweets,
-						'tweet_mode'  => 'extended',
-					);
+					if(TWITTER_V2):
 
-					// For Load More Ajax.
-					if ( isset( $_REQUEST['since_id'] ) && isset( $_REQUEST['max_id'] ) ) {
+						$connection_search_array = array(
+							'query'           => $search,
+							'user.fields'		=> 'name,profile_image_url,verified',
+							'tweet.fields'		=> 'text,created_at,author_id,public_metrics,entities,referenced_tweets',
+							'expansions'		=> 'author_id,in_reply_to_user_id,referenced_tweets.id,referenced_tweets.id.author_id,attachments.media_keys',
+							'media.fields'		=> 'preview_image_url,public_metrics,type,variants,url'
+						);
 
-						// $connection_search_array['since_id'] =  $_REQUEST['since_id'];.
-						$connection_search_array['max_id'] = sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) - 1;
-					}
+						$fetched_tweets = $connection->get(
+							'tweets/search/recent',
+							$connection_search_array
+						);						
 
-					$fetched_tweets = $connection->get(
-						'search/tweets',
-						$connection_search_array
-					);
+					else:
+
+						$connection_search_array = array(
+							'q'           => $search,
+							'count'       => $total_to_fetch,
+							'result_type' => 'recent',
+							'include_rts' => $show_retweets,
+							'tweet_mode'  => 'extended',
+						);
+	
+						// For Load More Ajax.
+						if ( isset( $_REQUEST['since_id'] ) && isset( $_REQUEST['max_id'] ) ) {
+	
+							// $connection_search_array['since_id'] =  $_REQUEST['since_id'];.
+							$connection_search_array['max_id'] = sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) - 1;
+						}
+	
+						$fetched_tweets = $connection->get(
+							'search/tweets',
+							$connection_search_array
+						);
+
+					endif;
+
 				} else {
 
 					
@@ -1125,8 +1149,6 @@ class Twitter_Feed {
 									'user.fields' => 'public_metrics',
 								]
 							);
-
-							
 
 							$exclude = [];
 
@@ -1148,7 +1170,7 @@ class Twitter_Feed {
 									'user.fields'		=> 'name,profile_image_url,verified',
 									'tweet.fields'		=> 'text,created_at,author_id,public_metrics,entities,referenced_tweets',
 									'expansions'		=> 'author_id,in_reply_to_user_id,referenced_tweets.id,referenced_tweets.id.author_id,attachments.media_keys',
-									'media.fields'		=> 'preview_image_url,public_metrics'
+									'media.fields'		=> 'preview_image_url,public_metrics,type,variants,url'
 									//'exclude_replies' => $exclude_replies,
 									//'images'          => $description_image,
 									//'include_rts'     => $show_retweets,
@@ -1162,13 +1184,7 @@ class Twitter_Feed {
 								$fetched_tweets = $connection->get(
 									"users/{$feed_author->data->id}/tweets",
 									$connection_user_array
-								);
-								
-
-								//echo "<pre>";
-								//print_r($fetched_tweets);
-								//echo "</pre>";  
-								
+								);								
 
 							endif;
 							
@@ -1204,7 +1220,11 @@ class Twitter_Feed {
 
                 // Check API failure. Return empty array so no fatal error.
                 if ( ! empty( $search ) ) {
-					$fetched_tweets = $fetched_tweets->statuses ?? [];
+					if(TWITTER_V2):
+						$fetched_tweets->data = $fetched_tweets->data ?? [];
+					else:
+						$fetched_tweets = $fetched_tweets->statuses ?? [];
+					endif;
 				} else {
 					$fetched_tweets = $fetched_tweets ?? [];
 				}
@@ -1232,6 +1252,7 @@ class Twitter_Feed {
                     // Handle the error when $tweets_count or $fetched_tweets are not valid or defined
                     // echo 'Error: \$tweets_count or \$fetched_tweets are not valid or defined';
                 }
+
 				
 			}
 
@@ -1274,23 +1295,17 @@ class Twitter_Feed {
 						$this->feed_cache->fts_create_feed_cache( $data_cache, $fetched_tweets );
 					}
 
-					
-
 					$protocol       = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
 					$user_permalink = $protocol . 'twitter.com/' . $twitter_name;
 
 					foreach ( $fetched_tweets->data as $post_data ) {
 
 						if(TWITTER_V2):
-							// This is null. why is it null?
-							//$author = $this->lookup_author($post_data->author_id, $fetched_tweets);
-							//var_dump($author);
-							// todo - query this, seems to look through all posts and returns last user data?
-							// would always be required user, but better way of doing this?
-							$profile_banner_url = $post_data->user->profile_banner_url ?? '';
+							$profile_banner_url = false; // profile banner is unavailable for v2
 							$statuses_count     = $feed_author->data->public_metrics->tweet_count;
 							$followers_count    = $feed_author->data->public_metrics->followers_count;
 							$friends_count      = $feed_author->data->public_metrics->following_count;
+							// How to retrieve total likes from v2?
 							$favourites_count   = $post_data->user->favourites_count ?? '';
 						else:
 							$profile_banner_url = $post_data->user->profile_banner_url ?? '';
@@ -1408,22 +1423,11 @@ class Twitter_Feed {
 							<?php
 					}
 
-					 /*echo'<pre>';
-					 print_r($fetched_tweets->data);
-                     echo'</pre>';*/
-
 					$i = 0;
-
-					/*echo "<pre>";
-					print_r($fetched_tweets->includes->users);
-					echo "</pre>";*/
 
 					foreach ( $fetched_tweets->data as $post_data ) {
 						
 						if(TWITTER_V2):
-							//echo "<pre>";
-							//print_r($post_data);
-							//echo "</pre>";
 							// API V2 returns all of the referenced tweet and user data in the "includes" property
 							// of $fetched_tweets
 							// Lookup function to retrieve relevant author by author id
@@ -1438,11 +1442,12 @@ class Twitter_Feed {
 							$is_reply = $post_data->in_reply_to_user_id ? true : false;
 
 							if($is_reply):
+
 								$reply_author = $this->lookup_author($post_data->in_reply_to_user_id, $fetched_tweets);
 								$in_reply_screen_name = $reply_author->username ?? '';
+
 							endif;
 							
-							//$in_reply_screen_name = $post_data->entities->mentions[0]->username ?? '';
 							// Alternative image sizes method: http://dev.twitter.com/doc/get/users/profile_image/:screen_name */.
 							$image = $author->profile_image_url ?? '';
 
@@ -1452,19 +1457,12 @@ class Twitter_Feed {
 								// call our function to get the date.
 								$retweet = $this->lookup_tweet($post_data->referenced_tweets[0]->id, $fetched_tweets);
 								$retweet_author = $this->lookup_author($retweet->author_id, $fetched_tweets);
-								//$retweet_author = $post_data->entities->mentions[0];
-								/*echo "<pre>";
-								print_r($retweet_author);
-								echo "</pre>";
-								echo "<br/><br/>";
-								echo "<pre>";
-								print_r($fetched_tweets->includes->users);
-								echo "</pre>";*/
 								$screen_name_retweet = $retweet_author->username;
 								$user_name_retweet = $retweet_author->name;
 								$image_retweet = $retweet_author->profile_image_url;
 								// override retweeted_status, since this doesn't exist in 2.0
 								$post_data->retweeted_status = $is_retweet;
+
 							endif;
 
 							// Need to get time in Unix format.
@@ -1497,15 +1495,10 @@ class Twitter_Feed {
 
 						$in_reply_permalink = $protocol . 'twitter.com/' . $in_reply_screen_name;
 
-						
-						
-
 						// $image = str_replace($not_protocol, $protocol, $image);.
 						
 						// tied to date function.
 						$feed_type = 'twitter';
-
-						
 
 						$fts_twitter_full_width = $saved_feed_options['twitter_full_width'] ?? '';
 						$fts_dynamic_name       = isset( $fts_dynamic_name ) ? $fts_dynamic_name : '';
@@ -1529,7 +1522,7 @@ class Twitter_Feed {
 
 						<div class="fts-uppercase fts-bold">
 						    <?php
-							if ( empty( $post_data->retweeted_status ) && 'yes' !== $fts_twitter_full_width ) {
+							if ( !$is_retweet && 'yes' !== $fts_twitter_full_width ) {
 								?>
 								<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
 								class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
@@ -1541,7 +1534,7 @@ class Twitter_Feed {
 
                              <span class="fts-twitter-name-wrap">
 
-									<?php if ( ! isset( $post_data->retweeted_status ) && empty( $post_data->in_reply_to_user_id ) ) { ?>
+									<?php if ( !$is_retweet && empty( $post_data->in_reply_to_user_id ) ) { ?>
 
                                         <a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $twitter_name ); ?></a> &#183; <span ><a href="<?php echo esc_url( $user_permalink ); ?>"
 											class="time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a><br/>
@@ -1562,7 +1555,7 @@ class Twitter_Feed {
 							</span>
 		<?php
 }
-						$permalink = 'https://twitter.com/' . $post_data->user->user_name . '/status/' . $post_data->id; ?>
+						$permalink = 'https://twitter.com/' . $user_name . '/status/' . $post_data->id; ?>
 						</div>
 						<span class="fts-twitter-logo"><a href="<?php echo esc_url( $permalink ); ?>"><i class="fa fa-twitter"></i></a></span>
 						<span class="fts-twitter-text">
@@ -1587,6 +1580,26 @@ class Twitter_Feed {
 										</span>
 
 						<?php
+						
+						
+						// FROM HERE DOWN - NEEDS FURTHER REFACTORING
+						
+						if(TWITTER_V2):
+							$media = false;
+							// Check if tweet has any attachments
+							if($post_data->attachments) {
+								$media_key = $post_data->attachments->media_keys[0];
+								$media = $this->lookup_media($media_key, $fetched_tweets);
+								/*echo "<pre>";
+								print_r($media);
+								print_r($post_data);
+								echo "</pre>";*/
+								echo "<img src='{$media->url}' />";
+							}
+							// Get the media object
+						endif;
+
+
 
 						if ( isset( $post_data->quoted_status->entities->media[0]->type ) ) {
 							$twitter_final = isset( $post_data->quoted_status->entities->media[0]->expanded_url ) && 'video' === $post_data->quoted_status->entities->media[0]->expanded_url ? $post_data->quoted_status->entities->media[0]->expanded_url : '';

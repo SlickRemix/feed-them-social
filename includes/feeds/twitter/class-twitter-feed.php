@@ -1029,11 +1029,9 @@ class Twitter_Feed {
                     return false;
 			    }
 
-                //$fts_twitter_custom_consumer_key    = 'DKWMIoc4s6hH3ED0nNFNwcTe3';
-				//$fts_twitter_custom_consumer_secret = 'U7XeBfbx1mU3vV1uPcYGmUr5e0a15evwpYY2QSbRfAYoNjum2q';
-				$fts_twitter_custom_consumer_key = 'KmaRPxf5JlvOAPIlpJBWThB6D';
-				$fts_twitter_custom_consumer_secret = 'g8JwUYA786oHMbT1jYjbhqVj4URMTqIab3wEDOJb2ZQPMBIGqj';
-
+				$fts_twitter_custom_consumer_key = defined('CUSTOM_CONSUMER_KEY') ? CUSTOM_CONSUMER_KEY : 'DKWMIoc4s6hH3ED0nNFNwcTe3';
+        		$fts_twitter_custom_consumer_secret = defined('CUSTOM_CONSUMER_SECRET') ? CUSTOM_CONSUMER_SECRET : 'U7XeBfbx1mU3vV1uPcYGmUr5e0a15evwpYY2QSbRfAYoNjum2q';
+				
 				$feed_author = array();
 
 
@@ -1088,7 +1086,7 @@ class Twitter_Feed {
 				}
 
 				$fetched_tweets = array();
-				$twitterTimeline = null;
+				
 				// $url_of_status = !empty($url_of_status) ? $url_of_status : "";.
 				// $widget_type_for_videos = !empty($widget_type_for_videos) ? $widget_type_for_videos : "";.
 
@@ -1165,15 +1163,11 @@ class Twitter_Feed {
 								// Twitter v2 parameters, different to the parameters for
 								// v1.1's statuses/user_timeline lookup
 								$connection_user_array = array(
-									//'tweet_mode'      => 'extended',
 									'max_results'       => $total_to_fetch,									
 									'user.fields'		=> 'name,profile_image_url,verified',
 									'tweet.fields'		=> 'text,created_at,author_id,public_metrics,entities,referenced_tweets',
 									'expansions'		=> 'author_id,in_reply_to_user_id,referenced_tweets.id,referenced_tweets.id.author_id,attachments.media_keys',
 									'media.fields'		=> 'preview_image_url,public_metrics,type,variants,url'
-									//'exclude_replies' => $exclude_replies,
-									//'images'          => $description_image,
-									//'include_rts'     => $show_retweets,
 								);
 
 								if(sizeof($exclude) > 0) {

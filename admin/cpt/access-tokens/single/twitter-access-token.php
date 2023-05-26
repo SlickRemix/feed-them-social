@@ -96,12 +96,8 @@ class Twitter_Access_Functions {
         $fts_twitter_custom_consumer_key    = '';
         $fts_twitter_custom_consumer_secret = '';
 
-        //$test_fts_twitter_custom_consumer_key    = 'DKWMIoc4s6hH3ED0nNFNwcTe3';
-        //$test_fts_twitter_custom_consumer_secret = 'U7XeBfbx1mU3vV1uPcYGmUr5e0a15evwpYY2QSbRfAYoNjum2q';
-
-        $test_fts_twitter_custom_consumer_key = 'KmaRPxf5JlvOAPIlpJBWThB6D';
-        $test_fts_twitter_custom_consumer_secret = 'g8JwUYA786oHMbT1jYjbhqVj4URMTqIab3wEDOJb2ZQPMBIGqj';
-
+        $test_fts_twitter_custom_consumer_key = defined('CUSTOM_CONSUMER_KEY') ? CUSTOM_CONSUMER_KEY : 'DKWMIoc4s6hH3ED0nNFNwcTe3';
+        $test_fts_twitter_custom_consumer_secret = defined('CUSTOM_CONSUMER_SECRET') ? CUSTOM_CONSUMER_SECRET : 'U7XeBfbx1mU3vV1uPcYGmUr5e0a15evwpYY2QSbRfAYoNjum2q';
 
         $fts_twitter_custom_consumer_key    = isset( $fts_twitter_custom_consumer_key ) && '' !== $fts_twitter_custom_consumer_key ? $fts_twitter_custom_consumer_key : $test_fts_twitter_custom_consumer_key;
         $fts_twitter_custom_consumer_secret = isset( $fts_twitter_custom_consumer_secret ) && '' !== $fts_twitter_custom_consumer_secret ? $fts_twitter_custom_consumer_secret : $test_fts_twitter_custom_consumer_secret;

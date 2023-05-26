@@ -203,17 +203,27 @@ require_once( 'OAuth.php' );
 		case 'GET':
 			if(TWITTER_V2) {
 				// todo - send this data along in the headers
-				//$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
 				
-				/*$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
+				$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
 				$request->sign_request($this->sha1_method, $this->consumer, $this->token);
 				$params = $request->get_parameters();
 
-				$header = ["authorization: OAuth oauth_consumer_key='{$params['oauth_consumer_key']}', oauth_nonce='{$params['oauth_nonce']}', oauth_signature='{$params['oauth_signature']}', oauth_signature_method='HMAC-SHA1', oauth_timestamp='{$params['oauth_timestamp']}', oauth_token='{$params['oauth_token']}', oauth_version='1.0'"];*/
+				// $request->to_url() - matches the params
+				// apply urlencode to all of $param
 
-				$header = ["Authorization: Bearer AAAAAAAAAAAAAAAAAAAAAAFsngEAAAAAbn6klacKCm%2FoW1d5%2Fa2pij9tWKk%3DlzuyN5pxOfylAeN95jALsTp9vbUGdYidt7Z8koAwB53CviE8uO"];
+				$params['oauth_signature'] = urlencode($params['oauth_signature']);
+
+				//$header = ["Authorization: OAuth oauth_consumer_key='{$params['oauth_consumer_key']}', oauth_nonce='{$params['oauth_nonce']}', oauth_signature='{$params['oauth_signature']}', oauth_signature_method='HMAC-SHA1', oauth_timestamp='{$params['oauth_timestamp']}', oauth_token='{$params['oauth_token']}', oauth_version='1.0'"];
+
+				$header = ["Authorization: Bearer ".TWITTER_BEARER_TOKEN];
+
 				$fullUrl = $url."?".http_build_query($parameters);
 				$response = $this->http_v2($fullUrl, $header);
+				
+				//var_dump($header);
+				//var_dump($response);
+				//exit;
+
 				return $response;
 			} else {
 				$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
@@ -297,9 +307,7 @@ require_once( 'OAuth.php' );
 			  $url = "{$url}?{$postfields}";
 			}
 		}
-
-		$header = ["Authorization: Bearer AAAAAAAAAAAAAAAAAAAAAAFsngEAAAAAbn6klacKCm%2FoW1d5%2Fa2pij9tWKk%3DlzuyN5pxOfylAeN95jALsTp9vbUGdYidt7Z8koAwB53CviE8uO"];
-		
+	
 
 		//var_Dump($header);
 		//var_dump($url);

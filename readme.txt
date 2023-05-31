@@ -119,7 +119,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.1.5 Wednesday, May 31st, 2023 =
-  * FIX: Path to languages folder was not correct. Thank you so much [@eriamel](https://wordpress.org/support/users/eriamel/) for pointing this out.
+  * FIX: The path to the languages folder was not correct. Thank you so much [@eriamel](https://wordpress.org/support/users/eriamel/) for pointing this out.
 
 = Version 4.1.4 Tuesday, May 23rd, 2023 =
   * NOTE: Tested with WordPress version 6.2.2.

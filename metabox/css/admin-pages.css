@@ -999,6 +999,15 @@ textarea#ft-gallery-main-wrapper-css-input, textarea#ft-gallery-main-wrapper-cus
     margin-top: 0 !important
 }
 
+
+.feed-them-social-admin-input-wrap.checkbox-row input[type=checkbox] {
+    margin:auto
+}
+
+.feed-them-social-admin-input-wrap.checkbox-row input[type=checkbox]:disabled {
+    display: none !important;
+}
+
 .feed-them_page_ft-gallery-settings-page .quick-links-hashtag-etc-wrap {
     margin: 0 !important
 }

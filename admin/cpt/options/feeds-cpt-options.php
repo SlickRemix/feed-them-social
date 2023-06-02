@@ -3580,6 +3580,17 @@ class Feed_CPT_Options {
 						'attr_name' => 'popup',
 					),
 				),
+
+				// Reels Options
+				array(
+					'grouped_options_title' => __( 'Reels Options', 'feedm-them-social' ),
+					'option_type' => 'checkbox',
+					'label' => __( 'Display Reels only', 'feed-them-social' ),
+					'id' => 'instagram_reels_option',
+					'name' => 'instagram_reels_option',
+					'req_extensions'        => array( 'feed_them_social_premium' ),
+					'input_wrap_class' => 'checkbox-row'
+				)
 			),
 		);
 

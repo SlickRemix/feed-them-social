@@ -759,11 +759,27 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 			// echo '</pre>';
 
 			if ( $insta_data->data) {
+
+				$premium_is_active = is_plugin_active( 'feed-them-premium/feed-them-premium.php' );
+				$reels_only_mode =  isset( $saved_feed_options['instagram_reels_option'] ) && 'true' === $saved_feed_options['instagram_reels_option'] && $premium_is_active;
+
                 foreach ( $insta_data->data as $post_data ) {
                     if ( isset( $set_zero ) && $set_zero === $saved_feed_options['instagram_pics_count'] ) {
                         break;
                     }
 
+					// Could be IMAGE, VIDEO or CAROUSEL_ALBUM
+					$media_type = $post_data->media_type;
+
+					// Checks if the current media type is video and the video has a reel permalink.
+					if (
+						$reels_only_mode && 'VIDEO' !== $media_type ||
+						'VIDEO' === $media_type && false === strpos( $post_data->permalink, 'reel' )
+					) {
+						continue;
+					}
+
+					
                     // Create Instagram Variables
                     // tied to date function.
                     $feed_type   = 'instagram';

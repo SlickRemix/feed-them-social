@@ -5,7 +5,7 @@ Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagr
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.2.2
-Stable tag: 4.1.5
+Stable tag: 4.1.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,11 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.1.6 Wednesday, June 7th, 2023 =
+  * NEW: Beaver Builder Module added. When editing or creating a new page, or post you can look for Social Modules and Feed Them Social will appear. You can also search for social in the modules list and Feed Them Social will appear.
+  * FIX: Astra Theme: The close button for popup was not positioned correctly when hovering.
+  * REMOVED: Settings: Developer mode for caching.
+
 = Version 4.1.5 Wednesday, May 31st, 2023 =
   * FIX: The path to the languages folder was not correct. Thank you so much [@eriamel](https://wordpress.org/support/users/eriamel/) for pointing this out.
 

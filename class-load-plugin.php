@@ -226,10 +226,6 @@ class Feed_Them_Social {
 		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_PATH' ) ) {
 			define( 'FEED_THEM_SOCIAL_PLUGIN_PATH', plugins_url() );
 		}
-		// Plugin Directory Path.
-		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
-			define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
-		}
 
 		// Plugin Directory Path.
 		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
@@ -387,5 +383,9 @@ class Feed_Them_Social {
 		// Feed Block
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'blocks/block-loader.php';
 
+        if (class_exists('FLBuilder')) {
+            // Beaver Builder Module
+            include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/beaver-builder/includes/module.php';
+        }
 	}
 }

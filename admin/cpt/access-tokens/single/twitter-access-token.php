@@ -67,7 +67,9 @@ class Twitter_Access_Functions {
 	 */
 	public function set_new_access_tokens() {
 		// Set New Access Tokens!
-		if ( isset( $_GET['oauth_token'], $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token_secret'] ) ) {
+
+        
+        if ( isset( $_GET['oauth_token'], $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token_secret'] ) ) {
 			$new_oath_token         = sanitize_text_field( wp_unslash( $_GET['oauth_token'] ) );
 			$new_oauth_token_secret = sanitize_text_field( wp_unslash( $_GET['oauth_token_secret'] ) );
 			// Set Returned Access Tokens.
@@ -88,6 +90,16 @@ class Twitter_Access_Functions {
             'post' => $feed_cpt_id,
             'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_twitter' )
         ), admin_url( 'post.php' ) );
+
+		
+        if( isset($_GET['user_bearer_token']) &&
+            !empty($_GET['user_bearer_token']) &&
+            isset($_GET['user_refresh_token']) &&
+            !empty($_GET['user_refresh_token'])
+        ) {
+            update_option('user_bearer_token', $_GET['user_bearer_token']);
+            update_option('user_refresh_token', $_GET['user_refresh_token']);
+        }
 
         // Check if new tokens have been returned.
         // old method, keeping in place for reference.
@@ -137,31 +149,6 @@ class Twitter_Access_Functions {
             );
         }
         
-
-        /*var_dump($fts_twitter_custom_access_token);
-        var_dump($fts_twitter_custom_access_token_secret);
-        var_dump($fts_twitter_custom_consumer_key);
-        var_dump($fts_twitter_custom_consumer_secret);
-
-        var_dump($test_connection);*/
-
-        // TESTING AREA!
-        // $fetched_tweets = $test_connection->get(
-        // 'statuses/user_timeline',
-        // array(
-        // 'tweet_mode' => 'extended',
-        // 'screen_name' => 'slickremix',
-        // 'count' => '1',
-        // )
-        // );
-
-         /*echo '<pre>';
-         print_r( $fetched_tweets) ;
-         echo '</pre>';*/
-
-        // END TESTING!
-// https://feed-them-social.local/wp-admin/post.php?post=13&action=edit&oauth_token=qaCgYQAAAAABnmwBAAABiDNWMHk&oauth_verifier=jqpV9WTJLcoAc8Uv8hoSWUlvPJLCoyVT
-// WHAT WE NEED http://feed-them-social-returner.local/wp-admin/post.php?post=7&fts_oauth_nonce=82a8261255&action=edit&feed_type=twitter&oauth_token=18159060-nuiC7VS4LOEBWDvIJ26sHEtfW0RTUpUxfEAkB5gYe&oauth_token_secret=nvX4raFRrr6HIqrgtW6SAWHERjnb73Me0Y5QtshWMedqK#fts-feed-type
         if ( isset( $_GET['oauth_token'], $_GET['feed_type'] ) && 'twitter' === $_GET['feed_type'] ) {
 
             if ( ! isset( $_GET['fts_oauth_nonce'] ) || 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_twitter' ) ) {
@@ -190,9 +177,11 @@ class Twitter_Access_Functions {
             // oops
          }
 
+        $fts_twitter_access_token_url = defined('FTS_TWITTER_ACCESS_TOKEN_URL') ? \FTS_TWITTER_ACCESS_TOKEN_URL : 'https://www.slickremix.com/get-twitter-token';
+        
         echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Tokens%2$s', 'feed-them-social' ),
-            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://feed-them-social-returner.local/get-twitter-token/?redirect_url=' . urlencode( $post_url ) . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( $fts_twitter_access_token_url . '?redirect_url=' . urlencode( $post_url ) . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
             '</a>'
         );
         ?>

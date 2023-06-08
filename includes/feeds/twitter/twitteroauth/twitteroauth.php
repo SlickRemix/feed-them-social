@@ -215,9 +215,12 @@ require_once( 'OAuth.php' );
 
 				//$header = ["Authorization: OAuth oauth_consumer_key='{$params['oauth_consumer_key']}', oauth_nonce='{$params['oauth_nonce']}', oauth_signature='{$params['oauth_signature']}', oauth_signature_method='HMAC-SHA1', oauth_timestamp='{$params['oauth_timestamp']}', oauth_token='{$params['oauth_token']}', oauth_version='1.0'"];
 
-				$header = ["Authorization: Bearer ".TWITTER_BEARER_TOKEN];
-
+				//$header = ["Authorization: Bearer ".TWITTER_BEARER_TOKEN];
+				$header = ["Authorization: Bearer ".get_option('user_bearer_token')];
+				
+				
 				$fullUrl = $url."?".http_build_query($parameters);
+				
 				$response = $this->http_v2($fullUrl, $header);
 				
 				//var_dump($header);
@@ -260,6 +263,7 @@ require_once( 'OAuth.php' );
 		curl_setopt($ci, CURLOPT_HTTPHEADER, $header);	
 		curl_setopt($ci, CURLOPT_URL, $url);
 		$response = curl_exec($ci);
+		
 		$this->http_code = curl_getinfo($ci, CURLINFO_HTTP_CODE);
 		$this->http_info = array_merge($this->http_info, curl_getinfo($ci));
 		$this->url = $url;

@@ -1105,7 +1105,7 @@ class Twitter_Feed {
 						$fetched_tweets = $connection->get(
 							'tweets/search/recent',
 							$connection_search_array
-						);						
+						);
 
 					else:
 
@@ -1178,7 +1178,7 @@ class Twitter_Feed {
 								$fetched_tweets = $connection->get(
 									"users/{$feed_author->data->id}/tweets",
 									$connection_user_array
-								);								
+								);
 
 							endif;
 							

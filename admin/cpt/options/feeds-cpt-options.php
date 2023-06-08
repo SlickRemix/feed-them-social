@@ -3064,6 +3064,26 @@ class Feed_CPT_Options {
 					),
 				),
 
+				// Reels Options (Business)
+				array(
+					'input_wrap_class'   => 'instagram_business_reels',
+					'option_type' => 'select',
+					'label' => __( 'Display Reels only', 'feed-them-social' ),
+					'id' => 'instagram_business_reels_option',
+					'name' => 'instagram_business_reels_option',
+					'req_extensions'        => array( 'feed_them_social_premium' ),
+					'options'               => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+				),
+
 				// Pic Count
 				array(
 					'option_type'       => 'input',
@@ -3083,6 +3103,26 @@ class Feed_CPT_Options {
 						'var_final_if'      => 'yes',
 						'empty_error'       => 'set',
 						'empty_error_value' => 'instagram_pics_count=6',
+					),
+				),
+
+				// Reels Options (Basic)
+				array(
+					'input_wrap_class'   => 'instagram_basic_reels',
+					'option_type' => 'select',
+					'label' => __( 'Display Reels only', 'feed-them-social' ),
+					'id' => 'instagram_basic_reels_option',
+					'name' => 'instagram_basic_reels_option',
+					'req_extensions'        => array( 'feed_them_social_premium' ),
+					'options'               => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
 					),
 				),
 
@@ -3579,17 +3619,6 @@ class Feed_CPT_Options {
 					'short_attr'            => array(
 						'attr_name' => 'popup',
 					),
-				),
-
-				// Reels Options
-				array(
-					'grouped_options_title' => __( 'Reels Options', 'feedm-them-social' ),
-					'option_type' => 'checkbox',
-					'label' => __( 'Display Reels only', 'feed-them-social' ),
-					'id' => 'instagram_reels_option',
-					'name' => 'instagram_reels_option',
-					'req_extensions'        => array( 'feed_them_social_premium' ),
-					'input_wrap_class' => 'checkbox-row'
 				)
 			),
 		);

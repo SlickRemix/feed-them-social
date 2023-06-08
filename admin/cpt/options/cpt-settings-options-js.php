@@ -318,6 +318,8 @@ class Settings_Options_JS {
                 jQuery('#instagram_feed_type').find('[value="business"]').attr('selected', 'selected').show();
                 jQuery('#instagram_feed_type').find('[value="hashtag"]').removeAttr('selected').show();
                 jQuery('.instagram_feed_type').show();
+                jQuery( '.instagram_basic_reels' ).show();
+                jQuery( '.instagram_business_reels' ).hide();
             }
 
             if( jQuery('#fts-instagram-basic-token-button').hasClass( 'fts-social-icon-wrap-active' ) ||
@@ -328,6 +330,13 @@ class Settings_Options_JS {
                 jQuery('#instagram_feed_type').find('[value="business"]').removeAttr('selected').hide();
                 jQuery('#instagram_feed_type').find('[value="hashtag"]').removeAttr('selected').hide();
                 jQuery('.instagram_hashtag, .instagram_hashtag_type, .instagram_feed_type').hide();
+                jQuery( '.instagram_basic_reels' ).show();
+                jQuery( '.instagram_business_reels' ).hide();
+            } else if ( jQuery('#fts-instagram-basic-token-button').hasClass( 'fts-social-icon-wrap-active' ) ||
+                jQuery( '#feed_type' ).val() === 'instagram-feed-type' &&
+                jQuery('#instagram_feed_type').val() === 'business' ) {
+                    jQuery( '.instagram_basic_reels' ).hide();
+                    jQuery( '.instagram_business_reels' ).show();
             }
         }
 

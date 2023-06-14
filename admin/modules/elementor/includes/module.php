@@ -28,7 +28,9 @@ class Widget_Loader{
     }
 
     public function __construct(){
+
         add_action('elementor/widgets/widgets_registered', [$this, 'register_widgets'], 99);
+
     }
 }
 

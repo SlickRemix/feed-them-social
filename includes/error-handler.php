@@ -211,7 +211,8 @@ class fts_error_handler {
 	 */
 	public function youtube_error_check( $feed_data ) {
 
-		//$feed_data = json_decode( $feed_data->data );
+		//$feed_data$feed_data = json_decode( $feed_data->data );
+        // print_r($feed_data);
 
 		// return error if no data retrieved!
 		try {

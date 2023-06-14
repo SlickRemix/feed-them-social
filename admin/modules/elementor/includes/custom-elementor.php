@@ -7,6 +7,53 @@ use Elementor\Controls_Manager;
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
+//https://developers.elementor.com/docs/scripts-styles/preview-styles/
+add_action('elementor/preview/enqueue_styles', function() {
+
+    wp_enqueue_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
+    wp_enqueue_style( 'fts-feed-styles' );
+});
+
+// https://developers.elementor.com/docs/scripts-styles/preview-scripts/
+add_action('elementor/preview/enqueue_scripts', function() {
+
+    // Masonry snippet in fts-global.js file.
+    wp_register_script( 'fts-feed-scripts', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+    wp_enqueue_script( 'fts-feed-scripts' );
+
+    // Register Premium Styles & Scripts.
+    if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
+        // Masonry Script.
+        wp_register_script( 'fts-feed-scripts-masonry', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
+        wp_enqueue_script( 'fts-feed-scripts-masonry' );
+
+        // Images Loaded Script.
+        wp_register_script( 'fts-feed-scripts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array( ), FTS_CURRENT_VERSION, false );
+        wp_enqueue_script( 'fts-feed-scripts-images-loaded' );
+    }
+
+    // Register Feed Them Carousel Scripts.
+    if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+        wp_register_script( 'fts-feed-scripts-cycle2', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
+        wp_enqueue_script( 'fts-feed-scripts-cycle2' );
+    }
+});
+
+add_action('elementor/editor/after_enqueue_scripts', function() {
+
+    wp_register_style( 'fts-custom-styles', plugins_url( '/css/styles.css', __FILE__ ) );
+    wp_enqueue_style( 'fts-custom-styles' );
+
+    wp_register_script( 'fts-custom-scripts', plugins_url( '/js/scripts.js', __FILE__ ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+    wp_enqueue_script( 'fts-custom-scripts' );
+
+    $dataToBePassed = array(
+        'create_feed_url' => get_admin_url() . 'post-new.php?post_type=fts',
+        'edit_feed_url' => get_admin_url() . 'edit.php?post_type=fts'
+    );
+    wp_localize_script( 'fts-custom-scripts', 'php_vars', $dataToBePassed );
+});
+
 class Advertisement extends Widget_Base{
 
     public function get_name() {
@@ -18,6 +65,7 @@ class Advertisement extends Widget_Base{
     }
 
     protected function _register_controls() {
+
         $this->start_controls_section(
             'content_section',
             [
@@ -43,25 +91,19 @@ class Advertisement extends Widget_Base{
             ]
         );
 
+        $this->add_control(
+            'custom_html',
+            [
+                'type' => Controls_Manager::RAW_HTML,
+                'raw' => '<div class="fts-edit-el-wrapper"><label>'.__( 'Feeds', 'feed-them-social' ).'</label><button class="fts-elementor-link" onclick="ftsEditEL()">'.__( 'Edit', 'feed-them-social' ).'</button> <button class="fts-elementor-link" onclick="ftsNewEL()">'.__( 'Create New', 'feed-them-social' ).'</button></div>',
+                'content_classes' => 'your-custom-class',
+            ]
+        );
+
         $this->end_controls_section();
     }
 
     protected function render() {
-
-        if (\Elementor\Plugin::$instance->editor->is_edit_mode()) {
-
-            // We have to load the scripts and front end styles scripts here because Elementor
-            // loads everything through ajax in the edit panel and wp_enqueue_scripts will not work in that method.
-
-            // We need to be able to load the scripts function from the feed-shortcode.php page.
-            // Register Frontend Styles & Scripts, line 154 of the feed-shortcode.php file.
-            // add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend_styles_scripts' ) );
-
-            // We also need to load the this function too from line 363 of the feed-shortcode.php file.
-            // that is the function that looks to see if any custom styles or scripts have been added to our settings page.
-            // Load Frontend Styles & Scripts ONLY on Feed pages.
-            // $this->load_frontend_styles_scripts();
-        }
 
         $settings = $this->get_settings_for_display();
         echo do_shortcode('[feed_them_social cpt_id=' . $settings['post_id'] . ']');

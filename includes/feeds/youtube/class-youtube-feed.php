@@ -320,7 +320,7 @@ class Youtube_Feed {
                         // error_log( print_r( $user_returned, true ) );
                         if ( is_object( $user_returned ) && isset( $user_returned->items ) ) {
                             // User Playlist ID!
-                            $user_playlist_id = $user_returned->items[0]->contentDetails->relatedPlaylists->uploads;
+                            $user_playlist_id = !empty( $user_returned->items[0]->contentDetails->relatedPlaylists->uploads ) ? $user_returned->items[0]->contentDetails->relatedPlaylists->uploads : '';
 
                             // error_log( print_r( $user_playlist_id, true ) );
                             // now we parse the users uploaded vids ID and create the playlist.
@@ -395,7 +395,8 @@ class Youtube_Feed {
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         // YouTube Playlist Cache Folder.
-                        $feed_cache_name = 'pics_user_vids_list_' . $saved_feed_options['youtube_playlistID'] . '_bnum' . $vid_count . '_playlist';
+                        $youtube_playlistID = !empty($saved_feed_options['youtube_playlistID']) ? $saved_feed_options['youtube_playlistID'] : '';
+                        $feed_cache_name = 'pics_user_vids_list_' . $youtube_playlistID . '_bnum' . $vid_count . '_playlist';
                     }
                 }
 
@@ -427,13 +428,16 @@ class Youtube_Feed {
             if ( ! isset( $_GET['load_more_ajaxing'] ) && $saved_feed_options['youtube_feed_type'] !== 'singleID' && 'yes' === $youtube_show_follow_btn && 'youtube-follow-above' === $youtube_show_follow_btn_where && ! isset( $_GET['load_more_ajaxing'] ) ) {
                 echo '<div class="youtube-social-btn-top">';
                 if ( $saved_feed_options['youtube_feed_type'] === 'username' && !empty( $saved_feed_options['youtube_name'] ) || $saved_feed_options['youtube_feed_type'] === 'userPlaylist'  && !empty( $saved_feed_options['youtube_name2'] ) ) {
-                    echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_name'], $saved_feed_options );
+                    $youtube_name = !empty($saved_feed_options['youtube_name']) ? $saved_feed_options['youtube_name'] : '';
+                    echo $this->feed_functions->social_follow_button( 'youtube', $youtube_name, $saved_feed_options );
                 }
                 elseif (  $saved_feed_options['youtube_feed_type'] === 'channelID' && !empty( $saved_feed_options['youtube_channelID'] )  ) {
-                    echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID'], $saved_feed_options );
+                    $youtube_channelID = !empty($saved_feed_options['youtube_channelID']) ? $saved_feed_options['youtube_channelID'] : '';
+                    echo $this->feed_functions->social_follow_button( 'youtube', $youtube_channelID, $saved_feed_options );
                 }
                 elseif (  $saved_feed_options['youtube_feed_type'] === 'playlistID' && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
-                    echo $this->feed_functions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID2'], $saved_feed_options );
+                    $youtube_channelID2 = !empty($saved_feed_options['youtube_channelID2']) ? $saved_feed_options['youtube_channelID2'] : '';
+                    echo $this->feed_functions->social_follow_button( 'youtube', $youtube_channelID2, $saved_feed_options );
                 }
                 echo '</div>';
             }
@@ -621,10 +625,10 @@ class Youtube_Feed {
                             $thumbnail = $post_data->snippet->thumbnails->maxres->url;
                         }
 
-                        if ( ! empty( $saved_feed_options['youtube_name'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) ) {
-                            $video_id = $post_data->snippet->resourceId->videoId;
+                        if ( ! empty( $saved_feed_options['youtube_name'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) || ! empty( $saved_feed_options['youtube_playlistID2'] ) ) {
+                            $video_id = !empty( $post_data->snippet->resourceId->videoId ) ? $post_data->snippet->resourceId->videoId : '';
                         } else {
-                            $video_id = $post_data->id->videoId ?? $post_data->id->playlistId;
+                            $video_id = !empty( $post_data->id->videoId ) ? $post_data->id->videoId : '';
                         }
 
                         $popup_set = isset( $wrap ) && '' !== $wrap && 'yes' === $saved_feed_options['youtube_play_thumbs'] || ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ? 'slicker-youtube-placeholder-' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) . ' ' : '';
@@ -737,6 +741,8 @@ class Youtube_Feed {
                     $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_playlistID'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) && ! empty( $saved_feed_options['youtube_channelID'] ) ) {
                     $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token : '';
+                } elseif ( ! empty( $saved_feed_options['youtube_playlistID2'] ) || ! empty( $saved_feed_options['youtube_playlistID2'] ) && ! empty( $saved_feed_options['youtube_channelID2'] ) ) {
+                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID2'] . '&order=date&' . $youtube_api_key_or_token : '';
                 }
                 else {
                     $next_url = '';
@@ -941,6 +947,15 @@ class Youtube_Feed {
                 }
                 echo '</div>';
             }
+            ?>
+            <script>
+                // This needs to load here below the feed to load properly for
+                // Elementor page preview, and also some types of tabs that use js to load.
+                jQuery(document).ready(function() {
+                    slickremixImageResizingYouTube();
+                });
+            </script>
+            <?php
 
             return ob_get_clean();
 

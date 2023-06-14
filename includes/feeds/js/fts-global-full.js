@@ -53,7 +53,9 @@ if (!jQuery.trim(jQuery('.fts-jal-fb-group-display').html()).length) {
 // <	less than      x < 8	true
 // https://www.slickremix.com/betablog/2017/09/20200/
 
-jQuery(document).ready(slickremixImageResizing);
+// commenting this out because it needs to load at the bottom of the instagram feed for Elementor Preview
+// And some types of tabs that load with js.
+// jQuery(document).ready(slickremixImageResizing);
 jQuery(window).on('resize',slickremixImageResizing);
 
 function slickremixImageResizing() {

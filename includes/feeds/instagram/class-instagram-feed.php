@@ -914,15 +914,13 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                 $url_final             = isset( $child->media_url ) ? $child->media_url : $url;
                                 $data_type_video_child = ! empty( $url_final ) && false != strpos( $url_final, 'mp4' ) ? 'video_media' : 'image_media';
                                 ?>
-        <a href='
-                                <?php
+								<a href='<?php
                                 if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup && 'image_media' === $data_type_video_child ) {
                                     print esc_url( $this->fts_instagram_image_link( $child ) );
                                 } elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && 'video_media' === $data_type_video_child ) {
                                     print esc_url( $this->fts_instagram_video_link( $child ) );
                                 }
-                                ?>
-                            ' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='fts-child-media fts-child-media-hide fts-instagram-link-target fts-slicker-backg
+                                ?>' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='fts-child-media fts-child-media-hide fts-instagram-link-target fts-slicker-backg
                                 <?php
                                 if ( 'video_media' === $data_type_video_child && isset( $popup ) && 'yes' === $popup ) {
                                     ?>
@@ -998,7 +996,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     $access_token         = 'access_token=' . $this->feed_access_token;
                     $_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
                     ?>
-            <script>var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";</script>
+            		<script>var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";</script>
                     <?php
                     // Make sure it's not ajaxing.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {
@@ -1105,21 +1103,21 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 			// only show this script if the height option is set to a number.
 			if ( ! empty( $height ) && 'auto' !== $height ) {
 				?>
-		<script>
-			// this makes it so the page does not scroll if you reach the end of scroll bar or go back to top
-			jQuery.fn.isolatedScrollFacebookFTS = function () {
-				this.bind('mousewheel DOMMouseScroll', function (e) {
-					var delta = e.wheelDelta || (e.originalEvent && e.originalEvent.wheelDelta) || -e.detail,
-						bottomOverflow = this.scrollTop + jQuery(this).outerHeight() - this.scrollHeight >= 0,
-						topOverflow = this.scrollTop <= 0;
-					if ((delta < 0 && bottomOverflow) || (delta > 0 && topOverflow)) {
-						e.preventDefault();
-					}
-				});
-				return this;
-			};
-			jQuery('.fts-instagram-scrollable').isolatedScrollFacebookFTS();
-		</script>
+				<script>
+					// this makes it so the page does not scroll if you reach the end of scroll bar or go back to top
+					jQuery.fn.isolatedScrollFacebookFTS = function () {
+						this.bind('mousewheel DOMMouseScroll', function (e) {
+							var delta = e.wheelDelta || (e.originalEvent && e.originalEvent.wheelDelta) || -e.detail,
+								bottomOverflow = this.scrollTop + jQuery(this).outerHeight() - this.scrollHeight >= 0,
+								topOverflow = this.scrollTop <= 0;
+							if ((delta < 0 && bottomOverflow) || (delta > 0 && topOverflow)) {
+								e.preventDefault();
+							}
+						});
+						return this;
+					};
+					jQuery('.fts-instagram-scrollable').isolatedScrollFacebookFTS();
+				</script>
 			<?php } //end $height !== 'auto' && empty( $height ) == NULL. ?>
 			<?php
 			if ( ! empty( $loadmore ) && 'autoscroll' === $loadmore || ! empty( $height ) ) {
@@ -1153,9 +1151,20 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 					echo $this->feed_functions->social_follow_button( 'instagram', $username, $saved_feed_options );
 					echo '</div>';
 				}
+				?>
+				<script>
+					// This needs to load here below the feed to load properly for
+					// Elementor page preview, and also some types of tabs that use js to load.
+					jQuery(document).ready(function() {
+						slickremixImageResizing();
+						if (jQuery.isFunction(jQuery.fn.ftsShare)) {
+							jQuery.fn.ftsShare();
+						}
+					});
+				</script>
+				<?php
 			}
 		} // end nonce
-
 		return ob_get_clean();
 	}
 

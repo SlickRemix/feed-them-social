@@ -298,7 +298,7 @@ class Feed_CPT_Options {
                     ),*/
 					'instructional-text' => sprintf(
 						esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your Twitter posts. Once you have your Access Token you will be able to create a feed.
-						%3$s As of the recent API changes and Twitter now charging us to pull Tweets, the feed may only work sometimes because we are being rate limited. We are looking into alternate options. The hashtag, search, retweets, replies and load more option will also not be available until further notice. If your feed does connect we suggest setting the cache time to as least 3 days or more.
+						%3$s As of the recent API changes and Twitter now charging us to pull Tweets, the feed may only work sometimes because we are being rate limited. We are looking into alternate options. The hashtag, search, retweets, replies, and load more option will also not be available until further notice. If your feed does connect, we suggest setting the cache time to at least 3 days or more.
 						', 'feed_them_social' ),
 						'<strong>',
 						'</strong>',

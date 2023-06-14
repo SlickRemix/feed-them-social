@@ -996,7 +996,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     $access_token         = 'access_token=' . $this->feed_access_token;
                     $_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
                     ?>
-            		<script>var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";</script>
+<!--            		<script>var nextURL_--><?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>//= "<?php //echo str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>//";</script>
                     <?php
                     // Make sure it's not ajaxing.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && ! empty( $loadmore ) ) {
@@ -1037,7 +1037,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                     jQuery.ajax({
                                         data: {
                                             action: "my_fts_fb_load_more",
-                                            next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
+                                            //next_url: nextURL_<?php //echo sanitize_key( $fts_dynamic_name ); ?>//,
                                             fts_dynamic_name: fts_d_name,
                                             load_more_ajaxing: yes_ajax,
                                             fts_security: fts_security,

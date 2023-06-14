@@ -329,7 +329,7 @@ class Twitter_Feed {
                         }
                         elseif( ini_get('allow_url_fopen') ){
                             // If curl fails try file get contents
-                            $html = file_get_contents( $twitter_external_url );
+//                            $html = file_get_contents( $twitter_external_url );
                         }
 
                         // The first 2 are preg_match_all with single quotes '', the second 2 are with double quotes "". We have to check for both.
@@ -398,10 +398,10 @@ class Twitter_Feed {
 	    );
 
 	   if( !empty( $twitter_info[ 'image' ] ) && !empty( $twitter_info[ 'title' ] ) && !empty( $twitter_info[ 'description' ] ) ){
-	        echo $this->fts_twitter_external_link_wrap( $twitter_info );
+	        // echo $this->fts_twitter_external_link_wrap( $twitter_info );
 	   }
 	   else {
-	       echo $twitter_info[ 'error' ];
+	       // echo $twitter_info[ 'error' ];
 	   }
 
         wp_die();
@@ -429,7 +429,7 @@ class Twitter_Feed {
 
 	    echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
 
-	        echo $twitter_image;
+	        // echo $twitter_image;
 
             echo '<div class="fts-twitter-quoted-text fts-quote-tweet ' . esc_html( $twitter_image_class ) . '">';
 
@@ -477,7 +477,7 @@ class Twitter_Feed {
 
                 echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
 
-                    echo $twitter_image;
+                    // echo $twitter_image;
 
                             echo '<div class="fts-twitter-quoted-text fts-retweet-quote ' . esc_html( $twitter_image_class ) . '">';
 
@@ -505,7 +505,7 @@ class Twitter_Feed {
 
             }
             else {
-                    echo $twitter_image;
+                    // echo $twitter_image;
             }
 	}
 
@@ -524,7 +524,7 @@ class Twitter_Feed {
 
 	    echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
 
-	        echo $this->tweet_image( '', $details, '' );
+	        // echo $this->tweet_image( '', $details, '' );
 
             echo '<div class="fts-twitter-quoted-text fts-external-link-specific">';
 
@@ -533,13 +533,13 @@ class Twitter_Feed {
                     $domain = wp_parse_url( $post_url );
                     $domain = str_replace('www.','', $domain['host'] );
 
-                    echo '<span class="fts-twitter-domain-name">'. $domain . '</span>';
+                   // echo '<span class="fts-twitter-domain-name">'. $domain . '</span>';
 
-                    echo '<span class="fts-twitter-quoted-title">' . $title . '</span>';
+                   // echo '<span class="fts-twitter-quoted-title">' . $title . '</span>';
 
                     echo '<span class="fts-twitter-quoted-description">';
                         // This description comes from the external url getting the meta og:description.
-                       echo \wp_kses(
+                      /* echo \wp_kses(
                            $description,
                              array(
                                   'br'     => array(),
@@ -547,7 +547,7 @@ class Twitter_Feed {
                                  'strong' => array(),
                                  'small'  => array(),
                                  )
-                             );
+                             );*/
                     echo '</span>';
                 echo '</a>';
 
@@ -1580,12 +1580,12 @@ class Twitter_Feed {
 			$last_key           = isset( $fetched_tweets->data ) ? end( $fetched_tweets->data ) : '';
 			$_REQUEST['max_id'] = $last_key->id_str ?? '';
 
-			if ( isset( $loadmore ) && 'yes' === $loadmore ) {
-				?>
-		<script>var sinceID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( $_REQUEST['since_id'] ); ?>";
-			var maxID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) ); ?>";</script>
-				<?php
-			}
+//			if ( isset( $loadmore ) && 'yes' === $loadmore ) {
+//				?>
+<!--		<script>var sinceID_--><?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>//= "<?php //echo esc_js( $_REQUEST['since_id'] ); ?>//";
+//			var maxID_<?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>//= "<?php //echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) ); ?>//";</script>
+//				<?php
+//			}
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && isset( $loadmore ) && 'yes' === $loadmore ) {
@@ -1623,8 +1623,8 @@ class Twitter_Feed {
 							jQuery.ajax({
 								data: {
 									action: "my_fts_fb_load_more",
-									since_id: sinceID_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
-									max_id: maxID_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
+									//since_id: sinceID_<?php //echo sanitize_key( $fts_dynamic_name ); ?>//,
+									//max_id: maxID_<?php //echo sanitize_key( $fts_dynamic_name ); ?>//,
 									fts_dynamic_name: fts_d_name,
 									load_more_ajaxing: yes_ajax,
 									fts_security: fts_security,
@@ -1644,11 +1644,11 @@ class Twitter_Feed {
 									jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
 									<?php } ?>
 
-									if (!maxID_<?php echo sanitize_key( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ); ?> || maxID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> == 'no more') {
-										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $twitter_no_more_tweets_text ); ?></div>');
-										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
-										jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").unbind('scroll');
-									}
+									//if (!maxID_<?php //echo sanitize_key( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ); ?>// || maxID_<?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>// == 'no more') {
+									//	jQuery('#loadMore_<?php //echo esc_js( $fts_dynamic_name ); ?>//').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php //echo esc_js( $twitter_no_more_tweets_text ); ?>//</div>');
+									//	jQuery('#loadMore_<?php //echo esc_js( $fts_dynamic_name ); ?>//').removeAttr('id');
+									//	jQuery(".<?php //echo esc_js( $fts_dynamic_class_name ); ?>//").unbind('scroll');
+									//}
 									jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $twitter_load_more_text ); ?>');
 									//	jQuery('#loadMore_< ?php echo $fts_dynamic_name ?>').removeClass('flip360-fts-load-more');
 									jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');

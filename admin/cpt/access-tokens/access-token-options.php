@@ -135,7 +135,7 @@ class Access_Options {
 					$facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Facebook Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
+                    //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
 
                     ?>
 
@@ -155,7 +155,7 @@ class Access_Options {
 					$instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Instagram Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
+                    //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
 
                     // Load the options.
                     $instagram_access_functions->get_access_token_button( $feed_cpt_id );
@@ -167,7 +167,7 @@ class Access_Options {
 	                $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Instagram Business Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+                    //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
                     ?>
 
                     <div class="instagram-facebook-access-token-placeholder">
@@ -185,7 +185,7 @@ class Access_Options {
 					$twitter_access_functions = new Twitter_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Twitter Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
+                    //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
 
                     // Load the options.
 					$twitter_access_functions->get_access_token_button( $feed_cpt_id );
@@ -197,7 +197,7 @@ class Access_Options {
 					$youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load YouTube Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
+                    //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
 
                     // Load the options.
 					$youtube_access_functions->get_access_token_button( $feed_cpt_id );
@@ -209,7 +209,7 @@ class Access_Options {
                 <div class="combine-streams-feed-wrap">
                     <?php
                         // Load Combine Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_options'], null, $feed_cpt_id );
+                        //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_options'], null, $feed_cpt_id );
 
                         ?>
                     <div class="fts-clear"></div>
@@ -220,7 +220,7 @@ class Access_Options {
                                 $instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
 
                                 // Load Instagram Token Option Fields.
-                                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
+                                //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
 
                                 // Load the options.
                                 $instagram_access_functions->get_access_token_button( $feed_cpt_id );
@@ -234,7 +234,7 @@ class Access_Options {
                                 $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
 
                                 // Load Instagram Business Token Option Fields.
-                                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+                                //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
 
                                 // Load the options.
                                 $instagram_business_access_functions->get_access_token_button( $feed_cpt_id );
@@ -243,10 +243,10 @@ class Access_Options {
                         </div>
                     <?php
                         // Load Combine Instagram Token Select Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_select_options'], null, $feed_cpt_id );
+                        //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_select_options'], null, $feed_cpt_id );
 
                         // Load Combine Facebook Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_facebook_token_options'], null, $feed_cpt_id );
+                        //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_facebook_token_options'], null, $feed_cpt_id );
 
                     ?>
                         <div class="combine-facebook-access-token-placeholder">
@@ -255,7 +255,7 @@ class Access_Options {
                         $facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
 
                         // Load Facebook Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
+                        //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
 
                         // Get Access button for Facebook.
                         $facebook_access_functions->get_access_token_button( $feed_cpt_id );
@@ -265,7 +265,7 @@ class Access_Options {
 
                         <?php
                         // Load Combine Twitter Token Select Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_twitter_token_select_options'], null, $feed_cpt_id );
+                        //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_twitter_token_select_options'], null, $feed_cpt_id );
 
                         ?>
 
@@ -275,7 +275,7 @@ class Access_Options {
                             $twitter_access_functions = new Twitter_Access_Functions( $this->feed_functions, $this->data_protection );
 
                             // Load Twitter Token Option Fields.
-                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
+                            //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
 
                             // Get Access button for Facebook.
                             $twitter_access_functions->get_access_token_button( $feed_cpt_id );
@@ -285,11 +285,11 @@ class Access_Options {
                         <?php
 
                         // Load Combine Twitter Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_twitter_token_options'], null, $feed_cpt_id );
+                        //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_twitter_token_options'], null, $feed_cpt_id );
 
 
                         // Load Combine YouTube Token Select Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_select_options'], null, $feed_cpt_id );
+                        //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_select_options'], null, $feed_cpt_id );
 
                         ?>
 
@@ -299,7 +299,7 @@ class Access_Options {
                             $youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
 
                             // Load YouTube Token Option Fields.
-                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
+                            //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
 
                             // Get Access button for youtube.
                             $youtube_access_functions->get_access_token_button( $feed_cpt_id );
@@ -309,7 +309,7 @@ class Access_Options {
                         <?php
 
                         // Load Combine YouTube Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_options'], null, $feed_cpt_id );
+                        //echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_options'], null, $feed_cpt_id );
                       ?>
                 </div>
                     <div class="fts-clear"></div>
@@ -390,10 +390,10 @@ class Access_Options {
                 echo '<div class="fts-fb-error-message-wrap">';
                 echo '<p>';
                 echo '<strong>Facebook Response: </strong>';
-                echo $test_fb_app_token_response->error->message . ' Code #';
-                echo $test_fb_app_token_response->error->code . '. ';
-                echo $test_fb_app_token_response->error->error_user_title;
-                echo $test_fb_app_token_response->error->error_user_msg;
+                //echo $test_fb_app_token_response->error->message . ' Code #';
+                //echo $test_fb_app_token_response->error->code . '. ';
+                //echo $test_fb_app_token_response->error->error_user_title;
+                //echo $test_fb_app_token_response->error->error_user_msg;
 
                 if( 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ){
                     echo '</p> <strong>Helpful Tips:</strong> Make sure you are an admin of the page or pages you are choosing. Next you will see, "What SlickRemix is allowed to do." The 2 options should be, Read content posted on the Page and Show a list of the Pages you manage. Make sure and choose Yes for both.<a href="#" style="display: none" target="_blank">More Tips</a>';
@@ -443,9 +443,9 @@ class Access_Options {
                                 </div>
                                 <div class="fb-name-wrap"><span class="fb-name">
 					<?php
-                    echo $data_user_name;
+                   // echo $data_user_name;
                     if ( isset( $data->store_number, $data->store_location_descriptor ) ) {
-                        print '(' . $data->store_location_descriptor . ')';
+                      //  print '(' . $data->store_location_descriptor . ')';
                     }
                     ?>
 									</span></div>
@@ -496,7 +496,7 @@ class Access_Options {
                                                          src="<?php echo esc_url( $loc_data_thumbnail ); ?>"/>
                                                 </div>
                                                 <div class="fb-name-wrap"><span
-                                                            class="fb-name"><?php echo $loc_data_user_name; ?>
+                                                            class="fb-name"><?php //echo $loc_data_user_name; ?>
                                                         <?php
                                                         if ( isset( $location->store_location_descriptor ) ) {
                                                             echo '(' . esc_html( $location->store_location_descriptor ) . ')';
@@ -562,7 +562,7 @@ class Access_Options {
                                                     jQuery.ajax({
                                                         data: {
                                                             action: "my_fts_fb_load_more",
-                                                            next_location_url: nextURL_location_<?php echo sanitize_key( $facebook_page_id ); ?>,
+                                                            next_location_url: nextURL_location_<?php //echo sanitize_key( $facebook_page_id ); ?>,
                                                             fts_dynamic_name: fts_d_name,
                                                             rebuilt_shortcode: build_shortcode,
                                                             load_more_ajaxing: yes_ajax,
@@ -600,7 +600,7 @@ class Access_Options {
                             <?php
                             } //END Make sure it's not ajaxing locations
                             ?>
-                                <script>var nextURL_location_<?php echo sanitize_key( $facebook_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url( $data->locations->paging->next ) : ''; ?>";</script>
+                                <script>var nextURL_location_<?php //echo sanitize_key( $facebook_page_id ); ?>= "<?php echo isset( $data->locations->paging->next ) ? esc_url( $data->locations->paging->next ) : ''; ?>";</script>
                             <?php } ?>
                         </li>
 
@@ -634,14 +634,14 @@ class Access_Options {
                             console.log(button);
                             var build_shortcode = "<?php echo esc_js( $build_shortcode ); ?>";
                             var yes_ajax = "yes";
-                            var fts_d_name = "<?php echo sanitize_key( $fts_dynamic_name ); ?>";
+                            var fts_d_name = "<?php //echo sanitize_key( $fts_dynamic_name ); ?>";
                             var fts_security = "<?php echo esc_js( $nonce ); ?>";
                             var fts_time = "<?php echo esc_js( $time ); ?>";
                             var fts_reviews_feed = "<?php echo esc_js( $reviews_token ); ?>";
                             jQuery.ajax({
                                 data: {
                                     action: "my_fts_fb_load_more",
-                                    next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
+                                    next_url: nextURL_<?php //echo sanitize_key( $fts_dynamic_name ); ?>,
                                     fts_dynamic_name: fts_d_name,
                                     rebuilt_shortcode: build_shortcode,
                                     load_more_ajaxing: yes_ajax,
@@ -700,7 +700,7 @@ class Access_Options {
                                     });
 
 
-                                    if (!nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> || 'no more' === nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
+                                    if (!nextURL_<?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> || 'no more' === nextURL_<?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>) {
                                         jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( 'No More Pages', 'feed-them-social' ); ?></div>');
                                         jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
                                     }
@@ -721,7 +721,7 @@ class Access_Options {
             ?>
             <script>
                 <?php if ( ! isset( $_GET['locations'] ) ) { ?>
-                var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url( $_REQUEST['next_url'] ); ?>";
+                var nextURL_<?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_url( $_REQUEST['next_url'] ); ?>";
                 // alert('nextURL_<?php //echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>');
                 <?php } ?>
 
@@ -850,7 +850,7 @@ class Access_Options {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id );
         }
 
-        echo $this->get_access_token_options( $feed_type, $cpt_id );
+        // echo $this->get_access_token_options( $feed_type, $cpt_id );
 
         wp_die();
     }

@@ -580,7 +580,7 @@ class updater_license_page {
 
 				case 'false':
 					$message = rawurldecode( $_GET['message'] );
-					echo $message;
+//					echo $message;
 					break;
 
                 case 'true':

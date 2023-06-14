@@ -601,7 +601,7 @@ class Metabox_Functions {
                                     <div class="fts-shortcode-content">
                                     <?php
 									$post_id = (int) $_GET['post'];
-                                    echo do_shortcode( '[feed_them_social cpt_id=' . $post_id . ']' );
+//                                    echo do_shortcode( '[feed_them_social cpt_id=' . $post_id . ']' );
                                     ?>
                                 </div>
                                 <div class="clear"></div>

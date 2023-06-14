@@ -45,15 +45,15 @@
         },
         open: function(o) {
             var s;
-            if (!1 === o.isObj) {
-                t.items = o.items.toArray(), t.index = 0;
-                var r, n = o.items;
-                for (s = 0; s < n.length; s++)
-                    if ((r = n[s]).parsed && (r = r.el[0]), r === o.el[0]) {
-                        t.index = s;
-                        break
-                    }
-            } else t.items = e.isArray(o.items) ? o.items : [o.items], t.index = o.index || 0;
+            // if (!1 === o.isObj) {
+            //     t.items = o.items.toArray(), t.index = 0;
+            //     var r, n = o.items;
+            //     for (s = 0; s < n.length; s++)
+            //         if ((r = n[s]).parsed && (r = r.el[0]), r === o.el[0]) {
+            //             t.index = s;
+            //             break
+            //         }
+            // } else t.items = e.isArray(o.items) ? o.items : [o.items], t.index = o.index || 0;
             if (!t.isOpen) {
                 t.types = [], a = "", o.mainEl && o.mainEl.length ? t.ev = o.mainEl.eq(0) : t.ev = i, o.key ? (t.popupsCache[o.key] || (t.popupsCache[o.key] = {}), t.currTemplate = t.popupsCache[o.key]) : t.currTemplate = {}, t.st = e.extend(!0, {}, e.magnificPopup.defaults, o), t.fixedContentPos = "auto" === t.st.fixedContentPos ? !t.probablyMobile : t.st.fixedContentPos, t.st.modal && (t.st.closeOnContentClick = !1, t.st.closeOnBgClick = !1, t.st.showCloseBtn = !1, t.st.enableEscapeKey = !1), t.bgOverlay || (t.bgOverlay = j("bg").on("click" + d, function() {
                     t.close()
@@ -74,10 +74,10 @@
                 }) : t.wrap.css({
                     top: b.scrollTop(),
                     position: "absolute"
-                }), (!1 === t.st.fixedBgPos || "auto" === t.st.fixedBgPos && !t.fixedContentPos) && t.bgOverlay.css({
-                    height: i.height(),
-                    position: "absolute"
-                }), t.st.enableEscapeKey && i.on("keyup" + d, function(e) {
+                // }), (!1 === t.st.fixedBgPos || "auto" === t.st.fixedBgPos && !t.fixedContentPos) && t.bgOverlay.css({
+                //     height: i.height(),
+                //     position: "absolute"
+                // }), t.st.enableEscapeKey && i.on("keyup" + d, function(e) {
                     27 === e.keyCode && t.close()
                 }), b.on("resize" + d, function() {
                     t.updateSize()
@@ -110,7 +110,7 @@
                 };
                 t.isIE7 ? e("body, html").css("overflow", "") : s.overflow = "", e("html").css(s)
             }
-            i.off("keyup.mfp focusin" + d), t.ev.off(d), t.wrap.attr("class", "mfp-wrap").removeAttr("style"), t.bgOverlay.attr("class", "mfp-bg"), t.container.attr("class", "mfp-container"), !t.st.showCloseBtn || t.st.closeBtnInside && !0 !== t.currTemplate[t.currItem.type] || t.currTemplate.closeBtn && t.currTemplate.closeBtn.detach(), t.st.autoFocusLast && t._lastFocusedEl && e(t._lastFocusedEl).focus(), t.currItem = null, t.content = null, t.currTemplate = null, t.prevHeight = 0, C("AfterClose")
+            // i.off("keyup.mfp focusin" + d), t.ev.off(d), t.wrap.attr("class", "mfp-wrap").removeAttr("style"), t.bgOverlay.attr("class", "mfp-bg"), t.container.attr("class", "mfp-container"), !t.st.showCloseBtn || t.st.closeBtnInside && !0 !== t.currTemplate[t.currItem.type] || t.currTemplate.closeBtn && t.currTemplate.closeBtn.detach(), t.st.autoFocusLast && t._lastFocusedEl && e(t._lastFocusedEl).focus(), t.currItem = null, t.content = null, t.currTemplate = null, t.prevHeight = 0, C("AfterClose")
         },
         updateSize: function(e) {
             if (t.isIOS) {
@@ -132,9 +132,9 @@
             var r = t["get" + i.charAt(0).toUpperCase() + i.slice(1)](o, t.currTemplate[i]);
             t.appendContent(r, i), o.preloaded = !0, C(c, o), s = o.type, t.container.prepend(t.contentContainer), C("AfterChange")
         },
-        appendContent: function(e, o) {
-            t.content = e, e ? t.st.showCloseBtn && t.st.closeBtnInside && !0 === t.currTemplate[o] ? t.content.find(".mfp-close").length || t.content.append(Q()) : t.content = e : t.content = "", C("BeforeAppend"), t.container.addClass("mfp-" + o + "-holder"), t.contentContainer.append(t.content)
-        },
+        // appendContent: function(e, o) {
+        //     t.content = e, e ? t.st.showCloseBtn && t.st.closeBtnInside && !0 === t.currTemplate[o] ? t.content.find(".mfp-close").length || t.content.append(Q()) : t.content = e : t.content = "", C("BeforeAppend"), t.container.addClass("mfp-" + o + "-holder"), t.contentContainer.append(t.content)
+        // },
         parseEl: function(o) {
             var i, s = t.items[o];
             if (s.tagName ? s = {
@@ -211,15 +211,15 @@
         },
         _parseMarkup: function(t, o, i) {
             var s;
-            i.data && (o = e.extend(i.data, o)), C(l, [t, o, i]), e.each(o, function(o, i) {
-                if (void 0 === i || !1 === i) return !0;
-                if ((s = o.split("_")).length > 1) {
-                    var a = t.find(d + "-" + s[0]);
-                    if (a.length > 0) {
-                        var r = s[1];
-                        "replaceWith" === r ? a[0] !== i[0] && a.replaceWith(i) : "img" === r ? a.is("img") ? a.attr("src", i) : a.replaceWith(e("<img>").attr("src", i).attr("class", a.attr("class"))) : a.attr(s[1], i)
-                    }
-                } else t.find(d + "-" + o).html(i)
+            // i.data && (o = e.extend(i.data, o)), C(l, [t, o, i]), e.each(o, function(o, i) {
+            //     if (void 0 === i || !1 === i) return !0;
+            //     if ((s = o.split("_")).length > 1) {
+            //         var a = t.find(d + "-" + s[0]);
+            //         if (a.length > 0) {
+            //             var r = s[1];
+            //             "replaceWith" === r ? a[0] !== i[0] && a.replaceWith(i) : "img" === r ? a.is("img") ? a.attr("src", i) : a.replaceWith(e("<img>").attr("src", i).attr("class", a.attr("class"))) : a.attr(s[1], i)
+            //         }
+            //     } else t.find(d + "-" + o).html(i)
             })
         },
         _getScrollbarSize: function() {

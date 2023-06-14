@@ -85,7 +85,6 @@ class Feed_Cache {
 	 */
 	public function fts_get_cache_options()	{
 		$formats = array(
-			'1'       => __( '( Devs Only ) Every page load', 'feed-them-social' ),
 			'86400'   => __( '1 Day', 'feed-them-social' ),
 			'172800'  => __( '2 Days', 'feed-them-social' ),
 			'259200'  => __( '3 Days', 'feed-them-social' ),

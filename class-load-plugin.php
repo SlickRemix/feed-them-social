@@ -226,10 +226,6 @@ class Feed_Them_Social {
 		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_PATH' ) ) {
 			define( 'FEED_THEM_SOCIAL_PLUGIN_PATH', plugins_url() );
 		}
-		// Plugin Directory Path.
-		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
-			define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
-		}
 
 		// Plugin Directory Path.
 		if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
@@ -376,7 +372,7 @@ class Feed_Them_Social {
         // Backwards compatability.
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/settings/backwards-compat/fts-backwards-compat-class.php';
 
-        // Upgraders
+        // Upgrades
         include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/settings/backwards-compat/fts-upgrade-class.php';
 
         // Updater Classes.
@@ -387,5 +383,15 @@ class Feed_Them_Social {
 		// Feed Block
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'blocks/block-loader.php';
 
+        // Beaver Builder Module
+        if (class_exists('FLBuilder')) {
+            include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/beaver-builder/includes/module.php';
+        }
+
+        // Elementor Module
+        if ( did_action( 'elementor/loaded' ) ) {
+            include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/elementor/includes/module.php';
+        }
 	}
+
 }

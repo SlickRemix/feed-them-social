@@ -762,7 +762,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_link_color_hover fts-color-picker',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Link Color Hover', 'feed_them_social' ),
+					'label'            => esc_html__( 'Feed Link Color Hover', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_link_color_hover',
 					'name'             => 'fb_link_color_hover',
@@ -774,7 +774,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_feed_width',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Width', 'feed_them_social' ),
+					'label'            => esc_html__( 'Feed Width', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_feed_width',
 					'name'             => 'fb_feed_width',
@@ -803,7 +803,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_feed_padding',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Padding', 'feed_them_social' ),
+					'label'            => esc_html__( 'Feed Padding', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_feed_padding',
 					'name'             => 'fb_feed_padding',
@@ -827,7 +827,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_feed_background_color fts-color-picker',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Background Color', 'feed_them_social' ),
+					'label'            => esc_html__( 'Feed Background Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_feed_background_color',
 					'name'             => 'fb_feed_background_color',
@@ -839,7 +839,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_border_bottom_color fts-color-picker',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Border Bottom Color', 'feed_them_social' ),
+					'label'            => esc_html__( 'Border Bottom Color', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'fb_border_bottom_color',
 					'name'             => 'fb_border_bottom_color',
@@ -865,7 +865,7 @@ class Facebook_Additional_Options {
     public function global_facebook_grid_style_options() {
         $this->all_options['facebook_grid_style_options'] = array(
             'section_attr_key'   => 'facebook_grid_style_options_',
-            'section_title'      => esc_html__( 'Grid Format', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Grid Format', 'feed-them-social' ),
             // 'section_wrap_id' => 'fts-tab-content1',
             'section_wrap_class' => 'fts-tab-content fts-fb-grid-styles',
             // Form Info.
@@ -888,7 +888,7 @@ class Facebook_Additional_Options {
                 array(
                     'input_wrap_class' => 'fb_feed_background_color fts-color-picker',
                     'option_type'      => 'input',
-                    'label'            => esc_html__( 'Feed Background Color', 'feed_them_social' ),
+                    'label'            => esc_html__( 'Feed Background Color', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'fb_grid_posts_background_color',
                     'name'             => 'fb_grid_posts_background_color',
@@ -927,7 +927,7 @@ class Facebook_Additional_Options {
     public function load_more_options() {
         $this->all_options['facebook_load_more_options'] = array(
             'section_attr_key'   => 'facebook_load_more_options_',
-            'section_title'      => esc_html__( 'Load More Button', 'feed_them_social' ),
+            'section_title'      => esc_html__( 'Load More Button', 'feed-them-social' ),
             'section_wrap_id' => 'fts-tab-content1',
             'section_wrap_class' => 'fts-tab-content',
             // Form Info.
@@ -1045,7 +1045,7 @@ class Facebook_Additional_Options {
 	public function error_messages_options() {
 		$this->all_options['facebook_error_messages_options'] = array(
 			'section_attr_key'   => 'facebook_error_messages_options_',
-			'section_title'      => esc_html__( 'Facebook Error Messages', 'feed_them_social' ),
+			'section_title'      => esc_html__( 'Facebook Error Messages', 'feed-them-social' ),
 			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content',
 			// Form Info.
@@ -1072,7 +1072,7 @@ class Facebook_Additional_Options {
 				array(
 					'input_wrap_class' => 'fb_hide_error_handler_message',
 					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Error Handler Message', 'feed_them_social' ),
+					'label'            => esc_html__( 'Hide Error Handler Message', 'feed-them-social' ),
                     'instructional-text' => sprintf(
                         esc_html( 'If your feed is displaying a notice or error message at times you can utilize this option to hide them from displaying. Make sure and delete the %1$sCache%2$s to see the change. %3$sNOTE: This does not hide any php warnings that may come up. To remove those go to the wp-config.php file on root of your WordPress install and set the wp_debug option to FALSE. Having that option set to TRUE is really only necessary when developing.%4$s', 'feed-them-social' ),
                         '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page&tab=global_options' ) . '">',
@@ -1086,11 +1086,11 @@ class Facebook_Additional_Options {
 					'default_value'    => 'no',
 					'options'          => array(
 						array(
-							'label' => esc_html__( 'No', 'feed_them_social' ),
+							'label' => esc_html__( 'No', 'feed-them-social' ),
 							'value' => 'no',
 						),
 						array(
-							'label' => esc_html__( 'Yes', 'feed_them_social' ),
+							'label' => esc_html__( 'Yes', 'feed-them-social' ),
 							'value' => 'yes',
 						),
 					),

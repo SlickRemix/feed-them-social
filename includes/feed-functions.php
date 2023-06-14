@@ -730,8 +730,6 @@ class Feed_Functions {
 				exit( esc_html__( 'Looks like you entered an invalid URL', 'feed_them_social' ) );
 			}
 
-			
-
 		}
 
 		if ( empty( $shortcode ) ) {

@@ -1,4 +1,4 @@
-# 🌟 Feed Them Social: Unleash the Power of Social Feeds 🌟
+# 🌟 Feed Them Social: Unleash the Power of Social Feeds
 
 [![Plugin Version](https://img.shields.io/wordpress/plugin/v/feed-them-social.svg?maxAge=3.0.1000)](https://wordpress.org/plugins/feed-them-social/)
 [![Total Downloads](https://img.shields.io/wordpress/plugin/dt/feed-them-social.svg?maxAge=2592000)](https://wordpress.org/plugins/feed-them-social/)

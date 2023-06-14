@@ -297,9 +297,12 @@ class Feed_CPT_Options {
                         '</p><br/>'
                     ),*/
 					'instructional-text' => sprintf(
-						esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your Twitter posts. Once you have your Access Token you will be able to create a feed.', 'feed_them_social' ),
+						esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your Twitter posts. Once you have your Access Token you will be able to create a feed.
+						%3$s As of the recent API changes and Twitter now charging us to pull Tweets, the feed may only work sometimes because we are being rate limited. We are looking into alternate options. The hashtag, search, retweets, replies, and load more option will also not be available until further notice. If your feed does connect, we suggest setting the cache time to at least 3 days or more.
+						', 'feed_them_social' ),
 						'<strong>',
-						'</strong>'
+						'</strong>',
+						'<br/><br/>'
 					),
 				),
 				array(
@@ -3639,10 +3642,12 @@ class Feed_CPT_Options {
 							'label' => __( 'User Feed', 'feed-them-social' ),
 							'value' => 'user',
 						),
-						array(
+
+						// We must turn this off now after latest Twitter changes that limit tweets we are allowed to pull.
+						/*array(
 							'label' => __( 'Hashtag & Search', 'feed-them-social' ),
 							'value' => 'hashtag',
-						),
+						),*/
 					),
 				),
 
@@ -3692,8 +3697,8 @@ class Feed_CPT_Options {
 					'type'               => 'text',
 					'id'                 => 'twitter_name',
 					'name'               => 'twitter_name',
-					'default_value'      => 'gopro',
-					'instructional-text' => '<span class="hashtag-option-small-text">' . __( 'Twitter Name is only required if you want to show a', 'feed-them-social' ) . ' <a href="admin.php?page=fts-twitter-feed-styles-submenu-page">' . __( 'Follow Button', 'feed-them-social' ) . '</a>.</span><span class="must-copy-twitter-name">' . __( 'You must copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . __( 'Twitter Name', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ) . '</span>',
+					'default_value'      => '',
+					'instructional-text' => '<span class="hashtag-option-small-text">' . __( 'Twitter Name is only required if you want to show a', 'feed-them-social' ) . ' <a href="admin.php?page=fts-twitter-feed-styles-submenu-page">' . __( 'Follow Button', 'feed-them-social' ) . '</a>.</span><span class="must-copy-twitter-name">' . __( 'If you want to use a ', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . __( 'Twitter Name', 'feed-them-social' ) . '</a> ' . __( 'other than the one connected with your account currently, paste it below.', 'feed-them-social' ) . '</span>',
 					'value'              => '',
 
 					// Relative to JS.
@@ -3794,7 +3799,7 @@ class Feed_CPT_Options {
 				),
 
 				// Show Retweets
-				array(
+				/*array(
 					'option_type' => 'select',
 					'label'       => __( 'Show Retweets', 'feed-them-social' ),
 					'type'        => 'text',
@@ -3813,10 +3818,10 @@ class Feed_CPT_Options {
 					'short_attr'  => array(
 						'attr_name' => 'show_retweets',
 					),
-				),
+				),*/
 
 				// Show Replies
-				array(
+				/*array(
 					'option_type' => 'select',
 					'label'       => __( 'Show Replies', 'feed-them-social' ),
 					'type'        => 'text',
@@ -3832,7 +3837,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-				),
+				),*/
 
 				// Pop Up Option
 				array(
@@ -3863,10 +3868,10 @@ class Feed_CPT_Options {
 				),
 
 				// ******************************************
-				// Facebook Load More Options
-				// ******************************************
 				// Twitter Load More Button
-				array(
+				// Must remove after recent API changes.
+				// ******************************************
+				/*array(
 					'grouped_options_title' => __( 'Load More', 'feed-them-social' ),
 					'option_type'           => 'select',
 					'label'                 => __( 'Load More Button', 'feed-them-social' ),
@@ -3925,7 +3930,7 @@ class Feed_CPT_Options {
 						'sub_options_wrap_class' => 'fts-twitter-load-more-options-wrap',
 					),
 					'sub_options_end'    => true,
-				),
+				),*/
 
 				// Twitter Page Load more Amount
 				/*array(
@@ -3953,7 +3958,7 @@ class Feed_CPT_Options {
                 ),*/
 
 				// Twitter Load more Button Width
-				array(
+				/*array(
 					'option_type'    => 'input',
 					'label'          => __( 'Load more Button Width', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto width', 'feed-them-social' ) . '</small>',
 					'type'           => 'text',
@@ -3992,7 +3997,7 @@ class Feed_CPT_Options {
 						'ifs'               => 'load_more',
 					),
 					'sub_options_end' => 1,
-				),
+				),*/
 
 				// ******************************************
 				// Twitter Grid Options
@@ -4251,7 +4256,7 @@ class Feed_CPT_Options {
 					'label'              => __( 'YouTube Channel ID', 'feed-them-social' ),
 					'instructional-text' => __( 'Copy your YouTube <strong>Channel</strong> url and paste it below.<br/><strong>Example:</strong>', 'feed-them-social' ) . ' <a href="https://www.youtube.com/channel/UCqhnX4jA0A5paNd1v-zEysw" target="_blank">UCqhnX4jA0A5paNd1v-zEysw</a>',
 					'type'               => 'text',
-					'default_value'      => 'UCqhnX4jA0A5paNd1v-zEysw',
+					'default_value'      => '',
 					'id'                 => 'youtube_channelID',
 					'name'               => 'youtube_channelID',
 
@@ -5545,10 +5550,11 @@ class Feed_CPT_Options {
 						),
 
 						// hastag Feed
-						array(
+						// We must turn this off now after latest Twitter changes that limit tweets we are allowed to pull.
+						/*array(
 							'value' => 'hashtag',
 							'label' => __( 'Hashtag & Search', 'feed-them-social' ),
-						),
+						),*/
 					),
 					'sub_options'         => array(
 						'sub_options_wrap_class' => 'combine-twitter-wrap',
@@ -5557,7 +5563,7 @@ class Feed_CPT_Options {
 
 
 				// If you want to filter a specific users hashtag copy this example into the first input below and replace the user_name and YourHashtag name. DO NOT remove the from: or %# characters. NOTE: Only displays last 7 days worth of Tweets. from:user_name%#YourHashtag
-				array(
+				/*array(
 					'option_type'        => 'input',
 					'input_wrap_class'   => 'combine_twitter_hashtag_etc_name',
 					'label'              => __( 'Twitter Search Name', 'feed-them-social' ),
@@ -5587,7 +5593,7 @@ class Feed_CPT_Options {
 						// 'sub_options_title' => __( 'Twitter Search', 'feed-them-social' ),
 					),
 					'sub_options_end'    => true,
-				),
+				),*/
 
 				// Twitter Name
 				array(
@@ -5597,7 +5603,7 @@ class Feed_CPT_Options {
 					'type'               => 'text',
 					'id'                 => 'combine_twitter_name',
 					'name'               => 'combine_twitter_name',
-					'instructional-text' => '<span class="must-copy-twitter-name">' . __( 'You must copy your', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . __( 'Twitter Name', 'feed-them-social' ) . '</a> ' . __( 'and paste it in the first input below.', 'feed-them-social' ) . '</span>',
+					'instructional-text' => '<span class="must-copy-twitter-name">' . __( 'If you want to use a ', 'feed-them-social' ) . ' <a href="https://www.slickremix.com/how-to-get-your-twitter-name/" target="_blank">' . __( 'Twitter Name', 'feed-them-social' ) . '</a> ' . __( 'other than the one connected with your account currently, paste it below.', 'feed-them-social' ) . '</span>',
 					'value'              => '',
 
 					// Relative to JS.

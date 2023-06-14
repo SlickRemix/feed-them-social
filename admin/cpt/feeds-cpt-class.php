@@ -913,7 +913,8 @@ class Feeds_CPT {
                 // Twitter Grid Styles
                 echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->feed_cpt_id );
                 // Twitter Load More Button Styles & Options
-                echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $this->feed_cpt_id );
+                // This option needs to be removed because of recent Twitter API changes.
+                // echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $this->feed_cpt_id );
             }?>
 
             <div class="clear"></div>

@@ -1211,7 +1211,6 @@ class Twitter_Feed {
 					}
 				}
 				
-
                 // Check API failure. Return empty array so no fatal error.
                 if ( ! empty( $search ) ) {
 					if(TWITTER_V2):
@@ -1418,6 +1417,7 @@ class Twitter_Feed {
 					}
 
 					$i = 0;
+					
 
 					foreach ( $fetched_tweets->data as $post_data ) {
 						

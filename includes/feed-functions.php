@@ -1417,4 +1417,47 @@ class Feed_Functions {
         $simple_xml             = simplexml_load_string( $file_contents );
         return json_encode( $simple_xml );
     }
+
+
+	
+    public function refresh_twitter_v2_token() {
+
+		$expiry = get_option('user_token_expiry');
+
+		$refresh = false;
+
+
+		if(!$expiry || time() > $expiry) {
+			$refresh = true;
+		}
+
+		if($refresh) {
+
+			$path = defined('FTS_TWITTER_ACCESS_TOKEN_URL') ? \FTS_TWITTER_ACCESS_TOKEN_URL : 'https://www.slickremix.com/get-twitter-token';
+
+			$url = "{$path}?refresh=".get_option('user_refresh_token');
+			// Access $url And retrieve the JSON object it returns
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_HEADER, FALSE);
+			//curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			
+			$return = curl_exec($ch);
+			
+			$response = json_decode($return);
+			$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			
+			if(!$return || property_exists($response, 'error')) {
+				delete_option('user_refresh_token');
+			} else {
+				update_option('user_bearer_token', $response->access_token);
+				update_option('user_refresh_token', $response->refresh_token);
+				update_option('user_token_expiry', time() + $response->expires_in);
+			}
+
+		}
+        
+    }
 }

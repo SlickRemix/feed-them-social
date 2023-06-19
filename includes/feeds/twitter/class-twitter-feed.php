@@ -922,6 +922,9 @@ class Twitter_Feed {
 
             // Get our Additional Options.
             $this->twitter_custom_styles( $feed_post_id );
+			
+			
+			$this->feed_functions->refresh_twitter_v2_token();
 
              /*echo'<pre>';
              print_r($saved_feed_options);

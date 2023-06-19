@@ -203,7 +203,6 @@ require_once( 'OAuth.php' );
 		case 'GET':
 			if(TWITTER_V2) {
 				// todo - send this data along in the headers
-				
 				$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
 				$request->sign_request($this->sha1_method, $this->consumer, $this->token);
 				$params = $request->get_parameters();

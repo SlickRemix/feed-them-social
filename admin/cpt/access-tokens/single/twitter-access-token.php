@@ -78,6 +78,7 @@ class Twitter_Access_Functions {
 		}
 	}
 
+
 	/**
 	 *  Get Access Token Button
      *
@@ -137,9 +138,6 @@ class Twitter_Access_Functions {
 
         if(TWITTER_V2) {
 
-
-            echo "Refresh token: ". get_option("user_refresh_token")."<br/>";
-            echo "Bearer token: ". get_option("user_bearer_token");
             // @twitter ID = 783214
             // Test the connection to make sure it's fetching tweets
             /*$fetched_tweets = $test_connection->get(
@@ -155,27 +153,8 @@ class Twitter_Access_Functions {
             );
 
 
-            if(1==1 || property_exists($fetched_tweets, 'status') && $fetched_tweets->status === 401 && get_option('user_refresh_token')) {
-                
-                $url = "https://feed-them-social-returner.local/twitter-oauth2/?refresh=".get_option('user_refresh_token');
-                // Access $url And retrieve the JSON object it returns
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                
-		        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_HEADER, FALSE);
-                //curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                
-                $response = json_decode(curl_exec($ch));
-                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                
-                if(property_exists($response, 'error')) {
-                    delete_option('user_refresh_token');
-                } else {
-                    update_option('user_bearer_token', $response->access_token);
-                    update_option('user_refresh_token', $response->refresh_token);
-                }
-
+            if(property_exists($fetched_tweets, 'status') && $fetched_tweets->status === 401 && get_option('user_refresh_token')) {
+                $this->feed_functions->refresh_twitter_v2_token();
             }
 
 

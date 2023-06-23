@@ -1026,7 +1026,9 @@ class Twitter_Feed {
                 $fts_twitter_custom_access_token        = !empty( $saved_feed_options['fts_twitter_custom_access_token'] ) ? $saved_feed_options['fts_twitter_custom_access_token'] : '';
                 $fts_twitter_custom_access_token_secret = !empty( $saved_feed_options['fts_twitter_custom_access_token_secret'] ) ? $saved_feed_options['fts_twitter_custom_access_token_secret'] : '';
 
-                if ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
+				$fts_twitter_bearer_token = !empty( $saved_feed_options['fts_twitter_custom_bearer_token'] ) ? $saved_feed_options['fts_twitter_custom_bearer_token'] : '';
+
+                if ( empty( $fts_twitter_bearer_token ) ) {
 				    // NO Access tokens found.
 				    echo esc_html( 'Feed Them Social: Twitter Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' );
                     return false;
@@ -1046,18 +1048,23 @@ class Twitter_Feed {
 			} else {
 
 				// Use custom api info.
-				if ( ! empty( $fts_twitter_custom_access_token ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {
-					$connection = new TwitterOAuthFTS(
-						// Consumer Key.
-						$fts_twitter_custom_consumer_key,
-						// Consumer Secret.
-						$fts_twitter_custom_consumer_secret,
-						// Access Token.
-						$fts_twitter_custom_access_token,
-						// Access Token Secret.
-						$fts_twitter_custom_access_token_secret
-					);
-				}
+				//if ( ! empty( $fts_twitter_custom_access_token ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {
+				$connection = new TwitterOAuthFTS(
+					// Consumer Key.
+					$fts_twitter_custom_consumer_key,
+					// Consumer Secret.
+					$fts_twitter_custom_consumer_secret,
+					// Access Token.
+					$fts_twitter_custom_access_token,
+					// Access Token Secret.
+					$fts_twitter_custom_access_token_secret
+				);
+				//}
+
+				$connection->setBearerToken($fts_twitter_bearer_token);
+
+				// Use Bearer Token.
+
 
 				/* Testing
 				$fetch_api_limit = $connection->get(
@@ -1213,6 +1220,11 @@ class Twitter_Feed {
 
 					}
 				}
+
+
+				/*if($fetched_tweets->status === 429) {
+					echo $fetched_tweets->title;
+				}*/
 				
                 // Check API failure. Return empty array so no fatal error.
                 if ( ! empty( $search ) ) {
@@ -1252,6 +1264,11 @@ class Twitter_Feed {
 				
 			}
 
+			
+			if($fetched_tweets->status !== 200) {
+				$error_check = __( 'API error: ', 'feed-them-social' ) . $fetched_tweets->detail;
+			}
+
 			// END ELSE.
 			// Error Check.
 			if ( isset( $fetched_tweets->errors ) ) {
@@ -1262,6 +1279,7 @@ class Twitter_Feed {
 				if ( '34' === $fetched_tweets->errors[0]->code ) {
 					$error_check .= __( ' Please check the Twitter Username you have entered is correct in your shortcode for Feed Them Social.', 'feed-them-social' );
 				}
+				
 			} elseif ( empty( $fetched_tweets ) && ! isset( $fetched_tweets->errors ) ) {
 				// No Tweets Found!
 				$error_check = __( ' This account has no tweets. Please Tweet to see this feed. Feed Them Social.', 'feed-them-social' );

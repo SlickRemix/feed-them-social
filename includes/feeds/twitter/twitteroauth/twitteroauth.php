@@ -37,7 +37,7 @@ require_once( 'OAuth.php' );
 	  /* Immediately retry the API call if the response was not successful. */
 	  //public $retry = TRUE;
 	
-	
+	  protected $bearer_token;
 	
 	
 	  /**
@@ -185,6 +185,13 @@ require_once( 'OAuth.php' );
 		}
 		return $response;
 	  }
+
+	  /**
+	   * Sets the V2 Bearer Token
+	   */
+	  function setBearerToken($bearer) {
+		$this->bearer_token = $bearer;
+	  }
 	
 	  /**
 	   * Format and sign an OAuth / API request
@@ -203,28 +210,26 @@ require_once( 'OAuth.php' );
 		case 'GET':
 			if(TWITTER_V2) {
 				// todo - send this data along in the headers
-				$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
-				$request->sign_request($this->sha1_method, $this->consumer, $this->token);
-				$params = $request->get_parameters();
+				$header = [];
+				if(!defined('TWITTER_BEARER_TOKEN')) {
 
-				// $request->to_url() - matches the params
-				// apply urlencode to all of $param
+					$request = OAuthRequestFTS::from_consumer_and_token($this->consumer, $this->token, $method, $url, $parameters);
+					$request->sign_request($this->sha1_method, $this->consumer, $this->token);
+					$params = $request->get_parameters();
 
-				$params['oauth_signature'] = urlencode($params['oauth_signature']);
+					$params['oauth_signature'] = urlencode($params['oauth_signature']);
 
-				//$header = ["Authorization: OAuth oauth_consumer_key='{$params['oauth_consumer_key']}', oauth_nonce='{$params['oauth_nonce']}', oauth_signature='{$params['oauth_signature']}', oauth_signature_method='HMAC-SHA1', oauth_timestamp='{$params['oauth_timestamp']}', oauth_token='{$params['oauth_token']}', oauth_version='1.0'"];
+					$header = ["Authorization: Bearer ".get_option('user_bearer_token')];
 
-				//$header = ["Authorization: Bearer ".TWITTER_BEARER_TOKEN];
-				$header = ["Authorization: Bearer ".get_option('user_bearer_token')];
-				
-				
+				} else {
+
+					$header = ["Authorization: Bearer ".TWITTER_BEARER_TOKEN];
+					
+				}
+
 				$fullUrl = $url."?".http_build_query($parameters);
 				
 				$response = $this->http_v2($fullUrl, $header);
-				
-				//var_dump($header);
-				//var_dump($response);
-				//exit;
 
 				return $response;
 			} else {

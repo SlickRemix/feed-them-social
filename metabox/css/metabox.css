@@ -159,6 +159,8 @@ html {
     margin-top: 2px
 }
 
+
+
 .feed-them-social-admin-input-label {
     /* float: left; */
     /* width: 230px; */
@@ -167,6 +169,15 @@ html {
     padding-top: 9px;
     font-weight: 700;
     padding-left: 10px;
+}
+
+html body .tab-pane #fts-feed-type .feed-them-social-admin-input-wrap[class*="fts-twitter-"] > * {
+    display: block !important;
+    max-width: 80% !important;
+}
+
+.fts-tab-content1-twitter ~ .fts-settings-does-not-work-wrap {
+    display: none;
 }
 
 .feed-them_page_fts-facebook-feed-styles-submenu-page .feed-them-social-admin-input-label, .feed-them_page_fts-instagram-feed-styles-submenu-page .feed-them-social-admin-input-label, .feed-them_page_fts-twitter-feed-styles-submenu-page .feed-them-social-admin-input-label {

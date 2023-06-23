@@ -119,7 +119,8 @@ class Twitter_Access_Functions {
         // http://fts30.local/wp-admin/post.php?post=178&action=edit&feed_type=twitter&oauth_token=&oauth_token_secret=#feed_setup
         $fts_twitter_custom_access_token = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_twitter_custom_access_token' );
         $fts_twitter_custom_access_token_secret = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_twitter_custom_access_token_secret' );
-
+       
+        $fts_twitter_bearer_token = $this->feed_functions->get_feed_option( $feed_cpt_id, 'fts_twitter_custom_bearer_token' );
 
         $test_connection = new TwitterOAuthFTS(
                 // Consumer Key!
@@ -131,9 +132,10 @@ class Twitter_Access_Functions {
                 // Access Token Secret!
                 $fts_twitter_custom_access_token_secret
         );
-
-
         
+
+
+        $test_connection->setBearerToken($fts_twitter_bearer_token);
 
 
         if(TWITTER_V2) {
@@ -151,6 +153,7 @@ class Twitter_Access_Functions {
                 'tweets/search/recent',
                 ['query' => 'twitter']
             );
+            
 
 
             if(property_exists($fetched_tweets, 'status') && $fetched_tweets->status === 401 && get_option('user_refresh_token')) {
@@ -200,11 +203,11 @@ class Twitter_Access_Functions {
 
         $fts_twitter_access_token_url = defined('FTS_TWITTER_ACCESS_TOKEN_URL') ? \FTS_TWITTER_ACCESS_TOKEN_URL : 'https://www.slickremix.com/get-twitter-token';
         
-        echo sprintf(
+        /*echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Tokens%2$s', 'feed-them-social' ),
             '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( $fts_twitter_access_token_url . '?redirect_url=' . urlencode( $post_url ) . '&scope=manage_pages' ) . '" class="fts-twitter-get-access-token">',
             '</a>'
-        );
+        );*/
         ?>
 
         <div class="fts-settings-does-not-work-wrap">
@@ -217,7 +220,7 @@ class Twitter_Access_Functions {
         <div class="fts-fb-token-wrap fts-token-wrap" id="fts-twitter-token-wrap">
             <?php
             // && !empty($test_fts_twitter_custom_access_token) && !empty($test_fts_twitter_custom_access_token_secret)!
-            if ( ! empty( $fts_twitter_custom_access_token_secret ) && ! empty( $fts_twitter_custom_access_token_secret ) ) {
+            if ( ! empty( $fts_twitter_bearer_token ) ) {
                 if ( 200 !== $test_connection->http_code || isset( $fetched_tweets->errors ) ) {
                     echo sprintf(
                         esc_html__( '%1$sOh No, something\'s wrong. ', 'feed-them-social' ),

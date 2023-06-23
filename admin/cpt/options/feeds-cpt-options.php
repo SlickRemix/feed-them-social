@@ -272,7 +272,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['twitter_token_options'] = array(
 			'section_attr_key'   => 'twitter_token_',
-			'section_title'      => esc_html__( 'Twitter Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
+			'section_title'      => esc_html__( 'Twitter Bearer Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
 			'section_wrap_id'    => 'fts-feed-type',
 			'section_wrap_class' => 'fts-tab-content1-twitter fts-token-wrap',
 			// Form Info.
@@ -282,7 +282,7 @@ class Feed_CPT_Options {
 
 			'main_options' => array(
 
-				array(
+				/*array(
 					'input_wrap_class'   => 'fts-twitter-custom-access-token',
 					'option_type'        => 'input',
 					'label'              => esc_html__( 'Access Token', 'feed_them_social' ),
@@ -291,18 +291,13 @@ class Feed_CPT_Options {
 					'name'               => 'fts_twitter_custom_access_token',
 					'placeholder'        => '',
 					'default_value'      => $oath_token,
-					/* 'instructional-text' => sprintf(
+					'instructional-text' => sprintf(
                         esc_html__( '%1$sMonday, April 3rd, 2023: Abruptly and without warning, Twitter has suspended our App for Feed Them Social. At the moment none of our users can create or view their Twitter timeline via the Feed Them Social plugin. We have reached out to Twitter and have been given an unspecified time frame as to when this will be resolved.%2$s We do apologize for the interruption in service at this time. It appears Twitter will now be charging a fee to view Tweets coming from the API. Keep everyone posted as we climb the ladder here to a solution.', 'feed_them_social' ),
                         '<p>',
                         '</p><br/>'
-                    ),*/
-					'instructional-text' => sprintf(
-						esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your Twitter posts. Once you have your Access Token you will be able to create a feed.', 'feed_them_social' ),
-						'<strong>',
-						'</strong>'
-					),
-				),
-				array(
+                    ),
+				),*/
+				/*array(
 					'input_wrap_class' => 'fts-twitter-custom-access-token-secret',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Access Token Secret', 'feed_them_social' ),
@@ -311,9 +306,26 @@ class Feed_CPT_Options {
 					'name'             => 'fts_twitter_custom_access_token_secret',
 					'placeholder'      => '',
 					'default_value'    => $oauth_token_secret,
+				),*/
+				
+				array(
+					'input_wrap_class' => 'fts-twitter-custom-bearer-token',
+					'option_type'      => 'input',
+					'label'            => esc_html__( 'V2 Bearer Token', 'feed_them_social' ),
+					'type'             => 'text',
+					'id'               => 'fts_twitter_custom_bearer_token',
+					'name'             => 'fts_twitter_custom_bearer_token',
+					'placeholder'      => '',
+					'default_value'    => '',
+					'instructional-text' => sprintf(
+						esc_html__( '%1$s %2$s Enter your Bearer Token in the box below. This gives the plugin read-only access to get your Twitter posts. Once you have your Bearer Token you will be able to create a feed.', 'feed_them_social' ),
+						'<strong>',
+						'</strong>'
+					),
 				),
 
 			),
+			
 		);
 
 		return $this->all_options['twitter_token_options'];

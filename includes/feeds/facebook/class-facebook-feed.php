@@ -481,7 +481,7 @@ class Facebook_Feed {
 				// }.
 				$set_zero = 0;
 				foreach ( $feed_data_check->data as $post_count ) {
-					
+
 					$fb_message         = $post_count->message ?? '';
 					$fb_story           = $post_count->story ?? '';
 					$facebook_post_type = $post_count->attachments->data[0]->type ?? '';
@@ -1445,48 +1445,51 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
 			// Single Events Array.
 			$set_zero = 0;
-			foreach ( $feed_data->data as $post_data ) {
 
-				$post_data->id = $post_data->id ?? '';
+            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+                foreach ($feed_data->data as $post_data) {
 
-				if ( $set_zero === $post_count ) {
-					break;
-				}
+                    $post_data->id = $post_data->id ?? '';
 
-				$facebook_post_type = $post_data->attachments->data[0]->type ?? '';
-				$post_data_key      = $post_data->attachments->data[0]->object_id ?? $post_data->id;
+                    if ($set_zero === $post_count) {
+                        break;
+                    }
 
-				// Don't run these if it's a review feed otherwise you will get an error response from facebook.
-				if ( 'reviews' !== $saved_feed_options['facebook_page_feed_type']  ) {
-					// Set Likes URL in post array.
-					$fb_post_array[$post_data_key . '_likes']    = 'https://graph.facebook.com/' . $post_data_key . '/reactions?summary=1&access_token=' . $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_custom_api_token'] );
-					// Set Comments URL in post array.
-					$fb_post_array[$post_data_key . '_comments'] = 'https://graph.facebook.com/' . $post_data_key . '/comments?summary=1&access_token=' . $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_custom_api_token'] );
-				}
+                    $facebook_post_type = $post_data->attachments->data[0]->type ?? '';
+                    $post_data_key = $post_data->attachments->data[0]->object_id ?? $post_data->id;
 
-				// Video.
-				if ( 'video' === $facebook_post_type ) {
-					$fb_post_array[ $post_data_key . '_video' ] = 'https://graph.facebook.com/' . $post_data_key;
-				}
-				// Photo.
-				$fb_album_cover = isset( $post_data->cover_photo->id ) ? $post_data->cover_photo->id : '';
-				if ( 'albums' === $saved_feed_options['facebook_page_feed_type'] && ! $fb_album_cover ) {
-					unset( $post_data );
-					continue;
-				}
-				if ( 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
-					$fb_post_array[ $fb_album_cover . '_photo' ] = 'https://graph.facebook.com/' . $fb_album_cover;
-				}
-				if ( 'hashtag' === $saved_feed_options['facebook_page_feed_type'] ) {
-					$fb_post_array[ $post_data_key . '_photo' ] = 'https://graph.facebook.com/' . $post_data->source;
-				}
-				// GROUP Photo.
-				if ( 'group' === $saved_feed_options['facebook_page_feed_type'] ) {
-					$fb_post_array[ $post_data_key . '_group_post_photo' ] = 'https://graph.facebook.com/' . $post_data->id . '?fields=picture,full_picture&access_token=' . $this->feed_access_token;
-				}
+                    // Don't run these if it's a review feed otherwise you will get an error response from facebook.
+                    if ('reviews' !== $saved_feed_options['facebook_page_feed_type']) {
+                        // Set Likes URL in post array.
+                        $fb_post_array[$post_data_key . '_likes'] = 'https://graph.facebook.com/' . $post_data_key . '/reactions?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
+                        // Set Comments URL in post array.
+                        $fb_post_array[$post_data_key . '_comments'] = 'https://graph.facebook.com/' . $post_data_key . '/comments?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
+                    }
 
-				$set_zero++;
-			}
+                    // Video.
+                    if ('video' === $facebook_post_type) {
+                        $fb_post_array[$post_data_key . '_video'] = 'https://graph.facebook.com/' . $post_data_key;
+                    }
+                    // Photo.
+                    $fb_album_cover = isset($post_data->cover_photo->id) ? $post_data->cover_photo->id : '';
+                    if ('albums' === $saved_feed_options['facebook_page_feed_type'] && !$fb_album_cover) {
+                        unset($post_data);
+                        continue;
+                    }
+                    if ('albums' === $saved_feed_options['facebook_page_feed_type']) {
+                        $fb_post_array[$fb_album_cover . '_photo'] = 'https://graph.facebook.com/' . $fb_album_cover;
+                    }
+                    if ('hashtag' === $saved_feed_options['facebook_page_feed_type']) {
+                        $fb_post_array[$post_data_key . '_photo'] = 'https://graph.facebook.com/' . $post_data->source;
+                    }
+                    // GROUP Photo.
+                    if ('group' === $saved_feed_options['facebook_page_feed_type']) {
+                        $fb_post_array[$post_data_key . '_group_post_photo'] = 'https://graph.facebook.com/' . $post_data->id . '?fields=picture,full_picture&access_token=' . $this->feed_access_token;
+                    }
+
+                    $set_zero++;
+                }
+            }
 
 			$fts_error_check          = new fts_error_handler();
 			$fts_error_check_complete = $fts_error_check->facebook_error_check( $saved_feed_options, $feed_data );
@@ -1811,5 +1814,5 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		// end of if loadmore is button or autoscroll.
 	}
 	// end fts_facebook_loadmore().
-	
+
 }//end class

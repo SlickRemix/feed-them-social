@@ -579,13 +579,15 @@ class Facebook_Feed {
 			// echo '</pre>';
 			if ( isset( $saved_feed_options['remove_reviews_no_description'] ) && 'yes' === $saved_feed_options['remove_reviews_no_description'] ) {
 				// $no_description_count2 = 0;.
-				foreach ( $feed_data->data as $k => $v ) {
-					if ( ! isset( $v->review_text ) ) {
-						// print $v->reviewer->name . ' (Key# ' . $k . ') : Now Unset from array<br/>';.
-						unset( $feed_data->data[ $k ] );
-						// $no_description_count2++;.
-					}
-				}
+                if (isset($feed_data->data) && count($feed_data->data) > 0) {
+                    foreach ($feed_data->data as $k => $v) {
+                        if (!isset($v->review_text)) {
+                            // print $v->reviewer->name . ' (Key# ' . $k . ') : Now Unset from array<br/>';.
+                            unset($feed_data->data[$k]);
+                            // $no_description_count2++;.
+                        }
+                    }
+                }
 			}
 			$ratings_data = json_decode( $response['ratings_data'] );
 
@@ -594,19 +596,21 @@ class Facebook_Feed {
 			// print_r($ratings_data );
 			// echo '</pre>';.
 			// Add fts_profile_pic_url to the array so we can show profile photos for reviews and comments in popup
-			foreach ( $feed_data->data as $post_array ) {
+            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+                foreach ($feed_data->data as $post_array) {
 
-				$the_image = 'https://graph.facebook.com/' . $post_array->reviewer->id . '/picture?redirect=false&access_token=' . $this->feed_access_token;
+                    $the_image = 'https://graph.facebook.com/' . $post_array->reviewer->id . '/picture?redirect=false&access_token=' . $this->feed_access_token;
 
-				$profile_pic_response = wp_remote_get( $the_image );
-				$profile_pic_data     = wp_remote_retrieve_body( $profile_pic_response );
-				$profile_pic_output   = json_decode( $profile_pic_data );
+                    $profile_pic_response = wp_remote_get($the_image);
+                    $profile_pic_data = wp_remote_retrieve_body($profile_pic_response);
+                    $profile_pic_output = json_decode($profile_pic_data);
 
-				// echo '<pre>';
-				// print_r($profile_pic_output->data->url);
-				// echo '</pre>';
-				$post_array->fts_profile_pic_url = $profile_pic_output->data->url;
-			}
+                    // echo '<pre>';
+                    // print_r($profile_pic_output->data->url);
+                    // echo '</pre>';
+                    $post_array->fts_profile_pic_url = $profile_pic_output->data->url;
+                }
+            }
 		}
         else {
             $fts_facebook_reviews = '';
@@ -644,21 +648,25 @@ class Facebook_Feed {
             $omit_album_covers     = !empty( $saved_feed_options['facebook_omit_album_covers'] ) ? $saved_feed_options['facebook_omit_album_covers'] : '';
             $omit_album_covers_new = array();
             $omit_album_covers_new = explode( ',', $omit_album_covers );
-            foreach ( $feed_data->data as $post_data ) {
-                foreach ( $omit_album_covers_new as $omit ) {
-                    unset( $feed_data->data[ $omit ] );
+            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+                foreach ($feed_data->data as $post_data) {
+                    foreach ($omit_album_covers_new as $omit) {
+                        unset($feed_data->data[$omit]);
+                    }
                 }
             }
         }
 
 		// Reviews Rating Filter.
 		if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
-			foreach ( $feed_data->data as $key => $post_data ) {
-				// We are not going to show the unrecommended reviews in the feed at this point, no options in our plugin srl.
-				if ( isset( $post_data->recommendation_type ) && 'negative' === $post_data->recommendation_type ) {
-					unset( $feed_data->data[ $key ] );
-				}
-			}
+            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+                foreach ($feed_data->data as $key => $post_data) {
+                    // We are not going to show the unrecommended reviews in the feed at this point, no options in our plugin srl.
+                    if (isset($post_data->recommendation_type) && 'negative' === $post_data->recommendation_type) {
+                        unset($feed_data->data[$key]);
+                    }
+                }
+            }
 		}
 
 		// Make sure it's not ajaxing.
@@ -916,68 +924,71 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 		// echo '</pre>';.
 		// THE MAIN FEED
 		// LOOP to fix Post count!
-		foreach ( $feed_data->data as $k => $v ) {
-			if ( $k >= $saved_feed_options['facebook_page_post_count'] ) {
-				unset( $feed_data->data[ $k ] );
-			}
-		}
+        if (isset($feed_data->data) && count($feed_data->data) > 0) {
+            foreach ($feed_data->data as $k => $v) {
+                if ($k >= $saved_feed_options['facebook_page_post_count']) {
+                    unset($feed_data->data[$k]);
+                }
+            }
+        }
 
 		// Nov. 4th. 2016 // Uncomment this to sort the dates proper if facebook is returning them out of order.
 		// We had one case of this here for a list of posts coming from an event.
 		// https://wordpress.org/support/topic/facebook-event-posts-not-ordered-by-date/
 		// usort($feed_data->data, array($this, "dateSort"));
 		// Loop for all facebook feeds.
-		foreach ( $feed_data->data as $post_data ) {
+        if (isset($feed_data->data) && count($feed_data->data) > 0) {
+            foreach ($feed_data->data as $post_data) {
 
-			$fb_message     = $post_data->message ?? '';
-			$fb_status_type = $post_data->status_type ?? '';
+                $fb_message = $post_data->message ?? '';
+                $fb_status_type = $post_data->status_type ?? '';
 
-			$fb_story       = $post_data->story ?? '';
+                $fb_story = $post_data->story ?? '';
 
-			if( 'albums' === $saved_feed_options['facebook_page_feed_type'] ){
-				$facebook_post_type  = $post_data->type ?? '';
-			}
-			else {
-				$facebook_post_type  = $post_data->attachments->data[0]->type ?? '';
-			}
+                if ('albums' === $saved_feed_options['facebook_page_feed_type']) {
+                    $facebook_post_type = $post_data->type ?? '';
+                } else {
+                    $facebook_post_type = $post_data->attachments->data[0]->type ?? '';
+                }
 
-            // Testing.
-            //echo $fb_story;
+                // Testing.
+                //echo $fb_story;
 
-            // SRL 4.0 I noticed that if you change the fb language option when creating a fb feed then our english language comparisons are not working properly.
-            // I fixed this for the most part by remove the check for needle... to do. need to check if regular posts have a status type.
-			// This is the method to skip empty posts or posts that are simply about changing settings or other non important post types.
-			if ( false !== strpos( $fb_story, 'updated their website address' ) ||
-                'profile_media' === $facebook_post_type  ||
-                'cover_photo' === $facebook_post_type  ||
-                'status' === $facebook_post_type && empty( $fb_message ) && empty( $fb_story ) ||
-                'event' === $facebook_post_type ||
-                'status' === $facebook_post_type && false !== strpos( $fb_story, 'changed the name of the event to' ) ||
-                'status' === $facebook_post_type && false !== strpos( $fb_story, 'changed the privacy setting' ) ||
-                'status' === $facebook_post_type && false !== strpos( $fb_story, 'an admin of the group' ) ||
-                'status' === $facebook_post_type && false !== strpos( $fb_story, 'created the group' ) ||
-                'status' === $facebook_post_type && false !== strpos( $fb_story, 'added an event' ) ) {
+                // SRL 4.0 I noticed that if you change the fb language option when creating a fb feed then our english language comparisons are not working properly.
+                // I fixed this for the most part by remove the check for needle... to do. need to check if regular posts have a status type.
+                // This is the method to skip empty posts or posts that are simply about changing settings or other non important post types.
+                if (false !== strpos($fb_story, 'updated their website address') ||
+                    'profile_media' === $facebook_post_type ||
+                    'cover_photo' === $facebook_post_type ||
+                    'status' === $facebook_post_type && empty($fb_message) && empty($fb_story) ||
+                    'event' === $facebook_post_type ||
+                    'status' === $facebook_post_type && false !== strpos($fb_story, 'changed the name of the event to') ||
+                    'status' === $facebook_post_type && false !== strpos($fb_story, 'changed the privacy setting') ||
+                    'status' === $facebook_post_type && false !== strpos($fb_story, 'an admin of the group') ||
+                    'status' === $facebook_post_type && false !== strpos($fb_story, 'created the group') ||
+                    'status' === $facebook_post_type && false !== strpos($fb_story, 'added an event')) {
 
-                // Skip the Post...
+                    // Skip the Post...
 
-			} else {
-				// define type note also affects load more function call.
-				if ( ! $facebook_post_type && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
-					$facebook_post_type = 'photo';
-				}
-				if ( ! $facebook_post_type && 'events' === $saved_feed_options['facebook_page_feed_type'] ) {
-					$facebook_post_type = 'events';
-				}
+                } else {
+                    // define type note also affects load more function call.
+                    if (!$facebook_post_type && 'album_photos' === $saved_feed_options['facebook_page_feed_type']) {
+                        $facebook_post_type = 'photo';
+                    }
+                    if (!$facebook_post_type && 'events' === $saved_feed_options['facebook_page_feed_type']) {
+                        $facebook_post_type = 'events';
+                    }
 
-				$single_event_array_response = $single_event_array_response ?? '';
+                    $single_event_array_response = $single_event_array_response ?? '';
 
-				// echo '<br/><br/>were function gets called <br/><br/>' .
-				// print_r( $post_data );.
-				$this->facebook_post_types->feed_post_types( $set_zero, $facebook_post_type, $post_data, $saved_feed_options, $response_post_array, $single_event_array_response, $fts_facebook_reviews );
-			}
+                    // echo '<br/><br/>were function gets called <br/><br/>' .
+                    // print_r( $post_data );.
+                    $this->facebook_post_types->feed_post_types($set_zero, $facebook_post_type, $post_data, $saved_feed_options, $response_post_array, $single_event_array_response, $fts_facebook_reviews);
+                }
 
-			$set_zero++;
-		}// END POST foreach
+                $set_zero++;
+            }// END POST foreach
+        }
 
 		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
 			if ( ! empty( $feed_data->data ) ) {
@@ -1538,27 +1549,29 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			// Single Events Array.
 			$fb_single_events_array = array();
 			$set_zero               = 0;
-			foreach ( $feed_data->data as $post_data ) {
+            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+                foreach ($feed_data->data as $post_data) {
 
-				$post_data->id = $post_data->id ?? '';
+                    $post_data->id = $post_data->id ?? '';
 
-				if ( $set_zero === $saved_feed_options['facebook_page_post_count'] ) {
-					break;
-				}
+                    if ($set_zero === $saved_feed_options['facebook_page_post_count']) {
+                        break;
+                    }
 
-				$single_event_id = $post_data->id;
-				$language        = $language ?? '';
-				// Event Info, Time etc.
-				$fb_single_events_array[ 'event_single_' . $single_event_id . '_info' ] = 'https://graph.facebook.com/' . $single_event_id . '/?access_token=' . $this->feed_access_token . $language;
-				// Event Location.
-				$fb_single_events_array[ 'event_single_' . $single_event_id . '_location' ] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=place&access_token=' . $this->feed_access_token . $language;
-				// Event Cover Photo.
-				$fb_single_events_array[ 'event_single_' . $single_event_id . '_cover_photo' ] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=cover&access_token=' . $this->feed_access_token . $language;
-				// Event Ticket Info.
-				$fb_single_events_array[ 'event_single_' . $single_event_id . '_ticket_info' ] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=ticket_uri&access_token=' . $this->feed_access_token . $language;
+                    $single_event_id = $post_data->id;
+                    $language = $language ?? '';
+                    // Event Info, Time etc.
+                    $fb_single_events_array['event_single_' . $single_event_id . '_info'] = 'https://graph.facebook.com/' . $single_event_id . '/?access_token=' . $this->feed_access_token . $language;
+                    // Event Location.
+                    $fb_single_events_array['event_single_' . $single_event_id . '_location'] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=place&access_token=' . $this->feed_access_token . $language;
+                    // Event Cover Photo.
+                    $fb_single_events_array['event_single_' . $single_event_id . '_cover_photo'] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=cover&access_token=' . $this->feed_access_token . $language;
+                    // Event Ticket Info.
+                    $fb_single_events_array['event_single_' . $single_event_id . '_ticket_info'] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=ticket_uri&access_token=' . $this->feed_access_token . $language;
 
-				$set_zero++;
-			}
+                    $set_zero++;
+                }
+            }
 
 			$response_event_post_array = $this->feed_functions->fts_get_feed_json( $fb_single_events_array );
 			// Create Cache.

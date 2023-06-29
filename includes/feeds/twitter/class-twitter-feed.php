@@ -928,7 +928,9 @@ class Twitter_Feed {
 			}
 
 			// Exclude Replies?
-			$exclude_replies = $show_replies === 'no' ? 'true' : 'false' ;
+			// $exclude_replies = $show_replies === 'no' ? 'true' : 'false' ;
+			// Changing to not include replies by default and because we are removing the options for now.
+			$exclude_replies = 'true' ;
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -990,12 +992,12 @@ class Twitter_Feed {
 				// numTimes = get_option('twitter_replies_offset') == TRUE ? get_option('twitter_replies_offset') : '1' ;.
 
 				// If excluding replies, we need to fetch more than requested as the total is fetched first, and then replies removed.
-				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore ) && 'yes' === $loadmore ) {
-					$total_to_fetch = $tweets_count;
-				} else {
+				// if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore ) && 'yes' === $loadmore ) {
+				//	$total_to_fetch = $tweets_count;
+				// } else {
                     $tweets_count = !empty( $tweets_count ) ? $tweets_count : 6;
 					$total_to_fetch = 'true' === $exclude_replies ? max( 50, $tweets_count * 3 ) : $tweets_count;
-				}
+				// }
 				// $total_to_fetch = $tweets_count;.
 				$description_image = !empty( $description_image ) ?? '';
 
@@ -1534,7 +1536,8 @@ class Twitter_Feed {
 					}
 					// endforeach;.
 					// Make sure it's not ajaxing.
-					if ( ! isset( $_GET['load_more_ajaxing'] ) && isset( $loadmore, $loadmore_style ) &&  'yes' === $loadmore && 'autoscroll' === $loadmore_style ) {
+					// Load more must be removed for the time being.
+					/*if ( ! isset( $_GET['load_more_ajaxing'] ) && isset( $loadmore, $loadmore_style ) &&  'yes' === $loadmore && 'autoscroll' === $loadmore_style ) {
 
 						$fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
 
@@ -1546,7 +1549,7 @@ class Twitter_Feed {
 							echo '</div>';
 						}
 					}
-					?>
+					*/ ?>
 	</div>
 					<?php
 
@@ -1691,7 +1694,8 @@ class Twitter_Feed {
 			}//End Check.
 
 			// Make sure it's not ajaxing.
-			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
+			// Load more must be removed for the time being.
+			/*if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'button' === $loadmore_style && 'yes' === $loadmore ) {
 					echo '<div class="fts-clear"></div>';
 					echo '<div class="fts-twitter-load-more-wrapper">';
@@ -1703,7 +1707,7 @@ class Twitter_Feed {
 					echo 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $twitter_load_more_text ) . '</div>';
 					echo '</div>';
 				}
-			}
+			}*/
 			// End Check.
 			unset( $_REQUEST['since_id'], $_REQUEST['max_id'] );
 

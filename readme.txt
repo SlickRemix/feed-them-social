@@ -118,7 +118,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.1.6 Wednesday, June 14th, 2023 =
+= Version 4.1.6 Friday, June 30th, 2023 =
   * NEW: Beaver Builder Module added. When editing or creating a new page, or post you can look for Social Modules and Feed Them Social will appear. You can also search for social in the modules list and Feed Them Social will appear.
   * NEW: Elementor Module added. When editing or creating a new page, or post you can look search the Widgets and Feed Them Social will appear.
   * FIX: Instagram Feed: Image resize scripts moved to the bottom of the feed so it will load even in js type tabs.

@@ -736,7 +736,7 @@ class Feed_Functions {
 			exit( esc_html__( 'That is not an FTS shortcode!', 'feed_them_social' ) );
 		}
 
-//		echo do_shortcode( $shortcode );
+		echo do_shortcode( $shortcode );
 
         die();
     }
@@ -1264,7 +1264,7 @@ class Feed_Functions {
 		}
 
         $access_token            = $_REQUEST['encrypted_token'];
-//        echo $this->data_protection->decrypt( $access_token );
+        echo $this->data_protection->decrypt( $access_token );
 
         wp_die();
     }

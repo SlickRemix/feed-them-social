@@ -65,7 +65,7 @@ class Data_Protection {
             $value =  json_encode($value);
         }
 
-//        $encrypted_value = openssl_encrypt( $value . $this->salt, $method, $this->key, 0, $iv );
+        $encrypted_value = openssl_encrypt( $value . $this->salt, $method, $this->key, 0, $iv );
         if ( ! $encrypted_value ) {
             return false;
         }
@@ -95,7 +95,7 @@ class Data_Protection {
 
         $encrypted_value = substr( $encrypted_value, $ivlen );
 
-//        $decrypted_value = openssl_decrypt( $encrypted_value, $method, $this->key, 0, $iv );
+        $decrypted_value = openssl_decrypt( $encrypted_value, $method, $this->key, 0, $iv );
         if ( ! $decrypted_value || substr( $decrypted_value, - strlen( $this->salt ) ) !== $this->salt ) {
             return false;
         }

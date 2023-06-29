@@ -502,13 +502,13 @@ class Youtube_Feed {
                                 echo '<h2>' . esc_html( $this->fts_youtube_title( $post_data ) ) . '</h2>';
                             }
                             // URL for the video is escaped in this function.
-                           /* echo $this->fts_youtube_video_and_wrap( $post_data, $saved_feed_options['youtube_feed_type'] );*/
+                            echo $this->fts_youtube_video_and_wrap( $post_data, $saved_feed_options['youtube_feed_type'] );
 
                             $youtube_description   = $this->fts_youtube_tag_filter( $this->fts_youtube_description( $post_data ) );
                              $saved_feed_options['youtube_large_vid_description'] = 'yes' ===  $saved_feed_options['youtube_large_vid_description'] ?  $saved_feed_options['youtube_large_vid_description'] : '';
 
                             if ( 'yes' ===  $saved_feed_options['youtube_large_vid_description'] ) {
-                                /*echo '<p>' . wp_kses(
+                                echo '<p>' . wp_kses(
                                     $youtube_description,
                                     array(
                                         'a'      => array(
@@ -521,7 +521,7 @@ class Youtube_Feed {
                                         'strong' => array(),
                                         'small'  => array(),
                                     )
-                                ) . '</p>';*/
+                                ) . '</p>';
                             }
                             echo '</div>';
                             echo '</div>';
@@ -581,7 +581,7 @@ class Youtube_Feed {
 
                     $this->fts_youtube_single_video_info( $saved_feed_options['youtube_singleVideoID'], $youtube_api_key_or_token );
 
-                    /*echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );*/
+                    echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
                     echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 
                     // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions granted to view comments.
@@ -658,7 +658,7 @@ class Youtube_Feed {
                                 echo '<h3><a href="' . esc_url( $user_name_href ) . '" target="_blank">' . esc_html( $channel_title ) . '</a></h3>';
                                 echo '<div class="fts-youtube-date">' . esc_html( $date ) . '</div>';
                                 echo '<h4>' . esc_html( $youtube_title ) . '</h4>';
-                                /*echo '<div class="fts-youtube-description-popup">' . wp_kses(
+                                echo '<div class="fts-youtube-description-popup">' . wp_kses(
                                     $youtube_description,
                                     array(
                                         'a'      => array(
@@ -671,8 +671,8 @@ class Youtube_Feed {
                                         'strong' => array(),
                                         'small'  => array(),
                                     )
-                                ) . '</div>';*/
-//                                echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
+                                ) . '</div>';
+                                echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
                                 echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
                                 // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
                                 if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
@@ -695,21 +695,21 @@ class Youtube_Feed {
                                 echo '<h3><a href="' . esc_url( $user_name_href ) . '" target="_blank">' . esc_html( $channel_title ) . '</a></h3>';
                                 echo '<div class="fts-youtube-date">' . esc_html( $date ) . '</div>';
                                 echo '<h4>' . esc_html( $youtube_title ) . '</h4>';
-//                                echo '<div class="fts-youtube-description-popup">' . wp_kses(
-//                                    $youtube_description,
-//                                    array(
-//                                        'a'      => array(
-//                                            'href'   => array(),
-//                                            'title'  => array(),
-//                                            'target' => array(),
-//                                        ),
-//                                        'br'     => array(),
-//                                        'em'     => array(),
-//                                        'strong' => array(),
-//                                        'small'  => array(),
-//                                    )
-//                                ) . '</div>';
-//                                echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
+                                echo '<div class="fts-youtube-description-popup">' . wp_kses(
+                                    $youtube_description,
+                                    array(
+                                        'a'      => array(
+                                            'href'   => array(),
+                                            'title'  => array(),
+                                            'target' => array(),
+                                        ),
+                                        'br'     => array(),
+                                        'em'     => array(),
+                                        'strong' => array(),
+                                        'small'  => array(),
+                                    )
+                                ) . '</div>';
+                                echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
                                 echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
 
                                 // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
@@ -754,7 +754,7 @@ class Youtube_Feed {
                     $_REQUEST['next_url'] = ! empty( $loadmore ) && 'yes' === $loadmore ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
 
                     ?><script>
-                        //var nextURL_<?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>//= "<?php //echo  str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>//";
+                        var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>= "<?php echo  str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";
                     </script>
                     <?php
                 }
@@ -786,7 +786,7 @@ class Youtube_Feed {
                             var button = jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").html('<div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div>');
 
                             console.log(button);
-                            //console.log(nextURL_<?php //echo sanitize_key( $fts_dynamic_name )  ?>//);
+                            console.log(nextURL_<?php echo sanitize_key( $fts_dynamic_name )  ?>);
 
                             var yes_ajax = "yes";
                             var feed_id = "<?php echo esc_js( $feed_post_id ); ?>";
@@ -801,7 +801,7 @@ class Youtube_Feed {
                             jQuery.ajax({
                                 data: {
                                     action: "my_fts_fb_load_more",
-                                    //next_url: nextURL_<?php //echo sanitize_key( $fts_dynamic_name ) ?>//,
+                                    next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ) ?>,
                                     fts_dynamic_name: fts_d_name,
                                     feed_name: feed_name,
                                   //  loadmore_count: loadmore_count,
@@ -820,13 +820,13 @@ class Youtube_Feed {
 
                                     jQuery(".fts-youtube-popup-gallery.<?php echo esc_js( $fts_dynamic_class_name ) ?>").html(result);
 
-                                    //if( !nextURL_<?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>// ||  "no more" === nextURL_<?php //echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>// ){
-                                    //    jQuery("#loadMore_<?php //echo esc_js( $fts_dynamic_name ) ?>//").replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php //echo esc_js( $youtube_no_more_videos_text ) ?>//</div>');
-                                    //    jQuery("#loadMore_<?php //echo esc_js( $fts_dynamic_name ) ?>//").removeAttr("id");
-                                    //}
-                                    //else {
-                                    //    jQuery(".<?php //echo esc_js( $fts_dynamic_class_name ) ?>//").off('scroll');
-                                    //}
+                                    if( !nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?> ||  "no more" === nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?> ){
+                                        jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $youtube_no_more_videos_text ) ?></div>');
+                                        jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").removeAttr("id");
+                                    }
+                                    else {
+                                        jQuery(".<?php echo esc_js( $fts_dynamic_class_name ) ?>").off('scroll');
+                                    }
 
                                     <?php if ( 'button' === $loadmore_type && 'yes' === $loadmore ) { ?>
                                         jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").html("<?php echo esc_html( $youtube_load_more_text ) ?>");
@@ -1046,20 +1046,20 @@ class Youtube_Feed {
 						echo '</a>';
 						echo '</span> ';
 						echo '<span class="fts-fb-comment-date">' . esc_html( $this->feed_functions->fts_custom_date( $comment_data->snippet->topLevelComment->snippet->publishedAt, 'youtube' ) ) . '</span><br/>';
-//						echo wp_kses(
-//							$youtube_comment,
-//							array(
-//								'a'      => array(
-//									'href'   => array(),
-//									'title'  => array(),
-//									'target' => array(),
-//								),
-//								'br'     => array(),
-//								'em'     => array(),
-//								'strong' => array(),
-//								'small'  => array(),
-//							)
-//						);
+						echo wp_kses(
+							$youtube_comment,
+							array(
+								'a'      => array(
+									'href'   => array(),
+									'title'  => array(),
+									'target' => array(),
+								),
+								'br'     => array(),
+								'em'     => array(),
+								'strong' => array(),
+								'small'  => array(),
+							)
+						);
 						echo '</div>';
 						echo '</div>';
 					}

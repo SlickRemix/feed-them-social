@@ -1673,7 +1673,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 			$_REQUEST['next_url'] = str_replace( 'access_token='. $this->feed_access_token, 'access_token=XXX', $next_url );
 
 			echo '<script>';
-//            echo 'var nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . '= "' .  str_replace( ['"', "'"], '', $_REQUEST['next_url'] ) . '";';
+            echo 'var nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . '= "' .  str_replace( ['"', "'"], '', $_REQUEST['next_url'] ) . '";';
             echo '</script>';
 
 			// Make sure it's not ajaxing.
@@ -1709,7 +1709,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
 
 				echo 'jQuery.ajax({';
-//				echo 'data: {action: "my_fts_fb_load_more", next_url: nextURL_' . sanitize_key( $fts_dynamic_name ) . ', fts_dynamic_name: fts_d_name, feed_name: feed_name, feed_id: feed_id, loadmore_count: loadmore_count, load_more_ajaxing: yes_ajax, fts_security: fts_security, fts_time: fts_time},';
+				echo 'data: {action: "my_fts_fb_load_more", next_url: nextURL_' . sanitize_key( $fts_dynamic_name ) . ', fts_dynamic_name: fts_d_name, feed_name: feed_name, feed_id: feed_id, loadmore_count: loadmore_count, load_more_ajaxing: yes_ajax, fts_security: fts_security, fts_time: fts_time},';
 				echo 'type: "GET",';
 				echo 'url: "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '",';
 				echo 'success: function( data ) {';
@@ -1732,7 +1732,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
                    // }
 
-//					echo 'if(!nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' || nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' == "no more"){';
+					echo 'if(!nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' || nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' == "no more"){';
 
                     $facebook_loadmore_button_width = !empty( $saved_feed_options['facebook_loadmore_button_width'] ) ? $saved_feed_options['facebook_loadmore_button_width'] : 'auto';
                     $loadmore_btn_margin = !empty( $saved_feed_options['loadmore_button_margin'] )  ? $saved_feed_options['loadmore_button_margin'] : '20px auto';
@@ -1758,7 +1758,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 						echo 'var result = jQuery("#output_' . esc_js( $fts_dynamic_name ) . '").append(data).filter("#output_' . esc_js( $fts_dynamic_name ) . '").html();';
 					}
 					echo 'jQuery("#output_' . esc_js( $fts_dynamic_name ) . '").html(result);';
-//					echo 'if(!nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' || nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' == "no more"){';
+					echo 'if(!nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' || nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' == "no more"){';
 					// Reviews.
 					if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
 						echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").replaceWith(\'<div class="fts-fb-load-more no-more-posts-fts-fb">' . esc_html( $fb_no_more_reviews_text ) . '</div>\');';

@@ -124,6 +124,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * FIX: Instagram Feed: Image resize scripts moved to the bottom of the feed so it will load even in js type tabs.
   * FIX: YouTube Feed: Load more not working for the User Specific Playlist. Misc php warnings. Removed default value for Channel Feed that was causing issues when feed edit page reloads.
   * FIX: Astra Theme: The close button for popup was not positioned correctly when hovering.
+  * FIX: Facebook Feed: Check that feed data is countable before looping over it. Thank you [LiamMcArthur](https://github.com/LiamMcArthur) for creating this hotfix.
   * NOTE: Twitter Feed: As of the recent API changes and Twitter now charging us to pull Tweets, the feed may only work sometimes because we are being rate limited. We are looking into alternate options. The hashtag, search, retweets, replies, and load more option will also not be available until further notice. If your feed does connect, we suggest setting the cache time to at least 3 days or more.
   * REMOVED: Settings: Developer mode for caching.
 

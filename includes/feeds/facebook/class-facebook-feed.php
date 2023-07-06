@@ -454,6 +454,7 @@ class Facebook_Feed {
             // $idNew = 'tonyhawk';
             // print_r($feed_data_check->$idNew->data);.
             // 4.0 This was made for multiple facebook feed, that is no longer an option. Reference for now, delete in future if not used.
+
             if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
                 $fts_count_ids = substr_count( $saved_feed_options['fts_facebook_custom_api_token_user_id'], ',' );
             } else {
@@ -486,7 +487,7 @@ class Facebook_Feed {
                     $fb_story           = $post_count->story ?? '';
                     $facebook_post_type = $post_count->attachments->data[0]->type ?? '';
                     $fb_status_type     = $post_count->status_type ?? '';
-
+                  
                     // Testing.
                     // echo $facebook_post_type;
 
@@ -558,6 +559,7 @@ class Facebook_Feed {
             $fts_facebook_reviews = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token);
 
             if ( isset( $saved_feed_options['remove_reviews_no_description'] ) && 'yes' === $saved_feed_options['remove_reviews_no_description'] && ! isset( $_GET['load_more_ajaxing'] ) ) {
+
                 $no_description_count = $fts_facebook_reviews->review_count_check( $saved_feed_options );
 
                 // testing purposes
@@ -579,6 +581,7 @@ class Facebook_Feed {
             // echo '</pre>';
             if ( isset( $saved_feed_options['remove_reviews_no_description'] ) && 'yes' === $saved_feed_options['remove_reviews_no_description'] ) {
                 // $no_description_count2 = 0;.
+
                 if (isset($feed_data->data) && count($feed_data->data) > 0) {
                     foreach ($feed_data->data as $k => $v) {
                         if (!isset($v->review_text)) {
@@ -588,6 +591,7 @@ class Facebook_Feed {
                         }
                     }
                 }
+
             }
             $ratings_data = json_decode( $response['ratings_data'] );
 
@@ -596,6 +600,7 @@ class Facebook_Feed {
             // print_r($ratings_data );
             // echo '</pre>';.
             // Add fts_profile_pic_url to the array so we can show profile photos for reviews and comments in popup
+
             if (isset($feed_data->data) && count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $post_array) {
 
@@ -611,7 +616,9 @@ class Facebook_Feed {
                     $post_array->fts_profile_pic_url = $profile_pic_output->data->url;
                 }
             }
+
         }
+
         else {
             $fts_facebook_reviews = '';
         }
@@ -657,8 +664,10 @@ class Facebook_Feed {
             }
         }
 
+
         // Reviews Rating Filter.
         if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
+
             if (isset($feed_data->data) && count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $key => $post_data) {
                     // We are not going to show the unrecommended reviews in the feed at this point, no options in our plugin srl.
@@ -667,6 +676,7 @@ class Facebook_Feed {
                     }
                 }
             }
+
         }
 
         // Make sure it's not ajaxing.
@@ -901,6 +911,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 }
             } else {
                 $facebook_page_height = isset( $saved_feed_options['facebook_page_height'] ) ? $saved_feed_options['facebook_page_height'] : '';
+
                 echo '<div class="fts-jal-fb-group-display fts-simple-fb-wrapper ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? ' popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' ' . ( 'auto' !== $facebook_page_height ? 'fts-fb-scrollable" style="height:' . esc_attr( $facebook_page_height ) . '"' : '"' ) . '>';
             }
         } //End ajaxing Check
@@ -924,6 +935,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
         // echo '</pre>';.
         // THE MAIN FEED
         // LOOP to fix Post count!
+
         if (isset($feed_data->data) && count($feed_data->data) > 0) {
             foreach ($feed_data->data as $k => $v) {
                 if ($k >= $saved_feed_options['facebook_page_post_count']) {
@@ -932,11 +944,13 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
             }
         }
 
+
         // Nov. 4th. 2016 // Uncomment this to sort the dates proper if facebook is returning them out of order.
         // We had one case of this here for a list of posts coming from an event.
         // https://wordpress.org/support/topic/facebook-event-posts-not-ordered-by-date/
         // usort($feed_data->data, array($this, "dateSort"));
         // Loop for all facebook feeds.
+
         if (isset($feed_data->data) && count($feed_data->data) > 0) {
             foreach ($feed_data->data as $post_data) {
 
@@ -1502,6 +1516,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 }
             }
 
+
             $fts_error_check          = new fts_error_handler();
             $fts_error_check_complete = $fts_error_check->facebook_error_check( $saved_feed_options, $feed_data );
             if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
@@ -1549,6 +1564,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
             // Single Events Array.
             $fb_single_events_array = array();
             $set_zero               = 0;
+
             if (isset($feed_data->data) && count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $post_data) {
 
@@ -1572,6 +1588,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                     $set_zero++;
                 }
             }
+
 
             $response_event_post_array = $this->feed_functions->fts_get_feed_json( $fb_single_events_array );
             // Create Cache.
@@ -1820,6 +1837,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 echo '<div id="output_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more-output"></div>';
                 if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'page' === $saved_feed_options['facebook_page_feed_type'] && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ||
                     is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) {
+
                     echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">Facebook</div>';
                 }
             }

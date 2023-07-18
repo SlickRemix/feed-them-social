@@ -186,7 +186,7 @@ class Feed_Them_Social {
 
 		// This is the URL the Updater / License Key Validation pings.
 		if (!defined('SLICKREMIX_STORE_URL')) {
-			define('SLICKREMIX_STORE_URL', 'http://www.slickremix.com/');
+			define('SLICKREMIX_STORE_URL', 'https://www.slickremix.com/');
 		}
 
 		// Feed Them Social Post Type.

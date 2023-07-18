@@ -5,7 +5,7 @@ Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagr
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.2.2
-Stable tag: 4.1.6
+Stable tag: 4.1.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.1.7 Tuesday, July 18th, 2023 =
+  * FIX: Fix User controlled data being able to be entered into message.
+
 = Version 4.1.6 Thursday, June 6th, 2023 =
   * NEW: Beaver Builder Module added. When editing or creating a new page, or post you can look for Social Modules and Feed Them Social will appear. You can also search for social in the modules list and Feed Them Social will appear.
   * NEW: Elementor Module added. When editing or creating a new page, or post you can look search the Widgets and Feed Them Social will appear.

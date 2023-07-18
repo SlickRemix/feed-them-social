@@ -119,7 +119,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.1.7 Tuesday, July 18th, 2023 =
-  * FIX: Facebook Feed: Check that feed data is countable before looping over it. Thank you [LiamMcArthur](https://github.com/LiamMcArthur) for creating this hotfix.
+  * FIX: Fix User controlled data being able to be entered into message.
 
 = Version 4.1.6 Thursday, June 6th, 2023 =
   * NEW: Beaver Builder Module added. When editing or creating a new page, or post you can look for Social Modules and Feed Them Social will appear. You can also search for social in the modules list and Feed Them Social will appear.

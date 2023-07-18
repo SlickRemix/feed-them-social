@@ -173,7 +173,7 @@ class updater_license_page {
 						<div class="edd-license-data edd-license-msg-error">
 							<p><?php echo esc_html( $license_error ); ?>
 								<?php
-								$this->update_admin_notices();
+								echo esc_html( $this->update_admin_notices() ) ;
 								echo esc_html__( 'To receive updates notifications, please enter your valid license key.', 'feed-them-social' );
 								?>
 								</p>
@@ -580,7 +580,7 @@ class updater_license_page {
 
 				case 'false':
 					$message = rawurldecode( $_GET['message'] );
-					echo $message;
+					return $message;
 					break;
 
                 case 'true':

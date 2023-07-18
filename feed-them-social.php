@@ -18,7 +18,7 @@
  * License: GPLv3 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    4.1.6
+ * @version    4.1.7
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2023 SlickRemix
  *
@@ -27,7 +27,7 @@
  */
 
 // Set Plugin's Current Version.
-define( 'FTS_CURRENT_VERSION', '4.1.6' );
+define( 'FTS_CURRENT_VERSION', '4.1.7' );
 
 // Require file for plugin loading.
 require_once __DIR__ . '/class-load-plugin.php';

@@ -308,7 +308,8 @@ class Twitter_Feed {
                      // FYI sometimes get_meta_tags will not work because a website will block it's usage.
 
                      // DC This url is something we need to look into!
-                   //  $tags = get_meta_tags( sanitize_text_field(  $twitter_external_url ) );
+                    // $tags = get_meta_tags( sanitize_text_field(  $twitter_external_url ) );
+                     $tags = '';
                      // First try and us the get_meta_tags php function because this is quicker
                      // Otherwise we use preg_match to find what we need from the <meta properties"og:image" for example.
                      // More exceptions might need to be created but this is what's been done so far...
@@ -332,7 +333,8 @@ class Twitter_Feed {
                         elseif( ini_get('allow_url_fopen') ){
                              // DC This url is something we need to look into!
                             // If curl fails try file get contents
-                         //   $html = file_get_contents( sanitize_text_field( $twitter_external_url ) );
+                           //   $html = file_get_contents( sanitize_text_field( $twitter_external_url ) );
+                           $html = '';
                         }
 
                         // The first 2 are preg_match_all with single quotes '', the second 2 are with double quotes "". We have to check for both.

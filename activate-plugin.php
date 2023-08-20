@@ -318,7 +318,13 @@ class Activate_Plugin {
 			}
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				return;
+				wp_die(
+					__( 'Missing capability', 'feed-them-social' ),
+					__( 'Forbidden', 'feed-them-social' ),
+					array(
+						'response' => 403
+					)
+				);
 			}
 
 			if ( '1' === $_GET[ $review_nag ] ) {

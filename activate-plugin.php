@@ -314,7 +314,7 @@ class Activate_Plugin {
 
 			// Includes pluggable.php to ensure that current_user_can can be used.
 			if ( ! function_exists( 'wp_get_current_user' ) ) {
-				require ABSPATH . WPINC . '/pluggable.php';
+				require_once ABSPATH . WPINC . '/pluggable.php';
 			}
 
 			if ( ! current_user_can( 'manage_options' ) ) {

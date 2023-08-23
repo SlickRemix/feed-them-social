@@ -311,6 +311,22 @@ class Activate_Plugin {
 	public function review_nag_check( $review_nag, $review_option, $review_transient ) {
 
 		if ( isset( $_GET[ $review_nag ] ) ) {
+
+			// Includes pluggable.php to ensure that current_user_can can be used.
+			if ( ! function_exists( 'wp_get_current_user' ) ) {
+				require_once ABSPATH . WPINC . '/pluggable.php';
+			}
+
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die(
+					__( 'Missing capability', 'feed-them-social' ),
+					__( 'Forbidden', 'feed-them-social' ),
+					array(
+						'response' => 403
+					)
+				);
+			}
+
 			if ( '1' === $_GET[ $review_nag ] ) {
 				update_option( $review_option, 'dismissed' );
 			} elseif ( 'later' === $_GET[ $review_nag ] ) {

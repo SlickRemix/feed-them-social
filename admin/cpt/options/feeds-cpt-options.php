@@ -1493,7 +1493,12 @@ class Feed_CPT_Options {
 						),
 						array(
 							'label' => __( 'Display Posts made by Page and Others', 'feed-them-social' ),
-							'value' => 'page_and_others',
+							'value' => 'page_only',
+							// SRL 8-23-23: We need to remove this option now because it requires the
+							// pages_read_user_content or Page Public Content Access permission.
+							// I made it default to page_only in case current users had the option selected.
+							// This way if they save the page again it will convert to page_only.
+							//'value' => 'page_and_others',
 						),
 					),
 					'short_attr'       => array(

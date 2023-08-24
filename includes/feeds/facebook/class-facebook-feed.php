@@ -1366,13 +1366,18 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                     return 'Please Purchase and Activate the Feed Them Social Reviews plugin.';
                 }
             } else {
+                // This is meant for posts made by others option, however it now requires a new permission from Facebook that we do not have. Page Public Content Access.
                 $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=feed,id,name,description&access_token=' . $this->feed_access_token . $language . '' );
 
-                // Check If Ajax next URL needs to be used.
+                if ( isset( $_REQUEST['next_url'] ) ) {
+                    $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
+                }
+
                 if ( ! $fts_count_ids >= 1 ) {
-                    $mulit_data['feed_data'] = $_REQUEST['next_url'] ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/feed?fields=id,created_time,from,icon,message,name_id,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    // We cannot add sanitize_text_field here on the $_REQUEST['next_url'] otherwise it will fail to load the contents from the facebook API.
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/posts?fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 } else {
-                    $mulit_data['feed_data'] = $_REQUEST['next_url'] ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/feed?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,created_time,from,icon,message,name_id,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/posts?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 }
             }
             $response = $this->feed_functions->fts_get_feed_json( $mulit_data );

@@ -74,7 +74,7 @@ class Facebook_Access_Functions {
         // This redirect url must have an &state= instead of a ?state= otherwise it will not work proper with the fb app. https://www.slickremix.com/instagram-token/&state=.
         echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
-            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . urlencode( $post_url ) . '&scope=pages_show_list,pages_read_engagement' ) . '" class="fts-facebook-get-access-token">',
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . urlencode( $post_url ) . '&scope=pages_show_list,pages_read_engagement,pages_read_user_content' ) . '" class="fts-facebook-get-access-token">',
             '</a>'
         );
         ?>

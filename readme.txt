@@ -118,9 +118,11 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.1.7 Tuesday, July 18th, 2023 =
-  * FIX: Fix User controlled data being able to be entered into message.
-  * FIX:Fix Sanitize text fields on Twitter urls.
+= Version 4.1.7 Thursday, August 24th, 2023 =
+  * FIX: User controlled data being able to be entered into message.
+  * FIX: Sanitize text fields on Twitter urls.
+  * FIX: Facebook Feed: Share and View on Facebook link not displaying for posts with no image or video.
+  * FIX: Facebook Feed: Likes and Comments and the option "Display Posts made by Page and Others" were not working correctly because a new permission was introduced in the API that was required. Get a new access token and these features will work again.
 
 = Version 4.1.6 Thursday, June 6th, 2023 =
   * NEW: Beaver Builder Module added. When editing or creating a new page, or post you can look for Social Modules and Feed Them Social will appear. You can also search for social in the modules list and Feed Them Social will appear.

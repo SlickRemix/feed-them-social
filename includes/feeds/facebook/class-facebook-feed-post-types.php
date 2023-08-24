@@ -511,7 +511,7 @@ class Facebook_Feed_Post_Types {
 	 * @param string $post_data The post data.
 	 * @since 1.9.6
 	 */
-     public function facebook_post_see_more($fb_link, $lcs_array, $facebook_post_type, $saved_feed_options, $fb_post_id = null, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data = null ) {
+     public function facebook_post_see_more($fb_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username = null, $fb_post_id = null, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data = null ) {
     //public function facebook_post_see_more( $fb_link, $lcs_array, $facebook_post_type, $fb_post_id = null, $saved_feed_options, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data = null ) {
 
 		$description = isset( $post_data->message ) ?? '';
@@ -620,26 +620,29 @@ class Facebook_Feed_Post_Types {
 						if ( 'yes' !== $hide_see_more ) {
 							echo ' <a href="' . esc_url( 'https://www.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/reviews' ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">' . esc_html( $fb_reviews_see_more_reviews_language, 'feed-them-social' ) . '</a>';
 						}
-					} else {
-						$post_single_id = 'https://www.facebook.com/' . $fb_post_user_id . '/posts/' . $fb_post_single_id;
-						echo '<div class="fts-likes-shares-etc-wrap">';
-						echo $this->feed_functions->fts_share_option( $post_single_id, $description );
-						echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
-
-						echo '' . wp_kses(
-								$likes . ' ' . $comments,
-								array(
-									'a' => array(
-										'href'  => array(),
-										'title' => array(),
-									),
-									'i' => array(
-										'class' => array(),
-									),
-								)
-							) . ' &nbsp;&nbsp;&nbsp;' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
 					}
 				}
+                else {
+                    $fb_username = !empty( $facebook_post_username ) ? $facebook_post_username : $fb_post_user_id ;
+                    $username_without_spaces = str_replace(' ', '', $fb_username);
+                    $post_single_id = 'https://www.facebook.com/' . $username_without_spaces . '/posts/' . $fb_post_single_id;
+                    echo '<div class="fts-likes-shares-etc-wrap">';
+                    echo $this->feed_functions->fts_share_option( $post_single_id, $description );
+                    echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
+
+                    echo '' . wp_kses(
+                            $likes . ' ' . $comments,
+                            array(
+                                'a' => array(
+                                    'href'  => array(),
+                                    'title' => array(),
+                                ),
+                                'i' => array(
+                                    'class' => array(),
+                                ),
+                            )
+                        ) . ' &nbsp;&nbsp;&nbsp;' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
+                }
 				break;
 		}
 	}
@@ -742,6 +745,7 @@ class Facebook_Feed_Post_Types {
 		}
 		// Returned Post Data variables.
 		$facebook_post_id                = $facebook_post->id  ?? '';
+        $facebook_post_username          = $facebook_post->from->name  ?? '';
 		$facebook_post_profile_pic_url   = $facebook_post->fts_profile_pic_url ?? '';
 		$facebook_post_source            = $facebook_post->source ?? '';
 		$facebook_post_picture           = $facebook_post->picture ?? '';
@@ -1024,7 +1028,7 @@ class Facebook_Feed_Post_Types {
 				// $fts_facebook_reviews->reviews_rating_format CANNOT be esc at this time.
 				$hide_name = 'albums' === $saved_feed_options['facebook_page_feed_type'] ? ' fts-fb-album-hide' : '';
 
-                // FUUUUUKC WHY REVIEWS IS LOADING SO DAMN SLOW... LEAVING OFF HERE.. STATEMENT BELOW DOES NOT HAVE ANYTHING TODO WITH IT FROM WHAT I CAN TELL.
+                // WHY REVIEWS IS LOADING SO DAMN SLOW... LEAVING OFF HERE.. STATEMENT BELOW DOES NOT HAVE ANYTHING TODO WITH IT FROM WHAT I CAN TELL.
 				echo ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? '<span class="fts-jal-fb-user-name fts-review-name" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">' . esc_attr( $facebook_post->reviewer->name ) . '</span>' . $fts_facebook_reviews->reviews_rating_format( $saved_feed_options, isset( $facebook_post->rating ) ? esc_html( $facebook_post->rating ) : '' ) . '</span>' : '<span class="fts-jal-fb-user-name' . $hide_name . '"><a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' . esc_html( $facebook_post_from_name ) . '</a>' . esc_html( $facebook_hide_shared_by_etc_text ) . '</span>' );
 
 				// tied to date function.
@@ -1173,7 +1177,7 @@ class Facebook_Feed_Post_Types {
 							$facebook_album_single_picture_id = isset( $facebook_album_additional_pic->id ) ? $facebook_album_additional_pic->id : '';
 							$facebook_single_image_link = 'https://www.facebook.com/'. $facebook_album_single_picture_id . '';
                             $single_event_id = isset( $single_event_id ) ?? '';
-							$this->facebook_post_see_more( $facebook_single_image_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
+							$this->facebook_post_see_more( $facebook_single_image_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
 
 							echo '</div>';
 							echo '</div>';
@@ -1909,7 +1913,7 @@ class Facebook_Feed_Post_Types {
         print_r($facebook_post_type);
          echo '</pre>';*/
 
-        $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
+        $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
         // old call..
            // $this->fts_facebook_post_see_more( $fb_link, $lcs_array, $fb_type, $fb_post_id, $fb_shortcode, $fb_post_user_id, $fb_post_single_id, $single_event_id, $post_data );
 

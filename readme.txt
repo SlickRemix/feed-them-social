@@ -119,7 +119,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.1.7 Monday, August 28th, 2023 =
-  * FIX: Security fix. User controlled data able to be entered into Leave a Review message. (Thanks to the researcher Abdi Pranata at Patchstack.com for reporting the security vulnerability.)
+  * FIX: Security fix. User controlled data was able to be entered into the Leave a Review message container. (Thanks to the researcher Abdi Pranata at Patchstack.com for reporting the security vulnerability.)
   * FIX: Sanitize text fields on Twitter urls.
   * FIX: Facebook Feed: Share and View on Facebook link not displaying for posts with no image or video.
   * FIX: Facebook Feed: Likes and Comments were not working correctly because a new permission was introduced in the API that was required. Get a new access token and these features will work again.

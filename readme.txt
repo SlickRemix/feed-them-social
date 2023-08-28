@@ -118,7 +118,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.1.7 Thursday, August 24th, 2023 =
+= Version 4.1.7 Monday, August 28th, 2023 =
   * FIX: Security fix. User controlled data able to be entered into Leave a Review message. (Thanks to the researcher Abdi Pranata at Patchstack.com for reporting the security vulnerability.)
   * FIX: Sanitize text fields on Twitter urls.
   * FIX: Facebook Feed: Share and View on Facebook link not displaying for posts with no image or video.

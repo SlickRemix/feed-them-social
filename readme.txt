@@ -118,8 +118,8 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.1.8 Monday, September 2nd, 2023 =
-  * FIX: Facebook Feed: Facebook link not directing properly for page names that don't match the url of the page.
+= Version 4.1.8 Saturday, September 2nd, 2023 =
+  * FIX: Facebook Feed: Link for posts with only text were not directing to Facebook properly.
   * NOTE: Works with WordPress version 6.3.1.
 
 = Version 4.1.7 Monday, August 28th, 2023 =

@@ -623,9 +623,7 @@ class Facebook_Feed_Post_Types {
 					}
 				}
                 else {
-                    $fb_username = !empty( $facebook_post_username ) ? $facebook_post_username : $fb_post_user_id ;
-                    $username_without_spaces = str_replace(' ', '', $fb_username);
-                    $post_single_id = 'https://www.facebook.com/' . $username_without_spaces . '/posts/' . $fb_post_single_id;
+                    $post_single_id = 'https://www.facebook.com/' . $fb_post_user_id . '_' . $fb_post_id;
                     echo '<div class="fts-likes-shares-etc-wrap">';
                     echo $this->feed_functions->fts_share_option( $post_single_id, $description );
                     echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';

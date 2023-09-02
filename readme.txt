@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.3
-Stable tag: 4.1.7
+Tested up to: 6.3.1
+Stable tag: 4.1.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.1.8 Monday, September 2nd, 2023 =
+  * FIX: Facebook Feed: Facebook link not directing properly for page names that don't match the url of the page.
+  * NOTE: Works with WordPress version 6.3.1.
+
 = Version 4.1.7 Monday, August 28th, 2023 =
   * FIX: Security fix. User controlled data was able to be entered into the Leave a Review message container. (Thanks to the researcher Abdi Pranata at Patchstack.com for reporting the security vulnerability.)
   * FIX: Sanitize text fields on Twitter urls.

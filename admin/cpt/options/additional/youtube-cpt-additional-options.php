@@ -113,10 +113,10 @@ class Youtube_Additional_Options {
 
                 // Background color for thumbs container
                 array(
-                    'input_wrap_class' => 'youtube_hide_option fts-color-picker',
+                    'input_wrap_class' => 'fts-color-picker',
                     'option_type'  => 'input',
                     'color_picker' => 'yes',
-                    'label'        => __( 'Video Thumbs Container ', 'feed-them-social' ),
+                    'label'        => __( 'Video Container ', 'feed-them-social' ),
                     'type'         => 'text',
                     'id'           => 'youtube_thumbs_wrap_color',
                     'name'         => 'youtube_thumbs_wrap_color',

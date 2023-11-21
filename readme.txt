@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.3.1
-Stable tag: 4.1.8
+Tested up to: 6.4.1
+Stable tag: 4.1.9
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,21 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.1.9 Tuesday, November 21st, 2023 =
+  * FIX: Instagram: Feed not displaying properly on some installs when jquery is loaded in the footer.
+  * FIX: Instance of use_custom_js_scripts was not being used and outputting a PHP notice.
+  * FIX: Instagram: Warning Message: number_format expecting float as first parameter.
+  * FIX: Facebook: Feed not displaying likes/comments count on posts with only text when Reviews extension is active.
+  * FIX: YouTube Setting: Single Video: Background color for video container option not showing.
+  * FIX: Premium: YouTube: User Specific Playlist: The Load more videos.
+  * FIX: Premium: YouTube: Show videos on right or left side.
+  * FIX: Premium: Facebook: Remove inline !important on post for width of grid feed.
+  * FIX: Feed Settings: Remove the loading feed and empty cache message when no access token is present.
+  * FIX: Share: Remove svg icon for Twitter.
+  * NEXT UPDATE: Add date option for Facebook Albums.
+  * NEXT UPDATE: Add Email notification when an access token expires.
+  * NOTE: Works with WordPress version 6.4.1
+
 = Version 4.1.8 Saturday, September 2nd, 2023 =
   * FIX: Facebook Feed: Link for posts with only text were not directing to Facebook properly.
   * NOTE: Works with WordPress version 6.3.1.

@@ -393,6 +393,8 @@ class Youtube_Feed {
 
                     $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID2'] . '&order=date&' . $youtube_api_key_or_token ) );
 
+                    $user_playlist_id = $saved_feed_options['youtube_playlistID2'];
+
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         // YouTube Playlist Cache Folder.
                         $youtube_playlistID = !empty($saved_feed_options['youtube_playlistID']) ? $saved_feed_options['youtube_playlistID'] : '';
@@ -446,13 +448,13 @@ class Youtube_Feed {
 
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
-                if( !empty( $saved_feed_options['youtube_video_comments_display'] ) ){
+                if( !empty( $saved_feed_options['youtube_video_comments_display'] && !empty( $saved_feed_options['youtube_feed_type'] ) && $saved_feed_options['youtube_feed_type'] === 'singleID' ) ){
+                    // The comments display options has a similar option like the thumbs display.
                     $video_thumbs_display = $saved_feed_options['youtube_video_comments_display'] ?? '1';
                 }
                 else {
-                    $video_thumbs_display = $saved_feed_options['youtube_video_thumbs_display'] ?? '2';
+                    $video_thumbs_display = $saved_feed_options['youtube_video_thumbs_display'] ?? 'none';
                 }
-
 
                // Video Thumbs Display!
                 switch ( $video_thumbs_display ){
@@ -472,10 +474,10 @@ class Youtube_Feed {
 	                // Thumbs Wrap!
 	                switch ( $wrap ){
 		                case 'right':
-			                $wrap = ' fts-youtube-thumbs-wrap' . $video_thumbs_display;
+			                $wrap = ' fts-youtube-thumbs-wrap ' . $video_thumbs_display;
 			                break;
 		                case 'left':
-			                $wrap = ' fts-youtube-thumbs-wrap-left'. $video_thumbs_display;
+			                $wrap = ' fts-youtube-thumbs-wrap-left '. $video_thumbs_display;
 			                break;
 		                default:
 			                $wrap = '';
@@ -840,7 +842,7 @@ class Youtube_Feed {
                                     <?php } ?>
 
                                     // Reload the share each function otherwise you can't open share option.
-                                    jQuery.fn.ftsShare();
+                                    ftsShare();
 
                                     // Reload our margin for the demo.
                                     if(typeof outputSRmargin === "function"){
@@ -877,7 +879,7 @@ class Youtube_Feed {
                 jQuery("#fts-yt-' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . ' .fts-fluid-videoWrapper iframe").attr("src", this_frame);
                 var findText = jQuery(this).find(".entriestitle").clone(true, true);
                 findText.appendTo("#fts-yt-' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . ' .youtube-comments-thumbs");
-                jQuery.fn.ftsShare();
+                ftsShare();
                 
                 });
                 jQuery("#fts-yt-' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '").on("click", ".fts-yt-close-' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '", function(event) {
@@ -917,7 +919,8 @@ class Youtube_Feed {
             // Make sure it's not ajaxing.
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                 echo '<div class="fts-clear"></div>';
-                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore_type ) && 'button' === $loadmore_type && 'yes' === $loadmore ) {
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore_type ) &&
+                    'button' === $loadmore_type && 'yes' === $loadmore &&  $saved_feed_options['youtube_feed_type'] !== 'singleID' ) {
 
                     echo '<div class="fts-youtube-load-more-wrapper">';
                     echo '<div id="loadMore_' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" style="';
@@ -960,8 +963,13 @@ class Youtube_Feed {
             return ob_get_clean();
 
         } else {
-            echo esc_html( 'Feed Them Social: YouTube Feed not loaded, please add an API Token or Access Token from the Gear Icon Tab of this feed.', 'feed-them-social' );
-        }
+            // NO Access tokens found.
+            ?>
+            <div class="fts-shortcode-content-no-feed fts-empty-access-token">
+                <?php echo esc_html( 'Feed Them Social: YouTube Feed not loaded, please add an API Token or Access Token from the Gear Icon Tab of this feed.', 'feed-them-social' ); ?>
+            </div>
+            <?php
+          }
 	}
 
 	/**

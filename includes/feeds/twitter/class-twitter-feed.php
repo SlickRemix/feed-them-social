@@ -956,8 +956,12 @@ class Twitter_Feed {
 
                 if ( empty( $fts_twitter_custom_access_token ) && empty( $fts_twitter_custom_access_token_secret ) ) {
 				    // NO Access tokens found.
-				    echo esc_html( 'Feed Them Social: Twitter Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' );
-                    return false;
+				    ?>
+					<div class="fts-shortcode-content-no-feed fts-empty-access-token">
+						<?php echo esc_html( 'Feed Them Social: Twitter Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' ); ?>
+					</div>
+					<?php
+					return false;
 			    }
 
                 $fts_twitter_custom_consumer_key    = 'DKWMIoc4s6hH3ED0nNFNwcTe3';
@@ -1661,7 +1665,7 @@ class Twitter_Feed {
 									//	jQuery('#loadMore_< ?php echo $fts_dynamic_name ?>').removeClass('flip360-fts-load-more');
 									jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
 									// Reload the share each funcion otherwise you can't open share option.
-									jQuery.fn.ftsShare();
+									ftsShare();
 								<?php
 								if ( isset( $grid ) && 'yes' === $grid ) {
 									?>

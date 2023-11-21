@@ -682,7 +682,7 @@
         e.next(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() && jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height())
     }), jQuery("body").on("click", "#fts-photo-prev, #fts-photo-next, .fts-facebook-popup .mfp-image-holder .fts-popup-image-position", function(e) {
         jQuery("body").addClass("fts-using-arrows"), setTimeout(function() {
-            jQuery.fn.ftsShare(), /fbcdn.net/i.test(jQuery(".fts-iframe-popup-element").attr("src")) || /scontent.cdninstagram.com/i.test(jQuery(".fts-iframe-popup-element").attr("src")) ? (jQuery("body").addClass("fts-video-iframe-choice"), jQuery(".fts-video-popup-element").show(), jQuery(".fts-iframe-popup-element").attr("src", "").hide()) : (jQuery("body").removeClass("fts-video-iframe-choice, .fts-using-arrows"), jQuery(".fts-video-popup-element").attr("src", "").hide(), jQuery(".fts-iframe-popup-element").show()), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() && jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Arrows: Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
+            ftsShare(), /fbcdn.net/i.test(jQuery(".fts-iframe-popup-element").attr("src")) || /scontent.cdninstagram.com/i.test(jQuery(".fts-iframe-popup-element").attr("src")) ? (jQuery("body").addClass("fts-video-iframe-choice"), jQuery(".fts-video-popup-element").show(), jQuery(".fts-iframe-popup-element").attr("src", "").hide()) : (jQuery("body").removeClass("fts-video-iframe-choice, .fts-using-arrows"), jQuery(".fts-video-popup-element").attr("src", "").hide(), jQuery(".fts-iframe-popup-element").show()), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() && jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Arrows: Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
                 "max-width": "100%",
                 width: jQuery(".fts-popup-half").height()
             }), jQuery(".fts-popup-image-position").css({
@@ -740,7 +740,7 @@
                         var t = e.index(this.st.el); - 1 !== t && this.goTo(t)
                     },
                     open: function() {
-                        if (console.log("Popup is opened"), jQuery.fn.ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                        if (console.log("Popup is opened"), ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
                             "max-width": "100%",
                             width: jQuery(".fts-popup-half").height()
                         }), jQuery(".mfp-iframe-scaler").css("padding-top", "100%")) : jQuery(".fts-popup-second-half .fts-equal-width-height")[0] ? (console.log("Open Callback: Square size"), jQuery("iframe.fts-iframe-popup-element").css({
@@ -757,7 +757,7 @@
                         jQuery("body").addClass("fts-using-arrows")
                     },
                     change: function() {
-                        jQuery.fn.ftsShare(), jQuery(window).trigger("resize"), console.log("Content changed"), jQuery("body").hasClass("fts-using-arrows")
+                        ftsShare(), jQuery(window).trigger("resize"), console.log("Content changed"), jQuery("body").hasClass("fts-using-arrows")
                     },
                     imageLoadComplete: function() {},
                     markupParse: function(e, t, o) {
@@ -821,15 +821,15 @@
                         var t = e.index(this.st.el); - 1 !== t && this.goTo(t)
                     },
                     open: function() {
-                        console.log("Popup is opened"), jQuery.fn.ftsShare(), jQuery(window).resize(function() {
+                        console.log("Popup is opened"), ftsShare(), jQuery(window).resize(function() {
                             jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
                         }), jQuery(window).trigger("resize")
                     },
                     change: function() {
-                        console.log("Content changed"), console.log(this.content), jQuery.fn.ftsShare(), jQuery("body").hasClass("fts-using-arrows")
+                        console.log("Content changed"), console.log(this.content), ftsShare(), jQuery("body").hasClass("fts-using-arrows")
                     },
                     imageLoadComplete: function() {
-                        jQuery.fn.ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
+                        ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
                     },
                     markupParse: function(e, t, o) {
                         console.log("Parsing:", e, t, o)
@@ -886,15 +886,15 @@
                         var t = e.index(this.st.el); - 1 !== t && this.goTo(t)
                     },
                     open: function() {
-                        console.log("Popup is opened"), jQuery.fn.ftsShare(), jQuery(window).resize(function() {
+                        console.log("Popup is opened"), ftsShare(), jQuery(window).resize(function() {
                             jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
                         }), jQuery(window).trigger("resize")
                     },
                     change: function() {
-                        console.log("Content changed"), console.log(this.content), jQuery.fn.ftsShare(), jQuery("body").hasClass("fts-using-arrows")
+                        console.log("Content changed"), console.log(this.content), ftsShare(), jQuery("body").hasClass("fts-using-arrows")
                     },
                     imageLoadComplete: function() {
-                        jQuery.fn.ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
+                        ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
                     },
                     markupParse: function(e, t, o) {
                         console.log("Parsing:", e, t, o)

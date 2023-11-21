@@ -3,35 +3,21 @@ jQuery(document).ready(function($) {
     // Run our function after the page has finished loading to retrieve our external urls meta tag details.
     fts_external_link_meta_content();
 
-    jQuery('.fts-youtube-scrollable, .youtube-comments-wrap-premium, .youtube-comments-thumbs').hover(function() {
-        jQuery("body").css("overflow","hidden");
-    }, function() {
-        jQuery("body").css("overflow","auto");
+    jQuery('.fts-youtube-scrollable, .youtube-comments-wrap-premium, .youtube-comments-thumbs').hover(function () {
+        jQuery("body").css("overflow", "hidden");
+    }, function () {
+        jQuery("body").css("overflow", "auto");
     });
 
-    jQuery( document ).on( 'keydown', function ( e ) {
-        if ( e.keyCode === 27 ) { // ESC
-            jQuery( ".fts-youtube-scrollable" ).removeClass( "fts-scrollable-function" );
+    jQuery(document).on('keydown', function (e) {
+        if (e.keyCode === 27) { // ESC
+            jQuery(".fts-youtube-scrollable").removeClass("fts-scrollable-function");
             jQuery('.youtube-comments-thumbs').hide();
             jQuery('.fts-youtube-scrollable, .fts-fb-autoscroll-loader').show();
             jQuery('.fts-youtube-thumbs-gallery-master .youtube-comments-thumbs').html('');
             slickremixImageResizing();
         }
     });
-
-    jQuery.fn.ftsShare = function() {
-        jQuery('.fts-share-wrap').each(function() {
-            var $self = jQuery(this);
-            //Share toolip function
-            $self.find('.ft-gallery-link-popup').unbind().bind('click', function() {
-                $self.find('.ft-gallery-share-wrap').toggle();
-            });
-        });
-    };
-    // return our share function after page has loaded to speed things up. Plus this way we can recall it in the loadmore areas of each feed instead of duplicating all the js.
-    if (jQuery.fn.ftsShare) {
-        jQuery.fn.ftsShare();
-    }
 
     if (navigator.userAgent.indexOf("Firefox") > 0) {} else {
         jQuery(".fts-instagram-popup-half video, .fts-simple-fb-wrapper video, .fts-slicker-facebook-posts video, .fts-fluid-videoWrapper-html5 video").click(function() {
@@ -47,6 +33,21 @@ jQuery(document).ready(function($) {
 if (!jQuery.trim(jQuery('.fts-jal-fb-group-display').html()).length) {
     jQuery('.fts-jal-fb-group-display').append('<div class="fts-facebook-add-more-posts-notice"><p>Please go to the <strong>Facebook Options</strong> page of our plugin and look for the "<strong>Change Post Limit</strong>" option and add the number <strong>7</strong> or more. You can also hide this notice on the Facebook Options page if you want.</p>If you are trying to add a Personal Facebook feed and you are seeing this message too, please note: <strong>Personal Facebook Accounts generally do not work with our plugin.</strong></div>')
 }
+
+
+function ftsShare(){
+
+    jQuery('.fts-share-wrap').each(function () {
+        var $self = jQuery(this);
+        //Share tooltip function
+        $self.find('.ft-gallery-link-popup').unbind().bind('click', function () {
+            $self.find('.ft-gallery-share-wrap').toggle();
+        });
+    });
+}
+// return our share function after page has loaded to speed things up. Plus this way we can recall it in the loadmore areas of each feed instead of duplicating all the js.
+jQuery(document).ready(ftsShare);
+
 
 // https://www.w3schools.com/js/js_comparisons.asp
 // >	greater than   x > 8	true

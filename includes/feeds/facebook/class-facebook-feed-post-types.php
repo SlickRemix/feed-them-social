@@ -516,7 +516,7 @@ class Facebook_Feed_Post_Types {
 
 		$description = isset( $post_data->message ) ?? '';
 		// SHOW THE FB FEED PRINT_R
-		/* echo'<pre>';
+		 /*echo'<pre>';
 		 print_r( $post_data);
 		 echo'</pre>';*/
 
@@ -612,8 +612,8 @@ class Facebook_Feed_Post_Types {
             // SRL added case '': to account for posts with descriptions that have no video or photos and were possible made from status_type => mobile_status_update
             case '':
             default:
-				if ( isset( $saved_feed_options['fb_reviews_remove_see_reviews_link'] ) && 'yes' !== $saved_feed_options['fb_reviews_remove_see_reviews_link'] ) {
-					if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
+                if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' )  && $saved_feed_options['facebook_page_feed_type'] === 'reviews') {
+                    if ( isset( $saved_feed_options['fb_reviews_remove_see_reviews_link'] ) && 'yes' !== $saved_feed_options['fb_reviews_remove_see_reviews_link'] ) {
 						$fb_reviews_see_more_reviews_language = $saved_feed_options['fb_reviews_see_more_reviews_language'] ?? 'See More Reviews';
 
 						$hide_see_more = $saved_feed_options['hide_see_more_reviews_link'] ?? 'yes';
@@ -933,7 +933,7 @@ class Facebook_Feed_Post_Types {
 			case 'video_inline' :
 				echo '<div class="fts-jal-single-fb-post fts-fb-video-post-wrap" ';
 				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $saved_feed_options['facebook_grid_space_between_posts'] ) . '!important"';
+					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '; margin:' . esc_attr( $saved_feed_options['facebook_grid_space_between_posts'] ) . '"';
 				}
 				echo '>';
 
@@ -954,13 +954,13 @@ class Facebook_Feed_Post_Types {
                     $facebook_space_between_photos = !empty( $saved_feed_options['facebook_space_between_photos'] ) ? $saved_feed_options['facebook_space_between_photos'] : '1px';
 
                     if ( isset( $saved_feed_options['fts-slider'] ) && 'yes' === $saved_feed_options['fts-slider'] && isset( $saved_feed_options['scrollhorz_or_carousel']) && 'scrollhorz' === $saved_feed_options['scrollhorz_or_carousel']) {
-						echo 'style="max-width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ';height:100%;  margin:' . esc_attr( $facebook_space_between_photos ) . '!important"';
+						echo 'style="text-align:left;max-width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ';height:100%;  margin:' . esc_attr( $facebook_space_between_photos ) . '!important"';
 					} else {
-                    	echo 'style="width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ' !important; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '!important; margin:' . esc_attr( $facebook_space_between_photos ) . '!important"';
+                    	echo 'style="text-align:center; width:' . esc_attr( $saved_feed_options['facebook_image_width'] ) . ' !important; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '!important; margin:' . esc_attr( $facebook_space_between_photos ) . '!important"';
 					}
 				}
 				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $facebook_grid_space_between_posts ) . '!important"';
+					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '; margin:' . esc_attr( $facebook_grid_space_between_posts ) . '"';
 				}
 				echo '>';
 
@@ -972,7 +972,7 @@ class Facebook_Feed_Post_Types {
                 // This is also the wrapper for reviews posts when using the reviews extension.
 				echo '<div class="fts-jal-single-fb-post"';
 				if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '!important; margin:' . esc_attr( $facebook_grid_space_between_posts ) . '!important"';
+					echo 'style="width:' . esc_attr( $saved_feed_options['facebook_grid_column_width'] ) . '; margin:' . esc_attr( $facebook_grid_space_between_posts ) . '"';
 				}
 				echo '>';
 				break;

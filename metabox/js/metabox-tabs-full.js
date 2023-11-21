@@ -240,7 +240,7 @@ function fts_show_hide_shortcode_feed( feed ) {
         jQuery( '.tab-options-content' ).css({'width': '35%' } );
     }
 
-    jQuery.fn.ftsShare();
+    ftsShare();
     slickremixImageResizing();
     slickremixImageResizingFacebook();
     slickremixImageResizingFacebook2();
@@ -426,7 +426,7 @@ jQuery(document).ready(function ($) {
             fts_ajax_cpt_save( 'no-save-message' );
         }
 
-        jQuery.fn.ftsShare();
+        ftsShare();
         slickremixImageResizing();
         slickremixImageResizingFacebook();
         slickremixImageResizingFacebook2();

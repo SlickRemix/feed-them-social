@@ -412,8 +412,12 @@ class Facebook_Feed {
 
         // UserName?.
         if ( empty( $saved_feed_options['fts_facebook_custom_api_token_user_id'] ) ) {
-            return esc_html( 'Feed Them Social: Facebook Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' );
-
+            ?>
+            <div class="fts-shortcode-content-no-feed fts-empty-access-token">
+                <?php echo esc_html( 'Feed Them Social: Facebook Feed not loaded, please add your Access Token from the Gear Icon Tab.', 'feed-them-social' ); ?>
+            </div>
+            <?php
+            return;
         }
         if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && ! is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
             return '<div style="clear:both; padding:15px 0;">You must have FTS Facebook Reviews extension active to see this feed.</div>';
@@ -902,7 +906,7 @@ class Facebook_Feed {
 
                     echo '<div class="popup-gallery-fb fts-fb-slideshow fts-slicker-facebook-photos fts-slicker-facebook-albums ' . esc_attr( $fts_cycle_slideshow ) . ' ' . ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] && 'yes' === $saved_feed_options['facebook_video_album'] ? 'popup-video-gallery-fb' : '' ) . ' ' . ( isset( $saved_feed_options['images_align'] ) && $saved_feed_options['images_align'] ? ' popup-video-gallery-align-' . esc_attr( $saved_feed_options['images_align'] ) : '' ) . ' popup-gallery-fb ' . esc_attr( $fts_dynamic_class_name ) . '"
 
-style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $saved_feed_options['slider_margin'] ? esc_attr( $saved_feed_options['slider_margin'] ) : 'auto' ) . ';' . ( isset( $fts_cycle_type ) && 'carousel' === $fts_cycle_type ? 'width:100%; max-width:100%; overflow:hidden;height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . ';' : 'overflow:hidden; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '; max-width:' . ( isset( $saved_feed_options['facebook_image_width'] ) && '' !== $saved_feed_options['facebook_image_width'] ? esc_attr( $saved_feed_options['facebook_image_width'] ) : 'auto' ) ) . ';" data-cycle-caption="#fts-custom-caption-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-caption-template="{{slideNum}} / {{slideCount}}" data-cycle-pager=".fts-custom-pager-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-pause-on-hover="true" data-cycle-prev=".fts-prevControl-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-next=".fts-nextControl-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-timeout="' . ( ! empty( $saved_feed_options['slider_timeout'] ) ? esc_attr( $saved_feed_options['slider_timeout'] ) : '0' ) . '" data-cycle-manual-speed="' . ( ! empty( $saved_feed_options['slider_speed'] ) ? esc_attr( $saved_feed_options['slider_speed'] ) : '400' ) . '" data-cycle-auto-height="false" data-cycle-slides="> div" data-cycle-fx="' . ( ! empty( $saved_feed_options['scrollhorz_or_carousel']) ? esc_attr( $saved_feed_options['scrollhorz_or_carousel']) : '' ) . '" data-cycle-carousel-visible=' . ( ! empty( $saved_feed_options['slides_visible'] ) ? esc_attr( $saved_feed_options['slides_visible'] ) : '4' ) . ' data-cycle-swipe=true data-cycle-swipe-fx=' . ( ! empty( $saved_feed_options['scrollhorz_or_carousel']) ? esc_attr( $saved_feed_options['scrollhorz_or_carousel']) : '' ) . '>';
+style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $saved_feed_options['slider_margin'] ? esc_attr( $saved_feed_options['slider_margin'] ) : 'auto' ) . ';' . ( isset( $fts_cycle_type ) && 'carousel' === $fts_cycle_type ? 'width:100%; max-width:100%; overflow:hidden;height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '!important;' : 'overflow:hidden; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '; max-width:' . ( isset( $saved_feed_options['facebook_image_width'] ) && '' !== $saved_feed_options['facebook_image_width'] ? esc_attr( $saved_feed_options['facebook_image_width'] ) : 'auto' ) ) . ';" data-cycle-caption="#fts-custom-caption-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-caption-template="{{slideNum}} / {{slideCount}}" data-cycle-pager=".fts-custom-pager-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-pause-on-hover="true" data-cycle-prev=".fts-prevControl-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-next=".fts-nextControl-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-timeout="' . ( ! empty( $saved_feed_options['slider_timeout'] ) ? esc_attr( $saved_feed_options['slider_timeout'] ) : '0' ) . '" data-cycle-manual-speed="' . ( ! empty( $saved_feed_options['slider_speed'] ) ? esc_attr( $saved_feed_options['slider_speed'] ) : '400' ) . '" data-cycle-auto-height="false" data-cycle-slides="> div" data-cycle-fx="' . ( ! empty( $saved_feed_options['scrollhorz_or_carousel']) ? esc_attr( $saved_feed_options['scrollhorz_or_carousel']) : '' ) . '" data-cycle-carousel-visible=' . ( ! empty( $saved_feed_options['slides_visible'] ) ? esc_attr( $saved_feed_options['slides_visible'] ) : '4' ) . ' data-cycle-swipe=true data-cycle-swipe-fx=' . ( ! empty( $saved_feed_options['scrollhorz_or_carousel']) ? esc_attr( $saved_feed_options['scrollhorz_or_carousel']) : '' ) . '>';
                 }
 
                 if ( 'page' === $saved_feed_options['facebook_page_feed_type'] && isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] ||
@@ -1816,7 +1820,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                     echo 'jQuery.fn.slickFacebookPopUpFunction();';
                 }
                 // Reload the share each Function otherwise you can't open share option..
-                echo 'jQuery.fn.ftsShare();slickremixImageResizingFacebook2();slickremixImageResizingFacebook3();';
+                echo 'ftsShare();slickremixImageResizingFacebook2();slickremixImageResizingFacebook3();';
 
                 echo '}';
                 echo '});';

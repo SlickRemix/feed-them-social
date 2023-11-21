@@ -918,7 +918,7 @@ msgid "\"No More Tweets\" Text"
 msgstr ""
 
 #: admin/cpt/options/additional/youtube-cpt-additional-options.php:119
-msgid "Video Thumbs Container "
+msgid "Video Container "
 msgstr ""
 
 #: admin/cpt/options/additional/youtube-cpt-additional-options.php:167

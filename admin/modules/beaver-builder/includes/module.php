@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 // This function can not be in the class.
 function fts_enqueue_custom_scripts() {
     if ( class_exists( '\FLBuilderModel' ) && \FLBuilderModel::is_builder_active() ) {
-        wp_enqueue_style( 'fts-beaver-builder-custom-style', plugins_url( '/css/styles.css',  __FILE__ ), array(), FTS_CURRENT_VERSION, false );
-        wp_enqueue_script( 'fts-beaver-builder-custom-script', plugins_url( '/js/scripts.js', __FILE__ ), array( 'jquery' ), FEED_THEM_SOCIAL_VERSION, true );
+        wp_enqueue_style( 'fts-beaver-builder-custom-style', plugins_url( '/css/styles.min.css',  __FILE__ ), array(), FTS_CURRENT_VERSION, false );
+        wp_enqueue_script( 'fts-beaver-builder-custom-script', plugins_url( '/js/scripts.min.js', __FILE__ ), array( 'jquery' ), FEED_THEM_SOCIAL_VERSION, true );
 
         $translation_array = array(
             'edit_feed_url' => admin_url('edit.php?post_type=fts'),

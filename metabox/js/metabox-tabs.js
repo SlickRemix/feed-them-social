@@ -518,7 +518,6 @@ jQuery(document).ready(function ($) {
         jQuery('.fts-facebook-grid-options-wrap').show();
         jQuery(".feed-them-social-admin-input-label:contains('Center Facebook Container?')").parent('div').show();
     }
-
 });
 
 function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {

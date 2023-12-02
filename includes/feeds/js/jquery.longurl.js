@@ -9,6 +9,7 @@ var longurlplease = {
     var makeRequest = function() {
       alert('not sure how to call api');
     };
+
     if (options.transport !== null) {
       if (options.transport.toLowerCase() == 'air') {
         makeRequest = longurlplease.makeRequestWithAir;

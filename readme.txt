@@ -5,7 +5,7 @@ Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagr
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.4.1
-Stable tag: 4.1.9
+Stable tag: 4.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,14 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.2.0 Monday, December 4th, 2023 =
+  * NEW: Facebook: Albums Feed: Now you can add a since date which allows you to pull in newer albums if you have a large collection.
+  * NEW: Facebook: span tags have been added around the likes, comment and shares items in a feed. This solves the issue of some themes that remove basic html spaces and allows for further customization.
+  * FIX: Settings > Admin Bar Menu: Add Feeds menu option to quickly navigate to your list of feeds.
+  * FIX: Settings: Make sure the Powered by Text is also removed in the popup option when using the Premium version.
+  * FIX: Feed Edit: Hide the text that says, More than 6 Requires Premium, when the Premium plugin is active.
+  * FIX: Premium: Facebook Feed > Popup: In some cases the content for the popup was not loading on the first click.
+
 = Version 4.1.9 Tuesday, November 21st, 2023 =
   * FIX: Instagram: Feed not displaying properly on some installs when jquery is loaded in the footer.
   * FIX: Instance of use_custom_js_scripts was not being used and outputting a PHP notice.

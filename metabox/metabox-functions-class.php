@@ -230,11 +230,11 @@ class Metabox_Functions {
 		// SRL: THESE SCRIPTS CAN BE LOADED ON ALL OF OUR PAGES, BUT SHOULD ONLY LOAD ON OUR PLUGINS PAGES.
 		if ( $this->main_post_type === $current_info['post_type'] ) {
 			// Register Admin Page CSS.
-			wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.css' ), array(), FTS_CURRENT_VERSION );
+			wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.min.css' ), array(), FTS_CURRENT_VERSION );
 			// Enqueue Admin Page CSS.
 			wp_enqueue_style( 'slick-admin-page' );
 			// Register Metabox CSS.
-			wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.css' ), array(), FTS_CURRENT_VERSION );
+			wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.min.css' ), array(), FTS_CURRENT_VERSION );
 			// Enqueue Metabox CSS.
 			wp_enqueue_style( 'slick-metabox' );
 		}
@@ -251,7 +251,7 @@ class Metabox_Functions {
             wp_enqueue_script( 'jquery-form' );
 
 			// Register Metabox Tabs JS.
-			wp_register_script( 'slick-metabox-tabs', plugins_url( 'feed-them-social/metabox/js/metabox-tabs.js' ), array(), FTS_CURRENT_VERSION, true );
+			wp_register_script( 'slick-metabox-tabs', plugins_url( 'feed-them-social/metabox/js/metabox-tabs.min.js' ), array(), FTS_CURRENT_VERSION, true );
 
 			// Localize Metabox Tabs JS.
 			wp_localize_script(
@@ -276,13 +276,13 @@ class Metabox_Functions {
 			wp_enqueue_script( 'slick-metabox-tabs' );
 
             // Shortcode preview specific scripts
-            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
+            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
 
             // Register Premium Styles & Scripts.
             if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
 
-                wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
-                wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array(), FTS_CURRENT_VERSION, false );
+                wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
+                wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );
                 // Register Masonry Script.
                 wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
                 // Register Images Loaded Script.
@@ -295,7 +295,7 @@ class Metabox_Functions {
                 wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
             }
 
-            wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+            wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
             wp_localize_script( 'fts-global-js', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
             wp_enqueue_script( 'fts-global-js' );
         }
@@ -313,7 +313,7 @@ class Metabox_Functions {
 			wp_enqueue_script( 'postbox' );
 
 			// Register Update From Bottom JS.
-			wp_register_script( 'updatefrombottom-admin-js', plugins_url( 'feed-them-social/metabox/js/update-from-bottom.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
+			wp_register_script( 'updatefrombottom-admin-js', plugins_url( 'feed-them-social/metabox/js/update-from-bottom.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
 			// Localize Update From Bottom JS.
 			wp_localize_script(
 				'updatefrombottom-admin-js',

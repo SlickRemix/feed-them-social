@@ -1,12 +1,14 @@
 .fts-edit-el-wrapper {
     padding: 0;
 }
+
 .fts-edit-el-wrapper label {
     display:block;
     padding: 0 0 10px;
     color: #ffffff;
     font-size: var(--control-title-size);
 }
+
 button.fts-elementor-link {
     background: #1f2124 !important;
     color:#d5d8dc;
@@ -19,6 +21,7 @@ button.fts-elementor-link {
     transition:.3s;
     font-size:12px;
 }
+
 button.fts-elementor-link:hover {
     background: #2b2c31 !important;
 }

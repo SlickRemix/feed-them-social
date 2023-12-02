@@ -107,7 +107,7 @@ class Feed_Them_Social {
 		$access_options = new feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
 
 		// Feeds CPT.
-        $feeds_cpt = new feedthemsocial\Feeds_CPT( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
+        $feeds_cpt = new feedthemsocial\Feeds_CPT( $settings_functions, $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
 
 		// Facebook Post Types.
 		$facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions, $settings_functions );

@@ -1,7 +1,6 @@
 ( function ( blocks, blockEditor, element ) {
 
     const { __ } = wp.i18n;
-
     var AlignmentToolbar = blockEditor.AlignmentToolbar;
     var BlockControls = blockEditor.BlockControls;
     var useBlockProps = blockEditor.useBlockProps;
@@ -22,10 +21,10 @@
 
         /**
          * Displays block content for the editor mode
-         * 
+         *
          * @since 4.0.7
-         * 
-         * @param {object} props 
+         *
+         * @param {object} props
          * @returns Element-Object
          */
         edit: function ( props ) {
@@ -35,11 +34,11 @@
 
             /**
              * Handles feed select changes.
-             * 
+             *
              * @since 4.0.7
-             * 
-             * @param {String} value 
-             * @param {Object} event 
+             *
+             * @param {String} value
+             * @param {Object} event
              */
             function onChangeContent( value, event ) {
 
@@ -52,10 +51,10 @@
 
             /**
              * Handles block alignment changes
-             * 
+             *
              * @since 4.0.7
-             * 
-             * @param {String} newAlignment 
+             *
+             * @param {String} newAlignment
              */
             function onChangeAlignment( newAlignment ) {
                 props.setAttributes( {
@@ -85,7 +84,7 @@
                         label: __( 'Select a Feed', 'feed-them-social' )
                     }
                 ];
-                
+
                 userFeeds.forEach(
                     feed => {
                         options.push(
@@ -97,7 +96,7 @@
                     }
                 );
 
-                feedElement = el( 
+                feedElement = el(
                     wp.components.SelectControl,
                     {
                         label: __( 'Select a Feed', 'feed-them-social' ),
@@ -127,11 +126,11 @@
 
         /**
          * Display the rendered block content
-         * 
+         *
          * This is a dynamic block. The block content is rendered on the server side.
          * This means that this function must return null.
-         * 
-         * @param {object} props 
+         *
+         * @param {object} props
          * @returns null
          */
         save: function ( props ) {

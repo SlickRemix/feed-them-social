@@ -214,6 +214,14 @@ class Feed_Functions {
 		);
 		$wp_admin_bar->add_menu(
 			array(
+				'id'     => 'feed_them_social_admin_bar_feeds',
+				'parent' => 'feed_them_social_admin_bar',
+				'title'  => __( 'Feeds', 'feed-them-social' ),
+				'href'   => admin_url( 'edit.php?post_type=fts' ),
+			)
+		);
+		$wp_admin_bar->add_menu(
+			array(
 				'id'     => 'feed_them_social_admin_bar_settings',
 				'parent' => 'feed_them_social_admin_bar',
 				'title'  => __( 'Settings', 'feed-them-social' ),
@@ -610,7 +618,7 @@ class Feed_Functions {
 	 * @since 1.9.6
 	 */
 	public function feed_them_admin_css() {
-		wp_register_style( 'feed_them_admin', plugins_url( 'admin/css/admin.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION );
+		wp_register_style( 'feed_them_admin', plugins_url( 'admin/css/admin.min.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION );
 		wp_enqueue_style( 'feed_them_admin' );
 	}
 
@@ -622,7 +630,7 @@ class Feed_Functions {
 	 * @since 1.9.6
 	 */
 	public function feed_them_system_info_css() {
-		wp_register_style( 'fts-settings-admin-css', plugins_url( 'admin/css/admin-settings.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION );
+		wp_register_style( 'fts-settings-admin-css', plugins_url( 'admin/css/admin-settings.min.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION );
 		wp_enqueue_style( 'fts-settings-admin-css' );
 	}
 
@@ -635,7 +643,7 @@ class Feed_Functions {
 	 */
 	public function feed_them_settings() {
 		
-		wp_register_style( 'feed_them_settings_css', plugins_url( 'admin/css/settings-page.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
+		wp_register_style( 'feed_them_settings_css', plugins_url( 'admin/css/settings-page.min.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
 		wp_enqueue_style( 'feed_them_settings_css' );
 		if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-pinterest-feed-styles-submenu-page' === $_GET['page'] ) {
 			wp_enqueue_script( 'feed_them_style_options_color_js', plugins_url( 'admin/js/jscolor/jscolor.js', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );

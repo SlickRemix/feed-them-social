@@ -9,6 +9,7 @@ button.fts-beaver-builder-link {
     border:none !important;
     transition:.3s;
 }
+
 button.fts-beaver-builder-link:hover {
     background: #dadfe5bf !important;
 }

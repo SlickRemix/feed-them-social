@@ -671,7 +671,7 @@
                 }
             })
         });
-    }; jQuery.fn.slickTwitterPopUpFunction();
+    }
 
     var e = jQuery.magnificPopup.instance;
     jQuery("body").on("click", "#fts-photo-prev", function() {
@@ -736,25 +736,28 @@
                 },
                 type: "image",
                 callbacks: {
+
                     beforeOpen: function() {
                         var t = e.index(this.st.el); - 1 !== t && this.goTo(t)
                     },
                     open: function() {
-                        if (console.log("Popup is opened"), ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
-                            "max-width": "100%",
-                            width: jQuery(".fts-popup-half").height()
-                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "100%")) : jQuery(".fts-popup-second-half .fts-equal-width-height")[0] ? (console.log("Open Callback: Square size"), jQuery("iframe.fts-iframe-popup-element").css({
-                            "max-width": "100%",
-                            width: jQuery(".fts-popup-half").height()
-                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "")) : (console.log("Open Callback: Regular size"), jQuery("iframe.fts-iframe-popup-element").css({
-                            "max-width": "100%",
-                            width: "100%"
-                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "56.0%"), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-half").height())), matchMedia("only screen and (max-device-width: 736px)").matches) {
-                            var e = event.target.id,
-                                t = jQuery("#" + e).data("poster");
-                            jQuery(".fts-fb-vid-popup video").attr("poster", t), console.log(t)
-                        }
-                        jQuery("body").addClass("fts-using-arrows")
+                        setTimeout(function() {
+                            if (console.log("Popup is opened"), ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                                "max-width": "100%",
+                                width: jQuery(".fts-popup-half").height()
+                            }), jQuery(".mfp-iframe-scaler").css("padding-top", "100%")) : jQuery(".fts-popup-second-half .fts-equal-width-height")[0] ? (console.log("Open Callback: Square size"), jQuery("iframe.fts-iframe-popup-element").css({
+                                "max-width": "100%",
+                                width: jQuery(".fts-popup-half").height()
+                            }), jQuery(".mfp-iframe-scaler").css("padding-top", "")) : (console.log("Open Callback: Regular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                                "max-width": "100%",
+                                width: "100%"
+                            }), jQuery(".mfp-iframe-scaler").css("padding-top", "56.0%"), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-half").height())), matchMedia("only screen and (max-device-width: 736px)").matches) {
+                                var e = event.target.id,
+                                    t = jQuery("#" + e).data("poster");
+                                jQuery(".fts-fb-vid-popup video").attr("poster", t), console.log(t)
+                            }
+                            jQuery("body").addClass("fts-using-arrows")
+                        }, 10)
                     },
                     change: function() {
                         ftsShare(), jQuery(window).trigger("resize"), console.log("Content changed"), jQuery("body").hasClass("fts-using-arrows")

@@ -366,10 +366,10 @@ class Facebook_Feed_Post_Types {
 					$lsc_array['likes'] = '';
 				}
 				if ( 1 === $fb_post_like_count ) {
-					$lsc_array['likes'] = "<i class='icon-thumbs-up'></i> 1";
+					$lsc_array['likes'] = "<i class='icon-thumbs-up'></i>1";
 				}
 				if ( $fb_post_like_count > '1' ) {
-					$lsc_array['likes'] = "<i class='icon-thumbs-up'></i> " . esc_html( $fb_post_like_count );
+					$lsc_array['likes'] = "<i class='icon-thumbs-up'></i>" . esc_html( $fb_post_like_count );
 				}
 			}
 			if ( isset( $response_post_array[ $post_data_key . '_comments' ] ) ) {
@@ -384,12 +384,12 @@ class Facebook_Feed_Post_Types {
 					$lsc_array['comments'] = '';
 				}
 				if ( 1 === $fb_post_comments_count ) {
-					$lsc_array['comments']        = "<i class='icon-comments'></i> 1";
+					$lsc_array['comments']        = "<i class='icon-comments'></i>1";
 					$lsc_array['comments_thread'] = $comment_count_data;
 
 				}
 				if ( $fb_post_comments_count > '1' ) {
-					$lsc_array['comments']        = "<i class='icon-comments'></i> " . $fb_post_comments_count;
+					$lsc_array['comments']        = "<i class='icon-comments'></i>" . $fb_post_comments_count;
 					$lsc_array['comments_thread'] = $comment_count_data;
 				}
 			}
@@ -399,10 +399,10 @@ class Facebook_Feed_Post_Types {
 			$lsc_array['shares'] = '';
 		}
 		if ( 1 === $fb_post_share_count ) {
-			$lsc_array['shares'] = "<i class='icon-file'></i> 1";
+			$lsc_array['shares'] = "<span class='fts-count-wrap fts-shares-wrap'><i class='icon-file'></i>1</span>";
 		}
 		if ( $fb_post_share_count > '1' ) {
-			$lsc_array['shares'] = "<i class='icon-file'></i> " . $fb_post_share_count;
+			$lsc_array['shares'] = "<span class='fts-count-wrap fts-shares-wrap'><i class='icon-file'></i>" . $fb_post_share_count . '</span>';
 		}
 		return $lsc_array;
 	}
@@ -548,34 +548,41 @@ class Facebook_Feed_Post_Types {
 				if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && 'yes' === $saved_feed_options['facebook_hide_date_likes_comments'] ) {
 
 					echo '<div class="hide-date-likes-comments-etc">' . wp_kses(
-							$likes . ' ' . $comments . ' ' . $shares,
-							array(
-								'a' => array(
-									'href'  => array(),
-									'title' => array(),
-								),
-								'i' => array(
-									'class' => array(),
-								),
-							)
-						) . ' &nbsp;&nbsp;</div>';
+                            '<span class="fts-count-wrap fts-likes-wrap">' . $likes . '</span><span class="fts-count-wrap fts-comments-wrap">' . $comments . '</span><span class="fts-count-wrap fts-shares-wrap">' . $shares . '</span>',
+                            array(
+                                'a' => array(
+                                    'href'  => array(),
+                                    'title' => array(),
+                                ),
+                                'i' => array(
+                                    'class' => array(),
+                                ),
+                                'span' => array(
+                                    'class' => array(),
+                                ),
+                            )
+                        ) . '</div>';
 				} else {
 
-					echo wp_kses(
-							$likes . ' ' . $comments . ' ' . $shares,
-							array(
-								'a' => array(
-									'href'  => array(),
-									'title' => array(),
-								),
-								'i' => array(
-									'class' => array(),
-								),
-							)
-						) . ' &nbsp;&nbsp;';
+                    echo '' . wp_kses(
+                            '<span class="fts-count-wrap fts-likes-wrap">' . $likes . '</span><span class="fts-count-wrap fts-comments-wrap">' . $comments . '</span><span class="fts-count-wrap fts-shares-wrap">' . $shares . '</span>',
+                            array(
+                                'a' => array(
+                                    'href'  => array(),
+                                    'title' => array(),
+                                ),
+                                'i' => array(
+                                    'class' => array(),
+                                ),
+                                'span' => array(
+                                    'class' => array(),
+                                ),
+                            )
+                        );
 				}
-				echo '&nbsp;' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
-				break;
+            echo '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span></a></div>';
+
+            break;
 			case 'app':
 			case 'cover':
 			case 'profile':
@@ -594,20 +601,23 @@ class Facebook_Feed_Post_Types {
 				if ( 'albums' === $saved_feed_options['facebook_page_feed_type'] && 'yes' === $saved_feed_options['facebook_hide_date_likes_comments'] ) {
 				} else {
 
-					echo '' . wp_kses(
-							$likes . ' ' . $comments,
-							array(
-								'a' => array(
-									'href'  => array(),
-									'title' => array(),
-								),
-								'i' => array(
-									'class' => array(),
-								),
-							)
-						) . ' &nbsp;&nbsp;';
+                    echo '' . wp_kses(
+                            '<span class="fts-count-wrap fts-likes-wrap">' . $likes . '</span><span class="fts-count-wrap fts-comments-wrap">' . $comments . '</span>',
+                            array(
+                                'a' => array(
+                                    'href'  => array(),
+                                    'title' => array(),
+                                ),
+                                'i' => array(
+                                    'class' => array(),
+                                ),
+                                'span' => array(
+                                    'class' => array(),
+                                ),
+                            )
+                        );
 				}
-				echo '&nbsp;' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div></div>';
+				echo '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span></a></div></div>';
 				break;
             // SRL added case '': to account for posts with descriptions that have no video or photos and were possible made from status_type => mobile_status_update
             case '':
@@ -629,7 +639,7 @@ class Facebook_Feed_Post_Types {
                     echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
 
                     echo '' . wp_kses(
-                            $likes . ' ' . $comments,
+                            '<span class="fts-count-wrap fts-likes-wrap">' . $likes . '</span><span class="fts-count-wrap fts-comments-wrap">' . $comments . '</span>',
                             array(
                                 'a' => array(
                                     'href'  => array(),
@@ -638,8 +648,11 @@ class Facebook_Feed_Post_Types {
                                 'i' => array(
                                     'class' => array(),
                                 ),
+                                'span' => array(
+                                    'class' => array(),
+                                ),
                             )
-                        ) . ' &nbsp;&nbsp;&nbsp;' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</a></div>';
+                        ) . '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span></a></div>';
                 }
 				break;
 		}

@@ -119,7 +119,7 @@ class Settings_Page {
             wp_register_style( 'fts_settings', plugins_url( 'feed-them-social/admin/css/jquery-ui-fresh.min.css' ), array(), FEED_THEM_SOCIAL_VERSION );
             wp_enqueue_style( 'fts_settings' );
 
-            wp_register_script( 'fts_settings_admin', plugins_url( 'feed-them-social/admin/js/settings.js' ), array(), FEED_THEM_SOCIAL_VERSION );
+            wp_register_script( 'fts_settings_admin', plugins_url( 'feed-them-social/admin/js/settings.min.js' ), array(), FEED_THEM_SOCIAL_VERSION );
             wp_enqueue_script( 'fts_settings_admin' );
 
             // This is for the circles with question marks in them on the Settings page.

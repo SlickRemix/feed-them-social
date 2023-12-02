@@ -158,9 +158,9 @@ class Settings_Options_JS {
                 }
 
                 if (facebooktype == 'albums' ) {
-                    jQuery('.facebook-omit-album-covers').show();           }
+                    jQuery('.facebook-omit-album-covers, .facebook-album-covers-since-date').show();           }
                 else {
-                    jQuery('.facebook-omit-album-covers').hide();
+                    jQuery('.facebook-omit-album-covers, .facebook-album-covers-since-date').hide();
                 }
 
                 if (facebooktype == 'page' || facebooktype == 'event' || facebooktype == 'group') {

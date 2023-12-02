@@ -19,4 +19,5 @@ jQuery(document).ready(function() {
 			}
         }); // end of ajax()
         return false;
-}); // end of document.ready
+});
+// end of document.ready

@@ -1441,7 +1441,7 @@ class Feed_CPT_Options {
 					'name'        => 'fb_access_token',
 
 					// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
-					'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
+					'prem_req_more_msg' => '<br/><small class="fts-paid-extension-required">' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a></small>', 'feed-them-social'),
 					'placeholder' => __( '', 'feed-them-social' ),
 
 					// Relative to JS.
@@ -1510,7 +1510,7 @@ class Feed_CPT_Options {
 				// Facebook page # of Posts
 				array(
 					'option_type'   => 'input',
-					'label'         => __( 'Number of Posts <br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social' ) . '</small>',
+					'label'         => __( 'Number of Posts<div class="fts-paid-extension-required"><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a></small></div>', 'feed-them-social' ),
 					'type'          => 'text',
 					'id'            => 'facebook_page_post_count',
 					'name'          => 'facebook_page_post_count',
@@ -1525,6 +1525,20 @@ class Feed_CPT_Options {
 						'empty_error'       => 'set',
 						'empty_error_value' => 'posts=6',
 					),
+				),
+
+				// Facebook Album Covers Start Date
+				array(
+
+					'input_wrap_class' => 'facebook-album-covers-since-date',
+					'option_type'      => 'input',
+					'label'            => __( 'Album Since Date <br/>Example: 01-24-2023<br/><small>Add a date to show more recent albums if you have a large collection.</small>', 'feed-them-social' ),
+					'type'             => 'text',
+					'id'               => 'facebook_album_covers_since_date',
+					'name'             => 'facebook_album_covers_since_date',
+					'value'            => '',
+					'placeholder'      => __( '', 'feed-them-social' ),
+					'default_value'    => '',
 				),
 
 				// Facebook Albums Omit Album Covers
@@ -3075,7 +3089,7 @@ class Feed_CPT_Options {
 				// Pic Count
 				array(
 					'option_type'       => 'input',
-					'label'             => __( 'Number of Pics <br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social' ) . '</small>',
+					'label'             => __( 'Number of Pics<div class="fts-paid-extension-required"><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a></small></div>', 'feed-them-social' ),
 					'type'              => 'text',
 					'id'                => 'instagram_pics_count',
 					'name'              => 'instagram_pics_count',
@@ -3604,7 +3618,7 @@ class Feed_CPT_Options {
 	 */
 	public function twitter_options() {
 
-		$limitforpremium = __( '<br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social' ) . '</small>';
+		$limitforpremium = __( '<div class="fts-paid-extension-required"><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a></small></div>', 'feed-them-social' );
 
 		$this->all_options['twitter'] = array(
 			'section_attr_key'   => 'twitter_',
@@ -3728,7 +3742,7 @@ class Feed_CPT_Options {
 					'name'        => 'tweets_count',
 
 					// Only needed if Prem_Req = More otherwise remove (must have array key req_plugin)
-					// 'prem_req_more_msg' => '<br/><small>' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a>', 'feed-them-social') . '</small>',
+					// 'prem_req_more_msg' => '<br/><small class="fts-paid-extension-required">' . __('More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium version</a></small>', 'feed-them-social'),
 					'placeholder' => __( '6 is default value', 'feed-them-social' ),
 					'value'       => '',
 
@@ -4106,7 +4120,7 @@ class Feed_CPT_Options {
 	 */
 	public function youtube_options() {
 
-		$limitforpremium = __( '<br/><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a>', 'feed-them-social' ) . '</small>';
+		$limitforpremium = __( '<div class="fts-paid-extension-required"><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a></small></div>', 'feed-them-social' );
 
 		$this->all_options['youtube'] = array(
 			'section_attr_key'   => 'youtube_',

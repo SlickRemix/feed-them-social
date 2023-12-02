@@ -25,6 +25,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Feeds_CPT {
 
     /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
+
+    /**
      * Feed CPT ID
      * used to set Gallery ID
      *
@@ -100,10 +109,12 @@ class Feeds_CPT {
      *
      * @param object $feed_cpt_options All options.
      */
-    public function __construct( $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options, $options_functions) {
+    public function __construct( $settings_functions, $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options, $options_functions) {
 
         // Add Actions and Filters.
         $this->add_actions_filters();
+
+        $this->settings_functions = $settings_functions;
 
         // Set Feed Functions object.
         $this->feed_functions = $feed_functions;
@@ -181,6 +192,8 @@ class Feeds_CPT {
 
         // Remove Edit Menu Links.
 	    add_filter( 'page_row_actions', array( $this, 'remove_edit_menu_links' ), 10, 2 );
+
+        add_filter('body_class', [$this, 'add_custom_body_class_frontend']);
     }
 
     /**
@@ -201,6 +214,59 @@ class Feeds_CPT {
     }
 
     /**
+     *  Add Custom Body Class Admin
+     *
+     * Add custom body classes to admin area.
+     *
+     * @since 4.2.0
+     */
+    public function add_custom_body_class_admin($classes) {
+
+        if ( $this->isFeedThemPremiumActive() ) {
+            // This is used for the areas we want to hide the text and link for, More than 6 Requires Premium
+            $classes .= ' fts-premium-active';
+        }
+        $powered_by = $this->settings_functions->fts_get_option( 'powered_by' );
+        if ( $powered_by === '1' ) {
+            // This is used for the popup so we can remove the powered by text and a space to start is required.
+            $classes .= ' fts-remove-powered-by';
+        }
+
+        return $classes;
+    }
+
+    /**
+     *  Add Custom Body Class Frontend
+     *
+     * Add custom body classes to frontend of website.
+     *
+     * @since 4.2.0
+     */
+    public function add_custom_body_class_frontend($classes) {
+
+        $powered_by = $this->settings_functions->fts_get_option( 'powered_by' );
+        if ( $powered_by === '1' ) {
+            // This is used for the popup so we can remove the powered by text and NO space to start is required.
+            $classes[] = 'fts-remove-powered-by';
+        }
+
+        return $classes;
+    }
+
+    /**
+     * Is Feed Them Premium Active
+     *
+     * Used to aid in the check to display custom body classes.
+     *
+     * @since 4.2.0
+     */
+    private function isFeedThemPremiumActive() {
+        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+
+        return is_plugin_active('feed-them-premium/feed-them-premium.php');
+    }
+
+    /**
      * Current Feed CPT ID
      *
      * Sets the Feed CPT ID based on the current screens _Get or _Post
@@ -216,6 +282,9 @@ class Feeds_CPT {
         // Set Feed CPT ID using _Get or _Post
         // Previous version that threw warning: $this->feed_cpt_id = (int) $current_get['post'] ?? $current_post['post'];
         if ( 'fts' === $current_screen->post_type && 'post' === $current_screen->base && is_admin() && isset( $current_get['post'] ) ) {
+
+            // Add Custom Body Class.
+            add_filter('admin_body_class', [$this, 'add_custom_body_class_admin']);
             $this->feed_cpt_id = (int) $current_get['post'];
         }
     }

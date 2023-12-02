@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) exit; // Exit if accessed directly
 //https://developers.elementor.com/docs/scripts-styles/preview-styles/
 add_action('elementor/preview/enqueue_styles', function() {
 
-    wp_enqueue_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
+    wp_enqueue_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
     wp_enqueue_style( 'fts-feed-styles' );
 });
 
@@ -18,7 +18,7 @@ add_action('elementor/preview/enqueue_styles', function() {
 add_action('elementor/preview/enqueue_scripts', function() {
 
     // Masonry snippet in fts-global.js file.
-    wp_register_script( 'fts-feed-scripts', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+    wp_register_script( 'fts-feed-scripts', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
     wp_enqueue_script( 'fts-feed-scripts' );
 
     // Register Premium Styles & Scripts.
@@ -41,10 +41,10 @@ add_action('elementor/preview/enqueue_scripts', function() {
 
 add_action('elementor/editor/after_enqueue_scripts', function() {
 
-    wp_register_style( 'fts-custom-styles', plugins_url( '/css/styles.css', __FILE__ ) );
+    wp_register_style( 'fts-custom-styles', plugins_url( '/css/styles.min.css', __FILE__ ) );
     wp_enqueue_style( 'fts-custom-styles' );
 
-    wp_register_script( 'fts-custom-scripts', plugins_url( '/js/scripts.js', __FILE__ ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+    wp_register_script( 'fts-custom-scripts', plugins_url( '/js/scripts.min.js', __FILE__ ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
     wp_enqueue_script( 'fts-custom-scripts' );
 
     $dataToBePassed = array(

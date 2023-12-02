@@ -1305,16 +1305,36 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 } else {
                     $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/posts?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 }
-            } elseif (
+            } elseif ( $saved_feed_options['facebook_page_feed_type'] === 'albums') {
                 // Albums.
-                'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
+                $dateString = !empty($saved_feed_options['facebook_album_covers_since_date']) ? $saved_feed_options['facebook_album_covers_since_date'] : '';
+
+                // Format should look like this: 01-01-2024 or this 1-1-2024
+                if (preg_match('/^\d{1,2}-\d{1,2}-\d{4}$/', $dateString)) {
+                    // Convert the date string to a DateTime object
+                    $dateObject = \DateTime::createFromFormat('m-d-Y', $dateString);
+
+                    // Check if the date conversion was successful
+                    if ($dateObject !== false) {
+                        // Convert the DateTime object to a Unix timestamp
+                        $unixTimestamp = $dateObject->getTimestamp();
+                        $albums_since_date = '&since=' . $unixTimestamp;
+                    } else {
+                        // Handle invalid date conversion
+                        $albums_since_date = '';
+                    }
+                }
+                else {
+                    $albums_since_date = '';
+                }
+
                 $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link&access_token=' . $this->feed_access_token . $language . '' );
                 if ( isset( $_REQUEST['next_url'] ) ) {
                     $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
                 }
                 // Check If Ajax next URL needs to be used.
                 if ( ! $fts_count_ids >= 1 ) {
-                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/albums?fields=id,photos{images,name,created_time},created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/albums?fields=id,photos{images,name,created_time},created_time,name,from,link,cover_photo,count,updated_time,type'.$albums_since_date.'&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 } else {
                     $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( 'https://graph.facebook.com/albums?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,photos{images,name,created_time},created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 }
@@ -1673,9 +1693,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
             // it's ok if these styles & scripts load at the bottom of the page.
             $fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
             if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
-                wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.css' ), array(), FTS_CURRENT_VERSION, false );
+                wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
             }
-            wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
+            wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
             wp_enqueue_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
         }
     }

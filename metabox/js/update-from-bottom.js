@@ -640,12 +640,12 @@ function fts_check_valid() {
 
                     }*/
 
-                if( fts_shortcode_fix.indexOf("fts_mashup") === true ){
+                if( fts_shortcode_fix.indexOf("fts_mashup") !== -1 ){
 
                     if( !$( '.combine-streams-feed-type' ).hasClass('fts-social-icon-wrap-active') ){
 
                         $( '.fts-social-icon-wrap.combine-streams-feed-type' ).click();
-                        // This is a simple stupid way to make user way a second so the combined access token options can load up.
+                        // This is a simple stupid way to make user wait a second so the combined access token options can load up.
                         // This is not a problem if you are already on the combined streams tab, but for the sake of users not clicking there first,
                         // this is a dirty work around.
                         setTimeout(function () {
@@ -653,7 +653,7 @@ function fts_check_valid() {
                             $( '#fts-convert-old-shortcode' ).click();
                         }, 100);
 
-                        alert('Thank You for using the Shortcode Converter. No more endless shortcode options. Now it will be easier than ever to change options and see the results.');
+                        alert('Thank You for using the Shortcode Converter to convert your Combined Streams. No more endless shortcode options. Now it will be easier than ever to change options and see the results.');
 
                         return true;
                     }

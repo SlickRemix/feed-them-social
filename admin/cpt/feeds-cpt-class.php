@@ -261,7 +261,7 @@ class Feeds_CPT {
      * @since 4.2.0
      */
     private function isFeedThemPremiumActive() {
-        include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+        include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         return is_plugin_active('feed-them-premium/feed-them-premium.php');
     }

@@ -1243,19 +1243,19 @@ h1.plugin-author-note {
 }
 
 @font-face {
-    font-family: FontAwesomeSlickFeed;
+    font-family: FontAwesomeSlickFeed, monospace;
     src: url(../../includes/feeds/css/font/fontawesome-webfont.eot?v=3.2.1);
     src: url(../../includes/feeds/css/font/fontawesome-webfont.eot?#iefix&v=3.2.1)format("embedded-opentype"),url(../../includes/feeds/css/font/fontawesome-webfont.woff?v=3.2.1)format("woff"),url(../../includes/feeds/css/font/fontawesome-webfont.ttf?v=3.2.1)format("truetype"),url(../../includes/feeds/css/font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1)format("svg")
 }
 
 @font-face {
-    font-family: FontAwesomeSlick;
+    font-family: FontAwesomeSlickFeed, monospace;
     src: url(font/fa-brands-400.eot?v=3.2.1);
     src: url(font/fa-brands-400.eot?#iefix&v=3.2.1)format("embedded-opentype"),url(font/fa-brands-400.woff?v=3.2.1)format("woff"),url(font/fa-brands-400.ttf?v=3.2.1)format("truetype"),url(font/fa-brands-400.svg#fontawesomeregular?v=3.2.1)format("svg")
 }
 
 .fts-success:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     content: ""!important;
     font-size: 14px;
     position: relative;
@@ -1356,7 +1356,7 @@ h1.plugin-author-note {
 
 .fts-arrow-icon:before {
     content: "";
-    font-family: FontAwesomeSlickFeed!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     color: #00a400;
     font-size: 18px!important;
     position: relative;
@@ -1805,12 +1805,12 @@ div#uploaderSection div.drag-drop-inside {
 }
 
 .ft-gallery-force-delete-img-ajax:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     content: ""!important
 }
 
 .ft-gallery-edit-img-popup:before,.ft-gallery-remove-img-ajax:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     content: ""!important
 }
 
@@ -1821,7 +1821,7 @@ div#uploaderSection div.drag-drop-inside {
 }
 
 .fts_create_woo_prod_button:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     content: ""!important;
     margin-right: 4px;
     margin-left: 1px
@@ -2120,13 +2120,13 @@ h3.sectioned-options-title {
 }
 
 .ft-download-selection:before,.ft-gallery-download-gallery:before,.ft-gallery-file-name a:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     content: ""!important;
     margin-right: 8px
 }
 
 .ft-gallery-create-woo:before,.ft-gallery-zip-gallery:before,.ft-gallery-zip-selection:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     content: ""!important;
     margin-right: 8px
 }
@@ -2204,7 +2204,7 @@ h3.sectioned-options-title {
 
 .ft-gallery-file-view a:before {
     content: "";
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     margin-right: 10px;
     color: #999
 }
@@ -2674,7 +2674,7 @@ button.ft-gallery-edit-img-popup {
 }
 
 #fts-feed-type.fts-token-wrap h3:before {
-    font-family: FontAwesomeSlickFeed!important;
+    font-family: FontAwesomeSlickFeed, monospace !important;
     content: "";
     color: #c9c9c9;
     margin: 0 5px 0 0;

@@ -593,15 +593,31 @@ function fts_check_valid() {
                     alert( 'Please add a Feed Them Social Shortcode to Convert.');
                     return;
                 }
-                let parts = fts_shortcode.split('"'); // Split by quote, assuming values are always in quotes
-                for (var i = 0; i < parts.length; i++) {
-                    if (i % 2 === 0) { // Outside of quotes
-                        // Remove unnecessary spaces around equals sign
-                        parts[i] = parts[i].replace(/\s*=\s*/g, "=");
+                var result = '';
+                var inQuotes = false;
+                var quoteSegment = '';
+
+                for (var i = 0; i < fts_shortcode.length; i++) {
+                    var char = fts_shortcode[i];
+
+                    if (char === '"' || char === "'") {
+                        if (inQuotes) {
+                            // Process the quote segment: replace spaces with asterisks
+                            result += quoteSegment.replace(/ /g, '*');
+                            quoteSegment = ''; // Reset the quote segment for next use
+                        }
+                        inQuotes = !inQuotes; // Toggle the inQuotes flag
+                    } else if (inQuotes) {
+                        quoteSegment += char; // Accumulate text inside quotes
+                    } else {
+                        result += char; // Add text outside quotes directly to result
                     }
                 }
-                var fts_shortcode_fix = parts.join('"'); // Rejoin the parts with quotes
-                // take shortcode and extract any spaces that surround a shortcode value. ie padding="20px 10px"
+
+                var fts_shortcode_fix = result;
+                //console.log( fts_shortcode_fix );
+                // return;
+                // take shortcode and extract any spaces that surround a shortcode value. ie padding="20px 10px" end result looks like 20px*10px
 
                 var fts_final1 = fts_shortcode_fix.replace("fts_twitter", "").replace("[ ", "").replace("]", "").split( " " );
                 var fts_final2 = Array.from( fts_final1 );

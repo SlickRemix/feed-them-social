@@ -4541,9 +4541,10 @@ a.fts-facebook-thumbs-wrap {
 
 .fts-more-photos-auto-width .fts-fb-thumbs-wrap {
     max-width: 100%;
-    margin-right: 0!important;
-    margin-left: .2333333333%!important;
-    margin: 0 0 4px;
+    margin-right: 0 !important;
+    margin-left: 0.2333333333% !important;
+    margin-top: 0;
+    margin-bottom: 4px;
     z-index: 0;
     background-repeat: no-repeat;
     vertical-align: top

@@ -100,7 +100,7 @@
     background-image: -o-linear-gradient(top, #f9f9f9, #ececec);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#ececec));
     background-image: -webkit-linear-gradient(top, #f9f9f9, #ececec);
-    background-image: linear-gradient(top, #f9f9f9, #ececec)
+    background-image: linear-gradient(to top, #f9f9f9, #ececec)
 }
 
 .ui-widget-header a {
@@ -115,7 +115,7 @@
     background-image: -o-linear-gradient(top, #f9f9f9, #ececec);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#ececec));
     background-image: -webkit-linear-gradient(top, #f9f9f9, #ececec);
-    background-image: linear-gradient(top, #f9f9f9, #ececec);
+    background-image: linear-gradient(to top, #f9f9f9, #ececec);
     font-weight: normal;
     color: #333
 }
@@ -133,7 +133,7 @@
     background-image: -o-linear-gradient(top, #ececec, #f9f9f9);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#ececec), to(#f9f9f9));
     background-image: -webkit-linear-gradient(top, #ececec, #f9f9f9);
-    background-image: linear-gradient(top, #ececec, #f9f9f9);
+    background-image: linear-gradient(to top, #ececec, #f9f9f9);
     font-weight: normal;
     color: #000
 }
@@ -1663,7 +1663,7 @@ button.ui-button::-moz-focus-inner {
 
 .ui-progressbar .ui-widget-header {
     background-color: #83b4d8;
-    background-image: linear-gradient(bottom, #72a7cf 0, #90c5ee 100%);
+    background-image: linear-gradient(to bottom, #72a7cf 0, #90c5ee 100%);
     background-image: -o-linear-gradient(bottom, #72a7cf 0, #90c5ee 100%);
     background-image: -moz-linear-gradient(bottom, #72a7cf 0, #90c5ee 100%);
     background-image: -webkit-linear-gradient(bottom, #72a7cf 0, #90c5ee 100%);

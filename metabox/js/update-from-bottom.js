@@ -593,7 +593,14 @@ function fts_check_valid() {
                     alert( 'Please add a Feed Them Social Shortcode to Convert.');
                     return;
                 }
-                var fts_shortcode_fix = fts_shortcode.replace(/\'/g, '"').replace(/\s+(?=(?:[^"]*"[^"]*")*[^"]*"[^"]*$)/gm, '*').replace(/\"/g, "");
+                let parts = fts_shortcode.split('"'); // Split by quote, assuming values are always in quotes
+                for (var i = 0; i < parts.length; i++) {
+                    if (i % 2 === 0) { // Outside of quotes
+                        // Remove unnecessary spaces around equals sign
+                        parts[i] = parts[i].replace(/\s*=\s*/g, "=");
+                    }
+                }
+                var fts_shortcode_fix = parts.join('"'); // Rejoin the parts with quotes
                 // take shortcode and extract any spaces that surround a shortcode value. ie padding="20px 10px"
 
                 var fts_final1 = fts_shortcode_fix.replace("fts_twitter", "").replace("[ ", "").replace("]", "").split( " " );

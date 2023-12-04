@@ -6,7 +6,6 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased
 }
-
 .tab-content .ft-gallery-select-thumbn .ft-gallery-myCheckbox {
     position: absolute;
     bottom: 5px;
@@ -609,7 +608,7 @@ select.ft-gallery-settings-admin-input {
 }
 
 .ft-gallery-settings-toggle:before {
-    font-family: arial
+    font-family: arial, sans-serif;
 }
 
 .view-all-custom {
@@ -617,7 +616,7 @@ select.ft-gallery-settings-admin-input {
     height: 20px;
     width: 20px;
     background: #fff;
-    font-family: verdana;
+    font-family: verdana, sans-serif;
     display: none;
     transition: .3s ease-in-out
 }
@@ -913,7 +912,6 @@ textarea#ft-gallery-main-wrapper-css-input, textarea#ft-gallery-main-wrapper-cus
 .ft-gallery-fb-options input {
     margin: 9px 10px 10px 20px;
     width: auto !important;
-    line-height: auto
 }
 
 .special {
@@ -994,7 +992,7 @@ ul.sortable, ul.sortable ul {
     -moz-border-radius: 3px;
     border-radius: 3px;
     cursor: move;
-    border-color: #d4d4d4 #d4d4d4 #bcbcbc;
+    border-color: #bcbcbc;
     margin: 0;
     padding: 3px
 }
@@ -1214,7 +1212,7 @@ h3 {
 }
 
 #bitbucket-icon:before, #github-icon:before, #gitlab-icon:before, #wordpress-icon:before {
-    font-family: FontAwesomeSlick;
+    font-family: FontAwesomeSlick, monospace;
     font-size: 45px;
     line-height: 1.2;
     clear: both
@@ -1266,13 +1264,12 @@ label.tab-active {
 pre {
     white-space: pre-wrap;
     white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word
 }
 
 .ui-icon-triangle-1-n:before, .ui-icon-triangle-1-s:before {
-    font-family: FontAwesomeSlick;
+    font-family: FontAwesomeSlick, monospace;
     font-size: 16px;
     line-height: 19px;
     display: inline-block;
@@ -1503,7 +1500,7 @@ pre {
     width: 38px !important;
     height: 38px !important;
     -moz-osx-font-smoothing: grayscale !important;
-    font-family: FontAwesome !important;
+    font-family: FontAwesome, monospace !important;
     font-weight: 400 !important;
     font-style: normal !important;
     text-decoration: inherit !important;
@@ -1546,7 +1543,7 @@ pre {
     width: 38px;
     height: 38px;
     -moz-osx-font-smoothing: grayscale;
-    font-family: FontAwesomeSlick !important;
+    font-family: FontAwesomeSlick, monospace !important;
     font-weight: 400;
     text-decoration: inherit;
     color: #fff;
@@ -1765,7 +1762,7 @@ a.ft-gallery-delete-category span, a.ft-gallery-delete-item span {
 }
 
 .ft-gallery-loader:before, .ft-gallery-success:before {
-    font-family: FontAwesomeSlick;
+    font-family: FontAwesomeSlick, monospace;
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
@@ -2116,7 +2113,6 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
 }
 
 .ft-rename-options-wrap label {
-    max-width: auto !important;
     display: inline-block !important;
     width: auto !important;
     font-size: 12px !important;
@@ -2240,7 +2236,7 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
 }
 
 .post-type-fts .wp-heading-inline:before, .post-type-fts_albums .wp-heading-inline:before {
-    font-family: SlickRemix !important;
+    font-family: SlickRemix, monospace !important;
     content: "\e600";
     font-size: .9em !important;
     margin-right: 5px;
@@ -2359,7 +2355,7 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
 }
 
 @keyframes color {
-    0%, 100 {
+    0%, 100% {
         background-color: #008fd4
     }
     50% {
@@ -2433,7 +2429,7 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
     font-variant: normal
     text-transform: none;
     line-height: 1;
-    -moz-osx-font-smoothing: grayscale
+    -moz-osx-font-smoothing: grayscale;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     margin: auto;
@@ -2467,13 +2463,13 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
 }
 
 .ft-add-gallery-to-album:before {
-    font-family: FontAwesomeSlick !important;
+    font-family: FontAwesomeSlick, monospace !important;
     content: "\f0fe" !important;
     margin-right: 8px
 }
 
 .ft-remove-gallery-to-album:before {
-    font-family: FontAwesomeSlick !important;
+    font-family: FontAwesomeSlick, monospace !important;
     content: "\f146" !important;
     margin-right: 8px
 }
@@ -2534,7 +2530,7 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
     max-width: 18%;
     width: 100%;
     cursor: pointer;
-    font-family: FontAwesomeSlick !important;
+    font-family: FontAwesomeSlick, monospace !important;
     padding: 13px 0;
     border-width: 0;
     border-style: solid;
@@ -2603,7 +2599,7 @@ span.fts-toke-not-set {
 .fts-social-icon-wrap {
     display: inline-block;
     font-size: 38px;
-    font-family: FontAwesomeSlick !important;
+    font-family: FontAwesomeSlick, monospace !important;
     padding: 20px;
     margin: 17px 1px
 }

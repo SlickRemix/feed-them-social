@@ -58,9 +58,11 @@
 #combine_streams_feed .fts-success-token-content,#delete-action,#facebook_page_id,#feed_type,#ftg-tab-content1 .fts-note-footer,#ftg-tab-content6 .align-images-wrap,#fts-color-options-main-wrapper-css-input,#fts-import-export-feed-options-side-mb .fts-import-export-tab-content>div,#preview-action,.board-name,.combine-facebook-access-token-placeholder,.combine-facebook-wrap,.combine-grid-options-wrap,.combine-instagram-access-token-placeholder,.combine-instagram-basic-access-token-placeholder,.combine-instagram-business-access-token-placeholder,.combine-instagram-hashtag-option-text,.combine-instagram-wrap,.combine-pinterest-wrap,.combine-twitter-access-token-placeholder,.combine-twitter-hashtag-etc-wrap,.combine-twitter-wrap,.combine-youtube-access-token-placeholder,.combine-youtube-wrap,.combine_board_id,.combine_facebook_name .fts-token-wrap,.combine_instagram_hashtag,.combine_instagram_hashtag_select,.combine_instagram_hashtag_type,.combine_instagram_type,.combine_playlist_id,.combine_youtube_name,.das-text,.display-comments-wrap,.facebook-album-covers-since-date,.facebook-image-animation-option-wrap,.facebook-message-generator,.facebook-omit-album-covers,.facebook-reviews-wrap,.facebook_hide_date,.facebook_hide_name,.facebook_hide_thumbnail,.facebook_page_id .feed-them-social-admin-input-label,.facebook_show_media,.fb-page-grid-option-hide,.fb-reviews,.fb-video-play-btn-options-content,.fb-video-play-btn-options-wrap,.fb_album_photos_id,.final-instagram-user-id-textarea,.final-shortcode-textarea,.ft-gallery-settings-tabs-meta-wrap .tab-content-wrap .tab-pane,.ft-gallery-settings-tabs-meta-wrap input[type=text]:disabled,.ft-gallery-settings-tabs-meta-wrap select:disabled,.ft-gallery-styles-popup .tagchecklist,.ft-gallery-woo-btns-wrap-for-popup,.ft-image-id-for-popup,.ft-watermark-duplicate-image,.ft-wp-gallery-type .feed-them-social-admin-input-label,.ftg-media-tag-no-tags,.ftg-page-title-description-placement-option-hide,.fts-cpt-extra-options,.fts-custom-css-text,.fts-decrypted-token,.fts-facebook-grid-options-wrap,.fts-facebook-load-more-options-wrap,.fts-facebook-load-more-options2-wrap,.fts-facebook_group-shortcode-form .twitter_name,.fts-facebook_group-shortcode-form:hover .feed-them-icon-wrap a.facebook-icon,.fts-fb-event-option-wrap .twitter_name,.fts-fb-id,.fts-gallery-id,.fts-hide-me,.fts-hide-token,.fts-instagram-load-more-options-wrap,.fts-instagram-sub-menu-active .fts-instagram,.fts-instagram-waiting-color .active .ft_icon img,.fts-premium-options-message,.fts-social-icon-wrap-active .fts-instagram,.fts-success,.fts-super-facebook-options-wrap,.fts-tab-content1-combine .fts-instagram-successful-api-token,.fts-token-wrap .feed-them-social-admin-input-label,.fts-twitter-add-all-keys-click-option,.fts-twitter-grid-options-wrap,.fts-twitter-load-more-options-wrap,.fts-twitter-load-more-options2-wrap,.fts-youtube-load-more-options-wrap,.fts-youtube-load-more-options2-wrap,.fts_hide_zip_list,.hashtag-option-small-text,.inst-text-facebook-reviews,.instagram-feed-type-image-tab,.instagram-location-option-text,.instagram-profile-options-wrap,.instagram_hashtag,.instagram_hashtag_type,.js.fts_page_template_settings_page .handlediv,.like-box-wrap,.main-instagram-profile-options-wrap,.misc-pub-section:not(.misc-pub-post-status),.page-token,.pinterest-board-and-name-text,.reviews-options,.shortcode-generator-form,.slider_options_wrap,.slideshow-wrap,.tabs .fts-token-wrap input[type=text],.tabs div.fts-section .fts-twitter-combine,.tabs div.fts-section .fts-youtube-combine,.toggle-custom-textarea-hide,.twitter-hashtag-etc-wrap,.youtube_align_comments_wrap,.youtube_channelID2,.youtube_name,.youtube_name2,.youtube_playlistID,.youtube_playlistID2,.youtube_singleVideoID,.youtube_video_single_info_display,div#current-uploaded-image.closed,instagram-shortcode-form {
     display: none
 }
+
 .feed-them-social-admin-input-wrap.combine_instagram_type {
-    display:none
+    display: none
 }
+
 .feed-them_page_fts-facebook-feed-styles-submenu-page .use-of-plugin {
     font-size: 13px;
     font-weight: 400;
@@ -247,6 +249,23 @@
     padding: 0 20px;
     height: 37px;
     line-height: 35px
+}
+
+label.toggle-custom-textarea-show {
+    max-width: 435px;
+    display: block;
+    text-align: center;
+    padding: 0 15px;
+    background: #818181;
+    border-radius: 1px;
+    font-size: 12px;
+    clear: both;
+    letter-spacing: 1px;
+    margin: 5px 5px 10px 0;
+    -webkit-transition: .2s ease-in-out;
+    -moz-transition: .2s ease-in-out;
+    -o-transition: .2s ease-in-out;
+    transition: .2s ease-in-out
 }
 
 .feed-them-social-admin-submit-btn,.feed-them-social-admin-submit-btn:hover {
@@ -440,23 +459,6 @@ textarea#fts-color-options-main-wrapper-css-input {
 
 label.toggle-custom-textarea-show:hover {
     background: #999
-}
-
-label.toggle-custom-textarea-show {
-    max-width: 435px;
-    display: block;
-    text-align: center;
-    padding: 0 15px;
-    background: #818181;
-    border-radius: 1px;
-    font-size: 12px;
-    clear: both;
-    letter-spacing: 1px;
-    margin: 5px 5px 10px 0;
-    -webkit-transition: .2s ease-in-out;
-    -moz-transition: .2s ease-in-out;
-    -o-transition: .2s ease-in-out;
-    transition: .2s ease-in-out
 }
 
 .fts-admin-wrap p input[type=checkbox],.fts-wp-header-custom input[type=checkbox] {
@@ -666,9 +668,6 @@ a.fts-success-token-content:hover {
     padding: 18px 16px 19px 188px;
     background: url(../images/pinterest-logo-admin.jpg)13px 12px no-repeat #fff;
     color: #252525
-}
-
-.fts-instagram-get-access-token:hover {
 }
 
 .fts-pinterest-get-access-token:hover {
@@ -1243,19 +1242,19 @@ h1.plugin-author-note {
 }
 
 @font-face {
-    font-family: FontAwesomeSlickFeed, monospace;
+    font-family: FontAwesomeSlickFeed;
     src: url(../../includes/feeds/css/font/fontawesome-webfont.eot?v=3.2.1);
     src: url(../../includes/feeds/css/font/fontawesome-webfont.eot?#iefix&v=3.2.1)format("embedded-opentype"),url(../../includes/feeds/css/font/fontawesome-webfont.woff?v=3.2.1)format("woff"),url(../../includes/feeds/css/font/fontawesome-webfont.ttf?v=3.2.1)format("truetype"),url(../../includes/feeds/css/font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1)format("svg")
 }
 
 @font-face {
-    font-family: FontAwesomeSlickFeed, monospace;
+    font-family: FontAwesomeSlick;
     src: url(font/fa-brands-400.eot?v=3.2.1);
     src: url(font/fa-brands-400.eot?#iefix&v=3.2.1)format("embedded-opentype"),url(font/fa-brands-400.woff?v=3.2.1)format("woff"),url(font/fa-brands-400.ttf?v=3.2.1)format("truetype"),url(font/fa-brands-400.svg#fontawesomeregular?v=3.2.1)format("svg")
 }
 
 .fts-success:before {
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlick!important;
     content: ""!important;
     font-size: 14px;
     position: relative;
@@ -1356,7 +1355,7 @@ h1.plugin-author-note {
 
 .fts-arrow-icon:before {
     content: "";
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlickFeed !important;
     color: #00a400;
     font-size: 18px!important;
     position: relative;
@@ -1805,12 +1804,15 @@ div#uploaderSection div.drag-drop-inside {
 }
 
 .ft-gallery-force-delete-img-ajax:before {
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlick!important;
     content: ""!important
 }
 
 .ft-gallery-edit-img-popup:before,.ft-gallery-remove-img-ajax:before {
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlick!important
+}
+
+.ft-gallery-remove-img-ajax:before {
     content: ""!important
 }
 
@@ -1821,7 +1823,7 @@ div#uploaderSection div.drag-drop-inside {
 }
 
 .fts_create_woo_prod_button:before {
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlick!important;
     content: ""!important;
     margin-right: 4px;
     margin-left: 1px
@@ -2120,13 +2122,17 @@ h3.sectioned-options-title {
 }
 
 .ft-download-selection:before,.ft-gallery-download-gallery:before,.ft-gallery-file-name a:before {
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlick!important;
     content: ""!important;
     margin-right: 8px
 }
 
-.ft-gallery-create-woo:before,.ft-gallery-zip-gallery:before,.ft-gallery-zip-selection:before {
-    font-family: FontAwesomeSlickFeed, monospace !important;
+.ft-gallery-create-woo:before,.ft-gallery-file-view a:before {
+    font-family: FontAwesomeSlick!important
+}
+
+.ft-gallery-zip-gallery:before,.ft-gallery-zip-selection:before {
+    font-family: FontAwesomeSlick!important;
     content: ""!important;
     margin-right: 8px
 }
@@ -2204,7 +2210,6 @@ h3.sectioned-options-title {
 
 .ft-gallery-file-view a:before {
     content: "";
-    font-family: FontAwesomeSlickFeed, monospace !important;
     margin-right: 10px;
     color: #999
 }
@@ -2290,7 +2295,7 @@ svg.fts-info-icon:hover {
     min-height: 30px;
     margin-bottom: 1px!important;
     width: 100%;
-    display: inline-block;
+    display: inline-block
 }
 
 .feed-them-social-admin-input-label {
@@ -2674,7 +2679,7 @@ button.ft-gallery-edit-img-popup {
 }
 
 #fts-feed-type.fts-token-wrap h3:before {
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlickFeed, monospace!important;
     content: "";
     color: #c9c9c9;
     margin: 0 5px 0 0;
@@ -2821,18 +2826,13 @@ img.instagram-feed-type-image-tab {
     background: #fff!important
 }
 
-.facebook-feed-type.fts-social-icon-wrap-active:hover,.facebook-feed-type.fts-social-icon-wrap-active:hover div,.instagram-feed-type.fts-instagram-sub-menu-active:hover,.instagram-feed-type.fts-instagram-sub-menu-active:hover div,.instagram-feed-type.fts-instagram-sub-menu-active:hover span:before,.instagram-feed-type.fts-social-icon-wrap-active:hover,.instagram-feed-type.fts-social-icon-wrap-active:hover div,.instagram-feed-type.fts-social-icon-wrap-active:hover span:before,.twitter-feed-type.fts-social-icon-wrap-active:hover,.twitter-feed-type.fts-social-icon-wrap-active:hover div {
+.facebook-feed-type.fts-social-icon-wrap-active:hover,.facebook-feed-type.fts-social-icon-wrap-active:hover div,.instagram-feed-type.fts-instagram-sub-menu-active:hover,.instagram-feed-type.fts-instagram-sub-menu-active:hover div,.instagram-feed-type.fts-instagram-sub-menu-active:hover span:before,.instagram-feed-type.fts-social-icon-wrap-active:hover,.instagram-feed-type.fts-social-icon-wrap-active:hover div,.instagram-feed-type.fts-social-icon-wrap-active:hover span:before,.twitter-feed-type.fts-social-icon-wrap-active:hover,.twitter-feed-type.fts-social-icon-wrap-active:hover div,.youtube-feed-type.fts-social-icon-wrap-active:hover,.youtube-feed-type.fts-social-icon-wrap-active:hover div {
     background: #fff!important;
     color: inherit!important
 }
 
 .twitter-feed-type.fts-social-icon-wrap-active:hover span:before,.youtube-feed-type.fts-social-icon-wrap-active:hover span:before {
     background: #fff!important
-}
-
-.youtube-feed-type.fts-social-icon-wrap-active:hover,.youtube-feed-type.fts-social-icon-wrap-active:hover div {
-    background: #fff!important;
-    color: inherit!important
 }
 
 .combine-streams-feed-type.fts-social-icon-wrap-active:hover,.combine-streams-feed-type.fts-social-icon-wrap-active:hover div,.combine-streams-feed-type.fts-social-icon-wrap-active:hover svg {

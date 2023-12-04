@@ -639,7 +639,7 @@ a.side-sup-debug-report {
     height: 20px;
     width: 20px;
     background: #FFF;
-    font: verdana;
+    font: verdana, sans-serif;
     transition: all .3s ease-in-out
 }
 

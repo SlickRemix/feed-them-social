@@ -148,7 +148,7 @@
     color: #fff;
     content: '\e600';
     display: inline-block;
-    font: 400 16px/1 SlickRemix;
+    font: 400 16px/1 SlickRemix, sans-serif;
     speak: none;
     margin: 0 8px 0 -1px;
     -webkit-font-smoothing: antialiased;

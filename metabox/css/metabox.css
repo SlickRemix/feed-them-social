@@ -2429,7 +2429,7 @@ svg.fts-info-icon:hover {
 .updatefrombottom a.button-totop:before {
     content: "";
     -webkit-font-smoothing: antialiased;
-    font: 400 12px/1 dashicons;
+    font: 400 12px/1 dashicons, sans-serif;
     vertical-align: middle;
     display: inline-block;
     position: relative;

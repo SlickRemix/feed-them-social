@@ -1254,7 +1254,7 @@ h1.plugin-author-note {
 }
 
 .fts-success:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlick, monospace  !important;;
     content: ""!important;
     font-size: 14px;
     position: relative;
@@ -1366,7 +1366,7 @@ h1.plugin-author-note {
 .fts-fb-icon:before,.fts-insta-icon:before {
     padding-right: 5px;
     position: relative;
-    font-family: FontAwesomeSlick!important
+    font-family: FontAwesomeSlick, monospace  !important;
 }
 
 .fts-fb-icon:before {
@@ -1804,12 +1804,12 @@ div#uploaderSection div.drag-drop-inside {
 }
 
 .ft-gallery-force-delete-img-ajax:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlick, monospace  !important;;
     content: ""!important
 }
 
 .ft-gallery-edit-img-popup:before,.ft-gallery-remove-img-ajax:before {
-    font-family: FontAwesomeSlick!important
+    font-family: FontAwesomeSlick, monospace  !important;
 }
 
 .ft-gallery-remove-img-ajax:before {
@@ -1823,7 +1823,7 @@ div#uploaderSection div.drag-drop-inside {
 }
 
 .fts_create_woo_prod_button:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlick, monospace  !important;;
     content: ""!important;
     margin-right: 4px;
     margin-left: 1px
@@ -2122,17 +2122,17 @@ h3.sectioned-options-title {
 }
 
 .ft-download-selection:before,.ft-gallery-download-gallery:before,.ft-gallery-file-name a:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlick, monospace  !important;;
     content: ""!important;
     margin-right: 8px
 }
 
 .ft-gallery-create-woo:before,.ft-gallery-file-view a:before {
-    font-family: FontAwesomeSlick!important
+    font-family: FontAwesomeSlick, monospace  !important;
 }
 
 .ft-gallery-zip-gallery:before,.ft-gallery-zip-selection:before {
-    font-family: FontAwesomeSlick!important;
+    font-family: FontAwesomeSlick, monospace  !important;;
     content: ""!important;
     margin-right: 8px
 }

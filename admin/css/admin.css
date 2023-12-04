@@ -23,7 +23,7 @@
 }
 
 #adminmenu #menu-posts-fts div.wp-menu-image:before, .feed_them_social-choose-gallery span:before {
-    font-family: SlickRemix !important;
+    font-family: SlickRemix, monospace  !important;
     content: "\e600";
     line-height: 1.2em;
     font-size: 1.2em !important

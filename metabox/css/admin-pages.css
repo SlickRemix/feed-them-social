@@ -2500,7 +2500,7 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
 }
 
 .fts_page_fts-license-page h2:before, .fts_page_fts-system-info-submenu-page h2:before {
-    font-family: SlickRemix !important;
+    font-family: SlickRemix, monospace  !important;
     content: "\e600";
     margin-right: 0;
     font-size: .9em !important;

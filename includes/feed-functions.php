@@ -1121,6 +1121,8 @@ class Feed_Functions {
                     echo '<div class="g-ytsubscribe" data-channel="' . esc_html( $saved_feed_options['youtube_name']  ) . '" data-layout="full" data-count="default"></div>';
                 }
 				break;
+			default:
+				break;
 		}
 	}
 

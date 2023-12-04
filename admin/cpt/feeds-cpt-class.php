@@ -608,6 +608,8 @@ class Feeds_CPT {
                     echo __( 'Not Set', 'feed-them-social' );
                 }
                 break;
+            default:
+                break;
         }
     }
 
@@ -638,6 +640,8 @@ class Feeds_CPT {
                     break;
                 case 'Edit Payment':
                     $translated_text = esc_html__( 'Edit Feed', 'feed_them_social' );
+                    break;
+                default:
                     break;
             }
         }

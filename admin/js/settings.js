@@ -1,5 +1,5 @@
 jQuery(document).ready(function ($) {
-    var ftg_date_format = $('.fts_date_time_format');
+    const ftg_date_format = $('.fts_date_time_format');
     if ( ftg_date_format.length > 0 )  {
         $( document.body ).on('change', $('.fts_date_time_format'), function()	{
             if ( 'one-day-ago' === $('.fts_date_time_format').val() ) {

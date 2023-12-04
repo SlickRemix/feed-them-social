@@ -143,7 +143,6 @@ a:focus {
     cursor: pointer;
     float: left;
     font-size: 12px;
-    -webkit-transition: background 2s;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     -o-transition: all .3s ease-in-out;
@@ -167,7 +166,6 @@ a:focus {
 
 .side-sup-settings-admin-input-example a, .side-sup-video-admin-wrap a {
     cursor: pointer;
-    -webkit-transition: background 2s;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     -o-transition: all .3s ease-in-out;
@@ -371,14 +369,12 @@ a:focus {
     float: left;
     display: block;
     clear: both;
-    -webkit-transition: background 2s;
     -webkit-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out
 }
 
 .buy-extensions-btn:hover, .side-sup-settings-admin-submit-btn:hover, .upload_image_button:hover, a.im-done:hover {
     background: #919191 !important;
-    -webkit-transition: background 2s;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     -o-transition: all .3s ease-in-out;
@@ -389,7 +385,6 @@ a:focus {
 .side-sup-settings-admin-submit-btn {
     padding: 10px 35px;
     float: left;
-    -webkit-transition: background 2s;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     -o-transition: all .3s ease-in-out;
@@ -452,7 +447,6 @@ a:focus {
 .side-sup-help-admin-wrap a {
     text-decoration: none;
     cursor: pointer !important;
-    -webkit-transition: background 2s;
     -webkit-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out
 }
@@ -637,7 +631,7 @@ a.side-sup-debug-report {
 }
 
 .side-sup-settings-toggle:before {
-    font-family: arial
+    font-family: arial, sans-serif;
 }
 
 .view-all-custom {

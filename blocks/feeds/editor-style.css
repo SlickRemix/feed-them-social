@@ -7,6 +7,6 @@
 }
 
 .dashicons-feed-them-social::before {
-    font-family: SlickRemix !important;
+    font-family: SlickRemix, monospace  !important;
     content: "\e600";
 }

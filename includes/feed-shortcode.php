@@ -336,6 +336,8 @@ class Feed_Shortcode {
                         echo $this->combined_streams->display_combined_streams( $feed_post_id );
                     }
 					break;
+                default:
+                    break;
 			}
 		}
 	}

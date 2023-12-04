@@ -1169,6 +1169,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
             case 'normal':
             case 'album':
                 echo '<div class="fts-fb-location">' . esc_html( $location ) . '</div>';
+            break;
+            default:
+                break;
         }
     }
 
@@ -1205,6 +1208,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 break;
             case 'reviews':
                 $fts_view_fb_link = 'https://www.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/reviews/';
+                break;
+            default:
                 break;
         }
 
@@ -1676,6 +1681,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                         echo '<div class="fb-social-btn-bottom ' . esc_attr( $like_option_align_final ) . '">';
                         $this->feed_functions->social_follow_button( 'facebook', $saved_feed_options['fts_facebook_custom_api_token_user_id'],  $saved_feed_options );
                         echo '</div>';
+                        break;
+                    default:
                         break;
                 }
             }

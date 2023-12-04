@@ -1,11 +1,11 @@
 ( function ( blocks, blockEditor, element ) {
 
     const { __ } = wp.i18n;
-    var AlignmentToolbar = blockEditor.AlignmentToolbar;
-    var BlockControls = blockEditor.BlockControls;
-    var useBlockProps = blockEditor.useBlockProps;
+    const AlignmentToolbar = blockEditor.AlignmentToolbar;
+    const BlockControls = blockEditor.BlockControls;
+    const useBlockProps = blockEditor.useBlockProps;
 
-    var el = element.createElement;
+    const el = element.createElement;
 
     blocks.registerBlockType( 'feed-them-social/feeds', {
 
@@ -19,82 +19,38 @@
             },
         },
 
-        /**
-         * Displays block content for the editor mode
-         *
-         * @since 4.0.7
-         *
-         * @param {object} props
-         * @returns Element-Object
-         */
         edit: function ( props ) {
 
-            var value = props.attributes.feed;
-            var alignment = props.attributes.alignment;
+            let value = props.attributes.feed;
+            let alignment = props.attributes.alignment;
 
-            /**
-             * Handles feed select changes.
-             *
-             * @since 4.0.7
-             *
-             * @param {String} value
-             * @param {Object} event
-             */
             function onChangeContent( value, event ) {
-
-                props.setAttributes(
-                    {
-                        feed: value
-                    }
-                )
+                props.setAttributes({ feed: value })
             }
 
-            /**
-             * Handles block alignment changes
-             *
-             * @since 4.0.7
-             *
-             * @param {String} newAlignment
-             */
             function onChangeAlignment( newAlignment ) {
-                props.setAttributes( {
-                    alignment:
-                        newAlignment === undefined ? 'none' : newAlignment,
-                } );
+                props.setAttributes({
+                    alignment: newAlignment === undefined ? 'none' : newAlignment,
+                });
             }
 
             const userFeeds = feedThemSocialBlockFeeds;
 
             let feedElement = null;
             if ( 0 === userFeeds.length ) {
-
                 feedElement = el(
                     'div',
-                    {
-                        style: { textAlign: alignment },
-                    },
+                    { style: { textAlign: alignment } },
                     __( 'No Feeds found.', 'feed-them-social' )
                 );
-
             } else {
-
                 let options = [
-                    {
-                        value: '',
-                        label: __( 'Select a Feed', 'feed-them-social' )
-                    }
+                    { value: '', label: __( 'Select a Feed', 'feed-them-social' ) }
                 ];
 
-                userFeeds.forEach(
-                    feed => {
-                        options.push(
-                            {
-                                label: feed.Feed,
-                                value: feed.ID
-                            }
-                        );
-                    }
-                );
+                userFeeds.forEach(feed => {
+                    options.push({ label: feed.Feed, value: feed.ID });
+                });
 
                 feedElement = el(
                     wp.components.SelectControl,
@@ -106,7 +62,6 @@
                         onChange: onChangeContent
                     }
                 )
-
             }
 
             return el(
@@ -124,15 +79,6 @@
             );
         },
 
-        /**
-         * Display the rendered block content
-         *
-         * This is a dynamic block. The block content is rendered on the server side.
-         * This means that this function must return null.
-         *
-         * @param {object} props
-         * @returns null
-         */
         save: function ( props ) {
             return null;
         }

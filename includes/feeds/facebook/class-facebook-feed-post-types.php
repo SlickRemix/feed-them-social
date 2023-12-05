@@ -765,6 +765,7 @@ class Facebook_Feed_Post_Types {
 		$facebook_post_name              = $facebook_post->name ?? '';
 		$facebook_post_caption           = $facebook_post->attachments->data[0]->caption ?? '';
 		$facebook_post_description       = $facebook_post->attachments->data[0]->description ?? '';
+        $facebook_post_title             = $facebook_post->data[0]->title ?? '';
 		$facebook_post_link_event_name   = $facebook_post->to->data[0]->name ?? '';
 		$facebook_post_story             = $facebook_post->story ?? '';
 		$facebook_post_icon              = $facebook_post->icon ?? '';
@@ -1240,6 +1241,7 @@ class Facebook_Feed_Post_Types {
 		switch ( $facebook_post_type ) {
 			// START NOTE POST.
 			case 'knowledge_note':
+            case 'messenger_generic_template':
 				// && !$facebook_post_picture == '' makes it so the attachment unavailable message does not show up.
 				// if (!$facebook_post_picture && !$facebook_post_name && !$facebook_post_description && !$facebook_post_picture == '') {.
 				echo '<div class="fts-jal-fb-link-wrap">';

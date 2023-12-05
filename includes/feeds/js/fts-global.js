@@ -194,11 +194,12 @@ function slickremixImageResizingFacebook() {
     if (ftsInstagramColumns === '2' ||
         ftsInstagramColumns === '3') {
 
+        let og_size;
         if (ftsInstagramColumns === '3') {
-            let og_size = 'calc(33.0777777% - ' + ftsInstagramMarginfinal + 'px)';
+             og_size = 'calc(33.0777777% - ' + ftsInstagramMarginfinal + 'px)';
         }
         else if (ftsInstagramColumns === '2') {
-            let og_size = 'calc(49.777777% - ' + ftsInstagramMarginfinal + 'px)';
+             og_size = 'calc(49.777777% - ' + ftsInstagramMarginfinal + 'px)';
         }
 
 

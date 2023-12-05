@@ -695,7 +695,7 @@
                 "max-width": "100%",
                 width: "100%"
             }), jQuery(".mfp-iframe-scaler").css("padding-top", "56.0%"), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-half").height()))
-        }, 10)
+        }, 100)
     }), jQuery.fn.slickFacebookPopUpFunction = function() {
         jQuery(".popup-gallery-fb-posts, .popup-gallery-fb, .popup-video-gallery-fb").each(function() {
             var e = jQuery(this).find("a.fts-facebook-link-target, a.fts-fb-large-photo, a.fts-view-album-photos-large, a.fts-view-fb-videos-large, a.fts-view-fb-videos-btn, a.fts-jal-fb-vid-html5video"),
@@ -757,7 +757,7 @@
                                 jQuery(".fts-fb-vid-popup video").attr("poster", t), console.log(t)
                             }
                             jQuery("body").addClass("fts-using-arrows")
-                        }, 10)
+                        }, 100)
                     },
                     change: function() {
                         ftsShare(), jQuery(window).trigger("resize"), console.log("Content changed"), jQuery("body").hasClass("fts-using-arrows")

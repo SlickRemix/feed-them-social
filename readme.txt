@@ -118,7 +118,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.1 Thursday, December 6th, 2023 =
+= Version 4.2.1 Thursday, December 7th, 2023 =
   * NOTE: Works with WordPress version 6.4.2
 
 = Version 4.2.0 Tuesday, December 5th, 2023 =

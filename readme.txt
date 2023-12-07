@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.4.1
-Stable tag: 4.2.0
+Tested up to: 6.4.2
+Stable tag: 4.2.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -118,6 +118,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.2.1 Thursday, December 6th, 2023 =
+  * NOTE: Works with WordPress version 6.4.2
+
 = Version 4.2.0 Tuesday, December 5th, 2023 =
   * NEW: Facebook: Case type messenger_generic_template added. This allows shared posts from Instagram to appear with photo.
   * NEW: Facebook: Albums Feed: Now you can add a since date which allows you to pull in newer albums if you have a large collection.

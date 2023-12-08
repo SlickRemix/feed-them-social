@@ -317,7 +317,7 @@ class Activate_Plugin {
 				require_once ABSPATH . WPINC . '/pluggable.php';
 			}
 
-			if ( ! current_user_can( 'manage_options' ) ) {
+			if ( ! current_user_can( 'manage_options' ) || !isset( $_REQUEST['_wpnonce'] ) || false === wp_verify_nonce( $_REQUEST['_wpnonce'], 'ignore_rating_notice_nag' ) ) {
 				wp_die(
 					__( 'Missing capability', 'feed-them-social' ),
 					__( 'Forbidden', 'feed-them-social' ),
@@ -407,6 +407,9 @@ class Activate_Plugin {
             /* Has the user already clicked to ignore the message? */
 
             if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' )  && ! isset( $_GET['fts_slick_ignore_rating_notice_nag'] ) ) {
+				
+				$ignore_rating_notice_nag_nonce = wp_create_nonce( 'ignore_rating_notice_nag' );
+				
 				?>
 				<div class="ftg_notice ftg_review_notice">
 					<img src="<?php echo esc_url( plugins_url( 'feed-them-social/admin/images/feed-them-social-logo.png' ) ); ?>" alt="Feed Them Social">
@@ -414,10 +417,10 @@ class Activate_Plugin {
 						<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed-them-social' ); ?></p>
 						<p class="fts-links">
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Sure, I\'d love to', 'feed-them-social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', 'later' ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed-them-social' ); ?> </a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag' => '1', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag' => 'later', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed-them-social' ); ?> </a>
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Not working, I need support', 'feed-them-social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( 'fts_slick_ignore_rating_notice_nag', '1' ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed-them-social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag' => '1', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed-them-social' ); ?></a>
 						</p>
 
 					</div>

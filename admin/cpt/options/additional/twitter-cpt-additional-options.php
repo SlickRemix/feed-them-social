@@ -35,7 +35,8 @@ class Twitter_Additional_Options {
 	 */
 	public function __construct() {
 		$this->follow_btn_options();
-		$this->video_player_options();
+        $this->language_options();
+		// $this->video_player_options();
 		$this->profile_photo_options();
 		$this->style_options();
 		$this->grid_style_options();
@@ -161,6 +162,48 @@ class Twitter_Additional_Options {
 		return $this->all_options['twitter_follow_btn_options'];
 	} //END Twitter Follow Button Options.
 
+    /**
+     * Twitter Video Player Options
+     *
+     * Options for Video Player.
+     *
+     * @return mixed
+     * @since 1.0.0
+     */
+    public function language_options() {
+        $this->all_options['twitter_language_options'] = array(
+            'section_attr_key'   => 'twitter_language_options_',
+            //section_title'      => esc_html__( 'Video Player Options', 'feed-them-social' ),
+            'section_wrap_id' => 'fts-tab-content1',
+            'section_wrap_class' => 'fts-tab-content',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form',
+            'form_wrap_id'       => 'fts-fb-page-form',
+            //Options Wrap Class
+            'options_wrap_class'       => 'fts-cpt-additional-options',
+
+
+            'main_options'       => array(
+
+                // Show Follow Button.
+                array(
+                    'input_wrap_class' => 'tiktok_language',
+                    'grouped_options_title' => __( 'Language Options', 'feed-them-social' ),
+                    'input_wrap_class' => 'tiktok_view_on_tiktok_fts',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'View on TikTok', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'tiktok_view_on_tiktok',
+                    'name'             => 'tiktok_view_on_tiktok',
+                    'placeholder'      => 'View on TikTok',
+                    'default_value'    => esc_html__( 'View on TikTok', 'feed-them-social' ),
+                ),
+            ),
+        );
+
+        return $this->all_options['twitter_language_options'];
+    } //END Twitter Language Options
+
 	/**
 	 * Twitter Video Player Options
 	 *
@@ -285,7 +328,7 @@ class Twitter_Additional_Options {
 			'main_options'       => array(
 
 				// Hide Images in Posts.
-				array(
+				/*array(
 					'input_wrap_class' => 'twitter_hide_images_in_posts',
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Hide Images in Posts', 'feed-them-social' ),
@@ -316,7 +359,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_max_image_width',
 					'placeholder'      => '500px',
 					'default_value'    => '',
-				),
+				),*/
 
 				// Feed Description Text Size
 				array(
@@ -558,11 +601,11 @@ class Twitter_Additional_Options {
 				array(
 					'input_wrap_class' => 'twitter_load_more_text',
 					'option_type'      => 'input',
-					'label'            => esc_html__( '"No More Tweets" Text', 'feed-them-social' ),
+					'label'            => esc_html__( '"No More Videos" Text', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'twitter_no_more_tweets_text',
 					'name'             => 'twitter_no_more_tweets_text',
-					'placeholder'      => 'No More Tweets',
+					'placeholder'      => 'No More Videos',
 					'default_value'    => '',
                     'req_extensions'  => array('feed_them_social_premium'),
 				),

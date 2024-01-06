@@ -276,7 +276,7 @@ class Metabox_Functions {
 			wp_enqueue_script( 'slick-metabox-tabs' );
 
             // Shortcode preview specific scripts
-            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
+            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
 
             // Register Premium Styles & Scripts.
             if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
@@ -729,7 +729,7 @@ class Metabox_Functions {
                             case 'fts_instagram_custom_api_token':
                             case 'fts_facebook_instagram_custom_api_token':
                             case 'fts_facebook_custom_api_token':
-                            case 'fts_twitter_custom_access_token':
+                            case 'fts_tiktok_access_token':
                             case 'youtube_custom_api_token':
                             case 'youtube_custom_access_token':
                                 $check_encrypted = false !== $this->data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
@@ -801,39 +801,39 @@ class Metabox_Functions {
                                 break;
 
                             // Select Option Specific to the Facebook Language Option
-                            case 'select_fb_language':
+							case 'select_fb_language':
 
-                                $output .= sprintf(
-                                // Any changes to fields here must be added to list of wp_kses list on output return below.
-                                    '<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
-                                    $disabled,
-                                    $option_name,
-                                    $option_id,
-                                    isset( $option['class'] ) ? ' ' . $option['class'] : '',
-                                    isset( $multiple ) ? $multiple : ''
-                                );
+								$output .= sprintf(
+								// Any changes to fields here must be added to list of wp_kses list on output return below.
+									'<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
+									$disabled,
+									$option_name,
+									$option_id,
+									isset( $option['class'] ) ? ' ' . $option['class'] : '',
+									isset( $multiple ) ? $multiple : ''
+								);
 
-                                $lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
-
-
-                                if ( !empty( $lang_options_array->locale ) ) {
-
-                                    $i = 0;
-                                    foreach ( $lang_options_array->locale as $language ) {
-
-                                        $selected = '';
-
-                                        // $selected = ' selected="'.$language->codes->code->standard->representation .'"';
-                                        if ( !empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
-                                            $selected = ' selected="selected"';
-                                        }
-
-                                        $output .= '<option ' . $selected . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
+								$lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
 
 
-                                        $i++;
-                                    }
-                                }
+								if ( !empty( $lang_options_array->locale ) ) {
+
+									$i = 0;
+									foreach ( $lang_options_array->locale as $language ) {
+
+										$selected = '';
+
+										// $selected = ' selected="'.$language->codes->code->standard->representation .'"';
+										if ( !empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
+											$selected = ' selected="selected"';
+										}
+
+										$output .= '<option ' . $selected . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
+
+
+										$i++;
+									}
+								}
 
 
                                 /*$i = 0;
@@ -1075,7 +1075,7 @@ class Metabox_Functions {
         // Testing
 		//error_log( print_r( $_POST, true ) );
 		//$this->options_functions->delete_options_array( $this->array_options_name, true, $cpt_id);
-		//$this->options_functions->update_single_option( $this->array_options_name, 'feed_type', 'instagram-feed-type', true, $cpt_id );
+		//$this->options_functions->update_single_option( $this->array_options_name, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
 
         //Merge Additional Options.
 

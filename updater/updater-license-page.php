@@ -5,7 +5,7 @@
  * Update License Page handles the License keys activation and deactivation process. This page is also used to show the paid extensions available for FTS.
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2023, SlickRemix
+ * @copyright   Copyright (c) 2012-2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */

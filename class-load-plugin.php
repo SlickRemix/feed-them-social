@@ -119,21 +119,24 @@ class Feed_Them_Social {
 		$instagram_feed = new feedthemsocial\Instagram_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
 		// Twitter Feed.
-		$twitter_feed = new feedthemsocial\Twitter_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
+		// $twitter_feed = new feedthemsocial\Twitter_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
-		// YouTube Feed.
+        // Twitter Feed.
+        $tiktok_feed = new feedthemsocial\Tiktok_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
+
+        // YouTube Feed.
 		$youtube_feed = new feedthemsocial\Youtube_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
 		// Check if Extension is active if so call class.
 		if( $feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
 			// Display Combined Streams Feed.
-			$combined_streams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feed_functions, $feed_cache, $access_options, $facebook_feed, $facebook_post_types, $instagram_feed, $twitter_feed, $youtube_feed );
+			$combined_streams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feed_functions, $feed_cache, $access_options, $facebook_feed, $facebook_post_types, $instagram_feed, $tiktok_feed, $youtube_feed );
 		}
         else {
             $combined_streams = '';
         }
 			// Feed Display.
-		new feedthemsocial\Feed_Shortcode( $settings_functions, $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams );
+		new feedthemsocial\Feed_Shortcode( $settings_functions, $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $tiktok_feed, $youtube_feed, $combined_streams );
 
         // Shorten words in Posts.
         new FeedThemSocialTruncateHTML();
@@ -149,6 +152,9 @@ class Feed_Them_Social {
 
 		// Block Init
 		new feedthemsocial\BlockLoader();
+
+        // Cron Jobs
+        new feedthemsocial\Cron_Jobs( $feed_functions, $options_functions );
 	}
 
 	/**
@@ -354,11 +360,14 @@ class Feed_Them_Social {
 		// Instagram Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/instagram/class-instagram-feed.php';
 
-        // Twitter OAuth.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
+        // Twitter OAuth. Turned off Because of Twitter API Changes.
+        // include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/twitteroauth/twitteroauth.php';
 
-		// Twitter Feed.
-		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-twitter-feed.php';
+		// Twitter Feed. Turned off Because of Twitter API Changes.
+		// include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/twitter/class-twitter-feed.php';
+
+        // TikTok Feed.
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/tiktok/class-tiktok-feed.php';
 
 		// YouTube Feed.
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/youtube/class-youtube-feed.php';
@@ -383,6 +392,8 @@ class Feed_Them_Social {
 		// Feed Block
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'blocks/block-loader.php';
 
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/cron-jobs/cron-jobs.php';
+
         // Beaver Builder Module
         if (class_exists('FLBuilder')) {
             include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/beaver-builder/includes/module.php';
@@ -392,6 +403,8 @@ class Feed_Them_Social {
         if ( did_action( 'elementor/loaded' ) ) {
             include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/elementor/includes/module.php';
         }
+
+
 	}
 
 }

@@ -24,11 +24,19 @@
 .clear,.fts-clear,.fts-jal-fb-group-display,.fts-jal-fb-header,.fts-twitter-div,.fts-twitter-no-margin-left {
     clear: both
 }
+.fts-clear {
+    margin:0
+}
 
 @font-face {
-    font-family: FontAwesomeSlickFeed;
-    src: url(../css/font/fontawesome-webfont.eot?v=3.2.1);
-    src: url(../css/font/fontawesome-webfont.eot?#iefix&v=3.2.1) format("embedded-opentype"),url(../css/font/fontawesome-webfont.woff?v=3.2.1) format("woff"),url(../css/font/fontawesome-webfont.ttf?v=3.2.1) format("truetype"),url(../css/font/fontawesome-webfont.svg#fontawesomeregular?v=3.2.1) format("svg")
+    font-family: 'FontAwesomeSlickFeed';
+    src: url("../css/font/fa-light-300.woff2?v=6.5.1") format("woff2"), /* Super Modern Browsers */
+    url("../css/font/fa-light-300.ttf?v=6.5.1") format("truetype"); /* Older Browsers */
+}
+@font-face {
+    font-family: 'FontAwesomeSlick';
+    src: url("../../../metabox/css/font/fa-brands-400.woff2?v=6.5.1") format("woff2"), /* Super Modern Browsers */
+    url("../../../metabox/css/font/fa-brands-400.ttf?v=6.5.1") format("truetype"); /* Older Browsers */
 }
 
 pre {
@@ -38,7 +46,27 @@ pre {
     white-space: -o-pre-wrap;
     word-wrap: break-word
 }
+.fts-tiktok-social-counts span:before {
+    font-family: FontAwesomeSlickFeed, monospace ;
+    font-size:15px;
+    display: inline-block;
+    padding-right: 3px;
+    position:relative;
+    top:1px;
+}
 
+.fts-tiktok-social-counts .fts-tiktok-views-count:before {
+    /* content: "\f06e "; */
+    content: '\f04b';
+}
+
+.fts-tiktok-social-counts .fts-tiktok-like-count:before {
+    content: "\f004 ";
+}
+
+.fts-tiktok-social-counts .fts-tiktok-comment-count:before {
+    content: "\f4ad ";
+}
 .fts-twitter-text {
     padding: 8px 0 0;
     display: block;
@@ -72,7 +100,7 @@ pre {
 }
 
 img.fts-twitter-description-image {
-    margin: 10px 0 0!important
+    margin: 0!important
 }
 
 .fts-twitter-favorites:before,.fts-twitter-retweet:before {
@@ -105,7 +133,7 @@ img.fts-twitter-description-image {
     font-family: proxima-nova,'Helvetica Neue',Arial,Helvetica,sans-serif!important
 }
 
-#facebook-sidebar .fts-fb-comments-wrap,.ft-text-for-popup,.fts-albums-hide-main-album-link-in-popup,.fts-child-media-hide,.fts-facebook-popup .mfp-arrow:before,.fts-fb-album-additional-pics-description-wrap,.fts-fb-comment .image-overlay-inside,.fts-iframe-popup-element,.fts-instagram-caption,.fts-instagram-fade .fts-fb-album-view-link,.fts-instagram-popup-profile-wrap,.fts-instagram-popup-second-half .fts-carousel-image,.fts-instagram-popup-second-half .fts-follow-header-wrap,.fts-jal-fb-group-display.fts-mashup-media-top .fts-jal-single-fb-post .fts-jal-fb-top-wrap,.fts-jal-fb-vid-picture .fts-fluid-videoWrapper-html5,.fts-jal-single-fb-post .slicker-facebook-album-photoshadow,.fts-mashup-count-wrap .fts-twitter-reply-wrap.fts-twitter-no-margin-left,.fts-mashup-error-check .fts-mashup-image-and-video-wrap,.fts-mashup-hide-date .fts-jal-fb-post-time,.fts-mashup-hide-name .fts-jal-fb-user-name,.fts-mashup-hide-thumbnail .fts-jal-fb-user-thumb,.fts-mashup-media-top .fts-jal-fb-description-wrap,.fts-mashup-media-top .fts-mashup-type-icon-spacer,.fts-popup-wrap .fts-fb-album-name-and-count,.fts-show-media-text,.fts-slicker-facebook-albums .fts-fb-load-more-output,.fts-slicker-facebook-albums .fts-share-wrap,.fts-slicker-facebook-photos .fts-jal-fb-user-thumb,.fts-slicker-facebook-photos .fts-share-wrap,.fts-twitter-caption,.fts-twitter-reply-wrap .fts-share-wrap a:before,.fts-twitter-reply-wrap-left p,.fts-vid-div .fts-jal-fb-vid-play-btn,.fts-vid-div img,.fts-video-popup-element,.fts-video-wrapper-padding,.fts-yt-vids-in-row1 .fts-yt-videolist ul li:first-child,.fts-yt-vids-in-row1 li .entriestitle,.mfp-title .fts-master-youtube-wrap-close,.page-id-6026 #main-header,.slicker-youtube-placeholder .entriestitle,a.fts-close-media,blockquote.twitter-video,body div.fts-mashup-hide-fb-thumbnail-icon .fts-jal-fb-user-thumb a:before {
+#facebook-sidebar .fts-fb-comments-wrap,.ft-text-for-popup,.fts-albums-hide-main-album-link-in-popup,.fts-child-media-hide,.fts-facebook-popup .mfp-arrow:before,.fts-fb-album-additional-pics-description-wrap,.fts-fb-comment .image-overlay-inside,.fts-iframe-popup-element,.fts-instagram-caption,.fts-instagram-fade .fts-fb-album-view-link,.fts-instagram-popup-profile-wrap,.fts-instagram-popup-second-half .fts-carousel-image,.fts-instagram-popup-second-half .fts-follow-header-wrap,.fts-jal-fb-group-display.fts-mashup-media-top .fts-jal-single-fb-post .fts-jal-fb-top-wrap,.fts-jal-fb-vid-picture .fts-fluid-videoWrapper-html5,.fts-jal-single-fb-post .slicker-facebook-album-photoshadow,.fts-mashup-count-wrap .fts-twitter-reply-wrap.fts-twitter-no-margin-left,.fts-mashup-error-check .fts-mashup-image-and-video-wrap,.fts-mashup-hide-date .fts-jal-fb-post-time,.fts-mashup-hide-name .fts-jal-fb-user-name,.fts-mashup-hide-thumbnail .fts-jal-fb-user-thumb,.fts-mashup-media-top .fts-jal-fb-description-wrap,.fts-mashup-media-top .fts-mashup-type-icon-spacer,.fts-popup-wrap .fts-fb-album-name-and-count,.fts-show-media-text,.fts-slicker-facebook-albums .fts-fb-load-more-output,.fts-slicker-facebook-albums .fts-share-wrap,.fts-slicker-facebook-photos .fts-jal-fb-user-thumb,.fts-slicker-facebook-photos .fts-share-wrap,.fts-twitter-caption,.fts-twitter-reply-wrap-left p,.fts-vid-div .fts-jal-fb-vid-play-btn,.fts-vid-div img,.fts-video-popup-element,.fts-video-wrapper-padding,.fts-yt-vids-in-row1 .fts-yt-videolist ul li:first-child,.fts-yt-vids-in-row1 li .entriestitle,.mfp-title .fts-master-youtube-wrap-close,.page-id-6026 #main-header,.slicker-youtube-placeholder .entriestitle,a.fts-close-media,blockquote.twitter-video,body div.fts-mashup-hide-fb-thumbnail-icon .fts-jal-fb-user-thumb a:before {
     display: none
 }
 
@@ -150,10 +178,64 @@ img.fts-twitter-description-image {
     font-size: 12px!important
 }
 
-.fts-twitter-div img {
-    margin: 0 10px 0 0
+.fts-tiktok-bio-profile-wrap {
+    margin:auto !important
 }
-
+.fts-twitter-div img {
+    margin: 0 10px 0 0;
+}
+.fts-twitter-username img {
+    max-width:50px !important;
+}
+.fts-tiktok-bio-profile-pic .fts-twitter-username {
+    margin-right:10px;
+}
+.fts-tiktok-bio-profile-pic .fts-twitter-username img {
+    max-width:100px !important;
+    border-radius:100px !important;
+}
+.tiktok-bio-names-follow-wrap {
+    display:inline-block;
+    padding-top:2px;
+    margin-top:0;
+}
+.fts-tiktok-bio-nicename, .fts-tiktok-bio-username {
+    font-size:15px;
+    line-height: normal;
+}
+.fts-tiktok-bio-nicename a, .fts-tiktok-bio-username a {
+    text-decoration:none;
+}
+.fts-tiktok-bio-nicename a {
+    color:#000
+}
+.fts-tiktok-bio-username a {
+    color:#66757f
+}
+.fts-tiktok-bio-nicename{
+    font-size:20px;
+    font-weight:bold;
+    line-height: normal;
+    margin: 2px 4px 2px 0;
+}
+.fts-tiktok-bio-follow-button {
+    border-radius:4px;
+    background:#fe2c55;
+    display:inline-block;
+    max-width:200px;
+    font-size:17px;
+    margin:10px 0 0;
+    padding:5px 20px;
+    line-height: 1.5em;
+}
+.fts-tiktok-bio-follow-button a {
+    text-decoration:none;
+    color: #fff !important;
+    font-weight:600 !important;
+}
+.fts-tiktok-bio-follow-button a:hover {
+    opacity:.85;
+}
 .fts-twitter-div .fts-uppercase {
     margin: 0 5px 0 0;
     font-size: 13px;
@@ -182,7 +264,10 @@ img.fts-twitter-description-image {
     float: none!important;
     padding: 5px 0 0
 }
-
+.tweeter-info a.fts-tiktok-image {
+    display:block;
+    margin-top: 10px;
+}
 .fts-twitter-fade {
     display: none;
     width: 321px;
@@ -196,7 +281,9 @@ img.fts-twitter-description-image {
     margin: 0;
     float: left
 }
-
+.fts-twitter-text a {
+    text-decoration:none !important
+}
 .tweeter-info {
     padding: 11px;
     background: #eee;
@@ -254,9 +341,11 @@ a.fts-powered-by-text {
     font-size: 12px;
     text-align: right
 }
-
+.fts-tweeter-wrap {
+    margin-bottom:15px;
+}
 .fts-tweeter-wrap .tweeter-info {
-    padding: 14px 0 8px;
+    padding: 0 0 10px;
     background: 0 0;
     box-shadow: 0 0 0 #555;
     border-bottom: 1px solid #eee;
@@ -303,7 +392,6 @@ a.fts-powered-by-text {
 .fts-twitter-reply-wrap {
     font-size: 16px;
     margin-right: 0;
-    margin-top: 5px;
     font-style: normal!important
 }
 
@@ -320,7 +408,10 @@ a.fts-powered-by-text {
 .fts-video-show-hide-btns-wrap {
     margin: 7px 0 0!important
 }
-
+.fts-twitter-full-name {
+    display:block;
+    margin-bottom:3px;
+}
 .fts-instagram-styles-popup .ft-gallery-link-popup,.fts-instagram-styles-popup .fts-share-wrap,.fts-twitter-load-video-wrapper,.fts-yt-videolist ul,.fts-yt-vids-in-row1 ul li,a.fts-twitter-load-video-wrapper {
     margin: 0!important;
     padding: 0!important
@@ -336,21 +427,21 @@ a.fts-powered-by-text {
 
 .fts-jal-fb-see-more .icon-thumbs-up:before {
     content: "\f164"!important;
-    font-size: 14px
+    font-size: 15px
 }
 
 .fts-jal-fb-see-more .icon-comments:before {
     content: "\f086"!important;
     top: 0;
     position: relative;
-    font-size: 14px
+    font-size: 15px
 }
 
 .fts-jal-fb-see-more .icon-file:before {
     content: "\f064"!important;
-    top: 2px!important;
+    top: 0px!important;
     position: relative;
-    font-size: 14px
+    font-size: 15px
 }
 
 .fts-events-list-wrap .icon-map-marker [class^=icon-thumbs-up],.fts-jal-fb-see-more [class*=" icon--file"],.fts-jal-fb-see-more [class*=" icon--thumbs-up"],.fts-jal-fb-see-more [class^=icon-comments],.fts-jal-fb-see-more [class^=icon-file],.fts-jal-fb-see-more [class^=icon-thumbs-up] {
@@ -392,7 +483,7 @@ a.fts-powered-by-text {
 }
 
 .no-more-posts-fts-fb {
-    cursor: auto;
+    cursor: auto !important;
     margin: 10px 0
 }
 
@@ -644,9 +735,11 @@ a.fts-powered-by-text {
     font-size: 12px;
     width: 100%;
     text-align: right;
-    font-style: normal!important
+    font-style: normal!important;
 }
-
+.fts-tiktok-social-counts-wrap a {
+    margin-top:15px;
+}
 .fts-fb-large-photo {
     margin-right: 0!important;
     font-weight: inherit
@@ -1473,6 +1566,7 @@ a.fts-slicker-backg {
 }
 
 .slicker-instagram-placeholder .fts-instagram-icon:before {
+    font-family: FontAwesomeSlick, monospace !important;
     content: "\f16d";
     font-size: 100%;
     display: inline-block;
@@ -1516,7 +1610,7 @@ a.fts-slicker-backg {
     filter: FlipH;
     -ms-filter: FlipH;
     position: relative;
-    top: -1px;
+    top: 0px;
     right: -4px
 }
 
@@ -1574,7 +1668,7 @@ a.fts-slicker-backg {
     font-size: 13px
 }
 
-.fts-facebook-thumb-two,.fts-fb-get-directions,.fts-fb-ticket-info,.fts-see-on-instagram div:before,.fts-tweet-others-right a,.fts-twitter-image-visible {
+.fts-facebook-thumb-two,.fts-fb-get-directions,.fts-fb-ticket-info,.fts-see-on-instagram div:before,.fts-tiktok-social-counts-wrap a,.fts-twitter-image-visible {
     display: inline-block
 }
 
@@ -3047,10 +3141,6 @@ body .fts-yt-overlay-wrap.fts-yt-target {
     height: 24px!important
 }
 
-.twitter-followers-fts.fts-tweets-first,.twitter-followers-fts:hover {
-    border-bottom: 4px solid #1b95e0!important
-}
-
 .fts-facebook-popup .mfp-arrow-left {
     left: 5px!important
 }
@@ -3172,9 +3262,9 @@ body .fts-facebook-popup a.fts-powered-by-text {
 }
 
 @media all and (max-width: 900px) {
-    .fts-facebook-styles-popup .fts-popup-half,.fts-facebook-styles-popup .fts-popup-second-half {
+    .fts-facebook-styles-popup .fts-popup-half,.fts-facebook-styles-popup .fts-popup-second-half, .fts-tiktok-popup .fts-popup-second-half {
         height:100%;
-        width: 100%;
+        width: 100% !important;
         position: relative;
         float: none
     }
@@ -3344,31 +3434,38 @@ body .fts-facebook-popup a.fts-powered-by-text {
 }
 
 .fts-twitter-followers-wrap {
+    clear:both;
     background: #fff;
-    padding: 1px 5px 0 0;
-    margin: 0 auto 10px!important;
-    text-align: center;
-    color: #1b95e0!important
+    padding: 8px 5px 0 5px;
+    margin: 0 0 4px!important;
+    text-align: left;
+    line-height: 1.2em;
+}
+
+.twitter-followers-fts span{
+    font-size: 17px;
+    display:inline-block;
+    padding-right:6px;
+    font-weight:bold;
+    color: #000;
 }
 
 .twitter-followers-fts {
     text-align: center;
     display: inline-block;
-    padding: 5px 15px;
-    font-size: 18px;
+    padding: 5px 20px 5px 0;
+    font-size: 15px;
     font-weight: 600!important
 }
 
 .twitter-followers-fts a,.twitter-followers-fts-singular a {
     font-weight: 400!important;
     letter-spacing: .02em;
-    text-transform: uppercase
 }
 
 .twitter-followers-fts a {
-    display: block;
+    display: inline-block;
     color: #66757f!important;
-    font-size: 11px;
     transition: color .15s ease-in-out;
     text-decoration: none
 }
@@ -3377,13 +3474,8 @@ body .fts-facebook-popup a.fts-powered-by-text {
     transition: border .15s ease-in-out
 }
 
-.fts-tweets-first,.fts-tweets-first a,.twitter-followers-fts:hover a {
-    color: #1b95e0!important
-}
-
-.fts-tweet-reply-left {
-    float: left;
-    display: inline-block
+.twitter-followers-fts:hover a {
+    color: #fe2c55!important
 }
 
 body .fts-twitter-favorites-wrap:hover {
@@ -3421,7 +3513,12 @@ a.fts-twitter-at-name {
     display: inline-block;
     margin-top: 3px
 }
-
+.fts-tiktok-bio-description {
+    margin:0 0 10px 0 !important;
+    font-size: 15px;
+    border-bottom: 1px solid #cccccca1;
+    padding: 0 0 15px 5px;
+}
 .fts-profile-wrap,.fts-youtube-popup-gallery,.fts-youtube-scrollable {
     clear: both;
     display: block
@@ -3590,17 +3687,22 @@ a.fts-twitter-at-name {
     font-size: 14px
 }
 
-.fts-facebook-popup.fts-instagram-styles-popup .fts-popup-half.fts-instagram-popup-half {
+.fts-facebook-popup.fts-instagram-styles-popup .fts-popup-half.fts-instagram-popup-half, .fts-tiktok-popup .fts-popup-half  {
     width: 64%
 }
 
-.fts-facebook-popup.fts-instagram-styles-popup .fts-popup-second-half.fts-instagram-popup-second-half {
+.fts-facebook-popup.fts-instagram-styles-popup .fts-popup-second-half.fts-instagram-popup-second-half, .fts-tiktok-popup .fts-popup-second-half {
     width: 36%
+}
+
+.fts-tiktok-popup .fts-popup-image-position {
+    min-height:605px !important
 }
 
 .fts-facebook-popup.fts-instagram-styles-popup .fts-instagram-popup-half .fts-popup-image-position {
     min-height: auto!important
 }
+
 
 .fts-facebook-popup.fts-instagram-styles-popup .fts-popup-second-half .mfp-bottom-bar {
     margin: 0;
@@ -3614,7 +3716,7 @@ a.fts-twitter-at-name {
     min-height: 200px
 }
 
-.fts-facebook-popup.fts-instagram-styles-popup .mfp-iframe-holder .mfp-content,.fts-facebook-popup.fts-instagram-styles-popup .mfp-image-holder .mfp-content,.fts-facebook-popup.fts-instagram-styles-popup .mfp-inline-holder .mfp-content {
+.fts-tiktok-popup .mfp-iframe-holder .mfp-content, .fts-facebook-popup.fts-instagram-styles-popup .mfp-iframe-holder .mfp-content,.fts-facebook-popup.fts-instagram-styles-popup .mfp-image-holder .mfp-content,.fts-facebook-popup.fts-instagram-styles-popup .mfp-inline-holder .mfp-content {
     max-width: 1000px;
     width: 100%
 }
@@ -3676,7 +3778,7 @@ a.fts-twitter-at-name {
     font-size: 13px
 }
 
-.fts-mashup-count-wrap .fts-tweet-reply-left,.fts-twitter-svg-addition .fts-tweet-reply-left {
+.fts-mashup-count-wrap .fts-tiktok-comment-count,.fts-twitter-svg-addition .fts-tiktok-comment-count {
     float: none;
     display: inline-block
 }
@@ -3712,7 +3814,7 @@ a.fts-twitter-at-name {
     padding-left: 0!important
 }
 
-.fts-mashup .fts-twitter-description-image,.fts-mashup-count-wrap.fts-share-wrap .ft-gallery-link-popup,.fts-twitter-quoted-text-wrap .fts-twitter-link-image img,.fts-twitter-quoted-text-wrap img,.fts-twitter-reply-wrap .fts-share-wrap a.ft-gallery-link-popup {
+.fts-mashup .fts-twitter-description-image,.fts-mashup-count-wrap.fts-share-wrap .ft-gallery-link-popup,.fts-twitter-quoted-text-wrap .fts-tiktok-popup-open img,.fts-twitter-quoted-text-wrap img,.fts-twitter-reply-wrap .fts-share-wrap a.ft-gallery-link-popup {
     margin-top: 0!important
 }
 
@@ -3818,7 +3920,7 @@ a.fts-twitter-at-name {
     font-size: 14px;
     position: absolute;
     bottom: 10px;
-    left: 10px
+    left: 5px;
 }
 
 .ft-gallery-link-popup:before {
@@ -3927,7 +4029,7 @@ a.fts-twitter-at-name {
     margin-bottom: 20px!important
 }
 
-.fts-mashup .icon-thumbs-up:before,.fts-single-pin-social-meta-wrap,.fts-tweet-reply-left {
+.fts-mashup .icon-thumbs-up:before,.fts-single-pin-social-meta-wrap{
     margin-left: 5px!important
 }
 
@@ -3945,7 +4047,7 @@ a.fts-twitter-at-name {
 }
 
 .fts-mashup-icon-wrap-left a:before,.fts-mashup-icon-wrap-right a:before {
-    font-family: FontAwesomeSlickFeed, monospace ;
+    font-family: FontAwesomeSlick, monospace ;
     font-weight: 100!important;
     top: 12px
 }
@@ -4214,7 +4316,7 @@ body .fts-mashup .fts-mashup-hide-fb-thumbnail-icon .fts-jal-single-fb-post .fts
     position: absolute;
     left: 20px;
     background: #fff;
-    top: -8px;
+    top: -6px;
     min-width: 116px;
     box-shadow: 2px -2px 3px 0 rgba(187,187,187,.8);
     width: 100%;
@@ -4270,9 +4372,9 @@ a.fts-jal-fb-see-more .fts-count-wrap i {
     padding: 0 0 0 2px!important
 }
 
-.ft-gallery-share-wrap .fa,.fts-twitter-logo .fa {
+.ft-gallery-share-wrap .fa, .fts-tiktok-logo .fa.fa-tiktok {
     display: inline-block!important;
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlick, monospace !important;
     font-weight: 400!important;
     line-height: 1!important;
     -webkit-font-smoothing: antialiased;
@@ -4289,24 +4391,19 @@ a.fts-jal-fb-see-more .fts-count-wrap i {
     font-size: 16px!important
 }
 
-.ft-gallery-share-wrap .fa-google-plus:before {
-    content: "\f0d5";
-    font-size: 16px!important
-}
-
 .ft-gallery-share-wrap .fa-pinterest-plus:before {
     content: "\f0d2";
     font-size: 15px!important
 }
 
-.ft-gallery-share-wrap .fa-twitter:before,.fts-twitter-logo .fa-twitter:before {
-    content: "\f099";
-    font-size: 19px!important;
-    top: 1px;
+.ft-gallery-share-wrap .fa-twitter:before {
+    content: "\e61b";
+    font-size: 17px!important;
+    top: 0px;
     position: relative
 }
-
 .ft-gallery-share-wrap .fa-envelope:before {
+    font-family: FontAwesomeSlickFeed, monospace !important;
     content: "\f0e0";
     font-size: 16px!important
 }
@@ -4354,7 +4451,7 @@ a.fts-jal-fb-see-more .fts-count-wrap i {
 }
 
 .fts-tweeter-wrap .ft-gallery-share-wrap {
-    top: -6px
+    top: -8px;
 }
 
 .fts-tweeter-wrap .fts-mashup-count-wrap a {
@@ -4370,12 +4467,11 @@ body .fts-slicker-facebook-photos .fts-tweeter-wrap .ft-gallery-share-wrap {
 
 .fts-twitter-reply-wrap-left {
     float: right;
-    padding: 10px 0 0;
-    margin-top: 5px
+    padding: 0;
 }
 
 .fts-twitter-reply-wrap .fts-share-wrap {
-    margin-top: 10px;
+    margin-top: 14px;
     padding: 0
 }
 
@@ -4385,10 +4481,9 @@ body .fts-slicker-facebook-photos .fts-tweeter-wrap .ft-gallery-share-wrap {
 
 .fts-slicker-twitter-posts .fts-twitter-reply-wrap-left {
     padding: 0!important;
-    margin: 15px 0 0!important
 }
 
-.fts-mashup-post-wrap .fts-tweet-reply-left {
+.fts-mashup-post-wrap .fts-tiktok-comment-count {
     margin-right: 35px;
     padding: 0 5px
 }
@@ -4472,9 +4567,9 @@ a.ft-gallery-link-popup:focus {
 }
 
 .fts-facebook-popup .ft-gallery-link-popup:before {
-    font-family: FontAwesomeSlickFeed, monospace ;
+    font-family: FontAwesomeSlickFeed, monospace;
     content: "\f064 ";
-    margin-left: 8px
+    margin-left: 5px;
 }
 
 .fts-mashup-count-wrap .fts-instagram-reply-wrap-left {
@@ -4802,11 +4897,12 @@ a.fts-facebook-thumbs-wrap {
 .fts-youtube-popup h4 {
     color: #222;
     padding: 0 20px 4px!important;
-    font-size: 17px
+    font-size: 17px;
+    margin: 0 0 5px;
 }
 
 .fts-youtube-description-popup {
-    padding: 0 20px 20px;
+    padding: 0 20px 15px;
     color: #000
 }
 
@@ -5222,7 +5318,7 @@ a.fts-facebook-thumbs-wrap {
 }
 
 .fts-instagram-icon:before {
-    font-family: FontAwesomeSlickFeed, monospace !important;
+    font-family: FontAwesomeSlick, monospace !important;
     -webkit-font-smoothing: antialiased;
     content: "\f16d"
 }
@@ -5258,23 +5354,13 @@ a.fts-facebook-thumbs-wrap {
     }
 }
 
-.fts-twitter-logo .fa.fa-twitter {
-    color: #e7e7e7!important;
-    font: inherit
-}
-
-.fts-twitter-retweet-feed {
-    font-size: 14px;
-    top: 1px
-}
 
 .fts-tweeter-wrap:hover i:before {
-    color: #1d9bf0;
     transition: .5s
 }
 
 .fts-twitter-reply-wrap .fts-share-wrap svg.svg-inline--fa {
-    display: none!important;
+    display: block!important;
     width: 17px;
     top: 3px;
     position: relative;
@@ -5284,43 +5370,52 @@ a.fts-facebook-thumbs-wrap {
 }
 
 .fts-twitter-reply-feed svg.svg-inline--fa {
-    display: none!important;
+    /* display: none!important; */
     width: 14px;
     top: 2px;
     margin-left: 17px;
     position: relative
 }
 
-.fts-twitter-retweet-feed svg.svg-inline--fa {
-    display: none!important;
+.fts-tiktok-like-count svg.svg-inline--fa {
+    /* display: none!important; */
     width: 20px;
     top: 3px;
     margin-right: 5px;
     position: relative
 }
 
-.fts-twitter-favorites-feed svg.svg-inline--fa {
-    display: none!important;
+.fts-tiktok-views-count svg.svg-inline--fa {
+    /* display: none!important; */
     width: 15px;
     top: 3px;
     margin-right: 5px;
     position: relative
 }
 
-.fts-twitter-logo {
+.fts-tiktok-logo {
     float: right;
     color: rgb(227 227 227);
-    padding: 5px 0 0 5px
+    padding: 8px 5px 0 5px;
 }
 
-.fts-twitter-logo .fa-twitter:before {
-    font-size: 25px!important
+.fts-tiktok-logo .fa-tiktok:before {
+    font-size: 25px!important;
+    content:"\e07b";
+    color: #e7e7e7!important;
+    font-style: normal !important;
+}
+.tweeter-info:hover  .fa-tiktok:before {
+    color: #fe2c55!important;
 }
 
 .fts-twitter-name-wrap {
     display: inline-block;
     padding-top: 7px;
     line-height: 14px
+}
+.fts-twitter-name-wrap a {
+    text-decoration:none;
 }
 
 .fts-twitter-wrap-below-width-450 .fts-twitter-external-backg-image {
@@ -5433,4 +5528,30 @@ a.fts-facebook-thumbs-wrap {
 
 .fts-master-youtube-wrap-close:hover {
     opacity: .7
+}
+.fts-facebook-styles-popup.fts-tiktok-popup .fts-popup-half iframe {
+    max-width:325px !important;
+}
+.fts-facebook-styles-popup.fts-tiktok-popup .fts-tiktok-content-inner {
+    padding:20px 40px 0 20px!important
+}
+.fts-facebook-styles-popup.fts-tiktok-popup .fts-tiktok-logo {
+    display:none;
+}
+.fts-facebook-styles-popup.fts-tiktok-popup .fts-twitter-text {
+    font-size:16px;
+    color:#222;
+}
+
+.fts-facebook-styles-popup.fts-tiktok-popup .fts-jal-fb-see-more div,
+.fts-tiktok-social-counts span {
+    display:inline-block;
+    text-align:right;
+    float:none;
+    margin-left:12px;
+}
+
+.fts-facebook-styles-popup.fts-tiktok-popup .fts-jal-fb-see-more div svg,
+.fts-tiktok-social-counts-wrap .fts-jal-fb-see-more div svg{
+    margin:0 !important;
 }

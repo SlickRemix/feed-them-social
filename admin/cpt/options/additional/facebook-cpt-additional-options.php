@@ -500,13 +500,13 @@ class Facebook_Additional_Options {
 				),
 			),
 
-			'main_options'       => array(
+            'main_options'       => array(
 
-				// Language For Facebook Feeds.
-				array(
-					'input_wrap_class' => 'fb_language',
-					'option_type'      => 'select_fb_language',
-					'label'            => esc_html__( 'Facebook Language', 'feed-them-social' ),
+                // Language For Facebook Feeds.
+                array(
+                    'input_wrap_class' => 'fb_language',
+                    'option_type'      => 'select_fb_language',
+                    'label'            => esc_html__( 'Facebook Language', 'feed-them-social' ),
                     'instructional-text' => sprintf(
                         esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the Facebook Titles, Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
                         '<a href="' . esc_url( 'options-general.php' ) . '" target="_blank">',
@@ -514,21 +514,21 @@ class Facebook_Additional_Options {
                         '<a href="' . esc_url( 'https://translate.wordpress.org/projects/wp-plugins/feed-them-social/' ) . '" target="_blank">',
                         '</a>'
                     ),
-					'type'             => 'text',
-					'id'               => 'fb-lang-btn',
-					'name'             => 'fb_language',
-					'default_value'    => 'en_US',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Yes', 'feed-them-social' ),
-							'value' => 'yes',
-						),
-						array(
-							'label' => esc_html__( 'No', 'feed-them-social' ),
-							'value' => 'no',
-						),
-					),
-				),
+                    'type'             => 'text',
+                    'id'               => 'fb-lang-btn',
+                    'name'             => 'fb_language',
+                    'default_value'    => 'en_US',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                    ),
+                ),
 				// Hide Notice on Front End for Facebook Feed.
 				array(
 					'input_wrap_class' => 'fb_hide_no_posts_message',

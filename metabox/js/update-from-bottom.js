@@ -683,7 +683,7 @@ function fts_check_valid() {
                         if( 'yes' == value ){
                             if ( 'popup' == attribute ){
                                 //alert( 'test' );
-                                $( id + '#twitter-popup-option option[value=yes]' ).attr('selected','selected');
+                                $( id + '#twitter_popup_option option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'grid' == attribute ){
                                 //alert( 'test' );

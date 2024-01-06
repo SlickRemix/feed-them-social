@@ -5,7 +5,7 @@
  * This class is used to create the Feed Settings Importer and Exporter on the Feed Edit page (CPT)
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2023, SlickRemix
+ * @copyright   Copyright (c) 2012-2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       4.0.5
  */

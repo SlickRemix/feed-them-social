@@ -650,9 +650,9 @@
 }), jQuery(document).ready(function() {
 
     jQuery.fn.slickTwitterPopUpFunction = function() {
-        jQuery(".popup-gallery-twitter").each(function () {
+        jQuery(".popup-gallery-twitterrrrrrrrrr").each(function () {
             jQuery(this).magnificPopup({
-                delegate: "a.fts-twitter-link-image",
+                delegate: "a.fts-tiktok-popup",
                 type: "image",
                 tLoading: "Loading image #%curr%...",
                 mainClass: "fts-instagram-img-mobile",
@@ -912,5 +912,71 @@
                 }
             })
         })
-    }, jQuery.fn.slickYoutubePopUpFunction()
+    }, jQuery.fn.slickYoutubePopUpFunction();
+
+
+
+    jQuery.fn.slickTickTokPopUpFunction = function() {
+        jQuery(".popup-gallery-tiktok").each(function() {
+            var e = jQuery(this).find("a.fts-tiktok-popup-open"),
+                t = [];
+            e.each(function() {
+                var e = jQuery(this);
+                type = "iframe";
+                var o = {
+                    src: e.attr("href"),
+                    type: type
+                };
+                o.title = jQuery(this).parents(".fts-right").find('.fts-tiktok-content').html() +
+                    jQuery(this).parents(".fts-tweeter-wrap").find('.fts-likes-shares-etc-wrap').html() +
+                    jQuery(this).parents(".fts-tweeter-wrap").find('.fts-tiktok-social-counts-wrap').html(), t.push(o)
+            }), e.magnificPopup({
+                mainClass: "fts-facebook-popup fts-facebook-styles-popup fts-tiktok-popup",
+                items: t,
+                removalDelay: 150,
+                preloader: !1,
+                closeOnContentClick: !1,
+                closeOnBgClick: !0,
+                closeBtnInside: !0,
+                showCloseBtn: !1,
+                enableEscapeKey: !0,
+                autoFocusLast: !1,
+                gallery: {
+                    enabled: !0,
+                    navigateByImgClick: !1,
+                    tCounter: '<span class="mfp-counter">%curr% of %total%</span>',
+                    preload: [0, 1],
+                    arrowMarkup: ""
+                },
+                callbacks: {
+                    beforeOpen: function() {
+                        var t = e.index(this.st.el); - 1 !== t && this.goTo(t)
+                    },
+                    open: function() {
+                        console.log("Popup is opened"), ftsShare(), jQuery(window).resize(function() {
+                            jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
+                        }), jQuery(window).trigger("resize")
+                    },
+                    change: function() {
+                        console.log("Content changed"), console.log(this.content), ftsShare(), jQuery("body").hasClass("fts-using-arrows")
+                    },
+                    imageLoadComplete: function() {
+                        ftsShare(), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
+                    },
+                    markupParse: function(e, t, o) {
+                        console.log("Parsing:", e, t, o)
+                    },
+                    afterClose: function() {
+                        jQuery("body").removeClass("fts-using-arrows"), console.log("Popup is completely closed")
+                    }
+                },
+                iframe: {
+                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide();  } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                    srcAction: "iframe_src"
+                }
+            })
+        })
+    }, jQuery.fn.slickTickTokPopUpFunction()
+
+
 });

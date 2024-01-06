@@ -118,7 +118,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.1 Thursday, December 7th, 2023 =
+= Version 4.2.1 Friday, January 6th, 2023 =
+  * NEW: TikTok Feed: Added TikTok Feed. You can now display your TikTok videos on your website. [Demo](https://feedthemsocial.com/tiktok-feed-demo/)
+  * NEW: Feed Edit page: Only empty cache when an actual post amount change, name change is made or new access token is added. This will help with performance and reduce API calls.
+  * NEW: Font Awesome 6.5.1 added to the plugin. All new modern icons for the feeds are in place.
   * NOTE: Works with WordPress version 6.4.2
 
 = Version 4.2.0 Tuesday, December 5th, 2023 =

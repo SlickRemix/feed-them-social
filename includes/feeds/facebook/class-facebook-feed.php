@@ -1253,7 +1253,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
     public function get_language( $saved_feed_options ) {
         // this check is in place because we used this option and it failed for many people because we use wp get contents instead of curl.
         // this can be removed in a future update and just keep the $language_option = get_option('fb_language', 'en_US');.
-        $language_option_check = $saved_feed_options['fb_language'];
+        $language_option_check = ! empty( $saved_feed_options['fb_language'] ) ? $saved_feed_options['fb_language'] : '';
         if ( isset( $language_option_check ) && 'Please Select Option' !== $language_option_check ) {
             $language_option = $saved_feed_options['fb_language'] ?? 'en_US';
         } else {

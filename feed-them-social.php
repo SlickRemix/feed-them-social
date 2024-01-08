@@ -20,7 +20,7 @@
  *
  * @version    4.2.1
  * @package    FeedThemSocial/Core
- * @copyright  Copyright (c) 2012-2023 SlickRemix
+ * @copyright  Copyright (c) 2012-2024 SlickRemix
  *
  * Need Support: https://wordpress.org/support/plugin/feed-them-social
  * Paid Extension Support: https://www.slickremix.com/my-account/#tab-support

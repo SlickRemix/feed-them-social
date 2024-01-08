@@ -5,7 +5,7 @@
  * This is used to call all of the classes to retrieve Access Tokens from the social networks.
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2022, SlickRemix
+ * @copyright   Copyright (c) 2012-2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */
@@ -814,7 +814,7 @@ class Access_Options {
         if( 'false' === $combined  ) {
             // This check is in place because the combine tab can also load the access token options, however we don't want to
             // save the feed_type in this case because we want to remain on the combine tab.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id, false );
         }
 
         if( 'basic' === $combined || 'business' === $combined ) {
@@ -824,8 +824,8 @@ class Access_Options {
             // These 2 options are to save the combine instagram type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram_type', $combined, true, $cpt_id );
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram', 'yes', true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram_type', $combined, true, $cpt_id, false );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram', 'yes', true, $cpt_id, false );
 
         }
 
@@ -833,21 +833,21 @@ class Access_Options {
             // This option is to save the combine facebook type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_facebook', 'yes', true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_facebook', 'yes', true, $cpt_id, false );
         }
 
         if( 'combined-twitter' === $combined ) {
             // This option is to save the combine twitter type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_twitter', 'yes', true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_twitter', 'yes', true, $cpt_id, false );
         }
 
         if( 'combined-youtube' === $combined ) {
             // This option is to save the combine youtube type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id, false );
         }
 
         echo $this->get_access_token_options( $feed_type, $cpt_id );

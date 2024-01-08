@@ -5,7 +5,7 @@
  * This file is used to create the Instagram Feeds
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2022, SlickRemix
+ * @copyright   Copyright (c) 2012-2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */
@@ -185,6 +185,16 @@ class Instagram_Feed {
 
 		return $instagram_caption;
 	}
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Display Instagram Feed
@@ -816,7 +826,6 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     ?>
                 <div class="slicker-instagram-placeholder fts-instagram-wrapper" style="background-image:url('<?php echo esc_url( $this->fts_instagram_image_link( $post_data ) ); ?>')">
                         <?php
-
                         if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $popup ) && 'yes' === $popup ) {
                             ?>
                         <div class="fts-instagram-popup-profile-wrap">
@@ -1183,6 +1192,25 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 		} // end nonce
 		return ob_get_clean();
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * FTS Instagram Likes Count

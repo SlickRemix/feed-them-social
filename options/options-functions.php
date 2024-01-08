@@ -4,7 +4,7 @@
  *
  * @package     FeedThemSocial
  * @subpackage  Admin/Settings
- * @copyright   Copyright (c) 2021, SlickRemix
+ * @copyright   Copyright (c) 2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  */
@@ -131,9 +131,13 @@ class Options_Functions {
 	 * @param	string            $option_name    The Key to update
 	 * @param	string|bool|int   $value  The value to set the key to
 	 */
-	public function update_single_option( $array_option_name, $option_name = '', $value = false, $is_cpt = false, $cpt_id = false ) {
+	public function update_single_option( $array_option_name, $option_name = '', $value = false, $is_cpt = false, $cpt_id = false, $cron_job = false ) {
+
 		// Can Current User Manage Options? If not Die!
-        $this->check_user_perms();
+        // If a cron job is running don't check user perms.
+        if( $cron_job !== true) {
+            $this->check_user_perms();
+        }
 
 		// If no Option Name, exit!
 		if ( empty( $option_name ) ){

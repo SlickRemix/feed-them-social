@@ -4,7 +4,7 @@
  *
  * @package     FTS
  * @subpackage  Admin/Backwards Compat
- * @copyright   Copyright (c) 2022, SlickRemix
+ * @copyright   Copyright (c) 2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.3.4
  */

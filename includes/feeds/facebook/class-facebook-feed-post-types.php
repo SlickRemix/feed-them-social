@@ -5,7 +5,7 @@
  * This page is used to create the Facebook Feed Post Types!
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2022, SlickRemix
+ * @copyright   Copyright (c) 2012-2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */
@@ -68,32 +68,36 @@ class Facebook_Feed_Post_Types {
 	 * @return mixed
 	 * @since 1.9.6
 	 */
-	public function facebook_tag_filter( $fb_description ) {
-		// Converts URLs to Links.
-		$fb_description = preg_replace( '@(?!(?!.*?<a)[^<]*<\/a>)(?:(?:https?|ftp|file)://|www\.|ftp\.)[-A-‌​Z0-9+&#/%=~_|$?!:,.]*[A-Z0-9+&#/%=~_|$]@i', '<a href="\0" target="_blank" rel="noreferrer">\0</a>', $fb_description );
+    public function facebook_tag_filter( $fb_description ) {
+        // Convert URLs to links.
+        $fb_description = preg_replace_callback('@(https?://\S+|www\.\S+)@i', function ($matches) {
+            $url = $matches[0];
+            // Prepend 'http://' if the URL starts with 'www.' and doesn't have 'http://'.
+            if (strpos($url, 'www.') === 0 && strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+                $url = 'https://' . $url;
+            }
+            return '<a href="' . $url . '" target="_blank" rel="noreferrer">' . $matches[0] . '</a>';
+        }, $fb_description);
 
-		$splitano     = explode( 'www', $fb_description );
-		$count        = count( $splitano );
-		$return_value = '';
+        // Process email addresses.
+        $emailRegex = '/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/';
+        $fb_description = preg_replace($emailRegex, '<a href="mailto:$0">$0</a>', $fb_description);
 
-		for ( $i = 0; $i < $count; $i++ ) {
-			if ( 'href=' === substr( $splitano[ $i ], -6, 5 ) ) {
-				$return_value .= $splitano[ $i ] . 'http://www';
-			} elseif ( $i < $count - 1 ) {
-				$return_value .= $splitano[ $i ] . 'www';
-			} else {
-				$return_value .= $splitano[ $i ];
-			}
-		}
-		// Mentions.
-		$return_value = preg_replace( '/@+(\w+)/u', '<a href="https://www.facebook.com/$1" target="_blank" rel="noreferrer">@$1</a>', $return_value );
-		// Hash tags.
-		$return_value = preg_replace( '/#+(\w+)/u', '<a href="https://www.facebook.com/hashtag/$1" target="_blank" rel="noreferrer">#$1</a>', $return_value );
+        // Process mentions.
+        $mentionsRegex = '/(?<=\s|^)@(\w+)/';
+        $fb_description = preg_replace($mentionsRegex, '<a href="https://www.facebook.com/$1" target="_blank" rel="noreferrer">@$1</a>', $fb_description);
 
-		return $return_value;
-	}
+        // Process hashtags.
+        $hashtagsRegex = '/#(\w+)/';
+        $fb_description = preg_replace($hashtagsRegex, '<a href="https://www.facebook.com/hashtag/$1" target="_blank" rel="noreferrer">#$1</a>', $fb_description);
 
-	/**
+        return $fb_description;
+    }
+
+
+
+
+    /**
 	 * Feed Location Option
 	 *
 	 * Display Location flag and text
@@ -524,7 +528,6 @@ class Facebook_Feed_Post_Types {
         $comments = !empty( $lcs_array['comments'] ) ? $lcs_array['comments'] : '';
         $shares = !empty( $lcs_array['shares'] ) ? $lcs_array['shares'] : '';
 
-
 		switch ( $facebook_post_type ) {
 			case 'events':
 				$single_event_id = 'https://www.facebook.com/events/' . $single_event_id;
@@ -639,7 +642,7 @@ class Facebook_Feed_Post_Types {
                     echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
 
                     echo '' . wp_kses(
-                            '<span class="fts-count-wrap fts-likes-wrap">' . $likes . '</span><span class="fts-count-wrap fts-comments-wrap">' . $comments . '</span>',
+                            '<span class="fts-count-wrap fts-likes-wrap">' . $likes . '</span><span class="fts-count-wrap fts-comments-wrap">' . $comments . '</span><span class="fts-count-wrap fts-shares-wrap">' . $shares . '</span>',
                             array(
                                 'a' => array(
                                     'href'  => array(),
@@ -763,15 +766,19 @@ class Facebook_Feed_Post_Types {
 		$facebook_post_album_link        = $facebook_post->link ?? '';
 		$facebook_post_link              = $facebook_post->attachments->data[0]->url ?? $facebook_post_album_link;
 		$facebook_post_name              = $facebook_post->name ?? '';
+        if( empty($facebook_post_name)){
+            $facebook_post_name = $facebook_post->attachments->data[0]->title ?? '';
+        }
 		$facebook_post_caption           = $facebook_post->attachments->data[0]->caption ?? '';
 		$facebook_post_description       = $facebook_post->attachments->data[0]->description ?? '';
-        $facebook_post_title             = $facebook_post->data[0]->title ?? '';
 		$facebook_post_link_event_name   = $facebook_post->to->data[0]->name ?? '';
 		$facebook_post_story             = $facebook_post->story ?? '';
 		$facebook_post_icon              = $facebook_post->icon ?? '';
 		$facebook_post_by                = $facebook_post->properties->text ?? '';
 		$facebook_post_bylink            = $facebook_post->properties->href ?? '';
+
 		$facebook_post_share_count       = $facebook_post->shares->count ?? '';
+
 		$facebook_post_like_count        = $facebook_post->likes->data ?? '';
 		$facebook_post_comments_count    = $facebook_post->comments->data ?? '';
 		$facebook_post_object_id         = $facebook_post->attachments->data[0]->id ?? '';
@@ -877,9 +884,9 @@ class Facebook_Feed_Post_Types {
 
 		/*echo '$lcs_array<pre>';
 		 print_r($lcs_array);
-		echo '</pre>';
+		echo '</pre>'; */
 
-        echo '$response_post_array<pre>';
+       /* echo '$response_post_array<pre>';
         print_r($response_post_array);
         echo '</pre>';*/
 
@@ -940,7 +947,6 @@ class Facebook_Feed_Post_Types {
 		if ( strpos( $facebook_post_link, 'youtube' ) > 0 || strpos( $facebook_post_link, 'youtu.be' ) > 0 || strpos( $facebook_post_link, 'vimeo' ) > 0 ) {
 			$facebook_post_type = 'video_inline';
 		}
-
 
 		switch ( $facebook_post_type ) {
 			case 'video_direct_response' :
@@ -1381,7 +1387,8 @@ class Facebook_Feed_Post_Types {
 			case 'share':
 				echo '<div class="fts-jal-fb-link-wrap">';
 				// start url check.
-				if ( !empty( $facebook_post_link ) ) {
+                // In some cases the url is actually a phone number like tel:+5555555555 so we need to check and if so bypass it.
+				if ( !empty( $facebook_post_link ) && strpos( $facebook_post_link, 'http' ) > 0 ) {
 					$url = $facebook_post_link;
 					$url_parts = parse_url( $url );
 					$host = $url_parts['host'];

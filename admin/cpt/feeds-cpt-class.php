@@ -596,7 +596,7 @@ class Feeds_CPT {
                                         echo __( 'Not Set', 'feed-them-social' );
                                     }
                                     // Update the fts_shortcode_location with our newly compiled array has at least one id, or we clear the field.
-                                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $post_id );
+                                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $post_id, false );
                                 }
                             }
                         }
@@ -688,7 +688,7 @@ class Feeds_CPT {
         $metabox_tabs_list = array(
             // Base of each tab! The array keys are the base name and the array value is a list of tab keys.
             'base_tabs' => array(
-                'post' => array( 'feed_setup', 'layout', 'colors', 'facebook_feed', 'instagram_feed', 'twitter_feed', 'youtube_feed', 'combine_streams_feed' ),
+                'post' => array( 'feed_setup', 'layout', 'colors', 'facebook_feed', 'instagram_feed', 'tiktok_feed', 'youtube_feed', 'combine_streams_feed' ),
             ),
             // Tabs List! The cont_func item is relative the the Function name for that tabs content. The array Keys for each tab are also relative to classes and ID on wraps of display_metabox_content function.
             'tabs_list' => array(
@@ -730,11 +730,11 @@ class Feeds_CPT {
                     'cont_func'     => 'tab_facebook_feed',
                 ),
                 // Twitter Feed Settings Tab!
-                'twitter_feed'   => array(
+                'tiktok_feed'   => array(
                     'menu_li_class' => 'tab6',
                     'menu_a_text'   => esc_html__( 'Twitter', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content7',
-                    'cont_func'     => 'tab_twitter_feed',
+                    'cont_func'     => 'tab_tiktok_feed',
                 ),
                 // YouTube Feed Settings Tab!
                 'youtube_feed'  => array(
@@ -956,7 +956,7 @@ class Feeds_CPT {
      *
      * @since 1.0.0
      */
-    public function tab_twitter_feed() { ?>
+    public function tab_tiktok_feed() { ?>
         <div class="fts-cpt-main-options">
             <?php
             echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter'], null, $this->feed_cpt_id );
@@ -974,8 +974,10 @@ class Feeds_CPT {
 
             // Twitter Follow Button Options
             echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_follow_btn_options'], null, $this->feed_cpt_id );
+            // TikTok Language Options
+            echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_language_options'], null, $this->feed_cpt_id );
             // Twitter Video Player Options
-            echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_video_player_options'], null, $this->feed_cpt_id );
+            // echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_video_player_options'], null, $this->feed_cpt_id );
             // Twitter Profile Photo Options
             echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_profile_photo_options'], null, $this->feed_cpt_id );
             // Twitter Style Options
@@ -986,8 +988,7 @@ class Feeds_CPT {
                 // Twitter Grid Styles
                 echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->feed_cpt_id );
                 // Twitter Load More Button Styles & Options
-                // This option needs to be removed because of recent Twitter API changes.
-                // echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $this->feed_cpt_id );
+                 echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $this->feed_cpt_id );
             }?>
 
             <div class="clear"></div>

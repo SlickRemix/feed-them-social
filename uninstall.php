@@ -11,7 +11,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) )
  *
  * @package     Feed Them Social
  * @subpackage  Uninstall
- * @copyright   Copyright (c) 2021, SlickRemix
+ * @copyright   Copyright (c) 2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0
  *

@@ -49,7 +49,9 @@ function ftg_admin_gallery_tabs() {
 function fts_ajax_cpt_save_token() {
 
     var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
-    window.location.replace( newUrl + '#fts-feed-type' );
+    window.location.replace( newUrl );
+    // Testing removing this id #fts-feed-type because it just makes the process so damn jumpy
+    // window.location.replace( newUrl + '#fts-feed-type' );
 
     //alert('test1');
 
@@ -81,7 +83,7 @@ function fts_ajax_cpt_save_token() {
     return false;
 }
 
-function fts_ajax_cpt_save( shortcodeConverted ) {
+function fts_ajax_cpt_save( shortcodeConverted, should_we_empty_cache ) {
 
     jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
         beforeSend: function () {
@@ -132,7 +134,7 @@ function fts_ajax_cpt_save( shortcodeConverted ) {
             }
             else {
                 // Refresh the Preview Feed.
-                refresh_feed_ajax();
+                refresh_feed_ajax(should_we_empty_cache);
             }
         }
     });
@@ -140,9 +142,11 @@ function fts_ajax_cpt_save( shortcodeConverted ) {
 }
 
 
-function refresh_feed_ajax() {
+function refresh_feed_ajax(should_we_empty_cache) {
 
-    fts_ClearCache();
+    if( 'empty-cache' === should_we_empty_cache){
+        fts_ClearCache();
+    }
 
     // return false;
 
@@ -254,8 +258,8 @@ function fts_show_hide_shortcode_feed( feed ) {
     if( jQuery.isFunction(jQuery.fn.slickFacebookPopUpFunction) ){
         jQuery.fn.slickFacebookPopUpFunction();
     }
-    if( jQuery.isFunction(jQuery.fn.slickTwitterPopUpFunction) ){
-        jQuery.fn.slickTwitterPopUpFunction();
+    if( jQuery.isFunction(jQuery.fn.slickTickTokPopUpFunction) ){
+        jQuery.fn.slickTickTokPopUpFunction();
     }
     if( jQuery.isFunction(jQuery.fn.slickYoutubePopUpFunction) ){
         jQuery.fn.slickYoutubePopUpFunction();
@@ -306,17 +310,44 @@ function checkAnyFormFieldEdited() {
 
     jQuery('#instagram_feed select, #instagram_feed input, ' +
         '#facebook_feed select, #facebook_feed input, ' +
-        '#twitter_feed select, #twitter_feed input, ' +
+        '#tiktok_feed select, #tiktok_feed input, ' +
         '#youtube_feed select, #youtube_feed input, ' +
         '#combine_streams_feed input').change(function(e) {
 
-        // select or input element changed. Those are the only 2 items so far we are using in the options.
-        fts_ajax_cpt_save( 'no-save-message' );
+        // Check if its a post change or name change. Only then do we need to empty the cache
+        // because we need to re-fetch data from an API otherwise we do not need to empty the cache
+        // so we send a do-not-empty-cache message to the function.
+        let should_we_empty_cache = '';
+        if (jQuery(e.target).is('#tweets_count') ||
+            jQuery(e.target).is('#instagram_pics_count') ||
+            jQuery(e.target).is('#instagram_feed_type') ||
+            jQuery(e.target).is('#instagram_profile_wrap') ||
+            jQuery(e.target).is('#facebook_page_feed_type') ||
+            jQuery(e.target).is('#facebook_page_post_count') ||
+            jQuery(e.target).is('#facebook_hide_like_box_button') ||
+            jQuery(e.target).is('#youtube-messages-selector') ||
+            jQuery(e.target).is('#youtube_channelID') ||
+            jQuery(e.target).is('#youtube_channelID2') ||
+            jQuery(e.target).is('#youtube_vid_count') ||
+            jQuery(e.target).is('#youtube_playlistID') ||
+            jQuery(e.target).is('#youtube_playlistID2') ||
+            jQuery(e.target).is('#youtube_singleVideoID') ||
+            jQuery(e.target).is('#youtube_name') ||
+            jQuery(e.target).is('#youtube_name2') ||
+            jQuery(e.target).is('#combine_post_count')||
+            jQuery(e.target).is('#combine_social_network_post_count') ) {
 
-        // Testing.
-        // alert('test 5');
+            should_we_empty_cache = 'empty-cache';
+        }
+        else {
+            should_we_empty_cache = 'do-not-empty-cache';
+        }
+        // Testing
+        // alert(should_we_empty_cache);
+
+        // Select or input element changed. Those are the only 2 items so far we are using in the options.
+        fts_ajax_cpt_save( 'no-save-message', should_we_empty_cache );
     });
-
 }
 
 jQuery(document).ready(function ($) {
@@ -403,7 +434,7 @@ jQuery(document).ready(function ($) {
 
     if( location.hash === '#instagram_feed' ||
         location.hash === '#facebook_feed' ||
-        location.hash === '#twitter_feed' ||
+        location.hash === '#tiktok_feed' ||
         location.hash === '#youtube_feed' ||
         location.hash === '#combine_streams_feed' ){
         // This happens if the user refreshes the page with one of the hash tabs noted above with the hash.
@@ -440,8 +471,8 @@ jQuery(document).ready(function ($) {
         if( jQuery.isFunction(jQuery.fn.slickFacebookPopUpFunction) ){
             jQuery.fn.slickFacebookPopUpFunction();
         }
-        if( jQuery.isFunction(jQuery.fn.slickTwitterPopUpFunction) ){
-            jQuery.fn.slickTwitterPopUpFunction();
+        if( jQuery.isFunction(jQuery.fn.slickTickTokPopUpFunction) ){
+            jQuery.fn.slickTickTokPopUpFunction();
         }
         if( jQuery.isFunction(jQuery.fn.slickYoutubePopUpFunction) ){
             jQuery.fn.slickYoutubePopUpFunction();
@@ -564,12 +595,14 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
                     location.reload();
                 }
                 if( 'instagram_basic' === data.feed_type ||
-                    'twitter' === data.feed_type ||
+                    'tiktok' === data.feed_type ||
                     'youtube' === data.feed_type ){
 
                     // alert( data.feed_type );
                     var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
-                    window.location.replace( newUrl + '#fts-feed-type' );
+                    window.location.replace( newUrl );
+                    // Testing removing this id #fts-feed-type because it just makes the process so damn jumpy
+                   // window.location.replace( newUrl + '#fts-feed-type' );
                 }
             }
 

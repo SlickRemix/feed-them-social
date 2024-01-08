@@ -5,7 +5,7 @@
  * In the Free Version this is NOT an updater but displays the license page for users to see they can extend the Free plugin with Extensions
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2023, SlickRemix
+ * @copyright   Copyright (c) 2012-2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */

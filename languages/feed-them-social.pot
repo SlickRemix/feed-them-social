@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Feed Them Social - Page, Post, Video and Photo Galleries
+# Copyright (C) 2024 Feed Them Social - Page, Post, Video and Photo Galleries
 # This file is distributed under the same license as the Feed Them Social - Page, Post, Video and Photo Galleries package.
 msgid ""
 msgstr ""
@@ -914,7 +914,7 @@ msgid "Posts Background Color"
 msgstr ""
 
 #: admin/cpt/options/additional/twitter-cpt-additional-options.php:561
-msgid "\"No More Tweets\" Text"
+msgid "\"No More Videos\" Text"
 msgstr ""
 
 #: admin/cpt/options/additional/youtube-cpt-additional-options.php:119
@@ -3294,7 +3294,7 @@ msgid "View on Instagram"
 msgstr ""
 
 #: includes/feeds/twitter/class-twitter-feed.php:912
-msgid "No More Tweets"
+msgid "No More Videos"
 msgstr ""
 
 #: includes/feeds/twitter/class-twitter-feed.php:1095

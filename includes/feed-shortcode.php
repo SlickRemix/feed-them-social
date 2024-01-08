@@ -265,13 +265,13 @@ class Feed_Shortcode {
         // that is where we will update the fts_shortcode_location to remove an ids not found. This happens when the user loads the wp-admin/edit.php?post_type=fts page
         if( !is_array( $array_check_decode ) ){
             $encoded = json_encode( array( $post->ID ) );
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
         }
         elseif( is_array( $array_check_decode ) ) {
             if (  !in_array( $post->ID, $array_check_decode, true ) ){
                 $add_id = array_merge( $array_check_decode, array( $post->ID ) );
                 $encoded = json_encode( $add_id );
-                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id );
+                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
             }
         }
     }
@@ -321,7 +321,7 @@ class Feed_Shortcode {
 				// Twitter Feed.
 				case 'twitter-feed-type':
 					// Display Twitter Feed!
-					echo $this->twitter_feed->display_twitter( $feed_post_id );
+					echo $this->twitter_feed->display_tiktok( $feed_post_id );
 					break;
 				// YouTube Feed.
 				case 'youtube-feed-type':

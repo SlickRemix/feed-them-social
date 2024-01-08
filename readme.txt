@@ -118,7 +118,14 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.1 Thursday, December 7th, 2023 =
+= Version 4.2.1 Friday, January 6th, 2023 =
+  * NEW: TikTok Feed: Added TikTok Feed. You can now display your TikTok posts on your website. [Demo](https://feedthemsocial.com/tiktok-feed-demo/)
+  * NEW: Feed Edit page: Only empty cache when an actual post amount change, name change, or new access token is added. This will help with performance and reduce API calls.
+  * NEW: Font Awesome 6.5.1 added to the plugin. All new modern icons for the feeds are in place.
+  * FIX: Facebook Feed: Add email address to the list of text to convert to links in a post description.
+  * FIX: Facebook Feed: Share count not appearing for all post types.
+  * FIX: Facebook Feed: Title link was missing in some promotional posts.
+  * FIX: Facebook Feed: Add check for http on share links because sometimes there is a phone number like tel:+55555555 and not a url.
   * NOTE: Works with WordPress version 6.4.2
 
 = Version 4.2.0 Tuesday, December 5th, 2023 =

@@ -2555,7 +2555,7 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
 }
 
 .post-type-fts .tabs-menu-wrap .fts-twitter-waiting-color .active, .twitter-feed-type:hover {
-    background: #1da1f1 !important
+    background: #fe2c55 !important
 }
 
 .post-type-fts .tabs-menu-wrap .fts-youtube-waiting-color .active, .youtube-feed-type:hover {
@@ -2629,12 +2629,12 @@ span.fts-toke-not-set {
 }
 
 .fts-twitter::before {
-    content: "\f099";
+    content: "\e07b";
     font-size: 31px
 }
 
 .fts-social-icon-wrap-active .fts-twitter::before {
-    color: #1da1f2 !important
+    color: #212223 !important
 }
 
 .fts-youtube::before {

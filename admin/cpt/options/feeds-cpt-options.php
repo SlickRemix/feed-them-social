@@ -199,7 +199,7 @@ class Feed_CPT_Options {
 						'<div class="fts-select-social-network-menu">
                             <div class="fts-social-icon-wrap instagram-feed-type" data-fts-feed-type="instagram-feed-type"><img src="' . plugins_url() . '/feed-them-social/metabox/images/instagram-logo-admin.png" class="instagram-feed-type-image" /><span class="fts-instagram"></span><div>Instagram</div></div>
                             <div class="fts-social-icon-wrap facebook-feed-type" data-fts-feed-type="facebook-feed-type"><span class="fts-facebook"></span><div>Facebook</div></div>
-                            <div class="fts-social-icon-wrap twitter-feed-type" data-fts-feed-type="twitter-feed-type"><span class="fts-twitter"></span><div>Twitter</div></div>
+                            <div class="fts-social-icon-wrap twitter-feed-type" data-fts-feed-type="twitter-feed-type"><span class="fts-twitter"></span><div>TikTok</div></div>
                             <div class="fts-social-icon-wrap youtube-feed-type" data-fts-feed-type="youtube-feed-type"><span class="fts-youtube"></span><div>YouTube</div></div>
                             <div class="fts-social-icon-wrap combine-streams-feed-type" data-fts-feed-type="combine-streams-feed-type"><span class="fts-combined"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.33 14.33 64 32 64H144.6C164.1 64 182.4 72.84 194.6 88.02L303.4 224H384V176C384 166.3 389.8 157.5 398.8 153.8C407.8 150.1 418.1 152.2 424.1 159L504.1 239C514.3 248.4 514.3 263.6 504.1 272.1L424.1 352.1C418.1 359.8 407.8 361.9 398.8 358.2C389.8 354.5 384 345.7 384 336V288H303.4L194.6 423.1C182.5 439.2 164.1 448 144.6 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H144.6L247 256L144.6 128H32C14.33 128 0 113.7 0 96V96z"/></svg></span><div>Combined</div></div>
                         </div>',
@@ -267,12 +267,9 @@ class Feed_CPT_Options {
 	 */
 	public function twitter_token_options() {
 
-		$oath_token         = isset( $_GET['oauth_token'] ) && ! empty( $_GET['oauth_token'] ) ? esc_html( wp_unslash( $_GET['oauth_token'] ) ) : '';
-		$oauth_token_secret = isset( $_GET['oauth_token_secret'] ) && ! empty( $_GET['oauth_token_secret'] ) ? esc_html( wp_unslash( $_GET['oauth_token_secret'] ) ) : '';
-
 		$this->all_options['twitter_token_options'] = array(
 			'section_attr_key'   => 'twitter_token_',
-			'section_title'      => esc_html__( 'Twitter Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
+			'section_title'      => esc_html__( 'TikTok Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
 			'section_wrap_id'    => 'fts-feed-type',
 			'section_wrap_class' => 'fts-tab-content1-twitter fts-token-wrap',
 			// Form Info.
@@ -283,22 +280,16 @@ class Feed_CPT_Options {
 			'main_options' => array(
 
 				array(
-					'input_wrap_class'   => 'fts-twitter-custom-access-token',
-					'option_type'        => 'input',
-					'label'              => esc_html__( 'Access Token', 'feed_them_social' ),
-					'type'               => 'text',
-					'id'                 => 'fts_twitter_custom_access_token',
-					'name'               => 'fts_twitter_custom_access_token',
-					'placeholder'        => '',
-					'default_value'      => $oath_token,
-					/* 'instructional-text' => sprintf(
-                        esc_html__( '%1$sMonday, April 3rd, 2023: Abruptly and without warning, Twitter has suspended our App for Feed Them Social. At the moment none of our users can create or view their Twitter timeline via the Feed Them Social plugin. We have reached out to Twitter and have been given an unspecified time frame as to when this will be resolved.%2$s We do apologize for the interruption in service at this time. It appears Twitter will now be charging a fee to view Tweets coming from the API. Keep everyone posted as we climb the ladder here to a solution.', 'feed_them_social' ),
-                        '<p>',
-                        '</p><br/>'
-                    ),*/
+					'input_wrap_class' => 'fts-tiktok-user-id',
+					'option_type'      => 'input',
+					'label'            => esc_html__( 'User ID', 'feed_them_social' ),
+					'type'             => 'text',
+					'id'               => 'fts_tiktok_user_id',
+					'name'             => 'fts_tiktok_user_id',
+					'placeholder'      => '',
+					'default_value'    => '',
 					'instructional-text' => sprintf(
-						esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your Twitter posts. Once you have your Access Token you will be able to create a feed.
-						%3$s As of the recent API changes and Twitter now charging us to pull Tweets, the feed may only work sometimes because we are being rate limited. We are looking into alternate options. The hashtag, search, retweets, replies, and load more option will also not be available until further notice. If your feed does connect, we suggest setting the cache time to at least 3 days or more.
+						esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your TikTok posts. Once you have your Access Token you will be able to create a feed.
 						', 'feed_them_social' ),
 						'<strong>',
 						'</strong>',
@@ -306,14 +297,64 @@ class Feed_CPT_Options {
 					),
 				),
 				array(
-					'input_wrap_class' => 'fts-twitter-custom-access-token-secret',
+					'input_wrap_class'   => 'fts-tiktok-access-token',
+					'option_type'        => 'input',
+					'label'              => esc_html__( 'Access Token', 'feed_them_social' ),
+					'type'               => 'text',
+					'id'                 => 'fts_tiktok_access_token',
+					'name'               => 'fts_tiktok_access_token',
+					'placeholder'        => '',
+					'default_value'      => '',
+				),
+				array(
+					'input_wrap_class' => 'fts-tiktok-saved-time-expires-in fts-display-none',
 					'option_type'      => 'input',
-					'label'            => esc_html__( 'Access Token Secret', 'feed_them_social' ),
+					'label'            => esc_html__( 'Saved Time', 'feed_them_social' ),
 					'type'             => 'text',
-					'id'               => 'fts_twitter_custom_access_token_secret',
-					'name'             => 'fts_twitter_custom_access_token_secret',
+					'id'               => 'fts_tiktok_saved_time_expires_in',
+					'name'             => 'fts_tiktok_saved_time_expires_in',
 					'placeholder'      => '',
-					'default_value'    => $oauth_token_secret,
+					'default_value'    => '',
+				),
+				array(
+					'input_wrap_class' => 'fts-tiktok-expires-in fts-exp-time-wrapper',
+					'option_type'      => 'input',
+					'label'            => esc_html__( 'Token Expiration', 'feed_them_social' ),
+					'type'             => 'text',
+					'id'               => 'fts_tiktok_expires_in',
+					'name'             => 'fts_tiktok_expires_in',
+					'placeholder'      => '',
+					'default_value'    => '',
+				),
+				array(
+					'input_wrap_class' => 'fts-tiktok-refresh-token fts-display-none',
+					'option_type'      => 'input',
+					'label'            => esc_html__( 'Refresh Token', 'feed_them_social' ),
+					'type'             => 'text',
+					'id'               => 'fts_tiktok_refresh_token',
+					'name'             => 'fts_tiktok_refresh_token',
+					'placeholder'      => '',
+					'default_value'    => '',
+				),
+				array(
+					'input_wrap_class' => 'fts-tiktok-refresh-expires-in fts-display-none',
+					'option_type'      => 'input',
+					'label'            => esc_html__( 'Refresh Token Expiration', 'feed_them_social' ),
+					'type'             => 'text',
+					'id'               => 'fts_tiktok_refresh_expires_in',
+					'name'             => 'fts_tiktok_refresh_expires_in',
+					'placeholder'      => '',
+					'default_value'    => '',
+				),
+				array(
+					'input_wrap_class' => 'fts-tiktok-scheduled-event fts-display-none',
+					'option_type'      => 'input',
+					'label'            => esc_html__( 'Cron Job Scheduled Event', 'feed_them_social' ),
+					'type'             => 'text',
+					'id'               => 'tiktok_scheduled_event',
+					'name'             => 'tiktok_scheduled_event',
+					'placeholder'      => '',
+					'default_value'    => '',
 				),
 
 			),
@@ -2946,7 +2987,7 @@ class Feed_CPT_Options {
 			// Token Check
 			'token_check'        => array(
 				array(
-					'option_name' => 'fts_twitter_custom_access_token_secret',
+					'option_name' => 'fts_instagram_custom_api_token',
 					//'no_token_msg' => __( '<strong>STEP 1:</strong> Please add Twitter API Tokens to our <a href="admin.php?page=fts-twitter-feed-styles-submenu-page">Twitter Options</a> page before getting started. ' . $step2_custom_message . '', 'feed-them-social' ),
 				),
 			),
@@ -3632,7 +3673,7 @@ class Feed_CPT_Options {
 			// Token Check
 			'token_check'        => array(
 				array(
-					'option_name' => 'fts_twitter_custom_access_token_secret',
+					'option_name' => 'fts_tiktok_refresh_token',
 					// 'no_token_msg' => __( '<strong>STEP 1:</strong> Please add Twitter API Tokens to our <a href="admin.php?page=fts-twitter-feed-styles-submenu-page">Twitter Options</a> page before getting started. ' . $step2_custom_message . '', 'feed-them-social' ),
 				),
 			),
@@ -3648,7 +3689,7 @@ class Feed_CPT_Options {
 			'main_options'       => array(
 
 				// Feed Type
-				array(
+				/*array(
 					'option_type'      => 'select',
 					'label'            => __( 'Feed Type', 'feed-them-social' ),
 					'type'             => 'text',
@@ -3661,14 +3702,8 @@ class Feed_CPT_Options {
 							'label' => __( 'User Feed', 'feed-them-social' ),
 							'value' => 'user',
 						),
-
-						// We must turn this off now after latest Twitter changes that limit tweets we are allowed to pull.
-						/*array(
-							'label' => __( 'Hashtag & Search', 'feed-them-social' ),
-							'value' => 'hashtag',
-						),*/
 					),
-				),
+				),*/
 
 				// Twitter Search Name
 				array(
@@ -3709,7 +3744,7 @@ class Feed_CPT_Options {
 				),
 
 				// Twitter Name
-				array(
+				/*array(
 					'option_type'        => 'input',
 					'input_wrap_class'   => 'twitter_name',
 					'label'              => __( 'Twitter Name', 'feed-them-social' ),
@@ -3731,12 +3766,12 @@ class Feed_CPT_Options {
 							'value'     => 'user',
 						),
 					),
-				),
+				),*/
 
 				// Tweet Count
 				array(
 					'option_type' => 'input',
-					'label'       => __( '# of Tweets', 'feed-them-social' ) . $limitforpremium,
+					'label'       => __( '# of Videos', 'feed-them-social' ) . $limitforpremium,
 					'type'        => 'text',
 					'id'          => 'tweets_count',
 					'name'        => 'tweets_count',
@@ -3759,7 +3794,7 @@ class Feed_CPT_Options {
 				// Twitter Fixed Height
 				array(
 					'option_type' => 'input',
-					'label'       => __( 'Twitter Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Cannot use with Grid', 'feed-them-social' ) . '</small>',
+					'label'       => __( 'Fixed Height', 'feed-them-social' ) . '<br/><small>' . __( 'Scroll Feed. Cannot use with Grid', 'feed-them-social' ) . '</small>',
 					'type'        => 'text',
 					'id'          => 'twitter_height',
 					'name'        => 'twitter_height',
@@ -3774,9 +3809,9 @@ class Feed_CPT_Options {
 				),
 
 				// Show Cover Photo
-				array(
+				/*array(
 					'option_type' => 'select',
-					'label'       => __( 'Show Cover Photo', 'feed-them-social' ),
+					'label'       => __( 'Hide Profile Photo', 'feed-them-social' ),
 					'type'        => 'text',
 					'id'          => 'twitter-cover-photo',
 					'name'        => 'twitter_cover_photo',
@@ -3793,7 +3828,7 @@ class Feed_CPT_Options {
 					'short_attr'  => array(
 						'attr_name' => 'cover_photo',
 					),
-				),
+				),*/
 
 				// Show Stats Bar
 				array(
@@ -3814,6 +3849,24 @@ class Feed_CPT_Options {
 					),
 					'short_attr'  => array(
 						'attr_name' => 'stats_bar',
+					),
+				),
+
+				// Facebook Amount of words
+				array(
+					'option_type'    => 'input',
+					'label'          => __( ' # of Words in Post Description', 'feed-them-social' ),
+					'type'           => 'text',
+					'id'             => 'tiktok_word_count',
+					'name'           => 'tiktok_word_count',
+					'placeholder'    => '',
+					'value'          => '',
+					'req_extensions' => array( 'feed_them_social_premium'),
+					// Relative to JS.
+					'short_attr'     => array(
+						'attr_name'         => 'words',
+						'empty_error'       => 'set',
+						'empty_error_value' => 'words=45',
 					),
 				),
 
@@ -3864,7 +3917,7 @@ class Feed_CPT_Options {
 					'option_type'           => 'select',
 					'label'                 => __( 'Display Photos & Videos', 'feed-them-social' ),
 					'type'                  => 'text',
-					'id'                    => 'twitter-popup-option',
+					'id'                    => 'twitter_popup_option',
 					'name'                  => 'twitter_popup_option',
 
 					// Premium Required - yes/no/more (more allows for us to limit things by numbers, also allows for special message above option.)
@@ -3890,7 +3943,7 @@ class Feed_CPT_Options {
 				// Twitter Load More Button
 				// Must remove after recent API changes.
 				// ******************************************
-				/*array(
+				array(
 					'grouped_options_title' => __( 'Load More', 'feed-them-social' ),
 					'option_type'           => 'select',
 					'label'                 => __( 'Load More Button', 'feed-them-social' ),
@@ -3946,12 +3999,13 @@ class Feed_CPT_Options {
 
 					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
 					'sub_options'        => array(
-						'sub_options_wrap_class' => 'fts-twitter-load-more-options-wrap',
+						'sub_options_wrap_class' => 'fts-twitter-load-more-options2-wrap',
 					),
 					'sub_options_end'    => true,
-				),*/
+				),
 
 				// Twitter Page Load more Amount
+				// We don't need this anymore for TikTok
 				/*array(
                     'option_type' => 'input',
                     'label'       => __( 'Load more Amount', 'feed-them-social' ) . '<br/><small>' . __( 'How many more posts will load at a time.', 'feed-them-social' ) . '</small>',
@@ -3977,7 +4031,7 @@ class Feed_CPT_Options {
                 ),*/
 
 				// Twitter Load more Button Width
-				/*array(
+				array(
 					'option_type'    => 'input',
 					'label'          => __( 'Load more Button Width', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto width', 'feed-them-social' ) . '</small>',
 					'type'           => 'text',
@@ -4016,7 +4070,7 @@ class Feed_CPT_Options {
 						'ifs'               => 'load_more',
 					),
 					'sub_options_end' => 1,
-				),*/
+				),
 
 				// ******************************************
 				// Twitter Grid Options

@@ -74,7 +74,7 @@ class Facebook_Feed_Post_Types {
             $url = $matches[0];
             // Prepend 'http://' if the URL starts with 'www.' and doesn't have 'http://'.
             if (strpos($url, 'www.') === 0 && strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
-                $url = 'http://' . $url;
+                $url = 'https://' . $url;
             }
             return '<a href="' . $url . '" target="_blank" rel="noreferrer">' . $matches[0] . '</a>';
         }, $fb_description);

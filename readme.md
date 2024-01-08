@@ -35,7 +35,7 @@ Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twi
 - Optimized for performance
 - Secure feed caching
 - Fast & exceptional plugin support
-- The best social media feed plugin for WordPress in 2023 and beyond!
+- The best social media feed plugin for WordPress in 2024 and beyond!
 
 **Rave Reviews**
 ⭐⭐⭐⭐⭐

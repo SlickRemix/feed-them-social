@@ -1,4 +1,4 @@
-# Copyright (C) 2023 Feed Them Social - Page, Post, Video and Photo Galleries
+# Copyright (C) 2024 Feed Them Social - Page, Post, Video and Photo Galleries
 # This file is distributed under the same license as the Feed Them Social - Page, Post, Video and Photo Galleries package.
 msgid ""
 msgstr ""

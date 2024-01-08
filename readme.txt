@@ -127,6 +127,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * FIX: Facebook Feed: Title link was missing in some promotional posts.
   * FIX: Facebook Feed: Add check for http on share links because sometimes there is a phone number like tel:+55555555 and not a url.
   * NOTE: Works with WordPress version 6.4.2
+  * SECURITY: Added nonce check for the rating notice.
 
 = Version 4.2.0 Tuesday, December 5th, 2023 =
   * NEW: Facebook: Case type messenger_generic_template added. This allows shared posts from Instagram to appear with photo.

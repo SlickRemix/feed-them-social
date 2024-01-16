@@ -927,9 +927,9 @@
                     src: e.attr("href"),
                     type: type
                 };
-                o.title = jQuery(this).parents(".fts-right").find('.fts-tiktok-content').html() +
-                    jQuery(this).parents(".fts-tweeter-wrap").find('.fts-likes-shares-etc-wrap').html() +
-                    jQuery(this).parents(".fts-tweeter-wrap").find('.fts-tiktok-social-counts-wrap').html(), t.push(o)
+                o.title = jQuery(this).parents(".fts-tiktok-popup-grab").find('.fts-tiktok-content').html() +
+                    jQuery(this).parents(".fts-tiktok-popup-grab").find('.fts-likes-shares-etc-wrap').html() +
+                    jQuery(this).parents(".fts-tiktok-popup-grab").find('.fts-tiktok-social-counts-wrap').html(), t.push(o)
             }), e.magnificPopup({
                 mainClass: "fts-facebook-popup fts-facebook-styles-popup fts-tiktok-popup",
                 items: t,

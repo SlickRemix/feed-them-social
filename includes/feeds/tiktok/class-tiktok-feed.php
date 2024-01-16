@@ -2,18 +2,18 @@
 /**
  * Feed Them Social - TikTok Feed
  *
- * This page is used to create the TikTok feed!
+ * This page is used to create the TikTok feed.
  *
  * @package     feedthemsocial
  * @copyright   Copyright (c) 2012-2024, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since       1.0.0
+ * @since       4.2.1
  */
 
 namespace feedthemsocial;
 
 /**
- * Twitter Feed Class
+ * TikTok Feed Class
  */
 class Tiktok_Feed {
 
@@ -58,7 +58,7 @@ class Tiktok_Feed {
 	 *
 	 * Twitter Feed constructor.
 	 *
-	 * @since 1.9.6
+	 * @since 4.2.1
 	 */
 	public function __construct( $settings_functions, $feed_functions, $feed_cache, $access_options ) {
 		$this->add_actions_filters();
@@ -85,152 +85,19 @@ class Tiktok_Feed {
 	 */
 	public function add_actions_filters() {
 
-		add_action( 'wp_enqueue_scripts', array( $this, 'twitter_head' ) );
-		add_action( 'wp_ajax_nopriv_fts_twitter_share_url_check', array( $this, 'fts_twitter_share_url_check' ) );
-		add_action( 'wp_ajax_fts_twitter_share_url_check', array( $this, 'fts_twitter_share_url_check' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'tiktok_head' ) );
 	}
 
     /**
-	 * FTS Twitter Head
+	 * FTS TikTok Head
 	 *
 	 * Add Styles and Scripts functions.
 	 *
 	 * @since 2.9.6.5
 	 */
-    public function twitter_head() {
+    public function tiktok_head() {
         // no actions or filters to load at this time.
     }
-
-	/**
-	 * Load Videos
-	 *
-	 * @param array $post_data Post data.
-	 * @return string
-	 * @since 1.9.6
-	 */
-	public function load_videos( $post_data ) {
-
-		if ( isset( $post_data->quoted_status->entities->media[0]->type ) ) {
-			$twitter_final = isset( $post_data->quoted_status->entities->media[0]->expanded_url ) ? $post_data->quoted_status->entities->media[0]->expanded_url : '';
-		} else {
-			$twitter_final = isset( $post_data->entities->urls[0]->expanded_url ) ? $post_data->entities->urls[0]->expanded_url : '';
-		}
-
-		// strip Vimeo URL then output iframe.
-		if ( strpos( $twitter_final, 'vimeo' ) > 0 ) {
-			if ( strpos( $twitter_final, 'staffpicks' ) > 0 ) {
-				$parsed_url      = $twitter_final;
-				$parsed_url      = parse_url( $parsed_url );
-				$vimeo_url_final = preg_replace( '/\D/', '', $parsed_url['path'] );
-			} else {
-				$vimeo_url_final = (int) substr( parse_url( $twitter_final, PHP_URL_PATH ), 1 );
-			}
-			return '<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( 'https://player.vimeo.com/video/' . $vimeo_url_final . '?autoplay=0' ) . '" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';
-		} elseif (
-			// strip Vimeo Staffpics URL then ouput Iframe.
-			strpos( $twitter_final, 'youtube' ) > 0 && ! strpos( $twitter_final, '-youtube' ) > 0 ) {
-			$pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
-			preg_match( $pattern, $twitter_final, $matches );
-			$youtube_url_final = $matches[1];
-
-			return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="' . esc_url( 'https://www.youtube.com/embed/' . $youtube_url_final . '?autoplay=0') . '" frameborder="0" allowfullscreen></iframe></div>';
-		} elseif (
-			// strip YouTube URL then ouput Iframe and script.
-			strpos( $twitter_final, 'youtu.be' ) > 0 ) {
-			$pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';
-			preg_match( $pattern, $twitter_final, $matches );
-			$youtube_url_final = $matches[1];
-			return '<div class="fts-fluid-videoWrapper"><iframe height="281" class="video" src="'. esc_url( 'https://www.youtube.com/embed/' . $youtube_url_final . '?autoplay=0' ) . '" frameborder="0" allowfullscreen></iframe></div>';
-		} elseif (
-			// strip YouTube URL then ouput Iframe and script.
-			strpos( $twitter_final, 'soundcloud' ) > 0 ) {
-
-			// Get the JSON data of song details with embed code from SoundCloud oEmbed.
-			$get_values = wp_remote_get( 'https://soundcloud.com/oembed?format=js&url=' . $twitter_final . '&auto_play=false&iframe=true' );
-
-			// Clean the Json to decode.
-			$decode_iframe = substr( $get_values, 1, -2 );
-
-			// json decode to convert it as an array.
-			$json_object = json_decode( $decode_iframe );
-
-			/**
-			 * DC: Would wp_kses work here?
-             * SRL: possibly, have to look deeper into the html structure.
-             * might not be best approach since 3rd party could always make changes.
-			 */
-			return '<div class="fts-fluid-videoWrapper">' . $json_object->html . '</div>';
-		} else {
-
-			// START VIDEO POST.
-			// Check through the different video options available. For some reason the variants which are the actual video urls vary at times in quality so we are going to shoot for 4 first then 2, 3 and 1.
-			if ( isset( $post_data->extended_entities->media[0]->video_info->variants[4]->content_type ) && 'video/mp4' === $post_data->extended_entities->media[0]->video_info->variants[4]->content_type ) {
-				$twitter_final = isset( $post_data->extended_entities->media[0]->video_info->variants[4]->url ) ? $post_data->extended_entities->media[0]->video_info->variants[4]->url : '';
-			} elseif ( isset( $post_data->extended_entities->media[0]->video_info->variants[2]->content_type ) && 'video/mp4' === $post_data->extended_entities->media[0]->video_info->variants[2]->content_type ) {
-				$twitter_final = isset( $post_data->extended_entities->media[0]->video_info->variants[2]->url ) ? $post_data->extended_entities->media[0]->video_info->variants[2]->url : '';
-			} elseif ( isset( $post_data->extended_entities->media[0]->video_info->variants[3]->content_type ) && 'video/mp4' === $post_data->extended_entities->media[0]->video_info->variants[3]->content_type ) {
-				$twitter_final = isset( $post_data->extended_entities->media[0]->video_info->variants[3]->url ) ? $post_data->extended_entities->media[0]->video_info->variants[3]->url : '';
-			} elseif ( isset( $post_data->extended_entities->media[0]->video_info->variants[1]->content_type ) && 'video/mp4' === $post_data->extended_entities->media[0]->video_info->variants[1]->content_type ) {
-				$twitter_final = isset( $post_data->extended_entities->media[0]->video_info->variants[1]->url ) ? $post_data->extended_entities->media[0]->video_info->variants[1]->url : '';
-			}
-
-			// The only difference in these lines is the "retweeted_status" These are twitter videos from Tweet link people post, the ones above are direct videos users post to there timeline.
-			elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[4]->content_type ) && 'video/mp4' === $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[4]->content_type ) {
-				$twitter_final = isset( $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[4]->url ) ? $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[4]->url : '';
-			} elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[2]->content_type ) && 'video/mp4' === $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[2]->content_type ) {
-				$twitter_final = isset( $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[2]->url ) ? $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[2]->url : '';
-			} elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[3]->content_type ) && 'video/mp4' === $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[3]->content_type ) {
-				$twitter_final = isset( $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[3]->url ) ? $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[3]->url : '';
-			} elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[1]->content_type ) && 'video/mp4' === $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[1]->content_type ) {
-				$twitter_final = isset( $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[1]->url ) ? $post_data->retweeted_status->extended_entities->media[0]->video_info->variants[1]->url : '';
-			}
-
-			// The only difference in these lines is the "quoted_status" These are twitter videos from Tweet link people post, the ones above are direct videos users post to there timeline.
-			elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[4]->content_type ) && 'video/mp4' === $post_data->quoted_status->extended_entities->media[0]->video_info->variants[4]->content_type ) {
-				$twitter_final = isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[4]->url ) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[4]->url : '';
-			} elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[2]->content_type ) && 'video/mp4' === $post_data->quoted_status->extended_entities->media[0]->video_info->variants[2]->content_type ) {
-				$twitter_final = isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[2]->url ) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[2]->url : '';
-			} elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[3]->content_type ) && 'video/mp4' === $post_data->quoted_status->extended_entities->media[0]->video_info->variants[3]->content_type ) {
-				$twitter_final = isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[3]->url ) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[3]->url : '';
-			} elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->content_type ) && 'video/mp4' === $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->content_type ) {
-				$twitter_final = isset( $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->url ) ? $post_data->quoted_status->extended_entities->media[0]->video_info->variants[1]->url : '';
-			}
-
-			// Check to see if there is a poster image available.
-			if ( isset( $post_data->extended_entities->media[0]->media_url_https ) ) {
-
-				$twitter_final_poster = isset( $post_data->extended_entities->media[0]->media_url_https ) ? $post_data->extended_entities->media[0]->media_url_https : '';
-			} elseif ( isset( $post_data->quoted_status->extended_entities->media[0]->media_url_https ) ) {
-
-				$twitter_final_poster = isset( $post_data->quoted_status->extended_entities->media[0]->media_url_https ) ? $post_data->quoted_status->extended_entities->media[0]->media_url_https : '';
-			} elseif ( isset( $post_data->retweeted_status->extended_entities->media[0]->media_url_https ) ) {
-
-				$twitter_final_poster = isset( $post_data->retweeted_status->extended_entities->media[0]->media_url_https ) ? $post_data->retweeted_status->extended_entities->media[0]->media_url_https : '';
-			}
-
-			$fts_twitter_output = '<div class="fts-jal-fb-vid-wrap">';
-
-			// This line is here so we can fetch the source to feed into the popup since some html 5 videos can be displayed without the need for a button.
-			$fts_twitter_output .= '<a href="' . esc_url( $twitter_final ) . '" style="display:none !important" class="fts-facebook-link-target fts-jal-fb-vid-image fts-video-type"></a>';
-			$fts_twitter_output .= '<div class="fts-fluid-videoWrapper-html5">';
-			$fts_twitter_output .= '<video controls poster="' . esc_attr( $twitter_final_poster ) . '" width="100%;" style="max-width:100%;">';
-			$fts_twitter_output .= '<source src="' . esc_url( $twitter_final ) . '" type="video/mp4">';
-			$fts_twitter_output .= '</video>';
-			$fts_twitter_output .= '</div>';
-
-			$fts_twitter_output .= '</div>';
-
-			// REMOVING THIS TWITTER VID OPTION TILL WE GET SOME ANSWERS.
-			// https://twittercommunity.com/t/twitter-statuses-oembed-parameters-not-working/105868.
-			// https://stackoverflow.com/questions/50419158/twitter-statuses-oembed-parameters-not-working.
-			// return '<div class="fts-fluid-videoWrapper"><iframe src="' . $twitter_final_video . '" class="video" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>';.
-			// echo $twitter_final;.
-
-			return $fts_twitter_output;
-		}
-		// end main else.
-	}
-	// end function.
 
 	/**
 	 * Description
@@ -239,7 +106,7 @@ class Tiktok_Feed {
      *
 	 * @param array $post_data Post data.
 	 * @return string
-	 * @since 1.9.6
+	 * @since 4.2.1
 	 */
 	public function description( $post_data, $word_count, $more ) {
 
@@ -250,7 +117,7 @@ class Tiktok_Feed {
 		$replace   = array( ' <a href="${0}" target="_blank" rel="nofollow">${0}</a>', ' <a href="${0}" target="_blank" rel="nofollow">${0}</a>', ' <a href="https://www.tiktok.com/@$1" target="_blank" rel="nofollow">@$1</a>', ' <a href="https://www.tiktok.com/tag/$1" target="_blank" rel="nofollow">#$1</a>' );
 		$full_text = preg_replace( $pattern, $replace, $text );
 
-		if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $word_count !== '' ) {
+		if ( is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) && $word_count !== '' ) {
 			$truncate_words = new \FeedThemSocialTruncateHTML();
 			$full_text = $truncate_words::fts_custom_trim_words( $full_text, $word_count, $more );
 		}
@@ -259,327 +126,14 @@ class Tiktok_Feed {
 	}
 
 	/**
-	 * Quote Description
-	 *
-	 * @param string $post_data The post data.
-	 * @return string
-	 * @since 1.9.6
-	 */
-	public function tweet_quote_description( $post_data ) {
-
-		$text = $post_data->quoted_status->full_text;
-
-		// Message. Convert links to real links.
-		$pattern   = array( '/http:(\S)+/', '/https:(\S)+/', '/@+(\w+)/u', '/#+(\w+)/u' );
-		$replace   = array( ' <a href="${0}" target="_blank" rel="nofollow">${0}</a>', ' <a href="${0}" target="_blank" rel="nofollow">${0}</a>', ' <a href="https://twitter.com/$1" target="_blank" rel="nofollow">@$1</a>', ' <a href="https://twitter.com/hashtag/$1?src=hash" target="_blank" rel="nofollow">#$1</a>' );
-		$full_text = preg_replace( $pattern, $replace, $text );
-
-		return nl2br( $full_text );
-	}
-
-
-
-
-
-
-
-    /**
-	 * FTS Twitter Quoted Wrap
-	 *
-	 * @param string $post_data The post data.
-	 * @return string
-	 * @since 2.9.6.5
-	 */
-	public function fts_twitter_share_url_check(){
-
-	     // Verify Nonce Security.
-        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['fts_security'] ) ) , sanitize_text_field( wp_unslash( $_REQUEST['fts_time'] ) ) . 'fts-twitter-nonce' ) ) {
-            exit( 'Sorry, You can\'t do that!' );
-        }
-
-        $twitter_external_url = $_REQUEST['fts_url'];
-	    $no_video_image_check = $_REQUEST['fts_no_video_image'];
-	    $fts_popup = $_REQUEST['fts_popup'];
-
-	            // echo ' test ';
-                // A regular user posted photo or video is not allowed to pass here.
-                if( 'true' === $no_video_image_check ){
-
-                     // There are 2 Types:
-                     // 1. Twitter card data. ie twitter:title, twitter:description, twitter:image.
-                     // 2. Site does not have Twitter info, so we can get the og:title, og:description, og:image
-                     // If 1 or 2 are not found then we return nothing.
-
-                     // FYI sometimes get_meta_tags will not work because a website will block it's usage.
-
-                     // DC This url is something we need to look into!
-                    // $tags = get_meta_tags( sanitize_text_field(  $twitter_external_url ) );
-                     $tags = '';
-                     // First try and us the get_meta_tags php function because this is quicker
-                     // Otherwise we use preg_match to find what we need from the <meta properties"og:image" for example.
-                     // More exceptions might need to be created but this is what's been done so far...
-                     if( !empty( $tags['twitter:image'] ) && true == $tags['twitter:image'] || !empty( $tags['twitter:image:src'] ) && true == $tags['twitter:image:src'] ){
-
-                         $property_image_url = isset( $tags['twitter:image:src'] ) && true == $tags['twitter:image:src'] ? $tags['twitter:image:src'] : $tags['twitter:image'];
-                         $property_image =  true == $property_image_url ? $property_image_url : '';
-                         $property_title =  true == $tags['twitter:title'] ? $tags['twitter:title'] :'';
-                         $property_description =  true == $tags['twitter:description'] ? $tags['twitter:description'] : '';
-                         // echo ' twitter-card ';
-                     }
-                     else {
-                        // error_log( ' og image ' );
-                        // echo ' og image ';
-
-                        $html = $this->feed_functions->fts_get_feed_json( sanitize_text_field( $twitter_external_url ) );
-                        if( !empty( $html['data'] ) ){
-                            // Try curl
-                            $html = $html['data'];
-                        }
-                        elseif( ini_get('allow_url_fopen') ){
-                             // DC This url is something we need to look into!
-                            // If curl fails try file get contents
-                           //   $html = file_get_contents( sanitize_text_field( $twitter_external_url ) );
-                           $html = '';
-                        }
-
-                        // The first 2 are preg_match_all with single quotes '', the second 2 are with double quotes "". We have to check for both.
-                        // og:image
-                        if( true == preg_match_all( "/ content='(.*?)' property='og:image'/", $html, $matches ) ) {
-                            $property_image =  $matches[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( "/ property='og:image' content='(.*?)'/", $html, $matches )  ){
-                            $property_image =  $matches[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ property="og:image" content="(.*?)"/', $html, $matches ) ){
-                            $property_image =  $matches[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:image"/', $html, $matches )  ){
-                            $property_image =  $matches[ 1 ][ 0 ];
-                        }
-                        else {
-                            $property_image = '';
-                        }
-
-                         // og:title
-                        if(  true == preg_match_all( "/ content='(.*?)' property='og:title'/", $html, $matches2 ) ){
-                            $property_title = $matches2[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( "/ property='og:title' content='(.*?)'/", $html, $matches2 )  ){
-                            $property_title = $matches2[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ property="og:title" content="(.*?)"/', $html, $matches2 ) ){
-                            $property_title = $matches2[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:title"/', $html, $matches2 )  ){
-                            $property_title = $matches2[ 1 ][ 0 ];
-                        }
-                        else {
-                            $property_title = '';
-                        }
-
-                         // og:description
-                        if(  true == preg_match_all( "/ content='(.*?)' property='og:description'/", $html, $matches3 ) ){
-                            $property_description = $matches3[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( "/ property='og:description' content='(.*?)'/", $html, $matches3 )  ){
-                            $property_description = $matches3[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ property="og:description" content="(.*?)"/', $html, $matches3 ) ){
-                            $property_description = $matches3[ 1 ][ 0 ];
-                        }
-                        elseif ( true == preg_match_all( '/ content="(.*?)" property="og:description"/', $html, $matches3 )  ){
-                            $property_description = $matches3[ 1 ][ 0 ];
-                        }
-                        else {
-                            $property_description = '';
-                        }
-                }
-		}
-
-	    $twitter_info = array(
-	            'post_url'   => $twitter_external_url,
-	            'image' => $property_image,
-	            'title' => $property_title,
-	            'description' => $property_description,
-	            'popup' => $fts_popup,
-	            // adding this so when we check the ajax data output we have an error message so we can do something if
-	            // and image, title or description are not present. If so then we will not show the external link content in the post.
-	            'error' => 'missing_info',
-	    );
-
-	   if( !empty( $twitter_info[ 'image' ] ) && !empty( $twitter_info[ 'title' ] ) && !empty( $twitter_info[ 'description' ] ) ){
-	        echo $this->fts_twitter_external_link_wrap( $twitter_info );
-	   }
-	   else {
-	       echo $twitter_info[ 'error' ];
-	   }
-
-        wp_die();
-
-	}
-
-	/**
-	 * FTS Twitter Quote Tweet Wrap
-	 *
-     * This occurs when a user retweets a tweet and ads a quote along with it.
-     * It's an option you can choose when you click the retweet icon on twitter.com on any tweet.
-     *
-	 * @param string $post_data The post data.
-	 * @return string
-	 * @since 2.9.6.5
-	 */
-	public function fts_twitter_quoted_wrap( $post_data, $popup, $hide_images_in_posts ) {
-
-	    $post_url = $post_data->quoted_status_permalink->expanded;
-	    $username = $post_data->quoted_status->user->name;
-	    $screen_name = $post_data->quoted_status->user->screen_name;
-
-	    $twitter_image = $this->tweet_image( $post_data, $popup, $hide_images_in_posts );
-	    $twitter_image_class = isset( $twitter_image ) ? 'fts-twitter-image-visible' : 'fts-twitter-no-image';
-
-	    echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
-
-	        echo $twitter_image;
-
-            echo '<div class="fts-twitter-quoted-text fts-quote-tweet ' . esc_html( $twitter_image_class ) . '">';
-
-                echo '<a href="' . esc_url( $post_url ) . '" target="_blank">';
-
-	                echo '<span class="fts-twitter-full-name">'. esc_html( $username ) . '</span>';
-	                echo '<svg viewBox="0 0 24 24" aria-label="Verified account" class="r-1cvl2hr r-4qtqp9 r-yyyyoo r-1xvli5t r-9cviqr r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr"><g><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path></g></svg>';
-            	    echo '<span class="fts-twitter-at-name">@' . esc_html( $screen_name ) . '</span><br/>';
-
-                    echo '<span class="fts-twitter-quoted-description">';
-                       echo \wp_kses(
-                           $this->tweet_quote_description( $post_data ),
-                             array(
-                                  'br'     => array(),
-                                  'em'     => array(),
-                                  'strong' => array(),
-                                  'small'  => array(),
-                                 )
-                             );
-                    echo '</span>';
-                echo '</a>';
-
-            echo '</div>';
-       echo ' </div>';
-	}
-
-
-	/**
-	 * FTS Twitter Quoted Wrap
-	 *
-	 * @param string $post_data The post data.
-	 * @return string
-	 * @since 2.9.6.5
-	 */
-	public function fts_twitter_retweeted_wrap( $post_data, $popup, $hide_images_in_posts ) {
-
-	    $post_url = $post_data->quoted_status_permalink->expanded;
-	    $username = $post_data->retweeted_status->quoted_status->user->name;
-	    $screen_name = $post_data->retweeted_status->quoted_status->user->screen_name;
-
-	    $twitter_image = $this->tweet_image( $post_data, $popup, $hide_images_in_posts );
-	    $twitter_image_class = 'fts-twitter-image-visible';
-
-            if( !empty( $username ) ){
-
-                echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
-
-                    echo $twitter_image;
-
-                            echo '<div class="fts-twitter-quoted-text fts-retweet-quote ' . esc_html( $twitter_image_class ) . '">';
-
-                                echo '<a href="' . esc_url( $post_url ) . '" target="_blank">';
-
-                                    echo '<span class="fts-twitter-full-name">'. esc_html( $username ) . '</span>';
-                                    echo '<svg viewBox="0 0 24 24" aria-label="Verified account" class="r-1cvl2hr r-4qtqp9 r-yyyyoo r-1xvli5t r-9cviqr r-f9ja8p r-og9te1 r-bnwqim r-1plcrui r-lrvibr"><g><path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.154-.435.238-.905.238-1.4 0-2.21-1.71-3.998-3.818-3.998-.47 0-.92.084-1.336.25C14.818 2.415 13.51 1.5 12 1.5s-2.816.917-3.437 2.25c-.415-.165-.866-.25-1.336-.25-2.11 0-3.818 1.79-3.818 4 0 .494.083.964.237 1.4-1.272.65-2.147 2.018-2.147 3.6 0 1.495.782 2.798 1.942 3.486-.02.17-.032.34-.032.514 0 2.21 1.708 4 3.818 4 .47 0 .92-.086 1.335-.25.62 1.334 1.926 2.25 3.437 2.25 1.512 0 2.818-.916 3.437-2.25.415.163.865.248 1.336.248 2.11 0 3.818-1.79 3.818-4 0-.174-.012-.344-.033-.513 1.158-.687 1.943-1.99 1.943-3.484zm-6.616-3.334l-4.334 6.5c-.145.217-.382.334-.625.334-.143 0-.288-.04-.416-.126l-.115-.094-2.415-2.415c-.293-.293-.293-.768 0-1.06s.768-.294 1.06 0l1.77 1.767 3.825-5.74c.23-.345.696-.436 1.04-.207.346.23.44.696.21 1.04z"></path></g></svg>';
-                                    echo '<span class="fts-twitter-at-name">@' . esc_html( $screen_name ) . '</span><br/>';
-
-                                    echo '<span class="fts-twitter-quoted-description">';
-                                       echo \wp_kses(
-                                           $this->tweet_quote_description( $post_data ),
-                                             array(
-                                                  'br'     => array(),
-                                                  'em'     => array(),
-                                                  'strong' => array(),
-                                                  'small'  => array(),
-                                                 )
-                                             );
-                                    echo '</span>';
-                                echo '</a>';
-
-                            echo '</div>';
-               echo ' </div>';
-
-            }
-            else {
-                    echo $twitter_image;
-            }
-	}
-
-	/**
-	 * FTS Twitter External Link Wrap
-	 *
-	 * @param string $post_data The post data.
-	 * @return string
-	 * @since 2.9.6.5
-	 */
-	public function fts_twitter_external_link_wrap( $details ) {
-
-	    $post_url = $details['post_url'];
-	    $title = $details['title'];
-	    $description = $details['description'];
-
-	    echo '<div class="fts-twitter-quoted-text-wrap fts-twitter-quote">';
-
-	        echo $this->tweet_image( '', $details, '' );
-
-            echo '<div class="fts-twitter-quoted-text fts-external-link-specific">';
-
-                echo '<a href="' . esc_url( $post_url ) . '" target="_blank">';
-
-                    $domain = wp_parse_url( $post_url );
-                    $domain = str_replace('www.','', $domain['host'] );
-
-                    echo '<span class="fts-twitter-domain-name">'. $domain . '</span>';
-
-                    echo '<span class="fts-twitter-quoted-title">' . $title . '</span>';
-
-                    echo '<span class="fts-twitter-quoted-description">';
-                        // This description comes from the external url getting the meta og:description.
-                       echo \wp_kses(
-                           $description,
-                             array(
-                                  'br'     => array(),
-                                  'em'     => array(),
-                                 'strong' => array(),
-                                 'small'  => array(),
-                                 )
-                             );
-                    echo '</span>';
-                echo '</a>';
-
-            echo '</div>';
-       echo ' </div>';
-
-	}
-
-
-
-
-
-
-	/**
-	 * Tweet Image
+	 * TikTok Image
 	 *
 	 * @param string $post_data The post data.
 	 * @param string $popup Our Custom popup.
 	 * @return string
-	 * @since 1.9.6
+	 * @since 4.2.1
 	 */
-	public function tweet_image( $post_data, $popup, $hide_images_in_posts ) {
+	public function tiktok_image( $post_data, $popup, $hide_images_in_posts ) {
 
 		$screen_name = isset( $post_data->user->screen_name ) ?  $post_data->user->screen_name : '';
 		$post_id = isset( $post_data->id ) ?  $post_data->id : '';
@@ -607,77 +161,67 @@ class Tiktok_Feed {
 	}
 
 	/**
-	 * Tweet Permalink
+	 * TikTok Permalink
 	 *
 	 * @param string $post_data The post data.
 	 * @return string
-	 * @since 1.9.6
+	 * @since 4.2.1
 	 */
 	public function comment_count( $post_data ) {
-		$comment_count = isset( $post_data->comment_count ) && '0' !== $post_data->comment_count ? $post_data->comment_count : '';
+		$comment_count = isset( $post_data->comment_count ) && $post_data->comment_count !== '0' ? $post_data->comment_count : '';
 
-		return '<span class="fts-tiktok-comment-count">' . esc_html( $comment_count ) . '</span>';
+		if( $comment_count !== 0) {
+			return '<span class="fts-tiktok-comment-count">' . esc_html( $comment_count ) . '</span>';
+		}
 	}
 
 	/**
-	 * Retweet Count
+	 * TikTok Count
 	 *
 	 * @param string $post_data The post data.
 	 * @return string
-	 * @since 1.9.6
+	 * @since 4.2.1
 	 */
 	public function like_count( $post_data ) {
         // Retweet count.
         $like_count = isset( $post_data->like_count ) && '0' !== $post_data->like_count ? $post_data->like_count : '';
 
-		return '<span class="fts-tiktok-like-count">' . esc_html( $like_count ) . '</span>';
+		if( $like_count !== 0) {
+			return '<span class="fts-tiktok-like-count">' . esc_html( $like_count ) . '</span>';
+		}
 	}
 
 	/**
-	 * Favorite Count
+	 * TikTok Favorite Count
 	 *
 	 * @param string $post_data The post data.
 	 * @return string
-	 * @since 1.9.6
+	 * @since 4.2.1
 	 */
 	public function view_count( $post_data ) {
         // Favorite count.
         $view_count = isset( $post_data->view_count ) && '0' !== $post_data->view_count ? $post_data->view_count : '';
 
-		return '<span class="fts-tiktok-views-count">' . esc_html( $view_count ) . '</span>';
-	}
-
-    /**
-	 * Feed Fetch Errors Check
-	 *
-	 * @param string $post_data The post data.
-	 * @return string
-	 * @since 1.9.6
-	 */
-	public function feed_fetch_error_check( $post_data ) {
-        // Favorite count.
-        $favorite_count = isset( $post_data->favorite_count ) && '0' !== $post_data->favorite_count ? $post_data->favorite_count : '';
-
-		return '<a href="' . esc_html( 'https://twitter.com/intent/like?tweet_id=' . $post_data->id . '&related=' . $post_data->user->screen_name ) . '" target="_blank" class="fts-twitter-favorites-wrap" title="' . esc_attr( 'Favorite', 'feed-them-social' ) . '" aria-label="' . esc_attr( 'Favorite', 'feed-them-social' ) . '"><div class="fts-twitter-favorites">' . esc_html( $favorite_count ) . '</div></a>';
+		if( $view_count !== 0) {
+			return '<span class="fts-tiktok-views-count">' . esc_html( $view_count ) . '</span>';
+		}
 	}
 
      /**
-     * Twitter Custom Styles
+     * TikTok Custom Styles
      *
      * Custom Styles for feed in a shortcode.
      *
      * @param string $a First Date.
      * @return false|int
-     * @since 4.0
+     * @since 4.2.1
      */
-    public function twitter_custom_styles( $feed_post_id ) {
+    public function tiktok_custom_styles( $feed_post_id ) {
 
         $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
         ?>
         <style type="text/css">
         <?php
-
-
             $twitter_text_size                   = $saved_feed_options['twitter_text_size'] ?? '';
             $twitter_text_color                  = $saved_feed_options['twitter_text_color'] ?? '';
             $twitter_link_color                  = $saved_feed_options['twitter_link_color'] ?? '';
@@ -817,16 +361,16 @@ class Tiktok_Feed {
     }
 
 	/**
-     * Load PopUp Scripts
+     * Load Popup Scripts
      *
-     * @param array $saved_feed_options The feed options saved in the CPT.
-     * @since 1.9.6
+     * @param array $premium_options The feed options saved in the CPT but loaded in tiktok Premium.
+     * @since 4.2.1
      */
-    public function load_popup_scripts( $saved_feed_options ) {
-        if ( isset(  $saved_feed_options['twitter_popup_option']  ) && 'yes' === $saved_feed_options['twitter_popup_option']  ) {
-            // it's ok if these styles & scripts load at the bottom of the page.
+    public function load_popup_scripts( $premium_options ) {
+        if ( isset( $premium_options['popup']  ) && $premium_options['popup'] === 'yes' ) {
+            // It's ok if these styles & scripts load at the bottom of the page.
             $fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
-            if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
+            if ( isset( $fts_fix_magnific ) && $fts_fix_magnific !== '1' ) {
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
             }
             wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
@@ -835,13 +379,13 @@ class Tiktok_Feed {
     }
 
 	/**
-	 * Display Twitter
+	 * Display TikTok
 	 *
-	 * Display Twitter Feed.
+	 * Display TikTok Feed.
 	 *
 	 * @param integer $feed_post_id The ID of the Feed's CPT Post.
 	 * @return array
-	 * @since 1.9.6
+	 * @since 4.2.1
 	 */
 	public function display_tiktok( $feed_post_id ) {
 
@@ -853,98 +397,76 @@ class Tiktok_Feed {
             $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
 
             // Get our Additional Options.
-            $this->twitter_custom_styles( $feed_post_id );
+            $this->tiktok_custom_styles( $feed_post_id );
 
              /*echo'<pre>';
              print_r($saved_feed_options);
              echo'</pre>';*/
 
-            $tiktok_user_id = $saved_feed_options['fts_tiktok_user_id'];
-
+            $tiktok_user_id = $saved_feed_options['fts_tiktok_user_id'] ?? '';
             // Show Follow Button.
-            $twitter_show_follow_btn       = $saved_feed_options['twitter_show_follow_btn'];
-
+            $twitter_show_follow_btn       = $saved_feed_options['twitter_show_follow_btn'] ?? '';
             // Location of Show Follow Button.
-            $twitter_show_follow_btn_where = $saved_feed_options['twitter_show_follow_btn_where'];
-
-            // Show Follow Button Count
-            $twitter_show_follow_count     = $saved_feed_options['twitter_show_follow_count'];
-
-             // Twitter Username!
-            $twitter_name = $saved_feed_options['twitter_name'] ?? '';
-
-            // Tweets Count!
+            $twitter_show_follow_btn_where = $saved_feed_options['twitter_show_follow_btn_where'] ?? '';
+			$tiktok_follow_on_tiktok	   = $saved_feed_options['tiktok_follow_on_tiktok'] ?? 'Follow on TikTok';
+            // TikTok Count.
             $video_count = $saved_feed_options['tweets_count'] ?? '6';
-
-            // Twitter Height!
+            // Twitter Height.
             $twitter_height = $saved_feed_options['twitter_height'] ?? '';
-
-             // Description Image!
-            $description_image = $saved_feed_options['description_image'] ?? '';
-
-            // Search!
-            $search = $saved_feed_options['twitter_hashtag_etc_name'] ?? '';
-
-            // Feed Type!
+            // Feed Type.
             $type = $saved_feed_options['twitter-messages-selector'] ?? '';
 
-            // Show Retweets!
-            $show_retweets = $saved_feed_options['twitter_show_retweets'] ?? '';
+			$tiktok_columns 				 = $saved_feed_options['tiktok_columns'] ?? '';
+			$tiktok_force_columns 			 = $saved_feed_options['tiktok_force_columns'] ?? '';
+			$tiktok_space_between_photos     = $saved_feed_options['tiktok_space_between_photos'] ?? '1px';
+			$tiktok_icon_size 				 = $saved_feed_options['tiktok_icon_size'] ?? '';
+			$tiktok_hide_date_likes_comments = $saved_feed_options['tiktok_hide_date_likes_comments'] ?? '';
+			$tiktok_image_height			 = $saved_feed_options['tiktok_image_height'] ?? '';
 
-            // Show Replies!
-            $show_replies = $saved_feed_options['twitter_show_replies'] ?? '';
-
-            // Cover Photo!
-            $cover_photo = $saved_feed_options['twitter_cover_photo'] ?? '';
-
-            // Stats Bar!
-            $stats_bar = $saved_feed_options['twitter_stats_bar'] ?? '';
-
-            $twitter_hide_profile_photo          = $saved_feed_options['twitter_hide_profile_photo'] ?? '';
-
-            $hide_images_in_posts                = $saved_feed_options['twitter_hide_images_in_posts'] ?? '';
-
-            $popup                               = $saved_feed_options['twitter_popup_option'] ?? '';
+            // Stats Bar.
+            $stats_bar					    = $saved_feed_options['twitter_stats_bar'] ?? '';
+            $stats_bar_profile_photo 	    = $saved_feed_options['tiktok_show_stats_profile_photo'] ?? '';
+            $stats_bar_follow_btn 		    = $saved_feed_options['tiktok_show_stats_follow_btn'] ?? '';
+            $stats_bar_follow_button_inline = $saved_feed_options['tiktok_show_follow_button_inline'] ?? '';
+            $stats_bar_counts 				= $saved_feed_options['tiktok_show_stats_counts'] ?? '';
+            $stats_bar_description 			= $saved_feed_options['tiktok_show_stats_description'] ?? '';
+            $twitter_hide_profile_photo     = $saved_feed_options['twitter_hide_profile_photo'] ?? '';
+            $hide_images_in_posts           = $saved_feed_options['twitter_hide_images_in_posts'] ?? '';
 
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 			$load_popup_scripts = false;
 
 			// option to allow this action or not from the Twitter Options page.
-			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+			if ( is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) ) {
 
-				$loadmore                    = $saved_feed_options['twitter_load_more_option'] ?? '';
-				$loadmore_style              = $saved_feed_options['twitter_load_more_style'] ?? '';
-                $loadmore_btn_margin         = $saved_feed_options['twitter_loadmore_button_margin'] ?? '';
-                $loadmore_btn_maxwidth       = $saved_feed_options['twitter_loadmore_button_width'] ?? '';
-                $grid                        = $saved_feed_options['twitter_grid_option'] ?? '';
-                $column_width                = $saved_feed_options['twitter_grid_column_width'] ?? '';
-                $space_between_posts         = $saved_feed_options['twitter_grid_space_between_posts'] ?? '';
-				$twitter_load_more_text      = $saved_feed_options['twitter_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
-				$twitter_no_more_tweets_text = $saved_feed_options['twitter_no_more_tweets_text'] ??  __( 'No More Videos', 'feed-them-social' );
-
-				if ( isset(  $saved_feed_options['twitter_popup_option']  ) && $saved_feed_options['twitter_popup_option'] === 'yes' ) {
-					$popup = 'yes';
-					// Load up some scripts for popup.
-					$load_popup_scripts = true;
-				}
-
+				$fts_tiktok_premium = new \feed_them_social_tiktok_premium\TikTok_Feed( $this->feed_functions, null);
+				$premium_options = $fts_tiktok_premium->tiktok_premium_options( $saved_feed_options );
+				$popup				   = $premium_options['popup'] ?? '';
+				$loadmore              = $premium_options['loadmore'] ?? '';
+				$loadmore_style        = $premium_options['loadmore_style'] ?? '';
+				$loadmore_btn_margin   = $premium_options['loadmore_btn_margin'] ?? '';
+				$loadmore_btn_maxwidth = $premium_options['loadmore_btn_maxwidth'] ?? '';
+				$grid                  = $premium_options['grid'] ?? '';
+				$column_width          = $premium_options['column_width'] ?? '';
+				$space_between_posts   = $premium_options['space_between_posts'] ?? '';
+				$load_more_text        = $premium_options['load_more_text'] ?? '';
+				$no_more_posts_text    = $premium_options['no_more_posts_text'] ?? '';
+				$load_popup_scripts    = $premium_options['load_popup_scripts'] ?? false;
+			}
+			else {
+				$grid = 'no';
+				$popup = 'no';
 			}
 			 // Load Pop Up Scripts
 			if( $load_popup_scripts ){
-				$this->load_popup_scripts( $saved_feed_options );
+				$this->load_popup_scripts( $premium_options );
 			}
 
-
-            // Premium Tweets Count Check!
-			if ( ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $video_count > '6' ) {
+            // Premium TikTok Count Check!
+			if ( ! is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) && $video_count > '6' ) {
 				$video_count = '6';
 			}
-
-			// Exclude Replies?
-			// $exclude_replies = $show_replies === 'no' ? 'true' : 'false' ;
-			// Changing to not include replies by default and because we are removing the options for now.
-			$exclude_replies = 'true' ;
 
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -987,6 +509,8 @@ class Tiktok_Feed {
 					$user_open_id = $saved_feed_options['fts_tiktok_user_id'];
 
 					// if(  !isset( $_GET['load_more_ajaxing'] ) ){
+						// Need to double check turning on the if(  !isset( $_GET['load_more_ajaxing'] ) ){  above. I believe we need to send
+						// an empty array to the multi_data array if we are loading more so this does not error out.
 						// Prepare the user data request data with headers
 						// https://developers.tiktok.com/doc/tiktok-api-v2-get-user-info/
 						$multi_data['user_data'] = array(
@@ -999,13 +523,11 @@ class Tiktok_Feed {
 					// }
 
 
-				if(  isset( $_GET['load_more_ajaxing'] ) ){
-					$since_id = $_REQUEST['since_id'];
-					$count 	  = '10';
-					$url      = "https://open-api.tiktok.com/video/list/?open_id=$user_open_id&access_token=$fts_tiktok_access_token&max_count=$count&fields=cover_image_url,id,title&cursor=$since_id";
+				if(  isset( $_GET['load_more_ajaxing'] ) && is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) ){
+					$url = $fts_tiktok_premium->tiktok_connection( $saved_feed_options, $_REQUEST['since_id'] );
 				}
 				else{
-					$url      = "https://open-api.tiktok.com/video/list/?open_id=$user_open_id&access_token=$fts_tiktok_access_token&max_count=$video_count&fields=cover_image_url,id,title";
+					$url = "https://open-api.tiktok.com/video/list/?open_id=$user_open_id&access_token=$fts_tiktok_access_token&max_count=$video_count&fields=cover_image_url,id,title";
 				}
 
 				// Get the feed data
@@ -1147,8 +669,6 @@ class Tiktok_Feed {
 				if ( isset( $user_data->data->user->display_name ) && ! empty( $user_data->data->user->display_name ) ) {
 
 					$user_permalink 	= $user_data->data->user->profile_deep_link ?? '';
-
-					$profile_banner_url = $user_data->data->user->profile_banner_url ?? '';
 					$statuses_count     = $user_data->data->user->video_count ?? '';
 					$followers_count    = $user_data->data->user->follower_count ?? '';
 					$friends_count      = $user_data->data->user->following_count ?? '';
@@ -1156,8 +676,8 @@ class Tiktok_Feed {
 
 					// Need to make an option to allow users to show the display nicename or the @name.
 					// I figure most people would want to display the nice name but who knows.
-					$bio_nicename   = $user_data->data->user->display_name ?? '';
-					$display_at_name   	= $feed_data->data->video_list[0]->share_url ?? '';
+					$bio_nicename    = $user_data->data->user->display_name ?? '';
+					$display_at_name = $feed_data->data->video_list[0]->share_url ?? '';
 
 					// Find the position of '@'
 					$atPos = strpos($display_at_name, '@');
@@ -1179,37 +699,21 @@ class Tiktok_Feed {
 						$display_name = '';
 					}
 
-
 					$likes_count   		= $user_data->data->user->likes_count ?? '';
-
 					$avatar_url_100   	= $user_data->data->user->avatar_url_100 ?? '';
 					$avatar_url_large   = $user_data->data->user->avatar_large_url ?? '';
 
 					// Make sure it's not ajaxing.
 					if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
-						if ( isset( $profile_banner_url ) && isset( $cover_photo ) && 'yes' === $cover_photo ) {
-							?>
-	                        <div class="fts-twitter-backg-image">
-							<?php
-							if ( isset( $twitter_show_follow_btn ) && 'yes' === $twitter_show_follow_btn && 'twitter-follow-above' === $twitter_show_follow_btn_where && ! empty( $twitter_name ) ) {
-								echo '<div class="twitter-social-btn-top">';
-								echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name, $saved_feed_options );
-								echo '</div>';
-							}
-							?>
-		                    <img src="<?php echo esc_url( $profile_banner_url ); ?>"/>
-
-	                        </div>
-							<?php
-						} elseif ( isset( $twitter_show_follow_btn ) && 'yes' === $twitter_show_follow_btn && 'twitter-follow-above' === $twitter_show_follow_btn_where && ! empty( $twitter_name ) && 'yes' !== $cover_photo ) {
-							echo '<div class="twitter-social-btn-top">';
-							echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name, $saved_feed_options );
+						if ( $stats_bar === 'no' && isset( $twitter_show_follow_btn ) && $twitter_show_follow_btn === 'yes' && $twitter_show_follow_btn_where === 'twitter-follow-above' ) {
+							echo '<div class="tiktok-social-btn-top">';
+							echo $this->feed_functions->social_follow_button( 'tiktok', $user_permalink, $saved_feed_options );
 							echo '</div>';
-						}// if cover photo = yes.
+						}
 
 						// These need to be in this order to keep the different counts straight since I used either $statuses_count or $followers_count throughout.
-						if ( isset( $stats_bar ) && 'yes' === $stats_bar && empty( $search ) ) {
+						if ( $stats_bar === 'yes' && $stats_bar_counts === 'yes' ) {
 
 							// here we add a , for all numbers below 9,999.
 							if ( isset( $statuses_count ) && $statuses_count <= 9999 ) {
@@ -1223,7 +727,6 @@ class Tiktok_Feed {
 							if ( isset( $statuses_count ) && $statuses_count >= 10000 ) {
 								$statuses_count = round( ( $statuses_count / 1000 ), 1 ) . 'k';
 							}
-
 							// here we add a , for all numbers below 9,999.
 							if ( isset( $followers_count ) && $followers_count <= 9999 ) {
 								$followers_count = number_format( (float) $followers_count );
@@ -1238,87 +741,79 @@ class Tiktok_Feed {
 							}
 						}
 
-						// option to allow the followers plus count to show.
-						// if ( isset( $twitter_show_follow_count ) && 'yes' === $twitter_show_follow_count && empty( $search ) && isset( $stats_bar ) && 'yes' !== $stats_bar ) {
-						//	echo '<div class="twitter-followers-fts-singular"><a href="' . esc_url( $user_permalink ) . '" target="_blank">' . esc_html( 'Followers:', 'feed-them-social' ) . '</a> ' . esc_html( $followers_count ) . '</div>';
-						// }
-						if ( isset( $stats_bar ) && 'yes' === $stats_bar && empty( $search ) ) { ?>
-							<div class="fts-tiktok-bio-profile-wrap">
-								<div class="fts-tiktok-bio-profile-pic"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
+						if ( $stats_bar === 'yes' ) {
+							$tiktok_show_follow_button_inline_class = $saved_feed_options['tiktok_show_follow_button_inline'] === 'yes' ? ' tiktok-show-follow-button-inline' : '';
+							?>
+							<div class="fts-tiktok-bio-profile-wrap<?php echo $tiktok_show_follow_button_inline_class ?>">
+								<?php if ( $stats_bar_profile_photo === 'yes' ) { ?>
+									<div class="fts-tiktok-bio-profile-pic"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
 											class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $avatar_url_large ); ?>" alt="<?php echo esc_attr( $display_name ); ?>"/></a>
-								</div>
+									</div>
+								<?php } ?>
 								<div class="tiktok-bio-names-follow-wrap">
-									<div class="fts-tiktok-bio-nicename"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><?php echo esc_html( $bio_nicename ); ?></a></div>
-									<div class="fts-tiktok-bio-username"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><?php echo esc_html( $display_name ); ?></a></div>
-									<div class="fts-tiktok-bio-follow-button"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><?php echo esc_html('Follow on TikTok' ); ?></a></div>
+									<div class="fts-tiktok-bio-wrap">
+										<div class="fts-tiktok-bio-nicename"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><?php echo esc_html( $bio_nicename ); ?></a></div>
+										<div class="fts-tiktok-bio-username"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><?php echo esc_html( $display_name ); ?></a></div>
+									</div>
+									<?php if ( $stats_bar_follow_btn === 'yes') { ?>
+										<div class="fts-tiktok-bio-follow-button"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><?php echo esc_html( $tiktok_follow_on_tiktok ); ?></a></div>
+									<?php } ?>
 								</div>
-								<?php
-								// option to allow the followers plus count to show.
-								echo '<div class="fts-twitter-followers-wrap">';
-								// Make an option to show or hide the video count.
-								echo '<div class="twitter-followers-fts fts-tweets-first"><a href="' . esc_url( $user_permalink ) . '" target="_blank"><span>' . esc_html( $statuses_count ) . '</span>' . esc_html( 'Videos', 'feed-them-social' ) . '</a></div>';
-
-								echo '<div class="twitter-followers-fts fts-following-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank"><span>' . number_format( (float) $friends_count ) . '</span>' . esc_html( 'Following', 'feed-them-social' ) . '</a></div>';
-								echo '<div class="twitter-followers-fts fts-followers-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank"><span>' . esc_html( $followers_count ) . '</span>' . esc_html( 'Followers', 'feed-them-social' ) . '</a></div>';
-								echo '<div class="twitter-followers-fts fts-likes-link-div"><a href="' . esc_url( $user_permalink ) . '" target="_blank"><span>' . number_format( (float) $likes_count ) . '</span>' . esc_html( 'Likes', 'feed-them-social' ) . '</a></div>';
-								echo '</div>';
-
-								?>
-								<div class="fts-tiktok-bio-description"><?php echo esc_html( $bio_description ); ?></div>
+									<?php if ( $stats_bar_counts === 'yes' ) { ?>
+									<div class="fts-twitter-followers-wrap">
+										<div class="twitter-followers-fts fts-tweets-first"><a href="<?php echo esc_url( $user_permalink ) ?>" target="_blank"><span><?php echo esc_html( $statuses_count ) ?></span><?php echo esc_html( 'Videos', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-following-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo number_format( (float) $friends_count ); ?></span><?php echo esc_html( 'Following', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-followers-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $followers_count ); ?></span><?php echo esc_html( 'Followers', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-likes-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo number_format( (float) $likes_count ); ?></span><?php echo esc_html( 'Likes', 'feed-them-social' ); ?></a></div>
+									</div>
+									<?php } ?>
+									<?php if ( $stats_bar_description === 'yes' ) { ?>
+										<div class="fts-tiktok-bio-description"><?php echo esc_html( $bio_description ); ?></div>
+									<?php } ?>
 							</div>
 							<?php
-
 						}
 
-						if ( isset( $grid ) && 'yes' === $grid ) {
-							?>
-<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" class="fts-slicker-twitter-posts masonry js-masonry <?php
-												echo esc_attr( $fts_dynamic_class_name );
-												if ( isset( $popup ) && 'yes' === $popup ) {?> popup-gallery-tiktok<?php } ?>" style='margin:0 auto' data-masonry-options='{"itemSelector": ".fts-tweeter-wrap", "isFitWidth": true, "transitionDuration": 0 }'>
-								<?php
-						} else {
-							?>
-	<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div <?php
+						if ( isset( $grid ) && $grid === 'yes' ) {
+						// Start Grid format where there is a new div wrapper ?>
+				<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" class="fts-slicker-twitter-posts masonry js-masonry <?php echo esc_attr( $fts_dynamic_class_name );
+					if ( isset( $popup ) && 'yes' === $popup ) {?> popup-gallery-tiktok<?php } ?>" style='margin:0 auto' data-masonry-options='{"itemSelector": ".fts-tweeter-wrap", "isFitWidth": true, "transitionDuration": 0 }'>
+						<?php }
+
+						// Start of Classic feed wrapper
+						elseif (isset( $type ) && $type === 'classic' && isset( $grid ) && $grid !== 'yes') {  ?>
+						<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div <?php
 									if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
 										?>fts-twitter-scrollable<?php
 									}
-									if ( isset( $popup ) && 'yes' === $popup ) {?> popup-gallery-tiktok<?php } ?>"
+									if ( isset( $popup ) && $popup === 'yes' ) {?> popup-gallery-tiktok<?php } ?>"
 								<?php
-								if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {?>style="height:<?php echo esc_attr( $twitter_height ); ?>"<?php } ?>>
-				<?php } ?>
+								if ( ! empty( $twitter_height ) && $twitter_height !== 'auto' ) {?>style="height:<?php echo esc_attr( $twitter_height ); ?>"<?php } ?>>
+								<?php }
 
-							<?php
-					}
+						// Start of Responsive feed wrapper
+						elseif  (isset( $type ) && $type === 'responsive' && isset( $grid ) && $grid !== 'yes') { ?>
+						<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" data-ftsi-columns="<?php echo esc_attr( $tiktok_columns ); ?>" data-ftsi-height="<?php echo esc_attr( $tiktok_image_height ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $tiktok_force_columns ); ?>" data-ftsi-margin="<?php echo esc_attr( $tiktok_space_between_photos ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['tiktok_page_width'] ) ? esc_attr( $saved_feed_options['tiktok_page_width']  ) : ''; ?>" class="fts-twitter-div <?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
+							if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
+								?> fts-twitter-scrollable<?php
+							}
+							if ( isset( $popup ) && $popup === 'yes' ) { echo ' popup-gallery-tiktok'; }else {  echo ' no-popup-gallery-tiktok'; }?>"
+							<?php if ( ! empty( $twitter_height ) && $twitter_height !== 'auto' ) {?>style="height:<?php echo esc_attr( $twitter_height ); ?>"<?php } ?>>
+						<?php }
+
+					}// End if is not ajaxing
 
 					 /*echo'<pre>';
 					 print_r($fetched_data->data);
                      echo'</pre>';*/
 
-					// $i = 0;
 					foreach ( $feed_data->data->video_list as $post_data ) {
 
 						$user_name            = $display_name ?? '';
 						$word_count 		  = !empty( $saved_feed_options['tiktok_word_count'] ) ? $saved_feed_options['tiktok_word_count'] : '';
 						$more 		  		  = '...';
 						$description          = $this->description( $post_data, $word_count, $more );
-						$user_name_retweet    = $post_data->retweeted_status->user->name ?? '';
-						$twitter_name         = $post_data->user->screen_name ?? '';
-						$screen_name_retweet  = $post_data->retweeted_status->user->screen_name ?? '';
-						$in_reply_screen_name = $post_data->entities->user_mentions[0]->screen_name ?? '';
-						$protocol             = isset( $_SERVER['HTTPS'] ) ? 'https://' : 'http://';
-
-						$user_permalink = $user_permalink;
-
-						$user_retweet_permalink = $protocol . 'twitter.com/' . $screen_name_retweet;
-
-						$in_reply_permalink = $protocol . 'twitter.com/' . $in_reply_screen_name;
-
-						// Alternative image sizes method: http://dev.twitter.com/doc/get/users/profile_image/:screen_name */.
 						$image = $avatar_url_100 ?? '';
-
-						$image_retweet = $post_data->retweeted_status->user->profile_image_url_https ?? '';
-
-						// $image = str_replace($not_protocol, $protocol, $image);.
 						// Need to get time in Unix format.
 						$times = $post_data->create_time ?? '';
 						// tied to date function.
@@ -1327,164 +822,219 @@ class Tiktok_Feed {
 						// call our function to get the date.
 						$fts_date_time = $this->feed_functions->fts_custom_date( $times, $feed_type );
 
-						$fts_twitter_full_width = $saved_feed_options['twitter_full_width'] ?? '';
-						$fts_dynamic_name       = isset( $fts_dynamic_name ) ? $fts_dynamic_name : '';
+						$fts_dynamic_name = isset( $fts_dynamic_name ) ? $fts_dynamic_name : '';
 
-						?>
+						if( $type === 'classic' || isset( $grid ) && $grid === 'yes'){ ?>
 
-				<div class="fts-tweeter-wrap <?php echo esc_attr( $fts_dynamic_name ); ?>"
-						<?php
-						if ( isset( $grid ) && 'yes' === $grid ) {
-							echo ' style="width:' . esc_attr( $column_width ) . '; margin:' . esc_attr( $space_between_posts ) . '"';
-						}
-						?>>
-				<div class="tweeter-info">
+							<div class="fts-tiktok-popup-grab fts-tweeter-wrap <?php echo esc_attr( $fts_dynamic_name ); ?>"
+									<?php if ( isset( $grid ) && $grid === 'yes' ) {
+										echo ' style="width:' . esc_attr( $column_width ) . '; margin:' . esc_attr( $space_between_posts ) . '"';
+									} ?>>
+								<div class="tweeter-info">
 
-						<?php if ( 'yes' !== $fts_twitter_full_width ) { ?>
-						<div class="fts-twitter-image"></div>
-					<?php } ?>
+								<div class="fts-tiktok-popup-grab fts-right">
+									<div class="fts-tiktok-content fts-tiktok-popup">
+										  <div class="fts-tiktok-content-inner">
+											<div class="fts-uppercase fts-bold">
+													<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
+													class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
 
-					<div class="<?php if ( 'yes' === $fts_twitter_full_width ) {?>fts-twitter-full-width <?php
-								} else {?>fts-right<?php } ?>">
-						<div class="fts-tiktok-content fts-tiktok-popup">
-							  <div class="fts-tiktok-content-inner">
-								<div class="fts-uppercase fts-bold">
-										<?php if ( $saved_feed_options['twitter_full_width'] !== 'yes' ){?>
-										<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
-										class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
-										<?php } ?>
-
-									 <span class="fts-twitter-name-wrap">
-												<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $user_name ); ?></a>
-												<a href="<?php echo esc_url( $user_permalink ); ?>" class="time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a>
-									</span>
-								<?php
-
-								$permalink = $user_permalink ?>
-								</div>
-								<span class="fts-tiktok-logo"><a href="<?php echo esc_url( $permalink ); ?>" target="_blank"><i class="fa fa-tiktok"></i></a></span>
-								<span class="fts-twitter-text">
-								<?php
-								echo wp_kses(
-									$description,
-									array(
-										'a'      => array(
-											'href'   => array(),
-											'title'  => array(),
-											'rel' 	 => array(),
-											'target' => array(),
-										),
-										'br'     => array(),
-										'em'     => array(),
-										'strong' => array(),
-										'small'  => array(),
-									)
-								);
-								?>
-									<div class="fts-twitter-caption">
-										<a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-view-on-twitter-link" target="_blank"><?php echo esc_html( 'View on Twitter', 'feed-them-social' ); ?></a>
+												 <span class="fts-twitter-name-wrap">
+													 <a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $user_name ); ?></a>
+													 <a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-tiktok-time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a>
+												</span>
+											</div>
+											<span class="fts-tiktok-logo"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><i class="fa fa-tiktok"></i></a></span>
+											<span class="fts-twitter-text">
+											<?php
+											echo wp_kses(
+												$description,
+												array(
+													'a'      => array(
+														'href'   => array(),
+														'title'  => array(),
+														'rel' 	 => array(),
+														'target' => array(),
+													),
+													'br'     => array(),
+													'em'     => array(),
+													'strong' => array(),
+													'small'  => array(),
+												)
+											);
+											?>
+												<div class="fts-twitter-caption">
+													<a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-view-on-twitter-link" target="_blank"><?php echo esc_html( 'View on Twitter', 'feed-them-social' ); ?></a>
+												</div>
+											</span>
+										</div>
 									</div>
-								</span>
-							</div>
-						</div>
-
-						<?php
-
-						if ( isset( $post_data->quoted_status->entities->media[0]->type ) ) {
-							$twitter_final = isset( $post_data->quoted_status->entities->media[0]->expanded_url ) && 'video' === $post_data->quoted_status->entities->media[0]->expanded_url ? $post_data->quoted_status->entities->media[0]->expanded_url : '';
-
-						} else {
-							$twitter_final = $post_data->entities->urls[0]->expanded_url ?? '';
-						}
-
-						// Regular Posted Videos.
-						$twitter_video_reg = isset( $post_data->extended_entities->media[0]->type ) && 'video' === $post_data->extended_entities->media[0]->type ? $post_data->extended_entities->media[0]->type : '';
-
-						// Retweeted video urls // NOTE I HAVE NOT COMPLETED THIS OPTION COMPLETELY BECAUSE I CANNOT FIND AN EXAMPLE.
-						$twitter_video_retweeted = isset( $post_data->retweeted_status->extended_entities->media[0]->type ) && 'video' === $post_data->retweeted_status->extended_entities->media[0]->type ? $post_data->retweeted_status->extended_entities->media[0]->type : '';
-
-						// Quoted status which is when people retweet or copy paste video tweet link to there tweet. why people do this instead of retweeting is beyond me.
-						$twitter_video_quoted_status = isset( $post_data->quoted_status->extended_entities->media[0]->type ) && 'video' === $post_data->quoted_status->extended_entities->media[0]->type ? $post_data->quoted_status->extended_entities->media[0]->type : '';
-
-						// Quoted status which is when people retweet or copy paste image tweet link to there tweet. why people do this instead of retweeting is beyond me.
-						$twitter_image_quoted_status = isset( $post_data->quoted_status->extended_entities->media[0]->type ) && 'photo' === $post_data->quoted_status->extended_entities->media[0]->type ? $post_data->quoted_status->extended_entities->media[0]->type : '';
-
-						$twitter_is_video_allowed = $saved_feed_options['twitter_allow_videos'] ?? '';
-						$twitter_allow_videos     = $twitter_is_video_allowed ?? 'yes';
-                        $no_video_image_check     =   '' ===  $twitter_video_reg && '' === $twitter_video_retweeted && '' ===  $twitter_video_quoted_status && '' ===  $twitter_image_quoted_status ? 'true' : 'false';
-                        $fts_image = $this->tweet_image( $post_data, $popup, $hide_images_in_posts );
-
-
-								// Print our video if one is available.
-								//echo $this->load_videos( $post_data );
-
-
-
-                                // Status: user tweet with image
-                                // This is a user specific image, not a shared or retweeted image which is $fts_image
-                                //echo 'TEST' . $hide_images_in_posts;
-                                echo $fts_image;
-
-						?>
-					</div>
-					<div class="fts-twitter-reply-wrap <?php
-							if ( 'yes' === $fts_twitter_full_width ) {
-								?>fts-twitter-full-width<?php
-							} else {
-								?>
-										fts-twitter-no-margin-left<?php } ?>">
 									<?php
-									// twitter permalink per post.
+									$fts_image = $this->tiktok_image( $post_data, $popup, $hide_images_in_posts );
+									echo $fts_image;
+									?>
+								</div>
+								<div class="fts-twitter-reply-wrap fts-twitter-no-margin-left">
+									<?php
+									// TikTok permalink per post.
 									$permalink = !empty( $post_data->share_url ) ? $post_data->share_url : '';
 									?>
 									<div class="fts-likes-shares-etc-wrap">
 									<?php echo $this->feed_functions->fts_share_option( $permalink, $description ); ?>
 									</div>
-					</div>
-					<div class="fts-twitter-reply-wrap-left fts-twitter-svg-addition">
-						<div class="fts-tiktok-social-counts-wrap"><a href="<?php echo $permalink ?>" target="_blank" class="fts-jal-fb-see-more"><div class="fts-tiktok-social-counts"><?php echo $this->view_count( $post_data ); ?><?php echo $this->like_count( $post_data ); ?><?php echo $this->comment_count( $post_data ); ?><span class="fts-view-on-facebook"><?php echo esc_html( $saved_feed_options['tiktok_view_on_tiktok'] ) ?></span></div></a></div>
-					</div>
-					<div class="fts-clear"></div>
-				</div><?php // <!--tweeter-info-->. ?>
-			</div>
-					<?php
+								</div>
+								<div class="fts-twitter-reply-wrap-left fts-twitter-svg-addition">
+									<div class="fts-tiktok-social-counts-wrap"><a href="<?php echo $permalink ?>" target="_blank" class="fts-jal-fb-see-more"><div class="fts-tiktok-social-counts"><?php echo $this->view_count( $post_data ); ?><?php echo $this->like_count( $post_data ); ?><?php echo $this->comment_count( $post_data ); ?><span class="fts-view-on-facebook"><?php echo esc_html( $saved_feed_options['tiktok_view_on_tiktok'] ) ?></span></div></a></div>
+								</div>
+								<div class="fts-clear"></div>
+							</div><?php // <!--tweeter-info-->. ?>
+							</div>
+
+						<?php } // end classic feed type
+
+						if( $type === 'responsive' && isset( $grid ) && $grid !== 'yes' ){ ?>
+
+							<div class="slicker-instagram-placeholder fts-instagram-wrapper fts-tiktok-popup-grab fts-tiktok-responsive" style="background-image:url('<?php echo esc_url( $post_data->cover_image_url ); ?>')">
+								<?php
+								if ( is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) && isset( $popup ) && $popup === 'yes' ) { ?>
+									<div class="fts-instagram-popup-profile-wrap">
+
+										<div class="fts-tiktok-content fts-tiktok-popup">
+											<div class="fts-tiktok-content-inner">
+												<div class="fts-uppercase fts-bold">
+														<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
+														   class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
+													<span class="fts-twitter-name-wrap">
+															<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $user_name ); ?></a>
+															<a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-tiktok-time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a>
+												</span>
+												</div>
+												<span class="fts-tiktok-logo"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><i class="fa fa-tiktok"></i></a></span>
+												<span class="fts-twitter-text">
+											<?php
+											echo wp_kses(
+												$description,
+												array(
+													'a'      => array(
+														'href'   => array(),
+														'title'  => array(),
+														'rel' 	 => array(),
+														'target' => array(),
+													),
+													'br'     => array(),
+													'em'     => array(),
+													'strong' => array(),
+													'small'  => array(),
+												)
+											);
+											?>
+												<div class="fts-twitter-caption">
+													<a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-view-on-twitter-link" target="_blank"><?php echo esc_html( 'View on Twitter', 'feed-them-social' ); ?></a>
+												</div>
+											</span>
+											</div>
+										</div>
+
+									</div>
+									<?php
+								}
+								$popup_options = is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) && isset( $popup ) && $popup === 'yes' ? 'https://www.tiktok.com/embed/v2/'. $post_data->id : $post_data->share_url;
+								?>
+								<a href='<?php echo $popup_options ?>' title='<?php echo wp_kses(
+									$description,
+									array(
+										'br'     => array(),
+										'em'     => array(),
+										'strong' => array(),
+										'small'  => array(),
+									)
+								); ?>' target="_blank" rel="noreferrer" class='fts-instagram-link-target fts-slicker-backg
+								<?php
+								if ( isset( $popup ) && $popup === 'yes' ) {
+									?> fts-tiktok-popup-open <?php
+								} else {
+									?> fts-instagram-img-link<?php } ?>' style="height:<?php echo esc_attr( $tiktok_icon_size ); ?> !important; width:<?php echo esc_attr( $tiktok_icon_size ); ?>; line-height:<?php echo esc_attr( $tiktok_icon_size ); ?>; font-size:<?php echo esc_attr( $tiktok_icon_size ); ?>;"><span
+										class="fts-instagram-icon"
+										style="height:<?php echo esc_attr( $tiktok_icon_size ); ?>; width:<?php echo esc_attr( $tiktok_icon_size ); ?>; line-height:<?php echo esc_attr( $tiktok_icon_size ); ?>; font-size:<?php echo esc_attr( $tiktok_icon_size ); ?>;"></span></a>
+
+								<div class='slicker-date'>
+									<div class="fts-insta-date-popup-grab">
+										<?php
+										if ( isset($tiktok_hide_date_likes_comments) && $tiktok_hide_date_likes_comments === 'yes' ) {
+											echo esc_html( $fts_date_time );
+										} else {
+											echo '&nbsp;'; }
+										?>
+									</div>
+								</div>
+								<div class='slicker-instaG-backg-link'>
+
+									<div class='slicker-instaG-photoshadow'></div>
+								</div>
+								<div class="fts-insta-likes-comments-grab-popup">
+
+									<div class="fts-likes-shares-etc-wrap">
+										<?php
+										// TikTok permalink per post.
+										$permalink = !empty( $post_data->share_url ) ? $post_data->share_url : '';
+										// this is already escaping in the function, escaping again will cause errors.
+										echo $this->feed_functions->fts_share_option( $permalink, $description );
+										?>
+									</div>
+
+									<div class="fts-twitter-reply-wrap-left fts-twitter-svg-addition slicker-heart-comments-wrap">
+										<div class="fts-tiktok-social-counts-wrap">
+											<a href="<?php echo $permalink ?>" target="_blank" class="fts-jal-fb-see-more">
+												<div class="fts-tiktok-social-counts">
+													<?php if ( isset($tiktok_hide_date_likes_comments) && $tiktok_hide_date_likes_comments === 'yes' ) {
+														echo $this->view_count( $post_data );
+														echo $this->like_count( $post_data );
+														echo $this->comment_count( $post_data );
+													} ?><span class="fts-view-on-facebook"><?php echo esc_html( $saved_feed_options['tiktok_view_on_tiktok'] ) ?></span>
+												</div>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						<?php } // end responsive feed type
+
 					} // endforeach;.
 
 					// Make sure it's not ajaxing.
-					if ( ! isset( $_GET['load_more_ajaxing'] ) && isset( $loadmore, $loadmore_style ) &&  'yes' === $loadmore && 'autoscroll' === $loadmore_style ) {
+					if ( ! isset( $_GET['load_more_ajaxing'] ) && isset( $loadmore, $loadmore_style ) &&  $loadmore === 'yes' && $loadmore_style === 'autoscroll' ) {
 
 						$fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
-
 						// This div returns outputs our ajax request via jquery append html from above.
 						echo '<div id="output_' . esc_attr( $fts_dynamic_name ) . '"></div>';
-						if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+						if ( is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) ) {
 							echo '<div class="fts-twitter-load-more-wrapper">';
-							echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">' . esc_html( $twitter_load_more_text ) . '</div>';
+							echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">' . esc_html( $load_more_text ) . '</div>';
 							echo '</div>';
 						}
 					} ?>
+					<div class="fts-clear"></div>
 				</div>
 					<?php
-
 					// this makes it so the page does not scroll if you reach the end of scroll bar or go back to top.
-					if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
+					if ( ! empty( $twitter_height ) && $twitter_height !== 'auto' ) {
 						?>
-			<script>jQuery.fn.isolatedScrollTwitter = function () {
-				this.bind('mousewheel DOMMouseScroll', function (e) {
-					var delta = e.wheelDelta || (e.originalEvent && e.originalEvent.wheelDelta) || -e.detail,
-						bottomOverflow = this.scrollTop + jQuery(this).outerHeight() - this.scrollHeight >= 0,
-						topOverflow = this.scrollTop <= 0;
-					if ((delta < 0 && bottomOverflow) || (delta > 0 && topOverflow)) {
-						e.preventDefault();
-					}
-				});
-				return this;
-			};
-			jQuery('.fts-twitter-scrollable').isolatedScrollTwitter();</script>
+							<script>jQuery.fn.isolatedScrollTwitter = function () {
+								this.bind('mousewheel DOMMouseScroll', function (e) {
+									var delta = e.wheelDelta || (e.originalEvent && e.originalEvent.wheelDelta) || -e.detail,
+										bottomOverflow = this.scrollTop + jQuery(this).outerHeight() - this.scrollHeight >= 0,
+										topOverflow = this.scrollTop <= 0;
+									if ((delta < 0 && bottomOverflow) || (delta > 0 && topOverflow)) {
+										e.preventDefault();
+									}
+								});
+								return this;
+							};
+						jQuery('.fts-twitter-scrollable').isolatedScrollTwitter();</script>
 						<?php
 					}
 				}// END IF $feed_data.
-
 
 			// Load More BUTTON Start.
 			// Note: the cursor value is a UTC Unix timestamp in milli-seconds.
@@ -1494,16 +1044,15 @@ class Tiktok_Feed {
 			// Whether there is more videos. Check to see if has_more is (1) true or (blank) false.
 			$_REQUEST['max_id'] = isset( $feed_data->data->has_more ) && $feed_data->data->has_more === true ? 'has more' : 'no more';
 
-			if ( isset( $loadmore ) && 'yes' === $loadmore ) {
+			if ( isset( $loadmore ) && $loadmore === 'yes' ) {
 				?>
 			<script>var sinceID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( $_REQUEST['since_id'] ); ?>";
 				var maxID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo esc_js( sanitize_text_field( wp_unslash( $_REQUEST['max_id'] ) ) ); ?>";
 			</script>
 					<?php
 				}
-
 				// Make sure it's not ajaxing.
-				if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && isset( $loadmore ) && 'yes' === $loadmore ) {
+				if ( ! isset( $_GET['load_more_ajaxing'] ) && ! isset( $_REQUEST['fts_no_more_posts'] ) && isset( $loadmore ) && $loadmore === 'yes' ) {
 					$fts_dynamic_name = sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
 					$time             = time();
 					$nonce            = wp_create_nonce( $time . 'load-more-nonce' );
@@ -1517,7 +1066,7 @@ class Tiktok_Feed {
 						if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
 						<?php
 					} else {
-						// Click function to LOADMORE if = button in shortcode.
+						// Click function to Load more if = button in shortcode.
 						?>
 							jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").click(function () {
 					<?php } ?>
@@ -1554,12 +1103,12 @@ class Tiktok_Feed {
 										<?php } ?>
 
 										if ( maxID_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?> === 'no more') {
-											jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').addClass('no-more-posts-fts-fb').html('<?php echo esc_js( $twitter_no_more_tweets_text ); ?>');
+											jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').addClass('no-more-posts-fts-fb').html('<?php echo esc_js( $no_more_posts_text ); ?>');
 											jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').unbind('click').removeAttr('id');
 											jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").unbind('scroll');
 										}
 
-										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $twitter_load_more_text ); ?>');
+										jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $load_more_text ); ?>');
 
 										jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
 
@@ -1569,6 +1118,12 @@ class Tiktok_Feed {
 										if( jQuery.isFunction(jQuery.fn.slickTickTokPopUpFunction() ) ){
 											jQuery.fn.slickTickTokPopUpFunction(); // Reload this function again otherwise the popup won't work correctly for the newly loaded items
 										}
+										// Reload our margin for the demo
+										if (typeof outputSRmargin === "function") {
+											outputSRmargin(document.querySelector('#margin').value)
+										}
+										// Reload our image sizing function so the images show up proper
+										slickremixImageResizing();
 									<?php
 									if ( isset( $grid ) && 'yes' === $grid ) {?>
 										jQuery(".fts-slicker-twitter-posts").masonry("reloadItems");
@@ -1588,16 +1143,14 @@ class Tiktok_Feed {
 							}; // end of scroll ajax load.
 									<?php } ?>
 						}
-					); // end of form.submit
-								<?php
-								if ( isset( $grid ) && 'yes' === $grid ) {
-									?>
-					// We run this otherwise the videos that load in posts will overlap other posts.
-					setTimeout(function () {
-						jQuery(".fts-slicker-twitter-posts").masonry("layout");
-						jQuery(".fts-slicker-twitter-posts").masonry("reloadItems");
-					}, 1200);
-								<?php } ?>
+					) // end of form.submit
+					<?php if ( isset( $grid ) && 'yes' === $grid ) { ?>
+						// We run this otherwise the videos that load in posts will overlap other posts.
+						setTimeout(function () {
+							jQuery(".fts-slicker-twitter-posts").masonry("layout");
+							jQuery(".fts-slicker-twitter-posts").masonry("reloadItems");
+						}, 1200);
+					<?php } ?>
 
 				}); // end of document.ready
 			</script>
@@ -1606,7 +1159,7 @@ class Tiktok_Feed {
 
 				// Make sure it's not ajaxing.
 				if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'button' === $loadmore_style && 'yes' === $loadmore ) {
+					if ( is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) && $loadmore_style === 'button' && $loadmore === 'yes' ) {
 						echo '<div class="fts-clear"></div>';
 						echo '<div class="fts-twitter-load-more-wrapper">';
 						echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '"" style="';
@@ -1614,23 +1167,35 @@ class Tiktok_Feed {
 							echo 'max-width:' . esc_attr( $loadmore_btn_maxwidth ) . ';';
 						}
 						$loadmore_btn_margin = isset( $loadmore_btn_margin ) ? $loadmore_btn_margin : '10px';
-						echo 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $twitter_load_more_text ) . '</div>';
+						echo 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $load_more_text ) . '</div>';
 						echo '</div>';
 					}
 				}
 				// End Check.
 				unset( $_REQUEST['since_id'], $_REQUEST['max_id'] );
 
-				// SOCIAL BUTTON.
-				if ( isset( $twitter_show_follow_btn ) && 'yes' === $twitter_show_follow_btn && 'twitter-follow-below' === $twitter_show_follow_btn_where && ! empty( $twitter_name ) ) {
-					echo '<div class="twitter-social-btn-bottom">';
-					echo $this->feed_functions->social_follow_button( 'twitter', $twitter_name, $saved_feed_options );
-					echo '</div>';
+				// Social Button Bottom.
+				if ( ! isset( $_GET['load_more_ajaxing'] ) && $stats_bar === 'no' && isset( $twitter_show_follow_btn ) && $twitter_show_follow_btn === 'yes' && $twitter_show_follow_btn_where === 'twitter-follow-below' ) {
+						echo '<div class="tiktok-social-btn-bottom">';
+						echo $this->feed_functions->social_follow_button( 'tiktok', $user_permalink, $saved_feed_options );
+						echo '</div>';
 				}
+				?>
+				<script>
+					// This needs to load here below the feed to load properly for
+					// Elementor page preview, and also some types of tabs that use js to load.
+					document.addEventListener("DOMContentLoaded", function(event) {
+						if (typeof slickremixImageResizing === 'function') {
+							slickremixImageResizing();
+						}
+						if (typeof ftsShare === 'function') {
+							ftsShare();
+						}
+					});
+				</script>
+				<?php
 			}
 			// END ELSE.
-
 			return ob_get_clean();
 	}
-
 }//end class

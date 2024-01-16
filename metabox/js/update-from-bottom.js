@@ -683,11 +683,11 @@ function fts_check_valid() {
                         if( 'yes' == value ){
                             if ( 'popup' == attribute ){
                                 //alert( 'test' );
-                                $( id + '#twitter_popup_option option[value=yes]' ).attr('selected','selected');
+                                $( id + '#tiktok_popup_option option[value=yes]' ).attr('selected','selected');
                             }
                             else if ( 'grid' == attribute ){
                                 //alert( 'test' );
-                                $( id + '#twitter-grid-option option[value=yes]' ).attr('selected','selected');
+                                $( id + '#tiktok-grid-option option[value=yes]' ).attr('selected','selected');
                                 $( id + '.fts-twitter-grid-options-wrap' ).show();
                             }
                             else if ( 'cover_photo' == attribute ){
@@ -712,26 +712,26 @@ function fts_check_valid() {
                         else if ( 'loadmore' == attribute ){
                             // alert( 'test' );
                             if ( 'autoscroll' == value ){
-                                $( id + '#twitter_load_more_style option[value=autoscroll]' ).attr('selected','selected');
+                                $( id + '#tiktok_load_more_style option[value=autoscroll]' ).attr('selected','selected');
                             }
-                            $( id + '#twitter_load_more_option option[value=yes]' ).attr('selected','selected');
+                            $( id + '#tiktok_load_more_option option[value=yes]' ).attr('selected','selected');
                             $( id + '.fts-twitter-load-more-options-wrap, .fts-twitter-load-more-options2-wrap' ).show();
                         }
                         else {
                             if( 'loadmore_btn_margin' == attribute ){
-                                $( '#twitter_loadmore_button_margin' ).val( value );
+                                $( '#tiktok_loadmore_button_margin' ).val( value );
                             }
                             else if ( 'loadmore_btn_maxwidth' == attribute ){
-                                $( '#twitter_loadmore_button_width' ).val( value );
+                                $( '#tiktok_loadmore_button_width' ).val( value );
                             }
                             else if ( 'loadmore_count' == attribute ){
                                 $( '#twitter_loadmore_count' ).val( value );
                             }
                             else if ( 'colmn_width' == attribute ){
-                                $( '#twitter_grid_column_width' ).val( value );
+                                $( '#tiktok_grid_column_width' ).val( value );
                             }
                             else if ( 'space_between_posts' == attribute ){
-                                $( '#twitter_grid_space_between_posts' ).val( value );
+                                $( '#tiktok_grid_space_between_posts' ).val( value );
                             }
                             else {
                                 $(attribute_id).val(value);
@@ -942,7 +942,7 @@ function fts_check_valid() {
                         if( 'yes' == value ){
                             if ( 'grid' == attribute ){
                                 //alert( 'test' );
-                                $( id + '#twitter-grid-option option[value=yes]' ).attr('selected','selected');
+                                $( id + '#tiktok-grid-option option[value=yes]' ).attr('selected','selected');
                                 $( id + '.fts-twitter-grid-options-wrap' ).show();
                             }
                             else if ( 'large_vid_title' == attribute ){
@@ -1036,7 +1036,7 @@ function fts_check_valid() {
                         if( 'yes' == value ){
                             if ( 'grid' == attribute ){
                                 //alert( 'test' );
-                                $( id + '#twitter-grid-option option[value=yes]' ).attr('selected','selected');
+                                $( id + '#tiktok-grid-option option[value=yes]' ).attr('selected','selected');
                                 $( id + '.fts-twitter-grid-options-wrap' ).show();
                             }
                             else if( 'popup' == attribute ){

@@ -267,6 +267,13 @@ class Feed_Them_Social {
 					'demo_url'     => 'https://feedthemsocial.com/facebook-carousels-or-sliders/',
 					'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-carousel-premium/',
 				),
+                'feed_them_social_tiktok_premium' => array(
+                    'title'        => 'Feed Them Social TikTok Premium',
+                    'load_class'   => 'Feed_Them_Social_TikTok_Premium',
+                    'plugin_url'   => 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php',
+                    'demo_url'     => 'https://feedthemsocial.com/tiktok-feed-demo/',
+                    'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-tiktok-premium/',
+                ),
 			  )
 			);
 		}

@@ -72,6 +72,8 @@ function slickremixImageResizing() {
 
     // How many colums do we want to show
     let ftsInstagramColumns = ftsBlockCenteredAttr.attr('data-ftsi-columns');
+    // For TikTok lets let the user choose the height of the photo holder
+    let ftsInstagramHeight = ftsBlockCenteredAttr.attr('data-ftsi-height') && ftsBlockCenteredAttr.attr('data-ftsi-height') !== '' ? ftsBlockCenteredAttr.attr('data-ftsi-height') : 0;
     // The margin in between photos so we can subtract that from the total %
     let ftsInstagramMargin = ftsBlockCenteredAttr.attr('data-ftsi-margin');
     // The margin without the px and we multiply it by 2 because the margin is on the left and right
@@ -129,7 +131,7 @@ function slickremixImageResizing() {
 
         ftsImageSize.css({'width': og_size});
 
-        const ftsImageHeight = ftsImageSize.width();
+        const ftsImageHeight = ftsImageSize.width() + parseFloat(ftsInstagramHeight);
         ftsImageSize.css({
             'width': og_size,
             'height': ftsImageHeight,

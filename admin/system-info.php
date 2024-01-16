@@ -96,9 +96,7 @@ class System_Info {
 		<div class="ft-gallery-main-template-wrapper-all">
 
 		<div class="ft-gallery-settings-admin-wrap" id="theme-settings-wrap">
-			<h2>
-				<?php esc_html_e( 'System Info', 'feed-them-social' ); ?>
-			</h2>
+			<h2><?php esc_html_e( 'System Info', 'feed-them-social' ); ?></h2>
 			<p>
 				<?php esc_html_e( 'Please click the box below and copy the report. You will need to paste this information along with your question when creating a', 'feed-them-social' ); ?>
 				<a href="https://www.slickremix.com/my-account/#tab-support" target="_blank">
@@ -202,6 +200,9 @@ if ( is_plugin_active( 'feed-them-social/feed-them-social.php' ) ) {
 -- FTS Plugins Active & License Validation
 Premium: <?php echo is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 License Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_premium']['license_status']) && $feed_them_social_license_key['feed_them_social_premium']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
+
+TikTok Premium: <?php echo is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
+License Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_tiktok_premium']['license_status']) && $feed_them_social_license_key['feed_them_social_tiktok_premium']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 
 Combined Streams: <?php echo is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 License Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_combined_streams']['license_status']) && $feed_them_social_license_key['feed_them_social_combined_streams']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>

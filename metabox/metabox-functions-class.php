@@ -900,6 +900,15 @@ class Metabox_Functions {
                                 break;
                             }
 
+							if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && 'feed_them_social_tiktok_premium' === $option['req_extensions'][0]) {
+
+								$output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+									$this->prem_extension_list[$req_extension]['purchase_url'],
+									'TikTok Premium Required'
+								);
+								break;
+							}
+
                             switch ($this->prem_extension_list[$req_extension]['title']) {
                                 case 'Feed Them Social Premium':
                                     $title_change = 'Premium Required';
@@ -913,6 +922,9 @@ class Metabox_Functions {
                                 case 'Feed Them Social Combined Streams':
                                     $title_change = 'Combined Streams Required';
                                     break;
+								case 'Feed Them Social TikTok Premium':
+									$title_change = 'TikTok Premium Required';
+									break;
                             }
 
                             $output .= sprintf( '<a class="feed-them-social-req-extension" target="_blank" href="%s">%s</a>',

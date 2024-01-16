@@ -192,7 +192,7 @@ function refresh_feed_ajax(should_we_empty_cache) {
                             jQuery(".masonry").masonry("layout");
                         }
 
-                        if( 'yes' === jQuery('#twitter-grid-option').val() ){
+                        if( 'yes' === jQuery('#tiktok-grid-option').val() ){
 
                             jQuery(".fts-slicker-twitter-posts").masonry({
                                 itemSelector: ".fts-tweeter-wrap"
@@ -314,7 +314,7 @@ function checkAnyFormFieldEdited() {
         '#youtube_feed select, #youtube_feed input, ' +
         '#combine_streams_feed input').change(function(e) {
 
-        // Check if its a post change or name change. Only then do we need to empty the cache
+        // SRL Updated: 1-14-24 Check if its a post change or name change. Only then do we need to empty the cache
         // because we need to re-fetch data from an API otherwise we do not need to empty the cache
         // so we send a do-not-empty-cache message to the function.
         let should_we_empty_cache = '';

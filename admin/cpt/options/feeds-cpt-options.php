@@ -2382,7 +2382,7 @@ class Feed_CPT_Options {
 					'type'               => 'text',
 					'id'                 => 'facebook_grid_column_width',
 					'name'               => 'facebook_grid_column_width',
-					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
+					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/documentation/custom-css-responsive-grid/" target="_blank">', '</a>' ),
 					'placeholder'        => '310px ' . __( 'for example', 'feed-them-social' ),
 					'value'              => '',
 					'req_extensions'     => array( 'feed_them_social_premium', 'feed_them_social_facebook_reviews' ),
@@ -3587,7 +3587,7 @@ class Feed_CPT_Options {
 					'id'             => 'instagram_loadmore_button_width',
 					'name'           => 'instagram_loadmore_button_width',
 					'placeholder'    => '300px ' . __( 'for example', 'feed-them-social' ),
-					// 'default_value' => '300px',
+					'default_value' => '300px',
 					'req_extensions' => array( 'feed_them_social_premium' ),
 
 					// Relative to JS.
@@ -3607,7 +3607,7 @@ class Feed_CPT_Options {
 					'id'              => 'instagram_loadmore_button_margin',
 					'name'            => 'instagram_loadmore_button_margin',
 					'placeholder'     => '10px ' . __( 'for example', 'feed-them-social' ),
-					//'default_value' => '10px',
+					'default_value'   => '10px',
 					'req_extensions'  => array( 'feed_them_social_premium' ),
 
 					// Relative to JS.
@@ -3617,6 +3617,35 @@ class Feed_CPT_Options {
 						'empty_error_value' => 'loadmore_btn_margin=10px',
 						'ifs'               => 'load_more',
 					),
+				),
+
+				// Facebook Page Load more Button Margin
+				array(
+					'option_type'     => 'select',
+					'label'           => __( 'Load more Count', 'feed-them-social' ),
+					'type'            => 'text',
+					'id'              => 'instagram_loadmore_count',
+					'name'            => 'instagram_loadmore_count',
+					'default_value'   => '',
+					'req_extensions'  => array( 'feed_them_social_premium' ),
+					'options'            => array(
+						1 => array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						2 => array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+
+					// Relative to JS.
+					/*'short_attr'      => array(
+						'attr_name'         => 'instagram_loadmore_count',
+						'empty_error'       => 'set',
+						'empty_error_value' => 'instagram_loadmore_count=10px',
+						'ifs'               => 'load_more',
+					),*/
 					'sub_options_end' => 1,
 				),
 
@@ -3689,7 +3718,7 @@ class Feed_CPT_Options {
 			'main_options'       => array(
 
 				// Feed Type
-				/*array(
+				array(
 					'option_type'      => 'select',
 					'label'            => __( 'Feed Type', 'feed-them-social' ),
 					'type'             => 'text',
@@ -3699,11 +3728,15 @@ class Feed_CPT_Options {
 					'default_value'    => '',
 					'options'          => array(
 						array(
-							'label' => __( 'User Feed', 'feed-them-social' ),
-							'value' => 'user',
+							'label' => __( 'Responsive Feed', 'feed-them-social' ),
+							'value' => 'responsive',
+						),
+						array(
+							'label' => __( 'Classic Feed', 'feed-them-social' ),
+							'value' => 'classic',
 						),
 					),
-				),*/
+				),
 
 				// Twitter Search Name
 				array(
@@ -3830,28 +3863,6 @@ class Feed_CPT_Options {
 					),
 				),*/
 
-				// Show Stats Bar
-				array(
-					'option_type' => 'select',
-					'label'       => __( 'Stats Bar', 'feed-them-social' ),
-					'type'        => 'text',
-					'id'          => 'twitter-stats-bar',
-					'name'        => 'twitter_stats_bar',
-					'options'     => array(
-						array(
-							'label' => __( 'No', 'feed-them-social' ),
-							'value' => 'no',
-						),
-						array(
-							'label' => __( 'Yes', 'feed-them-social' ),
-							'value' => 'yes',
-						),
-					),
-					'short_attr'  => array(
-						'attr_name' => 'stats_bar',
-					),
-				),
-
 				// Facebook Amount of words
 				array(
 					'option_type'    => 'input',
@@ -3861,7 +3872,7 @@ class Feed_CPT_Options {
 					'name'           => 'tiktok_word_count',
 					'placeholder'    => '',
 					'value'          => '',
-					'req_extensions' => array( 'feed_them_social_premium'),
+					'req_extensions' => array( 'feed_them_social_tiktok_premium'),
 					// Relative to JS.
 					'short_attr'     => array(
 						'attr_name'         => 'words',
@@ -3911,14 +3922,174 @@ class Feed_CPT_Options {
 					),
 				),*/
 
+				array(
+					'grouped_options_title' => __( 'Responsive Gallery', 'feed-them-social' ),
+					'input_wrap_class'      => 'fb-page-columns-option-hide',
+					'option_type'           => 'select',
+					'label'                 => __( 'Number of Columns', 'feed-them-social' ),
+					'type'                  => 'text',
+					'instructional-text'    => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/tiktok-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
+					'id'                    => 'tiktok_columns',
+					'name'                  => 'tiktok_columns',
+					'default_value'         => '3',
+					'options'               => array(
+						array(
+							'label' => __( '1', 'feed-them-social' ),
+							'value' => '1',
+						),
+						array(
+							'label' => __( '2', 'feed-them-social' ),
+							'value' => '2',
+						),
+						array(
+							'label' => __( '3', 'feed-them-social' ),
+							'value' => '3',
+						),
+						array(
+							'label' => __( '4', 'feed-them-social' ),
+							'value' => '4',
+						),
+						array(
+							'label' => __( '5', 'feed-them-social' ),
+							'value' => '5',
+						),
+						array(
+							'label' => __( '6', 'feed-them-social' ),
+							'value' => '6',
+						),
+						array(
+							'label' => __( '7', 'feed-them-social' ),
+							'value' => '7',
+						),
+						array(
+							'label' => __( '8', 'feed-them-social' ),
+							'value' => '8',
+						),
+					),
+					'short_attr'            => array(
+						'attr_name' => 'columns',
+						'ifs'       => 'super_gallery',
+					),
+
+					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+					'sub_options'           => array(
+						'sub_options_wrap_class' => 'fts-responsive-tiktok-options-wrap',
+					),
+				),
+				array(
+					'input_wrap_class' => 'fb-page-columns-option-hide',
+					'option_type'      => 'select',
+					'label'            => __( 'Force Columns', 'feed-them-social' ) . '<br/><small>' . __( 'No, allows images to be responsive for smaller devices. Yes, forces columns.', 'feed-them-social' ) . '</small>',
+					'type'             => 'text',
+					'id'               => 'tiktok_force_columns',
+					'name'             => 'tiktok_force_columns',
+					'default_value'    => 'no',
+					'options'          => array(
+						array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+						array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+					),
+					'short_attr'       => array(
+						'attr_name' => 'force_columns',
+						'ifs'       => 'super_gallery',
+					),
+				),
+
+				// Image Height Size
+				array(
+					'option_type'   => 'input',
+					'label'         => __( 'Height of Image', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank to make image squared', 'feed-them-social' ) . '</small>',
+					'label_note'    => __( 'Adjust the height of thumbnail', 'feed-them-social' ),
+					'type'          => 'text',
+					'id'            => 'tiktok_image_height',
+					'name'          => 'tiktok_image_height',
+					'default_value' => '120px',
+					'placeholder'   => '120px for example',
+					'short_attr'    => array(
+						'attr_name'         => 'tiktok_image_height',
+						'var_final_if'      => 'yes',
+						'empty_error'       => 'set',
+						'empty_error_value' => 'tiktok_image_height=100px',
+						'ifs'               => 'super_gallery',
+					),
+				),
+
+				// Space between Photos
+				array(
+					'option_type' => 'input',
+					'label'       => __( 'The space between photos', 'feed-them-social' ),
+					'type'        => 'text',
+					'id'          => 'tiktok_space_between_photos',
+					'name'        => 'tiktok_space_between_photos',
+					'placeholder' => '1px',
+					'value'       => '',
+					'short_attr'  => array(
+						'attr_name'         => 'space_between_photos',
+						'var_final_if'      => 'yes',
+						'empty_error'       => 'set',
+						'empty_error_value' => 'space_between_photos=1px',
+						'ifs'               => 'super_gallery',
+					),
+				),
+
+				// Icon Size
+				array(
+					'option_type'   => 'input',
+					'label'         => __( 'Size of TikTok Icon', 'feed-them-social' ),
+					'label_note'    => __( 'Visible when hovering over photo', 'feed-them-social' ),
+					'type'          => 'text',
+					'id'            => 'tiktok_icon_size',
+					'name'          => 'tiktok_icon_size',
+					'default_value' => '65px',
+					'placeholder'   => '65px',
+					'short_attr'    => array(
+						'attr_name'         => 'icon_size',
+						'var_final_if'      => 'yes',
+						'empty_error'       => 'set',
+						'empty_error_value' => 'icon_size=65px',
+						'ifs'               => 'super_gallery',
+					),
+				),
+
+				// Hide Date, Likes and Comments
+				array(
+					'option_type'     => 'select',
+					'label'           => __( 'Date, Plays, Heart & Comment', 'feed-them-social' ),
+					'label_note'      => __( 'Good for image sizes under 120px', 'feed-them-social' ),
+					'type'            => 'text',
+					'id'              => 'tiktok_hide_date_likes_comments',
+					'name'            => 'tiktok_hide_date_likes_comments',
+					'options'         => array(
+						1 => array(
+							'label' => __( 'Show', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						2 => array(
+							'label' => __( 'Hide', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'short_attr'      => array(
+						'attr_name' => 'hide_date_likes_comments',
+						'ifs'       => 'super_gallery',
+					),
+					'sub_options_end' => true,
+				),
+
+
 				// Pop Up Option
 				array(
 					'grouped_options_title' => __( 'Popup', 'feed-them-social' ),
 					'option_type'           => 'select',
-					'label'                 => __( 'Display Photos & Videos', 'feed-them-social' ),
+					'label'                 => __( 'Display Videos in Popup', 'feed-them-social' ),
 					'type'                  => 'text',
-					'id'                    => 'twitter_popup_option',
-					'name'                  => 'twitter_popup_option',
+					'id'                    => 'tiktok_popup_option',
+					'name'                  => 'tiktok_popup_option',
 
 					// Premium Required - yes/no/more (more allows for us to limit things by numbers, also allows for special message above option.)
 					'prem_req'              => 'yes',
@@ -3932,7 +4103,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_extensions'        => array( 'feed_them_social_premium' ),
+					'req_extensions'        => array( 'feed_them_social_tiktok_premium' ),
 					'short_attr'            => array(
 						'attr_name' => 'popup',
 						'ifs'       => 'twitter_popup',
@@ -3948,8 +4119,8 @@ class Feed_CPT_Options {
 					'option_type'           => 'select',
 					'label'                 => __( 'Load More Button', 'feed-them-social' ),
 					'type'                  => 'text',
-					'id'                    => 'twitter_load_more_option',
-					'name'                  => 'twitter_load_more_option',
+					'id'                    => 'tiktok_load_more_option',
+					'name'                  => 'tiktok_load_more_option',
 					'options'               => array(
 						array(
 							'label' => __( 'No', 'feed-them-social' ),
@@ -3961,14 +4132,11 @@ class Feed_CPT_Options {
 						),
 					),
 					'prem_req'              => 'yes',
-					'req_extensions'        => array( 'feed_them_social_premium' ),
+					'req_extensions'        => array( 'feed_them_social_tiktok_premium' ),
 					'short_attr'            => array(
 						'attr_name'         => '',
 						'empty_error_value' => '',
 						'no_attribute'      => 'yes',
-					),
-					'sub_options'           => array(
-						'sub_options_wrap_class' => 'twitter-loadmore-wrap',
 					),
 				),
 
@@ -3977,8 +4145,8 @@ class Feed_CPT_Options {
 					'option_type'        => 'select',
 					'label'              => __( 'Load More Style', 'feed-them-social' ),
 					'type'               => 'text',
-					'id'                 => 'twitter_load_more_style',
-					'name'               => 'twitter_load_more_style',
+					'id'                 => 'tiktok_load_more_style',
+					'name'               => 'tiktok_load_more_style',
 					'instructional-text' => '<strong>' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . __( 'The Button option displays "Load More Posts" button below feed. The AutoScroll option loads more posts when user reaches the bottom of feed. AutoScroll ONLY works if option is filled in a Fixed Height for feed.', 'feed-them-social' ),
 					'options'            => array(
 						array(
@@ -3991,56 +4159,28 @@ class Feed_CPT_Options {
 						),
 					),
 					'prem_req'           => 'yes',
-					'req_extensions'     => array( 'feed_them_social_premium' ),
+					'req_extensions'     => array( 'feed_them_social_tiktok_premium' ),
 					'short_attr'         => array(
 						'attr_name' => 'loadmore',
 						'ifs'       => 'load_more',
 					),
-
-					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
-					'sub_options'        => array(
-						'sub_options_wrap_class' => 'fts-twitter-load-more-options2-wrap',
+					'sub_options'           => array(
+						'sub_options_wrap_class' => 'fts-twitter-load-more-options-wrap',
 					),
-					'sub_options_end'    => true,
 				),
 
-				// Twitter Page Load more Amount
-				// We don't need this anymore for TikTok
-				/*array(
-                    'option_type' => 'input',
-                    'label'       => __( 'Load more Amount', 'feed-them-social' ) . '<br/><small>' . __( 'How many more posts will load at a time.', 'feed-them-social' ) . '</small>',
-                    'type'        => 'text',
-                    'id'          => 'twitter_loadmore_count',
-                    'name'        => 'twitter_loadmore_count',
-                    'placeholder' => __( '5 is the default number', 'feed-them-social' ),
-                    'value'       => '',
-                    'req_extensions'  => array('feed_them_social_premium'),
-
-                    // Relative to JS.
-                    'short_attr'  => array(
-                        'attr_name' => 'loadmore_count',
-                        'empty_error' => 'set',
-                        'empty_error_value' => 'loadmore_count=5',
-                        'ifs' => 'load_more',
-                    ),
-
-                    // This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
-                    'sub_options' => array(
-                        'sub_options_wrap_class' => 'fts-twitter-load-more-options2-wrap',
-                    ),
-                ),*/
 
 				// Twitter Load more Button Width
 				array(
 					'option_type'    => 'input',
 					'label'          => __( 'Load more Button Width', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank for auto width', 'feed-them-social' ) . '</small>',
 					'type'           => 'text',
-					'id'             => 'twitter_loadmore_button_width',
-					'name'           => 'twitter_loadmore_button_width',
+					'id'             => 'tiktok_loadmore_button_width',
+					'name'           => 'tiktok_loadmore_button_width',
 					'placeholder'    => '300px ' . __( 'for example', 'feed-them-social' ),
-					// 'default_value'  => '300px',
+					'default_value'  => '300px',
 					'prem_req'       => 'yes',
-					'req_extensions' => array( 'feed_them_social_premium' ),
+					'req_extensions' => array( 'feed_them_social_tiktok_premium' ),
 
 					// Relative to JS.
 					'short_attr'     => array(
@@ -4056,11 +4196,11 @@ class Feed_CPT_Options {
 					'option_type'     => 'input',
 					'label'           => __( 'Load more Button Margin', 'feed-them-social' ),
 					'type'            => 'text',
-					'id'              => 'twitter_loadmore_button_margin',
-					'name'            => 'twitter_loadmore_button_margin',
+					'id'              => 'tiktok_loadmore_button_margin',
+					'name'            => 'tiktok_loadmore_button_margin',
 					'placeholder'     => '10px ' . __( 'for example', 'feed-them-social' ),
-					'value'           => '',
-					'req_extensions'  => array( 'feed_them_social_premium' ),
+					'value'           => '10px',
+					'req_extensions'  => array( 'feed_them_social_tiktok_premium' ),
 
 					// Relative to JS.
 					'short_attr'      => array(
@@ -4082,8 +4222,8 @@ class Feed_CPT_Options {
 					'option_type'           => 'select',
 					'label'                 => __( 'Display Posts in Grid', 'feed-them-social' ),
 					'type'                  => 'text',
-					'id'                    => 'twitter-grid-option',
-					'name'                  => 'twitter_grid_option',
+					'id'                    => 'tiktok-grid-option',
+					'name'                  => 'tiktok_grid_option',
 					'options'               => array(
 						1 => array(
 							'label' => __( 'No', 'feed-them-social' ),
@@ -4094,7 +4234,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
-					'req_extensions'        => array( 'feed_them_social_premium' ),
+					'req_extensions'        => array( 'feed_them_social_tiktok_premium' ),
 					'short_attr'            => array(
 						'attr_name'         => 'grid',
 						'empty_error'       => 'set',
@@ -4114,12 +4254,12 @@ class Feed_CPT_Options {
 					'option_type'        => 'input',
 					'label'              => __( 'Grid Column Width', 'feed-them-social' ),
 					'type'               => 'text',
-					'id'                 => 'twitter_grid_column_width',
-					'name'               => 'twitter_grid_column_width',
-					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
+					'id'                 => 'tiktok_grid_column_width',
+					'name'               => 'tiktok_grid_column_width',
+					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/documentation/custom-css-responsive-grid/" target="_blank">', '</a>' ),
 					'placeholder'        => '310px ' . __( 'for example', 'feed-them-social' ),
 					'value'              => '',
-					'req_extensions'     => array( 'feed_them_social_premium' ),
+					'req_extensions'     => array( 'feed_them_social_tiktok_premium' ),
 
 					// Relative to JS.
 					'short_attr'         => array(
@@ -4142,11 +4282,11 @@ class Feed_CPT_Options {
 					'option_type'     => 'input',
 					'label'           => __( 'Grid Spaces Between Posts', 'feed-them-social' ),
 					'type'            => 'text',
-					'id'              => 'twitter_grid_space_between_posts',
-					'name'            => 'twitter_grid_space_between_posts',
+					'id'              => 'tiktok_grid_space_between_posts',
+					'name'            => 'tiktok_grid_space_between_posts',
 					'placeholder'     => '10px ' . __( 'for example', 'feed-them-social' ),
 					'value'           => '',
-					'req_extensions'  => array( 'feed_them_social_premium' ),
+					'req_extensions'  => array( 'feed_them_social_tiktok_premium' ),
 
 					// Relative to JS.
 					'short_attr'      => array(
@@ -5237,9 +5377,8 @@ class Feed_CPT_Options {
 					'type'               => 'text',
 					'id'                 => 'combine_grid_column_width',
 					'name'               => 'combine_grid_column_width',
-					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/docs/responsive-grid-css/" target="_blank">', '</a>' ),
+					'instructional-text' => '<strong> ' . __( 'NOTE:', 'feed-them-social' ) . '</strong> ' . sprintf( __( 'Define width and space between each post. You must add px after number. Learn how to make the %1$sgrid responsive%2$s.', 'feed-them-social' ), '<a href="https://www.slickremix.com/documentation/custom-css-responsive-grid/" target="_blank">', '</a>' ),
 					'placeholder'        => '310px ' . __( 'for example', 'feed-them-social' ),
-					'default'            => '310px',
 					//'req_extensions'  => array('feed_them_social_combined_streams'),
 
 					// Relative to JS.

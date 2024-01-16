@@ -76,9 +76,138 @@ class Twitter_Additional_Options {
 			'form_wrap_id'       => 'fts-fb-page-form',
 			'main_options'       => array(
 
+                // Show Stats Bar
+                array(
+                    'option_type' => 'select',
+                    'label'       => __( 'Stats Bar', 'feed-them-social' ),
+                    'type'        => 'text',
+                    'id'          => 'twitter-stats-bar',
+                    'name'        => 'twitter_stats_bar',
+                    'default_value'    => 'yes',
+                    'options'     => array(
+                        array(
+                            'label' => __( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => __( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                    ),
+                    'short_attr'  => array(
+                        'attr_name' => 'stats_bar',
+                    ),
+                ),
+
                 // Show Follow Button.
                 array(
-                    'input_wrap_class' => 'twitter_show_follow_btn',
+                    'input_wrap_class' => 'tiktok-show-stats-profile-photo tiktok-stats-hide',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Show Stats Profile Photo', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'tiktok_show_stats_profile_photo',
+                    'name'             => 'tiktok_show_stats_profile_photo',
+                    'default_value'    => 'yes',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                    ),
+                ),
+
+                // Show Follow Button.
+                array(
+                    'input_wrap_class' => 'tiktok_show_stats_follow_btn tiktok-stats-hide',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Show Stats Follow Button', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'tiktok_show_stats_follow_btn',
+                    'name'             => 'tiktok_show_stats_follow_btn',
+                    'default_value'    => 'yes',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                    ),
+                ),
+
+                // Show Follow Count Singular.
+                array(
+                    'input_wrap_class' => 'tiktok_show_follow_button_inline tiktok-stats-hide',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Show Stats Follow Button Inline', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'tiktok_show_follow_button_inline',
+                    'name'             => 'tiktok_show_follow_button_inline',
+                    'default_value'    => 'yes',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                    ),
+                ),
+                // Show Follow Count Singular.
+                array(
+                    'input_wrap_class' => 'twitter_show_follow_count tiktok-stats-hide',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Show Stats Counts', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'tiktok_show_stats_counts',
+                    'name'             => 'tiktok_show_stats_counts',
+                    'default_value'    => 'yes',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                    ),
+                ),
+				// Show Button where.
+				array(
+					'input_wrap_class' => 'tiktok_show_stats_description tiktok-stats-hide',
+					'option_type'      => 'select',
+					'label'            => esc_html__( 'Show Stats Description', 'feed-them-social' ),
+					'type'             => 'text',
+					'id'               => 'tiktok_show_stats_description',
+					'name'             => 'tiktok_show_stats_description',
+					'default_value'    => 'yes',
+					'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+					),
+				),
+
+
+
+
+                // Show Follow Button.
+                array(
+                    'input_wrap_class' => 'twitter_show_follow_btn tiktok-show-follow-button-hide',
                     'option_type'      => 'select',
                     'label'            => esc_html__( 'Show Follow Button', 'feed-them-social' ),
                     'type'             => 'text',
@@ -96,66 +225,26 @@ class Twitter_Additional_Options {
                         ),
                     ),
                 ),
-                // Show Follow Count Singular.
-               /* array(
-                    'input_wrap_class' => 'twitter_show_follow_count_inline',
-                    'option_type'      => 'select',
-                    'label'            => esc_html__( 'Show Follow Count Inline', 'feed-them-social' ),
-                    'type'             => 'text',
-                    'id'               => 'twitter_show_follow_count_inline',
-                    'name'             => 'twitter_show_follow_count_inline',
-                    'default_value'    => 'no',
-                    'options'          => array(
-                        array(
-                            'label' => esc_html__( 'No', 'feed-them-social' ),
-                            'value' => 'no',
-                        ),
-                        array(
-                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
-                            'value' => 'yes',
-                        ),
-                    ),
-                ),*/
-                // Show Follow Count Singular.
+                // Show Button where.
                 array(
-                    'input_wrap_class' => 'twitter_show_follow_count',
+                    'input_wrap_class' => 'tiktok_show_stats_description tiktok-show-follow-button-hide',
                     'option_type'      => 'select',
-                    'label'            => esc_html__( 'Show Follow Count', 'feed-them-social' ),
+                    'label'            => esc_html__( 'Follow Button Position', 'feed-them-social' ),
                     'type'             => 'text',
-                    'id'               => 'twitter_show_follow_count',
-                    'name'             => 'twitter_show_follow_count',
-                    'default_value'    => 'no',
+                    'id'               => 'twitter_show_follow_btn_where',
+                    'name'             => 'twitter_show_follow_btn_where',
+                    'default_value'    => 'yes',
                     'options'          => array(
                         array(
-                            'label' => esc_html__( 'No', 'feed-them-social' ),
-                            'value' => 'no',
+                            'label' => esc_html__( 'Above Feed', 'feed-them-social' ),
+                            'value' => 'twitter-follow-above',
                         ),
                         array(
-                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
-                            'value' => 'yes',
+                            'label' => esc_html__( 'Below Feed', 'feed-them-social' ),
+                            'value' => 'twitter-follow-below',
                         ),
                     ),
                 ),
-				// Show Button where.
-				array(
-					'input_wrap_class' => 'twitter_show_follow_btn_where',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Placement of the Buttons', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'twitter_show_follow_btn_where',
-					'name'             => 'twitter_show_follow_btn_where',
-					'default_value'    => 'twitter-follow-above',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Show Above Feed', 'feed-them-social' ),
-							'value' => 'twitter-follow-above',
-						),
-						array(
-							'label' => esc_html__( 'Show Below Feed', 'feed-them-social' ),
-							'value' => 'twitter-follow-below',
-						),
-					),
-				),
 			),
 		);
 
@@ -185,13 +274,26 @@ class Twitter_Additional_Options {
 
             'main_options'       => array(
 
-                // Show Follow Button.
+                // Follow on TikTok Text.
                 array(
                     'input_wrap_class' => 'tiktok_language',
                     'grouped_options_title' => __( 'Language Options', 'feed-them-social' ),
+                    'input_wrap_class' => 'tiktok_follow_on_tiktok_fts',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Follow Button Text', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'tiktok_follow_on_tiktok',
+                    'name'             => 'tiktok_follow_on_tiktok',
+                    'placeholder'      => 'Follow on TikTok',
+                    'default_value'    => esc_html__( 'Follow on TikTok', 'feed-them-social' ),
+                ),
+
+                // View on TikTok Text.
+                array(
+                    'input_wrap_class' => 'tiktok_language',
                     'input_wrap_class' => 'tiktok_view_on_tiktok_fts',
                     'option_type'      => 'input',
-                    'label'            => esc_html__( 'View on TikTok', 'feed-them-social' ),
+                    'label'            => esc_html__( 'View Link Text', 'feed-them-social' ),
                     'type'             => 'text',
                     'id'               => 'tiktok_view_on_tiktok',
                     'name'             => 'tiktok_view_on_tiktok',
@@ -514,7 +616,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_grid_posts_background_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_tiktok_premium'),
 				),
 
 				// Border Bottom Color
@@ -527,7 +629,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_grid_border_bottom_color',
 					'placeholder'      => '#ddd',
 					'default_value'    => '',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_tiktok_premium'),
 				),
 			),
 		);
@@ -568,7 +670,7 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_loadmore_background_color',
                     'placeholder'      => '#f0f0f0',
                     'default_value'    => '#f0f0f0',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_tiktok_premium'),
 				),
 
 				// Text Color
@@ -581,33 +683,33 @@ class Twitter_Additional_Options {
 					'name'             => 'twitter_loadmore_text_color',
                     'placeholder'      => '#000',
                     'default_value'    => '#000',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_tiktok_premium'),
 				),
 
 				// "Load More" Text
 				array(
-					'input_wrap_class' => 'twitter_load_more_text',
+					'input_wrap_class' => 'tiktok_load_more_text',
 					'option_type'      => 'input',
 					'label'            => esc_html__( '"Load More" Text', 'feed-them-social' ),
 					'type'             => 'text',
-					'id'               => 'twitter_load_more_text',
-					'name'             => 'twitter_load_more_text',
+					'id'               => 'tiktok_load_more_text',
+					'name'             => 'tiktok_load_more_text',
 					'placeholder'      => 'Load More',
 					'default_value'    => '',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_tiktok_premium'),
 				),
 
 				// "Load More" Text
 				array(
-					'input_wrap_class' => 'twitter_load_more_text',
+					'input_wrap_class' => 'tiktok_load_more_text',
 					'option_type'      => 'input',
-					'label'            => esc_html__( '"No More Videos" Text', 'feed-them-social' ),
+					'label'            => esc_html__( '"No More Posts" Text', 'feed-them-social' ),
 					'type'             => 'text',
-					'id'               => 'twitter_no_more_tweets_text',
-					'name'             => 'twitter_no_more_tweets_text',
-					'placeholder'      => 'No More Videos',
+					'id'               => 'tiktok_no_more_posts_text',
+					'name'             => 'tiktok_no_more_posts_text',
+					'placeholder'      => 'No More Posts',
 					'default_value'    => '',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_tiktok_premium'),
 				),
 			),
 		);

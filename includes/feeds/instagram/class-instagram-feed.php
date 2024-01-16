@@ -5,7 +5,7 @@
  * This file is used to create the Instagram Feeds
  *
  * @package     feedthemsocial
- * @copyright   Copyright (c) 2012-2024, SlickRemix
+ * @copyright   Copyright (c) 2012-2022, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       1.0.0
  */
@@ -385,7 +385,7 @@ class Instagram_Feed {
 
 			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
 				$instagram_load_more_text      = $saved_feed_options['instagram_load_more_text'] ?? __( 'Load More', 'feed-them-social' );
-				$instagram_no_more_photos_text = $saved_feed_options['instagram_no_more_photos_text'] ?? __( 'No More Photos', 'feed-them-social' );
+				$instagram_no_more_photos_text = $saved_feed_options['instagram_no_more_photos_text'] ?? __( 'No More Posts', 'feed-them-social' );
 			}
 
 			// Make sure it's not ajaxing.
@@ -586,35 +586,55 @@ class Instagram_Feed {
                     }
                 }
 			}
-			elseif ( 'basic' === $saved_feed_options['instagram_feed_type'] ) {
-					// We don't really need this right now, but leaving in case we find a need. This is a call to return basic user data but the only thing worth anything I can
-					// think of right now would be making an option to show the media count. That would need to be a new option, worth adding in a future update. This call is duplicated and used to return info on the instagram options page though.
-					// $instagram_data_array['user_info'] = 'https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=' . $this->feed_access_token;
+			elseif ( $saved_feed_options['instagram_feed_type'] === 'basic' ) {
 
 				    $basic_cache = 'instagram_basic_cache' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '';
-					// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
-					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.instagram.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 
-                    if( !empty( $instagram_id ) ) {
-                        $feed_data = $this->feed_functions->use_cache_check( $instagram_data_array['data'], $basic_cache, 'instagram' );
+					$api_requests = array(
+						// Get the media count and other info for the user. We are only using the username and media_count in the feed. These are all the options for reference. id,username,media_count,account_type
+						'user_info' => 'https://graph.instagram.com/me?fields=id,username,media_count&access_token=' . $this->feed_access_token,
+						// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
+						'data' => isset($_REQUEST['next_url']) ? esc_url_raw($_REQUEST['next_url']) : 'https://graph.instagram.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token
+					);
+
+					if( !empty( $instagram_id ) ) {
+                        $feed_data = $this->feed_functions->use_cache_check( $api_requests, $basic_cache, 'instagram' );
                     }
 
                     // JSON Decode the Feed Data.
                     $insta_data = json_decode( $feed_data );
 
-                    /* echo '<pre>';
-                      print_r( $insta_data );
+					$media_count_prep = $insta_data->media_count ?? '';
+
+					// here we add a , for all numbers below 9,999.
+					if ( isset( $media_count_prep ) && $media_count_prep <= 9999 ) {
+						$media_count = number_format( (float) $media_count_prep );
+					}
+					// here we convert the number for the like count like 1,200,000 to 1.2m if the number goes into the millions.
+					if ( isset( $media_count_prep ) && $media_count_prep >= 1000000 ) {
+						$media_count = round( ( $media_count_prep / 1000000 ), 1 ) . 'm';
+					}
+					// here we convert the number for the like count like 10,500 to 10.5k if the number goes in the 10 thousands.
+					if ( isset( $media_count_prep ) && $media_count_prep >= 10000 ) {
+						$media_count = round( ( $media_count_prep / 1000 ), 1 ) . 'k';
+					}
+					// here we convert the number for the like count like 1,200,000 to 1.2m if the number goes into the millions.
+					if ( isset( $media_count_prep ) && $media_count_prep >= 1000000 ) {
+						$media_count = round( ( $media_count_prep / 1000000 ), 1 ) . 'm';
+					}
+
+                     /*echo '<pre>';
+                      print_r( $insta_basic_user_data );
                      echo '</pre>';*/
 
-                   //  echo '<br/>asdfasdfasdf<pre>';
-                   //  print_r( $insta_data );
-                   //  echo '</pre>zzzz';
-                   // $instagram_data_array['user_info'] = 'https://graph.instagram.com/me?fields=id,username,media_count,account_type&access_token=' . $this->feed_access_token;
+                     /*echo '<br/><pre>';
+                     print_r( $insta_data );
+                     echo '</pre>';*/
 			}
 
 			$instagram_user_info = ! empty( $response['user_info'] ) ? json_decode( $response['user_info'] ) : '';
 			// URL to get Feeds.
-			if ( 'business' === $saved_feed_options['instagram_feed_type'] ) {
+			if ( $saved_feed_options['instagram_feed_type'] === 'business' ) {
 				$username        = $insta_data->username;
 				$bio             = $insta_data->biography;
 				$profile_picture = $insta_data->profile_picture_url;
@@ -622,8 +642,9 @@ class Instagram_Feed {
 				$website         = $insta_data->website;
 
 			}
-			elseif( 'basic' === $saved_feed_options['instagram_feed_type'] ){
-                 $username = $insta_data->data[0]->username;
+			elseif( $saved_feed_options['instagram_feed_type'] === 'basic' ){
+				// Used for the follow button in header or footer of feed.
+                 $username = $insta_data->username ?? '';
 			}
 
             // For Testing.
@@ -653,7 +674,7 @@ class Instagram_Feed {
 				// Social Button.
 				if ( isset( $profile_picture ) && 'yes' === $saved_feed_options['instagram_profile_wrap'] ) {
 					?>
-	<div class="fts-profile-wrap">
+	<div class="fts-instagram-profile-wrap">
 					<?php if ( isset( $saved_feed_options['instagram_profile_photo'] ) && 'yes' === $saved_feed_options['instagram_profile_photo'] ) { ?>
 			<div class="fts-profile-pic">
 				<a href="https://www.instagram.com/<?php echo esc_attr( $username ); ?>" target="_blank" rel="noreferrer"><img
@@ -850,9 +871,13 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                         case 'user' :
                                             echo esc_html( $full_name );
                                             break;
-                                        case 'basic' || 'business' :
-                                            echo esc_html( $instagram_username );
+                                        case 'basic' :
+                                            echo '<span class="fts-insta-basic-name">' .esc_html( $instagram_username ).'</span>';
+											echo '<small class="fts-insta-post-count-total">'.esc_html( $media_count ). ' ' . __( ' posts total', 'feed-them-social' ).'</small>';
                                             break;
+										case 'business' :
+											echo esc_html( $instagram_username );
+											break;
                                         default :
                                             echo esc_html( '#' . $hashtag );
                                             break;
@@ -868,6 +893,8 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                     echo '</div>';
                                 }
                                 ?>
+
+								<div class="fts-clear"></div>
                             </div>
                         </div>
                             <?php
@@ -1001,7 +1028,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     }
                 }
 
-                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $loadmore_option ) {
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $loadmore_option === 'yes') {
                     // ******************
                     // Load More BUTTON Start
                     // Check to see if the next isset for the hashtag feed. If so then pass it down so it's used.
@@ -1016,7 +1043,9 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                    // $_REQUEST['next_url'] = '' !== $loadmore_count ? str_replace( "'.$the_count.'=". $saved_feed_options['instagram_pics_count'], "'.$the_count.'=$loadmore_count", $next_url ) : $next_url;
                     $_REQUEST['next_url'] = $next_url;
 
-                    $access_token         = 'access_token=' . $this->feed_access_token;
+					$instagram_loadmore_count = $saved_feed_options['instagram_loadmore_count'] ?? '';
+
+					$access_token         = 'access_token=' . $this->feed_access_token;
                     $_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
                     ?>
             		<script>var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";</script>
@@ -1075,12 +1104,32 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                             console.log('Well Done and got this from sever: ' + data);
                                             jQuery('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').append(data).filter('.<?php echo esc_js( $fts_dynamic_class_name ); ?>').html();
                                             if (!nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> || 'no more' === nextURL_<?php echo esc_js( sanitize_key( $_REQUEST['fts_dynamic_name'] ) ); ?> ) {
-                                                jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').replaceWith('<div class="fts-fb-load-more no-more-posts-fts-fb"><?php echo esc_js( $instagram_no_more_photos_text ); ?></div>');
+                                                jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').addClass('no-more-posts-fts-fb').html('<?php echo esc_js( $instagram_no_more_photos_text ); ?>');
                                                 jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').removeAttr('id');
                                                 jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>instagram").off('scroll');
                                             }
+
                                             jQuery('#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>').html('<?php echo esc_js( $instagram_load_more_text ); ?>');
                                             jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ); ?>").removeClass('fts-fb-spinner');
+
+											<?php if( $instagram_loadmore_count === 'yes' ) { ?>
+												// Retrieve the current value and convert it to an integer
+												const currentValue = parseInt(jQuery('#fts-insta-update-post-count-<?php echo esc_js( $fts_dynamic_name ); ?>').html(), 10);
+
+												// PHP value (assuming it's an integer)
+												const additionValue = <?php echo esc_js( $saved_feed_options['instagram_pics_count'] ); ?>;
+												// Add the values
+												let newTotal = currentValue + additionValue;
+												// Retrieve the value from the element with class 'fts-insta-media-count-total' and convert it to an integer
+												const maxTotal = parseInt(jQuery('.fts-insta-media-count-total').html(), 10);
+												// If newTotal exceeds maxTotal, set newTotal to maxTotal
+												if (newTotal > maxTotal) {
+													newTotal = maxTotal;
+												}
+												// Update the element with the new value
+												jQuery('#fts-insta-update-post-count-<?php echo esc_js( $fts_dynamic_name ); ?>').html(newTotal);
+											<?php } ?>
+
 
 											if (typeof ftsShare === 'function') {
 												ftsShare(); // Reload the share each function otherwise you can't open share option
@@ -1096,7 +1145,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                     }); // end of ajax()
                                      return false;
                             // string $scrollMore is at top of this js script. exception for scroll option closing tag.
-                            <?php if ( 'autoscroll' === $loadmore ) { ?>
+                            <?php if ( $loadmore === 'autoscroll' ) { ?>
                                     };
                                 }); // end of scroll ajax load.
                             <?php } else { ?>
@@ -1147,7 +1196,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 				print '</div>'; // closing height div for scrollable feeds.
 			}
 
-			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && 'yes' === $loadmore_option ) {
+			if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && $loadmore_option === 'yes') {
 				// Make sure it's not ajaxing.
 				if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 					print '<div class="fts-clear"></div>';
@@ -1161,6 +1210,12 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 						$loadmore_btn_margin = isset( $loadmore_btn_margin ) ? $loadmore_btn_margin : '10px';
 						print 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $instagram_load_more_text ) . '</div>';
 						print '</div>';
+
+						if( $instagram_loadmore_count === 'yes'){ ?>
+							<div class="fts-instagram-post-count">
+								<span id="fts-insta-update-post-count-<?php echo esc_html( $fts_dynamic_name ); ?>"><?php echo $saved_feed_options['instagram_pics_count'] ?></span> <?php echo __( 'of', 'feed-them-social' ) . ' <span class="fts-insta-media-count-total">' . esc_html( $media_count ) . '</span>' ?>
+							</div>
+						<?php }
 
 					}
 				}//End Check.

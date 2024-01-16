@@ -1264,31 +1264,8 @@ class Feed_Functions {
 			case 'instagram':
 				echo '<a href="' . esc_url( 'https://instagram.com/' . $user_id . '/' ) . '" target="_blank" rel="noreferrer">' . esc_html( 'Follow on Instagram', 'feed-them-social' ) . '</a>';
 				break;
-			case 'twitter':
-				?>
-				<script>
-					//TWITTER
-					!function (d, s, id) {
-						var t, js, fjs = d.getElementsByTagName(s)[0];
-						if (d.getElementById(id)) return;
-						js = d.createElement(s);
-						js.id = id;
-						js.src = "https://platform.twitter.com/widgets.js";
-						fjs.parentNode.insertBefore(js, fjs);
-						return window.twttr || (t = {
-							_e: [], ready: function (f) {
-								t._e.push(f)
-							}
-						});
-					}(document, "script", "twitter-wjs");
-
-                    var ftsTjs = jQuery('<script>').attr('src', '//platform.twitter.com/widgets.js');
-                    var ftsT = jQuery('<a class="twitter-follow-button" href="<?php echo esc_url( 'https://twitter.com/' . $user_id ); ?>" data-show-count="<?php echo isset( $saved_feed_options['twitter_show_follow_count_inline'] ) && 'yes' === $saved_feed_options['twitter_show_follow_count_inline'] ? 'true' : 'false' ?>" data-lang="en"> Follow @ <?php echo esc_html( $user_id ) ?></a>');
-                    jQuery('#fts-twitter-follow-button-wrap').html( ftsTjs );
-				</script>
-				<?php
-				// Can't ESCAPE Twitter link otherwise the JS doesn't work.
-				echo '<div id="fts-twitter-follow-button-wrap"><a class="twitter-follow-button" href="' . esc_url( 'https://twitter.com/' . $user_id ) .'" data-show-count="false" data-lang="en"> Follow @ '. esc_html( $user_id ) .'</a></div>';
+			case 'tiktok':
+				echo '<div class="fts-tiktok-bio-follow-button"><a href="'. esc_url( $user_id ) .'" target="_blank">' . esc_html( $saved_feed_options['tiktok_follow_on_tiktok'] ?? 'Follow on TikTok' ) . '</a></div>';
 				break;
 
 			case 'youtube':
@@ -1507,16 +1484,24 @@ class Feed_Functions {
 
 		if( 'instagram' === $feed_type ){
 			$instagram_basic_response = $this->fts_get_feed_json( $api_url );
-			$instagram_basic = json_decode( $instagram_basic_response['data'] );
+			$instagram_basic = json_decode( $instagram_basic_response['data']);
+			$instagram_basic_user = json_decode( $instagram_basic_response['user_info'] );
+
+			// return print_r( $instagram_basic_user );
 
 			if ( !empty( $instagram_basic->data ) ) {
-				$parts = parse_url($api_url);
+
+				// We need to get the access token from the url and decrypt it.
+
+				$parts = parse_url($api_url['data']);
 				parse_str( $parts['query'], $query);
                 $access_token = false !== $this->data_protection->decrypt(  $query['access_token'] ) ? $this->data_protection->decrypt(  $query['access_token'] ) : $query['access_token'];
 
                 // We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
 				$instagram_basic_output = (object)['data' => []];
 				foreach ( $instagram_basic->data as $media ) {
+
+
 					$media_id = $media->id;
 					$instagram_basic_data_array['data'] = 'https://graph.instagram.com/' . $media_id . '?fields=caption,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $access_token;
 					$instagram_basic_media_response = $this->fts_get_feed_json( $instagram_basic_data_array );
@@ -1525,7 +1510,7 @@ class Feed_Functions {
 				}
 			}
 
-			$feed_data = (object) array_merge( (array) $instagram_basic, (array) $instagram_basic_output );
+			$feed_data = (object) array_merge( (array) $instagram_basic_user, (array) $instagram_basic, (array) $instagram_basic_output );
 			$response = json_encode( $feed_data );
 			$fts_error_check_complete = $fts_error_check->instagram_error_check( $instagram_basic );
 		}

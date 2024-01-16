@@ -1,7 +1,7 @@
 === Feed Them Social - Page, Post, Video, and Photo Galleries ===
 Contributors: slickremix, slickchris
 Donate link: https://www.slickremix.com/
-Tags: Facebook, Instagram, Twitter, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
+Tags: Instagram, Facebook, TikTok, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.4.2
@@ -9,10 +9,10 @@ Stable tag: 4.2.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Custom social media feeds for Instagram, Facebook Pages, Album Photos, Videos & Covers, Twitter, & YouTube on pages, posts, or widgets.
+Custom social media feeds for Instagram, Facebook Pages, Album Photos, Videos & Covers, TikTok, & YouTube on pages, posts, widgets, Elementor & Beaver Builder.
 
 == Description ==
-Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twitter, or YouTube. Responsive on Desktops, Tablets, and Mobile Devices.
+Easily Create and Display Customizable Social Feeds for Instagram, Facebook, TikTok, or YouTube. Responsive on Desktops, Tablets, and Mobile Devices.
 
 ###Features
  * **Quick** Install and Set up.
@@ -27,7 +27,6 @@ Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twi
  * **Share** buttons for Instagram, Facebook, Twitter, and YouTube Feeds.
  * **Add** Like and/or Follow Buttons above or below any feeds.
  * **Works** with Gutenberg Blocks or Classic Editor.
-
 
 ###Benefits
  * **Easy-to-use** features.
@@ -55,22 +54,26 @@ Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twi
 
 ###Feed Demos
  All Demos can be found on [FeedThemSocial.com](https://feedthemsocial.com/)
- * [Facebook Page Feed Demo](https://feedthemsocial.com/)
- * [Facebook Album Photos Feed Demo](https://feedthemsocial.com/facebook-album-photos-demo/)
- * [Facebook Album Covers Feed Demo](https://feedthemsocial.com/facebook-album-covers/)
- * [Instagram Feed Demo](https://feedthemsocial.com/instagram-feed-demo/)
- * [Twitter Feed Demo](https://feedthemsocial.com/twitter-feed-demo/)
- * [YouTube Feed Demo](https://feedthemsocial.com/youtube-feed-demo/)
+ ✭ [Instagram Feed Demo](https://feedthemsocial.com/instagram-feed-demo/)
+ ✭ [TikTok Feed Demo](https://feedthemsocial.com/tiktok-feed-demo/)
+ ✭ [Facebook Page Feed Demo](https://feedthemsocial.com/)
+ ✭ [Facebook Album Photos Feed Demo](https://feedthemsocial.com/facebook-album-photos-demo/)
+ ✭ [Facebook Album Covers Feed Demo](https://feedthemsocial.com/facebook-album-covers/)
+ ✭ [YouTube Feed Demo](https://feedthemsocial.com/youtube-feed-demo/)
 
 = Premium Extension Demos =
- * [Facebook Page Feed Demo](https://feedthemsocial.com/)
- * [Facebook Video Feed Demo](https://feedthemsocial.com/facebook-videos-demo/)
- * [Facebook Photo and Video Carousels Demo](https://feedthemsocial.com/facebook-videos-demo/)
+ ✭ [Instagram Hashtag Demo](https://feedthemsocial.com/instagram-hashtag-feed-demo/)
+ ✭ [Facebook Page Grid Feed Demo](https://feedthemsocial.com/facebook-page-grid-demo/)
+ ✭ [Facebook Video Feed Demo](https://feedthemsocial.com/facebook-videos-demo/)
+ ✭ [YouTube Popup Video Feed Demo](https://feedthemsocial.com/youtube-gallery-format-2/)
+
+= TikTok Extension =
+ ✭ [See Demo](https://feedthemsocial.com/tiktok-feed-demo/)
 
 = Combined Streams Extension =
  ✭ [See Demo](https://feedthemsocial.com/feed-them-social-combined-streams/)
 
-= Carousel Extension =
+= Facebook Photos, Albums & Video Carousel Extension =
  ✭ [See Demo](https://feedthemsocial.com/facebook-carousels-or-sliders/)
 
 = Facebook Reviews Extension =

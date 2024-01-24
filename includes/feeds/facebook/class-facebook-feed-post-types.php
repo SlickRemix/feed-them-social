@@ -605,9 +605,28 @@ class Facebook_Feed_Post_Types {
 			case 'wall':
 			case 'normal':
 			case 'albums':
-				$url_parsed    = parse_url( $fb_link, PHP_URL_QUERY );
-				$params        = parse_str( $url_parsed, $params );
-				$new_album_url = str_replace( 'album.php?fbid=' . $params['fbid'] . '&id=' . $params['facebook_page_id'] . '&aid=' . $params['aid'], 'media/set/?set=a.' . $params['fbid'] . '.' . $params['aid'] . '.' . $params['facebook_page_id'], $fb_link );
+
+            // Parse the query string from the URL
+            $url_parsed = parse_url($fb_link, PHP_URL_QUERY);
+
+            // Initialize $params as an array
+            $params = [];
+            parse_str($url_parsed, $params);
+
+            // Check if all required parameters are present
+            if (isset($params['fbid'], $params['id'], $params['aid'])) {
+                // Construct the new album URL
+                $new_album_url = str_replace(
+                    'album.php?fbid=' . $params['fbid'] . '&id=' . $params['id'] . '&aid=' . $params['aid'],
+                    'media/set/?set=a.' . $params['fbid'] . '.' . $params['aid'] . '.' . $params['id'],
+                    $fb_link
+                );
+            } else {
+                // Handle the case where one or more parameters are missing
+                $new_album_url = $fb_link;
+                // Optionally, you can set $new_album_url to a default value or handle the error differently
+            }
+
 
 				echo '<div class="fts-likes-shares-etc-wrap fts-albums-single-image">';
 				echo '<div class="fts-albums-hide-main-album-link-in-popup">';
@@ -1167,73 +1186,74 @@ class Facebook_Feed_Post_Types {
 				if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ) {
 					echo '<div class="fts-fb-caption fts-fb-album-view-link">';
 					// Album Covers.
-					if ( 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
+					if ( $saved_feed_options['facebook_page_feed_type'] === 'albums' ) {
 
 						echo '<div class="fts-fb-album-additional-pics">';
 						// Album Covers. <img src="' . esc_url( $facebook_album_additional_pic->images[1]->source ) . '"/>
 						$isFirst = true;
-						foreach ( $facebook_post->photos->data as $key => $facebook_album_additional_pic ) {
-							// $facebook_album_additional_pic_check = isset( $facebook_album_additional_pic->name ) ? $this->facebook_post_desc( $facebook_album_additional_pic->name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by  ): '';
-							// $facebook_album_additional_pic ? $facebook_album_additional_pic_check : '';
-							echo '<div class="fts-fb-album-additional-pics-content">';
+                        if( isset( $facebook_post->photos->data ) ) {
+                            foreach ( $facebook_post->photos->data as $key => $facebook_album_additional_pic ) {
+                                // $facebook_album_additional_pic_check = isset( $facebook_album_additional_pic->name ) ? $this->facebook_post_desc( $facebook_album_additional_pic->name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by  ): '';
+                                // $facebook_album_additional_pic ? $facebook_album_additional_pic_check : '';
+                                echo '<div class="fts-fb-album-additional-pics-content">';
 
-							$hide_all_but_one_link = ! $isFirst ? 'style="display:none"' : '';
+                                $hide_all_but_one_link = !$isFirst ? 'style="display:none"' : '';
 
-							echo '<a href="' . esc_url( $facebook_album_additional_pic->images[0]->source ) . '" class="fts-view-album-photos-large data-fb-album-photo-description" target="_blank" rel="noreferrer"  ' . $hide_all_but_one_link . '>' . esc_html__( 'View Album', 'feed-them-social' ) . '</a>';
-							echo '<div class="fts-fb-album-additional-pics-description-wrap">';
-							echo '<div class="fts-jal-fb-description-wrap fts-fb-album-description-content fts-jal-fb-description-popup">';
+                                echo '<a href="' . esc_url( $facebook_album_additional_pic->images[0]->source ) . '" class="fts-view-album-photos-large data-fb-album-photo-description" target="_blank" rel="noreferrer"  ' . $hide_all_but_one_link . '>' . esc_html__( 'View Album', 'feed-them-social' ) . '</a>';
+                                echo '<div class="fts-fb-album-additional-pics-description-wrap">';
+                                echo '<div class="fts-jal-fb-description-wrap fts-fb-album-description-content fts-jal-fb-description-popup">';
 
-							// tied to date function.
-							$feed_type          = 'facebook';
-							$album_created_time = isset( $facebook_album_additional_pic->created_time ) ? $facebook_album_additional_pic->created_time : '';
-							$times              = $album_created_time;
-							$fts_final_date     = $this->feed_functions->fts_custom_date( $times, $feed_type );
-							echo '<div class="fts-jal-fb-user-thumb">';
-							echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_attr( $fts_main_profile_pic_url ) . '"/></a>';
-							echo '</div>';
+                                // tied to date function.
+                                $feed_type = 'facebook';
+                                $album_created_time = $facebook_album_additional_pic->created_time ?? '';
+                                $times = $album_created_time;
+                                $fts_final_date = $this->feed_functions->fts_custom_date( $times, $feed_type );
+                                echo '<div class="fts-jal-fb-user-thumb">';
+                                echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_attr( $fts_main_profile_pic_url ) . '"/></a>';
+                                echo '</div>';
 
-							// UserName.
-							// $fts_facebook_reviews->reviews_rating_format CANNOT be esc at this time.
-							echo '<span class="fts-jal-fb-user-name"><a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' . esc_html( $facebook_post_from_name ) . '</a>' . esc_html( $facebook_hide_shared_by_etc_text ) . '</span>';
+                                // UserName.
+                                // $fts_facebook_reviews->reviews_rating_format CANNOT be esc at this time.
+                                echo '<span class="fts-jal-fb-user-name"><a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' . esc_html( $facebook_post_from_name ) . '</a>' . esc_html( $facebook_hide_shared_by_etc_text ) . '</span>';
 
-							echo '<div class="fts-fb-album-date-wrap">' . $fts_final_date . '</div>';
+                                echo '<div class="fts-fb-album-date-wrap">' . $fts_final_date . '</div>';
 
-							echo '<div class="fts-clear"></div>';
+                                echo '<div class="fts-clear"></div>';
 
-							// Album Post Description.
-							// $facebook_post_name ? $this->facebook_post_desc( $facebook_post_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by ) : '';
-							// Albums Photo Count.
-							$this->facebook_post_desc( $facebook_post_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
-							$view_additional_album_photos = '24' == $key ? '. <a href="' . $facebook_post_album_link . '" target="_blank" rel="noreferrer">' . esc_html__( 'View more for this Album', 'feed-them-social' ) . '</a>' : '';
-							echo $facebook_post_album_photo_count ? ' ' . esc_html( $key + 1 ) . ' ' . esc_html__( 'of', 'feed-them-social' ) . ' ' . esc_html( $facebook_post_album_photo_count ) . ' ' . esc_html__( 'Photos', 'feed-them-social' ) . ' ' . $view_additional_album_photos : '';
-							echo '<br/><br/>';
+                                // Album Post Description.
+                                // $facebook_post_name ? $this->facebook_post_desc( $facebook_post_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by ) : '';
+                                // Albums Photo Count.
+                                $this->facebook_post_desc( $facebook_post_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
+                                $view_additional_album_photos = '24' == $key ? '. <a href="' . $facebook_post_album_link . '" target="_blank" rel="noreferrer">' . esc_html__( 'View more for this Album', 'feed-them-social' ) . '</a>' : '';
+                                echo $facebook_post_album_photo_count ? ' ' . esc_html( $key + 1 ) . ' ' . esc_html__( 'of', 'feed-them-social' ) . ' ' . esc_html( $facebook_post_album_photo_count ) . ' ' . esc_html__( 'Photos', 'feed-them-social' ) . ' ' . $view_additional_album_photos : '';
+                                echo '<br/><br/>';
 
-							$facebook_album_additional_pic_name = isset( $facebook_album_additional_pic->name ) ? $facebook_album_additional_pic->name : '';
-							$this->facebook_post_desc( $facebook_album_additional_pic_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
-							echo '</div>';
+                                $facebook_album_additional_pic_name = isset( $facebook_album_additional_pic->name ) ? $facebook_album_additional_pic->name : '';
+                                $this->facebook_post_desc( $facebook_album_additional_pic_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
+                                echo '</div>';
 
-							$facebook_album_single_picture_id = isset( $facebook_album_additional_pic->id ) ? $facebook_album_additional_pic->id : '';
-							$facebook_single_image_link = 'https://www.facebook.com/'. $facebook_album_single_picture_id . '';
-                            $single_event_id = isset( $single_event_id ) ?? '';
-							$this->facebook_post_see_more( $facebook_single_image_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
+                                $facebook_album_single_picture_id = isset( $facebook_album_additional_pic->id ) ? $facebook_album_additional_pic->id : '';
+                                $facebook_single_image_link = 'https://www.facebook.com/' . $facebook_album_single_picture_id . '';
+                                $single_event_id = isset( $single_event_id ) ?? '';
+                                $this->facebook_post_see_more( $facebook_single_image_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
 
-							echo '</div>';
-							echo '</div>';
-							$isFirst = false;
-						}
+                                echo '</div>';
+                                echo '</div>';
+                                $isFirst = false;
+                            }
+                        }
 						echo '</div>';
 						echo '</div>';
 					}
 					elseif (
-
 						// Album Photos.
-						'album_photos' === $saved_feed_options['facebook_page_feed_type'] && isset( $saved_feed_options['facebook_video_album'] ) && 'yes' !== $saved_feed_options['facebook_video_album'] || ! isset( $saved_feed_options['facebook_video_album'] ) ) {
+						$saved_feed_options['facebook_page_feed_type'] === 'album_photos' && isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] !== 'yes' || ! isset( $saved_feed_options['facebook_video_album'] ) ) {
 						echo '<a href="' . esc_url( $facebook_post_album_picture ) . '" class="fts-view-album-photos-large" target="_blank" rel="noreferrer">' . esc_html__( 'View Photo', 'feed-them-social' ) . '</a></div>';
 
 					} elseif (
 						// Video Albums.
-						isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
-						if ( 'yes' !== $saved_feed_options['facebook_show_video_button']  ) {
+						isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] === 'yes' ) {
+						if ( $saved_feed_options['facebook_show_video_button'] !== 'yes' ) {
 
 							echo '<a href="' . esc_url( $facebook_post_embed_html ) . '"  data-poster="' . esc_url( $facebook_post_video_photo ) . '" id="fts-view-vid1-' . esc_attr( $fts_dynamic_vid_name_string ) . '" class="fts-jal-fb-vid-html5video ' . esc_attr( $fts_view_fb_videos_btn ) . ' fts-view-fb-videos-large fts-view-fb-videos-btn fb-video-popup-' . esc_attr( $fts_dynamic_vid_name_string ) . '">' . esc_html__( 'View Video', 'feed-them-social' ) . '</a>';
 
@@ -1671,7 +1691,7 @@ class Facebook_Feed_Post_Types {
 				break;
 			// START PHOTO POST.
 			case 'photo':
-				if ( isset( $fts_hide_photos_type ) && 'yes' === $fts_hide_photos_type && 'album_photos' !== $saved_feed_options['facebook_page_feed_type'] && 'yes' !== $saved_feed_options['facebook_video_album'] ) {
+				if ( isset( $fts_hide_photos_type ) && $fts_hide_photos_type === 'yes' && isset($saved_feed_options['facebook_page_feed_type']) && $saved_feed_options['facebook_page_feed_type'] !== 'album_photos' && isset($saved_feed_options['facebook_video_album']) && $saved_feed_options['facebook_video_album'] !== 'yes' ) {
 					break;
 				}
 
@@ -1681,7 +1701,7 @@ class Facebook_Feed_Post_Types {
 				}
 
 				echo '<div class="fts-jal-fb-link-wrap fts-album-photos-wrap"';
-				if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] || 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
+				if ( isset($saved_feed_options['facebook_page_feed_type']) && $saved_feed_options['facebook_page_feed_type'] === 'album_photos' || isset($saved_feed_options['facebook_page_feed_type']) && $saved_feed_options['facebook_page_feed_type'] === 'albums' ) {
 					echo ' style="line-height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . ' !important;"';
 				}
 				echo '>';
@@ -1964,7 +1984,9 @@ class Facebook_Feed_Post_Types {
         print_r($facebook_post_type);
          echo '</pre>';*/
 
-        $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
+        $post_data = $facebook_post ?? '';
+
+        $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $post_data );
         // old call..
            // $this->fts_facebook_post_see_more( $fb_link, $lcs_array, $fb_type, $fb_post_id, $fb_shortcode, $fb_post_user_id, $fb_post_single_id, $single_event_id, $post_data );
 

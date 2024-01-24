@@ -210,7 +210,6 @@ pre {
 .fts-tiktok-social-counts .fts-tiktok-comment-count:before {
     content: "\f4ad"
 }
-
 .fts-twitter-text {
     padding: 8px 0 0;
     display: block;
@@ -2192,6 +2191,7 @@ body .fts-yt-overlay-wrap.fts-yt-target {
 }
 
 .popup-video-gallery-fb span.fts-fb-video-icon:before {
+    font-family: FontAwesomeSlickFeed,monospace!important;
     content: "\f144"!important;
     display: inline-block!important;
     opacity: .5!important;

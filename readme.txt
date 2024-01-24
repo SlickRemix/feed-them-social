@@ -124,7 +124,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 = Version 4.2.2 Wednesday, January 24th, 2024 =
   * NEW: Facebook Feed: Now the thumbnail image will display even if you have age or country restrictions on your business page.
   * NEW: Premium: Facebook Feed > Popup: Thumbnail images for comments will now display.
-  * FIX: Premium: Facebook Feed > Feed Type > Videos: Option was still showing premium required even if you had the premium version activated.
+  * FIX: Premium: Facebook Feed > Feed Type > Videos: Option was still showing premium required even if you had the premium version activated and the play button size option was incorrectly set.
   * FIX: Premium: Facebook Feed: Hide, thumbnail, username or date options not working.
   * OPTIMIZE: Facebook Feed: Reorder all Yoda notations for checks for better readability of the code and fix some code that was causing notices to appear in the error.log for Albums.
 

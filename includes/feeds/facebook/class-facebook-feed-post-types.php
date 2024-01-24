@@ -1053,7 +1053,7 @@ class Facebook_Feed_Post_Types {
                     if( $saved_feed_options['facebook_page_feed_type'] === 'reviews' && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' )){
                         echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post->reviewer->name ) . '" src="' . esc_attr( $profile_photo_exists_check ) . '"></a>';
                     }
-                    else {
+                    elseif ( $saved_feed_options['feed_type'] !== 'combine-streams-feed-type' ) {
                         echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_attr( $fts_main_profile_pic_url ) . '"/></a>';
                     }
 					// echo ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_attr( $facebook_post->reviewer->name ) : esc_attr( $facebook_post_from_name ) ) . '" src="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : 'https://graph.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) ) . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '/picture"/></a>' );

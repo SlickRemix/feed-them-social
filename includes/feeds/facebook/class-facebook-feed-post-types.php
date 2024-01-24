@@ -43,6 +43,15 @@ class Facebook_Feed_Post_Types {
 	 */
 	public $feed_functions;
 
+    /**
+     * Access Options
+     *
+     * Access Options for tokens.
+     *
+     * @var object
+     */
+    public $access_options;
+
 	/**
 	 * Construct
 	 *
@@ -50,13 +59,16 @@ class Facebook_Feed_Post_Types {
 	 *
 	 * @since 1.9.6
 	 */
-	public function __construct( $feed_functions, $settings_functions ) {
+	public function __construct( $feed_functions, $settings_functions, $access_options ) {
 
         // Settings Functions Class.
         $this->settings_functions = $settings_functions;
 
 		// Set Feed Functions object.
 		$this->feed_functions = $feed_functions;
+
+        // Access Options for tokens.
+        $this->access_options = $access_options;
 	}
 
 	/**
@@ -520,7 +532,7 @@ class Facebook_Feed_Post_Types {
 
 		$description = isset( $post_data->message ) ?? '';
 		// SHOW THE FB FEED PRINT_R
-		 /*echo'<pre>';
+        /* echo'<pre>';
 		 print_r( $post_data);
 		 echo'</pre>';*/
 
@@ -747,8 +759,9 @@ class Facebook_Feed_Post_Types {
 	 * @since 1.9.6
 	 */
 	public function feed_post_types( $set_zero, $facebook_post_type, $facebook_post, $saved_feed_options, $response_post_array, $single_event_array_response = null, $fts_facebook_reviews = null ) {
-
-		//echo print_r($saved_feed_options);
+        /*echo '<pre>';
+		echo print_r($facebook_post);
+        echo '</pre>';*/
 
 		$fts_dynamic_vid_name_string = sanitize_key( $this->feed_functions->get_random_string( 10 ) . '_' . $saved_feed_options['facebook_page_feed_type'] );
 
@@ -796,11 +809,12 @@ class Facebook_Feed_Post_Types {
 
 		$facebook_post_from_id           = $facebook_post->from->id ?? '';
 		$facebook_post_from_id_picture   = $facebook_post_from_id !== $saved_feed_options['fts_facebook_custom_api_token_user_id'] ? $saved_feed_options['fts_facebook_custom_api_token_user_id'] : $facebook_post_from_id;
-		$facebook_post_from_name         = $facebook_post->from->name ?? '';
+		$fts_main_profile_pic_url        = $facebook_post->fts_main_profile_pic_url ?? '';
+        $facebook_post_from_name         = $facebook_post->from->name ?? '';
 
 		$facebook_post_final_story       = '';
 		$facebook_post_dir               = '';
-		
+
 		// Facebook Post Video Photo.
 		if ( isset( $facebook_post->format[3]->picture ) ) {
 			$facebook_post_video_photo = $facebook_post->format[3]->picture;
@@ -1036,7 +1050,13 @@ class Facebook_Feed_Post_Types {
 					$avatar_id                  = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';
 					$profile_photo_exists_check = isset( $facebook_post_profile_pic_url ) && strpos( $facebook_post_profile_pic_url, 'profilepic' ) !== false ? $facebook_post_profile_pic_url : $avatar_id;
 
-					echo ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_attr( $facebook_post->reviewer->name ) : esc_attr( $facebook_post_from_name ) ) . '" src="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : 'https://graph.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) ) . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '/picture"/></a>' );
+                    if( $saved_feed_options['facebook_page_feed_type'] === 'reviews' && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' )){
+                        echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post->reviewer->name ) . '" src="' . esc_attr( $profile_photo_exists_check ) . '"></a>';
+                    }
+                    else {
+                        echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_attr( $fts_main_profile_pic_url ) . '"/></a>';
+                    }
+					// echo ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_attr( $facebook_post->reviewer->name ) : esc_attr( $facebook_post_from_name ) ) . '" src="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : 'https://graph.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) ) . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '/picture"/></a>' );
 
 					echo '</div>';
 
@@ -1046,7 +1066,7 @@ class Facebook_Feed_Post_Types {
 				// $fts_facebook_reviews->reviews_rating_format CANNOT be esc at this time.
 				$hide_name = 'albums' === $saved_feed_options['facebook_page_feed_type'] ? ' fts-fb-album-hide' : '';
 
-                // WHY REVIEWS IS LOADING SO DAMN SLOW... LEAVING OFF HERE.. STATEMENT BELOW DOES NOT HAVE ANYTHING TODO WITH IT FROM WHAT I CAN TELL.
+                // WHY REVIEWS IS LOADING SO DAMN SLOW... LEAVING OFF HERE.. STATEMENT BELOW DOES NOT HAVE ANYTHING TO DO WITH IT FROM WHAT I CAN TELL.
 				echo 'reviews' === $saved_feed_options['facebook_page_feed_type'] && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? '<span class="fts-jal-fb-user-name fts-review-name" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">' . esc_attr( $facebook_post->reviewer->name ) . '</span>' . $fts_facebook_reviews->reviews_rating_format( $saved_feed_options, isset( $facebook_post->rating ) ? esc_html( $facebook_post->rating ) : '' ) . '</span>' : '<span class="fts-jal-fb-user-name' . $hide_name . '"><a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' . esc_html( $facebook_post_from_name ) . '</a>' . esc_html( $facebook_hide_shared_by_etc_text ) . '</span>';
 
 				// tied to date function.
@@ -1169,7 +1189,7 @@ class Facebook_Feed_Post_Types {
 							$times              = $album_created_time;
 							$fts_final_date     = $this->feed_functions->fts_custom_date( $times, $feed_type );
 							echo '<div class="fts-jal-fb-user-thumb">';
-							echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . 'https://graph.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '/picture"/></a>';
+							echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_attr( $fts_main_profile_pic_url ) . '"/></a>';
 							echo '</div>';
 
 							// UserName.
@@ -1841,9 +1861,10 @@ class Facebook_Feed_Post_Types {
 					if(!empty($comment->message)) {
 						echo '<div class="fts-fb-comment fts-fb-comment-' . esc_attr( $comment->id ) . '">';
 						// User Profile Img.
-						// Not having page public content access persmission anymore is not allowing us to get profile pics anymore, and the link to personal accounts won't work anymore either for people posting to our page.
-						// $avatar_id = isset( $comment->from->id ) ? 'https://graph.facebook.com/'.$comment->from->id.'/picture?redirect=1&type=square' : plugin_dir_url( dirname( __FILE__ ) ) . 'images/slick-comment-pic.png';
-						$avatar_id = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';
+                        $comment_profile_url_check = isset( $comment->from->id ) ? 'https://graph.facebook.com/'.$comment->from->id.'?fields=picture&access_token='. $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']) : 'WTF';
+                        $response                  = wp_remote_fopen( $comment_profile_url_check );
+                        $comment_profile_url       = json_decode( $response, true );
+						$avatar_id = $comment_profile_url['picture']['data']['url'] ?? (plugin_dir_url( dirname( __FILE__ ) ) . 'images/slick-comment-pic.png');
 						echo '<img class="fts-fb-comment-user-pic" src="' . esc_url( $avatar_id ) . '"/>';
 						echo '<div class="fts-fb-comment-msg">';
 						if ( isset( $comment->from->name ) ) {
@@ -1881,8 +1902,16 @@ class Facebook_Feed_Post_Types {
 
 			$avatar_id                  = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';
 			$profile_photo_exists_check = isset( $facebook_post_profile_pic_url ) && strpos( $facebook_post_profile_pic_url, 'profilepic' ) !== false ? $facebook_post_profile_pic_url : $avatar_id;
-			echo ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '<a href="' . esc_url( 'https://www.facebook.com/' . $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_attr( $facebook_post->reviewer->name ) : esc_attr( $facebook_post_from_name ) ) . '" src="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : 'https://graph.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) ) . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '/picture"/></a>' );
-			echo '</div>';
+
+
+            if( $saved_feed_options['facebook_page_feed_type'] === 'reviews' && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' )){
+                echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post->reviewer->name ) . '" src="' . esc_attr( $profile_photo_exists_check ) . '"></a>';
+            }
+            else {
+                echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_attr( $fts_main_profile_pic_url ) . '"/></a>';
+            }
+
+            echo '</div>';
 
 			// UserName.
 			echo '<span class="fts-jal-fb-user-name"><a href="' . esc_url( 'https://www.facebook.com/' . $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' . esc_html( $facebook_post_from_name ) . '</a>' . esc_html( $facebook_hide_shared_by_etc_text ) . '</span>';

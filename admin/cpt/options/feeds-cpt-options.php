@@ -1725,8 +1725,8 @@ class Feed_CPT_Options {
 					'option_type'      => 'select',
 					'label'            => __( 'Show User Thumbnail', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
 					'type'             => 'text',
-					'id'               => 'facebook_hide_thumbnail',
-					'name'             => 'facebook_hide_thumbnail',
+					'id'               => 'show_thumbnail',
+					'name'             => 'show_thumbnail',
 					'req_extensions'   => array( 'feed_them_social_premium' ),
 					'options'          => array(
 						array(
@@ -1743,38 +1743,14 @@ class Feed_CPT_Options {
 					),
 				),
 
-				// Hide Date
-				array(
-					'input_wrap_class' => 'facebook_hide_date',
-					'option_type'      => 'select',
-					'label'            => __( 'Show Username', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
-					'type'             => 'text',
-					'id'               => 'facebook_hide_date',
-					'name'             => 'facebook_hide_date',
-					'req_extensions'   => array( 'feed_them_social_premium' ),
-					'options'          => array(
-						array(
-							'label' => __( 'Yes', 'feed-them-social' ),
-							'value' => 'yes',
-						),
-						array(
-							'label' => __( 'No', 'feed-them-social' ),
-							'value' => 'no',
-						),
-					),
-					'short_attr'       => array(
-						'attr_name' => 'show_date',
-					),
-				),
-
 				// Hide Name
 				array(
 					'input_wrap_class' => 'facebook_hide_name',
 					'option_type'      => 'select',
-					'label'            => __( 'Show Date', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'label'            => __( 'Show Username', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
 					'type'             => 'text',
-					'id'               => 'facebook_hide_name',
-					'name'             => 'facebook_hide_name',
+					'id'               => 'show_name',
+					'name'             => 'show_name',
 					'req_extensions'   => array( 'feed_them_social_premium' ),
 					'options'          => array(
 						array(
@@ -1788,6 +1764,30 @@ class Feed_CPT_Options {
 					),
 					'short_attr'       => array(
 						'attr_name' => 'show_name',
+					),
+				),
+
+				// Hide Date
+				array(
+					'input_wrap_class' => 'facebook_hide_date',
+					'option_type'      => 'select',
+					'label'            => __( 'Show Date', 'feed-them-social' ) . '<br/><small>' . __( 'Yes or No', 'feed-them-social' ) . '</small>',
+					'type'             => 'text',
+					'id'               => 'show_date',
+					'name'             => 'show_date',
+					'req_extensions'   => array( 'feed_them_social_premium' ),
+					'options'          => array(
+						array(
+							'label' => __( 'Yes', 'feed-them-social' ),
+							'value' => 'yes',
+						),
+						array(
+							'label' => __( 'No', 'feed-them-social' ),
+							'value' => 'no',
+						),
+					),
+					'short_attr'       => array(
+						'attr_name' => 'show_date',
 					),
 				),
 

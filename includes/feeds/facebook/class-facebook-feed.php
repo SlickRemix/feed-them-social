@@ -151,7 +151,7 @@ class Facebook_Feed {
         ?>
         <style type="text/css">
         <?php
-        if ( ! empty( $fb_hide_no_posts_message ) && 'yes' === $fb_hide_no_posts_message ) { ?>
+        if ( ! empty( $fb_hide_no_posts_message ) && $fb_hide_no_posts_message === 'yes' ) { ?>
         .fts-facebook-add-more-posts-notice {
             display: none !important;
         }
@@ -363,7 +363,7 @@ class Facebook_Feed {
 
         if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
             $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-            if ( 'graph.facebook.com' !== $next_url_host && $next_url_host !== 'graph.instagram.com' ) {
+            if ( $next_url_host !== 'graph.facebook.com' && $next_url_host !== 'graph.instagram.com' ) {
                 wp_die( esc_html__( 'Invalid Facebook URL', 'feed-them-social' ), 403 );
             }
         }
@@ -384,7 +384,7 @@ class Facebook_Feed {
             $load_popup_scripts = true;
         }
         else {
-            if ( null === $saved_feed_options['facebook_page_post_count'] ) {
+            if ( $saved_feed_options['facebook_page_post_count'] === null ) {
                 $saved_feed_options['facebook_page_post_count'] = '6';
             }
         }
@@ -397,10 +397,10 @@ class Facebook_Feed {
         // Get our Additional Options.
         $this->fb_custom_styles( $feed_post_id );
 
-        if ( 'album_videos' === $saved_feed_options['facebook_page_feed_type'] ) {
-            $saved_feed_options['facebook_page_feed_type']        = 'album_photos';
+        if ( $saved_feed_options['facebook_page_feed_type'] === 'album_videos' ) {
+            $saved_feed_options['facebook_page_feed_type'] = 'album_photos';
             $saved_feed_options['facebook_video_album'] = 'yes';
-            $saved_feed_options['facebook_album_id']    = 'photo_stream';
+            $saved_feed_options['facebook_album_id'] = 'photo_stream';
             if ( isset( $saved_feed_options['facebook_loadmore_button_width'] ) && ! empty( $saved_feed_options['facebook_loadmore_button_width'] ) ) {
                 $saved_feed_options['facebook_load_more_style'] = 'button';
             }
@@ -419,11 +419,11 @@ class Facebook_Feed {
             <?php
             return;
         }
-        if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && ! is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
+        if ( $saved_feed_options['facebook_page_feed_type'] === 'reviews' && ! is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
             return '<div style="clear:both; padding:15px 0;">You must have FTS Facebook Reviews extension active to see this feed.</div>';
         }
 
-        $type = isset( $saved_feed_options['facebook_page_feed_type'] ) ? $saved_feed_options['facebook_page_feed_type'] : '';
+        $type = $saved_feed_options['facebook_page_feed_type'] ?? '';
         if ( 'group' === $type || 'page' === $type || 'event' === $type ) {
 
             // EMPTY FACEBOOK POSTS OFFSET AND COUNT.
@@ -466,7 +466,7 @@ class Facebook_Feed {
             }
 
             if ( isset( $feed_data_check->data ) ) {
-                if ( $fts_count_ids >= 1 && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] ) {
+                if ( $fts_count_ids >= 1 && $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
                     $fts_list_arrays = array();
                     foreach ( $feed_data_check as $feed_data_name ) {
 
@@ -491,25 +491,25 @@ class Facebook_Feed {
                     $fb_story           = $post_count->story ?? '';
                     $facebook_post_type = $post_count->attachments->data[0]->type ?? '';
                     $fb_status_type     = $post_count->status_type ?? '';
-                  
+
                     // Testing.
                     // echo $facebook_post_type;
 
                     // SRL 4.0: Made some edits below, probably need to revisit this in the future and find a more efficient way of omitting specific posts.
                     // This is the method to skip empty posts or posts that are simply about changing settings or other non important post types
                     // We will count all the ones that are like this and add that number to the output of posts to offset the posts we are filtering out. Line 278 needs the same treatment of if options.
-                    if ( false !== strpos( $fb_story, 'updated their website address' ) ||
-                        'profile_media' === $facebook_post_type ||
-                        'cover_photo' === $facebook_post_type ||
-                        'status' === $facebook_post_type && empty( $fb_message ) && empty( $fb_story ) ||
-                        'event' === $facebook_post_type || 'status' === $facebook_post_type && false !== strpos( $fb_story, 'changed the name of the event to' ) ||
-                        'status' === $facebook_post_type && false !== strpos( $fb_story, 'changed the privacy setting' ) ||
-                        'status' === $facebook_post_type && false !== strpos( $fb_story, 'an admin of the group' ) ||
-                        'status' === $facebook_post_type && false !== strpos( $fb_story, 'created the group' ) ||
-                        'status' === $facebook_post_type && false !== strpos( $fb_story, 'added an event' ) ||
-                        'event' === $facebook_post_type && false !== strpos( $fb_story, 'added an event' ) ) {
+                    if ( strpos( $fb_story, 'updated their website address' ) !== false ||
+                        $facebook_post_type === 'profile_media' ||
+                        $facebook_post_type === 'cover_photo' ||
+                        $facebook_post_type === 'status' && empty( $fb_message ) && empty( $fb_story ) ||
+                        $facebook_post_type === 'event' || $facebook_post_type === 'status' && strpos( $fb_story, 'changed the name of the event to' ) !== false ||
+                        $facebook_post_type === 'status' && strpos( $fb_story, 'changed the privacy setting' ) !== false ||
+                        $facebook_post_type === 'status' && strpos( $fb_story, 'an admin of the group' ) !== false ||
+                        $facebook_post_type === 'status' && strpos( $fb_story, 'created the group' ) !== false ||
+                        $facebook_post_type === 'status' && strpos( $fb_story, 'added an event' ) !== false ||
+                        $facebook_post_type === 'event' && strpos( $fb_story, 'added an event' ) !== false ) {
                         $set_zero++;
-                    } elseif ( '0' === $feed_data_check->data ) {
+                    } elseif ( $feed_data_check->data === '0' ) {
                         // If more than the 5 posts(default in free) or the post= from shortcode is set to the amount of posts that are being filtered above we will add 7 to the post count to try and get at some posts.
                         // This will only happen for Page and Group feeds.
                         $set_zero = '7';
@@ -550,15 +550,17 @@ class Facebook_Feed {
         // Get language.
         $language = $this->get_language( $saved_feed_options );
 
-        if ( 'reviews' !== $saved_feed_options['facebook_page_feed_type'] ) {
+        if ( $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
             // Get Response (AKA Page & Feed Information) ERROR CHECK inside this function.
             $response = $this->get_facebook_feed_response( $saved_feed_options, $fb_cache_name, $language );
             // Json decode data and build it from cache or response.
-            $page_data = json_decode( $response['page_data'] );
+            $page_data = json_decode( $response['page_data'], true );
             $feed_data = json_decode( $response['feed_data'] );
+
+            /*error_log(print_r($feed_data));*/
         }
 
-        if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
+        if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
 
             $fts_facebook_reviews = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token);
 
@@ -629,7 +631,7 @@ class Facebook_Feed {
 
         $fts_count_ids = is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ? substr_count( $saved_feed_options['fts_facebook_custom_api_token_user_id'], ',' ) : '';
 
-        if ( $fts_count_ids >= 1 && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] ) {
+        if ( $fts_count_ids >= 1 && $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
 
             $fts_list_arrays = array();
             foreach ( $feed_data as $feed_data_name ) {
@@ -648,18 +650,18 @@ class Facebook_Feed {
         // print_r($feed_data );
         // echo '</pre>';
         // If No Response or Error then return.
-        if ( is_array( $response ) && isset( $response[0] ) && isset( $response[1] ) && false === $response[0] ) {
+        if ( isset( $response[0], $response[1] ) && \is_array( $response ) && $response[0] === false ) {
             return $response[1];
         }
 
         // Make sure it's not ajaxing and we will allow the omition of certain album covers from the list by using omit_album_covers=0,1,2,3 in the shortcode.
-        if ( ! isset( $_GET['load_more_ajaxing'] ) && 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
+        if ( ! isset( $_GET['load_more_ajaxing'] ) && $saved_feed_options['facebook_page_feed_type'] === 'albums' ) {
 
             // omit_album_covers=0,1,2,3 for example.
             $omit_album_covers     = !empty( $saved_feed_options['facebook_omit_album_covers'] ) ? $saved_feed_options['facebook_omit_album_covers'] : '';
             $omit_album_covers_new = array();
             $omit_album_covers_new = explode( ',', $omit_album_covers );
-            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+            if (isset($feed_data->data) && \count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $post_data) {
                     foreach ($omit_album_covers_new as $omit) {
                         unset($feed_data->data[$omit]);
@@ -672,10 +674,10 @@ class Facebook_Feed {
         // Reviews Rating Filter.
         if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) {
 
-            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+            if (isset($feed_data->data) && \count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $key => $post_data) {
                     // We are not going to show the unrecommended reviews in the feed at this point, no options in our plugin srl.
-                    if (isset($post_data->recommendation_type) && 'negative' === $post_data->recommendation_type) {
+                    if (isset($post_data->recommendation_type) && $post_data->recommendation_type === 'negative' ) {
                         unset($feed_data->data[$key]);
                     }
                 }
@@ -692,17 +694,17 @@ class Facebook_Feed {
             $fts_dynamic_class_name =  $this->feed_functions->get_feed_dynamic_class_name();
             // SOCIAL BUTTON.
 
-            if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
+            if ( ! $fts_count_ids >= 1 && $saved_feed_options['facebook_hide_like_box_button'] === 'no' ) {
                 $this->fb_social_btn_placement( $saved_feed_options, 'above_title' );
             }
 
             // fts-fb-header-wrapper (for grid).
-            echo isset( $saved_feed_options['facebook_grid'] ) && 'yes' !== $saved_feed_options['facebook_grid'] && 'album_photos' !== $saved_feed_options['facebook_page_feed_type'] && 'albums' !== $saved_feed_options['facebook_page_feed_type'] ? '<div class="fts-fb-header-wrapper">' : '';
+            echo isset( $saved_feed_options['facebook_grid'] ) && $saved_feed_options['facebook_grid'] !== 'yes' && $saved_feed_options['facebook_page_feed_type'] !== 'album_photos' && $saved_feed_options['facebook_page_feed_type'] !== 'albums' ? '<div class="fts-fb-header-wrapper">' : '';
 
             // Header.
             echo '<div class="fts-jal-fb-header">';
 
-            if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && isset( $saved_feed_options['reviews_overall_rating_show'] ) && 'yes' === $saved_feed_options['reviews_overall_rating_show'] ) {
+            if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && isset( $saved_feed_options['reviews_overall_rating_show'] ) && $saved_feed_options['reviews_overall_rating_show'] === 'yes' ) {
 
                 // $feed_data_rating_overall = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token );
                 // echo $this->get_facebook_overall_rating_response($saved_feed_options, $fb_cache_name, $this->feed_access_token);.
@@ -712,31 +714,31 @@ class Facebook_Feed {
                 $fb_reviews_overall_rating_reviews_text           = $saved_feed_options['fb_reviews_overall_rating_reviews_text'];
                 $fb_reviews_overall_rating_reviews_text           = ! empty( $fb_reviews_overall_rating_reviews_text ) ? ' ' . $fb_reviews_overall_rating_reviews_text : ' reviews';
                 $fb_reviews_overall_rating_background_border_hide = $saved_feed_options['fb_reviews_overall_rating_background_border_hide'];
-                $fb_reviews_overall_rating_background_border_hide = ! empty( $fb_reviews_overall_rating_background_border_hide ) && 'yes' === $fb_reviews_overall_rating_background_border_hide ? ' fts-review-details-master-wrap-no-background-or-border' : '';
+                $fb_reviews_overall_rating_background_border_hide = ! empty( $fb_reviews_overall_rating_background_border_hide ) && $fb_reviews_overall_rating_background_border_hide === 'yes' ? ' fts-review-details-master-wrap-no-background-or-border' : '';
                 echo '<div class="fts-review-details-master-wrap' . esc_attr( $fb_reviews_overall_rating_background_border_hide ) . '" itemscope itemtype="http://schema.org/CreativeWork"><i class="fts-review-star">' . esc_html( $ratings_data->overall_star_rating ) . ' &#9733;</i>';
                 echo '<div class="fts-review-details-wrap" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"><div class="fts-review-details"><span itemprop="ratingValue">' . esc_html( $ratings_data->overall_star_rating ) . '</span>' . esc_html( $fb_reviews_star_language ) . '</div>';
                 echo '<div class="fts-review-details-count"><span itemprop="reviewCount">' . esc_html( $ratings_data->rating_count ) . '</span>' . esc_html( $fb_reviews_overall_rating_reviews_text ) . '</div></div></div>';
 
             }
-            if ( 'reviews' !== $saved_feed_options['facebook_page_feed_type'] ) {
+            if ( $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
 
-                $page_description = $page_data->description ?? '';
-                $page_name   = $page_data->name ?? '';
+                $page_description = $page_data['description'] ?? '';
+                $page_name   = $page_data['name'] ?? '';
                 $fb_title_htag = $saved_feed_options[ 'fb_title_htag' ] ?? 'h1';
 
                 if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                     // echo our Facebook Page Title or About Text. Commented out the group description because in the future we will be adding the about description.
                     $fb_title_htag_size = isset( $saved_feed_options[ 'fb_title_htag_size' ] ) ? 'font-size:' . $saved_feed_options[ 'fb_title_htag_size' ] . ';' : '';
-                    $fts_align_title    = isset( $saved_feed_options['facebook_page_title_align']) && '' !== $saved_feed_options['facebook_page_title_align'] ? 'style=text-align:' . $saved_feed_options['facebook_page_title_align']. ';' . $fb_title_htag_size . '' : $fb_title_htag_size;
-                    echo isset( $saved_feed_options['facebook_page_title'] ) && 'no' !== $saved_feed_options['facebook_page_title'] ? '<' . esc_html( $fb_title_htag ) . ' ' . esc_attr( $fts_align_title ) . '><a href="' . esc_url( $fts_view_fb_link ) . '" target="_blank" rel="noreferrer">' . esc_html( $page_name ) . '</a></' . esc_html( $fb_title_htag ) . '>' : '';
+                    $fts_align_title    = isset( $saved_feed_options['facebook_page_title_align']) && $saved_feed_options['facebook_page_title_align'] !== '' ? 'style=text-align:' . $saved_feed_options['facebook_page_title_align']. ';' . $fb_title_htag_size . '' : $fb_title_htag_size;
+                    echo isset( $saved_feed_options['facebook_page_title'] ) && $saved_feed_options['facebook_page_title'] !== 'no' ? '<' . esc_html( $fb_title_htag ) . ' ' . esc_attr( $fts_align_title ) . '><a href="' . esc_url( $fts_view_fb_link ) . '" target="_blank" rel="noreferrer">' . esc_html( $page_name ) . '</a></' . esc_html( $fb_title_htag ) . '>' : '';
 
-                } else if( isset( $saved_feed_options['facebook_page_title'] ) && 'no' !== $saved_feed_options['facebook_page_title'] ) {
+                } else if( isset( $saved_feed_options['facebook_page_title'] ) && $saved_feed_options['facebook_page_title'] !== 'no' ) {
                     // echo our Facebook Page Title or About Text. Commented out the group description because in the future we will be adding the about description.
                     $fb_title_htag_size = isset( $saved_feed_options[ 'fb_title_htag_size' ] ) ? 'style=font-size:' . $saved_feed_options[ 'fb_title_htag_size' ] . ';' : '';
                     echo '<' . esc_html( $fb_title_htag ) . ' ' . esc_attr( $fb_title_htag_size ) . '><a href="' . esc_url( $fts_view_fb_link ) . '" target="_blank" rel="noreferrer">' . esc_html( $page_name ) . '</a></' . esc_html( $fb_title_htag ) . '>';
                 }
                 // Description.
-                echo !empty( $saved_feed_options['facebook_page_description'] ) && 'no' !== $saved_feed_options['facebook_page_description'] ? '<div class="fts-jal-fb-group-header-desc">' . wp_kses(
+                echo !empty( $saved_feed_options['facebook_page_description'] ) && $saved_feed_options['facebook_page_description'] !== 'no' ? '<div class="fts-jal-fb-group-header-desc">' . wp_kses(
                         $this->facebook_post_types->facebook_tag_filter( $page_description ),
                         array(
                             'a'      => array(
@@ -753,27 +755,27 @@ class Facebook_Feed {
             // END Header.
             echo '</div>';
             // Close fts-fb-header-wrapper.
-            echo isset( $saved_feed_options['facebook_grid'] ) && 'yes' !== $saved_feed_options['facebook_grid'] && 'album_photos' !== $saved_feed_options['facebook_page_feed_type'] && 'albums' !== $saved_feed_options['facebook_page_feed_type'] ? '</div>' : '';
+            echo isset( $saved_feed_options['facebook_grid'] ) && $saved_feed_options['facebook_grid'] !== 'yes' && $saved_feed_options['facebook_page_feed_type'] !== 'album_photos' && $saved_feed_options['facebook_page_feed_type'] !== 'albums' ? '</div>' : '';
         } //End check.
 
         // SOCIAL BUTTON.
-        if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
+        if ( ! $fts_count_ids >= 1 && $saved_feed_options['facebook_hide_like_box_button'] === 'no' ) {
             $this->fb_social_btn_placement( $saved_feed_options, 'below_title' );
         }
 
         // Feed Header.
         // Make sure it's not ajaxing.
         if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-            $fts_mashup_media_top      = isset( $saved_feed_options['facebook_show_media']) && 'top' === $saved_feed_options['facebook_show_media']? 'fts-mashup-media-top ' : '';
-            $fts_mashup_show_name      = isset( $saved_feed_options['show_name'] ) && 'no' === $saved_feed_options['show_name'] ? ' fts-mashup-hide-name ' : '';
-            $fts_mashup_show_date      = isset( $saved_feed_options['show_date'] ) && 'no' === $saved_feed_options['show_date'] ? ' fts-mashup-hide-date ' : '';
-            $fts_mashup_show_thumbnail = isset( $saved_feed_options['show_thumbnail'] ) && 'no' === $saved_feed_options['show_thumbnail'] ? ' fts-mashup-hide-thumbnail ' : '';
+            $fts_mashup_media_top      = isset( $saved_feed_options['facebook_show_media']) && $saved_feed_options['facebook_show_media'] === 'top' ? 'fts-mashup-media-top ' : '';
+            $fts_mashup_show_name      = isset( $saved_feed_options['show_name'] ) && $saved_feed_options['show_name'] === 'no' ? ' fts-mashup-hide-name ' : '';
+            $fts_mashup_show_date      = isset( $saved_feed_options['show_date'] ) && $saved_feed_options['show_date'] === 'no' ? ' fts-mashup-hide-date ' : '';
+            $fts_mashup_show_thumbnail = isset( $saved_feed_options['show_thumbnail'] ) && $saved_feed_options['show_thumbnail'] === 'no' ? ' fts-mashup-hide-thumbnail ' : '';
 
-            if ( ! isset( $facebook_post_type ) && 'albums' === $saved_feed_options['facebook_page_feed_type'] || ! isset( $facebook_post_type ) && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] || isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
+            if ( ! isset( $facebook_post_type ) && $saved_feed_options['facebook_page_feed_type'] === 'albums' || ! isset( $facebook_post_type ) && $saved_feed_options['facebook_page_feed_type'] === 'album_photos' || isset( $saved_feed_options['facebook_grid'] ) && $saved_feed_options['facebook_grid'] === 'yes' ) {
 
-                if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
+                if ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] === 'yes' ) {
                     echo '';
-                } elseif ( isset( $saved_feed_options['fts-slider'], $saved_feed_options['facebook_container_animation'] ) && 'yes' !== $saved_feed_options['fts-slider'] && 'yes' === $saved_feed_options['facebook_container_animation'] || isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ) {
+                } elseif ( isset( $saved_feed_options['fts-slider'], $saved_feed_options['facebook_container_animation'] ) && $saved_feed_options['fts-slider'] !== 'yes' && $saved_feed_options['facebook_container_animation'] === 'yes' || isset( $saved_feed_options['facebook_grid'] ) && $saved_feed_options['facebook_grid'] === 'yes' || isset( $saved_feed_options['facebook_container_animation'] ) && $saved_feed_options['facebook_container_animation'] === 'yes' ) {
                     wp_enqueue_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
                     echo '<script>';
                     echo 'jQuery(window).on(\'load\', function(){';
@@ -784,22 +786,22 @@ class Facebook_Feed {
                     echo '</script>';
                 }
 
-                $fts_slider = isset( $saved_feed_options['fts-slider'] ) ? $saved_feed_options['fts-slider'] : '';
+                $fts_slider = $saved_feed_options['fts-slider'] ?? '';
 
-                if ( 'albums' === $saved_feed_options['facebook_page_feed_type'] && 'yes' !== $fts_slider ||
-                    'album_photos' === $saved_feed_options['facebook_page_feed_type'] && 'yes' !== $fts_slider ) {
-                    echo '<div class="fts-slicker-facebook-photos fts-slicker-facebook-albums' . ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] && 'yes' === $saved_feed_options['facebook_video_album'] ? ' popup-video-gallery-fb' : '' ) . ( isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ? ' masonry js-masonry' : '' ) . ( isset( $saved_feed_options['images_align'] ) && $saved_feed_options['images_align'] ? ' popup-video-gallery-align-' . esc_attr( $saved_feed_options['images_align'] ) : '' ) . ' popup-gallery-fb ' . esc_attr( $fts_dynamic_class_name ) . '"';
-                    if ( isset( $saved_feed_options['facebook_container_animation'] ) && 'yes' === $saved_feed_options['facebook_container_animation'] ) {
-                        echo 'data-masonry-options=\'{ "isFitWidth": ' . ( 'yes' === $saved_feed_options['facebook_container_position'] ? 'false' : 'true' ) . ' ' . ( 'no' === $saved_feed_options['facebook_container_animation'] ? ', "transitionDuration": 0' : '' ) . '}\' style="margin:auto;"';
+                if ( $saved_feed_options['facebook_page_feed_type'] === 'albums' && $fts_slider !== 'yes' ||
+                    $saved_feed_options['facebook_page_feed_type'] === 'album_photos' && $fts_slider !== 'yes' ) {
+                    echo '<div class="fts-slicker-facebook-photos fts-slicker-facebook-albums' . ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] && $saved_feed_options['facebook_video_album'] === 'yes' ? ' popup-video-gallery-fb' : '' ) . ( isset( $saved_feed_options['facebook_container_animation'] ) && $saved_feed_options['facebook_container_animation'] === 'yes' ? ' masonry js-masonry' : '' ) . ( isset( $saved_feed_options['images_align'] ) && $saved_feed_options['images_align'] ? ' popup-video-gallery-align-' . esc_attr( $saved_feed_options['images_align'] ) : '' ) . ' popup-gallery-fb ' . esc_attr( $fts_dynamic_class_name ) . '"';
+                    if ( isset( $saved_feed_options['facebook_container_animation'] ) && $saved_feed_options['facebook_container_animation'] === 'yes' ) {
+                        echo 'data-masonry-options=\'{ "isFitWidth": ' . ( $saved_feed_options['facebook_container_position'] === 'yes' ? 'false' : 'true' ) . ' ' . ( $saved_feed_options['facebook_container_animation'] === 'no' ? ', "transitionDuration": 0' : '' ) . '}\' style="margin:auto;"';
                     }
                     echo '>';
                 } elseif (
                     // slideshow scrollHorz or carousel.
-                    ! isset( $facebook_post_type ) && isset( $saved_feed_options['fts-slider'] ) && 'yes' === $saved_feed_options['fts-slider'] ) {
+                    ! isset( $facebook_post_type ) && isset( $saved_feed_options['fts-slider'] ) && $saved_feed_options['fts-slider'] === 'yes' ) {
 
-                    $fts_cycle_type = isset( $saved_feed_options['scrollhorz_or_carousel']) ? $saved_feed_options['scrollhorz_or_carousel']: 'scrollHorz';
+                    $fts_cycle_type = $saved_feed_options['scrollhorz_or_carousel'] ?? 'scrollHorz';
 
-                    if ( isset( $fts_cycle_type ) && 'carousel' === $fts_cycle_type ) {
+                    if ( isset( $fts_cycle_type ) && $fts_cycle_type === 'carousel' ) {
                         $fts_cycle_slideshow = 'slideshow';
                     } else {
                         $fts_cycle_slideshow = 'cycle-slideshow';
@@ -824,27 +826,27 @@ class Facebook_Feed {
                     $fts_controls_bar_color  = ! empty( $saved_feed_options['slider_controls_bar_color'] ) ? $saved_feed_options['slider_controls_bar_color'] : '#000';
                     $fts_controls_text_color = ! empty( $saved_feed_options['slider_controls_text_color'] ) ? $saved_feed_options['slider_controls_text_color'] : '#ddd';
 
-                    if ( isset( $saved_feed_options['slider_controls_width'] ) && 'carousel' !== $saved_feed_options['scrollhorz_or_carousel'] ) {
-                        $max_width_set = isset( $saved_feed_options['facebook_image_width'] ) && '' !== $saved_feed_options['facebook_image_width'] && 'carousel' !== $saved_feed_options['scrollhorz_or_carousel']? $saved_feed_options['facebook_image_width'] : '100%';
+                    if ( isset( $saved_feed_options['slider_controls_width'] ) && $saved_feed_options['scrollhorz_or_carousel'] !== 'carousel' ) {
+                        $max_width_set = isset( $saved_feed_options['facebook_image_width'] ) && $saved_feed_options['facebook_image_width'] !== '' && $saved_feed_options['scrollhorz_or_carousel'] !== 'carousel' ? $saved_feed_options['facebook_image_width'] : '100%';
                     } else {
-                        $max_width_set = isset( $saved_feed_options['slider_controls_width'] ) && '' !== $saved_feed_options['slider_controls_width'] && 'carousel' === $saved_feed_options['scrollhorz_or_carousel']? $saved_feed_options['slider_controls_width'] : '100%';
+                        $max_width_set = isset( $saved_feed_options['slider_controls_width'] ) && $saved_feed_options['slider_controls_width'] !== '' && $saved_feed_options['scrollhorz_or_carousel'] === 'carousel' ? $saved_feed_options['slider_controls_width'] : '100%';
                     }
                     if (
-                        isset( $saved_feed_options['slider_controls'] ) && 'dots_above_feed' === $saved_feed_options['slider_controls'] ||
-                        isset( $saved_feed_options['slider_controls'] ) && 'dots_and_arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                        isset( $saved_feed_options['slider_controls'] ) && 'dots_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                        isset( $saved_feed_options['slider_controls'] ) && 'dots_arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                        isset( $saved_feed_options['slider_controls'] ) && 'arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                        isset( $saved_feed_options['slider_controls'] ) && 'arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                        isset( $saved_feed_options['slider_controls'] ) && 'numbers_above_feed' === $saved_feed_options['slider_controls']
+                        isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_above_feed' ||
+                        isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_arrows_above_feed' ||
+                        isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_numbers_above_feed' ||
+                        isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_above_feed' ||
+                        isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_and_numbers_above_feed' ||
+                        isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_above_feed' ||
+                        isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'numbers_above_feed'
                     ) {
 
                         // Slider Dots Wrapper.
                         if (
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls']
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_arrows_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_above_feed'
                         ) {
 
                             echo '<div class="fts-slider-icons-center fts-pager-option-dots-only-top" style="margin:auto; width:100%;max-width:' . esc_attr( $max_width_set . ';background:' . $fts_controls_bar_color . ';color:' . $fts_controls_text_color ) . '"><div class="fts-pager-option fts-custom-pager-' . esc_attr( $fts_dynamic_class_name ) . '"></div></div>';
@@ -853,81 +855,81 @@ class Facebook_Feed {
                         //LEAVING OFF HERE. SLIDESHOW NOT WORKING IN BACKEND BUT IS IN FRONT END... ALSO POPUP IS NOT WORKING IN ONE INSTANCE
                         // Slider Arrow and Numbers Wrapper.
                         if (
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'numbers_above_feed' === $saved_feed_options['slider_controls']
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_arrows_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'numbers_above_feed'
                         ) {
                             echo '<div class="fts-slider-center" style="margin:auto; width:100%; max-width:' . esc_attr( $max_width_set . ';background:' . $fts_controls_bar_color . ';color:' . $fts_controls_text_color ) . '">';
                         }
 
                         // Previous Arrow.
                         if (
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_above_feed' === $saved_feed_options['slider_controls']
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_arrows_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_above_feed'
                         ) {
                             echo '<span class="fts-prevControl-icon fts-prevControl-' . esc_attr( $fts_dynamic_class_name ) . '"></span>';
                         }
                         // Numbers.
                         if (
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_numbers_above_feed' === $saved_feed_options['slider_controls']
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_numbers_above_feed'
                         ) {
                             echo '<span id="fts-custom-caption-' . esc_attr( $fts_dynamic_class_name ) . '" class="fts-custom-caption" ></span>';
                         }
                         // Next Arrow.
                         if (
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_above_feed' === $saved_feed_options['slider_controls']
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_arrows_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_above_feed'
                         ) {
                             echo '<span class="fts-nextControl-icon fts-nextControl-' . esc_attr( $fts_dynamic_class_name ) . '"></span>';
                         }
 
                         // Slider Arrow and Numbers Wrapper.
                         if (
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'dots_arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_and_numbers_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'arrows_above_feed' === $saved_feed_options['slider_controls'] ||
-                            isset( $saved_feed_options['slider_controls'] ) && 'numbers_above_feed' === $saved_feed_options['slider_controls']
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_arrows_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_and_numbers_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'arrows_above_feed' ||
+                            isset( $saved_feed_options['slider_controls'] ) && $saved_feed_options['slider_controls'] === 'numbers_above_feed'
                         ) {
                             echo '</div>';
                         }
                     }
 
-                    echo '<div class="popup-gallery-fb fts-fb-slideshow fts-slicker-facebook-photos fts-slicker-facebook-albums ' . esc_attr( $fts_cycle_slideshow ) . ' ' . ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] && 'yes' === $saved_feed_options['facebook_video_album'] ? 'popup-video-gallery-fb' : '' ) . ' ' . ( isset( $saved_feed_options['images_align'] ) && $saved_feed_options['images_align'] ? ' popup-video-gallery-align-' . esc_attr( $saved_feed_options['images_align'] ) : '' ) . ' popup-gallery-fb ' . esc_attr( $fts_dynamic_class_name ) . '"
+                    echo '<div class="popup-gallery-fb fts-fb-slideshow fts-slicker-facebook-photos fts-slicker-facebook-albums ' . esc_attr( $fts_cycle_slideshow ) . ' ' . ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] && $saved_feed_options['facebook_video_album'] === 'yes' ? 'popup-video-gallery-fb' : '' ) . ' ' . ( isset( $saved_feed_options['images_align'] ) && $saved_feed_options['images_align'] ? ' popup-video-gallery-align-' . esc_attr( $saved_feed_options['images_align'] ) : '' ) . ' popup-gallery-fb ' . esc_attr( $fts_dynamic_class_name ) . '"
 
-style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $saved_feed_options['slider_margin'] ? esc_attr( $saved_feed_options['slider_margin'] ) : 'auto' ) . ';' . ( isset( $fts_cycle_type ) && 'carousel' === $fts_cycle_type ? 'width:100%; max-width:100%; overflow:hidden;height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '!important;' : 'overflow:hidden; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '; max-width:' . ( isset( $saved_feed_options['facebook_image_width'] ) && '' !== $saved_feed_options['facebook_image_width'] ? esc_attr( $saved_feed_options['facebook_image_width'] ) : 'auto' ) ) . ';" data-cycle-caption="#fts-custom-caption-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-caption-template="{{slideNum}} / {{slideCount}}" data-cycle-pager=".fts-custom-pager-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-pause-on-hover="true" data-cycle-prev=".fts-prevControl-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-next=".fts-nextControl-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-timeout="' . ( ! empty( $saved_feed_options['slider_timeout'] ) ? esc_attr( $saved_feed_options['slider_timeout'] ) : '0' ) . '" data-cycle-manual-speed="' . ( ! empty( $saved_feed_options['slider_speed'] ) ? esc_attr( $saved_feed_options['slider_speed'] ) : '400' ) . '" data-cycle-auto-height="false" data-cycle-slides="> div" data-cycle-fx="' . ( ! empty( $saved_feed_options['scrollhorz_or_carousel']) ? esc_attr( $saved_feed_options['scrollhorz_or_carousel']) : '' ) . '" data-cycle-carousel-visible=' . ( ! empty( $saved_feed_options['slides_visible'] ) ? esc_attr( $saved_feed_options['slides_visible'] ) : '4' ) . ' data-cycle-swipe=true data-cycle-swipe-fx=' . ( ! empty( $saved_feed_options['scrollhorz_or_carousel']) ? esc_attr( $saved_feed_options['scrollhorz_or_carousel']) : '' ) . '>';
+style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed_options['slider_margin'] !== '' ? esc_attr( $saved_feed_options['slider_margin'] ) : 'auto' ) . ';' . ( isset( $fts_cycle_type ) && $fts_cycle_type === 'carousel' ? 'width:100%; max-width:100%; overflow:hidden;height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '!important;' : 'overflow:hidden; height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . '; max-width:' . ( isset( $saved_feed_options['facebook_image_width'] ) && $saved_feed_options['facebook_image_width'] !== '' ? esc_attr( $saved_feed_options['facebook_image_width'] ) : 'auto' ) ) . ';" data-cycle-caption="#fts-custom-caption-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-caption-template="{{slideNum}} / {{slideCount}}" data-cycle-pager=".fts-custom-pager-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-pause-on-hover="true" data-cycle-prev=".fts-prevControl-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-next=".fts-nextControl-' . esc_attr( $fts_dynamic_class_name ) . '" data-cycle-timeout="' . ( ! empty( $saved_feed_options['slider_timeout'] ) ? esc_attr( $saved_feed_options['slider_timeout'] ) : '0' ) . '" data-cycle-manual-speed="' . ( ! empty( $saved_feed_options['slider_speed'] ) ? esc_attr( $saved_feed_options['slider_speed'] ) : '400' ) . '" data-cycle-auto-height="false" data-cycle-slides="> div" data-cycle-fx="' . ( ! empty( $saved_feed_options['scrollhorz_or_carousel']) ? esc_attr( $saved_feed_options['scrollhorz_or_carousel']) : '' ) . '" data-cycle-carousel-visible=' . ( ! empty( $saved_feed_options['slides_visible'] ) ? esc_attr( $saved_feed_options['slides_visible'] ) : '4' ) . ' data-cycle-swipe=true data-cycle-swipe-fx=' . ( ! empty( $saved_feed_options['scrollhorz_or_carousel']) ? esc_attr( $saved_feed_options['scrollhorz_or_carousel']) : '' ) . '>';
                 }
 
-                if ( 'page' === $saved_feed_options['facebook_page_feed_type'] && isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] ||
-                    'reviews' === $saved_feed_options['facebook_page_feed_type'] && isset( $saved_feed_options['facebook_grid'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-                    echo '<div class="fts-slicker-facebook-posts masonry js-masonry ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['facebook_popup']  ? 'popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ( 'no' === $saved_feed_options['facebook_container_position'] ? 'false' : 'true' ) . ',"transitionDuration": 0 }\'>';
+                if ( $saved_feed_options['facebook_page_feed_type'] === 'page' && isset( $saved_feed_options['facebook_grid'] ) && $saved_feed_options['facebook_grid'] === 'yes' ||
+                    $saved_feed_options['facebook_page_feed_type'] === 'reviews' && isset( $saved_feed_options['facebook_grid'] ) && $saved_feed_options['facebook_grid'] === 'yes' ) {
+                    echo '<div class="fts-slicker-facebook-posts masonry js-masonry ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_popup'] === 'yes' ? 'popup-gallery-fb-posts ' : '' ) . ( $saved_feed_options['facebook_page_feed_type'] === 'reviews' ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ' " style="margin:auto;" data-masonry-options=\'{ "isFitWidth": ' . ( $saved_feed_options['facebook_container_position'] === 'no' ? 'false' : 'true' ) . ',"transitionDuration": 0 }\'>';
                 }
             } else {
-                $facebook_page_height = !empty( $saved_feed_options['facebook_page_height'] ) && 'auto' !== $saved_feed_options['facebook_page_height'] ? 'height:' . $saved_feed_options['facebook_page_height'] : '';
+                $facebook_page_height = !empty( $saved_feed_options['facebook_page_height'] ) && $saved_feed_options['facebook_page_height'] !== 'auto' ? 'height:' . $saved_feed_options['facebook_page_height'] : '';
 
-                echo '<div class="fts-jal-fb-group-display fts-simple-fb-wrapper ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? ' popup-gallery-fb-posts ' : '' ) . ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ( !empty($facebook_page_height) && 'auto' !== $facebook_page_height ? ' fts-fb-scrollable" style="' . esc_attr( $facebook_page_height ) . '"' : '"' ) . '>';
+                echo '<div class="fts-jal-fb-group-display fts-simple-fb-wrapper ' . esc_attr( $fts_mashup_media_top . $fts_mashup_show_name . $fts_mashup_show_date . $fts_mashup_show_thumbnail ) . ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ? ' popup-gallery-fb-posts ' : '' ) . ( $saved_feed_options['facebook_page_feed_type'] === 'reviews' ? 'fts-reviews-feed ' : '' ) . esc_attr( $fts_dynamic_class_name ) . ( !empty($facebook_page_height) && $facebook_page_height !== 'auto' ? ' fts-fb-scrollable" style="' . esc_attr( $facebook_page_height ) . '"' : '"' ) . '>';
             }
         } //End ajaxing Check
 
         // *********************
         // Post Information
         // *********************
-        $fb_load_more_text   = isset( $saved_feed_options[ 'fb_load_more_text' ] ) ? $saved_feed_options[ 'fb_load_more_text' ] : esc_html( 'Load More', 'feed-them-social' );
+        $fb_load_more_text   = $saved_feed_options['fb_load_more_text'] ?? esc_html( 'Load More', 'feed-them-social' );
         $response_post_array = $this->get_post_info( $feed_data, $saved_feed_options, $language, $fb_cache_name );
 
         // Single event info call.
-        if ( 'events' === $saved_feed_options['facebook_page_feed_type'] ) {
+        if ( $saved_feed_options['facebook_page_feed_type'] === 'events' ) {
             $single_event_array_response = $this->get_event_post_info( $feed_data, $saved_feed_options, $language );
         }
 
@@ -940,7 +942,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
         // THE MAIN FEED
         // LOOP to fix Post count!
 
-        if (isset($feed_data->data) && count($feed_data->data) > 0) {
+        if (isset($feed_data->data) && \count($feed_data->data) > 0) {
             foreach ($feed_data->data as $k => $v) {
                 if ($k >= $saved_feed_options['facebook_page_post_count']) {
                     unset($feed_data->data[$k]);
@@ -955,15 +957,22 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
         // usort($feed_data->data, array($this, "dateSort"));
         // Loop for all facebook feeds.
 
-        if (isset($feed_data->data) && count($feed_data->data) > 0) {
+        if (isset($feed_data->data) && \count($feed_data->data) > 0) {
             foreach ($feed_data->data as $post_data) {
 
+
+                //Adding the profile pic to the feed data array so we can use in the feeds.
+                // Check if decoding was successful and if the keys exist
+                if ( \is_array($page_data) && isset($page_data['picture']['data']['url']) && \is_object($feed_data)) {
+                    // Adding the profile pic URL to the feed data object
+                    $post_data->fts_main_profile_pic_url = $page_data['picture']['data']['url'] ?? '';
+                }
                 $fb_message = $post_data->message ?? '';
                 $fb_status_type = $post_data->status_type ?? '';
 
                 $fb_story = $post_data->story ?? '';
 
-                if ('albums' === $saved_feed_options['facebook_page_feed_type']) {
+                if ( $saved_feed_options['facebook_page_feed_type'] === 'albums' ) {
                     $facebook_post_type = $post_data->type ?? '';
                 } else {
                     $facebook_post_type = $post_data->attachments->data[0]->type ?? '';
@@ -975,32 +984,34 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 // SRL 4.0 I noticed that if you change the fb language option when creating a fb feed then our english language comparisons are not working properly.
                 // I fixed this for the most part by remove the check for needle... to do. need to check if regular posts have a status type.
                 // This is the method to skip empty posts or posts that are simply about changing settings or other non important post types.
-                if (false !== strpos($fb_story, 'updated their website address') ||
-                    'profile_media' === $facebook_post_type ||
-                    'cover_photo' === $facebook_post_type ||
-                    'status' === $facebook_post_type && empty($fb_message) && empty($fb_story) ||
-                    'event' === $facebook_post_type ||
-                    'status' === $facebook_post_type && false !== strpos($fb_story, 'changed the name of the event to') ||
-                    'status' === $facebook_post_type && false !== strpos($fb_story, 'changed the privacy setting') ||
-                    'status' === $facebook_post_type && false !== strpos($fb_story, 'an admin of the group') ||
-                    'status' === $facebook_post_type && false !== strpos($fb_story, 'created the group') ||
-                    'status' === $facebook_post_type && false !== strpos($fb_story, 'added an event')) {
+                if ( strpos($fb_story, 'updated their website address') !== false ||
+                    $facebook_post_type === 'profile_media' ||
+                    $facebook_post_type === 'cover_photo' ||
+                    $facebook_post_type === 'status' && empty($fb_message) && empty($fb_story) ||
+                    $facebook_post_type === 'event' ||
+                    $facebook_post_type === 'status' && strpos($fb_story, 'changed the name of the event to') !== false ||
+                    $facebook_post_type === 'status' && strpos($fb_story, 'changed the privacy setting') !== false ||
+                    $facebook_post_type === 'status' && strpos($fb_story, 'an admin of the group') !== false ||
+                    $facebook_post_type === 'status' && strpos($fb_story, 'created the group') !== false ||
+                    $facebook_post_type === 'status' && strpos($fb_story, 'added an event') !== false ) {
 
                     // Skip the Post...
 
                 } else {
                     // define type note also affects load more function call.
-                    if (!$facebook_post_type && 'album_photos' === $saved_feed_options['facebook_page_feed_type']) {
+                    if (!$facebook_post_type && $saved_feed_options['facebook_page_feed_type'] === 'album_photos' ) {
                         $facebook_post_type = 'photo';
                     }
-                    if (!$facebook_post_type && 'events' === $saved_feed_options['facebook_page_feed_type']) {
+                    if (!$facebook_post_type && $saved_feed_options['facebook_page_feed_type'] === 'events' ) {
                         $facebook_post_type = 'events';
                     }
 
                     $single_event_array_response = $single_event_array_response ?? '';
 
                     // echo '<br/><br/>were function gets called <br/><br/>' .
-                    // print_r( $post_data );.
+                   /* echo '<pre>';
+                    echo print_r($post_data);
+                    echo '</pre>';*/
                     $this->facebook_post_types->feed_post_types($set_zero, $facebook_post_type, $post_data, $saved_feed_options, $response_post_array, $single_event_array_response, $fts_facebook_reviews);
                 }
 
@@ -1008,7 +1019,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
             }// END POST foreach
         }
 
-        if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
+        if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_page_feed_type'] !== 'reviews' || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
             if ( ! empty( $feed_data->data ) ) {
                 $this->fts_facebook_loadmore( $feed_post_id, $feed_data, $facebook_post_type, $saved_feed_options );
             }
@@ -1016,7 +1027,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
         echo '</div>'; // closing main div for fb photos, groups etc
         // only show this script if the height option is set to a number.
-        if ( isset( $saved_feed_options['facebook_page_height'] ) && 'auto' !== $saved_feed_options['facebook_page_height'] ) {
+        if ( isset( $saved_feed_options['facebook_page_height'] ) && $saved_feed_options['facebook_page_height'] !== 'auto' ) {
             echo '<script>';
             // this makes it so the page does not scroll if you reach the end of scroll bar or go back to top'.
             echo 'jQuery.fn.isolatedScrollFacebookFTS = function() {';
@@ -1036,8 +1047,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
         // Make sure it's not ajaxing.
         if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
             echo '<div class="fts-clear"></div><div id="fb-root"></div>';
-            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
-                if ( 'button' === $saved_feed_options['facebook_load_more_style'] && 'yes' ===  $saved_feed_options['facebook_load_more'] ) {
+            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_page_feed_type'] !== 'reviews' || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
+                if ( $saved_feed_options['facebook_load_more_style'] === 'button' && $saved_feed_options['facebook_load_more'] === 'yes' ) {
 
                     echo '<div class="fts-fb-load-more-wrapper">';
                     echo '<div id="loadMore_' . esc_attr( $_REQUEST['fts_dynamic_name'] ) . '" style="';
@@ -1055,82 +1066,82 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
         if( isset( $saved_feed_options['fts-slider'] ) && $saved_feed_options['slider_controls'] && 'yes' === $saved_feed_options['fts-slider'] ){
             //Check at lease one of Slider Controls is set.
             if (
-                'dots_below_feed' === $saved_feed_options['slider_controls'] ||
-                'dots_and_arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                'dots_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                'dots_arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                'arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                'arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                'numbers_below_feed' === $saved_feed_options['slider_controls']
+                $saved_feed_options['slider_controls'] === 'dots_below_feed' ||
+                $saved_feed_options['slider_controls'] === 'dots_and_arrows_below_feed' ||
+                $saved_feed_options['slider_controls'] === 'dots_and_numbers_below_feed' ||
+                $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_below_feed' ||
+                $saved_feed_options['slider_controls'] === 'arrows_and_numbers_below_feed' ||
+                $saved_feed_options['slider_controls'] === 'arrows_below_feed' ||
+                $saved_feed_options['slider_controls'] === 'numbers_below_feed'
             ) {
 
                 // Slider Dots Wrapper.
                 if (
-                    'dots_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_and_arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls']
+                    $saved_feed_options['slider_controls'] === 'dots_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_and_arrows_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_below_feed'
                 ) {
-                    if ( isset( $saved_feed_options['slider_controls_width'] ) && 'carousel' !== $saved_feed_options['scrollhorz_or_carousel']) {
-                        $max_width_set = isset( $saved_feed_options['facebook_image_width'] ) && '' !== $saved_feed_options['facebook_image_width'] && 'carousel' !== $saved_feed_options['scrollhorz_or_carousel']? $saved_feed_options['facebook_image_width'] : '100%';
+                    if ( isset( $saved_feed_options['slider_controls_width'] ) && $saved_feed_options['scrollhorz_or_carousel'] !== 'carousel' ) {
+                        $max_width_set = isset( $saved_feed_options['facebook_image_width'] ) && $saved_feed_options['facebook_image_width'] !== '' && $saved_feed_options['scrollhorz_or_carousel'] !== 'carousel' ? $saved_feed_options['facebook_image_width'] : '100%';
                     } else {
-                        $max_width_set = isset( $saved_feed_options['slider_controls_width'] ) && '' !== $saved_feed_options['slider_controls_width'] && 'carousel' === $saved_feed_options['scrollhorz_or_carousel']? $saved_feed_options['slider_controls_width'] : '100%';
+                        $max_width_set = isset( $saved_feed_options['slider_controls_width'] ) && $saved_feed_options['slider_controls_width'] !== '' && $saved_feed_options['scrollhorz_or_carousel'] === 'carousel' ? $saved_feed_options['slider_controls_width'] : '100%';
                     }
 
-                    $fts_controls_text_color = isset( $saved_feed_options['slider_controls_text_color'] ) && '' !== $saved_feed_options['slider_controls_text_color'] ? $saved_feed_options['slider_controls_text_color'] : '#333333';
-                    $fts_controls_bar_color = isset( $saved_feed_options['slider_controls_bar_color'] ) && '' !== $saved_feed_options['slider_controls_bar_color'] ? $saved_feed_options['slider_controls_bar_color'] : '#333333';
+                    $fts_controls_text_color = isset( $saved_feed_options['slider_controls_text_color'] ) && $saved_feed_options['slider_controls_text_color'] !== '' ? $saved_feed_options['slider_controls_text_color'] : '#333333';
+                    $fts_controls_bar_color = isset( $saved_feed_options['slider_controls_bar_color'] ) && $saved_feed_options['slider_controls_bar_color'] !== '' ? $saved_feed_options['slider_controls_bar_color'] : '#333333';
 
                     echo '<div class="fts-slider-icons-center" style="margin:auto; width:100%;max-width:' . esc_attr( $max_width_set ) . ';background:' . esc_attr( $fts_controls_bar_color ) . ';color:' . esc_attr( $fts_controls_text_color ) . '"><div class="fts-pager-option fts-custom-pager-' . esc_attr( $fts_dynamic_class_name ) . '"></div></div>';
                 }
 
                 // Slider Arrow and Numbers Wrapper.
                 if (
-                    'dots_and_arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'numbers_below_feed' === $saved_feed_options['slider_controls']
+                    $saved_feed_options['slider_controls'] === 'dots_and_arrows_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'numbers_below_feed'
                 ) {
                     echo '<div class="fts-slider-center" style="margin:auto; width:100%; max-width:' . esc_attr( $max_width_set ) . ';background:' . esc_attr( $fts_controls_bar_color ) . ';color:' . esc_attr( $fts_controls_text_color ) . '">';
                 }
 
                 // Previous Arrow.
                 if (
-                    'dots_and_arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_below_feed' === $saved_feed_options['slider_controls']
+                    $saved_feed_options['slider_controls'] === 'dots_and_arrows_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_below_feed'
                 ) {
                     echo '<span class="fts-prevControl-icon fts-prevControl-' . esc_attr( $fts_dynamic_class_name ) . '"></span>';
                 }
                 // Numbers.
                 if (
-                    'dots_arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_and_numbers_below_feed' === $saved_feed_options['slider_controls']
+                    $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_and_numbers_below_feed'
                 ) {
                     echo '<span id="fts-custom-caption-' . esc_attr( $fts_dynamic_class_name ) . '" class="fts-custom-caption" ></span>';
                 }
                 // Next Arrow.
                 if (
-                    'dots_and_arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_below_feed' === $saved_feed_options['slider_controls']
+                    $saved_feed_options['slider_controls'] === 'dots_and_arrows_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_below_feed'
                 ) {
                     echo '<span class="fts-nextControl-icon fts-nextControl-' . esc_attr( $fts_dynamic_class_name ) . '"></span>';
                 }
 
                 // Slider Arrow and Numbers Wrapper.
                 if (
-                    'dots_and_arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'dots_arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_and_numbers_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'arrows_below_feed' === $saved_feed_options['slider_controls'] ||
-                    'numbers_below_feed' === $saved_feed_options['slider_controls']
+                    $saved_feed_options['slider_controls'] === 'dots_and_arrows_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'dots_arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_and_numbers_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'arrows_below_feed' ||
+                    $saved_feed_options['slider_controls'] === 'numbers_below_feed'
                 ) {
                     echo '</div>';
                 }
@@ -1143,7 +1154,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
         // ******************
         // SOCIAL BUTTON
         // ******************
-        if ( ! $fts_count_ids >= 1 && 'no' === $saved_feed_options['facebook_hide_like_box_button'] ) {
+        if ( ! $fts_count_ids >= 1 && $saved_feed_options['facebook_hide_like_box_button'] === 'no' ) {
             $this->fb_social_btn_placement( $saved_feed_options, 'bottom' );
         }
 
@@ -1234,7 +1245,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
         switch ( $saved_feed_options['facebook_page_feed_type'] ) {
             case 'album_photos':
-                $facebook_album_id = isset( $saved_feed_options['facebook_album_id'] ) ? $saved_feed_options['facebook_album_id'] : '';
+                $facebook_album_id = $saved_feed_options['facebook_album_id'] ?? '';
                 $fb_data_cache_name = 'fb_' . $saved_feed_options['facebook_page_feed_type'] . '_' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '_' . $facebook_album_id . '_num' . $saved_feed_options['facebook_page_post_count'] . '';
                 break;
             default:
@@ -1254,7 +1265,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
         // this check is in place because we used this option and it failed for many people because we use wp get contents instead of curl.
         // this can be removed in a future update and just keep the $language_option = get_option('fb_language', 'en_US');.
         $language_option_check = ! empty( $saved_feed_options['fb_language'] ) ? $saved_feed_options['fb_language'] : '';
-        if ( isset( $language_option_check ) && 'Please Select Option' !== $language_option_check ) {
+        if ( isset( $language_option_check ) && $language_option_check !== 'Please Select Option' ) {
             $language_option = $saved_feed_options['fb_language'] ?? 'en_US';
         } else {
             $language_option = 'en_US';
@@ -1278,7 +1289,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
         if ( isset( $_REQUEST['next_url'] ) && ! empty( $_REQUEST['next_url'] ) ) {
             $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-            if ( 'graph.facebook.com' !== $next_url_host && $next_url_host !== 'graph.instagram.com' ) {
+            if ( $next_url_host !== 'graph.facebook.com' && $next_url_host !== 'graph.instagram.com' ) {
                 wp_die( esc_html__( 'Invalid Facebook URL', 'feed_them_social' ), 403 );
             }
         }
@@ -1297,8 +1308,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
             // echo $this->feed_access_token;
             // Page.
-            if ( 'page' === $saved_feed_options['facebook_page_feed_type'] && 'page_only' === $saved_feed_options['facebook_page_posts_displayed'] ) {
-                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description&access_token=' . $this->feed_access_token . $language . '' );
+            if ( $saved_feed_options['facebook_page_feed_type'] === 'page' && $saved_feed_options['facebook_page_posts_displayed'] === 'page_only' ) {
+                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,picture&access_token=' . $this->feed_access_token . $language . '' );
 
                 if ( isset( $_REQUEST['next_url'] ) ) {
                     $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
@@ -1333,7 +1344,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                     $albums_since_date = '';
                 }
 
-                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link&access_token=' . $this->feed_access_token . $language . '' );
+                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link,picture&access_token=' . $this->feed_access_token . $language . '' );
                 if ( isset( $_REQUEST['next_url'] ) ) {
                     $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
                 }
@@ -1347,24 +1358,24 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 // $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? esc_url($_REQUEST['next_url']) : 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/albums?fields=id,created_time,name,from,cover_photo,count,updated_time&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '';
             } elseif (
                 // Album Photos.
-                'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
+                $saved_feed_options['facebook_page_feed_type'] === 'album_photos' ) {
 
-                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link&access_token=' . $this->feed_access_token . $language . '' );
+                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link,picture&access_token=' . $this->feed_access_token . $language . '' );
 
-                $photo_stream = 'album_photos' === $saved_feed_options['facebook_page_feed_type'] && empty( $saved_feed_options['facebook_album_id'] ) ? 'photo_stream' : '';
+                $photo_stream = $saved_feed_options['facebook_page_feed_type'] === 'album_photos' && empty( $saved_feed_options['facebook_album_id'] ) ? 'photo_stream' : '';
 
                 if ( isset( $_REQUEST['next_url'] ) ) {
                     $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
                 }
                 // Check If Ajax next URL needs to be used
                 // The reason I did not create a whole new else if for the video album is because I did not want to duplicate all the code required to make the video because the videos gallery comes from the photo albums on facebook.
-                if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
+                if ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] === 'yes' ) {
                     if ( ! $fts_count_ids >= 1 ) {
                         $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/videos?fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     } else {
                         $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/videos?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     }
-                } elseif ( 'photo_stream' === $photo_stream ) {
+                } elseif ( $photo_stream === 'photo_stream' ) {
                     if ( ! $fts_count_ids >= 1 ) {
                         $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     } else {
@@ -1378,7 +1389,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                         $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/photos?ids=' . $saved_feed_options['facebook_album_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     }
                 }
-            } elseif ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
+            } elseif ( $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
 
                 // YO!
                 // echo 'myCacheName Ok so we are good to this point, but when you reload the page the cache is not decrypting somewhere.';
@@ -1396,7 +1407,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 }
             } else {
                 // This is meant for posts made by others option, however it now requires a new permission from Facebook that we do not have. Page Public Content Access.
-                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=feed,id,name,description&access_token=' . $this->feed_access_token . $language . '' );
+                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=feed,id,name,description,picture&access_token=' . $this->feed_access_token . $language . '' );
 
                 if ( isset( $_REQUEST['next_url'] ) ) {
                     $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
@@ -1418,10 +1429,10 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 $fts_error_check          = new fts_error_handler();
                 $fts_error_check_complete = $fts_error_check->facebook_error_check( $saved_feed_options, $feed_data );
 
-                if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
+                if ( is_array( $fts_error_check_complete ) && $fts_error_check_complete[0] === true ) {
 
                     // If old Cache exists use it instead of showing an error.
-                    if ( true === $this->feed_cache->fts_check_feed_cache_exists( $fb_cache_name, true ) ) {
+                    if ( $this->feed_cache->fts_check_feed_cache_exists( $fb_cache_name, true ) === true ) {
 
                         // If Current user is Admin and Cache exists for use then still show Admin the error for debugging purposes.
                         if ( current_user_can( 'administrator' ) ) {
@@ -1481,12 +1492,12 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
     public function get_post_info( $feed_data, $saved_feed_options, $language, $fb_cache_name ) {
 
         // If Album include album ID in Post Data Cache name.
-        if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
+        if ( $saved_feed_options['facebook_page_feed_type'] === 'album_photos' ) {
             $facebook_album_id = !empty( $saved_feed_options['facebook_album_id'] ) ? $saved_feed_options['facebook_album_id'] : '';
             $fb_post_data_cache = 'fb_' . $saved_feed_options['facebook_page_feed_type'] . '_post_' . $facebook_album_id . '_num' . $saved_feed_options['facebook_page_post_count'] . '';
             $post_count = $saved_feed_options['facebook_page_post_count'];
         }
-        elseif ( isset( $saved_feed_options['combine_facebook'] ) && 'yes' === $saved_feed_options['combine_facebook'] ){
+        elseif ( isset( $saved_feed_options['combine_facebook'] ) && $saved_feed_options['combine_facebook'] === 'yes' ){
             $fb_post_data_cache = 'fb_page_combine_post_' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '_num' . $saved_feed_options['combine_social_network_post_count'] . '';
             $post_count = $saved_feed_options['combine_social_network_post_count'];
         }
@@ -1505,7 +1516,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
             // Single Events Array.
             $set_zero = 0;
 
-            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+            if (isset($feed_data->data) && \count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $post_data) {
 
                     $post_data->id = $post_data->id ?? '';
@@ -1518,7 +1529,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                     $post_data_key = $post_data->attachments->data[0]->object_id ?? $post_data->id;
 
                     // Don't run these if it's a review feed otherwise you will get an error response from facebook.
-                    if ('reviews' !== $saved_feed_options['facebook_page_feed_type']) {
+                    if ( $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
                         // Set Likes URL in post array.
                         $fb_post_array[$post_data_key . '_likes'] = 'https://graph.facebook.com/' . $post_data_key . '/reactions?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
                         // Set Comments URL in post array.
@@ -1526,23 +1537,23 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                     }
 
                     // Video.
-                    if ('video' === $facebook_post_type) {
+                    if ( $facebook_post_type === 'video' ) {
                         $fb_post_array[$post_data_key . '_video'] = 'https://graph.facebook.com/' . $post_data_key;
                     }
                     // Photo.
                     $fb_album_cover = isset($post_data->cover_photo->id) ? $post_data->cover_photo->id : '';
-                    if ('albums' === $saved_feed_options['facebook_page_feed_type'] && !$fb_album_cover) {
+                    if ( $saved_feed_options['facebook_page_feed_type'] === 'albums' && !$fb_album_cover) {
                         unset($post_data);
                         continue;
                     }
-                    if ('albums' === $saved_feed_options['facebook_page_feed_type']) {
+                    if ( $saved_feed_options['facebook_page_feed_type'] === 'albums' ) {
                         $fb_post_array[$fb_album_cover . '_photo'] = 'https://graph.facebook.com/' . $fb_album_cover;
                     }
-                    if ('hashtag' === $saved_feed_options['facebook_page_feed_type']) {
+                    if ( $saved_feed_options['facebook_page_feed_type'] === 'hashtag' ) {
                         $fb_post_array[$post_data_key . '_photo'] = 'https://graph.facebook.com/' . $post_data->source;
                     }
                     // GROUP Photo.
-                    if ('group' === $saved_feed_options['facebook_page_feed_type']) {
+                    if ( $saved_feed_options['facebook_page_feed_type'] === 'group' ) {
                         $fb_post_array[$post_data_key . '_group_post_photo'] = 'https://graph.facebook.com/' . $post_data->id . '?fields=picture,full_picture&access_token=' . $this->feed_access_token;
                     }
 
@@ -1556,7 +1567,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
             if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
 
                 // If old Cache exists use it instead of showing an error.
-                if ( true === $this->feed_cache->fts_check_feed_cache_exists( $fb_cache_name, true ) ) {
+                if ( $this->feed_cache->fts_check_feed_cache_exists( $fb_cache_name, true ) === true ) {
                     // Return Cache because it exists in Database. Better than showing nothing right?
                     return $this->feed_cache->fts_get_feed_cache( $fb_cache_name, true );
                 }
@@ -1592,14 +1603,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
     public function get_event_post_info( $feed_data, $saved_feed_options, $language ) {
 
         $fb_event_post_data_cache = 'fbe_' . $saved_feed_options['facebook_page_feed_type'] . '_post_' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '_num' . $saved_feed_options['facebook_page_post_count'] . '';
-        if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $fb_event_post_data_cache ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
+        if ( $this->feed_cache->fts_check_feed_cache_exists( $fb_event_post_data_cache ) !== false && ! isset( $_GET['load_more_ajaxing'] ) ) {
             $response_event_post_array = $this->feed_cache->fts_get_feed_cache( $fb_event_post_data_cache );
         } else {
             // Single Events Array.
             $fb_single_events_array = array();
             $set_zero               = 0;
 
-            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+            if (isset($feed_data->data) && \count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $post_data) {
 
                     $post_data->id = $post_data->id ?? '';
@@ -1649,19 +1660,19 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
     public function fb_social_btn_placement( $saved_feed_options, $share_loc ) {
 
         // Don't do it for these!
-        if ( 'group' === $saved_feed_options['facebook_page_feed_type'] || 'event' === $saved_feed_options['facebook_page_feed_type'] || isset( $saved_feed_options['hide_like_option'] ) && 'yes' === $saved_feed_options['hide_like_option'] ) {
+        if ( $saved_feed_options['facebook_page_feed_type'] === 'group' || $saved_feed_options['facebook_page_feed_type'] === 'event' || isset( $saved_feed_options['hide_like_option'] ) && $saved_feed_options['hide_like_option'] === 'yes' ) {
             return;
         }
         // Facebook Follow Button Options.
         $fb_show_follow_btn = $saved_feed_options['facebook_hide_like_box_button'];
 
-        $fb_show_follow_btn_where = isset( $saved_feed_options['facebook_position_likebox'] ) ? $saved_feed_options['facebook_position_likebox'] : 'above_title' ;
+        $fb_show_follow_btn_where = $saved_feed_options['facebook_position_likebox'] ?? 'above_title';
 
         if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
             $like_option_align_final = isset( $saved_feed_options['facebook_align_likebox'] ) ? 'fts-fb-social-btn-' . $saved_feed_options['facebook_align_likebox'] . '' : '';
 
-            if ( $share_loc === $fb_show_follow_btn_where && isset( $fb_show_follow_btn ) && 'no' === $fb_show_follow_btn ) {
+            if ( $share_loc === $fb_show_follow_btn_where && isset( $fb_show_follow_btn ) && $fb_show_follow_btn === 'no' ) {
 
                 switch ( $fb_show_follow_btn_where ) {
                     case 'above_title':
@@ -1696,10 +1707,10 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
      * @since 1.9.6
      */
     public function load_popup_scripts( $saved_feed_options ) {
-        if ( isset(  $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ) {
+        if ( isset(  $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ) {
             // it's ok if these styles & scripts load at the bottom of the page.
             $fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
-            if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
+            if ( isset( $fts_fix_magnific ) && $fts_fix_magnific !== '1' ) {
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
             }
             wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
@@ -1721,7 +1732,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
         //echo print_r( $saved_feed_options );
 
 
-        if ( ( isset( $saved_feed_options['facebook_load_more_style'] ) && 'button' === $saved_feed_options['facebook_load_more_style'] && 'yes' === $saved_feed_options['facebook_load_more'] || isset( $saved_feed_options['facebook_load_more_style'] ) && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) && ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'reviews' !== $saved_feed_options['facebook_page_feed_type'] || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) ) {
+        if ( ( isset( $saved_feed_options['facebook_load_more_style'] ) && $saved_feed_options['facebook_load_more_style'] === 'button' && $saved_feed_options['facebook_load_more'] === 'yes' || isset( $saved_feed_options['facebook_load_more_style'] ) && $saved_feed_options['facebook_load_more_style'] === 'autoscroll') && ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_page_feed_type'] !== 'reviews' || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && $saved_feed_options['facebook_page_feed_type'] === 'reviews') ) {
 
             $fb_load_more_text       = $saved_feed_options['fb_load_more_text'] ?? esc_html( 'Load More', 'feed-them-social' );
             $fb_no_more_posts_text   = $saved_feed_options['fb_no_more_posts_text'] ?? esc_html( 'No More Posts', 'feed-them-social' );
@@ -1753,7 +1764,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 $fts_dynamic_class_name =  $this->feed_functions->get_feed_dynamic_class_name();
                 echo '<script>';
                 echo 'jQuery(document).ready(function() {';
-                if ( 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) {
+                if ( $saved_feed_options['facebook_load_more_style'] === 'autoscroll' ) {
                     // this is where we do SCROLL function to LOADMORE if = autoscroll in shortcode.
                     echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").bind("scroll",function() {';
                     echo 'if(jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {';
@@ -1783,9 +1794,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 echo 'url: "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '",';
                 echo 'success: function( data ) {';
                 echo 'console.log("Well Done and got this from sever: " + data);';
-                if ( $facebook_post_type && 'albums' === $saved_feed_options['facebook_page_feed_type'] ||
-                    $facebook_post_type && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ||
-                    'yes' === $saved_feed_options['facebook_grid'] ) {
+                if ( $facebook_post_type && $saved_feed_options['facebook_page_feed_type'] === 'albums' ||
+                    $facebook_post_type && $saved_feed_options['facebook_page_feed_type'] === 'album_photos' ||
+                    $saved_feed_options['facebook_grid'] === 'yes' ) {
                     echo 'jQuery(".' . esc_js( $fts_dynamic_class_name ) . '").append(data).filter(".' . esc_js( $fts_dynamic_class_name ) . '").html();';
 
                     // if ( isset($saved_feed_options['facebook_container_animation']) && 'yes' === $saved_feed_options['facebook_container_animation'] ) {
@@ -1806,9 +1817,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                     $facebook_loadmore_button_width = !empty( $saved_feed_options['facebook_loadmore_button_width'] ) ? $saved_feed_options['facebook_loadmore_button_width'] : 'auto';
                     $loadmore_btn_margin = !empty( $saved_feed_options['loadmore_button_margin'] )  ? $saved_feed_options['loadmore_button_margin'] : '20px auto';
 
-                    if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
+                    if ( $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
                         echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").replaceWith(\'<div class="fts-fb-load-more no-more-posts-fts-fb" style="max-width:'.esc_attr( $facebook_loadmore_button_width ).';margin:'. $loadmore_btn_margin .' auto ' . $loadmore_btn_margin. '">' . esc_html( $fb_no_more_reviews_text ) . '</div>\');';
-                    } elseif ( 'videos' === $saved_feed_options['facebook_page_feed_type'] ) {
+                    } elseif ( $saved_feed_options['facebook_page_feed_type'] === 'videos' ) {
                         echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").replaceWith(\'<div class="fts-fb-load-more no-more-posts-fts-fb" style="max-width:'.esc_attr( $facebook_loadmore_button_width ).';margin:'. $loadmore_btn_margin .' auto ' . $loadmore_btn_margin. '">' . esc_html( $fb_no_more_videos_text ) . '</div>\');';
                     } else {
                         echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").replaceWith(\'<div class="fts-fb-load-more no-more-posts-fts-fb" style="max-width:'.esc_attr( $facebook_loadmore_button_width ).';margin:'. $loadmore_btn_margin .' auto ' . $loadmore_btn_margin. '">' . esc_html( $fb_no_more_photos_text ) . '</div>\');';
@@ -1820,7 +1831,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
 
                 } else {
 
-                    if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
+                    if ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] === 'yes' ) {
                         echo 'var result = jQuery(data).insertBefore( jQuery("#output_' . esc_js( $fts_dynamic_name ) . '") );';
                         echo 'var result = jQuery(".feed_dynamic_' . esc_js( $fts_dynamic_name ) . '_album_photos").append(data).filter("#output_' . esc_js( $fts_dynamic_name ) . '").html();';
                     } else {
@@ -1829,7 +1840,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                     echo 'jQuery("#output_' . esc_js( $fts_dynamic_name ) . '").html(result);';
                     echo 'if(!nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' || nextURL_' . sanitize_key( $_REQUEST['fts_dynamic_name'] ) . ' == "no more"){';
                     // Reviews.
-                    if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] ) {
+                    if ( $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
                         echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").replaceWith(\'<div class="fts-fb-load-more no-more-posts-fts-fb">' . esc_html( $fb_no_more_reviews_text ) . '</div>\');';
                     } else {
                         echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").replaceWith(\'<div class="fts-fb-load-more no-more-posts-fts-fb">' . esc_html( $fb_no_more_posts_text ) . '</div>\');';
@@ -1842,7 +1853,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").html("' . esc_html( $fb_load_more_text ) . '");';
                 // jQuery("#loadMore_'.$fts_dynamic_name.'").removeClass("flip360-fts-load-more");.
                 echo 'jQuery("#loadMore_' . esc_js( $fts_dynamic_name ) . '").removeClass("fts-fb-spinner");';
-                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ) {
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ) {
                     // We return this function again otherwise the popup won't work correctly for the newly loaded items.
                     echo 'jQuery.fn.slickFacebookPopUpFunction();';
                 }
@@ -1854,7 +1865,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 // end of ajax().
                 echo 'return false;';
                 // string $scrollMore is at top of this js script. Exception for scroll option closing tag.
-                if ( 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) {
+                if ( $saved_feed_options['facebook_load_more_style'] === 'autoscroll' ) {
                     echo '}';
                     // end of scroll ajax load.
                 }
@@ -1871,8 +1882,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && '' !== $sav
                 $fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
                 // this div returns outputs our ajax request via jquery append html from above  style="display:nonee;".
                 echo '<div id="output_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more-output"></div>';
-                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'page' === $saved_feed_options['facebook_page_feed_type'] && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ||
-                    is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && 'reviews' === $saved_feed_options['facebook_page_feed_type'] && 'autoscroll' === $saved_feed_options['facebook_load_more_style'] ) {
+                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['facebook_page_feed_type'] === 'page' && $saved_feed_options['facebook_load_more_style'] === 'autoscroll' ||
+                    is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) && $saved_feed_options['facebook_page_feed_type'] === 'reviews' && $saved_feed_options['facebook_load_more_style'] === 'autoscroll' ) {
 
                     echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">Facebook</div>';
                 }

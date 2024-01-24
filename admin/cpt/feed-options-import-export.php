@@ -159,7 +159,7 @@ class Feed_Options_Import_Export {
 			'instagram_profile_stats' => 'sanitize_key',
 			'instagram_profile_name' => 'sanitize_key',
 			'instagram_profile_description' => 'sanitize_key',
-			'instagram_columns' => 'intval',
+			'instagram_columns' => 'sanitize_key',
 			'instagram_force_columns' => 'sanitize_key',
 			'instagram_icon_size' => 'sanitize_key',
 			'instagram_hide_date_likes_comments' => 'sanitize_key',

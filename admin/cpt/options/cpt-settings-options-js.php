@@ -38,21 +38,18 @@ class Settings_Options_JS {
             jQuery('.fts-color-picker .fts-required-extension-wrap').parent().find('.wp-picker-container').hide();
 
 
-
-            if ( jQuery('.feed-them-social-req-extension:contains("Premium Required")').length > 0 ) {
-                jQuery('.fts-social-selector option:contains("Videos")').attr('disabled', 'disabled').html('Videos - Premium Plugin Required');
+            // Contains is not specific enough because we introduces Tiktok Premium Required. So we need to use the filter option instead.
+            if (jQuery('.feed-them-social-req-extension').filter(function() {
+                return jQuery(this).text().trim() === "Premium Required";
+            }).length > 0) {
+                jQuery('.fts-social-selector option').filter(function() {
+                    return jQuery(this).text().trim() === "Videos";
+                }).attr('disabled', 'disabled').html('Videos - Premium Plugin Required');
             }
+            // Contains works in this case because there is only one instance of Reviews Required.
             if ( jQuery('.feed-them-social-req-extension:contains("Reviews Required")').length > 0 ) {
                 jQuery('.fts-social-selector option:contains("Page Reviews")').attr('disabled', 'disabled').html('Page Reviews - Reviews Plugin Required');;
             }
-
-
-
-
-
-
-
-
 
             jQuery( '.tabbed' ).click( function (e) {
                 if(  'pointer-events: none !important' === jQuery( 'a', this ).attr( 'style' ) ){

@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Feed, Social Media, social, Instagra
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.4.2
-Stable tag: 4.2.1
+Stable tag: 4.2.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -121,7 +121,15 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.1 Tuesday, January 15th, 2023 =
+= Version 4.2.2 Wednesday, January 24th, 2024 =
+  * NEW: Facebook Feed: Now the thumbnail image will display even if you have age or country restrictions on your business page.
+  * NEW: Premium: Facebook Feed > Popup: Thumbnail images for comments will now display.
+  * FIX: Premium: Facebook Feed > Feed Type > Videos: Option was still showing premium required even if you had the premium version activated.
+  * FIX: Premium: Facebook Feed: Hide, thumbnail, username or date options not working.
+  * OPTIMIZE: Facebook Feed: Reorder all Yoda notations for checks for better readability of the code.
+  * SECURITY: Added nonce check for the rating notice.
+
+= Version 4.2.1 Tuesday, January 15th, 2024 =
   * NEW: TikTok Feed: Added TikTok Feed. You can now display your TikTok posts on your website. [Demo](https://feedthemsocial.com/tiktok-feed-demo/)
   * NEW: Feed Edit page: Only empty cache when an actual post amount change, name change, or new access token is added. This will help with performance and reduce API calls.
   * NEW: Font Awesome 6.5.1 added to the plugin. All new modern icons for the feeds are in place.

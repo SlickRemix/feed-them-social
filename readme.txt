@@ -126,8 +126,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * NEW: Premium: Facebook Feed > Popup: Thumbnail images for comments will now display.
   * FIX: Premium: Facebook Feed > Feed Type > Videos: Option was still showing premium required even if you had the premium version activated.
   * FIX: Premium: Facebook Feed: Hide, thumbnail, username or date options not working.
-  * OPTIMIZE: Facebook Feed: Reorder all Yoda notations for checks for better readability of the code.
-  * SECURITY: Added nonce check for the rating notice.
+  * OPTIMIZE: Facebook Feed: Reorder all Yoda notations for checks for better readability of the code and fix some code that was causing notices to appear in the error.log for Albums.
 
 = Version 4.2.1 Tuesday, January 15th, 2024 =
   * NEW: TikTok Feed: Added TikTok Feed. You can now display your TikTok posts on your website. [Demo](https://feedthemsocial.com/tiktok-feed-demo/)

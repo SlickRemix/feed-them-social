@@ -1732,7 +1732,7 @@ class Facebook_Feed_Post_Types {
 						// $facebook_post_source = isset($facebook_post_source) ? $facebook_post_source : $facebook_post_embed_html;.
 						// $facebook_post_source = isset($facebook_post_embed_html) ? $facebook_post_embed_html : '';.
 						// $facebook_post_format_3_picture = isset($facebook_post->format[3]->picture) ? $facebook_post->format[3]->picture : '';.
-                        $facebook_play_btn_size = isset( $saved_feed_options['facebook_size_video_play_btn'] ) ? $saved_feed_options['facebook_size_video_play_btn'] : '40xpx';
+                        $facebook_play_btn_size = isset( $saved_feed_options['facebook_size_video_play_btn'] ) ? $saved_feed_options['facebook_size_video_play_btn'] : '68px';
 						echo '<a href="' . esc_url( $facebook_post_embed_html ) . '"  data-poster="" id="fts-view-vid1-' . esc_attr( $fts_dynamic_vid_name_string ) . '" title="' . esc_html( $facebook_post_description ) . '" class="fts-jal-fb-vid-html5video ' . esc_attr( $fts_view_fb_videos_btn . ' fb-video-popup-' . $fts_dynamic_vid_name_string . ' ' . $facebook_play_btn_visible ) . ' fts-slicker-backg" style="height:' . esc_attr( $facebook_play_btn_size ) . ' !important; width:' . esc_attr( $facebook_play_btn_size ) . '; line-height: ' . esc_attr( $facebook_play_btn_size ) . '; font-size:' . esc_attr( $facebook_play_btn_size ) . '"><span class="fts-fb-video-icon" style="height:' . esc_attr( $facebook_play_btn_size ) . '; width:' . esc_attr( $facebook_play_btn_size ) . '; line-height:' . esc_attr( $facebook_play_btn_size ) . '; font-size:' . esc_attr( $facebook_play_btn_size ) . '"></span></a>';
 
 						echo '<div class="fts-fb-embed-iframe-check-used-for-popup fts-fb-embed-yes">';

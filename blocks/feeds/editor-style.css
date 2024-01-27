@@ -1,7 +1,7 @@
 @font-face {
     font-family: SlickRemix;
-    src: url(fonts/SlickRemix.eot?p9iqv);
-    src: url(fonts/SlickRemix.eot?#iefixp9iqv) format('embedded-opentype'), url(fonts/SlickRemix.woff?p9iqv) format('woff'), url(fonts/SlickRemix.ttf?p9iqv) format('truetype'), url(fonts/SlickRemix.svg?p9iqv#SlickRemix) format('svg');
+    src: url(../../admin/css/fonts/SlickRemix.eot);
+    src: url(../../admin/css/fonts/SlickRemix.eot) format('embedded-opentype'), url(../../admin/css/fonts/SlickRemix.woff) format('woff'), url(../../admin/css/fonts/SlickRemix.ttf) format('truetype'), url(../../admin/css/fonts/SlickRemix.svg#SlickRemix) format('svg');
     font-weight: 400;
     font-style: normal
 }

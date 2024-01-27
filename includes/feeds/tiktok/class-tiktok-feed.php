@@ -110,7 +110,7 @@ class Tiktok_Feed {
 	 */
 	public function description( $post_data, $word_count, $more ) {
 
-		$text = isset( $post_data->video_description ) ? $post_data->video_description : '';
+		$text = isset( $post_data->title ) ? $post_data->title : '';
 
 		// Message. Convert links to real links.
 		$pattern   = array( '/http:(\S)+/', '/https:(\S)+/', '/@+(\w+)/u', '/#+(\w+)/u' );
@@ -379,6 +379,28 @@ class Tiktok_Feed {
     }
 
 	/**
+	 * Format Count
+	 *
+	 * Display Numbers in specific format.
+	 *
+	 * @param integer $count The count of videos, following, followers, likes.
+	 * @return string
+	 * @since 4.2.3
+	 */
+	function format_count($count) {
+		if ($count <= 9999) {
+			return number_format((float) $count);
+		}
+		elseif ($count >= 1000000) {
+			return round(($count / 1000000), 1) . 'm';
+		}
+		elseif ($count >= 10000) {
+			return round(($count / 1000), 1) . 'k';
+		}
+		return $count;
+	}
+
+	/**
 	 * Display TikTok
 	 *
 	 * Display TikTok Feed.
@@ -416,6 +438,7 @@ class Tiktok_Feed {
             // Feed Type.
             $type = $saved_feed_options['twitter-messages-selector'] ?? '';
 
+			$tiktok_hide_profile_photo 	     = $saved_feed_options['tiktok_hide_profile_photo'] ?? '';
 			$tiktok_columns 				 = $saved_feed_options['tiktok_columns'] ?? '';
 			$tiktok_force_columns 			 = $saved_feed_options['tiktok_force_columns'] ?? '';
 			$tiktok_space_between_photos     = $saved_feed_options['tiktok_space_between_photos'] ?? '1px';
@@ -471,12 +494,12 @@ class Tiktok_Feed {
 			// Make sure it's not ajaxing.
 			if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feed_functions->get_random_string() . '_' . 'twitter' );
-				// Create Dynamic Class Name.
-				$fts_dynamic_class_name = '';
 				if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
-					$fts_dynamic_class_name = 'feed_dynamic_class' . sanitize_key( $_REQUEST['fts_dynamic_name'] );
+					$fts_dynamic_class = 'feed_dynamic_class' . sanitize_key( $_REQUEST['fts_dynamic_name'] );
 				}
 			}
+			// Create Dynamic Class Name.
+			$fts_dynamic_class_name = $fts_dynamic_class ?? '';
 
 			// Data Cache Name!
 			$data_cache = 'tiktok_data_cache_' . $tiktok_user_id . '_num' . $video_count;
@@ -504,54 +527,83 @@ class Tiktok_Feed {
 			}
 			else {
 
-        			// Decrypt Access Token? Turning this off for TikTok Feed because Tokens refresh every 24hrs.
-					// $decrypted_access_token = $this->feed_access_token = $this->access_options->decrypt_access_token( $fts_tiktok_access_token );
-					$user_open_id = $saved_feed_options['fts_tiktok_user_id'];
+			// Decrypt Access Token? Turning this off for TikTok Feed because Tokens refresh every 24hrs.
+			// $decrypted_access_token = $this->feed_access_token = $this->access_options->decrypt_access_token( $fts_tiktok_access_token );
+			// $user_open_id = $saved_feed_options['fts_tiktok_user_id'];
 
-					// if(  !isset( $_GET['load_more_ajaxing'] ) ){
-						// Need to double check turning on the if(  !isset( $_GET['load_more_ajaxing'] ) ){  above. I believe we need to send
-						// an empty array to the multi_data array if we are loading more so this does not error out.
-						// Prepare the user data request data with headers
-						// https://developers.tiktok.com/doc/tiktok-api-v2-get-user-info/
-						$multi_data['user_data'] = array(
-							'url' => 'https://open.tiktokapis.com/v2/user/info/?fields=union_id,avatar_url,avatar_url_100,avatar_large_url,display_name,bio_description,profile_deep_link,follower_count,following_count,likes_count,video_count',
-							'headers' => array(
-								'Authorization' => 'Bearer ' . $fts_tiktok_access_token
-							),
-							'feed_type' => 'tiktok',
-						);
-					// }
+			// if(  !isset( $_GET['load_more_ajaxing'] ) ) {
+				 // Need to double check turning on the if(  !isset( $_GET['load_more_ajaxing'] ) ){  above. I believe we need to send
+				 // an empty array to the multi_data array if we are loading more so this does not error out.
+				 // Prepare the user data request data with headers
+				 // https://developers.tiktok.com/doc/tiktok-api-v2-get-user-info/
+				 //
+
+				 $user_feed_data = array(
+					 'url' => 'https://open.tiktokapis.com/v2/user/info/?fields=union_id,avatar_url,avatar_url_100,avatar_large_url,display_name,bio_description,profile_deep_link,follower_count,following_count,likes_count,video_count',
+					 'headers' => array(
+						 'Authorization' => 'Bearer ' . $fts_tiktok_access_token
+					 ),
+					 'feed_type' => 'tiktok',
+				 );
+
+				 $data['user_data'] = $user_feed_data;
+				 $fetched_user_data = $this->feed_functions->fts_get_feed_json( $data );
+				 $fetched_data_user = json_decode( $fetched_user_data['user_data'] );
+			// }
+			// else {
+			//	 $fetched_data_user = '';
+			// }
 
 
-				if(  isset( $_GET['load_more_ajaxing'] ) && is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) ){
-					$url = $fts_tiktok_premium->tiktok_connection( $saved_feed_options, $_REQUEST['since_id'] );
-				}
-				else{
-					$url = "https://open-api.tiktok.com/video/list/?open_id=$user_open_id&access_token=$fts_tiktok_access_token&max_count=$video_count&fields=cover_image_url,id,title";
+				$body_array = array('max_count' => $video_count);
+
+				if( isset( $_GET['load_more_ajaxing'] ) && is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) ){
+					$since_id = $fts_tiktok_premium->tiktok_connection( $_REQUEST['since_id'] );
+					if (!empty($since_id)) {
+						$body_array['cursor'] = $since_id;
+					}
 				}
 
 				// Get the feed data
 				// https://developers.tiktok.com/doc/tiktok-api-v2-video-list/
-				$multi_data['feed_data'] = $url;
-				// Get the user data and feed data at the same time.
-				$fetched_data = $this->feed_functions->fts_get_feed_json( $multi_data );
+				$video_feed_request = array(
+					'url' => 'https://open.tiktokapis.com/v2/video/list/?fields=cover_image_url,id,title',
+					'headers' => array(
+						'Authorization' => 'Bearer ' . $fts_tiktok_access_token,
+						'Content-Type' => 'application/json'
+					),
+					'body' => json_encode($body_array),
+					'method' => 'POST'
+				);
 
-				$fetched_data_videos = json_decode($fetched_data['feed_data']);
+				$multi_data_video['feed_data'] = $video_feed_request;
+				$video_feed_response = $this->feed_functions->fts_get_feed_json($multi_data_video);
+				$fetched_data_videos = json_decode($video_feed_response['feed_data']);
+
+
+				/*echo '<pre>';
+				error_log( print_r($fetched_data_videos, true));
+				echo '</pre>';*/
+
+
 
 				// Extract video IDs
 				$video_ids = array();
-				if (isset($fetched_data_videos->data->video_list) && !empty($fetched_data_videos->data->video_list)) {
-					foreach ($fetched_data_videos->data->video_list as $video) {
+				if (isset($fetched_data_videos->data->videos) && !empty($fetched_data_videos->data->videos)) {
+					foreach ($fetched_data_videos->data->videos as $video) {
 						if (isset($video->id)) {
 							$video_ids[] = $video->id;
 						}
 					}
 				}
+				/*echo '<pre>';
+				error_log( print_r($video_ids, true));
+				echo '</pre>';*/
 
 				// Prepare the new API call data
 				// https://developers.tiktok.com/doc/tiktok-api-v2-video-query/
 				$video_query_data = array(
-					'url' => 'https://open.tiktokapis.com/v2/video/query/?fields=id,duration,height,width,like_count,comment_count,share_count,view_count',
+					'url' => 'https://open.tiktokapis.com/v2/video/query/?fields=id,duration,height,width,like_count,comment_count,share_count,view_count,create_time,share_url',
 					'headers' => array(
 						'Authorization' => 'Bearer ' . $fts_tiktok_access_token,
 						'Content-Type' => 'application/json'
@@ -565,12 +617,13 @@ class Tiktok_Feed {
 				);
 
 				// Add this new call to your multi_data array
-				$multi_data_video['video_query'] = $video_query_data;
-
-				$final_data = $this->feed_functions->fts_get_feed_json( $multi_data_video );
-
-				// Decode JSON response from the video_query
+				$multi_data_video_final['video_query'] = $video_query_data;
+				$final_data = $this->feed_functions->fts_get_feed_json( $multi_data_video_final );
 				$video_return_data = json_decode($final_data['video_query'], true);
+
+				/*echo '<pre>';
+				error_log( 'wtf' . print_r($video_return_data, true));
+				echo '</pre>';*/
 
 				// Step 1: Create a map of video query results
 				$video_details_map = array();
@@ -581,34 +634,33 @@ class Tiktok_Feed {
 						}
 					}
 				}
-				//print_r( $video_details_map);
+
 
 				// Step 2: Merge detailed data into feed data
-				if (isset($fetched_data_videos->data->video_list) && !empty($fetched_data_videos->data->video_list)) {
-					foreach ($fetched_data_videos->data->video_list as $key => $video) {
+				if (isset($fetched_data_videos->data->videos) && !empty($fetched_data_videos->data->videos)) {
+					foreach ($fetched_data_videos->data->videos as $key => $video) {
 						if (isset($video->id) && isset($video_details_map[$video->id])) {
 							// Merge the detailed data into the video item
 							foreach ($video_details_map[$video->id] as $detailKey => $detailValue) {
 								$video->{$detailKey} = $detailValue;
 							}
 							// Update the video item in the original list
-							$fetched_data_videos->data->video_list[$key] = $video;
+							$fetched_data_videos->data->videos[$key] = $video;
 						}
 					}
 				}
-
-				$user_data = $fetched_data['user_data'];
+				/*echo '<pre>';
+				error_log( 'wtf' . print_r($fetched_data_videos, true));
+				echo '</pre>';*/
 
 				// Encode $fetched_data_videos into a JSON string
 				$fetched_data_videos_json = json_encode($fetched_data_videos);
+				$fetched_data_user_json = json_encode($fetched_data_user);
 
-				// Wrap the JSON-encoded $fetched_data_videos in an array with key 'feed_data'
-				$fetched_data_videos_wrapped = array('feed_data' => $fetched_data_videos_json);
-
-				// Merge $user_data with the JSON-wrapped $fetched_data_videos
-				$fetched_data = array_merge_recursive(
-					array('user_data' => $user_data),
-					$fetched_data_videos_wrapped
+				// Merge User Data and Video Feed Data
+				$fetched_data = array(
+					'user_data' => $fetched_data_user_json,
+					'feed_data' => $fetched_data_videos_json
 				);
 
 				/*// TikTok Error Check.
@@ -628,21 +680,22 @@ class Tiktok_Feed {
                 	echo '</pre>';*/
 				}
 			}
-				// TikTok Error Check.
-                /*echo '<pre>';
-                print_r( $fetched_data);
-                echo '</pre>';*/
+
+			// TikTok Error Check.
+			/*echo '<pre>';
+			print_r( $fetched_data);
+			echo '</pre>';*/
 
 			$user_data = json_decode( $fetched_data['user_data'] );
 			$feed_data = json_decode( $fetched_data['feed_data'] );
 
-					/*echo 'User Data<pre>';
-               		 print_r( $user_data);
-                	echo '</pre>';
+			/*echo 'User Data<pre>';
+			 print_r( $user_data);
+			echo '</pre>';*/
 
-					echo 'Feed Data<pre>';
-               		 print_r( $feed_data);
-                	echo '</pre>';*/
+			/*echo 'Feed Data<pre>';
+			 print_r( $feed_data);
+			echo '</pre>';*/
 
 			// Error Check.
 			if ( !empty($feed_data->data->error_msg ) ) {
@@ -666,18 +719,13 @@ class Tiktok_Feed {
 			}
 			else {
 
-				if ( isset( $user_data->data->user->display_name ) && ! empty( $user_data->data->user->display_name ) ) {
-
-					$user_permalink 	= $user_data->data->user->profile_deep_link ?? '';
-					$statuses_count     = $user_data->data->user->video_count ?? '';
-					$followers_count    = $user_data->data->user->follower_count ?? '';
-					$friends_count      = $user_data->data->user->following_count ?? '';
-					$bio_description    = $user_data->data->user->bio_description ?? '';
-
 					// Need to make an option to allow users to show the display nicename or the @name.
 					// I figure most people would want to display the nice name but who knows.
 					$bio_nicename    = $user_data->data->user->display_name ?? '';
-					$display_at_name = $feed_data->data->video_list[0]->share_url ?? '';
+					$display_at_name = $feed_data->data->videos[0]->share_url ?? '';
+
+					$user_permalink 	= $user_data->data->user->profile_deep_link ?? '';
+					$bio_description    = $user_data->data->user->bio_description ?? '';
 
 					// Find the position of '@'
 					$atPos = strpos($display_at_name, '@');
@@ -699,7 +747,6 @@ class Tiktok_Feed {
 						$display_name = '';
 					}
 
-					$likes_count   		= $user_data->data->user->likes_count ?? '';
 					$avatar_url_100   	= $user_data->data->user->avatar_url_100 ?? '';
 					$avatar_url_large   = $user_data->data->user->avatar_large_url ?? '';
 
@@ -712,33 +759,24 @@ class Tiktok_Feed {
 							echo '</div>';
 						}
 
-						// These need to be in this order to keep the different counts straight since I used either $statuses_count or $followers_count throughout.
+						// These need to be in this order to keep the different counts straight since I used either $video_count or $stats_followers_count throughout.
 						if ( $stats_bar === 'yes' && $stats_bar_counts === 'yes' ) {
 
-							// here we add a , for all numbers below 9,999.
-							if ( isset( $statuses_count ) && $statuses_count <= 9999 ) {
-								$statuses_count = number_format( (float) $statuses_count );
-							}
-							// here we convert the number for the like count like 1,200,000 to 1.2m if the number goes into the millions.
-							if ( isset( $statuses_count ) && $statuses_count >= 1000000 ) {
-								$statuses_count = round( ( $statuses_count / 1000000 ), 1 ) . 'm';
-							}
-							// here we convert the number for the like count like 10,500 to 10.5k if the number goes in the 10 thousands.
-							if ( isset( $statuses_count ) && $statuses_count >= 10000 ) {
-								$statuses_count = round( ( $statuses_count / 1000 ), 1 ) . 'k';
-							}
-							// here we add a , for all numbers below 9,999.
-							if ( isset( $followers_count ) && $followers_count <= 9999 ) {
-								$followers_count = number_format( (float) $followers_count );
-							}
-							// here we convert the number for the comment count like 1,200,000 to 1.2m if the number goes into the millions.
-							if ( isset( $followers_count ) && $followers_count >= 1000000 ) {
-								$followers_count = round( ( $followers_count / 1000000 ), 1 ) . 'm';
-							}
-							// here we convert the number  for the comment count like 10,500 to 10.5k if the number goes in the 10 thousands.
-							if ( isset( $followers_count ) && $followers_count >= 10000 ) {
-								$followers_count = round( ( $followers_count / 1000 ), 1 ) . 'k';
-							}
+							$stats_video_count_check     = $user_data->data->user->video_count ?? '';
+							$stats_followers_count_check = $user_data->data->user->follower_count ?? '';
+							$stats_following_count_check = $user_data->data->user->following_count ?? '';
+							$stats_likes_count_check   	 = $user_data->data->user->likes_count ?? '';
+							
+							/* Quick Testing
+							$stats_video_count_check     = 300300;
+							$stats_following_count_check = 300200;
+							$stats_followers_count_check = 400200;
+							$stats_likes_count_check     = 6000300;*/
+
+							$stats_video_count 	   = isset($stats_video_count_check) ? $this->format_count($stats_video_count_check) : '';
+							$stats_following_count = isset($stats_following_count_check) ? $this->format_count($stats_following_count_check) : '';
+							$stats_followers_count = isset($stats_followers_count_check) ? $this->format_count($stats_followers_count_check) : '';
+							$stats_likes_count 	   = isset($stats_likes_count_check) ? $this->format_count($stats_likes_count_check) : '';
 						}
 
 						if ( $stats_bar === 'yes' ) {
@@ -761,10 +799,10 @@ class Tiktok_Feed {
 								</div>
 									<?php if ( $stats_bar_counts === 'yes' ) { ?>
 									<div class="fts-twitter-followers-wrap">
-										<div class="twitter-followers-fts fts-tweets-first"><a href="<?php echo esc_url( $user_permalink ) ?>" target="_blank"><span><?php echo esc_html( $statuses_count ) ?></span><?php echo esc_html( 'Videos', 'feed-them-social' ); ?></a></div>
-										<div class="twitter-followers-fts fts-following-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo number_format( (float) $friends_count ); ?></span><?php echo esc_html( 'Following', 'feed-them-social' ); ?></a></div>
-										<div class="twitter-followers-fts fts-followers-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $followers_count ); ?></span><?php echo esc_html( 'Followers', 'feed-them-social' ); ?></a></div>
-										<div class="twitter-followers-fts fts-likes-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo number_format( (float) $likes_count ); ?></span><?php echo esc_html( 'Likes', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-tweets-first"><a href="<?php echo esc_url( $user_permalink ) ?>" target="_blank"><span><?php echo esc_html( $stats_video_count ) ?></span><?php echo esc_html( 'Videos', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-following-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $stats_following_count ); ?></span><?php echo esc_html( 'Following', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-followers-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $stats_followers_count ); ?></span><?php echo esc_html( 'Followers', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-likes-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $stats_likes_count ); ?></span><?php echo esc_html( 'Likes', 'feed-them-social' ); ?></a></div>
 									</div>
 									<?php } ?>
 									<?php if ( $stats_bar_description === 'yes' ) { ?>
@@ -803,11 +841,13 @@ class Tiktok_Feed {
 
 					}// End if is not ajaxing
 
-					 /*echo'<pre>';
+					/* echo'<pre>';
 					 print_r($fetched_data->data);
-                     echo'</pre>';*/
+                     echo'</pre>';
 
-					foreach ( $feed_data->data->video_list as $post_data ) {
+					 echo 'WTF';*/
+
+					foreach ( $feed_data->data->videos as $post_data ) {
 
 						$user_name            = $display_name ?? '';
 						$word_count 		  = !empty( $saved_feed_options['tiktok_word_count'] ) ? $saved_feed_options['tiktok_word_count'] : '';
@@ -836,9 +876,10 @@ class Tiktok_Feed {
 									<div class="fts-tiktok-content fts-tiktok-popup">
 										  <div class="fts-tiktok-content-inner">
 											<div class="fts-uppercase fts-bold">
+												<?php if( $tiktok_hide_profile_photo === 'no' ){ ?>
 													<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
 													class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
-
+												<?php } ?>
 												 <span class="fts-twitter-name-wrap">
 													 <a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $user_name ); ?></a>
 													 <a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-tiktok-time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a>
@@ -902,8 +943,10 @@ class Tiktok_Feed {
 										<div class="fts-tiktok-content fts-tiktok-popup">
 											<div class="fts-tiktok-content-inner">
 												<div class="fts-uppercase fts-bold">
+													<?php if( $tiktok_hide_profile_photo === 'no' ){ ?>
 														<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
 														   class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
+													<?php } ?>
 													<span class="fts-twitter-name-wrap">
 															<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $user_name ); ?></a>
 															<a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-tiktok-time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a>
@@ -1034,7 +1077,6 @@ class Tiktok_Feed {
 						jQuery('.fts-twitter-scrollable').isolatedScrollTwitter();</script>
 						<?php
 					}
-				}// END IF $feed_data.
 
 			// Load More BUTTON Start.
 			// Note: the cursor value is a UTC Unix timestamp in milli-seconds.

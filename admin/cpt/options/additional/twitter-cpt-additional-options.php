@@ -386,8 +386,8 @@ class Twitter_Additional_Options {
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Hide Profile Photo', 'feed-them-social' ),
 					'type'             => 'text',
-					'id'               => 'twitter_full_width',
-					'name'             => 'twitter_full_width',
+					'id'               => 'tiktok_hide_profile_photo',
+					'name'             => 'tiktok_hide_profile_photo',
 					'default_value'    => 'no',
 					'options'          => array(
                         array(

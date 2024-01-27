@@ -124,7 +124,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 = Version 4.2.3 Saturday, January 27th, 2024 =
   * NEW: TikTok Feed > Profile: Add truncated number option for followers, following, and likes. ie. 1.2K, 1.2M
   * FIX: TikTok: Hide profile photo option not working.
-  * FIX: TikTok: Not loading for some users. Switched to a new API v2.
+  * FIX: TikTok: Change API url to v2 and make a POST request to get the video data instead of GET.
 
 = Version 4.2.2 Wednesday, January 24th, 2024 =
   * NEW: Facebook Feed: Now the thumbnail image will display even if you have age or country restrictions on your business page.

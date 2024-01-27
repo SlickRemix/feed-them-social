@@ -1041,7 +1041,7 @@ class Facebook_Feed_Post_Types {
 			// $review_rating CANNOT be esc at this time.
 			echo '<div ' . esc_attr( $itemscope_reviews ) . ' class="fts-jal-fb-right-wrap">';
 			if ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && isset( $facebook_post->rating ) ) {
-				echo '<meta itemprop="itemReviewed" itemscope itemtype="http://schema.org/CreativeWork"><div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" style="display: none;"><meta itemprop="worstRating" content = "1"><meta itemprop="ratingValue" content = "' . esc_attr( $facebook_post->rating ) . '"><meta  itemprop="bestRating" content = "5"></div>';
+				echo '<meta itemprop="itemReviewed" itemscope itemtype="http://schema.org/CreativeWork"><div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" style="display: none;"><meta itemprop="worstRating" content="1"><meta itemprop="ratingValue" content="' . esc_attr( $facebook_post->rating ) . '"><meta  itemprop="bestRating" content="5"></div>';
 			}
 
 			// Hide Date, Likes and Comments.

@@ -210,6 +210,7 @@ pre {
 .fts-tiktok-social-counts .fts-tiktok-comment-count:before {
     content: "\f4ad"
 }
+
 .fts-twitter-text {
     padding: 8px 0 0;
     display: block;
@@ -395,7 +396,7 @@ img.fts-twitter-description-image {
     display: inline-block;
     font-size: 17px;
     margin: 10px 0 0;
-    padding: 5px 20px;
+    padding: 5px 17px;
     line-height: 1.5em
 }
 
@@ -404,6 +405,15 @@ img.fts-twitter-description-image {
     color: #fff!important;
     font-weight: 600!important
 }
+.fts-tiktok-bio-follow-button a:before {
+    content:"\e07b";
+    -webkit-font-smoothing: antialiased;
+    font-family: FontAwesomeSlick,monospace!important;
+    content: "\e07b";
+    display: inline-block;
+    margin-right:5px
+}
+
 
 .fts-tiktok-bio-follow-button a:hover {
     opacity: .85

@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Feed, Social Media, social, Instagra
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.4.2
-Stable tag: 4.2.2
+Stable tag: 4.2.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -121,6 +121,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.2.3 Saturday, January 27th, 2024 =
+  * NEW: TikTok Feed: Add TikTok logo to the Follow button.
+  * FIX: TikTok Feed: Not loading for some users. Switched to a new API v2
+
 = Version 4.2.2 Wednesday, January 24th, 2024 =
   * NEW: Facebook Feed: Now the thumbnail image will display even if you have age or country restrictions on your business page.
   * NEW: Premium: Facebook Feed > Popup: Thumbnail images for comments will now display.

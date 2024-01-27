@@ -212,7 +212,7 @@ pre {
 }
 
 .fts-twitter-text {
-    padding: 8px 0 0;
+    padding: 8px 0 5px;
     display: block;
     line-height: 19px;
     text-align: left;
@@ -459,11 +459,7 @@ a.fts-tiktok-image {
     margin-top: 10px
 }
 .fts-tiktok-image {
-    max-height: 300px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:block;
 }
 .fts-tiktok-image .fts-twitter-description-image {
     max-height: 100%;

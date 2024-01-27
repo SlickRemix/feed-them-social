@@ -379,6 +379,28 @@ class Tiktok_Feed {
     }
 
 	/**
+	 * Format Count
+	 *
+	 * Display Numbers in specific format.
+	 *
+	 * @param integer $count The count of videos, following, followers, likes.
+	 * @return string
+	 * @since 4.2.3
+	 */
+	function format_count($count) {
+		if ($count <= 9999) {
+			return number_format((float) $count);
+		}
+		elseif ($count >= 1000000) {
+			return round(($count / 1000000), 1) . 'm';
+		}
+		elseif ($count >= 10000) {
+			return round(($count / 1000), 1) . 'k';
+		}
+		return $count;
+	}
+
+	/**
 	 * Display TikTok
 	 *
 	 * Display TikTok Feed.
@@ -416,6 +438,7 @@ class Tiktok_Feed {
             // Feed Type.
             $type = $saved_feed_options['twitter-messages-selector'] ?? '';
 
+			$tiktok_hide_profile_photo 	     = $saved_feed_options['tiktok_hide_profile_photo'] ?? '';
 			$tiktok_columns 				 = $saved_feed_options['tiktok_columns'] ?? '';
 			$tiktok_force_columns 			 = $saved_feed_options['tiktok_force_columns'] ?? '';
 			$tiktok_space_between_photos     = $saved_feed_options['tiktok_space_between_photos'] ?? '1px';
@@ -668,9 +691,9 @@ class Tiktok_Feed {
 
 			/*echo 'User Data<pre>';
 			 print_r( $user_data);
-			echo '</pre>';
+			echo '</pre>';*/
 
-			echo 'Feed Data<pre>';
+			/*echo 'Feed Data<pre>';
 			 print_r( $feed_data);
 			echo '</pre>';*/
 
@@ -696,18 +719,13 @@ class Tiktok_Feed {
 			}
 			else {
 
-				if ( isset( $user_data->data->user->display_name ) && ! empty( $user_data->data->user->display_name ) ) {
-
-					$user_permalink 	= $user_data->data->user->profile_deep_link ?? '';
-					$statuses_count     = $user_data->data->user->video_count ?? '';
-					$followers_count    = $user_data->data->user->follower_count ?? '';
-					$friends_count      = $user_data->data->user->following_count ?? '';
-					$bio_description    = $user_data->data->user->bio_description ?? '';
-
 					// Need to make an option to allow users to show the display nicename or the @name.
 					// I figure most people would want to display the nice name but who knows.
 					$bio_nicename    = $user_data->data->user->display_name ?? '';
 					$display_at_name = $feed_data->data->videos[0]->share_url ?? '';
+
+					$user_permalink 	= $user_data->data->user->profile_deep_link ?? '';
+					$bio_description    = $user_data->data->user->bio_description ?? '';
 
 					// Find the position of '@'
 					$atPos = strpos($display_at_name, '@');
@@ -729,7 +747,6 @@ class Tiktok_Feed {
 						$display_name = '';
 					}
 
-					$likes_count   		= $user_data->data->user->likes_count ?? '';
 					$avatar_url_100   	= $user_data->data->user->avatar_url_100 ?? '';
 					$avatar_url_large   = $user_data->data->user->avatar_large_url ?? '';
 
@@ -742,33 +759,24 @@ class Tiktok_Feed {
 							echo '</div>';
 						}
 
-						// These need to be in this order to keep the different counts straight since I used either $statuses_count or $followers_count throughout.
+						// These need to be in this order to keep the different counts straight since I used either $video_count or $stats_followers_count throughout.
 						if ( $stats_bar === 'yes' && $stats_bar_counts === 'yes' ) {
 
-							// here we add a , for all numbers below 9,999.
-							if ( isset( $statuses_count ) && $statuses_count <= 9999 ) {
-								$statuses_count = number_format( (float) $statuses_count );
-							}
-							// here we convert the number for the like count like 1,200,000 to 1.2m if the number goes into the millions.
-							if ( isset( $statuses_count ) && $statuses_count >= 1000000 ) {
-								$statuses_count = round( ( $statuses_count / 1000000 ), 1 ) . 'm';
-							}
-							// here we convert the number for the like count like 10,500 to 10.5k if the number goes in the 10 thousands.
-							if ( isset( $statuses_count ) && $statuses_count >= 10000 ) {
-								$statuses_count = round( ( $statuses_count / 1000 ), 1 ) . 'k';
-							}
-							// here we add a , for all numbers below 9,999.
-							if ( isset( $followers_count ) && $followers_count <= 9999 ) {
-								$followers_count = number_format( (float) $followers_count );
-							}
-							// here we convert the number for the comment count like 1,200,000 to 1.2m if the number goes into the millions.
-							if ( isset( $followers_count ) && $followers_count >= 1000000 ) {
-								$followers_count = round( ( $followers_count / 1000000 ), 1 ) . 'm';
-							}
-							// here we convert the number  for the comment count like 10,500 to 10.5k if the number goes in the 10 thousands.
-							if ( isset( $followers_count ) && $followers_count >= 10000 ) {
-								$followers_count = round( ( $followers_count / 1000 ), 1 ) . 'k';
-							}
+							$stats_video_count_check     = $user_data->data->user->video_count ?? '';
+							$stats_followers_count_check = $user_data->data->user->follower_count ?? '';
+							$stats_following_count_check = $user_data->data->user->following_count ?? '';
+							$stats_likes_count_check   	 = $user_data->data->user->likes_count ?? '';
+							
+							/* Quick Testing
+							$stats_video_count_check     = 300300;
+							$stats_following_count_check = 300200;
+							$stats_followers_count_check = 400200;
+							$stats_likes_count_check     = 6000300;*/
+
+							$stats_video_count 	   = isset($stats_video_count_check) ? $this->format_count($stats_video_count_check) : '';
+							$stats_following_count = isset($stats_following_count_check) ? $this->format_count($stats_following_count_check) : '';
+							$stats_followers_count = isset($stats_followers_count_check) ? $this->format_count($stats_followers_count_check) : '';
+							$stats_likes_count 	   = isset($stats_likes_count_check) ? $this->format_count($stats_likes_count_check) : '';
 						}
 
 						if ( $stats_bar === 'yes' ) {
@@ -791,10 +799,10 @@ class Tiktok_Feed {
 								</div>
 									<?php if ( $stats_bar_counts === 'yes' ) { ?>
 									<div class="fts-twitter-followers-wrap">
-										<div class="twitter-followers-fts fts-tweets-first"><a href="<?php echo esc_url( $user_permalink ) ?>" target="_blank"><span><?php echo esc_html( $statuses_count ) ?></span><?php echo esc_html( 'Videos', 'feed-them-social' ); ?></a></div>
-										<div class="twitter-followers-fts fts-following-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo number_format( (float) $friends_count ); ?></span><?php echo esc_html( 'Following', 'feed-them-social' ); ?></a></div>
-										<div class="twitter-followers-fts fts-followers-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $followers_count ); ?></span><?php echo esc_html( 'Followers', 'feed-them-social' ); ?></a></div>
-										<div class="twitter-followers-fts fts-likes-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo number_format( (float) $likes_count ); ?></span><?php echo esc_html( 'Likes', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-tweets-first"><a href="<?php echo esc_url( $user_permalink ) ?>" target="_blank"><span><?php echo esc_html( $stats_video_count ) ?></span><?php echo esc_html( 'Videos', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-following-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $stats_following_count ); ?></span><?php echo esc_html( 'Following', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-followers-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $stats_followers_count ); ?></span><?php echo esc_html( 'Followers', 'feed-them-social' ); ?></a></div>
+										<div class="twitter-followers-fts fts-likes-link-div"><a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"><span><?php echo esc_html( $stats_likes_count ); ?></span><?php echo esc_html( 'Likes', 'feed-them-social' ); ?></a></div>
 									</div>
 									<?php } ?>
 									<?php if ( $stats_bar_description === 'yes' ) { ?>
@@ -803,7 +811,6 @@ class Tiktok_Feed {
 							</div>
 							<?php
 						}
-					}
 
 						if ( isset( $grid ) && $grid === 'yes' ) {
 						// Start Grid format where there is a new div wrapper ?>
@@ -869,9 +876,10 @@ class Tiktok_Feed {
 									<div class="fts-tiktok-content fts-tiktok-popup">
 										  <div class="fts-tiktok-content-inner">
 											<div class="fts-uppercase fts-bold">
+												<?php if( $tiktok_hide_profile_photo === 'no' ){ ?>
 													<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
 													class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
-
+												<?php } ?>
 												 <span class="fts-twitter-name-wrap">
 													 <a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $user_name ); ?></a>
 													 <a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-tiktok-time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a>
@@ -935,8 +943,10 @@ class Tiktok_Feed {
 										<div class="fts-tiktok-content fts-tiktok-popup">
 											<div class="fts-tiktok-content-inner">
 												<div class="fts-uppercase fts-bold">
+													<?php if( $tiktok_hide_profile_photo === 'no' ){ ?>
 														<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank"
 														   class="fts-twitter-username"><img class="twitter-image" src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $user_name ); ?>"/></a>
+													<?php } ?>
 													<span class="fts-twitter-name-wrap">
 															<a href="<?php echo esc_url( $user_permalink ); ?>" target="_blank" class="fts-twitter-full-name"><?php echo esc_html( $user_name ); ?></a>
 															<a href="<?php echo esc_url( $user_permalink ); ?>" class="fts-tiktok-time" target="_blank" title="<?php echo esc_html( $fts_date_time ); ?>"><?php echo esc_html( $fts_date_time ); ?></a>

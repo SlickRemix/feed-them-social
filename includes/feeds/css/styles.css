@@ -208,7 +208,9 @@ pre {
 }
 
 .fts-tiktok-social-counts .fts-tiktok-comment-count:before {
-    content: "\f4ad"
+    content: "\f4ad";
+    transform: scaleX(-1);
+    padding: 0 0 0 4px
 }
 
 .fts-twitter-text {

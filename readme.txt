@@ -4,7 +4,7 @@ Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.4.2
+Tested up to: 6.4.3
 Stable tag: 4.2.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html

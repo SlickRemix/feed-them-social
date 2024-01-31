@@ -1,8 +1,8 @@
 <?php
 /**
- * Feed Them Social - Twitter Access Functions
+ * Feed Them Social - TikTok Access Functions
  *
- * This page is used to retrieve and set access tokens for Twitter.
+ * This page is used to retrieve and set access tokens for TikTok.
  *
  * @package     feedthemsocial
  * @copyright   Copyright (c) 2012-2024, SlickRemix
@@ -216,7 +216,7 @@ class Twitter_Access_Functions {
                         esc_html__( '%1$s%2$s Please click the Login and Get my Access Token button again.%3$s', 'feed-them-social' ),
                         '<div class="fts-failed-api-token">',
                         $data->error->message,
-                            '</div>',
+                            '</div>'
 
                     );
                 } else {

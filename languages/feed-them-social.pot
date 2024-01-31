@@ -33,7 +33,7 @@ msgstr ""
 #: admin/cpt/access-tokens/single/facebook-access-token.php:113
 #: admin/cpt/access-tokens/single/instagram-access-token.php:163
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:120
-#: admin/cpt/access-tokens/single/twitter-access-token.php:179
+#: admin/cpt/access-tokens/single/tiktok-access-token.php:179
 #: admin/cpt/access-tokens/single/youtube-access-token.php:151
 #: admin/settings/settings-page.php:111 admin/settings/settings-page.php:112
 #: admin/settings/settings-page.php:739 includes/feed-functions.php:226
@@ -115,7 +115,7 @@ msgstr ""
 #: admin/cpt/access-tokens/single/facebook-access-token.php:114
 #: admin/cpt/access-tokens/single/instagram-access-token.php:164
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:121
-#: admin/cpt/access-tokens/single/twitter-access-token.php:180
+#: admin/cpt/access-tokens/single/tiktok-access-token.php:180
 #: admin/cpt/access-tokens/single/youtube-access-token.php:152
 msgid "Not working?"
 msgstr ""
@@ -147,7 +147,7 @@ msgstr ""
 
 #: admin/cpt/access-tokens/single/instagram-access-token.php:179
 #: admin/cpt/access-tokens/single/instagram-business-access-token.php:164
-#: admin/cpt/access-tokens/single/twitter-access-token.php:207
+#: admin/cpt/access-tokens/single/tiktok-access-token.php:207
 #: admin/cpt/access-tokens/single/youtube-access-token.php:221
 msgid "%1$s%2$sCreate Combined Feed%3$s"
 msgstr ""
@@ -165,23 +165,23 @@ msgstr ""
 msgid "Invalid instagram business oauth nonce"
 msgstr ""
 
-#: admin/cpt/access-tokens/single/twitter-access-token.php:148
+#: admin/cpt/access-tokens/single/tiktok-access-token.php:148
 msgid "Invalid twitter oauth nonce"
 msgstr ""
 
-#: admin/cpt/access-tokens/single/twitter-access-token.php:172
+#: admin/cpt/access-tokens/single/tiktok-access-token.php:172
 msgid "%1$sLogin and Get my Access Tokens%2$s"
 msgstr ""
 
-#: admin/cpt/access-tokens/single/twitter-access-token.php:191
+#: admin/cpt/access-tokens/single/tiktok-access-token.php:191
 msgid "%1$sOh No, something's wrong. "
 msgstr ""
 
-#: admin/cpt/access-tokens/single/twitter-access-token.php:196
+#: admin/cpt/access-tokens/single/tiktok-access-token.php:196
 msgid "%1$s%2$s%3$s You may have entered in the Access information incorrectly please re-enter and try again.%4$s"
 msgstr ""
 
-#: admin/cpt/access-tokens/single/twitter-access-token.php:215
+#: admin/cpt/access-tokens/single/tiktok-access-token.php:215
 msgid "%1$s%2$sCreate Twitter Feed%3$s"
 msgstr ""
 

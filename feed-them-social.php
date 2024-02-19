@@ -14,11 +14,11 @@
  * Domain Path: /languages
  * Requires at least: WordPress 5.4
  * Tested up to: WordPress 6.4.3
- * Stable tag: 4.2.4
+ * Stable tag: 4.2.5
  * License: GPLv3 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @version    4.2.4
+ * @version    4.2.5
  * @package    FeedThemSocial/Core
  * @copyright  Copyright (c) 2012-2024 SlickRemix
  *
@@ -27,7 +27,7 @@
  */
 
 // Set Plugin's Current Version.
-define( 'FTS_CURRENT_VERSION', '4.2.4' );
+define( 'FTS_CURRENT_VERSION', '4.2.5' );
 
 // Require file for plugin loading.
 require_once __DIR__ . '/class-load-plugin.php';

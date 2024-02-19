@@ -4495,7 +4495,8 @@ a.fts-facebook-thumbs-wrap {
     padding: 20px 40px 0 20px!important;
     margin-bottom: 2px;
     font-size: 24px;
-    margin-top: 0
+    margin-top: 0;
+    line-height: 27px;
 }
 
 .fts-youtube-popup h4 {

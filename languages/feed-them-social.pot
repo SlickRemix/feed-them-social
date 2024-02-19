@@ -988,7 +988,7 @@ msgid "Page ID"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:354
-msgid "This Facebook Access Token is for Business Pages, Photos and Videos only and is used to display the feed. You must be an admin of the business page to get token. This will NOT work for personal profiles or groups.%1$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. Once you have an Access Token can create a feed. Please note, use of this plugin is subject to %2$sMeta's Platform Terms%3$s%4$s"
+msgid "This Facebook Access Token is for Business Pages, Photos and Videos only and is used to display the feed. You must be an admin of the business page to get token. This will NOT work for personal profiles or groups.%1$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. We will never post or change anything within your Facebook account. Once you have an Access Token can create a feed. Please note, use of this plugin is subject to %2$sMeta's Platform Terms%3$s%4$s"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:365
@@ -1004,7 +1004,7 @@ msgid "Instagram ID"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:419
-msgid "Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. Once you have an Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sMeta's Platform Terms%2$s"
+msgid "Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. Once you have an Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sMeta's Platform Terms%2$s"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:437
@@ -1016,7 +1016,7 @@ msgid "Instagram Business Access Token"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:483
-msgid "Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. Your Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta's Platform Terms%4$s"
+msgid "Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. Your Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta's Platform Terms%4$s"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:493

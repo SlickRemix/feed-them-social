@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Feed, Social Media, social, Instagra
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.4.3
-Stable tag: 4.2.4
+Stable tag: 4.2.5
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -121,6 +121,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.2.5 Monday, February 19th, 2024 =
+  * Update: Facebook & Instagram Business: The business_management permission was added to the access token request. This will allow you to retrieve page(s) you are admin of that are located within your Facebook Business Manager.
+  * NOTE: Works with WordPress version 6.4.3
+
 = Version 4.2.4 Wednesday, January 31tst, 2024 =
   * NEW: TikTok: Flip the comment icon to be more aligned with TikTok's design.
   * FIX: TikTok: Remove trailing comma in access token that was causing fatal errors with php 7.0-7.2

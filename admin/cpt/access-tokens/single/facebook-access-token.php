@@ -89,7 +89,7 @@ class Facebook_Access_Functions {
                 }
 
                 // This click function is specific to combined fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
-                jQuery('.combine-facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder div.fts-token-save').click( function (e) {
+                jQuery('.combine-facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder span.fts-token-manual-save, .combine-facebook-access-token-placeholder span.fts-token-manual-save').click( function (e) {
                     e.preventDefault();
 
                     const codeArray = {
@@ -100,9 +100,17 @@ class Facebook_Access_Functions {
                     };
 
                     // Encrypt: Facebook Business
-                    if( jQuery('#fts_facebook_custom_api_token').length !== 0 ) {
+                    if( jQuery('#fts_facebook_custom_api_token').length !== 0 && jQuery('#fts_facebook_custom_api_token').val().trim() !== '' ) {
                         console.log('Facebook Business: Token set, now encrypting.');
                         fts_encrypt_token_ajax( codeArray, 'fbBusiness', '#fts_facebook_custom_api_token', 'firstRequest');
+                    }
+                    else {
+                        jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input, .fts-decrypted-view' ).toggle();
+                        jQuery( this ).toggleClass( 'fts-feed-type-active' );
+                        jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
+                        jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
+                        // If the input field is empty, set the cursor to it
+                        jQuery('#fts_facebook_custom_api_token_user_id').focus();
                     }
                 });
 
@@ -110,6 +118,7 @@ class Facebook_Access_Functions {
         </script>
 
         <div class="fts-settings-does-not-work-wrap">
+            <span class="fts-token-manual-save"><?php esc_html_e( 'Save Token Manually', 'feed-them-social' ); ?></span>
             <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
             <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
         </div>

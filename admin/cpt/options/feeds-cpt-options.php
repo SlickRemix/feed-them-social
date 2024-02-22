@@ -395,7 +395,7 @@ class Feed_CPT_Options {
 					'placeholder'        => '',
 					'default_value'      => '',
 					'instructional-text' => sprintf(
-						esc_html__( 'This Facebook Access Token is for Business Pages, Photos and Videos only and is used to display the feed. You must be an admin of the business page to get token. This will NOT work for personal profiles or groups.%1$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. We will never post or change anything within your Facebook account. Once you have an Access Token can create a feed. Please note, use of this plugin is subject to %2$sMeta\'s Platform Terms%3$s%4$s', 'feed_them_social' ),
+						esc_html__( 'This option is for Facebook Pages and is used to display the feed. This will NOT work for personal profiles or groups. You must be an admin of the page to gain an access token using the button below. Additionally, you can add a Page ID and Access Token then click the "Save Token Manually" button. Tokens are encrypted for additional security before being saved. %1$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. We will never post or change anything within your Facebook account. Once an Access Token is in place you can create a feed. Please note, use of this plugin is subject to %2$sMeta\'s Platform Terms%3$s%4$s', 'feed_them_social' ),
 						'<p>',
 						'<a href="https://developers.facebook.com/terms/" target="_blank">',
 						'</a>',
@@ -460,7 +460,7 @@ class Feed_CPT_Options {
 					'placeholder'        => '',
 					'default_value'      => '',
 					'instructional-text' => sprintf(
-						esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. Once you have an Access Token you will be able to create your feed. Please note, use of this plugin is subject to %1$sMeta\'s Platform Terms%2$s', 'feed_them_social' ),
+						esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. Once you have an Access Token you will be able to create your feed. Tokens are encrypted for additional security before being saved. Please note, use of this plugin is subject to %1$sMeta\'s Platform Terms%2$s', 'feed_them_social' ),
 						'<a href="https://developers.facebook.com/terms/" target="_blank">',
 						'</a>'
 					),
@@ -524,11 +524,12 @@ class Feed_CPT_Options {
 					'placeholder'        => '',
 					'default_value'      => '',
 					'instructional-text' => sprintf(
-						esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. Your Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta\'s Platform Terms%4$s', 'feed_them_social' ),
+						esc_html__( 'Click the button below to get an access token. Additionally, you can add a Page ID and Access Token then click the "Save Token Manually" button. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. %5$sYour Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. Tokens are encrypted for additional security before being saved. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta\'s Platform Terms%4$s', 'feed_them_social' ),
 						'<a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">',
 						'</a>',
 						'<a href="https://developers.facebook.com/terms/" target="_blank">',
-						'</a>'
+						'</a>',
+						'<br/><br/>'
 					),
 				),
 				array(

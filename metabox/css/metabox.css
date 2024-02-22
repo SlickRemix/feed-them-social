@@ -1015,7 +1015,7 @@ h1.plugin-author-note {
 .fts-settings-does-not-work-wrap {
     position: relative;
     top: 1px;
-    margin: 0 0 0 25px;
+    margin: 10px 0 10px 30px;
     display: inline-block
 }
 
@@ -2777,7 +2777,7 @@ h3.fts-active-success-token:before {
     font-weight: 700
 }
 
-.fts-admin-token-settings,a.fts-admin-button-no-work {
+.fts-admin-token-settings,a.fts-admin-button-no-work, .fts-token-manual-save {
     background: #f0f0f185;
     padding: 10px 15px;
     cursor: pointer;
@@ -2790,6 +2790,11 @@ h3.fts-active-success-token:before {
 
 .fts-admin-token-settings.fts-admin-token-settings-open,.fts-admin-token-settings:hover,a.fts-admin-button-no-work:hover {
     background: #1977f2;
+    color: #fff
+}
+
+.fts-token-manual-save:hover {
+    background: #1baf1e;
     color: #fff
 }
 

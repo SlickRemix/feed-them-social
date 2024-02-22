@@ -83,7 +83,7 @@ class Instagram_Business_Access_Functions {
 
                     // This click function is specific to fb and instagram fb when you click the green save button after
                     // clicking on a page in the list of facebook pages you manage.
-                    jQuery('.combine-instagram-business-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder div.fts-token-save').click( function (e) {
+                    jQuery('.combine-instagram-business-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder span.fts-token-manual-save, .combine-instagram-business-access-token-placeholder span.fts-token-manual-save').click( function (e) {
                         e.preventDefault();
 
                         const codeArray = {
@@ -95,9 +95,22 @@ class Instagram_Business_Access_Functions {
                         };
 
                         // Encrypt: Instagram Business
-                        if( jQuery('#fts_facebook_instagram_custom_api_token').length !== 0 ) {
+                        if( jQuery('#fts_facebook_instagram_custom_api_token').length !== 0 && jQuery('#fts_facebook_instagram_custom_api_token').val().trim() !== '' ) {
                             console.log('Instagram Business: Token set, now encrypting.');
                             fts_encrypt_token_ajax( codeArray, 'business', '#fts_facebook_instagram_custom_api_token', 'firstRequest');
+                        }
+                        else {
+                            if( jQuery('.combine-instagram-business-access-token-placeholder').length !== 0 ){
+                                fts_reload_toggle_click()
+                            }
+                            else {
+                                jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input, .fts-decrypted-view' ).toggle();
+                                jQuery( this ).toggleClass( 'fts-feed-type-active' );
+                                jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
+                                jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
+                                // If the input field is empty, set the cursor to it
+                                jQuery('#fts_facebook_instagram_custom_api_token_user_id').focus();
+                            }
                         }
                     });
 
@@ -117,8 +130,9 @@ class Instagram_Business_Access_Functions {
                 ?>
 
             <div class="fts-settings-does-not-work-wrap">
-                    <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-                    <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+                <span class="fts-token-manual-save"><?php esc_html_e( 'Save Token Manually', 'feed-them-social' ); ?></span>
+                <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
+                <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
             </div>
 
             <?php

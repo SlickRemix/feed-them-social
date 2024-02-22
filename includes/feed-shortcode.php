@@ -251,7 +251,7 @@ class Feed_Shortcode {
         }
 
 		global $post;
-		if ( 'fts' !== $post->post_type ) {
+		if ( isset( $post->post_type ) && $post->post_type !== 'fts' ) {
 			return;
 		}
 

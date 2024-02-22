@@ -385,6 +385,11 @@ function fts_reload_toggle_click(){
         jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
         jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
 
+        if( jQuery('.combine-instagram-business-access-token-placeholder').length !== 0 ){
+            // If the input field is empty, set the cursor to it
+            jQuery('#fts_facebook_instagram_custom_api_token_user_id').focus();
+        }
+
     });
 }
 

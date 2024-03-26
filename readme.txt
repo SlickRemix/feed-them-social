@@ -121,11 +121,11 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.6 Tuesday, March 25th, 2024 =
+= Version 4.2.6 Tuesday, March 26th, 2024 =
   * New: Facebook & Instagram Business: Option to manually add the ID and Access Token.
   * New: TikTok: Revoke Access Token button added. This will also unschedule the cron job for refreshing token.
   * Fix: Instagram Business: Add check for bio details to prevent PHP notices.
-  * Fix: YouTube: Undefined index: youtube_video_comments_display
+  * Fix: YouTube: Undefined index: youtube_video_comments_display and a couple other misc PHP warnings & notices.
   * Fix TikTok: Profile photo and stats not displaying due to API changes. Fetch a new access token to fix this issue.
   * Fix: Add isset for shortcode check to prevent PHP notices.
   * Fix: Issue with share icons being modified by 3rd party styles.

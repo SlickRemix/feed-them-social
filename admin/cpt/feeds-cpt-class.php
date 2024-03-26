@@ -570,7 +570,7 @@ class Feeds_CPT {
                             $shortcode = '[feed_them_social cpt_id=' . esc_attr( $post_id ) . ']';
 
                             // As Noted: I can see this failing in some instances like page builders or custom post types.
-                            if ( false !== strpos( $the_content, $shortcode ) ) {
+                            if ( strpos( $the_content, $shortcode ) !== false ) {
                                 $location[] = '<a href="' . get_the_permalink( $id ) . '" target="_blank">' . get_the_title( $id ) . '</a>';
                             }
                             else {

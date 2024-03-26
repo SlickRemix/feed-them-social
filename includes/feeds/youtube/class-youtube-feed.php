@@ -221,7 +221,7 @@ class Youtube_Feed {
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
             }
-            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['youtube_load_more_option'] ) {
+            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset($saved_feed_options['youtube_load_more_option']) && $saved_feed_options['youtube_load_more_option'] === 'yes' ) {
 
                     $loadmore                  = !empty( $saved_feed_options['youtube_load_more_option']) ? $saved_feed_options['youtube_load_more_option'] : '';
                     $loadmore_type             = !empty( $saved_feed_options['youtube_load_more_style']) ? $saved_feed_options['youtube_load_more_style'] : '';
@@ -641,16 +641,16 @@ class Youtube_Feed {
                         $youtube_description = $this->fts_youtube_tag_filter( $this->fts_youtube_description( $post_data ) );
                         $channel_title       = $post_data->snippet->channelTitle;
 
-                        $url    = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $popup && 'yes' !== $thumbs_play_iframe ? ' fts-yt-popup-open' : '';
-                        $target = 'yes' === $thumbs_play_iframe ? '' : 'target="_blank"';
+                        $url    = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset($popup) && $popup === 'yes' && $thumbs_play_iframe !== 'yes' ? ' fts-yt-popup-open' : '';
+                        $target = $thumbs_play_iframe === 'yes' ? '' : 'target="_blank"';
 
                         if ( ! empty( $saved_feed_options['youtube_name'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) ) { // https://www.youtube.com/watch?v=g9ArG6H_z0Q.
 
                             $youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
 
-                            $href         = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? 'javascript:;' : esc_url( $youtube_video_url );
+                            $href         = isset( $thumbs_play_iframe ) && $thumbs_play_iframe === 'yes' ? 'javascript:;' : esc_url( $youtube_video_url );
                             $iframe_embed = '' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque';
-                            $iframe       = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? ' fts-youtube-iframe-click' : '';
+                            $iframe       = isset( $thumbs_play_iframe ) && $thumbs_play_iframe === 'yes' ? ' fts-youtube-iframe-click' : '';
                             // escaping the $href above because one option is html and one is url raw.
                             echo '<a href="' . $href . '" rel="' . esc_url( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
 
@@ -830,13 +830,13 @@ class Youtube_Feed {
                                         jQuery(".<?php echo esc_js( $fts_dynamic_class_name ) ?>").off('scroll');
                                     }
 
-                                    <?php if ( 'button' === $loadmore_type && 'yes' === $loadmore ) { ?>
+                                    <?php if ( $loadmore_type === 'button' && $loadmore === 'yes' ) { ?>
                                         jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").html("<?php echo esc_html( $youtube_load_more_text ) ?>");
                                     <?php } ?>
 
                                         jQuery("#loadMore_<?php echo esc_js( $fts_dynamic_name ) ?>").removeClass("fts-fb-spinner");
 
-                                    <?php if ( 'yes' === $popup ) { ?>
+                                    <?php if ( isset($popup) && $popup === 'yes' ) { ?>
                                         // We return this function again otherwise the popup won't work correctly for the newly loaded items.
                                         jQuery.fn.slickYoutubePopUpFunction();
                                     <?php } ?>
@@ -1021,7 +1021,7 @@ class Youtube_Feed {
 			}
 
 			// YouTube Use Comments Cache!
-			if ( false !== $this->feed_cache->fts_check_feed_cache_exists( $youtube_comments_cache_url ) && ! isset( $_GET['load_more_ajaxing'] ) ) {
+			if ( !empty($youtube_comments_cache_url) && $this->feed_cache->fts_check_feed_cache_exists( $youtube_comments_cache_url ) !== false && ! isset( $_GET['load_more_ajaxing'] ) ) {
 				$comments = json_decode( $this->feed_cache->fts_get_feed_cache( $youtube_comments_cache_url ) );
 			} else {
 				// https://developers.google.com/youtube/v3/docs/comments/list.
@@ -1034,12 +1034,12 @@ class Youtube_Feed {
 				}
 			}
 
-			if ( 0 !== $comments->pageInfo->totalResults ) {
+			if ( isset($comments->pageInfo->totalResults) && $comments->pageInfo->totalResults !== 0 && !empty($comments->items) ) {
 				$output = '';
 				echo '<div class="fts-fb-comments-content">';
 				foreach ( $comments->items as $comment_data ) {
 					$message = $comment_data->snippet->topLevelComment->snippet->textDisplay;
-					if ( '><!!' !== $message ) {
+					if ( $message !== '><!!' ) {
 
 						$youtube_comment = $this->fts_youtube_tag_filter( $message );
 

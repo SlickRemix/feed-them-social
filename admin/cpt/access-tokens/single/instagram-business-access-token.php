@@ -86,6 +86,22 @@ class Instagram_Business_Access_Functions {
                     jQuery('.combine-instagram-business-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder span.fts-token-manual-save, .combine-instagram-business-access-token-placeholder span.fts-token-manual-save').click( function (e) {
                         e.preventDefault();
 
+                        let myString = jQuery('#fts_facebook_instagram_custom_api_token').val();
+                        let length = myString.length;
+                        if(length > 300) {
+                            alert('<?php echo esc_html__('You must add a valid Facebook Access Token to use the Save Token Manual feature. If there is already a value in the field, please remove it, update the page and try again.', 'feed-them-social'); ?>');
+                            if(!jQuery('.fts-admin-token-settings-open').length ) {
+                                jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input, .fts-decrypted-view' ).toggle();
+                                jQuery( this ).toggleClass( 'fts-feed-type-active' );
+                                jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
+                                jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
+                                // If the input field is empty, set the cursor to it
+                                jQuery('#fts_facebook_instagram_custom_api_token_user_id').focus();
+                            }
+                            return;
+                        }
+
+
                         const codeArray = {
                             "feed_type" : 'instagram_business',
                             "token" : jQuery('#fts_facebook_instagram_custom_api_token').val(),

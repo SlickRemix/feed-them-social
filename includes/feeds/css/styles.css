@@ -4003,16 +4003,19 @@ a.fts-jal-fb-see-more .fts-count-wrap i {
 }
 
 .ft-gallery-share-wrap .fa-facebook-square:before {
+    font-family: FontAwesomeSlick, monospace !important;
     content: "\f082";
     font-size: 17px!important
 }
 
 .ft-gallery-share-wrap .fa-linkedin:before {
+    font-family: FontAwesomeSlick, monospace !important;
     content: "\f0e1";
     font-size: 16px!important
 }
 
 .ft-gallery-share-wrap .fa-twitter:before {
+    font-family: FontAwesomeSlick, monospace !important;
     content: "\e61b";
     font-size: 17px!important;
     top: 0px;

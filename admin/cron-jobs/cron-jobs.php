@@ -77,7 +77,7 @@ class Cron_Jobs {
     /**
      * Set up a cron job.
      */
-    public function fts_set_cron_job($cpt_id, $feed_name) {
+    public function fts_set_cron_job($cpt_id, $feed_name, $revoke_token) {
 
         // error_log("The cron job is setup for CPT ID: " . $cpt_id);
 
@@ -89,8 +89,10 @@ class Cron_Jobs {
             wp_unschedule_event($timestamp, $event_hook, array($cpt_id));
         }
 
-        // Schedule a new event
-        wp_schedule_event(time(), 'once_daily', $event_hook, array($cpt_id));
+        if( $revoke_token === false ){
+            // Schedule a new event
+            wp_schedule_event(time(), 'once_daily', $event_hook, array($cpt_id));
+        }
 
         // Store the event hook name in the feed options
         $this->options_functions->update_single_option('fts_feed_options_array', 'tiktok_scheduled_event', $event_hook, true, $cpt_id, false);

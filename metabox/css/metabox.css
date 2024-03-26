@@ -2777,7 +2777,7 @@ h3.fts-active-success-token:before {
     font-weight: 700
 }
 
-.fts-admin-token-settings,a.fts-admin-button-no-work, .fts-token-manual-save {
+.fts-admin-token-settings,a.fts-admin-button-no-work, .fts-token-manual-save, .fts-tiktok-revoke-token {
     background: #f0f0f185;
     padding: 10px 15px;
     cursor: pointer;
@@ -2788,7 +2788,7 @@ h3.fts-active-success-token:before {
     margin-right: -1px
 }
 
-.fts-admin-token-settings.fts-admin-token-settings-open,.fts-admin-token-settings:hover,a.fts-admin-button-no-work:hover {
+.fts-admin-token-settings.fts-admin-token-settings-open,.fts-admin-token-settings:hover,a.fts-admin-button-no-work:hover,.fts-token-manual-save:hover,.fts-tiktok-revoke-token:hover {
     background: #1977f2;
     color: #fff
 }
@@ -2798,7 +2798,7 @@ h3.fts-active-success-token:before {
     color: #fff
 }
 
-a.fts-admin-button-no-work {
+a.fts-admin-button-no-work, a.fts-tiktok-revoke-token {
     text-decoration: none!important
 }
 

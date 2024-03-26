@@ -83,7 +83,33 @@ class Twitter_Access_Functions {
         // $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
 
 
-        if ( isset( $_GET['access_token'], $_GET['feed_type'] ) && 'tiktok' === $_GET['feed_type'] ) {
+        if ( isset( $_GET['revoke_token'], $_GET['feed_type'] ) && 'tiktok' === $_GET['feed_type'] ) {
+                ?>
+            <script>
+                jQuery(document).ready(function ($) {
+
+                    setTimeout(function () {
+
+                        const codeArray = {
+                            "feed_type": 'tiktok',
+                            "revoke_token": 'yes'
+                        };
+
+                        if (jQuery('#fts_tiktok_access_token').length !== 0) {
+                            // Not actually encrypting token but other processes need to run so this function must stay intact.
+                            fts_encrypt_token_ajax(codeArray, 'tiktok', '#fts_tiktok_access_token', 'firstRequest');
+                        }
+
+                        alert('TikTok Access Token Revoked Successfully!');
+
+                    }, 500);
+
+                });
+            </script>
+            <?php
+        }
+
+        elseif ( isset( $_GET['access_token'], $_GET['feed_type'] ) && 'tiktok' === $_GET['feed_type'] ) {
 
 
             if ( isset( $_GET['feed_type'] ) && $_GET['feed_type'] === 'tiktok' && 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_tiktok' ) ) {
@@ -202,6 +228,21 @@ class Twitter_Access_Functions {
 
         <div class="fts-settings-does-not-work-wrap">
             <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
+            <?php if ( $access_token !== '' ){ ?>
+                <a href="javascript:;" onclick="fts_revoke_tiktok_access_token()" class="fts-tiktok-revoke-token"><?php esc_html_e( 'Revoke Access Token', 'feed-them-social' ); ?></a>
+                <script>
+                    function fts_revoke_tiktok_access_token(){
+                        const result = confirm("This action will revoke your current Access Token. You will need to obtain a new Access Token if you want to display your TikTok feed. Are you sure you want to continue?");
+                        if (result) {
+                            // If the user clicked "OK", redirect them
+                            window.location.replace("<?php echo esc_url_raw( 'https://www.slickremix.com/tiktok-revoke-token/?token='. sanitize_text_field( $access_token ) . '&redirect_url=' . $post_url ) ?>");
+                        } else {
+                            // If the user clicked "Cancel", do nothing
+                            console.log("User cancelled the action.");
+                        }
+                    }
+                </script>
+            <?php } ?>
             <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
         </div>
 
@@ -217,9 +258,9 @@ class Twitter_Access_Functions {
                         '<div class="fts-failed-api-token">',
                         $data->error->message,
                             '</div>'
-
                     );
-                } else {
+                }
+                else {
 
                     if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
                         echo sprintf(

@@ -100,7 +100,7 @@ class Facebook_Feed_Post_Types {
         $fb_description = preg_replace($mentionsRegex, '<a href="https://www.facebook.com/$1" target="_blank" rel="noreferrer">@$1</a>', $fb_description);
 
         // Process hashtags.
-        $hashtagsRegex = '/#(\w+)/';
+        $hashtagsRegex = '/#([\p{L}\p{M}\w]+)/u';
         $fb_description = preg_replace($hashtagsRegex, '<a href="https://www.facebook.com/hashtag/$1" target="_blank" rel="noreferrer">#$1</a>', $fb_description);
 
         return $fb_description;
@@ -1291,26 +1291,30 @@ class Facebook_Feed_Post_Types {
 				// && !$facebook_post_picture == '' makes it so the attachment unavailable message does not show up.
 				// if (!$facebook_post_picture && !$facebook_post_name && !$facebook_post_description && !$facebook_post_picture == '') {.
 				echo '<div class="fts-jal-fb-link-wrap">';
+
 				// Output Link Picture.
 				$this->facebook_post_photo( $facebook_post_link, $saved_feed_options, $facebook_post_from_name, $facebook_post->attachments->data[0]->media->image->src );
 
 				if ( $facebook_post_name || $facebook_post_caption || $facebook_post_description ) {
-					echo '<div class="fts-jal-fb-description-wrap">';
-					// Output Link Name.
-					$this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
-					// Output Link Caption.
-					if ( 'Attachment Unavailable. This attachment may have been removed or the person who shared it may not have permission to share it with you.' === $facebook_post_caption ) {
-						echo '<div class="fts-jal-fb-caption" style="width:100% !important">';
-						esc_html( 'This user\'s permissions are keeping you from seeing this post. Please Click "View on Facebook" to view this post on this group\'s facebook wall.', 'feed-them-social' );
-						echo '</div>';
-					} else {
-						$this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
-					}
-					// If POPUP.
-					// echo $saved_feed_options['facebook_popup']  == 'yes' ? '<div class="fts-fb-caption"><a href="' . $facebook_post_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html('View on Facebook', 'feed-them-facebook') . '</a></div> ' : '';.
-					// Output Link Description.
-					// echo $facebook_post_description ? $this->facebook_post_desc($facebook_post_description, $saved_feed_options, $facebook_post_type) : '';.
-					echo '<div class="fts-clear"></div></div>';
+                    // If the $facebook_post_name which is the description matches the $facebook_message then we don't want to output it again.
+                    if (str_replace(' ', '', $facebook_post_name) !== str_replace(' ', '', $facebook_message)) {
+                        echo '<div class="fts-jal-fb-description-wrap">';
+                        // Output Link Name.
+                        $this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
+                        // Output Link Caption.
+                        if ( 'Attachment Unavailable. This attachment may have been removed or the person who shared it may not have permission to share it with you.' === $facebook_post_caption ) {
+                            echo '<div class="fts-jal-fb-caption" style="width:100% !important">';
+                            esc_html( 'This user\'s permissions are keeping you from seeing this post. Please Click "View on Facebook" to view this post on this group\'s facebook wall.', 'feed-them-social' );
+                            echo '</div>';
+                        } else {
+                            $this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
+                        }
+                        // If POPUP.
+                        // echo $saved_feed_options['facebook_popup']  == 'yes' ? '<div class="fts-fb-caption"><a href="' . $facebook_post_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html('View on Facebook', 'feed-them-facebook') . '</a></div> ' : '';.
+                        // Output Link Description.
+                        // echo $facebook_post_description ? $this->facebook_post_desc($facebook_post_description, $saved_feed_options, $facebook_post_type) : '';.
+                        echo '<div class="fts-clear"></div></div>';
+                    }
 				}
 				echo '<div class="fts-clear"></div></div>';
 				// }.

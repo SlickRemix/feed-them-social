@@ -1,5 +1,5 @@
 === Feed Them Social - Page, Post, Video, and Photo Galleries ===
-Contributors: slickremix, slickchris
+Contributors: slickremix
 Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
 Requires at least: 5.4
@@ -121,9 +121,14 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.6 Thursday, February 22nd, 2024 =
+= Version 4.2.6 Tuesday, March 25th, 2024 =
   * New: Facebook & Instagram Business: Option to manually add the ID and Access Token.
+  * New: TikTok: Revoke Access Token button added. This will also unschedule the cron job for refreshing token.
+  * Fix: Instagram Business: Add check for bio details to prevent PHP notices.
+  * Fix: YouTube: Undefined index: youtube_video_comments_display
+  * Fix TikTok: Profile photo and stats not displaying due to API changes. Fetch a new access token to fix this issue.
   * Fix: Add isset for shortcode check to prevent PHP notices.
+  * Fix: Issue with share icons being modified by 3rd party styles.
 
 = Version 4.2.5 Monday, February 19th, 2024 =
   * Update: Facebook & Instagram Business: The business_management permission was added to the access token request. This will allow you to retrieve page(s) you are admin of that are located within your Facebook Business Manager.

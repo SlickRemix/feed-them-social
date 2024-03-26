@@ -448,7 +448,7 @@ class Youtube_Feed {
 
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
-                if( !empty( $saved_feed_options['youtube_video_comments_display'] && !empty( $saved_feed_options['youtube_feed_type'] ) && $saved_feed_options['youtube_feed_type'] === 'singleID' ) ){
+                if( !empty( $saved_feed_options['youtube_video_comments_display'] ) && !empty( $saved_feed_options['youtube_feed_type'] ) && $saved_feed_options['youtube_feed_type'] === 'singleID' ){
                     // The comments display options has a similar option like the thumbs display.
                     $video_thumbs_display = $saved_feed_options['youtube_video_comments_display'] ?? '1';
                 }

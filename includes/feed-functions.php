@@ -1366,22 +1366,36 @@ class Feed_Functions {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_name', $access_token['facebook_user_name'], true, $cpt_id, false );
         }
         elseif( 'tiktok' === $_REQUEST['token_type'] ){
-            // atm we are not encrypting twitter tokens.
-			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_user_id', $access_token['user_id'], true, $cpt_id, false );
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', $access_token['token'], true, $cpt_id, false );
-			// The expiration time is 24hrs from the time the token is created (86400) That is the value the expires_in returns from TikTok.
-			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_expires_in', $access_token['expires_in'], true, $cpt_id, false );
-			// we are adding time() to the expires_in so we can check if the token is expired. The expiration time is 24hrs from the time the token is created.
-			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', time() * 1000, true, $cpt_id, false );
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $access_token['refresh_token'], true, $cpt_id, false );
-			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $access_token['refresh_expires_in'], true, $cpt_id, false );
 
-			// Once the token is saved we need to check if it is expired and if it is we need to refresh it.
-			// We create a cron job that will refresh the token every 24hrs.
-			// The caveat is that a user must visit the site for the cron job to run so we will need to make
-			// sure the feed stays cached until the cron job runs.
-			$cron_job = new Cron_Jobs( null, $this->options_functions );
-			$cron_job->fts_set_cron_job( $cpt_id, 'tiktok' );
+			if( $access_token['revoke_token'] === 'yes' ){
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_user_id', ' ', true, $cpt_id, false );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', ' ', true, $cpt_id, false );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_expires_in', ' ', true, $cpt_id, false );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', ' ', true, $cpt_id, false );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', ' ', true, $cpt_id, false );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', ' ', true, $cpt_id, false );
+
+				$cron_job = new Cron_Jobs( null, $this->options_functions );
+				$cron_job->fts_set_cron_job( $cpt_id, 'tiktok', true );
+			}
+			else {
+				// atm we are not encrypting tiktok tokens.
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_user_id', $access_token['user_id'], true, $cpt_id, false );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', $access_token['token'], true, $cpt_id, false );
+				// The expiration time is 24hrs from the time the token is created (86400) That is the value the expires_in returns from TikTok.
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_expires_in', $access_token['expires_in'], true, $cpt_id, false );
+				// we are adding time() to the expires_in so we can check if the token is expired. The expiration time is 24hrs from the time the token is created.
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', time() * 1000, true, $cpt_id, false );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $access_token['refresh_token'], true, $cpt_id, false );
+				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $access_token['refresh_expires_in'], true, $cpt_id, false );
+
+				// Once the token is saved we need to check if it is expired and if it is we need to refresh it.
+				// We create a cron job that will refresh the token every 24hrs.
+				// The caveat is that a user must visit the site for the cron job to run so we will need to make
+				// sure the feed stays cached until the cron job runs.
+				$cron_job = new Cron_Jobs( null, $this->options_functions );
+				$cron_job->fts_set_cron_job( $cpt_id, 'tiktok', false );
+			}
 
         }
         elseif( 'youtube' === $_REQUEST['token_type'] ){

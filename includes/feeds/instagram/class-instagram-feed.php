@@ -635,11 +635,11 @@ class Instagram_Feed {
 			$instagram_user_info = ! empty( $response['user_info'] ) ? json_decode( $response['user_info'] ) : '';
 			// URL to get Feeds.
 			if ( $saved_feed_options['instagram_feed_type'] === 'business' ) {
-				$username        = $insta_data->username;
-				$bio             = $insta_data->biography;
-				$profile_picture = $insta_data->profile_picture_url;
-				$full_name       = $insta_data->name;
-				$website         = $insta_data->website;
+				$username        = $insta_data->username ?? '';
+				$bio             = $insta_data->biography ?? '';
+				$profile_picture = $insta_data->profile_picture_url ?? '';
+				$full_name       = $insta_data->name ?? '';
+				$website         = $insta_data->website ?? '';
 
 			}
 			elseif( $saved_feed_options['instagram_feed_type'] === 'basic' ){

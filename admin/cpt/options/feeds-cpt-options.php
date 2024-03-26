@@ -523,8 +523,6 @@ class Feed_CPT_Options {
 					'name'               => 'fts_facebook_instagram_custom_api_token_user_id',
 					'placeholder'        => '',
 					'default_value'      => '',
-					'instructional-text' => sprintf(
-						esc_html__( 'Click the button below to get an access token. Additionally, you can add a Page ID and Access Token then click the "Save Token Manually" button. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. %5$sYour Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. Tokens are encrypted for additional security before being saved. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta\'s Platform Terms%4$s', 'feed_them_social' ),
 						'<a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">',
 						'</a>',
 						'<a href="https://developers.facebook.com/terms/" target="_blank">',

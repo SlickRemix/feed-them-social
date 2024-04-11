@@ -1,18 +1,18 @@
 === Feed Them Social - Page, Post, Video, and Photo Galleries ===
 Contributors: slickremix
 Donate link: https://www.slickremix.com/
-Tags: Instagram, Facebook, TikTok, YouTube, Feed, Social Media, social, Instagram photo, Instagram gallery, seo, gallery
+Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.4.3
-Stable tag: 4.2.6
+Tested up to: 6.5.2
+Stable tag: 4.2.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Custom social media feeds for Instagram, Facebook Pages, Album Photos, Videos & Covers, TikTok, & YouTube on pages, posts, widgets, Elementor & Beaver Builder.
 
 == Description ==
-Easily Create and Display Customizable Social Feeds for Instagram, Facebook, TikTok, or YouTube. Responsive on Desktops, Tablets, and Mobile Devices.
+Easily Create and Display Customizable Social Feeds from Instagram, Facebook, TikTok, or YouTube. Responsive on Desktops, Tablets, and Mobile Devices.
 
 ###Features
  * **Quick** Install and Set up.
@@ -121,6 +121,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.2.7 Thursday, April 11th, 2024 =
+  * Update: Feed Them Social works with WordPress version 6.5.2
+
 = Version 4.2.6 Tuesday, March 26th, 2024 =
   * New: Facebook & Instagram Business: Option to manually add the ID and Access Token.
   * New: TikTok: Revoke Access Token button added. This will also unschedule the cron job for refreshing token.

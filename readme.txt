@@ -121,7 +121,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.8 Thursday, May 29th, 2024 =
+= Version 4.2.8 Thursday, May 30th, 2024 =
   * New > Instagram, TikTok and YouTube Feed: Added option to change the number of columns for the feed on desktop, tablet, and mobile.
   * New > TikTok Feed: Added fts-tiktok-bio-profile-wrap to the Feed Width option.
   * Fix > Cache Time: Option was always defaulting to 15 minutes because of incorrect check. Thanks to [Jeff Sterup](https://wordpress.org/support/users/foomagoo/) for pointing this out.

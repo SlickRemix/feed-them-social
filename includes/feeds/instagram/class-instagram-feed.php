@@ -186,16 +186,6 @@ class Instagram_Feed {
 		return $instagram_caption;
 	}
 
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * Display Instagram Feed
 	 *
@@ -790,7 +780,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
                 ?>
                 <div <?php if ( !empty( $saved_feed_options['instagram_page_width'] ) ) { ?> style="max-width: <?php echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';"';
-                } ?> data-ftsi-columns="<?php echo esc_attr( $saved_feed_options['instagram_columns'] ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $saved_feed_options['instagram_force_columns'] ); ?>" data-ftsi-margin="<?php echo esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['instagram_page_width'] ) ? esc_attr( $saved_feed_options['instagram_page_width']  ) : ''; ?>" class="<?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
+                } ?> data-ftsi-columns="<?php echo esc_attr( $saved_feed_options['instagram_columns'] ); ?>" data-ftsi-columns-tablet="<?php echo esc_attr( $saved_feed_options['instagram_columns_tablet'] ); ?>" data-ftsi-columns-mobile="<?php echo esc_attr( $saved_feed_options['instagram_columns_mobile'] ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $saved_feed_options['instagram_force_columns'] ); ?>" data-ftsi-margin="<?php echo esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['instagram_page_width'] ) ? esc_attr( $saved_feed_options['instagram_page_width']  ) : ''; ?>" class="<?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
                     if ( isset( $popup ) && 'yes' === $popup ) {
                         echo ' popup-gallery';
                     }
@@ -1414,14 +1404,62 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 	 * @return null|string|string[]
 	 * @since 1.9.6
 	 */
-	public function fts_instagram_description( $post_data ) {
-		$hashtag_caption           = $post_data->caption ?? '';
-		$instagram_caption_a_title = $post_data->caption->text ?? $hashtag_caption;
-		$instagram_caption_a_title = htmlspecialchars( $instagram_caption_a_title );
-		$instagram_caption         = $this->convert_instagram_links( $instagram_caption_a_title );
+    public function fts_instagram_description( $post_data ) {
+        $hashtag_caption           = $post_data->caption ?? '';
+        $instagram_caption_a_title = $post_data->caption->text ?? $hashtag_caption;
+        $instagram_caption         = $this->convert_instagram_links( $instagram_caption_a_title );
+        $charset = \get_option('blog_charset') ?? 'UTF-8';
+        $instagram_caption         = $this->escape_special_chars($instagram_caption, $charset);
 
-		return $instagram_caption;
-	}
+        return $instagram_caption;
+    }
+
+    /**
+     * Escape Special Chars
+     *
+     * Escape special characters in a string separate from links.
+     *
+     * @param string $text description text.
+     * @return null|string|string[]
+     * @since 4.2.8
+     */
+    public function escape_special_chars($text, $charset) {
+        // Split the text into parts: tags and non-tags
+        $parts = preg_split('/(<[^>]+>)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $escaped_text = '';
+
+        foreach ($parts as $part) {
+            if (preg_match('/<[^>]+>/', $part)) {
+                // This part is an HTML tag, escape its attributes
+                $escaped_text .= $this->escape_attributes($part, $charset);
+            } else {
+                // This part is not an HTML tag, escape it
+                $escaped_text .= htmlspecialchars($part, ENT_QUOTES, $charset);
+            }
+        }
+
+        return $escaped_text;
+    }
+
+    /**
+     * Escape Attributes
+     *
+     * Escape the attributes of an HTML tag.
+     *
+     * @param string $tag description text.
+     * @param string $charset the character set.
+     * @return null|string|string[]
+     * @since 4.2.8
+     */
+    public function escape_attributes($tag, $charset) {
+        return preg_replace_callback(
+            '/(\w+)=("[^"]*"|\'[^\']*\')/',
+            function($matches) use ($charset) {
+                return $matches[1] . '=' . htmlspecialchars($matches[2], ENT_QUOTES, $charset);
+            },
+            $tag
+        );
+    }
 
 	/**
 	 * FTS View on Instagram url

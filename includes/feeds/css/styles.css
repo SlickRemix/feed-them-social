@@ -3053,7 +3053,6 @@ body .fts-facebook-popup a.fts-powered-by-text {
 
 .fts-twitter-followers-wrap {
     clear: both;
-    background: #fff;
     padding: 8px 5px 0;
     margin: 0!important;
     text-align: left;
@@ -3084,7 +3083,8 @@ body .fts-facebook-popup a.fts-powered-by-text {
     display: inline-block;
     color: #66757f!important;
     transition: color .15s ease-in-out;
-    text-decoration: none
+    text-decoration: none;
+    background: none;
 }
 
 .twitter-followers-fts:hover {
@@ -4910,7 +4910,8 @@ a.fts-facebook-thumbs-wrap {
     width: auto;
     float: right;
     position: relative;
-    z-index: 2
+    z-index: 2;
+    line-height: 17px;
 }
 
 .fts-carousel-image:before,.fts-instagram-video-image:before {

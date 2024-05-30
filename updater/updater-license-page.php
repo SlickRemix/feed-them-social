@@ -46,6 +46,56 @@ class updater_license_page {
 	 */
 	public $prem_extension_list;
 
+    /**
+     * Store URL
+     *
+     * The url of the store coming from slickremix.com.
+     *
+     * @var object
+     * @since 4.2.8
+     */
+    public $store_url;
+
+    /**
+     * Main Menu Slug
+     *
+     * The menu name, Extension License, in the main menu.
+     *
+     * @var object
+     * @since 4.2.8
+     */
+    public $main_menu_slug;
+
+    /**
+     * License Page Slug
+     *
+     * The plugin slug name for the license page.
+     *
+     * @var object
+     * @since 4.2.8
+     */
+    public $license_page_slug;
+
+    /**
+     * Settings Section Name
+     *
+     * The section name for each group of settings.
+     *
+     * @var object
+     * @since 4.2.8
+     */
+    public $setting_section_name;
+
+    /**
+     * Settings Option Name
+     *
+     * The setting option name.
+     *
+     * @var object
+     * @since 4.2.8
+     */
+    public $setting_option_name;
+
 	/**
 	 * Construct
 	 *

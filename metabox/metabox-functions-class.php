@@ -125,6 +125,16 @@ class Metabox_Functions {
 	 */
 	public $array_options_name;
 
+    /**
+     * Metabox Nonce Name.
+     *
+     * Dynamic nonce for Metabox settings for FTS.
+     *
+     * @var object
+     * @since 4.2.8
+     */
+    public $metabox_nonce_name;
+
 	/**
 	 * Extension List.
 	 *
@@ -1014,6 +1024,7 @@ class Metabox_Functions {
 				'small'  => array(),
                 'span'      => array(
                     'class'   => array(),
+                    'data-target' => array(),
                 ),
                 'svg'      => array(
                     // SRL 4.0: The proper attr is viewBox however, it needs to be lower case to work here.

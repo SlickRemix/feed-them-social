@@ -554,8 +554,8 @@ class Facebook_Feed {
             // Get Response (AKA Page & Feed Information) ERROR CHECK inside this function.
             $response = $this->get_facebook_feed_response( $saved_feed_options, $fb_cache_name, $language );
             // Json decode data and build it from cache or response.
-            $page_data = json_decode( $response['page_data'], true );
-            $feed_data = json_decode( $response['feed_data'] );
+            $page_data = !empty($response['page_data']) ? json_decode($response['page_data'], true) : null;
+            $feed_data = !empty($response['feed_data']) ? json_decode( $response['feed_data'] ) : null;
 
             /*error_log(print_r($feed_data));*/
         }

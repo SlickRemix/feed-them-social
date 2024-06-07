@@ -169,7 +169,7 @@ class Feed_Cache {
 		$cache_time_option = $this->settings_functions->fts_get_option('fts_cache_time');
         $cache_time_limit = $cache_time_option ?? '86400';
         // echo '<br/><br/>Check the cache time limit.<br/>';
-        error_log($cache_time_limit);
+        // error_log($cache_time_limit);
 
 		//Check an Encrypted Response was returned.
 		if( $encrypted_response ){

@@ -1104,7 +1104,7 @@ class Feed_Functions {
 
 		// Check if nonce is valid and cross check the post id.
 		if ( ! isset( $nonce ) || 1 !== wp_verify_nonce( $nonce, 'fts_oauth_tiktok' ) && $post_id === $feed_cpt_id ) {
-			error_log( 'Invalid TikTok oauth nonce' );
+			// error_log( 'Invalid TikTok oauth nonce' );
 			wp_die( __( 'Invalid TikTok oauth nonce', 'feed-them-social' ) );
 		}
 

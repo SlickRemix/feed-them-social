@@ -1499,7 +1499,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type'      => 'input',
 					'input_wrap_class' => 'fb_album_photos_id',
-					'label'            => __( 'Album ID ', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank to show all uploaded photos', 'feed-them-social' ) . '</small>',
+					'label'            => __( 'Album ID ', 'feed-them-social' ) . '<br/><small>' . __( 'See how to quickly <a href="https://www.slickremix.com/documentation/get-facebook-album-cover-id" target="_blank">get an Album ID</a>', 'feed-them-social' ) . '</small>',
 					'type'             => 'text',
 					'id'               => 'facebook_album_id',
 					'name'             => 'facebook_album_id',

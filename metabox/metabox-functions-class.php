@@ -706,19 +706,19 @@ class Metabox_Functions {
                     }
 
                     // Set Option name.
-                    $option_name = $option['name'];
+                    $option_name = $option['name'] ?? '';
 
                     // Set Option ID.
-                    $option_id = $option['id'];
+                    $option_id = $option['id'] ?? '';
 
                     // note: ?? case will not work
-                    $default_value = isset( $option['default_value'] ) ? $option['default_value'] : '';
+                    $default_value = $option['default_value'] ?? '';
 
                     // Use Saved Options or Default Value?
                     $final_value = isset( $saved_options[$option_name] ) && !empty( $saved_options[$option_name] ) ? $saved_options[$option_name] : $default_value;
 
                     // Do we need to output any Metabox Specific Form Inputs?
-                    if ( isset( $this->metabox_specific_form_inputs ) && true == $this->metabox_specific_form_inputs ) {
+                    if ( isset( $this->metabox_specific_form_inputs ) && $this->metabox_specific_form_inputs == true ) {
                         // Set Current Params.
                         $params = array(
                             // 'This' Class object.

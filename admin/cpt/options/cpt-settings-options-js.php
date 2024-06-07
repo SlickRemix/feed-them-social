@@ -258,6 +258,7 @@ class Settings_Options_JS {
                     var fb_feed_type_option = jQuery("select#facebook_page_feed_type").val();
                     if (fb_feed_type_option == 'album_photos') {
                         jQuery('.fb_album_photos_id').show();
+                        alert('Important Notice > Feed Type > Album Photos: On 6-28-2024 Meta updated the API and in doing so broke the /photos/ type=uploaded part of the endpoint. We have created a ticket and are waiting for a response to the issue. Please copy the url below and paste it in your browser then upvote the ticket to help bring more attention to it. https://developers.facebook.com/community/threads/2008841156185264/');
                     }
                     else {
                         jQuery('.fb_album_photos_id').hide();

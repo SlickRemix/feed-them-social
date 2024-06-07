@@ -129,6 +129,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * Fix > Instagram Feed > php8.1+: utilizing the blog_charset option we set the htmlspecialchars function otherwise set the default characterset as UTF-8.
   * Fix > Notice > php8.2+ > Deprecated Notices for License Updater files and Metabox Functions Class.
   * Fix > Additional Misc PHP Warnings and Notices.
+  * Note > YouTube: Re-save your existing YouTube feed to get the latest responsive updates.
 
 = Version 4.2.7 Thursday, April 11th, 2024 =
   * Update: Feed Them Social works with WordPress version 6.5.2

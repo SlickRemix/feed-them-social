@@ -352,6 +352,29 @@ function checkAnyFormFieldEdited() {
 
 jQuery(document).ready(function ($) {
 
+    $('.fts-responsive-options').each(function() {
+    $(this).append('<div class="fts-clear"></div>\n' +
+        '                    <div class="fts-responsive-options-wrap fts-responsive-click">\n' +
+        '                        <span class="fts-responsive-desktop fts-responsive-tab-active" data-target=".responsive-columns-desktop-wrap"></span><span class="fts-responsive-tablet" data-target=".responsive-columns-tablet-wrap"></span><span class="fts-responsive-mobile" data-target=".responsive-columns-mobile-wrap"></span>\n' +
+        '                    </div>');
+    });
+
+    // This is for the responsive options tabs
+    $('.fts-responsive-options-wrap span').click(function() {
+        var parentWrap = $(this).closest('.fts-responsive-wrap');
+        var target = $(this).data('target');
+
+        // Remove active class from all spans within the same .fts-responsive-options-wrap
+        parentWrap.find('.fts-responsive-options-wrap span').removeClass('fts-responsive-tab-active');
+        // Add active class to the clicked span
+        $(this).addClass('fts-responsive-tab-active');
+
+        // Hide all target elements within the same .fts-responsive-wrap
+        parentWrap.find('.responsive-columns-desktop-wrap, .responsive-columns-tablet-wrap, .responsive-columns-mobile-wrap, .responsive-columns-desktop-wrap-2, .responsive-columns-tablet-wrap-2, .responsive-columns-mobile-wrap-2').hide();
+        // Show the target element
+        parentWrap.find(target).show();
+    });
+
     fts_show_hide_shortcode_feed();
     checkAnyFormFieldEdited();
 

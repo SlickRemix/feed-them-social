@@ -165,11 +165,11 @@ class Feed_Cache {
 			// Make Sure to delete old permanent cache before setting up new cache!
 			$this->delete_permanent_feed_cache( $transient_name );
 		}
-		// Cache Time set on Settings Page under FTS Tab.
-		$cache_time_limit = true === $this->settings_functions->fts_get_option( 'fts_cache_time' ) && '1' !== $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '900';
-        // YO!
-        /*echo '<br/><br/>Check the cache time limit.<br/>';
-        print_r($cache_time_limit);*/
+		// Cache Time set on Settings Page under FTS Tab. 86400 = 1 day.
+		$cache_time_option = $this->settings_functions->fts_get_option('fts_cache_time');
+        $cache_time_limit = $cache_time_option ?? '86400';
+        // echo '<br/><br/>Check the cache time limit.<br/>';
+        // error_log($cache_time_limit);
 
 		//Check an Encrypted Response was returned.
 		if( $encrypted_response ){

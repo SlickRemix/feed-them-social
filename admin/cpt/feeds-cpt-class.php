@@ -566,11 +566,11 @@ class Feeds_CPT {
 
                             $post = get_post( $id );
                             // Get the post content so we can double check to see if it has a specific shortcode.
-                            $the_content = $post->post_content;
+                            $the_content = $post->post_content ?? '';
                             $shortcode = '[feed_them_social cpt_id=' . esc_attr( $post_id ) . ']';
 
                             // As Noted: I can see this failing in some instances like page builders or custom post types.
-                            if ( strpos( $the_content, $shortcode ) !== false ) {
+                            if ( $the_content !== null && strpos($the_content, $shortcode) !== false ) {
                                 $location[] = '<a href="' . get_the_permalink( $id ) . '" target="_blank">' . get_the_title( $id ) . '</a>';
                             }
                             else {

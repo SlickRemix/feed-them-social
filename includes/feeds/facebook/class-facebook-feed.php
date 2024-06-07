@@ -554,8 +554,8 @@ class Facebook_Feed {
             // Get Response (AKA Page & Feed Information) ERROR CHECK inside this function.
             $response = $this->get_facebook_feed_response( $saved_feed_options, $fb_cache_name, $language );
             // Json decode data and build it from cache or response.
-            $page_data = json_decode( $response['page_data'], true );
-            $feed_data = json_decode( $response['feed_data'] );
+            $page_data = !empty($response['page_data']) ? json_decode($response['page_data'], true) : null;
+            $feed_data = !empty($response['feed_data']) ? json_decode( $response['feed_data'] ) : null;
 
             /*error_log(print_r($feed_data));*/
         }
@@ -950,7 +950,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
             }
         }
 
-
         // Nov. 4th. 2016 // Uncomment this to sort the dates proper if facebook is returning them out of order.
         // We had one case of this here for a list of posts coming from an event.
         // https://wordpress.org/support/topic/facebook-event-posts-not-ordered-by-date/
@@ -959,7 +958,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
 
         if (isset($feed_data->data) && \count($feed_data->data) > 0) {
             foreach ($feed_data->data as $post_data) {
-
 
                 //Adding the profile pic to the feed data array so we can use in the feeds.
                 // Check if decoding was successful and if the keys exist

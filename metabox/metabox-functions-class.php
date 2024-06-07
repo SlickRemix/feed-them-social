@@ -125,6 +125,16 @@ class Metabox_Functions {
 	 */
 	public $array_options_name;
 
+    /**
+     * Metabox Nonce Name.
+     *
+     * Dynamic nonce for Metabox settings for FTS.
+     *
+     * @var object
+     * @since 4.2.8
+     */
+    public $metabox_nonce_name;
+
 	/**
 	 * Extension List.
 	 *
@@ -696,19 +706,19 @@ class Metabox_Functions {
                     }
 
                     // Set Option name.
-                    $option_name = $option['name'];
+                    $option_name = $option['name'] ?? '';
 
                     // Set Option ID.
-                    $option_id = $option['id'];
+                    $option_id = $option['id'] ?? '';
 
                     // note: ?? case will not work
-                    $default_value = isset( $option['default_value'] ) ? $option['default_value'] : '';
+                    $default_value = $option['default_value'] ?? '';
 
                     // Use Saved Options or Default Value?
                     $final_value = isset( $saved_options[$option_name] ) && !empty( $saved_options[$option_name] ) ? $saved_options[$option_name] : $default_value;
 
                     // Do we need to output any Metabox Specific Form Inputs?
-                    if ( isset( $this->metabox_specific_form_inputs ) && true == $this->metabox_specific_form_inputs ) {
+                    if ( isset( $this->metabox_specific_form_inputs ) && $this->metabox_specific_form_inputs == true ) {
                         // Set Current Params.
                         $params = array(
                             // 'This' Class object.
@@ -1014,6 +1024,7 @@ class Metabox_Functions {
 				'small'  => array(),
                 'span'      => array(
                     'class'   => array(),
+                    'data-target' => array(),
                 ),
                 'svg'      => array(
                     // SRL 4.0: The proper attr is viewBox however, it needs to be lower case to work here.

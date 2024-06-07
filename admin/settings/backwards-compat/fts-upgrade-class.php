@@ -98,7 +98,7 @@ class FTS_Upgrades {
 
         if ( version_compare( $fts_version, '3.0', '<' ) ) {
             $this->v2963_upgrades();
-            error_log( 'FTS vs test check ' . get_option( 'fts_version' ));
+            // error_log( 'FTS vs test check ' . get_option( 'fts_version' ));
         }
         else{
             // Testing
@@ -108,13 +108,13 @@ class FTS_Upgrades {
         if ( version_compare( $fts_version, FTS_CURRENT_VERSION, '<' ) )	{
             // Let us know that an upgrade has happened
             $did_upgrade = true;
-            error_log( 'FTS did_upgrade');
+            // error_log( 'FTS did_upgrade');
         }
 
         if ( $did_upgrade )	{
             update_option( 'fts_version_upgraded_from', get_option( 'fts_version' ) );
             update_option( 'fts_version', preg_replace( '/[^0-9.].*/', '', FTS_CURRENT_VERSION ) );
-            error_log( 'FTS Upgrade complete');
+            // error_log( 'FTS Upgrade complete');
         }
 
     } // do_automatic_upgrades

@@ -1104,7 +1104,7 @@ class Feed_Functions {
 
 		// Check if nonce is valid and cross check the post id.
 		if ( ! isset( $nonce ) || 1 !== wp_verify_nonce( $nonce, 'fts_oauth_tiktok' ) && $post_id === $feed_cpt_id ) {
-			error_log( 'Invalid TikTok oauth nonce' );
+			// error_log( 'Invalid TikTok oauth nonce' );
 			wp_die( __( 'Invalid TikTok oauth nonce', 'feed-them-social' ) );
 		}
 
@@ -1146,14 +1146,14 @@ class Feed_Functions {
 			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $refresh_expires_in, true, $feed_cpt_id, true );
 			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $refresh_token, true, $feed_cpt_id, true );
 
-			error_log("Updated TikTok Token for feed $feed_cpt_id");
+			// error_log("Updated TikTok Token for feed $feed_cpt_id");
 
 			return false;
 		}
 		else {
 			// Return if no access token queried from refresh token.
 			// Make sure this does not cause error on front end feed if cached already.
-			error_log("No Token returned from TikTok");
+			// error_log("No Token returned from TikTok");
 
 		}
 		// Turning this off for now because I'm going to convert this refresh token to a cron job.
@@ -1354,20 +1354,20 @@ class Feed_Functions {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $access_token['expires_in'], true, $cpt_id, false );
 
 		}
-		elseif ( 'business' === $_REQUEST['token_type'] ) {
+		elseif ( $_REQUEST['token_type'] === 'business' ) {
 			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token', $encrypt, true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_user_id', $access_token['user_id'], true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_user_name', $access_token['instagram_user_name'], true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_fb_user_name', $access_token['facebook_user_name'], true, $cpt_id, false );
 		}
-		elseif( 'fbBusiness' === $_REQUEST['token_type'] ){
+		elseif( $_REQUEST['token_type'] === 'fbBusiness' ){
 			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token', $encrypt, true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_id', $access_token['user_id'], true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_name', $access_token['facebook_user_name'], true, $cpt_id, false );
         }
-        elseif( 'tiktok' === $_REQUEST['token_type'] ){
+        elseif( $_REQUEST['token_type'] === 'tiktok' ){
 
-			if( $access_token['revoke_token'] === 'yes' ){
+			if( isset($access_token['revoke_token']) && $access_token['revoke_token'] === 'yes' ){
 				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_user_id', ' ', true, $cpt_id, false );
 				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', ' ', true, $cpt_id, false );
 				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_expires_in', ' ', true, $cpt_id, false );

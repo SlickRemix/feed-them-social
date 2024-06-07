@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.5.2
-Stable tag: 4.2.7
+Tested up to: 6.5.4
+Stable tag: 4.2.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -121,6 +121,15 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.2.8 Thursday, June 6th, 2024 =
+  * Important Notice > Facebook Feed > Photos: On 6-28-2024 Meta updated the API and in doing so broke the /photos/ type=uploaded endpoint. We have [created a ticket](https://developers.facebook.com/community/threads/2008841156185264/) are waiting for a response to the issue.
+  * New > Instagram, TikTok and YouTube Feed: Added option to change the number of columns for the feed on desktop, tablet, and mobile.
+  * New > TikTok Feed: Added fts-tiktok-bio-profile-wrap to the Feed Width option.
+  * Fix > Cache Time: Option was always defaulting to 15 minutes because of incorrect check. Thanks to [Jeff Sterup](https://wordpress.org/support/users/foomagoo/) for pointing this out.
+  * Fix > Instagram Feed > php8.1+: utilizing the blog_charset option we set the htmlspecialchars function otherwise set the default characterset as UTF-8.
+  * Fix > Notice > php8.2+ > Deprecated Notices for License Updater files and Metabox Functions Class.
+  * Fix > Additional Misc PHP Warnings and Notices.
+
 = Version 4.2.7 Thursday, April 11th, 2024 =
   * Update: Feed Them Social works with WordPress version 6.5.2
 

@@ -23,13 +23,14 @@ if (!defined('ABSPATH')) exit;
  */
 class updater_check_class {
 
-    private $api_url = '';
+    private $api_url;
     private $api_data = array();
-    private $name = '';
-    private $slug = '';
-    private $version = '';
+    private $name;
+    private $slug;
+    private $version;
     private $wp_override = false;
-    private $plugin_identifier = '';
+    private $plugin_identifier;
+    private $plugin_name;
 
     /**
      * Class constructor.

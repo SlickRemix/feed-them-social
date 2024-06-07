@@ -536,7 +536,9 @@ class Youtube_Feed {
                     }
                 }
 	            
-                $columns       =  $saved_feed_options['youtube_columns'] ?? '';
+                $columns        =  $saved_feed_options['youtube_columns'] ?? '';
+                $columns_tablet =  $saved_feed_options['youtube_columns_tablet'] ?? '';
+                $columns_mobile =  $saved_feed_options['youtube_columns_mobile'] ?? '';
                 $saved_feed_options['youtube_force_columns'] = isset( $saved_feed_options['youtube_force_columns'] ) ? $saved_feed_options['youtube_force_columns'] . '" ' : 'no';
 
                 $saved_feed_options['youtube_container_margin'] = isset( $saved_feed_options['youtube_container_margin'] ) && '' !== $saved_feed_options['youtube_container_margin'] ? $saved_feed_options['youtube_container_margin'] : '1px';
@@ -567,7 +569,7 @@ class Youtube_Feed {
                 $youtube_singleVideoID =  $saved_feed_options['youtube_feed_type'] === 'singleID' && !empty( $saved_feed_options['youtube_singleVideoID'] ) ? $saved_feed_options['youtube_singleVideoID'] : '';
                 $thumbgallery_class     = $saved_feed_options['youtube_feed_type'] !== 'singleID' ? ' fts-youtube-no-thumbs-gallery' : '';
 
-                echo '<div data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-force-columns="' . esc_attr( $saved_feed_options['youtube_force_columns'] ) . '" data-ftsi-margin="' . esc_attr( $saved_feed_options['youtube_container_margin'] ) . '" class="' . esc_attr( $fts_dynamic_class_name ) . ' fts-youtube-popup-gallery fts-youtube-inline-block-centered ' . esc_attr( $thumbgallery_class ) . '" style="' . esc_attr( $thumbs_wrap_color_final ) . '"">';
+                echo '<div data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-columns-tablet="' . esc_attr( $columns_tablet ) . '" data-ftsi-columns-mobile="' . esc_attr( $columns_mobile ) . '" data-ftsi-force-columns="' . esc_attr( $saved_feed_options['youtube_force_columns'] ) . '" data-ftsi-margin="' . esc_attr( $saved_feed_options['youtube_container_margin'] ) . '" class="' . esc_attr( $fts_dynamic_class_name ) . ' fts-youtube-popup-gallery fts-youtube-inline-block-centered ' . esc_attr( $thumbgallery_class ) . '" style="' . esc_attr( $thumbs_wrap_color_final ) . '"">';
 
                 if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) && $saved_feed_options['youtube_feed_type'] === 'singleID' ) {
 

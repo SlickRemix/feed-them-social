@@ -291,7 +291,7 @@ class Tiktok_Feed {
 			<?php }
 
             if ( ! empty( $twitter_feed_width ) ) { ?>
-            .fts-twitter-div {
+            .fts-twitter-div, .fts-tiktok-bio-profile-wrap {
                 max-width: <?php echo esc_html( $twitter_feed_width ); ?> !important;
             }
 			<?php }
@@ -440,6 +440,8 @@ class Tiktok_Feed {
 
 			$tiktok_hide_profile_photo 	     = $saved_feed_options['tiktok_hide_profile_photo'] ?? '';
 			$tiktok_columns 				 = $saved_feed_options['tiktok_columns'] ?? '';
+            $tiktok_columns_tablet 		     = $saved_feed_options['tiktok_columns_tablet'] ?? '';
+            $tiktok_columns_mobile 		     = $saved_feed_options['tiktok_columns_mobile'] ?? '';
 			$tiktok_force_columns 			 = $saved_feed_options['tiktok_force_columns'] ?? '';
 			$tiktok_space_between_photos     = $saved_feed_options['tiktok_space_between_photos'] ?? '1px';
 			$tiktok_icon_size 				 = $saved_feed_options['tiktok_icon_size'] ?? '';
@@ -780,7 +782,7 @@ class Tiktok_Feed {
 						}
 
 						if ( $stats_bar === 'yes' ) {
-							$tiktok_show_follow_button_inline_class = $saved_feed_options['tiktok_show_follow_button_inline'] === 'yes' ? ' tiktok-show-follow-button-inline' : '';
+							$tiktok_show_follow_button_inline_class = ($saved_feed_options['tiktok_show_follow_button_inline'] ?? '') === 'yes' ? ' tiktok-show-follow-button-inline' : '';
 							?>
 							<div class="fts-tiktok-bio-profile-wrap<?php echo $tiktok_show_follow_button_inline_class ?>">
 								<?php if ( $stats_bar_profile_photo === 'yes' ) { ?>
@@ -831,7 +833,7 @@ class Tiktok_Feed {
 
 						// Start of Responsive feed wrapper
 						elseif  (isset( $type ) && $type === 'responsive' && isset( $grid ) && $grid !== 'yes') { ?>
-						<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" data-ftsi-columns="<?php echo esc_attr( $tiktok_columns ); ?>" data-ftsi-height="<?php echo esc_attr( $tiktok_image_height ); ?>" data-ftsi-force-columns="<?php echo esc_attr( $tiktok_force_columns ); ?>" data-ftsi-margin="<?php echo esc_attr( $tiktok_space_between_photos ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['tiktok_page_width'] ) ? esc_attr( $saved_feed_options['tiktok_page_width']  ) : ''; ?>" class="fts-twitter-div <?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
+						<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" data-ftsi-columns="<?php echo esc_attr( $tiktok_columns ); ?>" data-ftsi-columns-tablet="<?php echo esc_attr( $tiktok_columns_tablet ); ?>" data-ftsi-columns-mobile="<?php echo esc_attr( $tiktok_columns_mobile ); ?>" data-ftsi-height="<?php echo esc_attr( $tiktok_image_height ); ?>" data-ftsi-margin="<?php echo esc_attr( $tiktok_space_between_photos ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['tiktok_page_width'] ) ? esc_attr( $saved_feed_options['tiktok_page_width']  ) : ''; ?>" class="fts-twitter-div <?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
 							if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
 								?> fts-twitter-scrollable<?php
 							}

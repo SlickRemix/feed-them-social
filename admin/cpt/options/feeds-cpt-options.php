@@ -1499,7 +1499,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type'      => 'input',
 					'input_wrap_class' => 'fb_album_photos_id',
-					'label'            => __( 'Album ID ', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank to show all uploaded photos', 'feed-them-social' ) . '</small>',
+					'label'            => __( 'Album ID ', 'feed-them-social' ) . '<br/><small>' . __( 'See how to quickly <a href="https://www.slickremix.com/documentation/get-facebook-album-cover-id" target="_blank">get an Album ID</a>', 'feed-them-social' ) . '</small>',
 					'type'             => 'text',
 					'id'               => 'facebook_album_id',
 					'name'             => 'facebook_album_id',
@@ -3350,59 +3350,148 @@ class Feed_CPT_Options {
 				),*/
 				array(
 					'grouped_options_title' => __( 'Responsive Gallery', 'feed-them-social' ),
-					'input_wrap_class'      => 'fb-page-columns-option-hide',
-					'option_type'           => 'select',
-					'label'                 => __( 'Number of Columns', 'feed-them-social' ),
-					'type'                  => 'text',
+					'input_wrap_class'      => 'fb-page-columns-option-hide fts-responsive-options',
 					'instructional-text'    => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
-					'id'                    => 'instagram_columns',
-					'name'                  => 'instagram_columns',
-					'default_value'         => '3',
-					'options'               => array(
-						array(
-							'label' => __( '1', 'feed-them-social' ),
-							'value' => '1',
-						),
-						array(
-							'label' => __( '2', 'feed-them-social' ),
-							'value' => '2',
-						),
-						array(
-							'label' => __( '3', 'feed-them-social' ),
-							'value' => '3',
-						),
-						array(
-							'label' => __( '4', 'feed-them-social' ),
-							'value' => '4',
-						),
-						array(
-							'label' => __( '5', 'feed-them-social' ),
-							'value' => '5',
-						),
-						array(
-							'label' => __( '6', 'feed-them-social' ),
-							'value' => '6',
-						),
-						array(
-							'label' => __( '7', 'feed-them-social' ),
-							'value' => '7',
-						),
-						array(
-							'label' => __( '8', 'feed-them-social' ),
-							'value' => '8',
-						),
-					),
-					'short_attr'            => array(
-						'attr_name' => 'columns',
-						'ifs'       => 'super_gallery',
-					),
 
-					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
-					'sub_options'           => array(
-						'sub_options_wrap_class' => 'fts-super-instagram-options-wrap',
-					),
+                    // This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+                    'sub_options'           => array(
+                        'sub_options_wrap_class' => 'fts-super-instagram-options-wrap fts-responsive-wrap',
+                    ),
 				),
-				array(
+                // Number of Columns - Desktop
+                array(
+                    'option_type'       => 'select',
+                    'input_wrap_class'  => 'fb-page-columns-option-hide responsive-columns-desktop-wrap',
+                    'label'             => __( 'Columns - Desktop', 'feed-them-social' ),
+                    'type'              => 'text',
+                    'id'                => 'instagram_columns',
+                    'name'              => 'instagram_columns',
+                    'default_value'           => '3',
+                    'options'               => array(
+                        array(
+                            'label' => __( '1', 'feed-them-social' ),
+                            'value' => '1',
+                        ),
+                        array(
+                            'label' => __( '2', 'feed-them-social' ),
+                            'value' => '2',
+                        ),
+                        array(
+                            'label' => __( '3', 'feed-them-social' ),
+                            'value' => '3',
+                        ),
+                        array(
+                            'label' => __( '4', 'feed-them-social' ),
+                            'value' => '4',
+                        ),
+                        array(
+                            'label' => __( '5', 'feed-them-social' ),
+                            'value' => '5',
+                        ),
+                        array(
+                            'label' => __( '6', 'feed-them-social' ),
+                            'value' => '6',
+                        ),
+                        array(
+                            'label' => __( '7', 'feed-them-social' ),
+                            'value' => '7',
+                        ),
+                        array(
+                            'label' => __( '8', 'feed-them-social' ),
+                            'value' => '8',
+                        ),
+                    ),
+                ),
+                // Number of Columns - Tablet
+                array(
+                    'option_type'       => 'select',
+                    'input_wrap_class'  => 'responsive-columns-tablet-wrap',
+                    'label'             => __( 'Columns - Tablet', 'feed-them-social' ),
+                    'type'              => 'text',
+                    'id'                => 'instagram_columns_tablet',
+                    'name'              => 'instagram_columns_tablet',
+                    'default_value'           => '2',
+                    'options'               => array(
+                        array(
+                            'label' => __( '1', 'feed-them-social' ),
+                            'value' => '1',
+                        ),
+                        array(
+                            'label' => __( '2', 'feed-them-social' ),
+                            'value' => '2',
+                        ),
+                        array(
+                            'label' => __( '3', 'feed-them-social' ),
+                            'value' => '3',
+                        ),
+                        array(
+                            'label' => __( '4', 'feed-them-social' ),
+                            'value' => '4',
+                        ),
+                        array(
+                            'label' => __( '5', 'feed-them-social' ),
+                            'value' => '5',
+                        ),
+                        array(
+                            'label' => __( '6', 'feed-them-social' ),
+                            'value' => '6',
+                        ),
+                        array(
+                            'label' => __( '7', 'feed-them-social' ),
+                            'value' => '7',
+                        ),
+                        array(
+                            'label' => __( '8', 'feed-them-social' ),
+                            'value' => '8',
+                        ),
+                    ),
+                ),
+                // Number of Columns - Tablet
+                array(
+                    'option_type'       => 'select',
+                    'input_wrap_class'  => 'responsive-columns-mobile-wrap',
+                    'label'             => __( 'Columns - Mobile', 'feed-them-social' ),
+                    'type'              => 'text',
+                    'id'                => 'instagram_columns_mobile',
+                    'name'              => 'instagram_columns_mobile',
+                    'default_value'           => '1',
+                    'options'               => array(
+                        array(
+                            'label' => __( '1', 'feed-them-social' ),
+                            'value' => '1',
+                        ),
+                        array(
+                            'label' => __( '2', 'feed-them-social' ),
+                            'value' => '2',
+                        ),
+                        array(
+                            'label' => __( '3', 'feed-them-social' ),
+                            'value' => '3',
+                        ),
+                        array(
+                            'label' => __( '4', 'feed-them-social' ),
+                            'value' => '4',
+                        ),
+                        array(
+                            'label' => __( '5', 'feed-them-social' ),
+                            'value' => '5',
+                        ),
+                        array(
+                            'label' => __( '6', 'feed-them-social' ),
+                            'value' => '6',
+                        ),
+                        array(
+                            'label' => __( '7', 'feed-them-social' ),
+                            'value' => '7',
+                        ),
+                        array(
+                            'label' => __( '8', 'feed-them-social' ),
+                            'value' => '8',
+                        ),
+                    ),
+                ),
+                // We don't need this now that there are desktop, tablet and mobile columns. Keeping for now.
+				/*array(
 					'input_wrap_class' => 'fb-page-columns-option-hide',
 					'option_type'      => 'select',
 					'label'            => __( 'Force Columns', 'feed-them-social' ) . '<br/><small>' . __( 'No, allows images to be responsive for smaller devices. Yes, forces columns.', 'feed-them-social' ) . '</small>',
@@ -3424,7 +3513,7 @@ class Feed_CPT_Options {
 						'attr_name' => 'force_columns',
 						'ifs'       => 'super_gallery',
 					),
-				),
+				),*/
 
 				// Space between Photos
 				array(
@@ -3923,61 +4012,150 @@ class Feed_CPT_Options {
 					),
 				),*/
 
-				array(
-					'grouped_options_title' => __( 'Responsive Gallery', 'feed-them-social' ),
-					'input_wrap_class'      => 'fb-page-columns-option-hide',
-					'option_type'           => 'select',
-					'label'                 => __( 'Number of Columns', 'feed-them-social' ),
-					'type'                  => 'text',
-					'instructional-text'    => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/tiktok-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
-					'id'                    => 'tiktok_columns',
-					'name'                  => 'tiktok_columns',
-					'default_value'         => '3',
-					'options'               => array(
-						array(
-							'label' => __( '1', 'feed-them-social' ),
-							'value' => '1',
-						),
-						array(
-							'label' => __( '2', 'feed-them-social' ),
-							'value' => '2',
-						),
-						array(
-							'label' => __( '3', 'feed-them-social' ),
-							'value' => '3',
-						),
-						array(
-							'label' => __( '4', 'feed-them-social' ),
-							'value' => '4',
-						),
-						array(
-							'label' => __( '5', 'feed-them-social' ),
-							'value' => '5',
-						),
-						array(
-							'label' => __( '6', 'feed-them-social' ),
-							'value' => '6',
-						),
-						array(
-							'label' => __( '7', 'feed-them-social' ),
-							'value' => '7',
-						),
-						array(
-							'label' => __( '8', 'feed-them-social' ),
-							'value' => '8',
-						),
-					),
-					'short_attr'            => array(
-						'attr_name' => 'columns',
-						'ifs'       => 'super_gallery',
-					),
+                array(
+                    'grouped_options_title' => __( 'Responsive Gallery', 'feed-them-social' ),
+                    'input_wrap_class'      => 'fb-page-columns-option-hide fts-responsive-options',
+                    'instructional-text'    => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/tiktok-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
+                    // This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+                    'sub_options'           => array(
+                        'sub_options_wrap_class' => 'fts-responsive-tiktok-options-wrap fts-responsive-wrap',
+                    ),
+                ),
+                // Number of Columns - Desktop
+                array(
+                    'option_type'       => 'select',
+                    'input_wrap_class'  => 'fb-page-columns-option-hide responsive-columns-desktop-wrap',
+                    'label'             => __( 'Columns - Desktop', 'feed-them-social' ),
+                    'type'              => 'text',
+                    'id'                => 'tiktok_columns',
+                    'name'              => 'tiktok_columns',
+                    'default_value'           => '3',
+                    'options'               => array(
+                        array(
+                            'label' => __( '1', 'feed-them-social' ),
+                            'value' => '1',
+                        ),
+                        array(
+                            'label' => __( '2', 'feed-them-social' ),
+                            'value' => '2',
+                        ),
+                        array(
+                            'label' => __( '3', 'feed-them-social' ),
+                            'value' => '3',
+                        ),
+                        array(
+                            'label' => __( '4', 'feed-them-social' ),
+                            'value' => '4',
+                        ),
+                        array(
+                            'label' => __( '5', 'feed-them-social' ),
+                            'value' => '5',
+                        ),
+                        array(
+                            'label' => __( '6', 'feed-them-social' ),
+                            'value' => '6',
+                        ),
+                        array(
+                            'label' => __( '7', 'feed-them-social' ),
+                            'value' => '7',
+                        ),
+                        array(
+                            'label' => __( '8', 'feed-them-social' ),
+                            'value' => '8',
+                        ),
+                    ),
+                ),
+                // Number of Columns - Tablet
+                array(
+                    'option_type'       => 'select',
+                    'input_wrap_class'  => 'responsive-columns-tablet-wrap',
+                    'label'             => __( 'Columns - Tablet', 'feed-them-social' ),
+                    'type'              => 'text',
+                    'id'                => 'tiktok_columns_tablet',
+                    'name'              => 'tiktok_columns_tablet',
+                    'default_value'           => '2',
+                    'options'               => array(
+                        array(
+                            'label' => __( '1', 'feed-them-social' ),
+                            'value' => '1',
+                        ),
+                        array(
+                            'label' => __( '2', 'feed-them-social' ),
+                            'value' => '2',
+                        ),
+                        array(
+                            'label' => __( '3', 'feed-them-social' ),
+                            'value' => '3',
+                        ),
+                        array(
+                            'label' => __( '4', 'feed-them-social' ),
+                            'value' => '4',
+                        ),
+                        array(
+                            'label' => __( '5', 'feed-them-social' ),
+                            'value' => '5',
+                        ),
+                        array(
+                            'label' => __( '6', 'feed-them-social' ),
+                            'value' => '6',
+                        ),
+                        array(
+                            'label' => __( '7', 'feed-them-social' ),
+                            'value' => '7',
+                        ),
+                        array(
+                            'label' => __( '8', 'feed-them-social' ),
+                            'value' => '8',
+                        ),
+                    ),
+                ),
+                // Number of Columns - Tablet
+                array(
+                    'option_type'       => 'select',
+                    'input_wrap_class'  => 'responsive-columns-mobile-wrap',
+                    'label'             => __( 'Columns - Mobile', 'feed-them-social' ),
+                    'type'              => 'text',
+                    'id'                => 'tiktok_columns_mobile',
+                    'name'              => 'tiktok_columns_mobile',
+                    'default_value'           => '1',
+                    'options'               => array(
+                        array(
+                            'label' => __( '1', 'feed-them-social' ),
+                            'value' => '1',
+                        ),
+                        array(
+                            'label' => __( '2', 'feed-them-social' ),
+                            'value' => '2',
+                        ),
+                        array(
+                            'label' => __( '3', 'feed-them-social' ),
+                            'value' => '3',
+                        ),
+                        array(
+                            'label' => __( '4', 'feed-them-social' ),
+                            'value' => '4',
+                        ),
+                        array(
+                            'label' => __( '5', 'feed-them-social' ),
+                            'value' => '5',
+                        ),
+                        array(
+                            'label' => __( '6', 'feed-them-social' ),
+                            'value' => '6',
+                        ),
+                        array(
+                            'label' => __( '7', 'feed-them-social' ),
+                            'value' => '7',
+                        ),
+                        array(
+                            'label' => __( '8', 'feed-them-social' ),
+                            'value' => '8',
+                        ),
+                    ),
+                ),
 
-					// This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
-					'sub_options'           => array(
-						'sub_options_wrap_class' => 'fts-responsive-tiktok-options-wrap',
-					),
-				),
-				array(
+
+				/*array(
 					'input_wrap_class' => 'fb-page-columns-option-hide',
 					'option_type'      => 'select',
 					'label'            => __( 'Force Columns', 'feed-them-social' ) . '<br/><small>' . __( 'No, allows images to be responsive for smaller devices. Yes, forces columns.', 'feed-them-social' ) . '</small>',
@@ -3999,7 +4177,7 @@ class Feed_CPT_Options {
 						'attr_name' => 'force_columns',
 						'ifs'       => 'super_gallery',
 					),
-				),
+				),*/
 
 				// Image Height Size
 				array(
@@ -4654,15 +4832,25 @@ class Feed_CPT_Options {
 					),
 				),
 
+                array(
+                    'input_wrap_class'      => 'youtube_hide_option fts-responsive-options',
+                   // 'instructional-text'    => '<strong>' . __( 'NOTE: ', 'feed-them-social' ) . '</strong>' . __( 'Choose the Number of Columns and Space between each image below. Please add px after any number.', 'feed-them-social' ) . ' <a href="https://feedthemsocial.com/instagram-feed-demo/" target="_blank">' . __( 'View demo', 'feed-them-social' ) . '</a>',
+
+                    // This should be placed in the STARTING field of sub options that way wrap and instruction text is above this div (end will be in final options for div output)
+                    'sub_options'           => array(
+                        'sub_options_wrap_class' => 'fts-super-instagram-options-wrap fts-responsive-wrap',
+                    ),
+                ),
+
 				// # of videos in each row
 				array(
-					'input_wrap_class' => 'youtube_hide_option',
+					'input_wrap_class' => 'fb-page-columns-option-hide responsive-columns-desktop-wrap',
 					'option_type'      => 'select',
-					'label'            => __( '# of videos in each row', 'feed-them-social' ),
+					'label'            => __( 'Videos in each row - Desktop', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'youtube_columns',
 					'name'             => 'youtube_columns',
-					'default_value'    => '2',
+					'default_value'    => '4',
 					'options'          => array(
 						array(
 							'label' => __( '1', 'feed-them-social' ),
@@ -4693,6 +4881,85 @@ class Feed_CPT_Options {
 						'attr_name' => 'vids_in_row',
 					),
 				),
+
+                array(
+                    'input_wrap_class'  => 'fb-page-columns-option-hide  responsive-columns-tablet-wrap',
+                    'option_type'      => 'select',
+                    'label'            => __( 'Videos in each row - Tablet', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'youtube_columns_tablet',
+                    'name'             => 'youtube_columns_tablet',
+                    'default_value'    => '3',
+                    'options'          => array(
+                        array(
+                            'label' => __( '1', 'feed-them-social' ),
+                            'value' => '1',
+                        ),
+                        array(
+                            'label' => __( '2', 'feed-them-social' ),
+                            'value' => '2',
+                        ),
+                        array(
+                            'label' => __( '3', 'feed-them-social' ),
+                            'value' => '3',
+                        ),
+                        array(
+                            'label' => __( '4', 'feed-them-social' ),
+                            'value' => '4',
+                        ),
+                        array(
+                            'label' => __( '5', 'feed-them-social' ),
+                            'value' => '5',
+                        ),
+                        array(
+                            'label' => __( '6', 'feed-them-social' ),
+                            'value' => '6',
+                        ),
+                    ),
+                    'short_attr'       => array(
+                        'attr_name' => 'vids_in_row',
+                    ),
+                ),
+
+                array(
+                    'input_wrap_class'  => 'fb-page-columns-option-hide responsive-columns-mobile-wrap',
+                    'option_type'      => 'select',
+                    'label'            => __( 'Videos in each row - Mobile', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'youtube_columns_mobile',
+                    'name'             => 'youtube_columns_mobile',
+                    'default_value'    => '2',
+                    'options'          => array(
+                        array(
+                            'label' => __( '1', 'feed-them-social' ),
+                            'value' => '1',
+                        ),
+                        array(
+                            'label' => __( '2', 'feed-them-social' ),
+                            'value' => '2',
+                        ),
+                        array(
+                            'label' => __( '3', 'feed-them-social' ),
+                            'value' => '3',
+                        ),
+                        array(
+                            'label' => __( '4', 'feed-them-social' ),
+                            'value' => '4',
+                        ),
+                        array(
+                            'label' => __( '5', 'feed-them-social' ),
+                            'value' => '5',
+                        ),
+                        array(
+                            'label' => __( '6', 'feed-them-social' ),
+                            'value' => '6',
+                        ),
+                    ),
+                    'short_attr'       => array(
+                        'attr_name' => 'vids_in_row',
+                    ),
+                    'sub_options_end'       => true,
+                ),
 
 				// omit first video thumbnail
 				array(

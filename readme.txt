@@ -121,7 +121,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.9 Thursday, June 13th, 2024 =
+= Version 4.2.9 Monday, June 17th, 2024 =
   * Fix > Shortcode Location > The page ID was not updating in the Shortcode Location on the Feeds list page. Also added check for $post in case it's null.
   * Fix > Instagram > PHP 8.0+ > Warning undefined variable for instagram_basic_output & instagram_columns_tablet
 

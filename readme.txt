@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.5.4
-Stable tag: 4.2.8
+Stable tag: 4.2.9
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -121,6 +121,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.2.9 Thursday, June 13th, 2024 =
+  * Fix > Shortcode Location > The page ID was not updating in the Shortcode Location on the Feeds list page. Also added check for $post in case it's null.
+  * Fix > Instagram > PHP 8.0+ > Warning undefined variable for instagram_basic_output & instagram_columns_tablet
+
 = Version 4.2.8 Thursday, June 6th, 2024 =
   * Important Notice > Facebook Feed > Photos: On 6-28-2024 Meta updated the API and in doing so broke the /photos/ type=uploaded endpoint. We have [created a ticket](https://developers.facebook.com/community/threads/2008841156185264/) are waiting for a response to the issue.
   * New > Instagram, TikTok and YouTube Feed: Added option to change the number of columns for the feed on desktop, tablet, and mobile.

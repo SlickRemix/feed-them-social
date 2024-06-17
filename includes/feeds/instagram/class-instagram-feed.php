@@ -775,8 +775,10 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 					<?php
 				}
 
-                $saved_feed_options['instagram_columns'] = $saved_feed_options['instagram_columns'] ?? '';
-                $saved_feed_options['instagram_force_columns'] = $saved_feed_options['instagram_force_columns'] ?? '';
+                $saved_feed_options['instagram_columns']        = $saved_feed_options['instagram_columns'] ?? '';
+                $saved_feed_options['instagram_force_columns']  = $saved_feed_options['instagram_force_columns'] ?? '';
+                $saved_feed_options['instagram_columns_tablet'] = $saved_feed_options['instagram_columns_tablet'] ?? '';
+                $saved_feed_options['instagram_columns_mobile'] = $saved_feed_options['instagram_columns_mobile'] ?? '';
 
                 ?>
                 <div <?php if ( !empty( $saved_feed_options['instagram_page_width'] ) ) { ?> style="max-width: <?php echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';"';

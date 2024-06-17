@@ -1503,6 +1503,8 @@ class Feed_Functions {
 
 			// return print_r( $instagram_basic_user );
 
+            $instagram_basic_output = (object)['data' => []];
+
 			if ( !empty( $instagram_basic->data ) ) {
 
 				// We need to get the access token from the url and decrypt it.
@@ -1512,7 +1514,6 @@ class Feed_Functions {
                 $access_token = false !== $this->data_protection->decrypt(  $query['access_token'] ) ? $this->data_protection->decrypt(  $query['access_token'] ) : $query['access_token'];
 
                 // We loop through the media ids from the above $instagram_basic_data_array['data'] and request the info for each to create an array we can cache.
-				$instagram_basic_output = (object)['data' => []];
 				foreach ( $instagram_basic->data as $media ) {
 
 

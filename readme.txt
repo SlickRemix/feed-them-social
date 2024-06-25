@@ -122,9 +122,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.2.9 Monday, June 24th, 2024 =
+  * New > Settings > Cache Time: 12 Hour option added.
   * Fix > Shortcode Location > The page ID was not updating in the Shortcode Location on the Feeds list page. Also added check for $post in case it's null.
   * Fix > Instagram > PHP 8.0+ > Warning undefined variable for instagram_basic_output & instagram_columns_tablet
-  * New > Settings > Cache Time: 12 Hour option added.
+  * Fix: Premium: Facebook Feed > Number of Words Option. Line breaks and links were being removed.
 
 = Version 4.2.8 Thursday, June 6th, 2024 =
   * Important Notice > Facebook Feed > Photos: On 6-28-2024 Meta updated the API and in doing so broke the /photos/ type=uploaded endpoint. We have [created a ticket](https://developers.facebook.com/community/threads/2008841156185264/) are waiting for a response to the issue.

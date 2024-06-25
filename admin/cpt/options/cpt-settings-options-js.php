@@ -239,13 +239,13 @@ class Settings_Options_JS {
                     }
 
                     <?php if ( is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ) { ?>
-                    if (facebooktype == 'reviews') {
-                        jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').show();
-                        jQuery('.align-images-wrap,.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts').hide();
-                    } else {
-                        jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').hide();
-                        jQuery('.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts').show();
-                    }
+                        if (facebooktype == 'reviews') {
+                            jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').show();
+                            jQuery('.align-images-wrap,.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts').hide();
+                        } else {
+                            jQuery('.facebook-reviews-wrap, .inst-text-facebook-reviews').hide();
+                            jQuery('.facebook-title-options-wrap, .facebook-popup-wrap, .fts-required-more-posts, .fts-required-more-posts').show();
+                        }
                     <?php } ?>
 
                     // only show the post type visible if the facebook page feed type is selected

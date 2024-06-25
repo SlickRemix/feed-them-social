@@ -309,11 +309,15 @@ class Facebook_Feed_Post_Types {
 										'title'  => array(),
 										'target' => array(),
 										'rel'    => array(),
+                                        'class'    => array(),
 									),
 									'br'     => array(),
 									'em'     => array(),
 									'strong' => array(),
 									'small'  => array(),
+                                    'span'      => array(
+                                        'class'   => array(),
+                                    ),
 								)
 							) . '</div>';
 					} elseif ( isset( $saved_feed_options['facebook_page_word_count'] ) && '0' !== $saved_feed_options['facebook_page_word_count']) {
@@ -1133,10 +1137,11 @@ class Facebook_Feed_Post_Types {
                     // SRL 4.0: make this an option eventually.
                     $more = '...';
 
-                    $word_count = !empty( $saved_feed_options['combine_word_count_option'] ) ? $saved_feed_options['combine_word_count_option'] : $saved_feed_options['facebook_page_word_count'];
+                   // $word_count = !empty( $saved_feed_options['combine_word_count_option'] ) ? $saved_feed_options['combine_word_count_option'] : $saved_feed_options['facebook_page_word_count'];
 
+                   /* $facebook_final_message = $this->facebook_tag_filter( $facebook_message );
                     $trunacate_words = new \FeedThemSocialTruncateHTML();
-					$trimmed_content = $trunacate_words::fts_custom_trim_words( $facebook_message, $word_count , $more );
+					$trimmed_content = $trunacate_words::fts_custom_trim_words( $facebook_final_message, $word_count , $more );*/
 
 					// Going to consider this for the future if facebook fixes the api to define when are checking in. Add  '.$checked_in.' inside the fts-jal-fb-message div.
 					// $checked_in = '<a target="_blank" class="fts-checked-in-img" href="https://www.facebook.com/'.$facebook_post->place->id.'"><img src="https://graph.facebook.com/'.$facebook_post->place->id.'/picture?width=150"/></a><a target="_blank" class="fts-checked-in-text-link" href="https://www.facebook.com/'.$facebook_post->place->id.'">'.esc_html("Checked in at", "feed-them-social").' '.$facebook_post->place->name.'</a><br/> '.esc_html("Location", "feed-them-social").': '.$facebook_post->place->location->city.', '.$facebook_post->place->location->country.' '.$facebook_post->place->location->zip.'<br/><a target="_blank" class="fts-fb-get-directions fts-checked-in-get-directions" href="https://www.facebook.com/'.$facebook_post->place->id.'">'.esc_html("Get Direction", "feed-them-social").'</a>';.
@@ -1144,7 +1149,7 @@ class Facebook_Feed_Post_Types {
 
 					echo esc_html( $facebook_title_job_opening );
 					// $trimmed_content CANNOT be esc at this time.
-					echo ! empty( $trimmed_content ) ? $trimmed_content : '';
+                    $this->facebook_post_desc( $facebook_message, $saved_feed_options, $facebook_post_type );
 					// The Popup.
 					// echo $saved_feed_options['facebook_popup']  == 'yes' ? '<div class="fts-fb-caption"><a href="' . $facebook_post_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html__('View on Facebook', 'feed-them-social') . '</a></div> ' : '';.
 					echo '<div class="fts-clear"></div></div> ';

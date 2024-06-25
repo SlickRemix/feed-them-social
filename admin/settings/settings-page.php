@@ -272,7 +272,7 @@ class Settings_Page {
                             'std'           => '',
                             'field_class'   => 'fts_cache_time',
                             'tooltip_class' => 'fts-cache-time-tooltip',
-                            'tooltip_desc' => 'Choose the amount of time you would like your feed to be cached for. Only use the Developer mode if you are testing the feed. Leaving Developer mode on you may cause your feed to not load because of API rate limits set by the Social Network.',
+                            'tooltip_desc' => 'Choose the amount of time you would like your feed to be cached for. If you are using an additional caching plugin or varnish make sure and omit the page the feed is on from caching, otherwise you will need manually empty the cache for the feed to update.',
                             'desc' => '<div id="fts-clear-cache">Clear Cache</div><div class="clearfix"></div><div class="fts-cache-messages"></div>',
                         ),
                         'powered_by' => array(

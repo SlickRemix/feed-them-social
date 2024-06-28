@@ -121,8 +121,8 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.2.9 Monday, June 24th, 2024 =
-  * New > Settings > Cache Time: 12 Hour option added.
+= Version 4.2.9 Friday, June 28th, 2024 =
+  * New > Settings > Cache Time: 1, 2, 3, 6 & 12 Hour option added.
   * Fix > Shortcode Location > The page ID was not updating in the Shortcode Location on the Feeds list page. Also added check for $post in case it's null.
   * Fix > Instagram > PHP 8.0+ > Warning undefined variable for instagram_basic_output & instagram_columns_tablet
   * Fix: Premium: Facebook Feed > Number of Words Option. Line breaks and links were being removed.

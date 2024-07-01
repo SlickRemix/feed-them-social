@@ -246,32 +246,40 @@ class Feed_Shortcode {
      * @since 3.0
      */
     public function shortcode_location( $cpt_id ) {
-        if ( is_admin() ) {
+
+        // Make sure we are only updating the fts_shortcode_location option if the user is logged in and an administrator.
+        if ( !current_user_can('administrator') ) {
             return;
         }
 
 		global $post;
-		if ( isset( $post->post_type ) && $post->post_type !== 'fts' ) {
-			return;
-		}
-
-        $array_check = $this->feed_functions->get_feed_option( $cpt_id, 'fts_shortcode_location' );
-        $array_check_decode = json_decode( $array_check );
 
         // Process: A user saves a shortcode to a page, when they view the page we update the fts_shortcode_location with the id.
         // the fts_shortcode_location option will contain an array of ids, that is all.
         // To see how we remove ids from the array if a user deletes the shortcode go to the
         // feeds-cpt-class.php and search for case 'shortcode_location':
         // that is where we will update the fts_shortcode_location to remove an ids not found. This happens when the user loads the wp-admin/edit.php?post_type=fts page
-        if( !is_array( $array_check_decode ) ){
-            $encoded = json_encode( array( $post->ID ) );
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
-        }
-        elseif( is_array( $array_check_decode ) ) {
-            if (  !in_array( $post->ID, $array_check_decode, true ) ){
-                $add_id = array_merge( $array_check_decode, array( $post->ID ) );
-                $encoded = json_encode( $add_id );
+        if (isset($post) && $post !== null ) {
+
+            // Do not run action if the post type is fts in admin. Because we display the shortcode in the post edit page for the user to preview.
+            if ( isset( $post->post_type ) && $post->post_type === 'fts' ) {
+                return;
+            }
+
+            // error_log('is admin: ' . current_user_can('administrator') );
+
+            $array_check = $this->feed_functions->get_feed_option( $cpt_id, 'fts_shortcode_location' );
+            $array_check_decode = json_decode( $array_check );
+
+            if ( !is_array( $array_check_decode ) ) {
+                $encoded = json_encode( array($post->ID) );
                 $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
+            } elseif ( is_array( $array_check_decode ) ) {
+                if ( !\in_array( $post->ID, $array_check_decode, true ) ) {
+                    $add_id = array_merge( $array_check_decode, array($post->ID) );
+                    $encoded = json_encode( $add_id );
+                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
+                }
             }
         }
     }

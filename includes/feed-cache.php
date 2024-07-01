@@ -85,6 +85,11 @@ class Feed_Cache {
 	 */
 	public function fts_get_cache_options()	{
 		$formats = array(
+            '3600'   => __( '1 Hour', 'feed-them-social' ),
+            '7200'   => __( '2 Hours', 'feed-them-social' ),
+            '10800'   => __( '3 Hours', 'feed-them-social' ),
+            '21600'   => __( '6 Hours', 'feed-them-social' ),
+            '43200'   => __( '12 Hours', 'feed-them-social' ),
 			'86400'   => __( '1 Day', 'feed-them-social' ),
 			'172800'  => __( '2 Days', 'feed-them-social' ),
 			'259200'  => __( '3 Days', 'feed-them-social' ),
@@ -107,6 +112,21 @@ class Feed_Cache {
 				$fts_display_cache_time = __( 'Clear cache on every page load', 'feed-them-social' );
 				break;
 			default:
+            case '3600':
+                $fts_display_cache_time = __( '1 Hour', 'feed-them-social' );
+                break;
+            case '7200':
+                $fts_display_cache_time = __( '2 Hours', 'feed-them-social' );
+                break;
+            case '10800':
+                $fts_display_cache_time = __( '3 Hours', 'feed-them-social' );
+                break;
+            case '21600':
+                $fts_display_cache_time = __( '6 Hours', 'feed-them-social' );
+                break;
+            case '43200':
+                $fts_display_cache_time = __( '12 Hours', 'feed-them-social' );
+                break;
 			case '86400':
 				$fts_display_cache_time = __( '1 Day (Default)', 'feed-them-social' );
 				break;

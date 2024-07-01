@@ -30,10 +30,11 @@ jQuery(document).ready(function($) {
         })
     }
 });
+
+
 if (!jQuery.trim(jQuery('.fts-jal-fb-group-display').html()).length) {
     jQuery('.fts-jal-fb-group-display').append('<div class="fts-facebook-add-more-posts-notice"><p>Please go to the <strong>Facebook Options</strong> page of our plugin and look for the "<strong>Change Post Limit</strong>" option and add the number <strong>7</strong> or more. You can also hide this notice on the Facebook Options page if you want.</p>If you are trying to add a Personal Facebook feed and you are seeing this message too, please note: <strong>Personal Facebook Accounts generally do not work with our plugin.</strong></div>')
 }
-
 
 function ftsShare(){
 
@@ -67,7 +68,7 @@ function slickremixImageResizing() {
 
     // var ftsname = arguments["0"]
     //  var ftsBlockCenteredAttr = jQuery(ftsname);
-
+    
     // alert(ftsBlockCenteredAttr);
 
     // This is the container for the instagram image post
@@ -378,9 +379,7 @@ function slickremixImageResizingYouTube() {
     // If our image square is less than 180px then we hide the play button for the youtube feed
     if (ftsYoutubeImageSize.width() < 180) {
         jQuery('.slicker-youtube-placeholder').addClass('fts-youtube-smallerthan-180');
-
         jQuery('.fts-yt-large, .fts-youtube-scrollable').css('width', '100% !important');
-
     }
     else {
         jQuery('.slicker-youtube-placeholder').removeClass('fts-youtube-smallerthan-180');
@@ -394,7 +393,6 @@ function slickremixImageResizingYouTube() {
     }
     else {
         jQuery('.fts-yt-large, .fts-youtube-scrollable, .youtube-comments-wrap').removeClass('fts-youtube-smallerthan-550-stack');
-
     }
 }
 
@@ -483,8 +481,6 @@ function ftsRetweetHeight() {
             console.log( 'Wrap width: ' + twitter_wrap.width() );
             jQuery( '.fts-twitter-div' ).addClass( 'fts-twitter-wrap-below-width-450' );
             jQuery( 'span.fts-twitter-external-backg-image' ).css({ 'background-size' : 'cover' } );
-
-
         }
         else {
             jQuery( '.fts-twitter-div' ).removeClass( 'fts-twitter-wrap-below-width-450' );

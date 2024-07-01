@@ -379,9 +379,7 @@ function slickremixImageResizingYouTube() {
     // If our image square is less than 180px then we hide the play button for the youtube feed
     if (ftsYoutubeImageSize.width() < 180) {
         jQuery('.slicker-youtube-placeholder').addClass('fts-youtube-smallerthan-180');
-
         jQuery('.fts-yt-large, .fts-youtube-scrollable').css('width', '100% !important');
-
     }
     else {
         jQuery('.slicker-youtube-placeholder').removeClass('fts-youtube-smallerthan-180');
@@ -395,7 +393,6 @@ function slickremixImageResizingYouTube() {
     }
     else {
         jQuery('.fts-yt-large, .fts-youtube-scrollable, .youtube-comments-wrap').removeClass('fts-youtube-smallerthan-550-stack');
-
     }
 }
 

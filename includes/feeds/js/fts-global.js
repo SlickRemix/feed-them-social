@@ -68,6 +68,7 @@ function slickremixImageResizing() {
 
     // var ftsname = arguments["0"]
     //  var ftsBlockCenteredAttr = jQuery(ftsname);
+    
     // alert(ftsBlockCenteredAttr);
 
     // This is the container for the instagram image post
@@ -483,8 +484,6 @@ function ftsRetweetHeight() {
             console.log( 'Wrap width: ' + twitter_wrap.width() );
             jQuery( '.fts-twitter-div' ).addClass( 'fts-twitter-wrap-below-width-450' );
             jQuery( 'span.fts-twitter-external-backg-image' ).css({ 'background-size' : 'cover' } );
-
-
         }
         else {
             jQuery( '.fts-twitter-div' ).removeClass( 'fts-twitter-wrap-below-width-450' );

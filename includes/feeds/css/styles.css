@@ -1795,13 +1795,14 @@ a.fts-slicker-backg {
     width: 167px;
     color: #fff;
     line-height: 15px;
-    padding: 10px 3px!important
+    padding: 10px 3px !important;
+    box-sizing: unset !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
 .instagram-social-btn-top {
     margin: 0 auto 15px
 }
-
 .instagram-social-btn-bottom {
     margin: 15px auto 0
 }

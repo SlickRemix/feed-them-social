@@ -125,6 +125,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * New > Settings > Cache Time: 1, 2, 3, 6 & 12 Hour option added.
   * Fix > Shortcode Location > The page ID was not updating in the Shortcode Location on the Feeds list page. Also added check for $post in case it's null.
   * Fix > Instagram > PHP 8.0+ > Warning undefined variable for instagram_basic_output & instagram_columns_tablet
+  * Fix: Instagram: Follow Button > Some themes would wrap the button icon and replace the font causing the format to look bad.
   * Fix: Premium: Facebook Feed > Number of Words Option. Line breaks and links were being removed.
 
 = Version 4.2.8 Thursday, June 6th, 2024 =

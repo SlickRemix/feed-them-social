@@ -240,11 +240,11 @@ class Metabox_Functions {
 		// SRL: THESE SCRIPTS CAN BE LOADED ON ALL OF OUR PAGES, BUT SHOULD ONLY LOAD ON OUR PLUGINS PAGES.
 		if ( $this->main_post_type === $current_info['post_type'] ) {
 			// Register Admin Page CSS.
-			wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.css' ), array(), FTS_CURRENT_VERSION );
+			wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.min.css' ), array(), FTS_CURRENT_VERSION );
 			// Enqueue Admin Page CSS.
 			wp_enqueue_style( 'slick-admin-page' );
 			// Register Metabox CSS.
-			wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.css' ), array(), FTS_CURRENT_VERSION );
+			wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.min.css' ), array(), FTS_CURRENT_VERSION );
 			// Enqueue Metabox CSS.
 			wp_enqueue_style( 'slick-metabox' );
 		}

@@ -68,7 +68,7 @@ Easily Create and Display Customizable Social Feeds from Instagram, Facebook, Ti
  ✭ [YouTube Popup Video Feed Demo](https://feedthemsocial.com/youtube-gallery-format-2/)
 
 = Instagram Slider Extension =
- ✭ [See Demo](https://feedthemsocial.com/instagram-slider/)
+ ✭ [See Demo](https://feedthemsocial.com/instagram-slider-feed-demo/)
 
 = TikTok Extension =
  ✭ [See Demo](https://feedthemsocial.com/tiktok-feed-demo/)

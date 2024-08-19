@@ -132,8 +132,9 @@ class Feeds_CPT {
         $this->metabox_functions = $metabox_functions;
 
         // If Premium add Functionality!
-        if ( is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
+        if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
             //Premium Features here.
+            // Not being used atm
         }
 
         //Access Token Options.
@@ -179,7 +180,7 @@ class Feeds_CPT {
         // Rename Submenu Item to Feeds!
         add_filter( 'attribute_escape', array( $this, 'fts_rename_submenu_name' ), 10, 2 );
 
-        // Add Shortcode! Not beeing used atm.
+        // Add Shortcode! Not being used atm.
         //add_shortcode( 'fts_list', array( $this, 'fts_display_list' ) );
 
         // Set Current Feed CPT ID.
@@ -222,7 +223,7 @@ class Feeds_CPT {
      */
     public function add_custom_body_class_admin($classes) {
 
-        if ( $this->isFeedThemPremiumActive() ) {
+        if ( $this->isFeedThemPremiumActive() || $this->isFeedThemSocialInstagramSliderActive() ) {
             // This is used for the areas we want to hide the text and link for, More than 6 Requires Premium
             $classes .= ' fts-premium-active';
         }
@@ -264,6 +265,19 @@ class Feeds_CPT {
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
         return is_plugin_active('feed-them-premium/feed-them-premium.php');
+    }
+
+    /**
+     * Is Feed Them Social Instagram Slider Active
+     *
+     * Used to aid in the check to display custom body classes.
+     *
+     * @since 4.2.0
+     */
+    private function isFeedThemSocialInstagramSliderActive() {
+        include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+        return is_plugin_active('feed-them-social-instagram-slider/feed-them-social-instagram-slider.php');
     }
 
     /**
@@ -664,13 +678,13 @@ class Feeds_CPT {
         }
 
         // Feed Settings Metabox.
-        add_meta_box( 'ft-galleries-upload-mb', esc_html__( 'Feed Settings', 'feed_them_social' ), array( $this, 'fts_tab_menu_metabox' ), 'fts', 'normal', 'high', null );
+        add_meta_box( 'ft-galleries-upload-mb', esc_html__( 'Feed Them Social', 'feed_them_social' ), array( $this, 'fts_tab_menu_metabox' ), 'fts', 'normal', 'high', null );
 
         // Feed Shortcode Metabox.
         add_meta_box( 'ft-galleries-shortcode-side-mb', esc_html__( 'Feed Shortcode', 'feed_them_social' ), array( $this, 'fts_shortcode_meta_box' ), 'fts', 'side', 'high', null );
 
         // Covert Old Shortcode Metabox.
-        add_meta_box( 'ft-galleries-old-shortcode-side-mb', esc_html__( 'Convert Old Shortcode', 'feed_them_social' ), array( $this, 'fts_old_shortcode_meta_box' ), 'fts', 'side', 'high', null );
+        // add_meta_box( 'ft-galleries-old-shortcode-side-mb', esc_html__( 'Convert Old Shortcode', 'feed_them_social' ), array( $this, 'fts_old_shortcode_meta_box' ), 'fts', 'side', 'high', null );
 
         // Export/Import feed options
         add_meta_box( 'fts-import-export-feed-options-side-mb', esc_html__( 'Export/Import', 'feed_them_social' ), array( $this, 'fts_import_export_feed_options_meta_box' ), 'fts', 'side', 'low', null );
@@ -864,15 +878,15 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function tab_facebook_feed() {?>
-<div class="fts-cpt-main-options">
-    <?php
+        <div class="fts-cpt-main-options">
+            <?php
 
-        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook'], null, $this->feed_cpt_id );
+                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook'], null, $this->feed_cpt_id );
 
-    ?>
+            ?>
 
-    <div class="clear"></div>
-</div>
+            <div class="clear"></div>
+        </div>
 
         <div class="fts-cpt-extra-options">
             <?php
@@ -884,17 +898,17 @@ class Feeds_CPT {
             //Facebook Like Button or Box Options.
             echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_like_button_box_options'], null, $this->feed_cpt_id );
 
+            //Facebook Style Options.
+            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_style_options'], null, $this->feed_cpt_id );
+
+            //Facebook Language Options.
+            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_languages_options'], null, $this->feed_cpt_id );
+
             //Facebook Reviews text and styles.
             echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_reviews_text_styles'], null, $this->feed_cpt_id );
 
             //Facebook Reviews and Overall Ratings styles.
             echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_reviews_overall_rating_styles'], null, $this->feed_cpt_id );
-
-            //Facebook Language Options.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_languages_options'], null, $this->feed_cpt_id );
-
-            //Facebook Style Options.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_style_options'], null, $this->feed_cpt_id );
 
             //Facebook Grid Style Options.
             echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_grid_style_options'], null, $this->feed_cpt_id );
@@ -934,14 +948,13 @@ class Feeds_CPT {
 
             $instagram_add_all_options = $instagram_additional_options->get_all_options();
 
-            //Instagram Follow Button Options.
+            // Instagram Follow Button Options.
             echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $this->feed_cpt_id );
-
-            // FTS Premium ACTIVE
-            if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
-                //Instagram Load More Options
-                echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $this->feed_cpt_id );
-            }?>
+            // Instagram Slider Navigation Colors
+            echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_slider_color_options'], null, $this->feed_cpt_id );
+            // Instagram Load more button Options
+            echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $this->feed_cpt_id );
+           ?>
 
             <div class="clear"></div>
         </div>
@@ -1042,7 +1055,7 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function tab_combine_streams_feed() { ?>
-<div class="fts-cpt-main-options-combined">
+<div class="fts-cpt-main-options fts-cpt-main-options-combined">
     <?php
 
         echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine'], null, $this->feed_cpt_id );

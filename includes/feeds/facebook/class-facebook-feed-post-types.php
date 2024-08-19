@@ -162,8 +162,10 @@ class Facebook_Feed_Post_Types {
 						)
 					) . '</div>';
 				break;
-			case 'photo':
-				if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
+            case 'photo':
+                // SRL: 8-14-24. Leaving this but I don't think this if statement should be here, it makes no sense since a case: photo can be in a regular feed not just
+                // an album_photos type feed, these case's are about the post type coming from facebook.
+				//if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
 					if ( isset( $saved_feed_options['facebook_page_word_count'] ) ) {
                         $trunacate_words = new \FeedThemSocialTruncateHTML();
 						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
@@ -211,7 +213,7 @@ class Facebook_Feed_Post_Types {
 								)
 							) . '</div>';
 					}
-				}
+				//}
 				break;
 			case 'albums':
 				if ( 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
@@ -711,7 +713,7 @@ class Facebook_Feed_Post_Types {
 			case 'video_direct_response' :
 			case 'video_inline' :
 				echo '<a href="' . esc_url( $fb_link ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-name fb-id' . esc_attr( $fb_post_id ) . '">' . wp_kses(
-						$this->facebook_tag_filter( $fb_name ),
+                        $fb_name,
 						array(
 							'a'      => array(
 								'href'  => array(),
@@ -725,9 +727,8 @@ class Facebook_Feed_Post_Types {
 					) . '</a>';
 				break;
 			default:
-				$fb_name = $this->facebook_tag_filter( $fb_name );
-				echo '<a href="' . esc_url( $fb_link ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-name">' . wp_kses(
-						$this->facebook_tag_filter( $fb_name ),
+				echo '<a href="' . $fb_link . '" target="_blank" rel="noreferrer" class="fts-jal-fb-name">' . wp_kses(
+                        $fb_name,
 						array(
 							'a'      => array(
 								'href'  => array(),
@@ -824,8 +825,6 @@ class Facebook_Feed_Post_Types {
 		$facebook_post_places_name       = $facebook_post->place->name ?? '';
 		$facebook_post_places_id         = $facebook_post->place->id ?? '';
 
-		$facebook_post_attachments_title = $facebook_post->attachments->data[0]->title ?? '';
-		$facebook_post_attachments       = $facebook_post->attachments ?? '';
 		$facebook_post_picture_job       = $facebook_post->attachments->data[0]->media->image->src ?? '';
 		// YouTube and Vimeo embed url.
 		$facebook_post_video_embed       = $facebook_post->attachments->data[0]->media->source ?? '';
@@ -834,6 +833,12 @@ class Facebook_Feed_Post_Types {
 		$facebook_post_from_id_picture   = $facebook_post_from_id !== $saved_feed_options['fts_facebook_custom_api_token_user_id'] ? $saved_feed_options['fts_facebook_custom_api_token_user_id'] : $facebook_post_from_id;
 		$fts_main_profile_pic_url        = $facebook_post->fts_main_profile_pic_url ?? '';
         $facebook_post_from_name         = $facebook_post->from->name ?? '';
+
+        //shared_story post type
+        $facebook_shared_post_link       = $facebook_post->attachments->data[0]->target->url ?? '';
+        $facebook_shared_post_title      = $facebook_post->attachments->data[0]->title ?? '';
+        $facebook_post_attachments       = $facebook_post->attachments ?? '';
+
 
 		$facebook_post_final_story       = '';
 		$facebook_post_dir               = '';
@@ -1453,7 +1458,8 @@ class Facebook_Feed_Post_Types {
 				// echo isset($saved_feed_options['facebook_popup'] ) && $saved_feed_options['facebook_popup']  == 'yes' ? '<div class="fts-fb-caption"><a href="' . $facebook_post_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html('View on Facebook', 'feed-them-social') . '</a></div> ' : '';.
 				if ( isset( $host ) && 'www.facebook.com' === $host && 'events' === $facebook_post_dir ) {
 					$this->facebook_post_photo( $facebook_post_link, $saved_feed_options, $facebook_post_from_name, $facebook_post_picture );
-				} elseif ( strpos( $facebook_post_link, 'soundcloud' ) > 0 ) {
+				}
+                elseif ( strpos( $facebook_post_link, 'soundcloud' ) > 0 ) {
 					// Get the SoundCloud URL.
 					$url = $facebook_post_link;
 					// Get the JSON data of song details with embed code from SoundCloud oEmbed.
@@ -1497,7 +1503,18 @@ class Facebook_Feed_Post_Types {
 				// Description Wrap.
 				echo '<div class="fts-jal-fb-description-wrap">';
 				// Output Link Name.
-				$this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
+
+
+
+            // Fix this to be proper
+             //   if( $facebook_shared_post_title !== 'www.linkedin.com') {
+                    $this->fts_facebook_post_name( $facebook_shared_post_link, $facebook_post_name, $facebook_post_type );
+
+             //   }
+
+
+
+
 				if ( isset( $host ) && 'www.facebook.com' === $host && 'events' === $facebook_post_dir ) {
 					echo ' &#9658; ';
 					echo '<a href="' . esc_url( $facebook_post_link ) . '" class="fts-jal-fb-name" target="_blank" rel="noreferrer">' . esc_html( $facebook_post_link_event_name ) . '</a>';

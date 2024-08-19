@@ -816,13 +816,13 @@ class Tiktok_Feed {
 
 						if ( isset( $grid ) && $grid === 'yes' ) {
 						// Start Grid format where there is a new div wrapper ?>
-				<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" class="fts-slicker-twitter-posts masonry js-masonry <?php echo esc_attr( $fts_dynamic_class_name );
+				<div id="tiktok-feed-<?php echo esc_attr( $fts_dynamic_class_name ); ?>" class="fts-slicker-twitter-posts masonry js-masonry <?php echo esc_attr( $fts_dynamic_class_name );
 					if ( isset( $popup ) && 'yes' === $popup ) {?> popup-gallery-tiktok<?php } ?>" style='margin:0 auto' data-masonry-options='{"itemSelector": ".fts-tweeter-wrap", "isFitWidth": true, "transitionDuration": 0 }'>
 						<?php }
 
 						// Start of Classic feed wrapper
 						elseif (isset( $type ) && $type === 'classic' && isset( $grid ) && $grid !== 'yes') {  ?>
-						<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div <?php
+						<div id="tiktok-feed-<?php echo esc_attr( $fts_dynamic_class_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div <?php
 									if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
 										?>fts-twitter-scrollable<?php
 									}
@@ -833,7 +833,7 @@ class Tiktok_Feed {
 
 						// Start of Responsive feed wrapper
 						elseif  (isset( $type ) && $type === 'responsive' && isset( $grid ) && $grid !== 'yes') { ?>
-						<div id="twitter-feed-<?php echo esc_attr( $display_name ); ?>" data-ftsi-columns="<?php echo esc_attr( $tiktok_columns ); ?>" data-ftsi-columns-tablet="<?php echo esc_attr( $tiktok_columns_tablet ); ?>" data-ftsi-columns-mobile="<?php echo esc_attr( $tiktok_columns_mobile ); ?>" data-ftsi-height="<?php echo esc_attr( $tiktok_image_height ); ?>" data-ftsi-margin="<?php echo esc_attr( $tiktok_space_between_photos ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['tiktok_page_width'] ) ? esc_attr( $saved_feed_options['tiktok_page_width']  ) : ''; ?>" class="fts-twitter-div <?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
+						<div id="tiktok-feed-<?php echo esc_attr( $fts_dynamic_class_name ); ?>" data-ftsi-columns="<?php echo esc_attr( $tiktok_columns ); ?>" data-ftsi-columns-tablet="<?php echo esc_attr( $tiktok_columns_tablet ); ?>" data-ftsi-columns-mobile="<?php echo esc_attr( $tiktok_columns_mobile ); ?>" data-ftsi-height="<?php echo esc_attr( $tiktok_image_height ); ?>" data-ftsi-margin="<?php echo esc_attr( $tiktok_space_between_photos ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['tiktok_page_width'] ) ? esc_attr( $saved_feed_options['tiktok_page_width']  ) : ''; ?>" class="fts-twitter-div <?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
 							if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
 								?> fts-twitter-scrollable<?php
 							}

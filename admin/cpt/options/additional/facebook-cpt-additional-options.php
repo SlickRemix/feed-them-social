@@ -35,10 +35,10 @@ class Facebook_Additional_Options {
 	 */
 	public function __construct() {
         $this->like_button_box_options();
-		$this->reviews_text_styles();
-		$this->reviews_overall_rating_styles();
+        $this->global_facebook_style_options();
 		$this->language_options();
-		$this->global_facebook_style_options();
+        $this->reviews_text_styles();
+        $this->reviews_overall_rating_styles();
         $this->global_facebook_grid_style_options();
 		$this->error_messages_options();
         $this->load_more_options();
@@ -180,6 +180,392 @@ class Facebook_Additional_Options {
 
 
     /**
+     * Language Options
+     *
+     * Language Options
+     *
+     * @return mixed
+     * @since 1.0.0
+     */
+    public function language_options() {
+        $this->all_options['facebook_languages_options'] = array(
+            'section_attr_key'   => 'facebook_languages_options_',
+            'section_title'      => esc_html__( 'Language Options', 'feed-them-social' ),
+
+            // 'section_wrap_id' => 'fts-tab-content1',
+            'section_wrap_class' => 'fts-tab-content  fts-fb-language-options',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form',
+            'form_wrap_id'       => 'fts-fb-page-form',
+            //Options Wrap Class
+            'options_wrap_class'       => 'fts-cpt-additional-options',
+
+            // Token Check // We'll use these option for premium messages in the future.
+            'premium_msg_boxes'  => array(
+                'album_videos' => array(
+                    'req_plugin' => 'feed_them_social_premium',
+                    'msg'        => '',
+                ),
+                'reviews'      => array(
+                    'req_plugin' => 'facebook_reviews',
+                    'msg'        => '',
+                ),
+            ),
+
+            'main_options'       => array(
+
+                // Language For Facebook Feeds.
+                array(
+                    'input_wrap_class' => 'fb_language',
+                    'option_type'      => 'select_fb_language',
+                    'label'            => esc_html__( 'Facebook Language', 'feed-them-social' ),
+                    'instructional-text' => sprintf(
+                        esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the Facebook Titles, Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
+                        '<a href="' . esc_url( 'options-general.php' ) . '" target="_blank">',
+                        '</a>',
+                        '<a href="' . esc_url( 'https://translate.wordpress.org/projects/wp-plugins/feed-them-social/' ) . '" target="_blank">',
+                        '</a>'
+                    ),
+                    'type'             => 'text',
+                    'id'               => 'fb-lang-btn',
+                    'name'             => 'fb_language',
+                    'default_value'    => 'en_US',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                    ),
+                ),
+                // Hide Notice on Front End for Facebook Feed.
+                array(
+                    'input_wrap_class' => 'fb_hide_no_posts_message',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Hide Notice on Front End', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_hide_no_posts_message',
+                    'name'             => 'fb_hide_no_posts_message',
+                    'default_value'    => 'yes',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                    ),
+                ),
+
+                // View on Facebook Text.
+                array(
+                    'input_wrap_class' => 'fb_view_on_fb_fts',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'View on Facebook', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'facebook_view_on_facebook',
+                    'name'             => 'facebook_view_on_facebook',
+                    'placeholder'      => 'View on Facebook',
+                    'default_value'    => esc_html__( 'View on Facebook', 'feed-them-social' ),
+                ),
+            ),
+        );
+
+        return $this->all_options['facebook_languages_options'];
+    } //END Language Options.
+
+
+    /**
+     * Global Facebook Style Options
+     *
+     * Global Facebook Style Options
+     *
+     * @return mixed
+     * @since 1.0.0
+     */
+    public function global_facebook_style_options() {
+        $this->all_options['facebook_style_options'] = array(
+            'section_attr_key'   => 'facebook_style_options_',
+            // 'section_title'      => esc_html__( 'Facebook Styles', 'feed-them-social' ),
+            // 'section_wrap_id' => 'fts-tab-content1',
+            'section_wrap_class' => 'fts-tab-content  fts-fb-styles',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form',
+            'form_wrap_id'       => 'fts-fb-page-form',
+            //Options Wrap Class
+            'options_wrap_class'       => 'fts-cpt-additional-options',
+
+            // Token Check // We'll use these option for premium messages in the future.
+            'premium_msg_boxes'  => array(
+                'album_videos' => array(
+                    'req_plugin' => 'feed_them_social_premium',
+                    'msg'        => '',
+                ),
+                'reviews'      => array(
+                    'req_plugin' => 'facebook_reviews',
+                    'msg'        => '',
+                ),
+            ),
+
+            'main_options'       => array(
+
+                // Page Title Tag.
+                array(
+                    'input_wrap_class' => 'fb_title_htag',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Page Title Tag', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_title_htag',
+                    'name'             => 'fb_title_htag',
+                    'default_value'    => 'h1',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'h1 (Default)', 'feed-them-social' ),
+                            'value' => 'h1',
+                        ),
+                        array(
+                            'label' => esc_html__( 'h2', 'feed-them-social' ),
+                            'value' => 'h2',
+                        ),
+                        array(
+                            'label' => esc_html__( 'h3', 'feed-them-social' ),
+                            'value' => 'h3',
+                        ),
+                        array(
+                            'label' => esc_html__( 'h4', 'feed-them-social' ),
+                            'value' => 'h4',
+                        ),
+                        array(
+                            'label' => esc_html__( 'h5', 'feed-them-social' ),
+                            'value' => 'h5',
+                        ),
+                        array(
+                            'label' => esc_html__( 'h6', 'feed-them-social' ),
+                            'value' => 'h6',
+                        ),
+                    ),
+                ),
+
+                // Page Title Size.
+                array(
+                    'input_wrap_class' => 'fb_title_htag_size',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Page Title Size', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_title_htag_size',
+                    'name'             => 'fb_title_htag_size',
+                    'placeholder'      => '16px',
+                    'default_value'    => '',
+                ),
+
+                // Text after your FB name.
+                array(
+                    'input_wrap_class' => 'fb_hide_shared_by_etc_text',
+                    'option_type'      => 'select',
+                    'label'            =>
+                        sprintf(
+                            esc_html__( 'Text after your Facebook name %1$sie* Shared by or New Photo Added etc.%2$s', 'feed-them-social' ),
+                            '<br/><small>',
+                            '</small>'
+                        ),
+                    'type'             => 'text',
+                    'id'               => 'facebook_hide_shared_by_etc_text',
+                    'name'             => 'facebook_hide_shared_by_etc_text',
+                    'default_value'    => 'no',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                    ),
+                ),
+
+                // Hide Images in Posts.
+                array(
+                    'input_wrap_class' => 'fb_hide_images_in_posts',
+                    'option_type'      => 'select',
+                    'label'            => esc_html__( 'Hide Images in Posts', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_hide_images_in_posts',
+                    'name'             => 'fb_hide_images_in_posts',
+                    'default_value'    => 'no',
+                    'options'          => array(
+                        array(
+                            'label' => esc_html__( 'No', 'feed-them-social' ),
+                            'value' => 'no',
+                        ),
+                        array(
+                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
+                            'value' => 'yes',
+                        ),
+                    ),
+                ),
+
+                // Max-width for Images & Videos.
+                array(
+                    'input_wrap_class' => 'fb_max_image_width',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Max-width for Images & Videos', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_max_image_width',
+                    'name'             => 'fb_max_image_width',
+                    'placeholder'      => '500px',
+                    'default_value'    => '',
+                ),
+
+                // Feed Header Extra Text Color.
+                array(
+                    'input_wrap_class' => 'fb_header_extra_text_color fts-color-picker',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Header Extra Text Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_header_extra_text_color',
+                    'name'             => 'fb_header_extra_text_color',
+                    'placeholder'      => '#222',
+                    'default_value'    => '',
+                ),
+
+                // Feed Description Text Size.
+                array(
+                    'input_wrap_class' => 'fb_text_size',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Description Text Size', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_text_size',
+                    'name'             => 'fb_text_size',
+                    'placeholder'      => '12px',
+                    'default_value'    => '',
+                ),
+
+                // Feed Text Color.
+                array(
+                    'input_wrap_class' => 'fb_text_color fts-color-picker',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Text Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_text_color',
+                    'name'             => 'fb_text_color',
+                    'placeholder'      => '#222',
+                    'default_value'    => '',
+                ),
+
+                // Feed Link Color.
+                array(
+                    'input_wrap_class' => 'fb_link_color fts-color-picker',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Link Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_link_color',
+                    'name'             => 'fb_link_color',
+                    'placeholder'      => '#222',
+                    'default_value'    => '',
+                ),
+
+                // Feed Link Color.
+                array(
+                    'input_wrap_class' => 'fb_link_color_hover fts-color-picker',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Link Color Hover', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_link_color_hover',
+                    'name'             => 'fb_link_color_hover',
+                    'placeholder'      => '#ddd',
+                    'default_value'    => '',
+                ),
+
+                // Feed Width.
+                array(
+                    'input_wrap_class' => 'fb_feed_width',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Width', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_feed_width',
+                    'name'             => 'fb_feed_width',
+                    'placeholder'      => '500px',
+                    'default_value'    => '',
+                ),
+
+                // Feed Margin.
+                array(
+                    'input_wrap_class' => 'fb_feed_margin',
+                    'option_type'      => 'input',
+                    'label'            =>
+                        sprintf(
+                            esc_html__( 'Feed Margin %1$sTo center feed type auto%2$s', 'feed-them-social' ),
+                            '<br/><small>',
+                            '</small>'
+                        ),
+                    'type'             => 'text',
+                    'id'               => 'fb_feed_margin',
+                    'name'             => 'fb_feed_margin',
+                    'placeholder'      => '10px',
+                    'default_value'    => '',
+                ),
+
+                // Feed Padding.
+                array(
+                    'input_wrap_class' => 'fb_feed_padding',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Padding', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_feed_padding',
+                    'name'             => 'fb_feed_padding',
+                    'placeholder'      => '10px',
+                    'default_value'    => '',
+                ),
+
+                // Post Background Color.
+                array(
+                    'input_wrap_class' => 'fb_post_background_color fts-color-picker',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Post Background Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_post_background_color',
+                    'name'             => 'fb_post_background_color',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
+
+                // Feed Background Color.
+                array(
+                    'input_wrap_class' => 'fb_feed_background_color fts-color-picker',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Feed Background Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_feed_background_color',
+                    'name'             => 'fb_feed_background_color',
+                    'placeholder'      => '#ddd',
+                    'default_value'    => '',
+                ),
+
+                // Border Bottom Color.
+                array(
+                    'input_wrap_class' => 'fb_border_bottom_color fts-color-picker',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Border Bottom Color', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'fb_border_bottom_color',
+                    'name'             => 'fb_border_bottom_color',
+                    'placeholder'      => '#ddd',
+                    'default_value'    => '',
+                ),
+
+            ),
+        );
+
+        return $this->all_options['facebook_style_options'];
+    } //END Global Facebook Style Options.
+
+    /**
 	 * Reviews: Style and Text Options
 	 *
 	 * Options for the Reviews: Style and Text Options.
@@ -190,7 +576,7 @@ class Facebook_Additional_Options {
 	public function reviews_text_styles() {
 		$this->all_options['facebook_reviews_text_styles'] = array(
 			'section_attr_key'   => 'facebook_reviews_text_styles_',
-            'section_title'      => esc_html__( 'Reviews: Style and Text Options', 'feed-them-social' ),
+            'section_title'      => esc_html__( 'Facebook Reviews', 'feed-them-social' ),
 			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content fts-fb-reviews-styles',
 			// Form Info.
@@ -204,7 +590,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Recommended Background Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
+							esc_html__( 'Background Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -221,7 +607,7 @@ class Facebook_Additional_Options {
 					'option_type'      => 'input',
 					'label'            =>
 						sprintf(
-							esc_html__( 'Recommended Text Color %1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
+							esc_html__( 'Text Color %1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
 						),
@@ -307,7 +693,7 @@ class Facebook_Additional_Options {
 	public function reviews_overall_rating_styles() {
 		$this->all_options['facebook_reviews_overall_rating_styles'] = array(
 			'section_attr_key'   => 'facebook_reviews_overall_rating_styles_',
-			'section_title'      => esc_html__( 'Reviews: Overall Rating Style Options', 'feed-them-social' ),
+			'section_title'      => esc_html__( 'Overall Rating', 'feed-them-social' ),
 			// 'section_wrap_id' => 'fts-tab-content1',
 			'section_wrap_class' => 'fts-tab-content  fts-fb-reviews-styles',
 			// Form Info.
@@ -465,393 +851,6 @@ class Facebook_Additional_Options {
 
 		return $this->all_options['facebook_reviews_overall_rating_styles'];
 	} //END Reviews: Overall Rating Style Options
-
-
-	/**
-	 * Language Options
-	 *
-	 * Language Options
-	 *
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function language_options() {
-		$this->all_options['facebook_languages_options'] = array(
-			'section_attr_key'   => 'facebook_languages_options_',
-			'section_title'      => esc_html__( 'Language Options', 'feed-them-social' ),
-
-			// 'section_wrap_id' => 'fts-tab-content1',
-			'section_wrap_class' => 'fts-tab-content  fts-fb-language-options',
-			// Form Info.
-			'form_wrap_classes'  => 'fb-page-shortcode-form',
-			'form_wrap_id'       => 'fts-fb-page-form',
-			//Options Wrap Class
-			'options_wrap_class'       => 'fts-cpt-additional-options',
-
-			// Token Check // We'll use these option for premium messages in the future.
-			'premium_msg_boxes'  => array(
-				'album_videos' => array(
-					'req_plugin' => 'feed_them_social_premium',
-					'msg'        => '',
-				),
-				'reviews'      => array(
-					'req_plugin' => 'facebook_reviews',
-					'msg'        => '',
-				),
-			),
-
-            'main_options'       => array(
-
-                // Language For Facebook Feeds.
-                array(
-                    'input_wrap_class' => 'fb_language',
-                    'option_type'      => 'select_fb_language',
-                    'label'            => esc_html__( 'Facebook Language', 'feed-them-social' ),
-                    'instructional-text' => sprintf(
-                        esc_html__( 'You must have your Facebook Access Token saved above before this feature will work. This option will translate the Facebook Titles, Like Button or Box Text. It will not translate your actual post. To translate the Feed Them Social parts of this plugin just set your language on the %1$sWordPress settings%2$s page. If would like to help translate please %3$sClick Here.%4$s', 'feed-them-social' ),
-                        '<a href="' . esc_url( 'options-general.php' ) . '" target="_blank">',
-                        '</a>',
-                        '<a href="' . esc_url( 'https://translate.wordpress.org/projects/wp-plugins/feed-them-social/' ) . '" target="_blank">',
-                        '</a>'
-                    ),
-                    'type'             => 'text',
-                    'id'               => 'fb-lang-btn',
-                    'name'             => 'fb_language',
-                    'default_value'    => 'en_US',
-                    'options'          => array(
-                        array(
-                            'label' => esc_html__( 'Yes', 'feed-them-social' ),
-                            'value' => 'yes',
-                        ),
-                        array(
-                            'label' => esc_html__( 'No', 'feed-them-social' ),
-                            'value' => 'no',
-                        ),
-                    ),
-                ),
-				// Hide Notice on Front End for Facebook Feed.
-				array(
-					'input_wrap_class' => 'fb_hide_no_posts_message',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Notice on Front End', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_hide_no_posts_message',
-					'name'             => 'fb_hide_no_posts_message',
-					'default_value'    => 'yes',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'Yes', 'feed-them-social' ),
-							'value' => 'yes',
-						),
-						array(
-							'label' => esc_html__( 'No', 'feed-them-social' ),
-							'value' => 'no',
-						),
-					),
-				),
-
-				// View on Facebook Text.
-				array(
-					'input_wrap_class' => 'fb_view_on_fb_fts',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'View on Facebook', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'facebook_view_on_facebook',
-					'name'             => 'facebook_view_on_facebook',
-					'placeholder'      => 'View on Facebook',
-					'default_value'    => esc_html__( 'View on Facebook', 'feed-them-social' ),
-				),
-			),
-		);
-
-		return $this->all_options['facebook_languages_options'];
-	} //END Language Options.
-
-
-	/**
-	 * Global Facebook Style Options
-	 *
-	 * Global Facebook Style Options
-	 *
-	 * @return mixed
-	 * @since 1.0.0
-	 */
-	public function global_facebook_style_options() {
-		$this->all_options['facebook_style_options'] = array(
-			'section_attr_key'   => 'facebook_style_options_',
-			'section_title'      => esc_html__( 'Facebook Styles', 'feed-them-social' ),
-			// 'section_wrap_id' => 'fts-tab-content1',
-			'section_wrap_class' => 'fts-tab-content  fts-fb-styles',
-			// Form Info.
-			'form_wrap_classes'  => 'fb-page-shortcode-form',
-			'form_wrap_id'       => 'fts-fb-page-form',
-			//Options Wrap Class
-			'options_wrap_class'       => 'fts-cpt-additional-options',
-
-			// Token Check // We'll use these option for premium messages in the future.
-			'premium_msg_boxes'  => array(
-				'album_videos' => array(
-					'req_plugin' => 'feed_them_social_premium',
-					'msg'        => '',
-				),
-				'reviews'      => array(
-					'req_plugin' => 'facebook_reviews',
-					'msg'        => '',
-				),
-			),
-
-			'main_options'       => array(
-
-				// Page Title Tag.
-				array(
-					'input_wrap_class' => 'fb_title_htag',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Page Title Tag', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_title_htag',
-					'name'             => 'fb_title_htag',
-					'default_value'    => 'h1',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'h1 (Default)', 'feed-them-social' ),
-							'value' => 'h1',
-						),
-						array(
-							'label' => esc_html__( 'h2', 'feed-them-social' ),
-							'value' => 'h2',
-						),
-						array(
-							'label' => esc_html__( 'h3', 'feed-them-social' ),
-							'value' => 'h3',
-						),
-						array(
-							'label' => esc_html__( 'h4', 'feed-them-social' ),
-							'value' => 'h4',
-						),
-						array(
-							'label' => esc_html__( 'h5', 'feed-them-social' ),
-							'value' => 'h5',
-						),
-						array(
-							'label' => esc_html__( 'h6', 'feed-them-social' ),
-							'value' => 'h6',
-						),
-					),
-				),
-
-				// Page Title Size.
-				array(
-					'input_wrap_class' => 'fb_title_htag_size',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Page Title Size', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_title_htag_size',
-					'name'             => 'fb_title_htag_size',
-					'placeholder'      => '16px',
-					'default_value'    => '',
-				),
-
-				// Text after your FB name.
-				array(
-					'input_wrap_class' => 'fb_hide_shared_by_etc_text',
-					'option_type'      => 'select',
-					'label'            =>
-						sprintf(
-							esc_html__( 'Text after your Facebook name %1$sie* Shared by or New Photo Added etc.%2$s', 'feed-them-social' ),
-							'<br/><small>',
-							'</small>'
-						),
-					'type'             => 'text',
-					'id'               => 'facebook_hide_shared_by_etc_text',
-					'name'             => 'facebook_hide_shared_by_etc_text',
-					'default_value'    => 'no',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'No', 'feed-them-social' ),
-							'value' => 'no',
-						),
-						array(
-							'label' => esc_html__( 'Yes', 'feed-them-social' ),
-							'value' => 'yes',
-						),
-					),
-				),
-
-				// Hide Images in Posts.
-				array(
-					'input_wrap_class' => 'fb_hide_images_in_posts',
-					'option_type'      => 'select',
-					'label'            => esc_html__( 'Hide Images in Posts', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_hide_images_in_posts',
-					'name'             => 'fb_hide_images_in_posts',
-					'default_value'    => 'no',
-					'options'          => array(
-						array(
-							'label' => esc_html__( 'No', 'feed-them-social' ),
-							'value' => 'no',
-						),
-						array(
-							'label' => esc_html__( 'Yes', 'feed-them-social' ),
-							'value' => 'yes',
-						),
-					),
-				),
-
-				// Max-width for Images & Videos.
-				array(
-					'input_wrap_class' => 'fb_max_image_width',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Max-width for Images & Videos', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_max_image_width',
-					'name'             => 'fb_max_image_width',
-					'placeholder'      => '500px',
-					'default_value'    => '',
-				),
-
-				// Feed Header Extra Text Color.
-				array(
-					'input_wrap_class' => 'fb_header_extra_text_color fts-color-picker',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Header Extra Text Color', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_header_extra_text_color',
-					'name'             => 'fb_header_extra_text_color',
-					'placeholder'      => '#222',
-					'default_value'    => '',
-				),
-
-				// Feed Description Text Size.
-				array(
-					'input_wrap_class' => 'fb_text_size',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Description Text Size', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_text_size',
-					'name'             => 'fb_text_size',
-					'placeholder'      => '12px',
-					'default_value'    => '',
-				),
-
-				// Feed Text Color.
-				array(
-					'input_wrap_class' => 'fb_text_color fts-color-picker',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Text Color', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_text_color',
-					'name'             => 'fb_text_color',
-					'placeholder'      => '#222',
-					'default_value'    => '',
-				),
-
-				// Feed Link Color.
-				array(
-					'input_wrap_class' => 'fb_link_color fts-color-picker',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Link Color', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_link_color',
-					'name'             => 'fb_link_color',
-					'placeholder'      => '#222',
-					'default_value'    => '',
-				),
-
-				// Feed Link Color.
-				array(
-					'input_wrap_class' => 'fb_link_color_hover fts-color-picker',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Link Color Hover', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_link_color_hover',
-					'name'             => 'fb_link_color_hover',
-					'placeholder'      => '#ddd',
-					'default_value'    => '',
-				),
-
-				// Feed Width.
-				array(
-					'input_wrap_class' => 'fb_feed_width',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Width', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_feed_width',
-					'name'             => 'fb_feed_width',
-					'placeholder'      => '500px',
-					'default_value'    => '',
-				),
-
-				// Feed Margin.
-				array(
-					'input_wrap_class' => 'fb_feed_margin',
-					'option_type'      => 'input',
-					'label'            =>
-						sprintf(
-							esc_html__( 'Feed Margin %1$sTo center feed type auto%2$s', 'feed-them-social' ),
-							'<br/><small>',
-							'</small>'
-						),
-					'type'             => 'text',
-					'id'               => 'fb_feed_margin',
-					'name'             => 'fb_feed_margin',
-					'placeholder'      => '10px',
-					'default_value'    => '',
-				),
-
-				// Feed Padding.
-				array(
-					'input_wrap_class' => 'fb_feed_padding',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Padding', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_feed_padding',
-					'name'             => 'fb_feed_padding',
-					'placeholder'      => '10px',
-					'default_value'    => '',
-				),
-
-                // Post Background Color.
-                array(
-                    'input_wrap_class' => 'fb_post_background_color fts-color-picker',
-                    'option_type'      => 'input',
-                    'label'            => esc_html__( 'Post Background Color', 'feed-them-social' ),
-                    'type'             => 'text',
-                    'id'               => 'fb_post_background_color',
-                    'name'             => 'fb_post_background_color',
-                    'placeholder'      => '',
-                    'default_value'    => '',
-                ),
-
-				// Feed Background Color.
-				array(
-					'input_wrap_class' => 'fb_feed_background_color fts-color-picker',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Feed Background Color', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_feed_background_color',
-					'name'             => 'fb_feed_background_color',
-					'placeholder'      => '#ddd',
-					'default_value'    => '',
-				),
-
-				// Border Bottom Color.
-				array(
-					'input_wrap_class' => 'fb_border_bottom_color fts-color-picker',
-					'option_type'      => 'input',
-					'label'            => esc_html__( 'Border Bottom Color', 'feed-them-social' ),
-					'type'             => 'text',
-					'id'               => 'fb_border_bottom_color',
-					'name'             => 'fb_border_bottom_color',
-					'placeholder'      => '#ddd',
-					'default_value'    => '',
-				),
-
-			),
-		);
-
-		return $this->all_options['facebook_style_options'];
-	} //END Global Facebook Style Options.
 
 
     /**

@@ -39,7 +39,18 @@
         -webkit-transform: scale(1)
     }
 }
-
+.fts-full-screen-editing-wrap-active .fts-cpt-main-options,
+.fts-full-screen-editing-wrap-active .fts-cpt-extra-options {
+    padding: 10px 40px 0;
+    min-width:260px;
+}
+.fts-cpt-main-options, .fts-cpt-extra-options {
+    padding: 10px 30px 0;
+    background: #f8f8f8;
+    overflow: auto;
+    max-height: 600px;
+    min-width:200px;
+}
 .fts-facebook_group-shortcode-form:hover .feed-them-icon-wrap a.facebook-icon,.fts-facebook_group-shortcode-form:hover a,a.icon-animate-small {
     background-position: top right!important;
     background-size: 34px!important;
@@ -47,7 +58,7 @@
     width: 34px!important
 }
 
-.display,.feed-them-social-admin-input-wrap.combine_grid_option,.ft-global-option-wrap-ft-watermark-image,.fts-combine-streams-shortcode-form .sectioned-options-title,.slider_options_wrap.not-active-premium-fields,.slideshow-wrap .feed-them-social-admin-input-default,html {
+.display,.feed-them-social-admin-input-wrap.combine_grid_option,.ft-global-option-wrap-ft-watermark-image,.fts-combine-streams-shortcode-form .sectioned-options-title,.slideshow-wrap .feed-them-social-admin-input-default,html {
     display: block!important
 }
 
@@ -55,8 +66,11 @@
     clear: both
 }
 
-#combine_streams_feed .fts-success-token-content,#delete-action,#facebook_page_id,#feed_type,#ftg-tab-content1 .fts-note-footer,#ftg-tab-content6 .align-images-wrap,#fts-color-options-main-wrapper-css-input,#fts-import-export-feed-options-side-mb .fts-import-export-tab-content>div,#preview-action,.board-name,.combine-facebook-access-token-placeholder,.combine-facebook-wrap,.combine-grid-options-wrap,.combine-instagram-access-token-placeholder,.combine-instagram-basic-access-token-placeholder,.combine-instagram-business-access-token-placeholder,.combine-instagram-hashtag-option-text,.combine-instagram-wrap,.combine-pinterest-wrap,.combine-twitter-access-token-placeholder,.combine-twitter-hashtag-etc-wrap,.combine-twitter-wrap,.combine-youtube-access-token-placeholder,.combine-youtube-wrap,.combine_board_id,.combine_facebook_name .fts-token-wrap,.combine_instagram_hashtag,.combine_instagram_hashtag_select,.combine_instagram_hashtag_type,.combine_instagram_type,.combine_playlist_id,.combine_youtube_name,.das-text,.display-comments-wrap,.facebook-album-covers-since-date,.facebook-image-animation-option-wrap,.facebook-message-generator,.facebook-omit-album-covers,.facebook-reviews-wrap,.facebook_hide_date,.facebook_hide_name,.facebook_hide_thumbnail,.facebook_page_id .feed-them-social-admin-input-label,.facebook_show_media,.fb-page-grid-option-hide,.fb-reviews,.fb-video-play-btn-options-content,.fb-video-play-btn-options-wrap,.fb_album_photos_id,.final-instagram-user-id-textarea,.final-shortcode-textarea,.ft-gallery-settings-tabs-meta-wrap .tab-content-wrap .tab-pane,.ft-gallery-settings-tabs-meta-wrap input[type=text]:disabled,.ft-gallery-settings-tabs-meta-wrap select:disabled,.ft-gallery-styles-popup .tagchecklist,.ft-gallery-woo-btns-wrap-for-popup,.ft-image-id-for-popup,.ft-watermark-duplicate-image,.ft-wp-gallery-type .feed-them-social-admin-input-label,.ftg-media-tag-no-tags,.ftg-page-title-description-placement-option-hide,.fts-cpt-extra-options,.fts-custom-css-text,.fts-decrypted-token,.fts-facebook-grid-options-wrap,.fts-facebook-load-more-options-wrap,.fts-facebook-load-more-options2-wrap,.fts-facebook_group-shortcode-form .twitter_name,.fts-facebook_group-shortcode-form:hover .feed-them-icon-wrap a.facebook-icon,.fts-fb-event-option-wrap .twitter_name,.fts-fb-id,.fts-gallery-id,.fts-hide-me,.fts-hide-token,.fts-instagram-load-more-options-wrap,.fts-instagram-sub-menu-active .fts-instagram,.fts-instagram-waiting-color .active .ft_icon img,.fts-premium-options-message,.fts-social-icon-wrap-active .fts-instagram,.fts-success,.fts-super-facebook-options-wrap,.fts-tab-content1-combine .fts-instagram-successful-api-token,.fts-token-wrap .feed-them-social-admin-input-label,.fts-twitter-add-all-keys-click-option,.fts-twitter-grid-options-wrap,.fts-twitter-load-more-options-wrap,.fts-twitter-load-more-options2-wrap,.fts-youtube-load-more-options-wrap,.fts-youtube-load-more-options2-wrap,.fts_hide_zip_list,.hashtag-option-small-text,.inst-text-facebook-reviews,.instagram-feed-type-image-tab,.instagram-location-option-text,.instagram-profile-options-wrap,.instagram-shortcode-form,.instagram_hashtag,.instagram_hashtag_type,.js.fts_page_template_settings_page .handlediv,.like-box-wrap,.main-instagram-profile-options-wrap,.misc-pub-section:not(.misc-pub-post-status),.page-token,.pinterest-board-and-name-text,.reviews-options,.shortcode-generator-form,.slider_options_wrap,.slideshow-wrap,.tabs .fts-token-wrap input[type=text],.tabs div.fts-section .fts-twitter-combine,.tabs div.fts-section .fts-youtube-combine,.toggle-custom-textarea-hide,.twitter-hashtag-etc-wrap,.youtube_align_comments_wrap,.youtube_channelID2,.youtube_name,.youtube_name2,.youtube_playlistID,.youtube_playlistID2,.youtube_singleVideoID,.youtube_video_single_info_display,div#current-uploaded-image.closed {
-    display: none
+#combine_streams_feed .fts-success-token-content,#delete-action,#facebook_page_id,#feed_type,#ftg-tab-content1 .fts-note-footer,#ftg-tab-content6 .align-images-wrap,#fts-color-options-main-wrapper-css-input,#fts-import-export-feed-options-side-mb .fts-import-export-tab-content>div,#preview-action,.board-name,.combine-facebook-access-token-placeholder,.combine-facebook-wrap,.combine-grid-options-wrap,.combine-instagram-access-token-placeholder,.combine-instagram-basic-access-token-placeholder,.combine-instagram-business-access-token-placeholder,.combine-instagram-hashtag-option-text,.combine-instagram-wrap,.combine-pinterest-wrap,.combine-twitter-access-token-placeholder,.combine-twitter-hashtag-etc-wrap,.combine-twitter-wrap,.combine-youtube-access-token-placeholder,.combine-youtube-wrap,.combine_board_id,.combine_facebook_name .fts-token-wrap,.combine_instagram_hashtag,.combine_instagram_hashtag_select,.combine_instagram_hashtag_type,.combine_instagram_type,.combine_playlist_id,.combine_youtube_name,.das-text,.display-comments-wrap,.facebook-album-covers-since-date,.facebook-image-animation-option-wrap,.facebook-message-generator,.facebook-omit-album-covers,.facebook-reviews-wrap,.facebook_hide_date,.facebook_hide_name,.facebook_hide_thumbnail,.facebook_page_id .feed-them-social-admin-input-label,.facebook_show_media,.fb-page-grid-option-hide,.fb-reviews,.fb-video-play-btn-options-content,.fb-video-play-btn-options-wrap,.fb_album_photos_id,.final-instagram-user-id-textarea,.final-shortcode-textarea,.ft-gallery-settings-tabs-meta-wrap .tab-content-wrap .tab-pane,.ft-gallery-settings-tabs-meta-wrap input[type=text]:disabled,.ft-gallery-settings-tabs-meta-wrap select:disabled,.ft-gallery-styles-popup .tagchecklist,.ft-gallery-woo-btns-wrap-for-popup,.ft-image-id-for-popup,.ft-watermark-duplicate-image,.ft-wp-gallery-type .feed-them-social-admin-input-label,.ftg-media-tag-no-tags,.ftg-page-title-description-placement-option-hide,.fts-cpt-extra-options,.fts-custom-css-text,.fts-decrypted-token,.fts-facebook-grid-options-wrap,.fts-facebook-load-more-options-wrap,.fts-facebook-load-more-options2-wrap,.fts-facebook_group-shortcode-form .twitter_name,.fts-facebook_group-shortcode-form:hover .feed-them-icon-wrap a.facebook-icon,.fts-fb-event-option-wrap .twitter_name,.fts-fb-id,.fts-gallery-id,.fts-hide-me,.fts-hide-token,.fts-instagram-load-more-options-wrap,.fts-instagram-sub-menu-active .fts-instagram,.fts-instagram-waiting-color .active .ft_icon img,.fts-premium-options-message,.fts-social-icon-wrap-active .fts-instagram,.fts-success,.fts-super-facebook-options-wrap,.fts-tab-content1-combine .fts-instagram-successful-api-token,.fts-token-wrap .feed-them-social-admin-input-label,.fts-twitter-add-all-keys-click-option,.fts-twitter-grid-options-wrap,.fts-twitter-load-more-options-wrap,.fts-twitter-load-more-options2-wrap,.fts-youtube-load-more-options-wrap,.fts-youtube-load-more-options2-wrap,.fts_hide_zip_list,.hashtag-option-small-text,.inst-text-facebook-reviews,.instagram-feed-type-image-tab,.instagram-location-option-text,.instagram-profile-options-wrap,.instagram-shortcode-form,.instagram_hashtag,.instagram_hashtag_type,.js.fts_page_template_settings_page .handlediv,.like-box-wrap,.main-instagram-profile-options-wrap,.misc-pub-section:not(.misc-pub-post-status),.page-token,.pinterest-board-and-name-text,.reviews-options,.shortcode-generator-form,.instagram_slider_options_wrap,.slider_options_wrap,.slideshow-wrap,.tabs .fts-token-wrap input[type=text],.tabs div.fts-section .fts-twitter-combine,.tabs div.fts-section .fts-youtube-combine,.toggle-custom-textarea-hide,.twitter-hashtag-etc-wrap,.youtube_align_comments_wrap,.youtube_channelID2,.youtube_name,.youtube_name2,.youtube_playlistID,.youtube_playlistID2,.youtube_singleVideoID,.youtube_video_single_info_display,div#current-uploaded-image.closed {
+    display: none;
+}
+#combine_streams_feed .fts-feed-settings-tabs-wrap {
+    display:none;
 }
 
 .fts-tiktok-refresh-expires-in,.fts-tiktok-refresh-token,.fts-tiktok-saved-time-expires-in {
@@ -200,9 +214,9 @@
 }
 
 .feed-them-social-admin-input-label {
-    margin-right: 10px;
+    /* margin-right: 10px; */
     font-size: 13px;
-    padding-left: 10px
+    /* padding-left: 10px; */
 }
 
 .feed-them_page_fts-facebook-feed-styles-submenu-page .feed-them-social-admin-input-label,.feed-them_page_fts-instagram-feed-styles-submenu-page .feed-them-social-admin-input-label,.feed-them_page_fts-twitter-feed-styles-submenu-page .feed-them-social-admin-input-label {
@@ -233,7 +247,7 @@
 
 .feed-them-social-admin-input {
     float: left;
-    width: 305px;
+    width: 100%;
     max-width: 100%;
     font-weight: 400
 }
@@ -398,7 +412,9 @@ label.toggle-custom-textarea-show {
     line-height: 19px;
     border-bottom: 1px dotted #9c9c9c;
     color: #212121;
-    padding: 0 0 5px
+    padding: 0 0 10px;
+    max-width: 650px;
+    margin-bottom: 15px;
 }
 .fts-responsive-options .instructional-text {
     border:none;
@@ -410,7 +426,10 @@ label.toggle-custom-textarea-show {
 }
 .fts-responsive-options-wrap {
     display: inline-block;
-    margin: 10px 0 8px 35px;
+    margin: 10px 0 8px 0;
+}
+h3 .fts-responsive-options-wrap {
+    display:none
 }
 .fts-responsive-options-wrap span.fts-responsive-tab-active {
     background:#f5f5f5b5;
@@ -891,7 +910,7 @@ h1.plugin-author-note {
 }
 
 #fts-import-export-feed-options-side-mb .fts-import-export-tab-content>div.active,.fb-page-list,.ft-gallery-settings-tabs-meta-wrap .fts-section,.ft-gallery-settings-tabs-meta-wrap .tab-content-wrap #images,.fts_page_template_settings_page .tab-content-wrap #layout,.page.inst-text-facebook-page,.post-type-fts .pane-active,.post-type-fts_albums .pane-active,.post-type-fts_albums .tab-content-wrap #galleries,.thumb:hover .ft-gallery-delete-thumb-btn,.thumb:hover .ft-gallery-edit-thumb-btn,.thumb:hover .ft-gallery-remove-thumb-btn,.thumb:hover .ft-gallery-woo-edit-thumb-btn,.toplevel_page_feed-them-settings-page .pane-active,div#current-uploaded-image:hover p.hide-if-no-js {
-    display: block
+    display: block;
 }
 
 .fb-image,.fts-backg {
@@ -900,7 +919,12 @@ h1.plugin-author-note {
 }
 
 .ft-gallery-settings-tabs-meta-wrap .tab-options-shortcode-view-wrap {
-    min-height: 400px
+    display: flex;
+    /* Adjusts the layout to be responsive in a columnar way */
+    /* Center-aligns the content */
+    /* Adds padding around the container */
+    min-height: 400px;
+    flex-direction: row;
 }
 
 .feed-them-social-admin-wrap h3 {
@@ -1524,13 +1548,8 @@ h1.plugin-author-note {
 
 #feed_setup {
     display: block;
-    max-width: 100%
-}
-
-#feed_setup h3 {
-    margin-top: 0;
-    padding-left: 0;
-    padding-top: 0
+    max-width: 100%;
+    width: 100%;
 }
 
 .tabs-menu-wrap a .fts-click-cover {
@@ -1569,8 +1588,8 @@ h1.plugin-author-note {
 #ftg-tab-content1 div.fts-section {
     max-width: 100%;
     display: block;
-    width: auto;
-    padding-left: 20px
+    padding-left: 20px;
+    padding-right: 5px;
 }
 
 .fts-exp-time-wrapper,.fts-youtube-add-all-keys-click-option .instructional-text,div#contact-me.postbox div.inside {
@@ -1960,13 +1979,11 @@ div#uploaderSection div.drag-drop-inside {
 }
 
 .post-type-fts .tab-content,.post-type-fts_albums .tab-content {
-    padding-top: 20px;
-    padding-bottom: 25px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 320px;
-    margin-right: 20px;
-    overflow: hidden
+    /* margin-right: 20px; */
+    /* overflow: hidden; */
 }
 
 .feed-them-social-admin-input-label small {
@@ -2017,8 +2034,11 @@ div#uploaderSection div.drag-drop-inside {
     }
 }
 
-.feed-them-social-admin-input-wrap,.tabs-menu-wrap {
-    float: left
+.feed_setup-tab-pane .feed-them-social-admin-input-wrap, .tabs-menu-wrap {
+    float: left;
+}
+.feed_setup-tab-pane .feed-them-social-admin-input-wrap.ft-wp-gallery-type {
+    float:none
 }
 
 #ft-galleries-upload-mb .inside {
@@ -2107,11 +2127,6 @@ div#uploaderSection div.drag-drop-inside {
     margin-bottom: 30px!important
 }
 
-.instructional-text {
-    padding-bottom: 10px;
-    max-width: 650px
-}
-
 .fts-title-description-settings-page h4 {
     font-size: 18px;
     margin: 12px 0
@@ -2140,20 +2155,27 @@ div#uploaderSection div.drag-drop-inside {
 }
 
 .fts-cpt-extra-options h3 {
-    padding: 8px 20px 10px 15px
+    padding: 20px 0 0;
+    margin-bottom: -4px;
+    z-index: 1;
+    position: relative;
 }
 
 .fts-section h3 {
-    padding: 20px 20px 10px 15px;
-    font-size: 18px;
-    color: #1d2327
+    font-size: 20px;
+    color: #1d2327;
+    line-height: 25px;
 }
 
 h3.sectioned-options-title {
     width: 100%;
-    display: inline-block;
+    display: block;
     clear: both;
-    padding-right: 0
+    padding: 20px 0 0;
+    background: none;
+    margin-bottom: -10px;
+    z-index: 1;
+    position: relative;
 }
 
 .feed_them_social-admin-global-checkbox {
@@ -2317,13 +2339,11 @@ h3.sectioned-options-title {
 }
 
 .fts-cpt-extra-options {
-    padding: 0;
-    float: left
+    float: left;
 }
 
 .ft-gallery-settings-tabs-meta-wrap .feed-them-social-admin-input-label small {
     font-weight: 400;
-    max-width: 200px;
     width: 100%;
     display: block;
     margin-top: 8px;
@@ -2368,12 +2388,13 @@ svg.fts-info-icon:hover {
 
 .feed-them-social-admin-input-wrap {
     padding: 20px 0;
-    background: #f9f9f9;
-    border-bottom: 1px solid #cccccc9c;
+    background: #f8f8f8;
+    border-bottom: 2px solid #ffffff;
     min-height: 30px;
     margin-bottom: 1px!important;
     width: 100%;
-    display: inline-block
+    display: inline-block;
+    overflow: visible;
 }
 .feed-them-social-admin-input-wrap.fts-responsive-options {
     border:none;
@@ -2382,8 +2403,11 @@ svg.fts-info-icon:hover {
 .youtube_hide_option .fts-responsive-options-wrap {
     margin-top:0;
 }
+#feed_setup .feed-them-social-admin-input-label {
+    margin-left: 35px;
+}
 .feed-them-social-admin-input-label {
-    margin-left: 25px;
+    /* margin-left: 15px; */
     color: #101010
 }
 
@@ -2444,9 +2468,10 @@ svg.fts-info-icon:hover {
 
 .fts-note {
     text-align: left;
-    padding: 15px 15px 15px 10px;
+    padding: 15px 15px 20px 25px;
     margin: 0 0 0 20px;
-    clear: both
+    clear: both;
+    background: #f1f1f1;
 }
 
 .fts-cpt-extra-options .ft-gallery-note {
@@ -2508,8 +2533,11 @@ svg.fts-info-icon:hover {
 .updatefrombottom {
     text-align: right;
     z-index: 100;
-    margin-right: -2px;
-    margin-bottom: -10px
+    padding-right: 15px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    margin-top: 1px;
+    display: block !important;
 }
 
 .updatefrombottom a.button-totop {
@@ -2525,10 +2553,6 @@ svg.fts-info-icon:hover {
     position: relative;
     top: -1px;
     right: 3px
-}
-
-.fts-cpt-main-options-combined {
-    margin-top: -15px
 }
 
 #ftg-tab-content1 .gallery-quick-guide-getting-started {
@@ -2773,7 +2797,7 @@ button.ft-gallery-edit-img-popup {
     font-family: FontAwesomeSlickFeed,monospace!important;
     content: "\f013";
     color: #c9c9c9;
-    margin: 0 5px 0 0;
+    margin: 0 7px 0 0;
     top: 1px;
     position: relative
 }
@@ -2892,7 +2916,13 @@ a.fts-admin-button-no-work, a.fts-tiktok-revoke-token {
     font-weight: 700!important;
     color: #434343!important
 }
-
+.combine-streams-feed-wrap .fts-token-wrap h3 {
+    margin-left:15px;
+    margin-bottom:0
+}
+#fts-feed-type .instructional-text {
+    margin:0 25px 15px
+}
 .fts-instagram-sub-menu-active,.fts-social-icon-wrap-active {
     cursor: auto!important
 }
@@ -2954,15 +2984,12 @@ img.instagram-feed-type-image-tab {
 }
 
 .fts-token-wrap h3 {
-    margin-left: 15px
+    margin-left: 15px;
+    padding-bottom: 10px;
 }
 
 .fts-combine-streams-shortcode-form .fts-facebook-get-access-token,.fts-combine-streams-shortcode-form .fts-instagram-get-access-token {
     margin-left: 10px
-}
-
-.instructional-text {
-    margin: 0 20px 30px
 }
 
 #combine_streams_feed #fts-feed-type h3 span {
@@ -3034,9 +3061,7 @@ img.instagram-feed-type-image-tab {
     padding: 10px;
     background: #fff;
     text-align: center;
-    display: inline-block;
-    max-width: 184px;
-    width: 100%;
+    display: block;
     box-shadow: 1px 2px 2px #eee
 }
 
@@ -3061,7 +3086,7 @@ img.instagram-feed-type-image-tab {
 }
 
 .tab-options-shortcode-view-wrap {
-    margin: 0 15px 0 55px
+    margin: 0 15px 0 55px;
 }
 
 .tabs-menu-wrap {
@@ -3075,7 +3100,7 @@ img.instagram-feed-type-image-tab {
 }
 
 .fts-shortcode-content {
-    margin-left: 40px
+    margin-left: 20px;
 }
 
 .fts-shortcode-content-no-feed {
@@ -3086,46 +3111,42 @@ img.instagram-feed-type-image-tab {
 }
 
 .fts-shortcode-view {
-    width: 65%;
-    float: left;
-    padding: 20px 0;
-    display: none
+    width: 100%;
+    display: none;
+    flex-direction: column; /* Adjusts layout direction inside the content */
+    /* Centers the inner content */
+    padding: 20px 0; /* Adds padding inside the content */
+    background-color: #ffffff; /* Optional: Different background color */
 }
 
 .tab-content {
     border-left: 0 solid #f9f9f9!important;
     position: relative;
     left: 0;
-    width: 100%
+    width: 100%;
 }
 
 .tab-pane {
     width: 100%;
-    padding-left: 20px!important
+    padding-left: 2px!important;
 }
 
 .fts-required-extension-wrap,.tab-pane .wp-picker-container,.tab-pane input,.tab-pane select {
-    margin: 5px 0 0 35px!important;
+    margin: 5px 0 0!important;
     float: none
 }
-
+.fts-color-picker .button-small.wp-picker-clear {
+    width:auto
+}
 .tab-pane .wp-picker-container input {
-    margin: 0 5px!important
+    margin: 0 5px!important;
 }
 
-.tab-pane input,.tab-pane select {
-    max-width: 200px!important
-}
+
 
 #fts-feed-type .tab-pane select,.tab-pane #fts-feed-type input {
     width: 100%!important;
-    max-width: 200px!important
-}
-
-.instructional-text {
-    margin-left: 35px;
-    margin-right: 35px;
-    padding-right: 0
+    max-width: 250px!important;
 }
 
 .feed_setup-tab-pane {
@@ -3163,32 +3184,28 @@ img.instagram-feed-type-image-tab {
         min-width: 165px!important
     }
 
-    .tab-options-content {
-        width: auto!important;
-        margin-right: 25px!important
-    }
+}
 
-    .fts-shortcode-view {
-        width: 100%
-    }
-
-    .fts-shortcode-view .fts-shortcode-content {
-        margin-left: 20px!important
-    }
+.tab-options-content {
+    /* margin: 0 auto; */
+    width: 100%;
 }
 
 .combine-streams-feed-wrap #fts-feed-type {
-    float: none!important;
-    display: block!important;
+    /* float: none!important; */
+    /* display: block!important; */
     width: 100%!important;
-    clear: both;
-    padding-top: 0
+    /* clear: both; */
+    padding-top: 0;
 }
 
 .combine-streams-feed-wrap {
-    margin-right: 20px
+    margin-right: 25px;
+    margin-top: 25px;
 }
-
+.combine-streams-feed-wrap h3 {
+    margin: 0px 0px 18px;
+}
 .combine-streams-feed-wrap .feed-them-social-admin-input-label {
     float: left!important;
     padding-top: 12px!important;
@@ -3199,7 +3216,7 @@ img.instagram-feed-type-image-tab {
 .combine-facebook-access-token-placeholder .feed-them-social-admin-input-label,.combine-insta-access-token-placeholder .feed-them-social-admin-input-label,.combine-instagram-access-token-placeholder .feed-them-social-admin-input-label,.combine-twitter-access-token-placeholder .feed-them-social-admin-input-label,.combine-youtube-access-token-placeholder .feed-them-social-admin-input-label {
     padding-top: 6px!important;
     margin-top: 6px!important;
-    margin-bottom: 14px!important
+    /* margin-bottom: 14px!important; */
 }
 
 .combine-streams-feed-wrap .tab-pane select {
@@ -3295,4 +3312,9 @@ img.instagram-feed-type-image-tab {
 
 .tiktok-stats-hide, .tiktok-show-follow-button-hide {
     display:none;
+}
+
+
+.fts-full-screen-editing-wrap-active #poststuff #post-body.columns-2 {
+    margin-right: 0;
 }

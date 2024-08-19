@@ -1326,8 +1326,8 @@ pre {
 
 .tabs div.fts-section {
     position: relative;
-    display: inline-block;
-    width: 100%
+    /* display: inline-block; */
+    /* width: 100%; */
 }
 
 .fts-tab-content1-combine.fts-twitter-combine, .fts-tab-content1-combine.fts-youtube-combine {
@@ -1353,11 +1353,11 @@ pre {
     margin-left: 20px !important
 }
 
-.tabs input[type=text], .tabs select {
-    width: 250px;
-    display: inline-block;
-    margin-left: 0;
-    max-width: 250px
+#feed_setup input[type=text], #feed_setup select {
+    /* width: 250px; */
+    /* display: inline-block; */
+    /* margin-left: 0; */
+    max-width: 250px;
 }
 
 .tabs input[type=text].ss-picker-icon-icp {
@@ -2570,7 +2570,8 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
 
 #ftg-tab-content1 {
     padding-top: 25px;
-    padding-left: 0
+    padding-left: 0;
+    padding-bottom: 25px;
 }
 
 #ftg-tab-content1 .instructional-text {
@@ -2673,7 +2674,9 @@ span.fts-toke-not-set {
 
 .ft-wp-gallery-type {
     border: none !important;
-    padding-top: 0 !important
+    padding-top: 0 !important;
+    display: block !important;
+    width: auto !important;
 }
 
 .fts-fb-error-message-wrap {

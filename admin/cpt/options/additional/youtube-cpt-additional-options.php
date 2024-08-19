@@ -122,13 +122,6 @@ class Youtube_Additional_Options {
                     'name'         => 'youtube_thumbs_wrap_color',
                     'default_value'=> '#000',
                     'placeholder'  => '#000',
-
-                    // Relative to JS.
-                    'short_attr'   => array(
-                        'attr_name'   => 'thumbs_wrap_color',
-                        'empty_error' => 'set',
-                        'empty_error_value' => 'thumbs_wrap_color=#000',
-                    ),
                 ),
 
 			),

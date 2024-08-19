@@ -3320,7 +3320,7 @@ a.fts-twitter-at-name {
 
 .fts-facebook-popup.fts-instagram-styles-popup .heart-comments-wrap li,.fts-facebook-popup.fts-instagram-styles-popup .slicker-heart-comments-wrap li {
     display: inline-block;
-    margin-right: 15px!important;
+    margin-right: 5px!important;
     margin-top: -5px!important;
     opacity: 1
 }
@@ -4909,8 +4909,7 @@ a.fts-facebook-thumbs-wrap {
     font-size: 20px;
     color: #fff;
     width: auto;
-    float: right;
-    position: relative;
+    position: absolute;
     z-index: 2;
     line-height: 17px;
 }

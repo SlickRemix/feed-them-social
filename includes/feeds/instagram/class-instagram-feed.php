@@ -443,7 +443,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
 					$hashtag_error_check = json_decode( $hashtag_response['data'] );
 
-                    /* echo '<br/><pre>';
+                     /*echo '<br/><pre>';
                     print_r( $hashtag_error_check );
                     echo '</pre>';*/
 
@@ -483,11 +483,11 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 				// The below needs to be cached and the hashtag ID above merged with like how we did below on line 493
 				if ( $search === 'recent-media' || '' === $search ) {
 					// Now that we have the Instagram ID we can do a search for the endpoint 'Recent Media'.
-					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/v9.0/' . $hashtag_id . '/recent_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,comments_count,permalink,like_count,media_type,id,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $hashtag_id . '/recent_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,comments_count,permalink,like_count,media_type,id,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 
 				} elseif ( $search === 'top-media' ) {
 					// Now that we have the Instagram ID we can do a search for the endpoint 'Top Media'.
-					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/v9.0/' . $hashtag_id . '/top_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,id,comments_count,permalink,like_count,media_type,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $hashtag_id . '/top_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,id,comments_count,permalink,like_count,media_type,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 				}
 
 				// First we make sure the feed is not cached already before trying to run the Instagram API.
@@ -502,7 +502,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                             print_r( $hashtag_error_check );
                         echo '</pre>';*/
 
-                        foreach ( $hashtag_error_check->data as &$media ) {
+                        foreach ( $hashtag_error_check->data as $media ) {
                             // Instagram hashtag data returned from the facebook API does not contain a thumbnail_url for videos.
                             // We have to use the instagram_oembed feature to grab the thumbnail_url for a video
                             // so we can display it in the feed for carousel album posts that contain a video. All posts including hashtag video posts link back to Instagram for that user as well.
@@ -557,7 +557,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                 $business_cache = 'instagram_business_cache' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '';
 
                 // this is not getting cached currently
-                $instagram_data_array['user_info'] = 'https://graph.facebook.com/v3.3/' . $instagram_id . '?fields=biography%2Cid%2Cig_id%2Cfollowers_count%2Cfollows_count%2Cmedia_count%2Cname%2Cprofile_picture_url%2Cusername%2Cwebsite&access_token=' . $this->feed_access_token;
+                $instagram_data_array['user_info'] = 'https://graph.facebook.com/' . $instagram_id . '?fields=biography%2Cid%2Cig_id%2Cfollowers_count%2Cfollows_count%2Cmedia_count%2Cname%2Cprofile_picture_url%2Cusername%2Cwebsite&access_token=' . $this->feed_access_token;
 
                 // This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
                 $instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
@@ -580,6 +580,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                         $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
                         $instagram_business_output->data[]     = $instagram_business_media;
                     }
+
 
                     // The reason we array_merge the $instagram_business_output is because it contains the paging for next and previous links so we can loadmore posts
                     $insta_data = (object) array_merge( (array) $instagram_business_user_info, (array) $instagram_business, (array) $instagram_business_output );
@@ -644,6 +645,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                       print_r( $insta_basic_user_data );
                      echo '</pre>';*/
 
+                    // Test basic feed
                      /*echo '<br/><pre>';
                      print_r( $insta_data );
                      echo '</pre>';*/
@@ -962,8 +964,8 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                             $fts_premium && $popup === 'yes' && ! empty( $data_type_child ) && $data_type_child === 'VIDEO' ||
                             $fts_instagram_slider && $popup === 'yes' && ! empty( $data_type_child ) && $data_type_child === 'VIDEO') {
 
-                            // this statement below does not make sense, check later.
-                            print $this->fts_instagram_video_link( $post_data ) ? esc_url( $this->fts_instagram_video_link( $post_data ) ) : esc_url( $post_data->permalink . 'media?size=l' );
+                            // Some videos are not returned for a number of reason from the API so we fall back to the image url
+                            print $this->fts_instagram_video_link( $post_data ) ? esc_url( $this->fts_instagram_video_link( $post_data ) ) : esc_url( $this->fts_instagram_image_link( $post_data ) );
 
                         } else {
                             print esc_url( $this->fts_view_on_instagram_url( $post_data ) );
@@ -1015,7 +1017,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                      fts-instagram-img-link<?php } ?>'></a>
                                 <?php
                             }
-                        } elseif ( isset( $data_type ) && 'VIDEO' === $data_type || isset( $data_type ) && $data_type === 'video' ) {
+                        } elseif ( isset( $data_type ) && 'VIDEO' === $data_type && !empty($this->fts_instagram_video_link( $post_data )) || isset( $data_type ) && $data_type === 'video' && !empty($this->fts_instagram_video_link( $post_data )) ) {
                             ?>
                             <div class="fts-instagram-video-image-wrapper"><div class="fts-instagram-video-image"></div></div>
                             <?php

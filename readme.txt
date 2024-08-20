@@ -131,6 +131,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * New > Instagram & TikTok > Now you can add more than one responsive feed with different image display options on a page.
   * Fix: Facebook Feed > Shared links like linkedin not displaying properly and missing the correct shared url.
   * Fix: Premium: Facebook Feed > Number of Words Option not working for posts with photos.
+  * Fix: Instagram Business Feed > Popup > Sometimes the API does not return media urls for videos so we now fall back to the image url.
   * Reduce: Font Awesome Files size is now under 4kb. This will increase load time and the overall size of the plugin.
   * Feed Edit Options > Clean > Unused code removed.
 

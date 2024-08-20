@@ -236,7 +236,6 @@ function refresh_feed_ajax(should_we_empty_cache) {
 
                         if( 'yes' === jQuery('#combine_grid_option').val() ){
 
-
                             jQuery(".fts-mashup").masonry({
                                 itemSelector: ".fts-mashup-post-wrap"
                             });

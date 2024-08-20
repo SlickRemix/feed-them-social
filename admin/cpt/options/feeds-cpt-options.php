@@ -2662,7 +2662,7 @@ class Feed_CPT_Options {
 				// Pic Count
 				array(
 					'option_type'       => 'input',
-					'label'             => __( 'Number of Pics<div class="fts-paid-extension-required"><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a></small></div>', 'feed-them-social' ),
+					'label'             => __( 'Number of Posts<div class="fts-paid-extension-required"><small>More than 6 requires our <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a> or <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-instagram-slider/">Instagram Slider</a> Extension.</small></div>', 'feed-them-social' ),
 					'type'              => 'text',
 					'id'                => 'instagram_pics_count',
 					'name'              => 'instagram_pics_count',

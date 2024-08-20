@@ -353,7 +353,7 @@ class Activate_Plugin {
 		if ( ! $rating_notice_waiting && ! ( 'dismissed' === $notice_status || 'pending' === $notice_status ) ) {
 			$time = 2 * WEEK_IN_SECONDS;
 			// Testing.
-			// $time = 2;
+            $time = 2;
 			set_transient( $review_transient, 'fts-review-waiting', $time );
 			update_option( $review_option, 'pending' );
 		}

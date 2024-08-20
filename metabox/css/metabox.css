@@ -493,9 +493,9 @@ h3 .fts-responsive-options-wrap {
     display:none;
     padding-top:5px !important;
 }
-#discount-for-review a,.instructional-text a {
+#discount-for-review a, .instructional-text a, .fts-paid-extension-required a {
     color: #0073aa;
-    text-decoration: none
+    text-decoration: none !important
 }
 
 .instructional-text a:hover {
@@ -3313,7 +3313,6 @@ img.instagram-feed-type-image-tab {
 .tiktok-stats-hide, .tiktok-show-follow-button-hide {
     display:none;
 }
-
 
 .fts-full-screen-editing-wrap-active #poststuff #post-body.columns-2 {
     margin-right: 0;

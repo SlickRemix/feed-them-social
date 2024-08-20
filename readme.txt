@@ -124,6 +124,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.3.1 Wednesday, August 21st, 2024 =
+  * Fix > Leave a review > message was not set 2 seconds not 2 weeks.
+  * Fix > Leave a review > Fixed to work on Multisite.
+
 = Version 4.3.0 Monday, August 19th, 2024 =
   * New > [Instagram Slider Extension](https://www.slickremix.com/downloads/feed-them-social-instagram-slider/)
   * New > Feed Edit > Full Screen Edit button near the top of the page.

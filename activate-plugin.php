@@ -353,7 +353,7 @@ class Activate_Plugin {
 		if ( ! $rating_notice_waiting && ! ( 'dismissed' === $notice_status || 'pending' === $notice_status ) ) {
 			$time = 2 * WEEK_IN_SECONDS;
 			// Testing.
-			$time = 2;
+			// $time = 2;
 			set_transient( $review_transient, 'fts-review-waiting', $time );
 			update_option( $review_option, 'pending' );
 		}
@@ -371,7 +371,7 @@ class Activate_Plugin {
 	public function set_review_status( $review_option, $review_transient ) {
 		$get_notice_status = get_option( $review_option, false );
 		// Only display the notice if the time offset has passed and the user hasn't already dismissed it!.
-		if ( 'fts-review-waiting' !== get_transient( $review_transient ) && 'dismissed' !== $get_notice_status ) {
+		if ( get_transient( $review_transient ) !== 'fts-review-waiting' && $get_notice_status !== 'dismissed' ) {
 			add_action( 'admin_notices', array( $this, 'rating_notice_html' ) );
 		}
 

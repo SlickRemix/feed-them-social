@@ -305,6 +305,18 @@ class Metabox_Functions {
                 wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
             }
 
+            // Register Feed Them Instagram Slider Scripts.
+            if ( is_plugin_active( 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php' ) ) {
+
+                wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
+                wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );
+
+                // Register Feed Styles.
+                wp_enqueue_style( 'fts-instagram-slider-styles', plugins_url( 'feed-them-social-instagram-slider/includes/scripts/css/tiny-slider.min.css' ), false, FTS_CURRENT_VERSION );
+                // Register Feed Scripts.
+                wp_enqueue_script( 'fts-instagram-slider-js', plugins_url( 'feed-them-social-instagram-slider/includes/scripts/js/tiny-slider.min.js' ), array(), FTS_CURRENT_VERSION, false );
+            }
+
             wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
             wp_localize_script( 'fts-global-js', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
             wp_enqueue_script( 'fts-global-js' );
@@ -336,8 +348,8 @@ class Metabox_Functions {
 					'updating'                       => esc_html__( 'Updating...', 'feed-them-social' ),
 					'totop'                          => esc_html__( 'To top', 'feed-them-social' ),
                     // These next 2 options where added for the Main Options and Additional Options sub tabs under each feed.
-                    'mainoptions'                    => esc_html__( 'Feed Settings', 'feed-them-social' ),
-                    'additionaloptions'              => esc_html__( 'Style Options', 'feed-them-social' ),
+                    'mainoptions'                    => esc_html__( 'Settings', 'feed-them-social' ),
+                    'additionaloptions'              => esc_html__( 'Styles', 'feed-them-social' ),
                     'additionalSettings'             => sprintf( esc_html__( 'View Additional %1$sGlobal Options%2$s', 'feed-them-social' ),
                         '<a href="edit.php?post_type=fts&amp;page=fts-settings-page" target="_blank">',
                         '</a>'
@@ -498,7 +510,7 @@ class Metabox_Functions {
                         if ( in_array( $tab_key, $base_items, true ) ) {
                             ?>
                             <li class="tabbed <?php echo esc_attr( $tab_item['menu_li_class'] ); ?>">
-                                <a href="#<?php echo esc_attr( $tab_key ); ?>" data-toggle="tab"<?php echo isset( $tab_item['menu_a_class'] ) ? 'class="' . esc_attr( $tab_item['menu_a_class'] ) . '"' : ''; ?><?php echo isset( $tab_item['menu_aria_expanded'] ) ? ' aria-expanded="' . esc_attr( $tab_item['menu_aria_expanded'] ) . '"' : ''; ?>>
+                                <a href="#<?php echo esc_attr( $tab_key ); ?>" data-key="<?php echo esc_attr( $tab_key ); ?>" data-toggle="tab"<?php echo isset( $tab_item['menu_a_class'] ) ? 'class="' . esc_attr( $tab_item['menu_a_class'] ) . '"' : ''; ?><?php echo isset( $tab_item['menu_aria_expanded'] ) ? ' aria-expanded="' . esc_attr( $tab_item['menu_aria_expanded'] ) . '"' : ''; ?>>
                                     <div class="fts-click-cover"></div>
                                     <div class="ft_icon">
                                         <?php if( 'combine_streams_feed' === $tab_key ){ ?>
@@ -555,8 +567,8 @@ class Metabox_Functions {
                                     $this->metabox_tabs_menu( $current_info, $tabs_list ),
                                     array(
                                         'a'      => array(
-                                            'href'  => array(),
-                                            'title' => array(),
+                                            'href'    => array(),
+                                            'title'   => array(),
                                         ),
                                         'br'     => array(),
                                         'em'     => array(),
@@ -679,12 +691,12 @@ class Metabox_Functions {
                     // Sub option output START?
                     $output .= isset( $option['sub_options'] ) ? '<div class="' . $option['sub_options']['sub_options_wrap_class'] . (false !== $required_extension_needed ? ' not-active-premium-fields' : '') . '">' . (isset( $option['sub_options']['sub_options_title'] ) ? '<h3>' . $option['sub_options']['sub_options_title'] . '</h3>' : '') . (isset( $option['sub_options']['sub_options_instructional_txt'] ) ? '<div class="instructional-text">' . $option['sub_options']['sub_options_instructional_txt'] . '</div>' : '') : '';
 
-                    $output .= isset( $option['grouped_options_title'] ) ? '<h3 class="sectioned-options-title">' . $option['grouped_options_title'] . '</h3>' : '';
+                    $output .= isset( $option['grouped_options_title'] ) ? '<h3 class="sectioned-options-title' . (isset( $option['input_wrap_class'] ) ? ' ' . $option['input_wrap_class'] : '') . '">' . $option['grouped_options_title'] . '</h3>' : '';
 
                     // Only on a few options generally.
                     $output .= isset( $option['outer_wrap_class'] ) || isset( $option['outer_wrap_display'] ) ? '<div ' . (isset( $option['outer_wrap_class'] ) ? 'class="' . $option['outer_wrap_class'] . '"' : '') . ' ' . (isset( $option['outer_wrap_display'] ) && !empty( $option['outer_wrap_display'] ) ? 'style="display:' . $option['outer_wrap_display'] . '"' : '') . '>' : '';
                     // Main Input Wrap.
-                    $output .= '<div class="feed-them-social-admin-input-wrap ' . (isset( $option['input_wrap_class'] ) ? $option['input_wrap_class'] : '') . '" ' . (isset( $section_info['input_wrap_id'] ) ? 'id="' . $section_info['input_wrap_id'] . '"' : '') . '>';
+                    $output .= '<div class="feed-them-social-admin-input-wrap ' . (isset( $option['input_wrap_class'] ) ? $option['input_wrap_class'] : '') . '" ' . (isset( $option['input_wrap_id'] ) ? 'id="' . $option['input_wrap_id'] . '"' : '') . '>';
                     // Instructional Text.
                     $output .= !empty( $option['instructional-text'] ) && !is_array( $option['instructional-text'] ) ? '<div class="instructional-text ' . (isset( $option['instructional-class'] ) ? $option['instructional-class'] : '') . '">' . $option['instructional-text'] . '</div>' : '';
 
@@ -887,7 +899,7 @@ class Metabox_Functions {
 
                     // SRL: @Justin I'm taking this out cause it does not appear to be doing anything that I can tell.
                     // !$required_extension_needed ||
-                    if ( $required_extension_needed && true === $required_extension_needed ) {
+                    if ( $required_extension_needed && $required_extension_needed === true ) {
                         $output .= '<div class="fts-required-extension-wrap">';
 
                         foreach ( $option['req_extensions'] as $req_extension ) {
@@ -895,7 +907,7 @@ class Metabox_Functions {
                             // For testing.
                             // $output .= print_r( $this->prem_extension_list[$req_extension] );
 
-                            if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && 'feed_them_social_premium' === $option['req_extensions'][0] &&
+                            if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_premium' &&
                                 'feed_them_social_facebook_reviews' === $option['req_extensions'][1] ) {
 
                                 $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
@@ -910,7 +922,7 @@ class Metabox_Functions {
                                 break;
                             }
 
-							if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && 'feed_them_social_tiktok_premium' === $option['req_extensions'][0]) {
+							if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_tiktok_premium' ) {
 
 								$output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
 									$this->prem_extension_list[$req_extension]['purchase_url'],
@@ -919,9 +931,27 @@ class Metabox_Functions {
 								break;
 							}
 
+                            if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_premium' &&
+                                'feed_them_social_instagram_slider' === $option['req_extensions'][1] ) {
+
+                                $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+                                    $this->prem_extension_list[$req_extension]['purchase_url'],
+                                    'Premium Required'
+                                );
+                                $output .= 'or';
+                                $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+                                    $this->prem_extension_list[$option['req_extensions'][1]]['purchase_url'],
+                                    'Instagram Slider Required'
+                                );
+                                break;
+                            }
+
                             switch ($this->prem_extension_list[$req_extension]['title']) {
                                 case 'Feed Them Social Premium':
                                     $title_change = 'Premium Required';
+                                    break;
+                                case 'Feed Them Social Instagram Slider':
+                                    $title_change = 'Instagram Slider Required';
                                     break;
                                 case 'Feed Them Social Facebook Reviews':
                                     $title_change = 'Reviews Required';

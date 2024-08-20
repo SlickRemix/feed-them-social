@@ -94,9 +94,6 @@ class Twitter_Additional_Options {
                             'value' => 'no',
                         ),
                     ),
-                    'short_attr'  => array(
-                        'attr_name' => 'stats_bar',
-                    ),
                 ),
 
                 // Show Follow Button.

@@ -3290,10 +3290,10 @@ a.fts-twitter-at-name {
 }
 
 .fts-facebook-popup.fts-instagram-styles-popup .fts-view-on-instagram-link:before {
-    font-size: 15px;
-    top: 1px;
+    font-size: 16px;
+    top: 2px;
     position: relative;
-    margin-left: 5px
+    margin-left: 5px;
 }
 
 .fts-facebook-popup.fts-instagram-styles-popup .fts-follow-header-wrap {
@@ -3320,8 +3320,7 @@ a.fts-twitter-at-name {
 
 .fts-facebook-popup.fts-instagram-styles-popup .heart-comments-wrap li,.fts-facebook-popup.fts-instagram-styles-popup .slicker-heart-comments-wrap li {
     display: inline-block;
-    margin-right: 15px!important;
-    margin-top: -5px!important;
+    margin: -5px 5px 0 0 !important;
     opacity: 1
 }
 
@@ -4909,8 +4908,7 @@ a.fts-facebook-thumbs-wrap {
     font-size: 20px;
     color: #fff;
     width: auto;
-    float: right;
-    position: relative;
+    position: absolute;
     z-index: 2;
     line-height: 17px;
 }

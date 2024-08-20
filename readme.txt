@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.5.5
-Stable tag: 4.2.9
+Tested up to: 6.6.1
+Stable tag: 4.3.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,9 @@ Easily Create and Display Customizable Social Feeds from Instagram, Facebook, Ti
  ✭ [Facebook Video Feed Demo](https://feedthemsocial.com/facebook-videos-demo/)
  ✭ [YouTube Popup Video Feed Demo](https://feedthemsocial.com/youtube-gallery-format-2/)
 
+= Instagram Slider Extension =
+ ✭ [See Demo](https://feedthemsocial.com/instagram-slider-feed-demo/)
+
 = TikTok Extension =
  ✭ [See Demo](https://feedthemsocial.com/tiktok-feed-demo/)
 
@@ -121,8 +124,16 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.0 Tuesday, July 23rd, 2024 =
-  * Pending Changes
+= Version 4.3.0 Monday, August 19th, 2024 =
+  * New > [Instagram Slider Extension](https://www.slickremix.com/downloads/feed-them-social-instagram-slider/)
+  * New > Feed Edit > Full Screen Edit button near the top of the page.
+  * New > Feed Edit > Cleaned up UI and made options scroll for easier editing and previewing the feed at the same time.
+  * New > Instagram & TikTok > Now you can add more than one responsive feed with different image display options on a page.
+  * Fix: Facebook Feed > Shared links like linkedin not displaying properly and missing the correct shared url.
+  * Fix: Premium: Facebook Feed > Number of Words Option not working for posts with photos.
+  * Fix: Instagram Business Feed > Popup > Sometimes the API does not return media urls for videos so we now fall back to the image url.
+  * Reduce: Font Awesome Files size is now under 4kb. This will increase load time and the overall size of the plugin.
+  * Feed Edit Options > Clean > Unused code removed.
 
 = Version 4.2.9 Monday, July 1st, 2024 =
   * New > Settings > Cache Time: 1, 2, 3, 6 & 12 Hour option added.

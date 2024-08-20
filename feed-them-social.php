@@ -13,7 +13,7 @@
  * Text Domain: feed-them-social
  * Domain Path: /languages
  * Requires at least: WordPress 5.4
- * Tested up to: WordPress 6.5.5
+ * Tested up to: WordPress 6.6.1
  * Stable tag: 4.3.0
  * Requires PHP: 7.0
  * Tested PHP: 8.3

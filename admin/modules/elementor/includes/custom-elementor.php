@@ -12,6 +12,13 @@ add_action('elementor/preview/enqueue_styles', function() {
 
     wp_enqueue_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
     wp_enqueue_style( 'fts-feed-styles' );
+
+    // Register Feed Them Social Instagram Slider Scripts.
+    if ( is_plugin_active( 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php' ) ) {
+        // Register Feed Styles.
+        wp_register_style( 'fts-instagram-slider-styles', plugins_url( 'feed-them-social-instagram-slider/includes/scripts/css/tiny-slider.min.css' ), false, FTS_CURRENT_VERSION );
+        wp_enqueue_style( 'fts-instagram-slider-styles' );
+    }
 });
 
 // https://developers.elementor.com/docs/scripts-styles/preview-scripts/
@@ -36,6 +43,13 @@ add_action('elementor/preview/enqueue_scripts', function() {
     if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
         wp_register_script( 'fts-feed-scripts-cycle2', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
         wp_enqueue_script( 'fts-feed-scripts-cycle2' );
+    }
+
+    // Register Feed Them Social Instagram Slider Scripts.
+    if ( is_plugin_active( 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php' ) ) {
+        // Register Feed Scripts.
+        wp_register_script( 'fts-instagram-slider-js', plugins_url( 'feed-them-social-instagram-slider/includes/scripts/js/tiny-slider.min.js' ), array(), FTS_CURRENT_VERSION, false );
+        wp_enqueue_script( 'fts-instagram-slider-js' );
     }
 });
 

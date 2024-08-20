@@ -182,6 +182,14 @@ class Feed_Shortcode {
 		if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
             wp_register_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
 		}
+
+        // Register Feed Them Instagram Slider Scripts.
+        if ( is_plugin_active( 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php' ) ) {
+            // Register Feed Styles.
+            wp_register_style( 'fts-instagram-slider-styles', plugins_url( 'feed-them-social-instagram-slider/includes/scripts/css/tiny-slider.min.css' ), false, FTS_CURRENT_VERSION );
+            // Register Feed Scripts.
+            wp_register_script( 'fts-instagram-slider-js', plugins_url( 'feed-them-social-instagram-slider/includes/scripts/js/tiny-slider.min.js' ), array(), FTS_CURRENT_VERSION, false );
+        }
 	}
 
 	/**
@@ -231,9 +239,15 @@ class Feed_Shortcode {
 			wp_enqueue_script('fts-images-loaded');
 		}
 
-        // Carousel Feed Scripts.
-        if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+        // Carousel Feed Scripts || Instagram Slider Scripts.
+        if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' )) {
             wp_enqueue_script( 'fts-feeds');
+        }
+
+        // Carousel Feed Scripts || Instagram Slider Scripts.
+        if ( is_plugin_active( 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php' ) ) {
+            wp_enqueue_style( 'fts-instagram-slider-styles' );
+            wp_enqueue_script( 'fts-instagram-slider-js');
         }
 	}
 

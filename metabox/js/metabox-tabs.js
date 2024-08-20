@@ -8,40 +8,72 @@ jQuery(document).ready(ftg_admin_gallery_tabs);
 
 function ftg_admin_gallery_tabs() {
 
-    // enable link to tab
+    jQuery('.post-type-fts.post-php').find('.page-title-action').after('<a href="javascript:void(0);" class="page-title-action fts-enter-full-screen-editing-more">Full Screen Editing</a>');
+
+    // Check if the #collapse-button is already collapsed
+    if (jQuery('#collapse-button').attr('aria-expanded') === 'false') {
+        // Add a class to indicate it's collapsed
+        jQuery('#collapse-button').addClass('already-collapsed');
+    }
+
+    jQuery('.fts-enter-full-screen-editing-more').click(function () {
+        jQuery('body').toggleClass('fts-full-screen-editing-wrap-active');
+        jQuery(this).toggleClass('active');
+
+        if (jQuery(this).hasClass('active')) {
+            jQuery(this).text('Exit Full Screen Editing Mode');
+        } else {
+            jQuery(this).text('Full Screen Editing');
+        }
+
+        const should_we_empty_cache = 'do-not-empty-cache';
+        refresh_feed_ajax(should_we_empty_cache);
+
+        // Only toggle the #collapse-button if it doesn't have the 'already-collapsed' class
+        if (!jQuery('#collapse-button').hasClass('already-collapsed')) {
+            jQuery('#collapse-button').click();
+        }
+    });
+
+    jQuery('#collapse-menu').click(function () {
+        const should_we_empty_cache = 'do-not-empty-cache';
+        refresh_feed_ajax(should_we_empty_cache);
+    });
+
     jQuery('ul.nav-tabs').each(function () {
         // For each set of tabs, we want to keep track of
         // which tab is active and its associated content
         var $active, $content, $links = jQuery(this).find('a');
 
-        // If the location.hash matches one of the links, use that as the active tab.
+        // If the location.hash matches the data-key of one of the links, use that as the active tab.
         // If no match is found, use the first link as the initial active tab.
-        $active = jQuery($links.filter('[href="' + location.hash + '"]')[0] || $links[0]);
+        var hashKey = location.hash.substring(1); // Remove the '#' from the hash
+        $active = jQuery($links.filter('[data-key="' + hashKey + '"]')[0] || $links[0]);
         $active.addClass('active');
 
-        $content = jQuery($active[0].hash);
+        $content = jQuery('#' + $active.data('key')); // Use the data-key attribute to find the content
 
         // Hide the remaining content
         $links.not($active).each(function () {
-            jQuery(this.hash).hide();
+            jQuery('#' + jQuery(this).data('key')).hide();
         });
 
         // Bind the click event handler
         jQuery(this).on('click', 'a', function (e) {
+            // Prevent the anchor's default click action
+            e.preventDefault();
+
             // Make the old tab inactive.
             $active.removeClass('active');
             $content.hide();
 
             // Update the variables with the new link and content
             $active = jQuery(this);
-            $content = jQuery(this.hash);
+            $content = jQuery('#' + $active.data('key'));
 
             // Make the tab active.
             $active.addClass('active');
             $content.show();
-
-            // Prevent the anchor's default click action
-            e.preventDefault();
         });
     });
 }
@@ -204,7 +236,6 @@ function refresh_feed_ajax(should_we_empty_cache) {
 
                         if( 'yes' === jQuery('#combine_grid_option').val() ){
 
-
                             jQuery(".fts-mashup").masonry({
                                 itemSelector: ".fts-mashup-post-wrap"
                             });
@@ -216,9 +247,15 @@ function refresh_feed_ajax(should_we_empty_cache) {
                     }
 
                     // If the Carousel plugin is installed we recall it otherwise carousel/slideshow
-                    // will not display properly when live editing options.
+                    // it will not display properly when live editing options.
                     if( jQuery.isFunction( jQuery.fn.ftsCycle2 ) ){
                         jQuery( '.fts-fb-slideshow' ).cycle();
+                    }
+
+                    // If the Instagram Slideshow plugin is installed we recall it otherwise
+                    // it will not display properly when live editing options.
+                    if (typeof ftsi_slider === 'function') {
+                        ftsi_slider();
                     }
 
                 }, 500);
@@ -237,12 +274,12 @@ function refresh_feed_ajax(should_we_empty_cache) {
 function fts_show_hide_shortcode_feed( feed ) {
 
     if( jQuery( '.account-tab-highlight.active' ).length ){
-        jQuery( '.fts-shortcode-view' ).hide();
-        jQuery( '.tab-options-content' ).css({'width': '100%' } );
+        jQuery( '.fts-shortcode-view' ).css('display', 'none');
+        jQuery('.tab-options-content').removeAttr('style');
     }
     else {
-        jQuery( '.fts-shortcode-view' ).show();
-        jQuery( '.tab-options-content' ).css({'width': '35%' } );
+        jQuery( '.fts-shortcode-view' ).css('display', 'flex');
+        jQuery( '.tab-options-content' ).css('flex', '1');
     }
 
     ftsShare();
@@ -302,7 +339,7 @@ function checkAnyFormFieldEdited() {
     });
 
     jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input, #combine_streams_feed input').bind('paste', function(e) { // text pasted
-        // SRL: turning this one off for now. I think the change even further down is enough for now. Need more testing.
+        // SRL: turning this one off for now. I think the change event further down is enough for now. Need more testing.
 
         // fts_ajax_cpt_save( 'no-save-message' );
         // alert('test 4');
@@ -403,7 +440,21 @@ jQuery(document).ready(function ($) {
 
     });
 
-    jQuery('.tab-content-wrap').on('click', '.fts-instagram-successful-api-token, .fts-instagram-business-successful-api-token', function (e) {
+    jQuery('.tab-content-wrap').on('click', '.fts-instagram-successful-api-token', function (e) {
+        jQuery('.tab4 a').click();
+        var clickedLink = $('.tab4 a').attr('href');
+        jQuery('#instagram_feed_type').bind('change', function (e) {
+            jQuery(this).val('basic');
+        }).change();
+        // push it into the url
+        location.hash = clickedLink;
+        fts_show_hide_shortcode_feed('instagram');
+        // Prevent the anchor's default click action
+        e.preventDefault();
+    });
+
+
+    jQuery('.tab-content-wrap').on('click', '.fts-instagram-business-successful-api-token', function (e) {
         jQuery('.tab4 a').click();
         var clickedLink = $('.tab4 a').attr('href');
         // push it into the url
@@ -462,25 +513,28 @@ jQuery(document).ready(function ($) {
         location.hash === '#combine_streams_feed' ){
         // This happens if the user refreshes the page with one of the hash tabs noted above with the hash.
         // This way the options and feed are side by side.
-        jQuery( '.tab-options-content' ).css({'width': '35%', 'float': 'left', 'display': 'inline-block' } );
+        jQuery( '.fts-shortcode-view' ).css('display', 'flex');
+        jQuery( '.tab-options-content' ).css('flex', '1');
     }
 
     // click event listener
-    $('.ft-gallery-settings-tabs-meta-wrap ul.nav-tabs a').click(function (event) {
-        // get the id
-        var clickedLink = $(this).attr('href');
+    $('.ft-gallery-settings-tabs-meta-wrap ul.nav-tabs a').click(function (e) {
 
-        if( '#feed_setup' === clickedLink ){
-            // alert(clickedLink);
-            jQuery( '.fts-shortcode-view' ).hide();
-            jQuery( '.tab-options-content' ).css({'width': '100%' } );
+        // Prevent the anchor's default click action
+        e.preventDefault();
+
+        // get the id
+        var clickedLink = $(this).data('key');
+
+        if( 'feed_setup' === clickedLink ){
+            jQuery( '.fts-shortcode-view' ).css('display', 'none');
+            jQuery('.tab-options-content').removeAttr('style');
         }
         else {
-            jQuery( '.fts-shortcode-view' ).show();
-            jQuery( '.tab-options-content' ).css({'width': '35%', 'float': 'left', 'display': 'inline-block' } );
+            jQuery( '.fts-shortcode-view' ).css('display', 'flex');
+            jQuery( '.tab-options-content' ).css('flex', '1');
             fts_ajax_cpt_save( 'no-save-message' );
         }
-
         ftsShare();
         slickremixImageResizing();
         slickremixImageResizingFacebook();
@@ -501,13 +555,23 @@ jQuery(document).ready(function ($) {
             jQuery.fn.slickYoutubePopUpFunction();
         }
 
-        // push it into the url
+        // Store the current scroll position
+        var scrollPos = $(window).scrollTop();
+
+        // Push the hash to the URL without causing the scroll
         location.hash = clickedLink;
+
+        // Restore the scroll position
+        $(window).scrollTop(scrollPos);
     });
 
 
     //create hash tag in url for tabs
-    jQuery('.ft-gallery-settings-tabs-meta-wrap #tabs').on('click', "label.tabbed", function () {
+    jQuery('.ft-gallery-settings-tabs-meta-wrap #tabs').on('click', "label.tabbed", function (e) {
+
+        // Prevent the anchor's default click action
+        e.preventDefault();
+
         var myURL = document.location;
         document.location = myURL + "&tab=" + jQuery(this).attr('id');
 

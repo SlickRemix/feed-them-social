@@ -61,119 +61,112 @@ jQuery(window).on('resize',slickremixImageResizing);
 
 function slickremixImageResizing() {
 
-    // This is the container for our instagram images
-    let ftsBlockCenteredAttr = jQuery('.fts-instagram-inline-block-centered');
-    // Get the Instagram container .width() so we can keep track of the container size
-    let ftsContainerWidth = ftsBlockCenteredAttr.width();
+    jQuery('.fts-instagram-inline-block-centered').each(function () {
+        // This is the container for our instagram images
+        const ftsBlockCenteredAttr = jQuery(this).attr('id');
+        let uniqueID = jQuery('#' + ftsBlockCenteredAttr);
+        // Get the Instagram container .width() so we can keep track of the container size
+        let ftsContainerWidth = uniqueID.width();
 
-    // var ftsname = arguments["0"]
-    //  var ftsBlockCenteredAttr = jQuery(ftsname);
-    
-    // alert(ftsBlockCenteredAttr);
+        // var ftsname = arguments["0"]
+        //  var ftsBlockCenteredAttr = jQuery(ftsname);
 
-    // This is the container for the instagram image post
-    let ftsImageSize = jQuery('.slicker-instagram-placeholder');
+        // alert(ftsBlockCenteredAttr);
 
-    // How many columns do we want to show
-    let ftsInstagramColumns;
+        // This is the container for the instagram image post
+        let ftsImageSize = jQuery('#' + ftsBlockCenteredAttr + ' .slicker-instagram-placeholder');
 
-    if (ftsContainerWidth <= '376' && ftsBlockCenteredAttr.attr('data-ftsi-columns-mobile') !== undefined ) {
-        ftsInstagramColumns = ftsBlockCenteredAttr.attr('data-ftsi-columns-mobile');
-    }
-    // if the container is 736px or less we force the image size to be 50%
-    else if (ftsContainerWidth <= '736' && ftsBlockCenteredAttr.attr('data-ftsi-columns-tablet') !== undefined) {
-        ftsInstagramColumns = ftsBlockCenteredAttr.attr('data-ftsi-columns-tablet');
-    }
-    else {
-        ftsInstagramColumns = ftsBlockCenteredAttr.attr('data-ftsi-columns');
-    }
+        // How many columns do we want to show
+        let ftsInstagramColumns;
 
-    // For TikTok lets let the user choose the height of the photo holder
-    let ftsInstagramHeight = ftsBlockCenteredAttr.attr('data-ftsi-height') && ftsBlockCenteredAttr.attr('data-ftsi-height') !== '' ? ftsBlockCenteredAttr.attr('data-ftsi-height') : 0;
-    // The margin in between photos so we can subtract that from the total %
-    let ftsInstagramMargin = ftsBlockCenteredAttr.attr('data-ftsi-margin');
-    // The margin without the px and we multiply it by 2 because the margin is on the left and right
-    let ftsInstagramMarginfinal = parseFloat(ftsInstagramMargin) * 2;
-    // Force columns so the images to not scale up from 376px-736px.
-    // This keeps the aspect ratio for the columns and is in the if statements below where you will see ftsContainerWidth <= '376' && ftsForceColumns === 'no' and ftsContainerWidth <= '736' && ftsForceColumns === 'no'
-    // commenting out for now since we are introducing the responsive modes for desktop, tablet and mobile.
-    // let ftsForceColumns = ftsBlockCenteredAttr.attr('data-ftsi-force-columns');
-    // we or each option so if someone tries something other than that it will go to else statement
-    let og_size;
-    if (ftsInstagramColumns === '1' ||
-        ftsInstagramColumns === '2' ||
-        ftsInstagramColumns === '3' ||
-        ftsInstagramColumns === '4' ||
-        ftsInstagramColumns === '5' ||
-        ftsInstagramColumns === '6' ||
-        ftsInstagramColumns === '7' ||
-        ftsInstagramColumns === '8') {
-        //   alert('wtf');
-        // if the container is 376px or less we force the image size to be 100%
-       /* if (ftsContainerWidth <= '376' && ftsForceColumns === 'no') {
-            og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';
+        if (ftsContainerWidth <= '376' && uniqueID.attr('data-ftsi-columns-mobile') !== undefined) {
+            ftsInstagramColumns = uniqueID.attr('data-ftsi-columns-mobile');
         }
         // if the container is 736px or less we force the image size to be 50%
-        else if (ftsContainerWidth <= '736' && ftsForceColumns === 'no') {
-            og_size = 'calc(50% - ' + ftsInstagramMarginfinal + 'px)';
+        else if (ftsContainerWidth <= '736' && uniqueID.attr('data-ftsi-columns-tablet') !== undefined) {
+            ftsInstagramColumns = uniqueID.attr('data-ftsi-columns-tablet');
+        } else {
+            ftsInstagramColumns = uniqueID.attr('data-ftsi-columns');
         }
-        else {*/
+
+        // For TikTok lets let the user choose the height of the photo holder
+        let ftsInstagramHeight = uniqueID.attr('data-ftsi-height') && uniqueID.attr('data-ftsi-height') !== '' ? uniqueID.attr('data-ftsi-height') : 0;
+        // The margin in between photos so we can subtract that from the total %
+        let ftsInstagramMargin = uniqueID.attr('data-ftsi-margin');
+        // The margin without the px and we multiply it by 2 because the margin is on the left and right
+        let ftsInstagramMarginfinal = parseFloat(ftsInstagramMargin) * 2;
+        // Force columns so the images to not scale up from 376px-736px.
+        // This keeps the aspect ratio for the columns and is in the if statements below where you will see ftsContainerWidth <= '376' && ftsForceColumns === 'no' and ftsContainerWidth <= '736' && ftsForceColumns === 'no'
+        // commenting out for now since we are introducing the responsive modes for desktop, tablet and mobile.
+        // let ftsForceColumns = ftsBlockCenteredAttr.attr('data-ftsi-force-columns');
+        // we or each option so if someone tries something other than that it will go to else statement
+        let og_size;
+        if (ftsInstagramColumns === '1' ||
+            ftsInstagramColumns === '2' ||
+            ftsInstagramColumns === '3' ||
+            ftsInstagramColumns === '4' ||
+            ftsInstagramColumns === '5' ||
+            ftsInstagramColumns === '6' ||
+            ftsInstagramColumns === '7' ||
+            ftsInstagramColumns === '8') {
+            //   alert('wtf');
+            // if the container is 376px or less we force the image size to be 100%
+            /* if (ftsContainerWidth <= '376' && ftsForceColumns === 'no') {
+                 og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';
+             }
+             // if the container is 736px or less we force the image size to be 50%
+             else if (ftsContainerWidth <= '736' && ftsForceColumns === 'no') {
+                 og_size = 'calc(50% - ' + ftsInstagramMarginfinal + 'px)';
+             }
+             else {*/
             if (ftsInstagramColumns === '8') {
                 og_size = 'calc(12.5% - ' + ftsInstagramMarginfinal + 'px)';
-            }
-            else if (ftsInstagramColumns === '7') {
+            } else if (ftsInstagramColumns === '7') {
                 og_size = 'calc(14.28571428571429% - ' + ftsInstagramMarginfinal + 'px)';
-            }
-            else if (ftsInstagramColumns === '6') {
+            } else if (ftsInstagramColumns === '6') {
                 og_size = 'calc(16.66666666666667% - ' + ftsInstagramMarginfinal + 'px)';
-            }
-            else if (ftsInstagramColumns === '5') {
+            } else if (ftsInstagramColumns === '5') {
                 og_size = 'calc(20% - ' + ftsInstagramMarginfinal + 'px)';
-            }
-            else if (ftsInstagramColumns === '4') {
+            } else if (ftsInstagramColumns === '4') {
                 og_size = 'calc(25% - ' + ftsInstagramMarginfinal + 'px)';
-            }
-            else if (ftsInstagramColumns === '3') {
+            } else if (ftsInstagramColumns === '3') {
                 og_size = 'calc(33.33333333333333% - ' + ftsInstagramMarginfinal + 'px)';
-            }
-            else if (ftsInstagramColumns === '2') {
+            } else if (ftsInstagramColumns === '2') {
                 og_size = 'calc(50% - ' + ftsInstagramMarginfinal + 'px)';
-            }
-            else if (ftsInstagramColumns === '1') {
+            } else if (ftsInstagramColumns === '1') {
                 og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';
             }
-       // }
+            // }
 
-        ftsImageSize.css({'width': og_size});
+            ftsImageSize.css({'width': og_size});
 
-        const ftsImageHeight = ftsImageSize.width() + parseFloat(ftsInstagramHeight);
-        ftsImageSize.css({
-            'width': og_size,
-            'height': ftsImageHeight,
-            'margin': ftsInstagramMargin
-        });
-    }
-    else {
-        const ftsImageWidth = ftsBlockCenteredAttr.attr('data-ftsi-width') ? ftsBlockCenteredAttr.attr('data-ftsi-width') : '325px';
-        // alert(ftsImageSize.width())
-        ftsImageSize.css({
-            'width': ftsImageWidth,
-            'height': ftsImageWidth,
-            'margin': ftsInstagramMargin
-        });
-    }
+            const ftsImageHeight = ftsImageSize.width() + parseFloat(ftsInstagramHeight);
+            ftsImageSize.css({
+                'width': og_size,
+                'height': ftsImageHeight,
+                'margin': ftsInstagramMargin
+            });
+        } else {
+            const ftsImageWidth = uniqueID.attr('data-ftsi-width') ? uniqueID.attr('data-ftsi-width') : '325px';
+            // alert(ftsImageSize.width());
+            ftsImageSize.css({
+                'width': ftsImageWidth,
+                'height': ftsImageWidth,
+                'margin': ftsInstagramMargin
+            });
+        }
 
-    // If our image square is less than 180px then we hide the date, share option, hearts and comments count and icon and make the whole area clickable.
-    if (ftsImageSize.width() < 180) {
-        jQuery('.fts-instagram-inline-block-centered .slicker-date, .fts-instagram-inline-block-centered .fts-insta-likes-comments-grab-popup, .fts-instagram-inline-block-centered .fts-instagram-video-image-wrapper, .fts-instagram-inline-block-centered .fts-carousel-image-wrapper').hide();
-        jQuery('.slicker-instagram-placeholder').addClass('fts-smallerthan-180');
+        // If our image square is less than 180px then we hide the date, share option, hearts and comments count and icon and make the whole area clickable.
+        if (ftsImageSize.width() < 180) {
+            uniqueID.find('.slicker-date, .fts-insta-likes-comments-grab-popup, .fts-instagram-video-image-wrapper, .fts-carousel-image-wrapper').hide();
+            uniqueID.find('.slicker-instagram-placeholder').addClass('fts-smallerthan-180');
 
-    }
-    else {
-        jQuery('.fts-instagram-inline-block-centered .slicker-date, .fts-instagram-inline-block-centered .fts-insta-likes-comments-grab-popup, .fts-instagram-inline-block-centered .fts-instagram-video-image-wrapper, .fts-instagram-inline-block-centered .fts-carousel-image-wrapper').show();
-        jQuery('.slicker-instagram-placeholder, .slicker-youtube-placeholder').removeClass('fts-smallerthan-180');
+        } else {
+            uniqueID.find('.slicker-date, .fts-insta-likes-comments-grab-popup, .fts-instagram-video-image-wrapper, .fts-carousel-image-wrapper').show();
+            uniqueID.find('.slicker-instagram-placeholder').removeClass('fts-smallerthan-180');
 
-    }
+        }
+    });
 }
 
 // https://www.w3schools.com/js/js_comparisons.asp

@@ -258,7 +258,7 @@ class Settings_Options_JS {
                     var fb_feed_type_option = jQuery("select#facebook_page_feed_type").val();
                     if (fb_feed_type_option == 'album_photos') {
                         jQuery('.fb_album_photos_id').show();
-                        alert('Important Notice > Feed Type > Album Photos: On 6-28-2024 Meta updated the API and in doing so broke the /photos/ type=uploaded part of the endpoint. We have created a ticket and are waiting for a response to the issue. Please copy the url below and paste it in your browser then upvote the ticket to help bring more attention to it. https://developers.facebook.com/community/threads/2008841156185264/');
+                       // alert('Important Notice > Feed Type > Album Photos: On 6-28-2024 Meta updated the API and in doing so broke the /photos/ type=uploaded part of the endpoint. We have created a ticket and are waiting for a response to the issue. Please copy the url below and paste it in your browser then upvote the ticket to help bring more attention to it. https://developers.facebook.com/community/threads/2008841156185264/');
                     }
                     else {
                         jQuery('.fb_album_photos_id').hide();
@@ -366,11 +366,10 @@ class Settings_Options_JS {
             //Instagram Load More Options
             jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide();
             jQuery('#instagram_load_more_option').bind('change', function (e) {
-                if (jQuery('#instagram_load_more_option').val() == 'yes') {
+                if (jQuery('#instagram_load_more_option').val() === 'yes') {
                     jQuery('.fts-instagram-load-more-options-wrap').show();
                     jQuery('.fts-instagram-load-more-options2-wrap').show();
                 }
-
                 else {
                     jQuery('.fts-instagram-load-more-options-wrap, .fts-instagram-load-more-options2-wrap').hide();
                 }
@@ -378,12 +377,47 @@ class Settings_Options_JS {
 
             //Instagram Business Load More Options
             jQuery('#instagram_profile_wrap').bind('change', function (e) {
-                if (jQuery('#instagram_profile_wrap').val() == 'yes') {
+                if (jQuery('#instagram_profile_wrap').val() === 'yes') {
                     jQuery('.instagram-profile-options-wrap').show();
                 }
 
                 else {
                     jQuery('.instagram-profile-options-wrap').hide();
+                }
+            }).change();
+
+            // Instagram fts-instagram-slider
+            jQuery('#instagram_slider').bind('change', function (e) {
+                if (jQuery('#instagram_slider').val() === 'yes') {
+
+                    jQuery("#instagram_load_more_option").val('no');
+                    jQuery('.fts-instagram-load-more-options-wrap, .instagram_fixed_height_option, .fts-instagram-load-more-option').hide();
+                    jQuery('.instagram_slider_options_wrap').show();
+
+                }
+                else {
+                    jQuery('.instagram_slider_options_wrap').hide();
+                    jQuery('.instagram_fixed_height_option, .fts-instagram-load-more-option').show();
+
+                }
+            }).change();
+
+            // Instagram fts-instagram-slider
+            jQuery('#instagram_slider_dots_arrows_controls').bind('change', function (e) {
+                if (jQuery('#instagram_slider_controls').val() === 'navigation_arrows') {
+
+                    jQuery('.instagram_slider_arrows_colors, .instagram_arrows_size').show();
+                    jQuery('.instagram_slider_dots_colors, .instagram_dots_margin').hide();
+
+                }
+                else if (jQuery('#instagram_slider_controls').val() === 'navigation_dots') {
+
+                    jQuery('.instagram_slider_dots_colors , .instagram_dots_margin').show();
+                    jQuery('.instagram_slider_arrows_colors, .instagram_arrows_size').hide();
+
+                }
+                else {
+                    jQuery('.instagram_slider_dots_colors, .instagram_slider_arrows_colors, .instagram_dots_margin, .instagram_arrows_size').show();
                 }
             }).change();
         });
@@ -463,23 +497,23 @@ class Settings_Options_JS {
                 jQuery('select#youtube-messages-selector').bind('change', function (e) {
                     if (jQuery('#youtube-messages-selector').val() == 'channelID') {
                         jQuery('.youtube_name, .youtube_playlistID, .youtube_channelID2, .youtube_playlistID2, .youtube_name2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
-                        jQuery('.youtube_channelID, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count, h3.sectioned-options-title').show();
+                        jQuery('.youtube_channelID, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count').show();
                     }
                     else if (jQuery('#youtube-messages-selector').val() == 'userPlaylist') {
                         jQuery('.youtube_name, .youtube_channelID, .youtube_playlistID, .youtube_channelID, .youtube_channelID2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
-                        jQuery('.youtube_playlistID2, .youtube_name2, .youtube_hide_option, .youtube_video_thumbs_display, h3.sectioned-options-title').show();
+                        jQuery('.youtube_playlistID2, .youtube_name2, .youtube_hide_option, .youtube_video_thumbs_display').show();
                     }
                     else if (jQuery('#youtube-messages-selector').val() == 'playlistID') {
                         jQuery('.youtube_name, .youtube_channelID, .youtube_playlistID2, .youtube_name2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
-                        jQuery('.youtube_playlistID, .youtube_channelID2, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count, h3.sectioned-options-title').show();
+                        jQuery('.youtube_playlistID, .youtube_channelID2, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count').show();
                     }
                     else if (jQuery('#youtube-messages-selector').val() == 'singleID') {
-                        jQuery('.youtube_name,.youtube_playlistID, .youtube_channelID, .youtube_channelID2, .youtube_playlistID2, .youtube_name2, .youtube_vid_count, .youtube_hide_option, .youtube_video_thumbs_display, h3.sectioned-options-title, .fts-youtube-load-more-options2-wrap').hide();
+                        jQuery('.youtube_name,.youtube_playlistID, .youtube_channelID, .youtube_channelID2, .youtube_playlistID2, .youtube_name2, .youtube_vid_count, .youtube_hide_option, .youtube_video_thumbs_display, .fts-youtube-load-more-options2-wrap').hide();
                         jQuery('.youtube_singleVideoID, .youtube_align_comments_wrap, .youtube_video_single_info_display').show();
                     }
                     else if (jQuery('#youtube-messages-selector').val() == 'username') {
                         jQuery('.youtube_playlistID, .youtube_channelID, .youtube_channelID2, .youtube_playlistID2, .youtube_name2, .youtube_align_comments_wrap, .youtube_singleVideoID, .youtube_video_single_info_display').hide();
-                        jQuery('.youtube_name, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count, h3.sectioned-options-title').show();
+                        jQuery('.youtube_name, .youtube_hide_option, .youtube_video_thumbs_display, .youtube_vid_count').show();
                     }
                 }).change();
 

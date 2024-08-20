@@ -237,16 +237,16 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
         $this->next();
     }
 }
-// class FTS_test_runit
-// {
 
-//    public function returnthis ()
-//    {
-//        $html = 'HUGE thanks @damon_powers and #florida_greatshots';
+/* class FTS_test_runit
+ {
+    public function returnthis ()
+    {
+        $html = 'HUGE thanks @damon_powers and #florida_greatshots';
 
-//        $output =  new FeedThemSocialTruncateHTML();
-//        echo $output->fts_custom_trim_words($html, '37', '...');
-//    }
-// }
-// $output = new runit();
-// echo $output->returnthis();
+        $output =  new FeedThemSocialTruncateHTML();
+        echo $output->fts_custom_trim_words($html, '37', '...');
+    }
+ }
+ $output = new runit();
+ echo $output->returnthis();*/

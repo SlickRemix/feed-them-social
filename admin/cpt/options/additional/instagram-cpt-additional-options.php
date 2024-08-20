@@ -36,6 +36,7 @@ class Instagram_Additional_Options {
 	public function __construct() {
 		$this->follow_btn_options();
 		$this->load_more_options();
+        $this->slider_color_options();
 	}
 
 	/**
@@ -52,10 +53,95 @@ class Instagram_Additional_Options {
 
 	}
 
+    /**
+     * Instagram Slider Options
+     *
+     * Color Styles for the Instagram Slider.
+     *
+     * @return mixed
+     * @since 4.3.1
+     */
+    public function slider_color_options() {
+        $this->all_options['instagram_slider_color_options'] = array(
+            'section_attr_key'   => 'instagram_slider_color_options_',
+            'section_title'      => esc_html__( 'Slider Navigation', 'feed-them-social' ),
+            'section_wrap_id' => 'fts-tab-content1',
+            'section_wrap_class' => 'fts-tab-content',
+            // Form Info.
+            'form_wrap_classes'  => 'fb-page-shortcode-form',
+            'form_wrap_id'       => 'fts-fb-page-form',
+            'main_options'       => array(
+                // Slider Controls Arrow Color
+                array(
+                    'input_wrap_id'    => '',
+                    'input_wrap_class' => 'fts-color-picker instagram_slider_arrows_colors',
+                    'option_type'      => 'input',
+                    'label'            => __( 'Arrows', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'instagram_slider_arrow_color',
+                    'name'             => 'instagram_slider_arrow_color',
+                    'class'            => '',
+                    'default_value'    => '#494949',
+                    'placeholder'      => '#494949',
+                    'req_extensions'   => array( 'feed_them_social_instagram_slider' ),
+
+                ),
+
+                // Slider Arrow Color Hover
+                array(
+                    'input_wrap_id'    => '',
+                    'input_wrap_class' => 'fts-color-picker instagram_slider_arrows_colors',
+                    'option_type'      => 'input',
+                    'label'            => __( 'Arrows Hover', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'instagram_slider_arrow_hover_color',
+                    'name'             => 'instagram_slider_arrow_hover_color',
+                    'class'            => '',
+                    'default_value'    => '#b2b2b2',
+                    'placeholder'      => '#b2b2b2',
+                    'req_extensions'   => array( 'feed_them_social_instagram_slider' ),
+
+                ),
+
+                // Slider Dots Color
+                array(
+                    'input_wrap_id'    => '',
+                    'input_wrap_class' => 'fts-color-picker instagram_slider_dots_colors',
+                    'option_type'      => 'input',
+                    'label'            => __( 'Dots', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'instagram_slider_dots_color',
+                    'name'             => 'instagram_slider_dots_color',
+                    'class'            => '',
+                    'default_value'    => '#494949',
+                    'placeholder'      => '#494949',
+                    'req_extensions'   => array( 'feed_them_social_instagram_slider' ),
+
+                ),
+
+                // Slider Dots Hover
+                array(
+                    'input_wrap_id'    => '',
+                    'input_wrap_class' => 'fts-color-picker instagram_slider_dots_colors',
+                    'option_type'      => 'input',
+                    'label'            => __( 'Dots Hover', 'feed-them-social' ),
+                    'type'             => 'text',
+                    'id'               => 'instagram_slider_dots_hover_color',
+                    'name'             => 'instagram_slider_dots_hover_color',
+                    'class'            => '',
+                    'default_value'    => '#b2b2b2',
+                    'placeholder'      => '#b2b2b2',
+                    'req_extensions'   => array( 'feed_them_social_instagram_slider' ),
+                ),
+            ),
+        );
+        return $this->all_options['instagram_slider_color_options'];
+    }
+
 	/**
 	 * Instagram Follow Button Options
 	 *
-	 * Follow Button Options for Youtube.
+	 * Follow Button Options for Instagram.
 	 *
 	 * @return mixed
 	 * @since 1.0.0
@@ -150,7 +236,7 @@ class Instagram_Additional_Options {
 					'name'             => 'instagram_loadmore_background_color',
 					'placeholder'      => '#f0f0f0',
 					'default_value'    => '#f0f0f0',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_instagram_slider' ),
 				),
 
 				// Load More Button Text Color
@@ -163,7 +249,7 @@ class Instagram_Additional_Options {
 					'name'             => 'instagram_loadmore_text_color',
 					'placeholder'      => '#000',
 					'default_value'    => '#000',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_instagram_slider' ),
 				),
 
 
@@ -177,7 +263,7 @@ class Instagram_Additional_Options {
 					'name'             => 'instagram_load_more_text',
 					'placeholder'      => 'Load More',
 					'default_value'    => '',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_instagram_slider' ),
 				),
 
 				// "No More Photos" Text
@@ -190,7 +276,7 @@ class Instagram_Additional_Options {
 					'name'             => 'instagram_no_more_photos_text',
 					'placeholder'      => 'No More Photos',
 					'default_value'    => '',
-                    'req_extensions'  => array('feed_them_social_premium'),
+                    'req_extensions'  => array('feed_them_social_premium', 'feed_them_social_instagram_slider' ),
 				),
 			),
 		);

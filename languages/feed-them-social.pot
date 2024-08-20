@@ -943,7 +943,7 @@ msgid "Feed Type: "
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:195
-msgid "%5$s %7$s1.%8$s Choose the Social Network you want to create a feed for below. %1$s%7$s2.%8$s Click on the \"Login and Get my Access Token\" button. %1$s%7$s3.%8$s Once your Access Token is Valid you can set your feed options from the menu on the left. %1$s%7$s4.%8$s To view your feed copy the Feed Shortcode from the right side bar and paste it to any page, post or widget. %1$s%1$s%7$sNote:%8$s To Create another social feed click %2$sAdd New%3$s and follow the same 4 steps.%6$s%4$s"
+msgid "%5$s %7$s1.%8$s Choose the Social Network you want to create a feed for below. %1$s%7$s2.%8$s Click on the \"Login and Get my Access Token\" button. %1$s%7$s3.%8$s Once your Access Token is Valid you can set your feed options from the menu on the left. %1$s%7$s4.%8$s To view your feed copy the Feed Shortcode from the right side bar and paste it to any page, post or widget. %1$s%1$s%7$sNote:%8$s To Create another social feed click %2$sAdd New Feed%3$s and follow the same 4 steps.%6$s%4$s"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:222
@@ -1592,7 +1592,7 @@ msgid "Overall Rating above Feed"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:1920
-msgid "More under Style Options Tab"
+msgid "More under the Styles Tab"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:1947
@@ -1608,7 +1608,7 @@ msgid "Hide Like Box or Button"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:2000
-msgid "More under Style Options Tab</a>"
+msgid "More under the Styles Tab</a>"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:2022

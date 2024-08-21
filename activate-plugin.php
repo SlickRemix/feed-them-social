@@ -65,12 +65,8 @@ class Activate_Plugin {
 		add_action( 'admin_init', array( $this, 'set_plugin_timezone' ) );
 
 		// Review/Rating notice option names
-		$review_transient = 'fts_slick_rating_notice_waiting';
-		$review_option    = 'fts_slick_rating_notice';
-		$review_nag       = 'fts_slick_ignore_rating_notice_nag';
-
-		// Review Nag Check.
-		$this->review_nag_check( $review_nag, $review_option, $review_transient );
+		$review_transient = 'fts_slick_rating_notice_waiting2024';
+		$review_option    = 'fts_slick_rating_notice2024';
 
 		// Set Review Transient.
 		$this->set_review_transient( $review_transient, $review_option );
@@ -295,6 +291,13 @@ class Activate_Plugin {
 				add_option( $option_key, $option_value );
 			}
 		}
+
+        // Review Nag Check.
+        // Must run this on admin_init so no errors on multisite after clicking any buttons.
+        $review_transient = 'fts_slick_rating_notice_waiting2024';
+        $review_option    = 'fts_slick_rating_notice2024';
+        $review_nag       = 'fts_slick_ignore_rating_notice_nag2024';
+        $this->review_nag_check( $review_nag, $review_option, $review_transient );
 	}
 
 	/**
@@ -317,7 +320,7 @@ class Activate_Plugin {
 				require_once ABSPATH . WPINC . '/pluggable.php';
 			}
 
-			if ( ! current_user_can( 'manage_options' ) || !isset( $_REQUEST['_wpnonce'] ) || false === wp_verify_nonce( $_REQUEST['_wpnonce'], 'ignore_rating_notice_nag' ) ) {
+			if ( ! current_user_can( 'manage_options' ) || !isset( $_REQUEST['_wpnonce'] ) || false === wp_verify_nonce( $_REQUEST['_wpnonce'], 'ignore_rating_notice_nag2024' ) ) {
 				wp_die(
 					__( 'Missing capability', 'feed-them-social' ),
 					__( 'Forbidden', 'feed-them-social' ),
@@ -328,11 +331,13 @@ class Activate_Plugin {
 			}
 
 			if ( '1' === $_GET[ $review_nag ] ) {
-				update_option( $review_option, 'dismissed' );
+				update_option( $review_option, 'dismissed2024' );
 			} elseif ( 'later' === $_GET[ $review_nag ] ) {
-				$time = 2 * WEEK_IN_SECONDS;
-				set_transient( $review_transient, 'fts-review-waiting', $time );
-				update_option( $review_option, 'pending' );
+                $time = 2 * WEEK_IN_SECONDS;
+                // Testing.
+                // $time = 2;
+				set_transient( $review_transient, 'fts-review-waiting2024', $time );
+				update_option( $review_option, 'pending2024' );
 			}
 		}
 	}
@@ -350,12 +355,12 @@ class Activate_Plugin {
 		$rating_notice_waiting = get_transient( $review_transient );
 		$notice_status         = get_option( $review_option, false );
 
-		if ( ! $rating_notice_waiting && ! ( 'dismissed' === $notice_status || 'pending' === $notice_status ) ) {
-			$time = 2 * WEEK_IN_SECONDS;
+		if ( ! $rating_notice_waiting && ! ( 'dismissed2024' === $notice_status || 'pending2024' === $notice_status ) ) {
+            $time = 2 * WEEK_IN_SECONDS;
 			// Testing.
-			$time = 2;
-			set_transient( $review_transient, 'fts-review-waiting', $time );
-			update_option( $review_option, 'pending' );
+            // $time = 2;
+			set_transient( $review_transient, 'fts-review-waiting2024', $time );
+			update_option( $review_option, 'pending2024' );
 		}
 	}
 
@@ -371,7 +376,7 @@ class Activate_Plugin {
 	public function set_review_status( $review_option, $review_transient ) {
 		$get_notice_status = get_option( $review_option, false );
 		// Only display the notice if the time offset has passed and the user hasn't already dismissed it!.
-		if ( 'fts-review-waiting' !== get_transient( $review_transient ) && 'dismissed' !== $get_notice_status ) {
+		if ( get_transient( $review_transient ) !== 'fts-review-waiting2024' && $get_notice_status !== 'dismissed2024' ) {
 			add_action( 'admin_notices', array( $this, 'rating_notice_html' ) );
 		}
 
@@ -380,7 +385,7 @@ class Activate_Plugin {
         echo ' ';
         print_r( get_transient( $review_transient ) );
         // Uncomment this for testing the notice.
-         if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag'] ) ) {
+         if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag2024'] ) ) {
           add_action( 'admin_notices', array($this, 'rating_notice_html') );
          }*/
 	}
@@ -399,16 +404,14 @@ class Activate_Plugin {
 			$user_id = $current_user->ID;
 
 			// Used for testing:
-			// print_r( get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' ) );
-			// Used for testing:
-			// $all_meta_for_user = get_user_meta( $user_id );
-			// Used for testing:
-			// print_r( $all_meta_for_user );
+			/* print_r( get_user_meta( $user_id, 'fts_slick_ignore_rating_notice_nag2024' ) );
+			 $all_meta_for_user = get_user_meta( $user_id );
+			 print_r( $all_meta_for_user );*/
+
 			/* Has the user already clicked to ignore the message? */
+			if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice_nag2024' )  && ! isset( $_GET['fts_slick_ignore_rating_notice_nag2024'] ) ) {
 
-			if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice' )  && ! isset( $_GET['fts_slick_ignore_rating_notice_nag'] ) ) {
-
-				$ignore_rating_notice_nag_nonce = wp_create_nonce( 'ignore_rating_notice_nag' );
+				$ignore_rating_notice_nag_nonce = wp_create_nonce( 'ignore_rating_notice_nag2024' );
 
 				?>
 				<div class="ftg_notice ftg_review_notice">
@@ -417,10 +420,10 @@ class Activate_Plugin {
 						<p><?php echo esc_html( 'It\'s great to see that you\'ve been using our Feed Them Social plugin for a while now. Hopefully you\'re happy with it!  If so, would you consider leaving a positive review? It really helps support the plugin and helps others discover it too!', 'feed-them-social' ); ?></p>
 						<p class="fts-links">
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Sure, I\'d love to', 'feed-them-social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag' => '1', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag' => 'later', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed-them-social' ); ?> </a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag2024' => '1', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'I\'ve already given a review', 'feed-them-social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag2024' => 'later', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'Ask me later', 'feed-them-social' ); ?> </a>
 							<a class="ftg_notice_dismiss" href="<?php echo esc_url( 'https://wordpress.org/support/plugin/feed-them-social/#new-post' ); ?>" target="_blank"><?php echo esc_html__( 'Not working, I need support', 'feed-them-social' ); ?></a>
-							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag' => '1', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed-them-social' ); ?></a>
+							<a class="ftg_notice_dismiss" href="<?php echo esc_url( add_query_arg( ['fts_slick_ignore_rating_notice_nag2024' => '1', '_wpnonce' => $ignore_rating_notice_nag_nonce] ) ); ?>"><?php echo esc_html__( 'No thanks', 'feed-them-social' ); ?></a>
 						</p>
 
 					</div>

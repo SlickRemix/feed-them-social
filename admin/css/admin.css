@@ -234,9 +234,14 @@
 
 .ftg_review_notice {
     background: #fff;
-    padding: 20px 25px 8px
+    padding: 20px 25px 8px;
+    margin: 20px 20px 20px 0;
+    border: 1px solid #c3c4c787;
+    border-radius: 3px;
 }
-
+.fts-notice-text {
+    max-width:750px;
+}
 .ftg_review_notice img {
     max-width: 320px
 }

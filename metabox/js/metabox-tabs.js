@@ -35,7 +35,7 @@ function ftg_admin_gallery_tabs() {
         }
     });
 
-    jQuery('#collapse-menu').click(function () {
+    jQuery('.post-type-fts #collapse-menu').click(function () {
         const should_we_empty_cache = 'do-not-empty-cache';
         refresh_feed_ajax(should_we_empty_cache);
     });

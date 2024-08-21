@@ -128,7 +128,7 @@ class Feed_Cache {
                 $fts_display_cache_time = __( '12 Hours', 'feed-them-social' );
                 break;
 			case '86400':
-				$fts_display_cache_time = __( '1 Day (Default)', 'feed-them-social' );
+				$fts_display_cache_time = __( '1 Day', 'feed-them-social' );
 				break;
 			case '172800':
 				$fts_display_cache_time = __( '2 Days', 'feed-them-social' );

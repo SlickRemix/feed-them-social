@@ -1,4 +1,4 @@
-=== Feed Them Social - Page, Post, Video, and Photo Galleries ===
+=== Feed Them Social - Social Media Feeds, Video, and Photo Galleries ===
 Contributors: slickremix
 Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Social
@@ -125,8 +125,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.3.1 Wednesday, August 21st, 2024 =
-  * Fix > Leave a review > message was not set 2 seconds not 2 weeks.
-  * Fix > Leave a review > Fixed to work on Multisite.
+  * Fix > Leave a review > message was set for 2 seconds not 2 weeks.
+  * Fix > Leave a review > Works on Multisite.
+  * Change > Plugin title description to: Feed Them Social - Social Media Feeds, Video, and Photo Galleries
 
 = Version 4.3.0 Monday, August 19th, 2024 =
   * New > [Instagram Slider Extension](https://www.slickremix.com/downloads/feed-them-social-instagram-slider/)

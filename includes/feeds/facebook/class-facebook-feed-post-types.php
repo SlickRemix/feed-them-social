@@ -1818,27 +1818,27 @@ class Facebook_Feed_Post_Types {
 
 					}
 
-					if ( '' !== $facebook_post_picture_gallery1 ) {
+					if ( $facebook_post_picture_gallery1 !== '' ) {
 
 						// we count the number of attachments in the subattachments->data portion of the array and count the objects http://php.net/manual/en/function.count.php.
 						$fts_fb_image_counter = $fts_fb_image_count - 3;
 
 						$fts_fb_image_count_check = $fts_fb_image_count < 3 ? ' fts-more-images-tint' : '';
 
-						$facebook_post_picture_gallery1_check = '' === $facebook_post_picture_gallery2 ? '100%;' : $facebook_post_picture_gallery0_width . 'px';
+						$facebook_post_picture_gallery1_check = $facebook_post_picture_gallery2 === '' ? '100%;' : $facebook_post_picture_gallery0_width . 'px';
 						// if we only have 2 photos we show them side by side.
-						$facebook_post_picture_gallery2_check = '' === $facebook_post_picture_gallery2 ? ' fts-more-photos-auto-width' : '';
+						$facebook_post_picture_gallery2_check = $facebook_post_picture_gallery2 === '' ? ' fts-more-photos-auto-width' : '';
 						// if we have 3 photos we add this class so we can make the 2 attachments below the large image will fit side by side.
-						$facebook_post_picture_gallery3_check = '' === $facebook_post_picture_gallery3 && '' !== $facebook_post_picture_gallery2 ? ' fts-more-photos-three-photo-wrap' : '';
+						$facebook_post_picture_gallery3_check = $facebook_post_picture_gallery3 === '' && $facebook_post_picture_gallery2 !== '' ? ' fts-more-photos-three-photo-wrap' : '';
 
 						$columns_css = '';
 
 						// print $fts_fb_image_count;.
-						if ( 2 === $fts_fb_image_count ) {
+						if ( $fts_fb_image_count === 2 ) {
 							$columns = '2';
 							$columns_css = 'fts-more-photos-2-or-3-photos ';
 							$morethan3 = 'fts-2-photos ';
-						} elseif ( 3 === $fts_fb_image_count ) {
+						} elseif ( $fts_fb_image_count === 3 ) {
 							$columns = '2';
 							$columns_css = 'fts-more-photos-2-or-3-photos ';
 							$morethan3 = 'fts-3-photos ';
@@ -1848,24 +1848,24 @@ class Facebook_Feed_Post_Types {
 							$morethan3 = 'fts-4-photos ';
 						}
 
-						echo '<div class="fts-clear"></div><div class="' . esc_attr( $columns_css . 'fts-fb-more-photos-wrap fts-facebook-inline-block-centered' . $facebook_post_picture_gallery2_check . $facebook_post_picture_gallery3_check ) . '" style="max-width:' . esc_attr( $facebook_post_picture_gallery1_check ) . '" data-ftsi-id=' . esc_attr( $fts_dynamic_vid_name_string ) . ' data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-margin="1px" data-ftsi-force-columns="yes">';
+						echo '<div class="fts-clear"></div><div id="' . esc_attr( $fts_dynamic_vid_name_string ) . '" class="' . esc_attr( $columns_css . 'fts-fb-more-photos-wrap fts-facebook-inline-block-centered' . $facebook_post_picture_gallery2_check . $facebook_post_picture_gallery3_check ) . '" style="max-width:' . esc_attr( $facebook_post_picture_gallery1_check ) . '" data-ftsi-id=' . esc_attr( $fts_dynamic_vid_name_string ) . ' data-ftsi-columns="' . esc_attr( $columns ) . '" data-ftsi-margin="1px" data-ftsi-force-columns="yes">';
 					}
-					if ( 2 === $fts_fb_image_count ) {
-						echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $photo_source_final ) : esc_url( $facebook_post_link )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $photo_source_final ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription0 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription0 ) . '"></a>';
+					if ( $fts_fb_image_count === 2 ) {
+						echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ? esc_url( $photo_source_final ) : esc_url( $facebook_post_link )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $photo_source_final ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription0 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription0 ) . '"></a>';
 
 					}
-					if ( '' !== $facebook_post_picture_gallery1 ) {
-						echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery1 ) : esc_url( $facebook_post_picture_gallery_link1 )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $facebook_post_picture_gallery1 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '"></a>';
+					if ( $facebook_post_picture_gallery1 !== '' ) {
+						echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ? esc_url( $facebook_post_picture_gallery1 ) : esc_url( $facebook_post_picture_gallery_link1 )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-zero-wrap fts-fb-large-photo" style="background:url(' . esc_url( $facebook_post_picture_gallery1 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '"></a>';
 
-						if ( '' !== $facebook_post_picture_gallery2 ) {
-							echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery2 ) : esc_url( $facebook_post_picture_gallery_link2 )) . '" target="_blank" rel="noreferrer" class="fts-2-or-3-photos slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-one-wrap fts-fb-large-photo" style="background:url(' . esc_url( $facebook_post_picture_gallery2 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '"></a>';
+						if ( $facebook_post_picture_gallery2 !== '' ) {
+							echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ? esc_url( $facebook_post_picture_gallery2 ) : esc_url( $facebook_post_picture_gallery_link2 )) . '" target="_blank" rel="noreferrer" class="fts-2-or-3-photos slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-one-wrap fts-fb-large-photo" style="background:url(' . esc_url( $facebook_post_picture_gallery2 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription1 ) . '"></a>';
 
 						}
-						if ( '' !== $facebook_post_picture_gallery3 ) {
-							echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ? esc_url( $facebook_post_picture_gallery3 ) : esc_url( $facebook_post_picture_gallery_link3 )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-two-wrap fts-fb-large-photo' . esc_attr( $fts_fb_image_count_check ) . '" style="background:url(' . esc_url( $facebook_post_picture_gallery3 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription2 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription2 ) . '"><div class="fts-image-count-tint-underlay"></div><div class="fts-image-count"><span>+</span>' . esc_html( $fts_fb_image_counter ) . '</div></a>';
+						if ( $facebook_post_picture_gallery3 !== '' ) {
+							echo '<a href="' . (is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ? esc_url( $facebook_post_picture_gallery3 ) : esc_url( $facebook_post_picture_gallery_link3 )) . '" target="_blank" rel="noreferrer" class="slicker-facebook-placeholder fts-fb-thumbs-wrap ' . esc_attr( $morethan3 ) . 'fts-fb-thumb-two-wrap fts-fb-large-photo' . esc_attr( $fts_fb_image_count_check ) . '" style="background:url(' . esc_url( $facebook_post_picture_gallery3 ) . ');" title="' . esc_attr( $facebook_post_pictureGalleryDescription2 ) . '" aria-label="' . esc_attr( $facebook_post_pictureGalleryDescription2 ) . '"><div class="fts-image-count-tint-underlay"></div><div class="fts-image-count"><span>+</span>' . esc_html( $fts_fb_image_counter ) . '</div></a>';
 						}
 					}
-					if ( '' !== $facebook_post_picture_gallery1 ) {
+					if ( $facebook_post_picture_gallery1 !== '' ) {
 						echo '</div>';
 					}
 				}

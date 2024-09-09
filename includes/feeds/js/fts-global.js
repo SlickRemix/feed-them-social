@@ -178,71 +178,64 @@ jQuery(document).ready(slickremixImageResizingFacebook, slickremixImageResizingF
 jQuery(window).on('resize',slickremixImageResizingFacebook, slickremixImageResizingFacebook2, slickremixImageResizingFacebook3);
 
 function slickremixImageResizingFacebook() {
-    // This is the container for our instagram images
-    let ftsBlockCenteredAttr = jQuery('.fts-facebook-inline-block-centered');
-    // var ftsname = arguments["0"]
-    //  var ftsBlockCenteredAttr = jQuery(ftsname);
 
+    jQuery('.fts-facebook-inline-block-centered').each(function () {
 
-    // alert(ftsBlockCenteredAttr);
+        const ftsBlockCenteredAttr = jQuery(this).attr('id');
+        let uniqueID = jQuery('#' + ftsBlockCenteredAttr);
 
-    // This is the container for the instagram image post
-    let ftsImageSize = jQuery('.slicker-facebook-placeholder');
+        // This is the container for the instagram image post
+        let ftsImageSize = jQuery('#' + ftsBlockCenteredAttr + ' .slicker-facebook-placeholder');
 
-    // How many colums do we want to show
-    let ftsInstagramColumns = ftsBlockCenteredAttr.attr('data-ftsi-columns');
-    // The margin in between photos so we can subtract that from the total %
-    let ftsInstagramMargin = ftsBlockCenteredAttr.attr('data-ftsi-margin');
-    // The margin without the px and we multiply it by 2 because the margin is on the left and right
-    let ftsInstagramMarginfinal = parseFloat(ftsInstagramMargin) * 1;
-    // Get the Instagram container .width() so we can keep track of the container size
-    let ftsContainerWidth = ftsBlockCenteredAttr.width();
-    // Force columns so the images to not scale up from 376px-736px.
-    // This keeps the aspect ratio for the columns and is in the if statements below where you will see ftsContainerWidth <= '376' && ftsForceColumns === 'no' and ftsContainerWidth <= '736' && ftsForceColumns === 'no'
-    let ftsForceColumns = 'yes';
-    // we or each option so if someone tries something other than that it will go to else statement
-    if (ftsInstagramColumns === '2' ||
-        ftsInstagramColumns === '3') {
+        // How many colums do we want to show
+        let ftsInstagramColumns = uniqueID.attr('data-ftsi-columns');
+        // The margin in between photos so we can subtract that from the total %
+        let ftsInstagramMargin = uniqueID.attr('data-ftsi-margin');
+        // The margin without the px and we multiply it by 2 because the margin is on the left and right
+        let ftsInstagramMarginfinal = parseFloat(ftsInstagramMargin) * 1;
+        // Get the Instagram container .width() so we can keep track of the container size
+        let ftsContainerWidth = uniqueID.width();
+        // Force columns so the images to not scale up from 376px-736px.
+        // This keeps the aspect ratio for the columns and is in the if statements below where you will see ftsContainerWidth <= '376' && ftsForceColumns === 'no' and ftsContainerWidth <= '736' && ftsForceColumns === 'no'
+        let ftsForceColumns = 'yes';
+        // we or each option so if someone tries something other than that it will go to else statement
+        if (ftsInstagramColumns === '2' ||
+            ftsInstagramColumns === '3') {
 
-        let og_size;
-        if (ftsInstagramColumns === '3') {
-             og_size = 'calc(33.0777777% - ' + ftsInstagramMarginfinal + 'px)';
+            let og_size;
+            if (ftsInstagramColumns === '3') {
+                og_size = 'calc(33.0777777% - ' + ftsInstagramMarginfinal + 'px)';
+            } else if (ftsInstagramColumns === '2') {
+                og_size = 'calc(49.777777% - ' + ftsInstagramMarginfinal + 'px)';
+            }
+
+            ftsImageSize.css({'width': og_size});
+
+            const ftsImageHeight = ftsImageSize.width();
+            ftsImageSize.css({
+                'width': og_size,
+                'height': ftsImageHeight,
+                'margin': ftsInstagramMargin
+            });
+        } else {
+            let ftsImageWidth = uniqueID.attr('data-ftsi-width') ? uniqueID.attr('data-ftsi-width') : '325px';
+            ftsImageSize.css({
+                'width': ftsImageWidth,
+                'height': ftsImageWidth,
+                'margin': ftsInstagramMargin
+            });
         }
-        else if (ftsInstagramColumns === '2') {
-             og_size = 'calc(49.777777% - ' + ftsInstagramMarginfinal + 'px)';
+
+        // If our image square is less than 180px then we hide the date, share option, hearts and comments count and icon and make the whole area clickable.
+        if (ftsImageSize.width() < 180) {
+            jQuery('.fts-facebook-inline-block-centered .slicker-date, .fts-facebook-inline-block-centered .fts-insta-likes-comments-grab-popup').hide();
+            jQuery('.slicker-facebook-placeholder').addClass('fts-smallerthan-180');
+
+        } else {
+            jQuery('.fts-facebook-inline-block-centered .slicker-date, .fts-facebook-inline-block-centered .fts-insta-likes-comments-grab-popup').show();
+            jQuery('.slicker-facebook-placeholder, .slicker-youtube-placeholder').removeClass('fts-smallerthan-180');
         }
-
-
-        ftsImageSize.css({'width': og_size});
-
-        const ftsImageHeight = ftsImageSize.width();
-        ftsImageSize.css({
-            'width': og_size,
-            'height': ftsImageHeight,
-            'margin': ftsInstagramMargin
-        });
-    }
-    else {
-        let ftsImageWidth = ftsBlockCenteredAttr.attr('data-ftsi-width') ? ftsBlockCenteredAttr.attr('data-ftsi-width') : '325px';
-        // alert(ftsImageSize.width())
-        ftsImageSize.css({
-            'width': ftsImageWidth,
-            'height': ftsImageWidth,
-            'margin': ftsInstagramMargin
-        });
-    }
-
-    // If our image square is less than 180px then we hide the date, share option, hearts and comments count and icon and make the whole area clickable.
-    if (ftsImageSize.width() < 180) {
-        jQuery('.fts-facebook-inline-block-centered .slicker-date, .fts-facebook-inline-block-centered .fts-insta-likes-comments-grab-popup').hide();
-        jQuery('.slicker-facebook-placeholder').addClass('fts-smallerthan-180');
-
-    }
-    else {
-        jQuery('.fts-facebook-inline-block-centered .slicker-date, .fts-facebook-inline-block-centered .fts-insta-likes-comments-grab-popup').show();
-        jQuery('.slicker-facebook-placeholder, .slicker-youtube-placeholder').removeClass('fts-smallerthan-180');
-
-    }
+    });
 }
 
 function slickremixImageResizingFacebook2() {

@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.6.1
-Stable tag: 4.3.0
+Stable tag: 4.3.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,7 +124,8 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.1 Wednesday, August 21st, 2024 =
+= Version 4.3.1 Monday, September 9th, 2024 =
+  * Fix: Facebook Feed > Feeds with more than one post with 2 or more photos were not rendering properly.
   * Fix > Leave a review > message was set for 2 seconds not 2 weeks.
   * Fix > Leave a review > Works on Multisite.
   * Change > Plugin title description to: Feed Them Social - Social Media Feeds, Video, and Photo Galleries

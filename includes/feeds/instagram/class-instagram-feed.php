@@ -697,7 +697,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 					<?php if ( isset( $saved_feed_options['instagram_profile_photo'] ) && $saved_feed_options['instagram_profile_photo'] === 'yes' ) { ?>
 			<div class="fts-profile-pic">
 				<a href="https://www.instagram.com/<?php echo esc_attr( $username ); ?>" target="_blank" rel="noreferrer"><img
-							src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>"/></a>
+							src="<?php echo esc_url( $profile_picture ); ?>" style="max-width:125px" title="<?php echo esc_attr( $username ); ?>"/></a>
 			</div>
 						<?php
 }

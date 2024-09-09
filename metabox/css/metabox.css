@@ -493,9 +493,9 @@ h3 .fts-responsive-options-wrap {
     display:none;
     padding-top:5px !important;
 }
-#discount-for-review a, .instructional-text a, .fts-paid-extension-required a {
+#discount-for-review a,.instructional-text a {
     color: #0073aa;
-    text-decoration: none !important
+    text-decoration: none
 }
 
 .instructional-text a:hover {
@@ -3177,8 +3177,8 @@ img.instagram-feed-type-image-tab {
     }
 
     .feed-them-social-admin-input-label {
-        float: left!important;
-        display: inline-block;
+        /* float: left!important; */
+        /* display: inline-block; */
         padding-top: 12px!important;
         max-width: 165px!important;
         min-width: 165px!important

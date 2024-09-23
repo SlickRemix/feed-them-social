@@ -124,7 +124,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.1 Monday, September 9th, 2024 =
+= Version 4.3.1 Monday, September 23rd, 2024 =
   * Fix: Facebook Feed > Feeds with more than one post with 2 or more photos were not rendering properly.
   * Fix > Leave a review > message was set for 2 seconds not 2 weeks.
   * Fix > Leave a review > Works on Multisite.

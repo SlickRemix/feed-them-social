@@ -449,9 +449,9 @@ class Facebook_Feed {
             $feed_data_check = json_decode( $feed_data );
 
             // SHOW THE REGULAR FEEDS PRINT_R
-            //  echo '<pre>';
-            //  print_r($feed_data_check);
-            //  echo '</pre>';
+            /*echo '<pre>';
+                print_r($feed_data_check);
+            echo '</pre>';*/
             // $idNew = array();
             // $idNew = explode(',', $saved_feed_options['fts_facebook_custom_api_token_user_id']);
             // Testing options before foreach loop
@@ -501,6 +501,7 @@ class Facebook_Feed {
                     if ( strpos( $fb_story, 'updated their website address' ) !== false ||
                         $facebook_post_type === 'profile_media' ||
                         $facebook_post_type === 'cover_photo' ||
+                        $facebook_post_type === 'native_templates' && strpos( $fb_story, 'updated their bio' ) !== false ||
                         $facebook_post_type === 'status' && empty( $fb_message ) && empty( $fb_story ) ||
                         $facebook_post_type === 'event' || $facebook_post_type === 'status' && strpos( $fb_story, 'changed the name of the event to' ) !== false ||
                         $facebook_post_type === 'status' && strpos( $fb_story, 'changed the privacy setting' ) !== false ||
@@ -528,7 +529,7 @@ class Facebook_Feed {
                 }
 
                 // SHOW THE $feed_data_check PRINT_R
-                /* echo '<pre>';
+                 /*echo '<pre>';
                  print_r($feed_data_check);
                  echo '</pre>, ';*/
             }
@@ -985,6 +986,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                 if ( strpos($fb_story, 'updated their website address') !== false ||
                     $facebook_post_type === 'profile_media' ||
                     $facebook_post_type === 'cover_photo' ||
+                    $facebook_post_type === 'native_templates' && strpos( $fb_story, 'updated their bio' ) !== false ||
                     $facebook_post_type === 'status' && empty($fb_message) && empty($fb_story) ||
                     $facebook_post_type === 'event' ||
                     $facebook_post_type === 'status' && strpos($fb_story, 'changed the name of the event to') !== false ||

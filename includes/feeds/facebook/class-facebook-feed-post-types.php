@@ -166,7 +166,7 @@ class Facebook_Feed_Post_Types {
                 // SRL: 8-14-24. Leaving this but I don't think this if statement should be here, it makes no sense since a case: photo can be in a regular feed not just
                 // an album_photos type feed, these case's are about the post type coming from facebook.
 				//if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
-					if ( isset( $saved_feed_options['facebook_page_word_count'] ) ) {
+					if ( !empty( $saved_feed_options['facebook_page_word_count'] ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                         $trunacate_words = new \FeedThemSocialTruncateHTML();
 						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
 						echo '<div class="fts-jal-fb-description fts-non-popup-text">' . wp_kses(
@@ -198,7 +198,8 @@ class Facebook_Feed_Post_Types {
 									)
 								) . '</div>';
 						}
-					} elseif ( isset( $saved_feed_options['facebook_page_word_count'] ) && '0' !== $saved_feed_options['facebook_page_word_count']) {
+					} else {
+
 						echo '<div class="fts-jal-fb-description">' . wp_kses(
 								nl2br( $fb_description ),
 								array(
@@ -807,6 +808,8 @@ class Facebook_Feed_Post_Types {
             $facebook_post_name = $facebook_post->attachments->data[0]->title ?? '';
         }
 		$facebook_post_caption           = $facebook_post->attachments->data[0]->caption ?? '';
+        $facebook_description            = $facebook_post->description ?? '';
+        $facebook_message                = ($facebook_post->message ?? (($facebook_post->review_text ?? '') . ''));
 		$facebook_post_description       = $facebook_post->attachments->data[0]->description ?? '';
 		$facebook_post_link_event_name   = $facebook_post->to->data[0]->name ?? '';
 		$facebook_post_story             = $facebook_post->story ?? '';
@@ -1116,15 +1119,16 @@ class Facebook_Feed_Post_Types {
 			$facebook_title_job_opening = isset( $facebook_post->attachments->data[0]->title ) && 'job_search_job_opening' === $facebook_post->attachments->data[0]->type ? $facebook_post->attachments->data[0]->title : '';
 
 			// filter messages to have urls.
-			// Output Message.
-			$facebook_message = ( isset( $facebook_post->message ) ? $facebook_post->message : ( isset( $facebook_post->review_text ) ? $facebook_post->review_text : '' ) . '' );
 			if ( empty( $facebook_message ) ) {
 
-				if ( isset( $facebook_post->description ) ) {
-					$facebook_message = isset( $facebook_post->description ) ? $facebook_post->description : '';
-				} elseif ( isset( $facebook_post->attachments->data[0]->description ) ) {
-					$facebook_message = isset( $facebook_post->attachments->data[0]->description ) ? $facebook_post->attachments->data[0]->description : '';
+				if ( !empty( $facebook_description ) ) {
+					$facebook_message = $facebook_description;
 				}
+                // If a post is shared that has $facebook_post->attachments->data[0]->description then we want to show that under the photo.
+                // SRL 10-13-24 commenting out for the moment because this should appear under the photo not as the main message.
+                /*if ( isset( $facebook_post->attachments->data[0]->description ) ) {
+					$facebook_message = isset( $facebook_post->attachments->data[0]->description ) ? $facebook_post->attachments->data[0]->description : '';
+				}*/
 			}
 
 			if ( $facebook_message && 'top' !== $show_media ) {
@@ -1160,6 +1164,7 @@ class Facebook_Feed_Post_Types {
 					echo '<div class="fts-clear"></div></div> ';
 
 				} elseif ( 'top' !== $show_media ) {
+                    // leaving off here, something with the words option is causing problems with the photo description part not displaying.
 					$facebook_final_message = $this->facebook_tag_filter( $facebook_message );
 					echo '<div class="fts-jal-fb-message"' . esc_attr( $itemprop_description_reviews ) . '>';
 					// $facebook_final_message CANNOT be esc at this time.
@@ -1168,7 +1173,8 @@ class Facebook_Feed_Post_Types {
 					// echo isset($saved_feed_options['facebook_popup'] ) && $saved_feed_options['facebook_popup']  == 'yes' ? '<div class="fts-fb-caption"><a href="' . $facebook_post_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html('View on Facebook', 'feed-them-facebook') . '</a></div> ' : '';.
 					echo '<div class="fts-clear"></div></div>';
 				}
-			} elseif ( ! $facebook_message && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] || ! $facebook_message && 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
+			} elseif ( ! $facebook_message && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ||
+                       ! $facebook_message && 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
 
 				echo '<div class="fts-jal-fb-description-wrap">';
 
@@ -1410,7 +1416,7 @@ class Facebook_Feed_Post_Types {
 				// Link Description.
 				if ( !empty( $facebook_event_location ) ) {
 					echo '<div class="fts-fb-location"><span class="fts-fb-location-title">' . esc_html( $facebook_event_location ) . '</span>';
-					// Street Adress.
+					// Street Address.
 					echo esc_html( $facebook_event_street );
 					// City & State.
 					echo $facebook_event_city || $facebook_event_state ? '<br/>' . esc_html( $facebook_event_city . $facebook_event_state . $facebook_event_zip ) : '';
@@ -1721,11 +1727,6 @@ class Facebook_Feed_Post_Types {
 					break;
 				}
 
-				// Wrapping with if statement to prevent Notice on some facebook page feeds.
-				if ( 'group' === $saved_feed_options['facebook_page_feed_type'] ) {
-					$photo_source = json_decode( $response_post_array[$facebook_post_key . '_group_post_photo'] );
-				}
-
 				echo '<div class="fts-jal-fb-link-wrap fts-album-photos-wrap"';
 				if ( isset($saved_feed_options['facebook_page_feed_type']) && $saved_feed_options['facebook_page_feed_type'] === 'album_photos' || isset($saved_feed_options['facebook_page_feed_type']) && $saved_feed_options['facebook_page_feed_type'] === 'albums' ) {
 					echo ' style="line-height:' . esc_attr( $saved_feed_options['facebook_image_height'] ) . ' !important;"';
@@ -1768,15 +1769,23 @@ class Facebook_Feed_Post_Types {
 						echo '</div>';
 					}
 				}
-				if ( 'album_photos' === !$saved_feed_options['facebook_page_feed_type'] ) {
-					echo '<div class="fts-jal-fb-description-wrap" style="display:none">';
-					// Output Photo Name.
-					$this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
-					// Output Photo Caption.
-					$this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
-					// Output Photo Description.
-					$this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
-					echo '<div class="fts-clear"></div></div>';
+				if ( 'album_photos' !== $saved_feed_options['facebook_page_feed_type'] ) {
+                    if ( $facebook_post_name || $facebook_post_caption || $facebook_post_description ) {
+                        echo '<div class="fts-jal-fb-description-wrap">';
+                        if(!empty($facebook_post_name)){
+                            // Output Photo Name.
+                            $this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
+                        }
+                        if(!empty($facebook_post_caption)){
+                            // Output Photo Caption.
+                            $this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
+                        }
+                        if(!empty($facebook_post_description)) {
+                            // Output Photo Description.
+                            $this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, $facebook_post_id, $facebook_post_by );
+                        }
+                        echo '<div class="fts-clear"></div></div>';
+                    }
 				}
 				echo '<div class="fts-clear"></div></div>';
 				break;
@@ -1878,15 +1887,23 @@ class Facebook_Feed_Post_Types {
 					$this->facebook_post_photo( $facebook_post_link, $saved_feed_options, $facebook_post_from_name, $facebook_post_album_cover );
 				}
 				echo '<div class="slicker-facebook-album-photoshadow"></div>';
-				if ( 'albums' === ! $saved_feed_options['facebook_page_feed_type'] ) {
-					echo '<div class="fts-jal-fb-description-wrap">';
-					// Output Photo Name.
-					$this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
-					// Output Photo Caption.
-					$this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
-					// Output Photo Description.
-					$this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
-					echo '<div class="fts-clear"></div></div>';
+				if ( 'albums' !== $saved_feed_options['facebook_page_feed_type'] ) {
+                    if ( $facebook_post_name || $facebook_post_caption || $facebook_post_description ) {
+                        echo '<div class="fts-jal-fb-description-wrap">';
+                        if(!empty($facebook_post_name)){
+                            // Output Photo Name.
+                            $this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
+                        }
+                        if(!empty($facebook_post_caption)){
+                            // Output Photo Caption.
+                            $this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
+                        }
+                        if(!empty($facebook_post_description)) {
+                            // Output Photo Description.
+                            $this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, $facebook_post_id, $facebook_post_by );
+                        }
+                        echo '<div class="fts-clear"></div></div>';
+                    }
 				}
 				echo '<div class="fts-clear"></div></div>';
 				break;

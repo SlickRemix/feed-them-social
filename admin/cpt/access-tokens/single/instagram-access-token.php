@@ -154,13 +154,31 @@ class Instagram_Access_Functions {
 
         echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
-            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . urlencode( urlencode( urlencode( $post_url ) ) ) ) . '" class="fts-instagram-get-access-token">',
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=0&client_id=523345500405663&redirect_uri=https://www.slickremix.com/instagram-business-basic-token-redirect/&response_type=code&scope=instagram_business_basic&state=' . urlencode( urlencode( urlencode( $post_url ) ) ) ) . '" class="fts-instagram-get-access-token">',
             '</a>'
+           /* esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?app_id=206360940619297&redirect_uri=https://www.slickremix.com/instagram-basic-token/&response_type=code&scope=user_profile,user_media&state=' . urlencode( urlencode( urlencode( $post_url ) ) ) ) . '" class="fts-instagram-get-access-token">',
+            '</a>'*/
         );
 
         ?>
         <div class="fts-settings-does-not-work-wrap">
             <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
+            <?php if ( $access_token !== '' ){ ?>
+                <a href="javascript:;" onclick="fts_revoke_tiktok_access_token()" class="fts-tiktok-revoke-token"><?php esc_html_e( 'Revoke Access Token', 'feed-them-social' ); ?></a>
+                <script>
+                    function fts_revoke_tiktok_access_token(){
+                        const result = confirm("This action will revoke your current Access Token. You will need to obtain a new Access Token if you want to display your Instagram feed. Are you sure you want to continue?");
+                        if (result) {
+                            // If the user clicked "OK", redirect them
+                            window.location.replace("<?php echo esc_url_raw( 'https://www.slickremix.com/instagram-business-basic-revoke-token/?token='. sanitize_text_field( $access_token ) . '&redirect_url=' . $post_url ) ?>");
+                        } else {
+                            // If the user clicked "Cancel", do nothing
+                            console.log("User cancelled the action.");
+                        }
+                    }
+                </script>
+            <?php } ?>
             <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
         </div>
 

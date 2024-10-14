@@ -609,8 +609,8 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 				    $basic_cache = 'instagram_basic_cache' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '';
 
 					$api_requests = array(
-						// Get the media count and other info for the user. We are only using the username and media_count in the feed. These are all the options for reference. id,username,media_count,account_type
-						'user_info' => 'https://graph.instagram.com/me?fields=id,username,media_count&access_token=' . $this->feed_access_token,
+						// Get the media count and other info for the user. We are only using the username and media_count in the feed. These are all the options for reference. id,username,media_count,account_type,profile_picture_url
+						'user_info' => 'https://graph.instagram.com/me?fields=id,username,media_count,profile_picture_url&access_token=' . $this->feed_access_token,
 						// This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
 						'data' => isset($_REQUEST['next_url']) ? esc_url_raw($_REQUEST['next_url']) : 'https://graph.instagram.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token
 					);
@@ -656,7 +656,6 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 			if ( $saved_feed_options['instagram_feed_type'] === 'business' ) {
 				$username        = $insta_data->username ?? '';
 				$bio             = $insta_data->biography ?? '';
-				$profile_picture = $insta_data->profile_picture_url ?? '';
 				$full_name       = $insta_data->name ?? '';
 				$website         = $insta_data->website ?? '';
 
@@ -665,6 +664,8 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 				// Used for the follow button in header or footer of feed.
                  $username = $insta_data->username ?? '';
 			}
+
+            $profile_picture = $insta_data->profile_picture_url ?? '';
 
             // For Testing.
             $debug_userinfo = 'false';
@@ -886,7 +887,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                             <div class="fts-profile-pic"><?php $user_type = isset( $saved_feed_options['instagram_feed_type'] ) && 'hashtag' === $saved_feed_options['instagram_feed_type'] ? 'explore/tags/' . $hashtag : $username; ?>
                                 <a href="https://www.instagram.com/<?php echo esc_html( $user_type ); ?>" target="_blank" rel="noreferrer">
                             <?php
-                            if ( 'user' === $saved_feed_options['instagram_feed_type'] || 'business' === $saved_feed_options['instagram_feed_type'] ) {
+                            if ( !empty($profile_picture) ) {
                                 ?>
                                 <img src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>"/>
                                 <?php

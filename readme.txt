@@ -124,6 +124,11 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.3.2 Monday, October 14th, 2024 =
+  * Update: Instagram Feed Basic > Depreciation Notice on December 4th, 2024 for the Instagram Basic API. The new connection requires your Instagram account to be a Creator or Business account. We have updated the plugin to reflect this change. Login to your Instagram Account and go to your Profile page, then click the gear icon and choose the Settings, then scroll down and find the Creator Tools and Controls menu option. Now choose either a Business or Creator option. Then you can click the button on our plugin to gain an Access Token. Your account cannot be set to personal for this to work. [More Indepth Info](https://developers.facebook.com/blog/post/2024/09/04/update-on-instagram-basic-display-api/)
+  * New: Instagram Feed > The profile photo now displays for the updated Instagram Feed.
+  * Fix: Facebook Feed > Shared posts that contain a description under the photo have been added.
+
 = Version 4.3.1 Monday, September 23rd, 2024 =
   * Fix: Facebook Feed > Feeds with more than one post with 2 or more photos were not rendering properly.
   * Fix > Leave a review > message was set for 2 seconds not 2 weeks.

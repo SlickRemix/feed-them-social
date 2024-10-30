@@ -166,7 +166,7 @@ class Facebook_Feed_Post_Types {
                 // SRL: 8-14-24. Leaving this but I don't think this if statement should be here, it makes no sense since a case: photo can be in a regular feed not just
                 // an album_photos type feed, these case's are about the post type coming from facebook.
 				//if ( 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ) {
-					if ( isset( $saved_feed_options['facebook_page_word_count'] ) ) {
+					if ( !empty( $saved_feed_options['facebook_page_word_count'] ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                         $trunacate_words = new \FeedThemSocialTruncateHTML();
 						$trimmed_content = $trunacate_words::fts_custom_trim_words( $fb_description, $saved_feed_options['facebook_page_word_count'] , $more );
 						echo '<div class="fts-jal-fb-description fts-non-popup-text">' . wp_kses(
@@ -198,7 +198,8 @@ class Facebook_Feed_Post_Types {
 									)
 								) . '</div>';
 						}
-					} elseif ( isset( $saved_feed_options['facebook_page_word_count'] ) && '0' !== $saved_feed_options['facebook_page_word_count']) {
+					} else {
+
 						echo '<div class="fts-jal-fb-description">' . wp_kses(
 								nl2br( $fb_description ),
 								array(
@@ -807,6 +808,8 @@ class Facebook_Feed_Post_Types {
             $facebook_post_name = $facebook_post->attachments->data[0]->title ?? '';
         }
 		$facebook_post_caption           = $facebook_post->attachments->data[0]->caption ?? '';
+        $facebook_description            = $facebook_post->description ?? '';
+        $facebook_message                = ($facebook_post->message ?? (($facebook_post->review_text ?? '') . ''));
 		$facebook_post_description       = $facebook_post->attachments->data[0]->description ?? '';
 		$facebook_post_link_event_name   = $facebook_post->to->data[0]->name ?? '';
 		$facebook_post_story             = $facebook_post->story ?? '';
@@ -1116,15 +1119,16 @@ class Facebook_Feed_Post_Types {
 			$facebook_title_job_opening = isset( $facebook_post->attachments->data[0]->title ) && 'job_search_job_opening' === $facebook_post->attachments->data[0]->type ? $facebook_post->attachments->data[0]->title : '';
 
 			// filter messages to have urls.
-			// Output Message.
-			$facebook_message = ( isset( $facebook_post->message ) ? $facebook_post->message : ( isset( $facebook_post->review_text ) ? $facebook_post->review_text : '' ) . '' );
 			if ( empty( $facebook_message ) ) {
 
-				if ( isset( $facebook_post->description ) ) {
-					$facebook_message = isset( $facebook_post->description ) ? $facebook_post->description : '';
-				} elseif ( isset( $facebook_post->attachments->data[0]->description ) ) {
-					$facebook_message = isset( $facebook_post->attachments->data[0]->description ) ? $facebook_post->attachments->data[0]->description : '';
+				if ( !empty( $facebook_description ) ) {
+					$facebook_message = $facebook_description;
 				}
+                // If a post is shared that has $facebook_post->attachments->data[0]->description then we want to show that under the photo.
+                // SRL 10-13-24 commenting out for the moment because this should appear under the photo not as the main message.
+                /*if ( isset( $facebook_post->attachments->data[0]->description ) ) {
+					$facebook_message = isset( $facebook_post->attachments->data[0]->description ) ? $facebook_post->attachments->data[0]->description : '';
+				}*/
 			}
 
 			if ( $facebook_message && 'top' !== $show_media ) {
@@ -1160,6 +1164,7 @@ class Facebook_Feed_Post_Types {
 					echo '<div class="fts-clear"></div></div> ';
 
 				} elseif ( 'top' !== $show_media ) {
+                    // leaving off here, something with the words option is causing problems with the photo description part not displaying.
 					$facebook_final_message = $this->facebook_tag_filter( $facebook_message );
 					echo '<div class="fts-jal-fb-message"' . esc_attr( $itemprop_description_reviews ) . '>';
 					// $facebook_final_message CANNOT be esc at this time.
@@ -1168,7 +1173,8 @@ class Facebook_Feed_Post_Types {
 					// echo isset($saved_feed_options['facebook_popup'] ) && $saved_feed_options['facebook_popup']  == 'yes' ? '<div class="fts-fb-caption"><a href="' . $facebook_post_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html('View on Facebook', 'feed-them-facebook') . '</a></div> ' : '';.
 					echo '<div class="fts-clear"></div></div>';
 				}
-			} elseif ( ! $facebook_message && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] || ! $facebook_message && 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
+			} elseif ( ! $facebook_message && 'album_photos' === $saved_feed_options['facebook_page_feed_type'] ||
+                       ! $facebook_message && 'albums' === $saved_feed_options['facebook_page_feed_type'] ) {
 
 				echo '<div class="fts-jal-fb-description-wrap">';
 
@@ -1410,7 +1416,7 @@ class Facebook_Feed_Post_Types {
 				// Link Description.
 				if ( !empty( $facebook_event_location ) ) {
 					echo '<div class="fts-fb-location"><span class="fts-fb-location-title">' . esc_html( $facebook_event_location ) . '</span>';
-					// Street Adress.
+					// Street Address.
 					echo esc_html( $facebook_event_street );
 					// City & State.
 					echo $facebook_event_city || $facebook_event_state ? '<br/>' . esc_html( $facebook_event_city . $facebook_event_state . $facebook_event_zip ) : '';
@@ -1480,19 +1486,20 @@ class Facebook_Feed_Post_Types {
 					}
 					echo '<div class="fts-jal-fb-vid-play-btn"></div>';
 					echo '</div>';
-					echo '<script>';
-					echo 'jQuery(document).ready(function() {';
-					echo 'jQuery(".' . esc_js( $fts_dynamic_vid_name ) . '").click(function() {';
-					echo 'jQuery(this).addClass("fts-vid-div");';
-					echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-					echo '	jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper">' . $json_obj->html . '</div>\');';
-					if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] ) {
-						echo 'jQuery(".fts-slicker-facebook-posts").masonry( "reloadItems");';
-						echo 'jQuery(".fts-slicker-facebook-posts").masonry( "layout" );';
-					}
-					echo '});';
-					echo '});';
-					echo '</script>';
+                    ?> <script> jQuery(document).ready(function() {
+                        jQuery(".<?php echo esc_js( $fts_dynamic_vid_name ) ?>").click(function() {
+                            if (!jQuery(this).hasClass("fts-iframe-loaded")) {
+                                jQuery(this).addClass("fts-iframe-loaded");
+                                jQuery(this).addClass("fts-vid-div");
+                                jQuery(this).removeClass("fts-jal-fb-vid-picture");
+                                jQuery(this).find("img").hide();
+                                jQuery(this).prepend('<div class="fts-fluid-videoWrapper"><?php echo $json_obj->html ?></div>');
+                                <?php if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && $saved_feed_options['facebook_grid'] === 'yes' ) {?>
+                                    jQuery(".fts-slicker-facebook-posts").masonry( "reloadItems");
+                                    jQuery(".fts-slicker-facebook-posts").masonry( "layout" );
+                                <?php } ?>
+                            }
+					    }); }); </script><?php
 				} elseif ( !empty( $facebook_post->attachments->data[0]->media->image->src ) ) {
 					$this->facebook_post_photo( $facebook_post_link, $saved_feed_options, $facebook_post_from_name, $facebook_post->attachments->data[0]->media->image->src );
 				} elseif ( !empty( $facebook_post_picture ) ) {
@@ -1553,13 +1560,13 @@ class Facebook_Feed_Post_Types {
 					}
 
 					// This puts the video in a popup instead of displaying it directly on the page.
-					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && 'yes' === $saved_feed_options['facebook_popup']  ) {
+					if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ) {
 
 						if ( strpos( $facebook_post_link, 'youtube' ) > 0 || strpos( $facebook_post_link, 'youtu.be' ) > 0 || strpos( $facebook_post_link, 'vimeo' ) > 0 ) {
 							echo '<a href="' . esc_url( $video_url_final ) . '" class="fts-facebook-link-target fts-jal-fb-vid-image fts-iframe-type">';
 						} else {
 
-							if ( 'video_direct_response' === $facebook_post->attachments->data[0]->type || 'video_inline' === $facebook_post->attachments->data[0]->type ) {
+							if ( $facebook_post->attachments->data[0]->type === 'video_direct_response' || $facebook_post->attachments->data[0]->type === 'video_inline' ) {
 								$page_id = $facebook_post_from_id;
 								$video_id = $facebook_post->attachments->data[0]->target->id;
 								$facebook_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
@@ -1571,7 +1578,7 @@ class Facebook_Feed_Post_Types {
 						}
 					}
 					// srl: 8/27/17 - FB BUG: for some reason the full_picture for animated gifs is not correct so we dig deeper and grab another image size fb has set.
-					if ( isset( $facebook_post->attachments->data[0]->type ) && 'animated_image_video' === $facebook_post->attachments->data[0]->type ) {
+					if ( isset( $facebook_post->attachments->data[0]->type ) && $facebook_post->attachments->data[0]->type === 'animated_image_video' ) {
 						$vid_pic = $facebook_post->attachments->data[0]->media->image->src;
 					} else {
 						$vid_pic = $facebook_post->attachments->data[0]->media->image->src;
@@ -1592,7 +1599,7 @@ class Facebook_Feed_Post_Types {
 					// $video_inline = isset( $facebook_post->attachments->data[0]->type ) ? $facebook_post->attachments->data[0]->type : '';
 
 					// && $video_inline == 'video_inline'. /////// || 'video' === $video_type && 'animated_image_video' === $video_inline
-					if ( 'video_direct_response' === $video_type || 'video_inline' === $video_type ) {
+					if ( $video_type === 'video_direct_response' || $video_type === 'video_inline' ) {
 
 						if ( $facebook_post_embed_height > $facebook_post_embed_width ) {
 							$facebook_post_height_class_name = 'fts-greater-than-width-height';
@@ -1609,75 +1616,74 @@ class Facebook_Feed_Post_Types {
 						echo '</div>';
 						// This puts the video on the page instead of the popup if you don't have the premium version.
 						if ( !isset( $saved_feed_options['facebook_popup']  ) ||
-                            isset( $saved_feed_options['facebook_popup']  ) && 'yes' !== $saved_feed_options['facebook_popup']  && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ||
+                            isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] !== 'yes' && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ||
                             isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) ||
-                            isset( $saved_feed_options['facebook_popup']  ) && 'no' === $saved_feed_options['facebook_popup']  ) {
+                            isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'no' ) {
 
 							$page_id = $facebook_post_from_id ?? '';
 							$video_id = $facebook_post->attachments->data[0]->target->id ?? '';
 
 							$facebook_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
-
-							echo '<script>';
-							echo 'jQuery(document).ready(function() {';
-							echo 'jQuery(".' . esc_js( $fts_dynamic_vid_name ) . '").click(function() {';
-							echo 'jQuery(this).addClass("fts-vid-div");';
-							echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-							// echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$facebook_post_id.'" src="http://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';.
-							echo 'jQuery(this).prepend(\'<div class="' . esc_js( $facebook_post_height_class_name ) . ' fts-fb-video-on-page" ><iframe style="background:none !important" class="video-' . esc_js( $facebook_post_id ) . '" src="' . esc_url( $facebook_embed_url ) . '" frameborder="0" allowfullscreen></iframe></div>\');';
-							echo 'jQuery( ".' . esc_js( $fts_dynamic_vid_name ) . ' .fts-greater-than-width-height.fts-fb-video-on-page, .' . esc_js( $fts_dynamic_vid_name ) . ' iframe" ).css({"height": "' . esc_js( $facebook_post_embed_height ) . 'px", "width": "' . esc_js( $facebook_post_embed_width ) . 'px"});';
-							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
-								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
-								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
-							}
-							echo '});';
-							echo '});';
-							echo '</script>';
+                            ?><script> jQuery(document).ready(function() {
+                                    jQuery(".<?php echo esc_js( $fts_dynamic_vid_name ) ?>").click(function() {
+                                        if (!jQuery(this).hasClass("fts-iframe-loaded")) {
+                                            jQuery(this).addClass("fts-iframe-loaded");
+                                            jQuery(this).addClass("fts-vid-div");
+                                            jQuery(this).removeClass("fts-jal-fb-vid-picture");
+                                            jQuery(this).find("img").hide();
+                                            jQuery(this).prepend('<div class="<?php echo esc_js( $facebook_post_height_class_name ) ?> fts-fb-video-on-page"><iframe style="background:none !important" class="video-<?php echo esc_js( $facebook_post_id ) ?>" src="<?php echo esc_url( $facebook_embed_url ) ?>" frameborder="0" allowfullscreen></iframe></div>');
+                                            jQuery( ".<?php echo esc_js( $fts_dynamic_vid_name ) ?>.fts-greater-than-width-height.fts-fb-video-on-page, .<?php echo esc_js( $fts_dynamic_vid_name ) ?> iframe" ).css({"height": "<?php echo esc_js( $facebook_post_embed_height ) ?>px", "width": "<?php echo esc_js( $facebook_post_embed_width ) ?>px"});
+                                            <?php if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && $saved_feed_options['facebook_grid'] === 'yes' || isset( $saved_feed_options['grid_combined'] ) && $saved_feed_options['grid_combined'] === 'yes' ) { ?>
+                                                jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");
+                                                jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );
+                                            <?php } ?>
+                                        }
+                                    }); }); </script><?php
 						}
 					}
-					// strip YouTube URL then ouput Iframe and script.
 					if ( strpos( $facebook_post_link, 'youtube' ) > 0 ) {
+                        // strip YouTube URL then output iframe and script.
 						// $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';.
 						// preg_match($pattern, $facebook_post_link, $matches);.
 						// $youtubeURLfinal = $matches[1];.
 						// This puts the video on the page instead of the popup if you don't have the premium version.
-						if ( !isset( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'yes' !== $saved_feed_options['facebook_popup']  && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'no' === $saved_feed_options['facebook_popup']  ) {
-							echo '<script>jQuery(document).ready(function() {';
-							echo 'jQuery(".' . esc_js( $fts_dynamic_vid_name ) . '").click(function() {';
-							echo 'jQuery(this).addClass("fts-vid-div");';
-							echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-							// echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$facebook_post_id.'" src="https://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';.
-							echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video' . esc_js( $facebook_post_id ) . '" src="' . esc_url( $facebook_post_video_embed ) . '" frameborder="0" allowfullscreen></iframe></div>\');';
-							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
-								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
-								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
-							}
-							echo '});';
-							echo '});</script>';
+						if ( !isset( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] !== 'yes' && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'no' === $saved_feed_options['facebook_popup']  ) {
+							?><script> jQuery(document).ready(function() {
+                                jQuery(".<?php echo esc_js( $fts_dynamic_vid_name ) ?>").click(function() {
+                                    if (!jQuery(this).hasClass("fts-iframe-loaded")) {
+                                        jQuery(this).addClass("fts-iframe-loaded");
+                                        jQuery(this).addClass("fts-vid-div");
+                                        jQuery(this).removeClass("fts-jal-fb-vid-picture");
+                                        jQuery(this).find("img").hide();
+                                        jQuery(this).prepend('<div class="fts-fluid-videoWrapper"><iframe height="281" class="video<?php echo esc_js( $facebook_post_id ) ?>" src="<?php echo esc_url( $facebook_post_video_embed ) ?>" frameborder="0" allowfullscreen></iframe></div>');
+                                        <?php if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && $saved_feed_options['facebook_grid'] === 'yes' || isset( $saved_feed_options['grid_combined'] ) && $saved_feed_options['grid_combined'] === 'yes' ) {?>
+                                            jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");
+                                            jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );
+                                        <?php } ?>
+                                    }
+                                    }); }); </script><?php
 						}
-					} elseif (
-						// strip YouTube URL then ouput Iframe and script.
-						strpos( $facebook_post_link, 'youtu.be' ) > 0 ) {
+					} elseif ( strpos( $facebook_post_link, 'youtu.be' ) > 0 ) {
+                        // strip YouTube URL then output iframe and script.
 						// $pattern = '#^(?:https?://)?(?:www\.)?(?:youtu\.be/|youtube\.com(?:/embed/|/v/|/watch\?v=|/watch\?.+&v=))([\w-]{11})(?:.+)?$#x';.
 						// preg_match($pattern, $facebook_post_link, $matches);.
 						// $youtubeURLfinal = $matches[1];.
 						// This puts the video in a popup instead of displaying it directly on the page.
 						if ( !isset( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'yes' !== $saved_feed_options['facebook_popup']  && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'no' === $saved_feed_options['facebook_popup']  ) {
-							echo '<script>';
-							echo 'jQuery(document).ready(function() {';
-							echo 'jQuery(".' . esc_js( $fts_dynamic_vid_name ) . '").click(function() {';
-							echo 'jQuery(this).addClass("fts-vid-div");';
-							echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-							// echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video'.$facebook_post_id.'" src="http://www.youtube.com/embed/'.$youtubeURLfinal.'?autoplay=1" frameborder="0" allowfullscreen></iframe></div>\');';.
-							echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe height="281" class="video' . esc_js( $facebook_post_id ) . '" src="' . esc_url( $facebook_post_video_embed ) . '" frameborder="0" allowfullscreen></iframe></div>\');';
-							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
-								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
-								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
-							}
-							echo '});';
-							echo '});';
-							echo '</script>';
-						}
+							?><script> jQuery(document).ready(function() {
+							    jQuery(".<?php echo esc_js( $fts_dynamic_vid_name )?>").click(function() {
+                                    if (!jQuery(this).hasClass("fts-iframe-loaded")) {
+                                        jQuery(this).addClass("fts-vid-div");
+                                        jQuery(this).removeClass("fts-jal-fb-vid-picture");
+                                        jQuery(this).find("img").hide();
+                                        jQuery(this).prepend('<div class="fts-fluid-videoWrapper"><iframe height="281" class="video<?php echo esc_js( $facebook_post_id ) ?>" src="<?php echo esc_url( $facebook_post_video_embed ) ?>" frameborder="0" allowfullscreen></iframe></div>');
+                                        <?php if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && $saved_feed_options['facebook_grid'] === 'yes' || isset( $saved_feed_options['grid_combined'] ) && $saved_feed_options['grid_combined'] === 'yes' ) {?>
+                                            jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");
+                                            jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );
+                                        <?php } ?>
+                                    }
+							}); }); </script> <?php
+                        }
 					} elseif (
 						// strip Vimeo URL then ouput Iframe and script.
 						strpos( $facebook_post_link, 'vimeo' ) > 0 ) {
@@ -1685,22 +1691,21 @@ class Facebook_Feed_Post_Types {
 						// preg_match($pattern, $facebook_post_link, $matches);.
 						// $vimeoURLfinal = $matches[0];.
 						// This puts the video in a popup instead of displaying it directly on the page.
-						if ( !isset( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'yes' !== $saved_feed_options['facebook_popup']  && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && 'no' === $saved_feed_options['facebook_popup']  ) {
-							echo '<script>';
-							echo 'jQuery(document).ready(function() {';
-							echo 'jQuery(".' . esc_js( $fts_dynamic_vid_name ) . '").click(function() {';
-							echo 'jQuery(this).addClass("fts-vid-div");';
-							echo 'jQuery(this).removeClass("fts-jal-fb-vid-picture");';
-							// echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe src="http://player.vimeo.com/video/'.$vimeoURLfinal.'?autoplay=1" class="video'.$facebook_post_id.'" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>\');';.
-							echo 'jQuery(this).prepend(\'<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( $facebook_post_video_embed ) . '" class="video' . esc_js( $facebook_post_id ) . '" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>\');';
-							if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && 'yes' === $saved_feed_options['facebook_grid'] || isset( $saved_feed_options['grid_combined'] ) && 'yes' === $saved_feed_options['grid_combined'] ) {
-								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");';
-								echo 'jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );';
-							}
-							echo '});';
-							echo '});';
-							echo '</script>';
-						}
+						if ( !isset( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] !== 'yes'  && is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) || isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'no'  ) {
+							?><script> jQuery(document).ready(function() {
+                                jQuery(".<?php echo esc_js( $fts_dynamic_vid_name ) ?>").click(function() {
+                                    if (!jQuery(this).hasClass("fts-iframe-loaded")) {
+                                        jQuery(this).addClass("fts-vid-div");
+                                        jQuery(this).removeClass("fts-jal-fb-vid-picture");
+                                        jQuery(this).find("img").hide();
+                                        jQuery(this).prepend('<div class="fts-fluid-videoWrapper"><iframe src="<?php echo esc_url( $facebook_post_video_embed ) ?>" class="video<?php echo esc_js( $facebook_post_id ) ?>" height="390" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>');
+                                        <?php if ( isset( $saved_feed_options['facebook_grid_column_width'] ) && $saved_feed_options['facebook_grid'] === 'yes' || isset( $saved_feed_options['grid_combined'] ) && $saved_feed_options['grid_combined'] === 'yes' ) { ?>
+                                            jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "reloadItems");
+                                            jQuery(".fts-slicker-facebook-posts, .fts-mashup").masonry( "layout" );
+                                        <?php } ?>
+                                    }
+							}); }); </script><?php
+                            }
 					}
 				}
 				if ( $facebook_post_name || $facebook_post_caption || $facebook_post_description ) {
@@ -1719,11 +1724,6 @@ class Facebook_Feed_Post_Types {
 			case 'photo':
 				if ( isset( $fts_hide_photos_type ) && $fts_hide_photos_type === 'yes' && isset($saved_feed_options['facebook_page_feed_type']) && $saved_feed_options['facebook_page_feed_type'] !== 'album_photos' && isset($saved_feed_options['facebook_video_album']) && $saved_feed_options['facebook_video_album'] !== 'yes' ) {
 					break;
-				}
-
-				// Wrapping with if statement to prevent Notice on some facebook page feeds.
-				if ( 'group' === $saved_feed_options['facebook_page_feed_type'] ) {
-					$photo_source = json_decode( $response_post_array[$facebook_post_key . '_group_post_photo'] );
 				}
 
 				echo '<div class="fts-jal-fb-link-wrap fts-album-photos-wrap"';
@@ -1768,15 +1768,29 @@ class Facebook_Feed_Post_Types {
 						echo '</div>';
 					}
 				}
-				if ( 'album_photos' === !$saved_feed_options['facebook_page_feed_type'] ) {
-					echo '<div class="fts-jal-fb-description-wrap" style="display:none">';
-					// Output Photo Name.
-					$this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
-					// Output Photo Caption.
-					$this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
-					// Output Photo Description.
-					$this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
-					echo '<div class="fts-clear"></div></div>';
+				if ( 'album_photos' !== $saved_feed_options['facebook_page_feed_type'] ) {
+
+                        if ( $facebook_post_name || $facebook_post_caption || $facebook_post_description ) {
+                            echo '<div class="fts-jal-fb-description-wrap fts-photo-caption-text">';
+
+                            // SRL: 10-29-24: Leaving off here, I need to make a way so that the if the photo description
+                            // exists already do not duplicate it below the photo....
+
+                            if ( !empty( $facebook_post_name ) && $facebook_post_name !== 'Photos from '. $facebook_post_from_name . '\'s post' && $facebook_post_name !== 'Timeline photos' ) {
+                                // Output Photo Name.
+                                $this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
+                            }
+                            if ( !empty( $facebook_post_caption ) ) {
+                                // Output Photo Caption.
+                                $this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
+                            }
+                            if ( !empty( $facebook_post_description && $facebook_post_description !== $facebook_message ) ) {
+                                // Output Photo Description.
+                                $this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, $facebook_post_id, $facebook_post_by );
+                            }
+                            echo '<div class="fts-clear"></div></div>';
+                        }
+
 				}
 				echo '<div class="fts-clear"></div></div>';
 				break;
@@ -1878,15 +1892,23 @@ class Facebook_Feed_Post_Types {
 					$this->facebook_post_photo( $facebook_post_link, $saved_feed_options, $facebook_post_from_name, $facebook_post_album_cover );
 				}
 				echo '<div class="slicker-facebook-album-photoshadow"></div>';
-				if ( 'albums' === ! $saved_feed_options['facebook_page_feed_type'] ) {
-					echo '<div class="fts-jal-fb-description-wrap">';
-					// Output Photo Name.
-					$this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
-					// Output Photo Caption.
-					$this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
-					// Output Photo Description.
-					$this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
-					echo '<div class="fts-clear"></div></div>';
+				if ( 'albums' !== $saved_feed_options['facebook_page_feed_type'] ) {
+                    if ( $facebook_post_name && $facebook_post_name !== 'Photos from '. $facebook_post_from_name . '\'s post' || $facebook_post_caption || $facebook_post_description && $facebook_post_description !== $facebook_message ) {
+                        echo '<div class="fts-jal-fb-description-wrap fts-photo-caption-text">';
+                        if(!empty($facebook_post_name)){
+                            // Output Photo Name.
+                            $this->fts_facebook_post_name( $facebook_post_link, $facebook_post_name, $facebook_post_type );
+                        }
+                        if(!empty($facebook_post_caption)){
+                            // Output Photo Caption.
+                            $this->facebook_post_cap( $facebook_post_caption, $saved_feed_options, $facebook_post_type );
+                        }
+                        if(!empty($facebook_post_description)) {
+                            // Output Photo Description.
+                            $this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, $facebook_post_id, $facebook_post_by );
+                        }
+                        echo '<div class="fts-clear"></div></div>';
+                    }
 				}
 				echo '<div class="fts-clear"></div></div>';
 				break;

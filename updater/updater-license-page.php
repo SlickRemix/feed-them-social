@@ -484,7 +484,7 @@ class updater_license_page {
 		);
 
         // make sure the response came back okay
-        if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
+        if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200 ) {
 
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
@@ -587,7 +587,7 @@ class updater_license_page {
 		);
 
         // make sure the response came back okay
-        if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
+        if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200 ) {
 
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();

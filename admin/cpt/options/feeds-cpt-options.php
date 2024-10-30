@@ -192,9 +192,9 @@ class Feed_CPT_Options {
 					'label'              => esc_html__( 'Feed Type: ', 'feed_them_social' ),
 					'type'               => 'text',
 					'instructional-text' => sprintf(
-						esc_html__( '%5$s %7$s1.%8$s Choose the Social Network you want to create a feed for below. %1$s%7$s2.%8$s Click on the "Login and Get my Access Token" button. %1$s%7$s3.%8$s Once your Access Token is Valid you can set your feed options from the menu on the left. %1$s%7$s4.%8$s To view your feed copy the Feed Shortcode from the right side bar and paste it to any page, post or widget. %1$s%1$s%7$sNote:%8$s To Create another social feed click %2$sAdd New Feed%3$s and follow the same 4 steps.%6$s%4$s', 'feed_them_social' ),
+						esc_html__( '%5$s %10$s %11$sChoose the Social Network you want to create a feed for below.%12$s%11$sClick on the "Login and Get my Access Token" button.%12$s%11$sOnce your Access Token is Valid, you can view your feed and set options from the menu on the left.%12$s%11$sTo view your social feed on the front end of your website, copy the Feed Shortcode from the right sidebar and paste it to any page, post, widget, or page builder. If you are using Gutenberg, Elementor, or Beaver Builder, you can search for the block, widget, or module called Feed Them Social and select your feed from there. %9$sRead More%3$s %12$s%13$s %7$sNote:%8$s You can only choose one social platform per feed. To create an additional feed, click %2$sAdd New Feed%3$s and follow the same 4 steps. Set the cache time and other global options from the %14$sSettings%3$s page of our plugin.%6$s%4$s', 'feed_them_social' ),
 						'<br/>',
-						'<a href="post-new.php?post_type=fts" >',
+						'<a href="post-new.php?post_type=fts" target="_blank">',
 						'</a>',
 						'<div class="fts-select-social-network-menu">
                             <div class="fts-social-icon-wrap instagram-feed-type" data-fts-feed-type="instagram-feed-type"><img src="' . plugins_url() . '/feed-them-social/metabox/images/instagram-logo-admin.png" class="instagram-feed-type-image" /><span class="fts-instagram"></span><div>Instagram</div></div>
@@ -206,8 +206,13 @@ class Feed_CPT_Options {
 						'<svg xmlns="http://www.w3.org/2000/svg" class="fts-info-icon" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-144c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"/></svg><div class="fts-select-social-network-menu-instructions">',
 						'</div>',
 						'<strong>',
-						'</strong>'
-
+						'</strong>',
+                        '<a href="https://www.slickremix.com/documentation/add-feed-to-a-page-post-or-widget/" target="_blank" >',
+                        '<ol class="fts-instructions-list">',
+                        '<li>',
+                        '</li>',
+                        '</ol>',
+                        '<a href="edit.php?post_type=fts&page=fts-settings-page" target="_blank">',
 					),
 
 					'id'            => 'feed_type',
@@ -437,7 +442,7 @@ class Feed_CPT_Options {
 
 		$this->all_options['instagram_token_options'] = array(
 			'section_attr_key'   => 'instagram_token_',
-			'section_title'      => esc_html__( 'Instagram Basic Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
+			'section_title'      => esc_html__( 'Instagram Access Token', 'feed_them_social' ) . '<span class="fts-valid-text"></span>',
 			'section_wrap_id'    => 'fts-feed-type',
 			'section_wrap_class' => 'fts-tab-content1-instagram fts-token-wrap',
 			// Form Info.
@@ -454,10 +459,13 @@ class Feed_CPT_Options {
 					'placeholder'        => '',
 					'default_value'      => '',
 					'instructional-text' => sprintf(
-						esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. Once you have an Access Token you will be able to create your feed. Tokens are encrypted for additional security before being saved. Please note, use of this plugin is subject to %1$sMeta\'s Platform Terms%2$s', 'feed_them_social' ),
+                            esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. %5$sYour Instagram account must be set to Professional and have the Creator or Business option selected. %1$sRead Instructions%2$s. Once you have an Access Token you will be able to create your feed. Tokens are encrypted for additional security before being saved. Please note, use of this plugin is subject to %3$sMeta\'s Platform Terms%4$s', 'feed_them_social' ),
+						'<a target="_blank" href="https://www.slickremix.com/documentation/connect-instagram-professional-account/">',
+						'</a>',
 						'<a href="https://developers.facebook.com/terms/" target="_blank">',
-						'</a>'
-					),
+						'</a>',
+						'<br/><br/>'
+                    ),
 				),
 				array(
 					'input_wrap_class' => 'fts-instagram-access-token',
@@ -470,7 +478,7 @@ class Feed_CPT_Options {
 					'default_value'    => '',
 				),
 				array(
-					'input_wrap_class' => 'fts-instagram-custom-api-token-user-name fts-success-class fts-exp-time-wrapper',
+					'input_wrap_class' => 'fts-instagram-custom-api-token-user-name fts-success-class fts-exp-time-wrapper fts-display-none',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Refresh Expire Time', 'feed_them_social' ),
 					'type'             => 'text',
@@ -479,6 +487,16 @@ class Feed_CPT_Options {
 					'placeholder'      => '',
 					'default_value'    => '',
 				),
+                array(
+                    'input_wrap_class' => 'fts-instagram-business-basic-scheduled-event fts-display-none',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Cron Job Scheduled Event', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'instagram_business_basic_scheduled_event',
+                    'name'             => 'instagram_business_basic_scheduled_event',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
 
 			),
 		);
@@ -519,7 +537,7 @@ class Feed_CPT_Options {
 					'default_value'      => '',
 					'instructional-text' => sprintf(
 						esc_html__( 'Click the button below to get an access token. Additionally, you can add a Page ID and Access Token then click the "Save Token Manually" button. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. %5$sYour Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. Tokens are encrypted for additional security before being saved. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta\'s Platform Terms%4$s', 'feed_them_social' ),
-						'<a target="_blank" href="https://www.slickremix.com/docs/link-instagram-account-to-facebook/">',
+						'<a target="_blank" href="https://www.slickremix.com/documentation/connect-instagram-to-facebook/">',
 						'</a>',
 						'<a href="https://developers.facebook.com/terms/" target="_blank">',
 						'</a>',
@@ -603,7 +621,7 @@ class Feed_CPT_Options {
 					'placeholder'        => '',
 					'default_value'      => '',
 					'instructional-text' => sprintf(
-						esc_html__( 'Click the button below to get an access token, we recommend this for testing. This gives the plugin read-only access to get your YouTube videos. After testing, you must %1$sadd your own API Key%2$s. This is because Access Tokens expire. Once you have Access Tokens or entered an API key, you can create a feed.', 'feed_them_social' ),
+						esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your YouTube videos. It would be best to %1$sadd your own API Key%2$s in the long run because they allow more API calls. Once you have Access Tokens or have entered an API key, you can create a feed.', 'feed_them_social' ),
 						'<span>',
 						'</span>'
 					),
@@ -631,7 +649,7 @@ class Feed_CPT_Options {
 					'default_value'    => '',
 				),
 				array(
-					'input_wrap_class' => 'fts-success-class fts-exp-time-wrapper',
+					'input_wrap_class' => 'fts-success-class fts-exp-time-wrapper fts-display-none',
 					'option_type'      => 'input',
 					'label'            => esc_html__( 'Token Expiration', 'feed_them_social' ),
 					'type'             => 'text',
@@ -640,6 +658,16 @@ class Feed_CPT_Options {
 					'placeholder'      => '',
 					'default_value'    => '',
 				),
+                array(
+                    'input_wrap_class' => 'fts-youtube-scheduled-event fts-display-none',
+                    'option_type'      => 'input',
+                    'label'            => esc_html__( 'Cron Job Scheduled Event', 'feed_them_social' ),
+                    'type'             => 'text',
+                    'id'               => 'youtube_scheduled_event',
+                    'name'             => 'youtube_scheduled_event',
+                    'placeholder'      => '',
+                    'default_value'    => '',
+                ),
 
 			),
 		);
@@ -5209,7 +5237,6 @@ class Feed_CPT_Options {
 			// Form Info.
 			'form_wrap_classes'  => 'youtube-page-form-combine',
 			'form_wrap_id'       => 'fts-fb-page-form-combine',
-
 			'main_options' => array(
 
 				// Combine Youtube
@@ -5230,6 +5257,7 @@ class Feed_CPT_Options {
 							'value' => 'yes',
 						),
 					),
+                    'req_extensions' => array( 'feed_them_social_combined_streams' ),
 					'sub_options'    => array(
 						'sub_options_wrap_class' => 'main-combine-youtube-wrap',
 					),

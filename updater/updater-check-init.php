@@ -188,8 +188,9 @@ class updater_init {
 
         $installed_plugins = get_plugins();
 		
-        /*echo '<pre style=" width: 500px; margin: 0 auto; text-align: left">';
-                 print_r($this->updater_options_info['store_url']);
+                /*echo '<pre style=" width: 500px; margin: 0 auto; text-align: left">';
+                    //print_r($this->updater_options_info['store_url']);
+                    print_r($this->updater_options_info);
                  echo '</pre>';*/
 
         foreach ( $this->prem_extension_list as $plugin_identifier => $plugin_info) {

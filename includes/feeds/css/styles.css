@@ -825,7 +825,7 @@ a.fts-powered-by-text {
 
 .fts-jal-fb-description-wrap {
     float: left;
-    padding: 15px 12px 0 17px!important;
+    padding: 10px 15px 0 15px!important;
     color: #757575;
     font-size: 13px!important;
     font-weight: 400;
@@ -891,7 +891,6 @@ a.fts-powered-by-text {
 
 .fts-jal-fb-name {
     font-weight: 700;
-    color: #c00;
     padding-bottom: 5px;
     font-size: 15px;
     display: inline-block;
@@ -900,7 +899,6 @@ a.fts-powered-by-text {
 
 .fts-events-list-wrap .fts-jal-fb-name {
     font-weight: 400;
-    color: #c52214;
     padding-bottom: 5px;
     font-size: 15px;
     display: block;
@@ -920,10 +918,10 @@ a.fts-powered-by-text {
     width: 100%
 }
 
-.fts-vid-div iframe {
+/*.fts-vid-div iframe {
     position: absolute;
     z-index: 500
-}
+}*/
 
 .fts-jal-fb-see-more .icon-file {
     font-size: 10px

@@ -97,6 +97,11 @@ class Feed_Options_Import_Export {
 			$saved_feed_options['fts_facebook_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
 		}
 
+        // If YouTube Refresh token decrypt.
+        if ( isset($saved_feed_options['youtube_custom_refresh_token']) ) {
+            $saved_feed_options['youtube_custom_refresh_token'] = $this->data_protection->decrypt( $saved_feed_options['youtube_custom_refresh_token'] );
+        }
+
         $data = array(
             'system_info' => $this->system_info->fts_system_info_support_ticket(),
             'feed_options' => json_encode( $saved_feed_options )

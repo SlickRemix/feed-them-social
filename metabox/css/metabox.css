@@ -1184,7 +1184,7 @@ h1.plugin-author-note {
     color: #fffefe
 }
 
-#fts_facebook_custom_api_token,#fts_facebook_instagram_custom_api_token,#fts_instagram_custom_api_token_expires_in,#fts_tiktok_expires_in,#youtube_custom_token_exp_time,.fts-logo-header {
+#fts_instagram_custom_api_token, #youtube_custom_refresh_token, #fts_facebook_custom_api_token,#fts_facebook_instagram_custom_api_token,#fts_instagram_custom_api_token_expires_in,#fts_tiktok_expires_in,#youtube_custom_token_exp_time,.fts-logo-header {
     margin-bottom: 20px!important
 }
 
@@ -2007,7 +2007,17 @@ div#uploaderSection div.drag-drop-inside {
 .ft_icon,.fts-cpt-main-options-combined,.fts-instagram-sub-menu-active .instagram-feed-type-image,.fts-instagram-waiting-color .instagram-feed-type-image-tab,.fts-social-icon-wrap-active .instagram-feed-type-image {
     display: inline-block
 }
-
+.fts-instructions-list {
+    line-height:22px;
+    margin:0 0 20px 18px;
+}
+.fts-instructions-list li:last-child {
+    margin-bottom:0;
+    padding-bottom:0;
+}
+ol.fts-instructions-list li::marker {
+    font-weight: bold;
+}
 .feed-them-social-admin-input-wrap.ft-wp-gallery-type .instructional-text {
     font-size: 13px;
     line-height: 19px;
@@ -2826,7 +2836,7 @@ h3.fts-active-success-token:before {
     padding: 0;
     background: 0 0;
     border: 0;
-    margin: 5px 40px 5px 16px!important;
+    margin: 5px 40px 10px 16px!important;
     clear: both
 }
 
@@ -3064,7 +3074,11 @@ img.instagram-feed-type-image-tab {
     display: block;
     box-shadow: 1px 2px 2px #eee
 }
-
+.combine-streams-feed-wrap .fts-required-extension-wrap {
+    display:inline-block;
+    width:100%;
+    max-width:230px;
+}
 .fts-required-extension-wrap a {
     display: inline-block;
     padding: 0 5px;

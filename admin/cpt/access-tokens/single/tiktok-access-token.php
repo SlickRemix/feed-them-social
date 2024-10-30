@@ -76,12 +76,10 @@ class Twitter_Access_Functions {
 
         $access_token       = !empty( $saved_feed_options['fts_tiktok_access_token'] ) ? $saved_feed_options['fts_tiktok_access_token'] : '';
         // Tokens expire every 24 hours. Hence expires_in from tiktok array is 86400 seconds.
-        $expires_in         = !empty( $saved_feed_options['fts_tiktok_expires_in'] ) ? $saved_feed_options['fts_tiktok_expires_in'] : '';
         $refresh_token      = !empty( $saved_feed_options['fts_tiktok_refresh_token'] ) ? $saved_feed_options['fts_tiktok_refresh_token'] :  '';
 
         // Decrypt Access Token? Turning this off for TikTok Feed because Tokens refresh every 24hrs.
         // $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
-
 
         if ( isset( $_GET['revoke_token'], $_GET['feed_type'] ) && 'tiktok' === $_GET['feed_type'] ) {
                 ?>
@@ -279,13 +277,6 @@ class Twitter_Access_Functions {
                         );
                     }
 
-                    // Take the time() + $expiration_time will equal the current date and time in seconds, then we add the 60 days worth of seconds to the time.
-                    // That gives us the time to compare, of 60 days to the current date and Time.
-                    // For now we are going to get a new token every 7 days just to be on the safe side.
-                    // That means we will negate 53 days from the seconds which is 4579200 <-- https://www.convertunits.com/from/60+days/to/seconds
-                    // We get 60 days to refresh the token, if it's not refreshed before then it will expire.
-                    $expiration_time = $expires_in;
-
                     ?>
                     <script>
                         // This script is to display the countdown timer for the access token expiration.
@@ -324,7 +315,7 @@ class Twitter_Access_Functions {
                                 if (distance < 0) {
                                     clearInterval(x);
                                     jQuery('.fts-tab-content1-twitter.fts-token-wrap .fts-success').fadeIn();
-                                    jQuery('.fts-tab-content1-twitter.fts-token-wrap #fts-timer').html( "Token Expired, refresh page to get new a token." );
+                                    jQuery('.fts-tab-content1-twitter.fts-token-wrap #fts-timer').html( "Token Expired, click the Login and Get my Access Token button to get new a token." );
                                 }
                             }, 1000);
 

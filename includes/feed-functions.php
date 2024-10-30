@@ -100,20 +100,6 @@ class Feed_Functions {
         // Widget Code.
         add_filter( 'widget_text', 'do_shortcode' );
 
-        // Refresh Token for TIkTok, YouTube and Instagram Basic
-        add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
-
-        /**
-		 * Token management is not allowed for non authenticated users. Need to think about this.
-         * It would make sense the token should really only update if an admin logs in to the site at least once every 60 days,
-         * which is the length of time the token is valid for at this time. If the token expires the feed will still show it just won't update.
-         * It would seem to reason this is a better approach so as to not just let things go on auto pilot.
-         * Need to look out for possible warnings or errors.
-		 */
-		// SRL: 1-3-2024 Looking into this again. I think this will fire if the user is logged in or not because the cron job is firing the action.
-		add_action( 'wp_ajax_nopriv_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
-
-        add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
         add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_refresh_feed_ajax', array( $this, 'fts_refresh_feed_ajax' ) );
@@ -696,9 +682,6 @@ class Feed_Functions {
 		
 		wp_register_style( 'feed_them_settings_css', plugins_url( 'admin/css/settings-page.min.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
 		wp_enqueue_style( 'feed_them_settings_css' );
-		if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-pinterest-feed-styles-submenu-page' === $_GET['page'] ) {
-			wp_enqueue_script( 'feed_them_style_options_color_js', plugins_url( 'admin/js/jscolor/jscolor.js', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
-		}
 		
 	}
 
@@ -793,268 +776,155 @@ class Feed_Functions {
         die();
     }
 
-
     /**
-     * FTS Refresh Instagram Basic or YouTube Token
+     * FTS Instagram Refresh Token
+     * Use the Instagram Business Basic Access Token and refresh it every 54 days.
      *
-     * @since 2.3.3
+     * @since 4.3.2
      */
-    public function fts_refresh_token_ajax() {
+    public function fts_instagram_refresh_token( $feed_cpt_id ) {
 
-		check_ajax_referer( 'fts_refresh_access_token' );
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
-		}
-
-		if ( !empty( $_REQUEST['access_token'] ) && !empty( $_REQUEST['expires_in'] ) ) {
-
-			if ( 'tiktok' === $_REQUEST['feed'] ) {
-				$startoftime = isset( $_REQUEST['expires_in'] ) ? strtotime( '+' . $_REQUEST['expires_in'] . ' seconds' ) : '';
-				$start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ), false );
-				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', esc_html( $_REQUEST['access_token'] ), true, esc_html( $_REQUEST['feed_cpt_id'] ), false );
-			}
-
-			if ( 'youtube' === $_REQUEST['feed'] ) {
-				$this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', esc_html( $_REQUEST['access_token'] ), true, esc_html( $_REQUEST['feed_cpt_id'] ), false );
-				$startoftime = isset( $_REQUEST['expires_in'] ) ? strtotime( '+' . $_REQUEST['expires_in'] . ' seconds' ) : '';
-				$start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-				$this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ), false );
-			}
-
-			if ( 'instagram' === $_REQUEST['feed'] ) {
-				$encrypted_token = $this->data_protection->encrypt( $_REQUEST['access_token'] );
-				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', esc_html( $encrypted_token ), true, esc_html( $_REQUEST['feed_cpt_id'] ), false );
-				$startoftime = $_REQUEST['expires_in'];
-				$start_of_time_final = false !== $startoftime ? sanitize_key( $startoftime ) : '';
-				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', esc_html( $start_of_time_final ), true, esc_html( $_REQUEST['feed_cpt_id'] ), false );
-			}
-			// Testing.
-			// $output .= do_shortcode('[fts _youtube vid_count=3 large_vid=no large_vid_title=no large_vid_description=no thumbs_play_in_iframe=popup vids_in_row=3 space_between_videos=1px force_columns=yes maxres_thumbnail_images=yes thumbs_wrap_color=#000 wrap=none video_wrap_display=none comments_count=12 channel_id=UCqhnX4jA0A5paNd1v-zEysw loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]');
-		}
-
-		$response = array(
-			'access_token' => esc_html( $_REQUEST['access_token'] ),
-			'expires_in'   => $start_of_time_final,
-		);
-
-		echo json_encode( $response );
-        
-        wp_die();
-    }
-
-    /**
-     * FTS Check Instagram Token Validity
-     *
-     * @since 2.3.3
-     */
-    public function feed_them_instagram_refresh_token( $feed_cpt_id ) {
-
+        // https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login
         // refresh token!
-		$check_token =  $this->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' );
+        $check_token =  $this->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' );
 
-		$check_basic_token_value = false !== $this->data_protection->decrypt( $check_token ) ? $this->data_protection->decrypt( $check_token ) : $check_token;
-		$oauth2token_url  = esc_url( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
+        $check_basic_token_value = $this->data_protection->decrypt( $check_token ) !== false ? $this->data_protection->decrypt( $check_token ) : $check_token;
+        $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
 
-		$response = wp_remote_get( $oauth2token_url );
+        // Make the request
+        $get_response = wp_remote_get( $oauth2token_url );
 
-		$auth_obj = json_decode( wp_remote_retrieve_body( $response  ), true );
+        // Check for errors
+        if ( is_wp_error( $get_response ) ) {
+            // error_log( 'Instagram token refresh failed: ' . $get_response->get_error_message() );
+            return; // Stop execution if there is an error
+        }
 
-		// Take the time() + $expires_in will equal the current date and time in seconds plus 60 days in seconds.
-		// For now we are going to get a new token every 45 days just to be on the safe side.
-		// That means we will negate 5 days from the seconds which is 432000 <-- https://www.convertunits.com/from/60+days/to/seconds
-		// We get 60 days to refresh the token, if it's not refreshed before then it will expire.
-        // used for testing, get todays timestamp and some time.
-        // $time_minus_fiftythree_days = 1677574786979 + 5173728;
-        $time_minus_fiftythree_days = $auth_obj['expires_in'] - 432000;
+        // Get the body of the response and decode it
+        $response_body = wp_remote_retrieve_body( $get_response );
+        $response = json_decode( $response_body, true );
 
-        $expires_in = $time_minus_fiftythree_days + time();
+        // Log the entire response array to the error log
+        // error_log( 'Instagram token refresh response: ' . print_r( $response, true ) );
 
-		// test.
-		// print_r( $expires_in );
-		// echo ' asdfasdfasdfasdf ';
-		// This is our refresh token response;
-		// print_r($response['body']);
-		// test.
-		// $auth_obj['access_token'] = '';
-		// print_r($check_basic_token_value);
+        // https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=IGQWRNQUJZAWW03ESTdITHlvOWtZASmtoZADh4RkstZAE5ULTNIdkpfUHB4b3o4SEh4QTMtUTBsYmlhUHJRcXMtRU5jVlhySUFkRkkyYWdPWnlvdlVhTXpOb3pweG5QcnhxZAlhPTjdBdGVEQjdlZAwZDZD
+        /* Example Response from Instagram:
+        {
+           "access_token": "IGQWRNQUJZAWW03ESTdITHlvOWtZASmtoZADh4RkstZAE5ULTNIdkpfUHB4b3o4SEh4QTMtUTBsYmlhUHJRcXMtRU5jVlhySUFkRkkyYWdPWnlvdlVhTXpOb3pweG5QcnhxZAlhPTjdBdGVEQjdlZAwZDZD",
+           "token_type": "bearer",
+           "expires_in": 5165891,
+           "permissions": "instagram_business_basic"
+        }
+        */
 
-		// Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
-		if( empty( $auth_obj['access_token'] ) ){
-			return;
-		}
+        if ( isset( $response['access_token'], $response['expires_in'] ) ) {
+            $access_token = $this->data_protection->encrypt( $response['access_token'] );
+            $expires_in = $response['expires_in'];
 
-        // use for testing in script below.
-        //console.log( '<?php print_r($response['body']) ? >' );
+            $start_of_time = strtotime( '+' . $expires_in . ' seconds' );
+            // We add * 1000 to convert to milliseconds because that is how we display it in the feed options for the user in the Token area.
+            $start_of_time_final = $start_of_time !== false ? sanitize_key( $start_of_time * 1000 ) : '';
 
-        ?>
-        <script>
-            jQuery(document).ready(function () {
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $access_token, true, $feed_cpt_id, true );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $start_of_time_final, true, $feed_cpt_id, true );
 
-                jQuery.ajax({
-                    data: {
-                        action: "fts_refresh_token_ajax",
-                        access_token: '<?php echo esc_js( $auth_obj['access_token'] ); ?>',
-                        expires_in: '<?php echo esc_js( $expires_in ); ?>',
-                        feed_cpt_id: '<?php echo esc_js( $feed_cpt_id ); ?>',
-						_wpnonce: '<?php echo wp_create_nonce( 'fts_refresh_access_token' ); ?>' 
-                        feed: 'instagram'
-                    },
-                    type: 'POST',
-                    url: ftsAjax.ajaxurl,
-                    success: function (response) {
-                        console.log(response);
-                        var data = JSON.parse( response );
+            // error_log("Updated Instagram Business Basic Token for feed $feed_cpt_id");
 
-                        jQuery('#fts_instagram_custom_api_token, #fts_instagram_custom_api_token_expires_in').val('');
-                        jQuery('#fts_instagram_custom_api_token').val( data['access_token'] );
-                        jQuery('#fts_instagram_custom_api_token_expires_in').val( data['expires_in'] );
+            return false;
+        }
+        else {
+            // Return if no access token queried from refresh token.
+            // Make sure this does not cause error on front end feed if cached already.
+            // error_log("No Token returned from Instagram");
 
-                        return false;
-                    },
-                    error: function( response ){
-                        console.log(response);
-                    }
-                }); // end of ajax()
-                return false;
-            }); // end of document.ready
-        </script>
-        <?php
-        // return $auth_obj['access_token'];
-       
+        }
     }
 
     /**
-     * FTS Check YouTube Token Validity
+     * FTS YouTube Refresh Token
      *
-     * @since 2.3.3
+     * @since 4.3.2
      */
-    public function feed_them_youtube_refresh_token( $feed_cpt_id ) {
+    public function fts_youtube_refresh_token( $feed_cpt_id ) {
 
-		$refresh_token = $this->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' );
+        $check_refresh_token =  $this->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' );
+        $check_refresh_token_value = $this->data_protection->decrypt( $check_refresh_token ) !== false ? $this->data_protection->decrypt( $check_refresh_token ) : $check_refresh_token;
+
+        // In case we need to assist with debugging we add the
+        // cpt id, server and script uri to the post data.
+        $server     = !empty( site_url() ) ? esc_url( site_url() ) : 'na';
+        $script_uri = !empty($_SERVER['SCRIPT_URI']) ? ' & Script URI ' . esc_url( $_SERVER['SCRIPT_URI'] ) : 'na';
 
 		$postdata = http_build_query(
 			array(
-				'feed_them_social'  => 'yes',
-				'fts_refresh_token' => $refresh_token,
-				'expires_in'       => $this->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ),
+                'feed_them_social'  => 'yes',
+                'cpd_id'  			=> $feed_cpt_id,
+                'server'			=> $server . $script_uri,
+				'fts_refresh_token' => $check_refresh_token_value,
+				'expires_in'        => $this->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ),
+                'fts_oauth_nonce'   => wp_create_nonce( 'fts_oauth_youtube' ),
 			)
 		);
 
 		$ch = curl_init();
 
 		curl_setopt($ch, CURLOPT_URL, 'https://youtube-token-refresh.feedthemsocial.com' );
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "' . $postdata . '");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
 
-		$headers = array();
-		$headers[] = 'Content-Type: application/x-www-form-urlencoded';
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $headers = array();
+        $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+        $headers[] = 'Cache-Control: no-cache';
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-		$result = curl_exec($ch);
-		if (curl_errno($ch)) {
-			echo 'Error:' . curl_error($ch);
-		}
-		curl_close($ch);
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
 
-		$response = json_decode($result);
+        $response = json_decode($result);
 
-		/* echo '<br/>';
-			print_r( $response );
-			echo '<br/>';*/
-			//  print_r($result);
+        // Log the entire response array to the error log
+        error_log( 'YouTube token refresh response: ' . print_r( $response, true ) );
 
-		// Get new Access Token using our Refresh Token.
+        $nonce   = $response->fts_oauth_nonce ?? null;
+        $post_id = $response->fts_cpt_id ?? null;
+
+        // Check if nonce is valid and cross check the post id.
+        if ( ! isset( $nonce ) || 1 !== wp_verify_nonce( $nonce, 'fts_oauth_youtube' ) && $post_id === $feed_cpt_id ) {
+            // error_log( 'Invalid YouTube oauth nonce' );
+            wp_die( __( 'Invalid YouTube oauth nonce', 'feed-them-social' ) );
+        }
+
+		// Update the new access token and expires in time.
 		if( !empty( $response->access_token ) && !empty( $response->expires_in ) ){
-			$access_token = $response->access_token;
-			$expires_in = $response->expires_in;
-		}
+
+			$access_token = $response->access_token ?? null;
+            // 10-25-24: Need to implement a refresh token time to get a new one so the user does not have to keep re-authenticating.
+            // $refresh_token = $response->refresh_token ?? null;
+			$expires_in = $response->expires_in ?? null;
+
+            $start_of_time = isset( $expires_in ) ? strtotime( '+' . $expires_in . ' seconds' ) : '';
+            // We add * 1000 to convert to milliseconds because that is how we display it in the feed options for the user in the Token area.
+            $start_of_time_final = $start_of_time !== false ? sanitize_key( $start_of_time * 1000 ) : '';
+
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token, true, $feed_cpt_id, true );
+            // 10-25-24: Need to implement a refresh token time to get a new one so the user does not have to keep re-authenticating.
+            // $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $refresh_token, true, $feed_cpt_id, true );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $start_of_time_final, true, $feed_cpt_id, true );
+
+            return false;
+        }
 		else {
 			// Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
-			return  print_r($response);
+			// error_log( 'YouTube Token Not Returned' );
 		}
-		?>
-		<script>
-			jQuery(document).ready(function () {
-				jQuery.ajax({
-					data: {
-						action: "fts_refresh_token_ajax",
-						refresh_token: '<?php echo esc_js( $refresh_token ) ?>',
-						access_token: '<?php echo esc_js( $access_token ) ?>',
-						feed_cpt_id: '<?php echo esc_js( $feed_cpt_id ); ?>',
-						expires_in: '<?php echo esc_js( $expires_in ) ?>',
-						feed: 'youtube',
-						_wpnonce: '<?php echo wp_create_nonce( 'fts_refresh_access_token' ); ?>' 
-					},
-					type: 'POST',
-					url: ftsAjax.ajaxurl,
-					success: function (response) {
-						console.log(response);
-						<?php
-						if ( isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] ) {
-
-						$user_id        = $auth_obj;
-						$error_response = $user_id->error->errors[0]->message ? 'true' : 'false';
-						$type_of_key = __( 'Access Token', 'feed-them-social' );
-
-						// Error Check!
-						if ( 'true' === $error_response ) {
-							$fts_youtube_message = sprintf(
-								esc_html( '%1$s This %2$s does not appear to be valid. YouTube responded with: %3$s %4$s ', 'feed-them-social' ),
-								'<div class="fts-failed-api-token">',
-								esc_html( $type_of_key ),
-								esc_html( $user_id->error->errors[0]->message ),
-								'</div><div class="clear"></div>'
-							);
-						}
-						else {
-							$fts_youtube_message = sprintf(
-								esc_html( '%1$s Your %2$s is working! Generate your shortcode on the %3$s settings page.%4$s %5$s', 'feed-them-social' ),
-								'<div class="fts-successful-api-token">',
-								esc_html( $type_of_key ),
-								'<a href="' . esc_url( 'admin.php?page=feed-them-settings-page' ) . '">',
-								'</a>',
-								'</div><div class="clear"></div>'
-							);
-						} ?>
-						jQuery('#youtube_custom_access_token, #youtube_custom_token_exp_time').val('');
-
-						<?php if ( isset( $_GET['refresh_token'], $_GET['code'] ) && isset( $_GET['expires_in'] ) ) { ?>
-						jQuery('#youtube_custom_refresh_token').val(jQuery('#youtube_custom_refresh_token').val() + '<?php echo esc_js( $clienttoken_post['refresh_token'] ); ?>');
-						jQuery('.fts-failed-api-token').hide();
-
-						if (!jQuery('.fts-successful-api-token').length) {
-							jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
-						}
-						<?php
-						} else {
-						?>
-						if (jQuery('.fts-failed-api-token').length) {
-							jQuery('.fts-youtube-last-row').append('<?php echo $fts_youtube_message; ?>');
-							jQuery('.fts-failed-api-token').hide();
-						}
-						<?php } ?>
-
-						jQuery('#youtube_custom_access_token').val(jQuery('#youtube_custom_access_token').val() + '<?php echo esc_js( $access_token ); ?>');
-						jQuery('#youtube_custom_token_exp_time').val(jQuery('#youtube_custom_token_exp_time').val() + '<?php echo esc_js( strtotime( '+' . $expires_in . ' seconds' ) ); ?>');
-						jQuery('<div class="fa fa-check-circle fa-3x fa-fw fts-success"></div>').insertBefore('.hide-button-tokens-options .feed-them-social-admin-input-wrap .fts-clear');
-						jQuery('.fts-success').fadeIn('slow');
-
-						<?php } ?>
-						return false;
-					}
-				}); // end of ajax()
-				return false;
-			}); // end of document.ready
-		</script>
-		<?php
-        
     }
 
 	/**
-	 * FTS Check TikTok Token Validity
+	 * FTS TikTik Refresh Token
 	 *
 	 * @since 4.2.1
 	 */
@@ -1152,34 +1022,8 @@ class Feed_Functions {
 		}
 		else {
 			// Return if no access token queried from refresh token.
-			// Make sure this does not cause error on front end feed if cached already.
 			// error_log("No Token returned from TikTok");
-
 		}
-		// Turning this off for now because I'm going to convert this refresh token to a cron job.
-		/**/?><!--
-		<script>
-			jQuery(document).ready(function () {
-				jQuery.ajax({
-					data: {
-						action: "fts_refresh_token_ajax",
-						refresh_token: '<?php /*echo esc_js( $refresh_token ) */?>',
-						access_token: '<?php /*echo esc_js( $access_token ) */?>',
-						feed_cpt_id: '<?php /*echo esc_js( $feed_cpt_id ); */?>',
-						expires_in: '<?php /*echo esc_js( $refresh_expires_in ) */?>',
-						feed: 'tiktok',
-						_wpnonce: '<?php /*echo wp_create_nonce( 'fts_refresh_access_token' ); */?>'
-					},
-					type: 'POST',
-					url: ftsAjax.ajaxurl,
-					success: function (response) {
-						console.log(response);
-					}
-				}); // end of ajax()
-				return false;
-			}); // end of document.ready
-		</script>
-		--><?php
 	}
 
 	/**
@@ -1335,12 +1179,6 @@ class Feed_Functions {
 
 		check_ajax_referer( 'fts_encrypt_token' );
 
-        // Pretty sure this will not work with the refresh token because the user does
-        // not have to be logged in for the refresh token to work.
-		//if ( ! current_user_can( 'manage_options' ) ) {
-		//	wp_send_json_error( esc_html__( 'Forbidden', 'feed_them_social' ), 403 );
-		// }
-
         $access_token = json_decode( wp_unslash( $_REQUEST['access_token'] ) , true );
         $encrypt      = $this->data_protection->encrypt( $access_token['token'] );
        // error_log( $access_token  );
@@ -1352,6 +1190,9 @@ class Feed_Functions {
 			$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $encrypt, true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_id', $access_token['user_id'], true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $access_token['expires_in'], true, $cpt_id, false );
+
+            $cron_job = new Cron_Jobs( null, $this->options_functions );
+            $cron_job->fts_set_cron_job( $cpt_id, 'instagram_business_basic', false );
 
 		}
 		elseif ( $_REQUEST['token_type'] === 'business' ) {
@@ -1399,10 +1240,14 @@ class Feed_Functions {
 
         }
         elseif( 'youtube' === $_REQUEST['token_type'] ){
-            // atm we are not encrypting youtube tokens.
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token['token'], true, $cpt_id, false );
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $access_token['refresh_token'], true, $cpt_id, false );
+            // Encrypting the refresh token because it lasts longer than 1 Hour.
+            $encrypt_refresh_token = $this->data_protection->encrypt( $access_token['refresh_token'] );
+            $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $encrypt_refresh_token, true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $access_token['exp_time'], true, $cpt_id, false );
+
+            $cron_job = new Cron_Jobs( null, $this->options_functions );
+            $cron_job->fts_set_cron_job( $cpt_id, 'youtube', false );
         }
 
         $token_data = array (

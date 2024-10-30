@@ -6,13 +6,13 @@ function fts_instagram_basic_business_buttons() {
 
     if( 'combine-streams-feed-type' === jQuery("#feed_type option:selected").val() ){
         jQuery('.combine-instagram-access-token-placeholder').prepend('<div class="fts-instagram-basic-business-wrap">' +
-            '<div class="fts-combine-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram Basic<br/><small>Your Personal Account</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
+            '<div class="fts-combine-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram Basic<br/><small>Your Account on Instagram</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
             '<div class="fts-combine-instagram-business-token-button" data-fts-feed-type="instagram-business-feed-type">Instagram Business<br/><small>Your Account on Facebook</small><div class="fts-instagram-down-arrow fts-instagram-business-arrow"></div></div>' +
             '</div><div class="fts-clear"></div>');
     }
     else {
         jQuery('.fts-select-social-network-menu').append('<div class="fts-instagram-basic-business-wrap">' +
-            '<div id="fts-instagram-basic-token-button" class="fts-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram Basic<br/><small>Your Personal Account</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
+            '<div id="fts-instagram-basic-token-button" class="fts-instagram-basic-token-button" data-fts-feed-type="instagram-feed-type">Instagram<br/><small>Your Account on Instagram</small><div class="fts-instagram-down-arrow fts-instagram-basic-down-arrow"></div></div>' +
             '<div id="fts-instagram-business-token-button"  class="fts-instagram-business-token-button" data-fts-feed-type="instagram-business-feed-type">Instagram Business<br/><small>Your Account on Facebook</small><div class="fts-instagram-down-arrow fts-instagram-business-arrow"></div></div>' +
             '</div><div class="fts-clear"></div>');
     }

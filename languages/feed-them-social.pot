@@ -1036,7 +1036,7 @@ msgid "%1$sAPI Key%2$s %3$sPress Update to save Key.%4$s"
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:567
-msgid "Click the button below to get an access token, we recommend this for testing. This gives the plugin read-only access to get your YouTube videos. After testing, you must %1$sadd your own API Key%2$s. This is because Access Tokens expire. Once you have Access Tokens or entered an API key, you can create a feed."
+msgid "Click the button below to get an access token, we recommend this for testing. This gives the plugin read-only access to get your YouTube videos. After testing, you must %1$sadd your own API Key%2$s. This is because Access Tokens expire. Once you have Access Tokens or have entered an API key, you can create a feed."
 msgstr ""
 
 #: admin/cpt/options/feeds-cpt-options.php:587

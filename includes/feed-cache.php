@@ -71,10 +71,6 @@ class Feed_Cache {
 	    add_action( 'init', array( $this, 'fts_clear_cache_script' ) );
         add_action( 'init', array( $this, 'fts_dev_mode_clear_cache_script' ) );
 	    add_action( 'wp_ajax_fts_clear_cache_ajax', array( $this, 'fts_clear_cache_ajax' ) );
-
-        // SRL 4.0: I don't think we need these here.
-		// add_action( 'wp_ajax_fts_refresh_token_ajax', array( $this, 'fts_refresh_token_ajax' ) );
-		// add_action( 'wp_ajax_fts_instagram_token_ajax', array( $this, 'fts_instagram_token_ajax' ) );
 	}
 
 	/**

@@ -170,7 +170,7 @@ class Youtube_Access_Functions {
                     // Update the count down every 1 second
                     var x = setInterval(function () {
 
-                        // Get todays date and time
+                        // Get today's date and time
                         var now = new Date().getTime();
 
                         // console.log(now);
@@ -196,16 +196,7 @@ class Youtube_Access_Functions {
                </script>
                <?php
            }
-
-           if ( time() > $expiration_time && empty( $youtube_api_key ) ) {
-               // LEAVING OFF HERE NEED TO FIGURE OU WHY THIS IS NOT REFRESHING PROPER.
-               // COPY CODE FROM INSTAGRAM TO SIMPLIFY THE JS ABOVE TOO.
-               // SRL: 5-6-22: using API token till I get this figured out.
-               // I also made the refresh token option on fts.com error. MUST undo error there to get this to work.
-               // Right now though it is getting a refresh after a few seconds from a shit ton of people and it's made the
-               // app reach it's limit... access tokens blow for youtube. API key is the best way still.
-               $this->feed_functions->feed_them_youtube_refresh_token( $feed_cpt_id );
-            }   ?>
+            ?>
 
             <div class="clear"></div>
             <div class="fts-token-wrap" id="fts-youtube-token-wrap"><?php

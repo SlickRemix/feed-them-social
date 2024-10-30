@@ -8,7 +8,7 @@ jQuery(document).ready(ftg_admin_gallery_tabs);
 
 function ftg_admin_gallery_tabs() {
 
-    jQuery('.post-type-fts.post-php').find('.page-title-action').after('<a href="javascript:void(0);" class="page-title-action fts-enter-full-screen-editing-more">Full Screen Editing</a>');
+    jQuery('.post-type-fts.post-php').find('.page-title-action').after('<a href="javascript:void(0);" class="page-title-action fts-enter-full-screen-editing-more">Full Screen Editing</a><a href="#feed_setup" class="page-title-action fts-setup-instructions-button fts-info-icon">Setup Instructions</a>');
 
     // Check if the #collapse-button is already collapsed
     if (jQuery('#collapse-button').attr('aria-expanded') === 'false') {
@@ -418,8 +418,8 @@ jQuery(document).ready(function ($) {
     // Do this so if the users moves quickly so only loading messages displays.
     jQuery('.fts-shortcode-content').addClass('fts-cache-pre-loading');
 
-    $('.fts-info-icon').click(function () {
-        // get the id
+    $('.fts-info-icon').click(function () {// get the id
+        $(".tab1 a").click();
         $('.fts-select-social-network-menu-instructions').slideToggle();
     });
 

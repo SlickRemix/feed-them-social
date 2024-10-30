@@ -1065,6 +1065,10 @@ class Metabox_Functions {
                 'path'      => array(
                     'd'   => array(),
                 ),
+                'ol'     => array(
+                    'class' => array(),
+                ),
+                'li' => array(),
 			)
 		);
 	}

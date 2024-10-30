@@ -267,7 +267,6 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 				case 'basic':
 					$instagram_id            = !empty( $saved_feed_options['fts_instagram_custom_id'] ) ? $saved_feed_options['fts_instagram_custom_id'] : '';
 					$access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
-					$access_token_expires_in = !empty( $saved_feed_options['fts_instagram_custom_api_token_expires_in'] ) ? $saved_feed_options['fts_instagram_custom_api_token_expires_in'] : '';
 					// The check requires '' to be checked not empty() and it needs to be inside this case statement otherwise
 					// it will load the error message even though the feed is trying to load and the access token is set.
 					// Plus this way we can define what feed type it is.
@@ -283,7 +282,6 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
 			}
 
-
             // Get our Additional Options.
             $this->instagram_custom_styles( $feed_post_id, $fts_instagram_slider );
 
@@ -294,8 +292,6 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
 			if ( $fts_premium || $fts_instagram_slider ) {
 
-                // SRL commented out for new 4.0 testing.. passing vars below.
-				//include WP_PLUGIN_DIR . '/feed-them-premium/feeds/instagram/instagram-feed.php';
                 $popup                 = $saved_feed_options['instagram_popup_option'] ?? '';
                 $loadmore_option       = $saved_feed_options['instagram_load_more_option'] ?? '';
                 $loadmore              = $saved_feed_options['instagram_load_more_style'] ?? '';
@@ -312,50 +308,9 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 					wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );
 				}
 			}
-            else {
-//				extract(
-//					shortcode_atts(
-//						array(
-//							'instagram_id'             => '',
-//							//'type'                     => '',
-//							//'pics_count'               => '',
-//							'super_gallery'            => '',
-//							'image_size'               => '',
-//							//'icon_size'                => '',
-//							//'space_between_photos'     => '',
-//							//'hide_date_likes_comments' => '',
-//							//'center_container'         => '',
-//							//'height'                   => '',
-//							//'width'                    => '',
-//							// user profile options.
-//							//'profile_wrap'             => '',
-//							//'profile_photo'            => '',
-//							//'profile_stats'            => '',
-//							//'profile_name'             => '',
-//							//'profile_description'      => '',
-//							//'columns'                  => '',
-//							//'force_columns'            => '',
-//							'access_token'             => '',
-//						),
-//						$atts
-//					)
-//				);
-                
-				if ( $saved_feed_options['instagram_pics_count'] === null ) {
-					$saved_feed_options['instagram_pics_count'] = '6';
-				}
+            elseif ( $saved_feed_options['instagram_pics_count'] === null ) {
+                $saved_feed_options['instagram_pics_count'] = '6';
 			}
-			// Added new debug option SRL: 6/7/18.
-//			extract(
-//				shortcode_atts(
-//					array(
-//						'debug'          => '',
-//						'debug_userinfo' => '',
-//					),
-//					$atts
-//				)
-//			);
-
 
 			if ( ! $fts_premium && $saved_feed_options['instagram_pics_count'] > '6' && ! $fts_instagram_slider && $saved_feed_options['instagram_pics_count'] > '6') {
                 $saved_feed_options['instagram_pics_count'] = '6';
@@ -365,39 +320,9 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 				$saved_feed_options['instagram_pics_count'] = '10';
 			}
 
-           // error_log(print_r( $saved_feed_options, true));
-
             // Decrypt Access Token.
             $this->feed_access_token = $this->access_options->decrypt_access_token( $access_token );
 
-           // error_log(print_r( $this->feed_access_token, true));
-
-            // Decrypt Access Token.
-            //$this->feed_access_token = $this->access_options->decrypt_access_token( $saved_feed_options['fts_instagram_custom_api_token'] );
-
-            // Get and Decrypt Instagram Business Token.
-            // $instagram_business_token    = $this->access_options->decrypt_access_token( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
-            // Get and Decrypt Instagram Basic Token.
-
-            $access_token_basic           = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
-			$instagram_basic_token        = $this->access_options->decrypt_access_token( $access_token_basic );
-
-            // Use token relative to feed.
-			//$fts_instagram_access_token  = 'hashtag' === $saved_feed_options['instagram_feed_type'] || 'business' === $saved_feed_options['instagram_feed_type'] ? $instagram_business_token : $instagram_basic_token;
-
-            // the way this refresh token works atm is. if the token is expired then we fetch a new token when any front end user views a page the feed is on.
-            // the ajax runs to fetch a new token if it's expired, then it saves it to the db, but because that happens after the user has already loaded the page,
-            // we need to show the cached feed so the feed does not return a token expired message. THEN after the next page reload the actual refreshed token will be in place.
-            // we still keep calling the cached version after that point so we are not uses up the API until the users deletes the cache or it is deleted per the determined time.
-		    // this will not return the feed proper if token is expired need to fix this
-			// YO!
-			// SRL 4-6-22. RIGHT NOW WE ARE ONLY DOING THIS FOR INSTAGRAM BASIC
-			if ( ! empty( $instagram_basic_token ) ) {
-				// Double Check Our Expiration Time on the Token and refresh it if needed.
-				if ( time() > $access_token_expires_in ) {
-					$this->feed_functions->feed_them_instagram_refresh_token( $feed_post_id );
-				}
-			}
          	$instagram_data_array = array();
 
 			if ( $fts_premium || $fts_instagram_slider ) {

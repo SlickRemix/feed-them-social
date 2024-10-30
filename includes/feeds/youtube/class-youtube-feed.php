@@ -117,20 +117,6 @@ class Youtube_Feed {
         $youtube_api_key      = !empty( $saved_feed_options['youtube_custom_api_token'] ) ? $saved_feed_options['youtube_custom_api_token'] : '';
         $youtube_access_token = !empty( $saved_feed_options['youtube_custom_access_token'] ) ? $saved_feed_options['youtube_custom_access_token'] : '';
 
-        // the way this refresh token works atm is. if the token is expired then we fetch a new token when any front end user views a page the feed is on.
-        // the ajax runs to fetch a new token if it's expired, then it saves it to the db, but because that happens after the user has already loaded the page,
-        // we need to show the cached feed so the feed does not return a token expired message. THEN after the next page reload the actual refreshed token will be in place.
-        // we still keep calling the cached version after that point so we are not uses up the API until the users deletes the cache or it is deleted per the determined time.
-        // this will not return the feed proper if token is expired need to fix this
-        if ( ! empty( $youtube_access_token ) ) {
-            // Double Check Our Expiration Time on the Token and refresh it if needed.
-            $expiration_time = $saved_feed_options['youtube_custom_token_exp_time'];
-
-            // Access token is good for 3600 seconds, that about an hour.
-            if ( time() > $expiration_time ) {
-	            $this->feed_functions->feed_them_youtube_refresh_token();
-            }
-        }
 
         if ( ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
             // this relies on our approved app from google.

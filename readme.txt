@@ -4,7 +4,7 @@ Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.6.7
+Tested up to: 6.7
 Stable tag: 4.3.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -126,7 +126,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 == Changelog ==
 = Version 4.3.3 Monday, November 18th, 2024 =
   * Fix: Instagram Feed > Get Access Token > Instagram was returning, Error Please wait a few minutes before you try again, for many users. I found using 5G helped but that does not help everyone. Restructured the url to prevent this error.
-  * NOTE: Works with WordPress version 6.4.7
+  * NOTE: Works with WordPress version 6.7
 
 = Version 4.3.2 Wednesday, October 30th, 2024 =
   * Update: Instagram Feed Basic > [You must get a new access token](https://www.slickremix.com/documentation/connect-instagram-professional-account/) before December 4th. Depreciation Notice on December 4th, 2024 for the Instagram Basic API. The new connection requires your Instagram account to be a Professional with the Creator or Business option set. We have updated the plugin to reflect this change. Login to your Instagram Account and go to your Profile page, then click the gear icon and choose the Settings, then scroll down and find the Creator Tools and Controls menu option. Now choose either a Business or Creator option. Then you can click the button on our plugin to gain an Access Token. Your account cannot be set to personal for this to work. [More In-depth Info](https://developers.facebook.com/blog/post/2024/09/04/update-on-instagram-basic-display-api/)

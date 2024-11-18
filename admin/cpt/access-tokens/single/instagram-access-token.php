@@ -153,7 +153,7 @@ class Instagram_Access_Functions {
 
         echo sprintf(
             esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
-            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=523345500405663&redirect_uri=https://www.slickremix.com/instagram-business-basic-token-redirect/&response_type=code&scope=instagram_business_basic&state=' . urlencode( urlencode( urlencode( $post_url ) ) ) ) . '" class="fts-instagram-get-access-token">',
+            '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?client_id=523345500405663&redirect_uri=https://www.slickremix.com/instagram-business-basic-token-redirect/&response_type=code&scope=instagram_business_basic&state=' . urlencode( urlencode( urlencode( $post_url ) ) ) ) . '" class="fts-instagram-get-access-token">',
             '</a>'
 
            /* esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),

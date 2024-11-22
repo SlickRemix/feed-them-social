@@ -37,15 +37,39 @@ class Cron_Jobs {
     public $options_functions;
 
     /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
+
+    /**
+     * Feed Cache.
+     *
+     * Class used for caching.
+     *
+     * @var object
+     */
+    public $feed_cache;
+
+    /**
      * Core_Functions constructor.
      */
-    public function __construct( $feed_functions, $options_functions ) {
+    public function __construct( $feed_functions, $options_functions, $settings_functions, $feed_cache ) {
 
         // Feed Functions Class.
         $this->feed_functions = $feed_functions;
 
         // Options Functions Class.
         $this->options_functions = $options_functions;
+
+        // Feed Settings.
+        $this->settings_functions = $settings_functions;
+
+        // Set Feed Cache object.
+        $this->feed_cache = $feed_cache;
 
         // Add Actions and Filters.
         $this->add_actions_filters();
@@ -57,6 +81,7 @@ class Cron_Jobs {
     public function add_actions_filters() {
         // Hook for the custom cron schedules
         add_filter('cron_schedules', array($this, 'fts_cron_schedules'));
+
         // Register actions on init
         add_action('init', array($this, 'register_cron_actions'));
     }
@@ -65,7 +90,6 @@ class Cron_Jobs {
      * Adds custom intervals for cron jobs
      */
     public function fts_cron_schedules($schedules) {
-
         // Tiktok refreshes every 24 hours.
         if (!isset($schedules['once_daily'])) {
             $schedules['once_daily'] = array(
@@ -86,8 +110,20 @@ class Cron_Jobs {
         if (!isset($schedules['every_hour'])) {
             $schedules['every_hour'] = array(
                 'interval' => 3600, // 3600 is 1 hour in seconds
-               // 'interval' => 60,
                 'display'  => __('Once Hourly')
+            );
+        }
+
+        if (!isset($schedules['fts_cache_clear'])) {
+            // Cache clear interval
+            // Production: Must be active.
+            $cache_time = $this->settings_functions->fts_get_option('fts_cache_time');
+            // Testing: Set cache clear interval to 60 seconds.
+            // $cache_time = '60';
+            $cache_interval = is_numeric($cache_time) && $cache_time > 0 ? (int)$cache_time : 86400; // Default to 1 Day if not set.
+            $schedules['fts_cache_clear'] = array(
+                'interval' => $cache_interval,
+                'display'  => __('Cache Clear Interval')
             );
         }
 
@@ -95,34 +131,69 @@ class Cron_Jobs {
     }
 
     /**
+     * The task to run for clearing the cache
+     *
+     * Backup to delete all cache in case transient_timeout fails
+     */
+    public function clear_cache_task() {
+        // Debug: Log task execution
+        // error_log('Running clear_cache_task');
+        $this->feed_cache->feed_them_clear_cache();
+    }
+
+    /**
      * Set up a cron job.
      */
     public function fts_set_cron_job($cpt_id, $feed_name, $revoke_token) {
-        $event_hook = "fts_{$feed_name}_refresh_token_{$cpt_id}";
 
-        // Unschedule any existing event with this hook
-        $timestamp = wp_next_scheduled($event_hook, array($cpt_id));
-        if ($timestamp) {
-            wp_unschedule_event($timestamp, $event_hook, array($cpt_id));
+        if( $cpt_id === 'clear-cache-set-cron-job' ){
+            $event_hook = 'fts_clear_cache_event';
+
+            // Debug: Log before scheduling
+            // error_log('Running set_cache_clear_cron');
+
+            // Unschedule any existing events
+            $timestamp = wp_next_scheduled($event_hook);
+            if ($timestamp) {
+                wp_unschedule_event($timestamp, $event_hook);
+                // Debug: Log unscheduled event.
+                // error_log('Unscheduling existing cron job for fts_clear_cache_event');
+            }
+
+            // Schedule the new event
+            wp_schedule_event(time(), 'fts_cache_clear', $event_hook);
+
+            // Debug: Log scheduling
+            // error_log('Scheduled new cron job for fts_clear_cache_event');
+        }
+        else {
+            $event_hook = "fts_{$feed_name}_refresh_token_{$cpt_id}";
+
+            // Unschedule any existing event with this hook
+            $timestamp = wp_next_scheduled($event_hook, array($cpt_id));
+            if ($timestamp) {
+                wp_unschedule_event($timestamp, $event_hook, array($cpt_id));
+            }
+
+            if( $revoke_token === false ){
+                // Determine the schedule based on the feed type
+                if( $feed_name === 'instagram_business_basic' ){
+                    $schedule = 'every_54_days';
+                }
+                elseif( $feed_name === 'tiktok' ){
+                    $schedule = 'once_daily';
+                }
+                elseif( $feed_name === 'youtube' ){
+                    $schedule = 'every_hour';
+                }
+                // Schedule a new event
+                wp_schedule_event(time(), $schedule, $event_hook, array($cpt_id));
+            }
+
+            // Store the event hook name in the feed options
+            $this->options_functions->update_single_option('fts_feed_options_array', "{$feed_name}_scheduled_event", $event_hook, true, $cpt_id, false);
         }
 
-        if( $revoke_token === false ){
-            // Determine the schedule based on the feed type
-            if( $feed_name === 'instagram_business_basic' ){
-                $schedule = 'every_54_days';
-            }
-            elseif( $feed_name === 'tiktok' ){
-                $schedule = 'once_daily';
-            }
-            elseif( $feed_name === 'youtube' ){
-                $schedule = 'every_hour';
-            }
-            // Schedule a new event
-            wp_schedule_event(time(), $schedule, $event_hook, array($cpt_id));
-        }
-
-        // Store the event hook name in the feed options
-        $this->options_functions->update_single_option('fts_feed_options_array', "{$feed_name}_scheduled_event", $event_hook, true, $cpt_id, false);
     }
 
     /**
@@ -174,5 +245,8 @@ class Cron_Jobs {
                 });
             }
         }
+
+        // Register cache clear action
+        add_action('fts_clear_cache_event', array($this, 'clear_cache_task'));
     }
 }//end class

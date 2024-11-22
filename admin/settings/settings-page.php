@@ -637,7 +637,13 @@ class Settings_Page {
 	        // Merge our new settings with the existing
 	        $output = array_merge( $all_settings, $input );
 	        add_settings_error( 'fts-notices', esc_attr( 'settings_updated' ), __( 'Settings Updated.', 'feed-them-social' ), 'updated' );
-	        return $output;
+
+            // Set new cron job for clearing cache.
+            // This is here so we can set a new cron job if the user changes the cache time.
+            $cron_job = new Cron_Jobs( null, null, null, null );
+            $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+
+            return $output;
         }
         // Show error message for Settings not saving because something is wrong.
         else{

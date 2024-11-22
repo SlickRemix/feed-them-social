@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.7
-Stable tag: 4.3.3
+Tested up to: 6.7.1
+Stable tag: 4.3.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,12 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.3.4 Friday, November 21st, 2024 =
+  * New: Cron Job > Clear Cache > Backup method to make sure the cache is deleted on set intervals according to the cache time set in the settings. Runs and clears cache on activation of the plugin, manual and automatic updates.
+  * Fix: Activation Hooks not firing.
+  * Remove: Unused code from the plugin.
+  * NOTE: Works with WordPress version 6.7.1
+
 = Version 4.3.3 Monday, November 18th, 2024 =
   * Fix: Instagram Feed > Get Access Token > Instagram was returning, Error Please wait a few minutes before you try again, for many users. I found using 5G helped but that does not help everyone. Restructured the url to prevent this error.
   * NOTE: Works with WordPress version 6.7

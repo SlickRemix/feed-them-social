@@ -41,7 +41,7 @@ class Activate_Plugin {
 	 */
 	public function add_actions_filters() {
 		// Register Activate Transient
-		register_activation_hook( __FILE__, array( $this, 'activate_transient' ) );
+		register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'activate_transient' ) );
 
 		// Display Install Notice Add Action.
 		add_action( 'admin_notices', array( $this, 'display_install_notice' ) );
@@ -59,7 +59,7 @@ class Activate_Plugin {
 		add_filter( 'plugin_row_meta', array( $this, 'leave_feedback_link' ), 10, 2 );
 
 		// Plugin Activation Function.
-		register_activation_hook( __FILE__, array( $this, 'plugin_activation' ) );
+		register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'plugin_activation' ) );
 
 		// Set Plugin Timezone.
 		add_action( 'admin_init', array( $this, 'set_plugin_timezone' ) );
@@ -147,8 +147,10 @@ class Activate_Plugin {
 	 * @since 1.0.0
 	 */
 	public function activate_transient() {
+
 		// Set Activation Transient.
 		set_transient( 'fts_activated', 1 );
+
 		// Set/Update FTS Version.
 		update_option( 'fts_version', FEED_THEM_SOCIAL_VERSION );
 	}
@@ -199,20 +201,21 @@ class Activate_Plugin {
 	 *
 	 * This function runs when WordPress completes its upgrade process. It iterates through each plugin updated to see if ours is included.
 	 *
-	 * @param array $upgrader_object Array The upgrader object.
 	 * @param array $options Array The options.
 	 * @since 1.0.0
 	 */
-	public function upgrade_completed( $upgrader_object, $options ) {
+	public function upgrade_completed( $options ) {
 		// The path to our plugin's main file.
 		$our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
 		// If an update has taken place and the updated type is plugins and the plugins element exists.
-		if ( 'update' === $options['action'] && 'plugin' === $options['type'] && isset( $options['plugins'] ) ) {
+		if ( $options['action'] === 'update' && $options['type'] === 'plugin' && isset( $options['plugins'] ) ) {
 			// Iterate through the plugins being updated and check if ours is there.
 			foreach ( $options['plugins'] as $plugin ) {
 				if ( $plugin === $our_plugin ) {
 					// Set a transient to record that our plugin has just been updated.
 					set_transient( 'fts_updated', 1 );
+                    // Set/Update new cron job for clearing cache.
+                    $this->set_cron_job();
 				}
 			}
 		}
@@ -264,9 +267,10 @@ class Activate_Plugin {
 	 * @since 1.0.0
 	 */
 	public function plugin_activation() {
-		// we add an db option to check then delete the db option after activation and the cache has emptied.
-		// the delete_option is on the feed-them-functions.php file at the bottom of the function ftg_clear_cache_script.
-		add_option( 'Feed_Them_Social_Activated_Plugin', 'feed-them-social' );
+
+        // Set/Update new cron job for clearing cache.
+        $this->set_cron_job();
+
 	}
 
 	/**
@@ -278,7 +282,7 @@ class Activate_Plugin {
 	 */
 	public function set_plugin_timezone() {
 
-		if ( is_admin() && 'feed-them-social' === get_option( 'Feed_Them_Social_Activated_Plugin' ) ) {
+		if ( is_admin() && get_option( 'Feed_Them_Social_Activated_Plugin' ) === 'feed-them-social' ) {
 
 			// Activation Options.
 			$activation_options = array(
@@ -290,6 +294,7 @@ class Activate_Plugin {
 				// We don't use update_option because we only want this to run for options that have not already been set by the user.
 				add_option( $option_key, $option_value );
 			}
+
 		}
 
         // Review Nag Check.
@@ -320,7 +325,7 @@ class Activate_Plugin {
 				require_once ABSPATH . WPINC . '/pluggable.php';
 			}
 
-			if ( ! current_user_can( 'manage_options' ) || !isset( $_REQUEST['_wpnonce'] ) || false === wp_verify_nonce( $_REQUEST['_wpnonce'], 'ignore_rating_notice_nag2024' ) ) {
+			if ( ! current_user_can( 'manage_options' ) || !isset( $_REQUEST['_wpnonce'] ) || wp_verify_nonce( $_REQUEST['_wpnonce'], 'ignore_rating_notice_nag2024' ) === false ) {
 				wp_die(
 					__( 'Missing capability', 'feed-them-social' ),
 					__( 'Forbidden', 'feed-them-social' ),
@@ -330,9 +335,9 @@ class Activate_Plugin {
 				);
 			}
 
-			if ( '1' === $_GET[ $review_nag ] ) {
+			if ( $_GET[ $review_nag ] === '1' ) {
 				update_option( $review_option, 'dismissed2024' );
-			} elseif ( 'later' === $_GET[ $review_nag ] ) {
+			} elseif ( $_GET[ $review_nag ] === 'later' ) {
                 $time = 2 * WEEK_IN_SECONDS;
                 // Testing.
                 // $time = 2;
@@ -355,7 +360,7 @@ class Activate_Plugin {
 		$rating_notice_waiting = get_transient( $review_transient );
 		$notice_status         = get_option( $review_option, false );
 
-		if ( ! $rating_notice_waiting && ! ( 'dismissed2024' === $notice_status || 'pending2024' === $notice_status ) ) {
+		if ( ! $rating_notice_waiting && ! ( $notice_status === 'dismissed2024' || $notice_status === 'pending2024') ) {
             $time = 2 * WEEK_IN_SECONDS;
 			// Testing.
             // $time = 2;
@@ -433,4 +438,18 @@ class Activate_Plugin {
 			}
 		}
 	}
+
+    /**
+     * Set Cron Job
+     *
+     * Run this function when the plugin is activated, updated or auto-updated.
+     *
+     * @since 4.3.4
+     */
+    public function set_cron_job() {
+
+        // Set new cron job for clearing cache.
+        $cron_job = new Cron_Jobs( null, null, null, null );
+        $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+    }
 }

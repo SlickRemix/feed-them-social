@@ -176,8 +176,8 @@
   * HAPPY BIRTHDAY TO SPENCER! :)
   * FIX: Instagram Feed: Multiple feeds problem.
 
-= Version 2.7.6.2 Thursday, October 31th, 2019 =
-  * HAPPY HOLLOWEEN!
+= Version 2.7.6.2 Thursday, October 31st, 2019 =
+  * HAPPY HALLOWEEN!
   * FIX: Facebook Options: Issue with Instagram Pages getting included in the return.
   * FIX: Twitter Feed: Now the Date has a title so it is accessible.
   * FIX: All Feeds: Now the share links are accessible.

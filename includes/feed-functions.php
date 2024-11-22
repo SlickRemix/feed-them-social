@@ -178,7 +178,7 @@ class Feed_Functions {
 					'id'     => 'feed_them_social_admin_set_cache',
 					'parent' => 'feed_them_social_admin_bar',
 					'title'  => __( 'Clear Cache', 'feed-them-social' ),
-					'href'   => 'javascript:;',
+					'href'   => false,
 					'meta' => array('onclick' => 'fts_ClearCache("alert");') //JavaScript function trigger just as an example.
 				)
 			);
@@ -887,7 +887,7 @@ class Feed_Functions {
         $response = json_decode($result);
 
         // Log the entire response array to the error log
-        error_log( 'YouTube token refresh response: ' . print_r( $response, true ) );
+        // error_log( 'YouTube token refresh response: ' . print_r( $response, true ) );
 
         $nonce   = $response->fts_oauth_nonce ?? null;
         $post_id = $response->fts_cpt_id ?? null;
@@ -1191,7 +1191,7 @@ class Feed_Functions {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_id', $access_token['user_id'], true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $access_token['expires_in'], true, $cpt_id, false );
 
-            $cron_job = new Cron_Jobs( null, $this->options_functions );
+            $cron_job = new Cron_Jobs( null, $this->options_functions, null, null );
             $cron_job->fts_set_cron_job( $cpt_id, 'instagram_business_basic', false );
 
 		}
@@ -1216,7 +1216,7 @@ class Feed_Functions {
 				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', ' ', true, $cpt_id, false );
 				$this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', ' ', true, $cpt_id, false );
 
-				$cron_job = new Cron_Jobs( null, $this->options_functions );
+				$cron_job = new Cron_Jobs( null, $this->options_functions, null, null );
 				$cron_job->fts_set_cron_job( $cpt_id, 'tiktok', true );
 			}
 			else {
@@ -1234,7 +1234,7 @@ class Feed_Functions {
 				// We create a cron job that will refresh the token every 24hrs.
 				// The caveat is that a user must visit the site for the cron job to run so we will need to make
 				// sure the feed stays cached until the cron job runs.
-				$cron_job = new Cron_Jobs( null, $this->options_functions );
+				$cron_job = new Cron_Jobs( null, $this->options_functions, null, null );
 				$cron_job->fts_set_cron_job( $cpt_id, 'tiktok', false );
 			}
 
@@ -1246,7 +1246,7 @@ class Feed_Functions {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $encrypt_refresh_token, true, $cpt_id, false );
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $access_token['exp_time'], true, $cpt_id, false );
 
-            $cron_job = new Cron_Jobs( null, $this->options_functions );
+            $cron_job = new Cron_Jobs( null, $this->options_functions, null, null );
             $cron_job->fts_set_cron_job( $cpt_id, 'youtube', false );
         }
 

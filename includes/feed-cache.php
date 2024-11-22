@@ -69,7 +69,6 @@ class Feed_Cache {
 	public function add_actions_filters() {
 
 	    add_action( 'init', array( $this, 'fts_clear_cache_script' ) );
-        add_action( 'init', array( $this, 'fts_dev_mode_clear_cache_script' ) );
 	    add_action( 'wp_ajax_fts_clear_cache_ajax', array( $this, 'fts_clear_cache_ajax' ) );
 	}
 
@@ -89,8 +88,7 @@ class Feed_Cache {
 			'86400'   => __( '1 Day', 'feed-them-social' ),
 			'172800'  => __( '2 Days', 'feed-them-social' ),
 			'259200'  => __( '3 Days', 'feed-them-social' ),
-			'604800'  => __( '1 Week', 'feed-them-social' ),
-			'1209600' => __( '2 Weeks', 'feed-them-social' ),
+            '345600'  => __( '4 Days', 'feed-them-social' ),
 		);
 		return $formats;
 	}
@@ -132,12 +130,9 @@ class Feed_Cache {
 			case '259200':
 				$fts_display_cache_time = __( '3 Days', 'feed-them-social' );
 				break;
-			case '604800':
-				$fts_display_cache_time = __( '1 Week', 'feed-them-social' );
-				break;
-			case '1209600':
-				$fts_display_cache_time = __( '2 Weeks', 'feed-them-social' );
-				break;
+            case '345600':
+                $fts_display_cache_time = __( '4 Days', 'feed-them-social' );
+                break;
 		}
 		return $fts_display_cache_time;
 	}
@@ -177,17 +172,18 @@ class Feed_Cache {
         }
 
 		// Is there old Cache? If so Delete it!
-		if ( true === $this->fts_check_feed_cache_exists( $transient_name ) ) {
+		if ( $this->fts_check_feed_cache_exists( $transient_name ) === true ) {
 			// Make Sure to delete old permanent cache before setting up new cache!
 			$this->delete_permanent_feed_cache( $transient_name );
 		}
 		// Cache Time set on Settings Page under FTS Tab. 86400 = 1 day.
 		$cache_time_option = $this->settings_functions->fts_get_option('fts_cache_time');
-        $cache_time_limit = $cache_time_option ?? '86400';
+        // Ensure a valid cache time or fallback to default (86400 seconds)
+        $cache_time_limit = (is_numeric($cache_time_option) && $cache_time_option > 0) ? $cache_time_option : '86400';
         // echo '<br/><br/>Check the cache time limit.<br/>';
         // error_log($cache_time_limit);
 
-		//Check an Encrypted Response was returned.
+		// Check an Encrypted Response was returned.
 		if( $encrypted_response ){
 			// Timed Cache.
 			set_transient( 'fts_t_' . $transient_name, $encrypted_response, $cache_time_limit );
@@ -208,7 +204,7 @@ class Feed_Cache {
 	public function fts_get_feed_cache( $transient_name, $errored = null ) {
 
 		// If Error use Permanent Cache!
-		if ( true === $errored ) {
+		if ( $errored === true ) {
 			$trans = get_transient( 'fts_p_' . $transient_name );
 		}
 		else{
@@ -294,6 +290,10 @@ class Feed_Cache {
 		// Clear Expired Timed Cache!
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
 
+        // Set new cron job when user deletes cache so the cron job time matches up with the new transient_timeout_fts cache time.
+        $cron_job = new Cron_Jobs( null, null, null, null );
+        $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+
 		wp_reset_query();
 
         echo 'Success';
@@ -302,12 +302,12 @@ class Feed_Cache {
 	}
 
 	/**
-	 * Feed Them Clear Cache
+	 * FTS Clear Cache Cron Job
 	 *
-	 * Clear ALL FTS Cache.
+	 * Clear ALL FTS Cache. Used for the Cron Job function.
 	 *
 	 * @return string
-	 * @since 1.9.6
+	 * @since 4.3.4
 	 */
 	public function feed_them_clear_cache() {
 		global $wpdb;
@@ -315,6 +315,7 @@ class Feed_Cache {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_t_%' ) );
 		// Clear Expired Timed Cache!
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
+        // error_log('Cron Job Success: Cache for ALL FTS Feeds cleared!');
 		wp_reset_query();
 		return 'Cache for ALL FTS Feeds cleared!';
 	}
@@ -382,36 +383,4 @@ class Feed_Cache {
             }
         }
     }
-
-    /**
-     * FTS Clear Cache Script
-     *
-     * This is for the fts_clear_cache_ajax submission.
-     *
-     * @since 1.9.6
-     */
-    public
-    function fts_dev_mode_clear_cache_script ()
-    {
-        $fts_admin_activation_clear_cache = get_option( 'Feed_Them_Social_Activated_Plugin' );
-        $fts_dev_mode_cache = $this->settings_functions->fts_get_option( 'fts_cache_time' );
-        if ( '1' === $fts_dev_mode_cache || 'feed_them_social' === $fts_admin_activation_clear_cache ) {
-            wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/developer-admin.min.js' ), array('jquery'), FTS_CURRENT_VERSION, false );
-            wp_localize_script(
-                'fts_clear_cache_script',
-                'ftsAjax',
-                array(
-                    'createNewFeedUrl' => admin_url( 'edit.php?post_type=fts&page=create-new-feed' ),
-                    'ajaxurl' => admin_url( 'admin-ajax.php' ),
-                    'clearCacheNonce' => wp_create_nonce( 'fts_clear_cache' ),
-                )
-            );
-            wp_enqueue_script( 'jquery' );
-            wp_enqueue_script( 'fts_clear_cache_script' );
-        }
-
-        // We delete this option if found so we only empty the cache once when the plugin is ever activated or updated!
-        delete_option( 'Feed_Them_Social_Activated_Plugin' );
-    }
-
 }

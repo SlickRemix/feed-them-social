@@ -4708,72 +4708,8 @@ a.fts-facebook-thumbs-wrap {
     top: -3px
 }
 
-#wp-admin-bar-feed_them_social_admin_bar_set_cache {
-    padding-bottom: 17px!important;
-    line-height: 0!important
-}
-
-#wp-admin-bar-feed_them_social_admin_bar_set_cache span {
-    line-height: 10px;
-    display: block;
-    color: rgba(221,221,221,.57)
-}
-
-#wp-admin-bar-feed_them_social_admin_bar_set_cache:hover span {
-    line-height: 10px;
-    display: block;
-    color: #fff
-}
-
 .fts-facebook-popup .fts-fb-album-description-content .fts-jal-fb-user-thumb,.fts-fb-more-photos-wrap a:first-child,.fts-mashup-media-top.fts-mashup-hide-thumbnail .fts-jal-fb-user-name {
     margin-left: 0!important
-}
-
-.fts-steemit-username {
-    display: inline-block;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    margin-bottom: 5px
-}
-
-.steemit-info .fts-uppercase {
-    margin: 14px 0 10px 10px
-}
-
-.fts-steemit-title {
-    font-size: 18px;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-    font-weight: 400;
-    line-height: 21px;
-    color: #0084b4
-}
-
-.fts-steemit-div .fts-twitter-retweet:before {
-    content: "\f27a"!important;
-    font-size: 15px!important;
-    top: 1px
-}
-
-.fts-steemit-div .fts-twitter-favorites:before {
-    content: "Votes:"!important;
-    font-family: arial,sans-serif!important;
-    font-size: 14px!important;
-    margin-right: 3px!important;
-    top: 0;
-    font-weight: 700
-}
-
-.fts-steemit-div .fts-twitter-reply:before {
-    font-family: FontAwesomeSlickFeed,monospace;
-    content: '\f06e'!important;
-    position: relative;
-    top: 2px;
-    font-size: 19px
 }
 
 .fts-twitter-quoted-text-wrap {

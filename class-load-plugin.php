@@ -154,7 +154,7 @@ class Feed_Them_Social {
 		new feedthemsocial\BlockLoader();
 
         // Cron Jobs
-        new feedthemsocial\Cron_Jobs( $feed_functions, $options_functions );
+        new feedthemsocial\Cron_Jobs( $feed_functions, $options_functions, $settings_functions, $feed_cache );
 	}
 
 	/**

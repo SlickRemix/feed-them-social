@@ -457,17 +457,6 @@
     }
 }
 
-#wp-admin-bar-feed_them_social_admin_bar_set_cache {
-    padding-bottom: 17px !important;
-    line-height: 0 !important
-}
-
-#wp-admin-bar-feed_them_social_admin_bar_set_cache span {
-    line-height: 10px;
-    display: block;
-    color: rgba(221, 221, 221, .57)
-}
-
 .fts-shortocde-success-message svg {
     max-width: 75px;
     fill: #f40505

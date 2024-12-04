@@ -150,6 +150,9 @@ class Feed_Them_Social {
 		// Updater Init.
 		new feedthemsocial\updater_init( $feed_functions );
 
+        // Github Updater
+        new feedthemsocial\Github_Updater();
+
 		// Block Init
 		new feedthemsocial\BlockLoader();
 
@@ -400,6 +403,9 @@ class Feed_Them_Social {
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php';
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php';
 
+        // Github_Updater.
+        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/github-updater.php';
+
 		// Feed Block
 		include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'blocks/block-loader.php';
 
@@ -414,7 +420,6 @@ class Feed_Them_Social {
         if ( did_action( 'elementor/loaded' ) ) {
             include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/elementor/includes/module.php';
         }
-
 
 	}
 

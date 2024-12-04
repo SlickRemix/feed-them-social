@@ -25,7 +25,7 @@ class Github_Updater {
 
         add_filter('pre_set_site_transient_update_plugins', [$this, 'checkForUpdate']);
         add_filter('plugins_api', [$this, 'pluginInfo'], 10, 3);
-        add_filter('upgrader_source_selection', [$this, 'renamePluginFolder'], 10, 3);
+        add_filter('upgrader_source_selection', [$this, 'renamePluginFolder'], 10, 1);
     }
 
     public function checkForUpdate($transient) {
@@ -83,7 +83,7 @@ class Github_Updater {
         return $result;
     }
 
-    public function renamePluginFolder($source, $remote_source, $upgrader) {
+    public function renamePluginFolder($source) {
         // Ensure we are working with the correct plugin.
         if (strpos($source, "{$this->github_repository}-{$this->github_branch_or_tag}") !== false) {
             // Define the correct folder path.

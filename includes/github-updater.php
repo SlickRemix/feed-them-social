@@ -84,15 +84,20 @@ class Github_Updater {
     }
 
     public function renamePluginFolder($source, $remote_source, $upgrader) {
+        // Ensure we are working with the correct plugin.
         if (strpos($source, "{$this->github_repository}-{$this->github_branch_or_tag}") !== false) {
+            // Define the correct folder path.
             $corrected_folder = trailingslashit(WP_PLUGIN_DIR) . $this->github_repository;
 
+            // Rename the folder if necessary.
             if (rename($source, $corrected_folder)) {
-                return $corrected_folder;
+                return $corrected_folder; // Return the new folder path.
+            } else {
+                error_log("Failed to rename folder from $source to $corrected_folder");
             }
         }
 
-        return $source;
+        return $source; // Return the original folder path if renaming fails.
     }
 
     private function getPluginData() {

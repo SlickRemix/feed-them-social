@@ -215,7 +215,7 @@ class Activate_Plugin {
                 $options['action'] === 'install' &&
                 $options['type'] === 'plugin' &&
                 $options['plugin'] === $our_plugin ) {
-                // error_log( 'Handle plugin installation/replacement (array).' );
+                error_log( 'Handle plugin installation/replacement (array).' );
                 $this->handle_plugin_event();
                 return;
             }
@@ -225,7 +225,7 @@ class Activate_Plugin {
                 $options['action'] === 'update' &&
                 $options['type'] === 'plugin' &&
                 in_array( $our_plugin, $options['plugins'], true ) ) {
-                // error_log( 'Handle plugin updates (array).' );
+                error_log( 'Handle plugin updates (array).' );
                 $this->handle_plugin_event();
                 return;
             }
@@ -238,7 +238,7 @@ class Activate_Plugin {
                 $options['action'] === 'install' &&
                 $options['type'] === 'plugin' &&
                 $options['plugin'] === $our_plugin ) {
-                // error_log( 'Handle plugin installation/replacement (object).' );
+                error_log( 'Handle plugin installation/replacement (object).' );
                 $this->handle_plugin_event();
                 return;
             }
@@ -248,14 +248,14 @@ class Activate_Plugin {
                 $options['action'] === 'update' &&
                 $options['type'] === 'plugin' &&
                 in_array( $our_plugin, $options['plugins'], true ) ) {
-                // error_log( 'Handle plugin updates (object).' );
+                error_log( 'Handle plugin updates (object).' );
                 $this->handle_plugin_event();
                 return;
             }
         }
 
         // If $options doesn't match expected formats, log it for debugging.
-        // error_log( 'Unexpected upgrader options: ' . print_r( $options, true ) );
+         error_log( 'Unexpected upgrader options: ' . print_r( $options, true ) );
     }
 
     /**

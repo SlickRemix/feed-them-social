@@ -15,6 +15,7 @@ if (!defined('ABSPATH')) {
 }
 
 class Github_Updater {
+    private $plugin_data;
     private $github_username = 'SlickRemix';
     private $github_repository = 'feed-them-social';
     private $github_token = ''; // Optional: Add a personal access token for private repos.

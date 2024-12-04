@@ -212,7 +212,7 @@ class Feed_CPT_Options {
                         '<li>',
                         '</li>',
                         '</ol>',
-                        '<a href="edit.php?post_type=fts&page=fts-settings-page" target="_blank">',
+                        '<a href="edit.php?post_type=fts&page=fts-settings-page" target="_blank">'
 					),
 
 					'id'            => 'feed_type',

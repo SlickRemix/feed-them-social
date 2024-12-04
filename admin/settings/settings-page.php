@@ -642,6 +642,7 @@ class Settings_Page {
             // This is here so we can set a new cron job if the user changes the cache time.
             $cron_job = new Cron_Jobs( null, null, null, null );
             $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+            // error_log('FTS Cache Emptied. Setting Cron Job from settings-page.php.');
 
             return $output;
         }

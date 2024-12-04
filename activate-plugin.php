@@ -204,22 +204,72 @@ class Activate_Plugin {
 	 * @param array $options Array The options.
 	 * @since 1.0.0
 	 */
-	public function upgrade_completed( $options ) {
-		// The path to our plugin's main file.
-		$our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
-		// If an update has taken place and the updated type is plugins and the plugins element exists.
-		if ( $options['action'] === 'update' && $options['type'] === 'plugin' && isset( $options['plugins'] ) ) {
-			// Iterate through the plugins being updated and check if ours is there.
-			foreach ( $options['plugins'] as $plugin ) {
-				if ( $plugin === $our_plugin ) {
-					// Set a transient to record that our plugin has just been updated.
-					set_transient( 'fts_updated', 1 );
-                    // Set/Update new cron job for clearing cache.
-                    $this->set_cron_job();
-				}
-			}
-		}
-	}
+    public function upgrade_completed( $options ) {
+        // The path to our plugin's main file.
+        $our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
+
+        // Check if $options is an array or object and process accordingly.
+        if ( is_array( $options ) ) {
+            // Handle plugin installation.
+            if ( isset( $options['action'], $options['type'], $options['plugin'] ) &&
+                $options['action'] === 'install' &&
+                $options['type'] === 'plugin' &&
+                $options['plugin'] === $our_plugin ) {
+                // error_log( 'Handle plugin installation/replacement (array).' );
+                $this->handle_plugin_event();
+                return;
+            }
+
+            // Handle plugin updates.
+            if ( isset( $options['action'], $options['type'], $options['plugins'] ) &&
+                $options['action'] === 'update' &&
+                $options['type'] === 'plugin' &&
+                in_array( $our_plugin, $options['plugins'], true ) ) {
+                // error_log( 'Handle plugin updates (array).' );
+                $this->handle_plugin_event();
+                return;
+            }
+        } elseif ( is_object( $options ) ) {
+            // Convert object to array for easier processing.
+            $options = (array) $options;
+
+            // Handle plugin installation.
+            if ( isset( $options['action'], $options['type'], $options['plugin'] ) &&
+                $options['action'] === 'install' &&
+                $options['type'] === 'plugin' &&
+                $options['plugin'] === $our_plugin ) {
+                // error_log( 'Handle plugin installation/replacement (object).' );
+                $this->handle_plugin_event();
+                return;
+            }
+
+            // Handle plugin updates.
+            if ( isset( $options['action'], $options['type'], $options['plugins'] ) &&
+                $options['action'] === 'update' &&
+                $options['type'] === 'plugin' &&
+                in_array( $our_plugin, $options['plugins'], true ) ) {
+                // error_log( 'Handle plugin updates (object).' );
+                $this->handle_plugin_event();
+                return;
+            }
+        }
+
+        // If $options doesn't match expected formats, log it for debugging.
+        // error_log( 'Unexpected upgrader options: ' . print_r( $options, true ) );
+    }
+
+    /**
+     * Handle Plugin Event
+     *
+     * Common logic for when the plugin is updated or replaced.
+     */
+    protected function handle_plugin_event() {
+        // Set a transient to record that our plugin has just been updated/replaced.
+        set_transient( 'fts_updated', 1 );
+
+        // Set/Update new cron job for clearing cache.
+        $this->set_cron_job();
+    }
 
 	/**
 	 * Free Plugin Install Page Links
@@ -451,5 +501,6 @@ class Activate_Plugin {
         // Set new cron job for clearing cache.
         $cron_job = new Cron_Jobs( null, null, null, null );
         $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+        // error_log('FTS Plugin Activated. Setting Cron Job from activate-plugin.php.');
     }
 }

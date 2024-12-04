@@ -290,9 +290,12 @@ class Feed_Cache {
 		// Clear Expired Timed Cache!
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
 
+        $this->settings_functions->fts_update_option( 'fts_cache_time', false );
+
         // Set new cron job when user deletes cache so the cron job time matches up with the new transient_timeout_fts cache time.
         $cron_job = new Cron_Jobs( null, null, null, null );
         $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+        // error_log('FTS Plugin Cache Empted. Settings Cron Job from feed-cache.php.');
 
 		wp_reset_query();
 

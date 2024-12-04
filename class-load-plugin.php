@@ -222,10 +222,7 @@ class Feed_Them_Social {
 
 		// Plugin version. (Needs to be after BASENAME and ABS_PATH constants to work).
 		if ( ! defined( 'FEED_THEM_SOCIAL_VERSION' ) ) {
-			$plugin_data    = get_plugin_data( FEED_THEM_SOCIAL_PLUGIN_ABS_PATH );
-			$plugin_version = $plugin_data['Version'];
-
-			define( 'FEED_THEM_SOCIAL_VERSION', $plugin_version );
+			define( 'FEED_THEM_SOCIAL_VERSION', FTS_CURRENT_VERSION );
 		}
 
 		// Plugin Folder Path.

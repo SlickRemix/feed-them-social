@@ -57,5 +57,6 @@ function fts_uninstall()    {
 
 	foreach( $fts_all_options as $fts_all_option )	{
 		delete_option( $fts_all_option );
+        error_log('fts_uninstall: deleted option: ' . $fts_all_option);
 	}
 } // fts_uninstall

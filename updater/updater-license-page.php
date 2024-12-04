@@ -96,6 +96,11 @@ class updater_license_page {
      */
     public $setting_option_name;
 
+    // Declare the properties explicitly
+    public $plugin_title;
+    public $demo_url;
+    public $purchase_url;
+
 	/**
 	 * Construct
 	 *
@@ -341,6 +346,7 @@ class updater_license_page {
 		</div>
 		<?php
 	}
+
 
 	/**
      * Display Premium Needed License

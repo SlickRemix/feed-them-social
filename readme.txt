@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.7.1
-Stable tag: 4.3.4
+Stable tag: 4.3.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,8 +124,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.4 Friday, November 21st, 2024 =
+= Version 4.3.4 Monday, December 2nd, 2024 =
   * New: Cron Job > Clear Cache > Backup method to make sure the cache is deleted on set intervals according to the cache time set in the settings. Runs and clears cache on activation of the plugin, manual and automatic updates.
+  * Fix: Remove last comma on a sprint_f that can cause potential error on some installs.
   * Fix: Activation Hooks not firing.
   * Remove: Unused code from the plugin.
   * NOTE: Works with WordPress version 6.7.1

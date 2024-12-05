@@ -27,6 +27,7 @@ class Github_Updater {
         add_filter('pre_set_site_transient_update_plugins', [$this, 'checkForUpdate']);
         add_filter('plugins_api', [$this, 'pluginInfo'], 10, 3);
         add_filter('upgrader_source_selection', [$this, 'renamePluginFolder'], 10, 1);
+        add_action('upgrader_process_complete', [$this, 'cleanupTemporaryFolders'], 10, 2);
     }
 
     public function checkForUpdate($transient) {
@@ -87,32 +88,39 @@ class Github_Updater {
     public function renamePluginFolder($source) {
         $destination_folder = trailingslashit(WP_PLUGIN_DIR) . $this->github_repository;
 
-        // Step 1: Deactivate the plugin (handled by WordPress during updates).
+        // Step 1: Log the source folder for debugging.
+        error_log("Source folder: $source");
 
-        // Step 2: Delete the existing plugin folder.
+        // Step 2: Delete the existing plugin folder if it exists.
         if (is_dir($destination_folder)) {
             if (!$this->deleteFolder($destination_folder)) {
                 error_log("Failed to delete existing folder: $destination_folder");
-                return $source; // Abort renaming if the folder cannot be deleted.
+                return $source; // Abort renaming if deletion fails.
             }
         }
 
         // Step 3: Move the extracted folder to the plugins directory.
         if (rename($source, $destination_folder)) {
-            error_log("Folder Renamed $source to $destination_folder");
+            error_log("Folder renamed successfully: $source to $destination_folder");
             return $destination_folder; // Return the new folder path.
         } else {
-            error_log("Failed to rename folder from $source to $destination_folder");
+            error_log("Failed to rename folder: $source to $destination_folder");
             return $source; // Return the original folder path if renaming fails.
         }
     }
 
-    /**
-     * Helper function to recursively delete a folder and its contents.
-     *
-     * @param string $folder Path to the folder to delete.
-     * @return bool True on success, false on failure.
-     */
+    public function cleanupTemporaryFolders($hook_extra) {
+        if (isset($hook_extra['type']) && $hook_extra['type'] === 'plugin') {
+            $upgrade_folder = WP_CONTENT_DIR . '/upgrade';
+            $folders = glob($upgrade_folder . '/feed-them-social-*', GLOB_ONLYDIR);
+
+            foreach ($folders as $folder) {
+                error_log("Cleaning up temporary folder: $folder");
+                $this->deleteFolder($folder);
+            }
+        }
+    }
+
     private function deleteFolder($folder) {
         if (!is_dir($folder)) {
             return false;
@@ -123,12 +131,12 @@ class Github_Updater {
             $file_path = $folder . DIRECTORY_SEPARATOR . $file;
             if (is_dir($file_path)) {
                 $this->deleteFolder($file_path);
-                error_log("Folder was deleted");
             } else {
                 unlink($file_path);
             }
         }
 
+        error_log("Deleting folder: $folder");
         return rmdir($folder);
     }
 

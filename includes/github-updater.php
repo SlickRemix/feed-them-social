@@ -85,21 +85,23 @@ class Github_Updater {
     }
 
     public function renamePluginFolder($source) {
-        $expected_folder = trailingslashit(WP_PLUGIN_DIR) . $this->github_repository;
+        $destination_folder = trailingslashit(WP_PLUGIN_DIR) . $this->github_repository;
 
-        // Check if the destination folder exists and delete it if necessary.
-        if (is_dir($expected_folder)) {
-            if (!$this->deleteFolder($expected_folder)) {
-                error_log("Failed to delete existing folder: $expected_folder");
+        // Step 1: Deactivate the plugin (handled by WordPress during updates).
+
+        // Step 2: Delete the existing plugin folder.
+        if (is_dir($destination_folder)) {
+            if (!$this->deleteFolder($destination_folder)) {
+                error_log("Failed to delete existing folder: $destination_folder");
                 return $source; // Abort renaming if the folder cannot be deleted.
             }
         }
 
-        // Proceed to rename the folder.
-        if (rename($source, $expected_folder)) {
-            return $expected_folder;
+        // Step 3: Move the extracted folder to the plugins directory.
+        if (rename($source, $destination_folder)) {
+            return $destination_folder; // Return the new folder path.
         } else {
-            error_log("Failed to rename folder from $source to $expected_folder");
+            error_log("Failed to rename folder from $source to $destination_folder");
             return $source; // Return the original folder path if renaming fails.
         }
     }
@@ -120,11 +122,11 @@ class Github_Updater {
             $file_path = $folder . DIRECTORY_SEPARATOR . $file;
             if (is_dir($file_path)) {
                 $this->deleteFolder($file_path);
+                error_log("Folder was deleted");
             } else {
                 unlink($file_path);
             }
         }
-        error_log("Folder was deleted');
 
         return rmdir($folder);
     }

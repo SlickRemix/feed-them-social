@@ -210,9 +210,10 @@ class Activate_Plugin {
 
         if (is_array($options) && isset($options['type'], $options['action']) &&
             $options['type'] === 'plugin' && $options['action'] === 'update') {
-            error_log( 'WTF is going on?' );
+            error_log( 'AAAAAAAAAAA is going on?' );
 
         }
+        error_log( 'ZZZZZZZZZZ is going on not hitting array here why.?' . print_r($options) );
 
         // Check if $options is an array or object and process accordingly.
         if ( is_array( $options ) ) {

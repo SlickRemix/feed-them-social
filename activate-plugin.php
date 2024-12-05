@@ -213,7 +213,7 @@ class Activate_Plugin {
             error_log( 'AAAAAAAAAAA is going on?' );
 
         }
-        error_log( 'ZZZZZZZZZZ is going on not hitting array here why.?' . print_r($options) );
+        error_log( 'ZZZZZZZZZZ is going on not hitting array here why.?' . print_r($options, true) );
 
         // Check if $options is an array or object and process accordingly.
         if ( is_array( $options ) ) {

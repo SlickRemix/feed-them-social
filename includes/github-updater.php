@@ -85,20 +85,48 @@ class Github_Updater {
     }
 
     public function renamePluginFolder($source) {
-        // Ensure we are working with the correct plugin.
-        if (strpos($source, "{$this->github_repository}-{$this->github_branch_or_tag}") !== false) {
-            // Define the correct folder path.
-            $corrected_folder = trailingslashit(WP_PLUGIN_DIR) . $this->github_repository;
+        $expected_folder = trailingslashit(WP_PLUGIN_DIR) . $this->github_repository;
 
-            // Rename the folder if necessary.
-            if (rename($source, $corrected_folder)) {
-                return $corrected_folder; // Return the new folder path.
-            } else {
-                error_log("Failed to rename folder from $source to $corrected_folder");
+        // Check if the destination folder exists and delete it if necessary.
+        if (is_dir($expected_folder)) {
+            if (!$this->deleteFolder($expected_folder)) {
+                error_log("Failed to delete existing folder: $expected_folder");
+                return $source; // Abort renaming if the folder cannot be deleted.
             }
         }
 
-        return $source; // Return the original folder path if renaming fails.
+        // Proceed to rename the folder.
+        if (rename($source, $expected_folder)) {
+            return $expected_folder;
+        } else {
+            error_log("Failed to rename folder from $source to $expected_folder");
+            return $source; // Return the original folder path if renaming fails.
+        }
+    }
+
+    /**
+     * Helper function to recursively delete a folder and its contents.
+     *
+     * @param string $folder Path to the folder to delete.
+     * @return bool True on success, false on failure.
+     */
+    private function deleteFolder($folder) {
+        if (!is_dir($folder)) {
+            return false;
+        }
+
+        $files = array_diff(scandir($folder), ['.', '..']);
+        foreach ($files as $file) {
+            $file_path = $folder . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($file_path)) {
+                $this->deleteFolder($file_path);
+            } else {
+                unlink($file_path);
+            }
+        }
+        error_log("Folder was deleted');
+
+        return rmdir($folder);
     }
 
     private function getPluginData() {

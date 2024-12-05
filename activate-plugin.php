@@ -255,7 +255,7 @@ class Activate_Plugin {
         }
 
         // If $options doesn't match expected formats, log it for debugging.
-         error_log( 'Unexpected upgrader options: ' . print_r( $options, true ) );
+         error_log( 'Unexpected upgrader options' );
     }
 
     /**

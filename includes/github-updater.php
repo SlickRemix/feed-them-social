@@ -99,6 +99,7 @@ class Github_Updater {
 
         // Step 3: Move the extracted folder to the plugins directory.
         if (rename($source, $destination_folder)) {
+            error_log("Folder Renamed $source to $destination_folder");
             return $destination_folder; // Return the new folder path.
         } else {
             error_log("Failed to rename folder from $source to $destination_folder");

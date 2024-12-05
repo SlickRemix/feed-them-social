@@ -208,13 +208,6 @@ class Activate_Plugin {
         // The path to our plugin's main file.
         $our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
 
-        if (is_array($options) && isset($options['type'], $options['action']) &&
-            $options['type'] === 'plugin' && $options['action'] === 'update') {
-            error_log( 'AAAAAAAAAAA is going on?' );
-
-        }
-        error_log( 'ZZZZZZZZZZ is going on not hitting array here why.?' . print_r($options, true) );
-
         // Check if $options is an array or object and process accordingly.
         if ( is_array( $options ) ) {
             // Handle plugin installation.
@@ -222,7 +215,7 @@ class Activate_Plugin {
                 $options['action'] === 'install' &&
                 $options['type'] === 'plugin' &&
                 $options['plugin'] === $our_plugin ) {
-                error_log( 'Handle plugin installation/replacement (array).' );
+                // error_log( 'Handle plugin installation/replacement (array).' );
                 $this->handle_plugin_event();
                 return;
             }
@@ -232,7 +225,7 @@ class Activate_Plugin {
                 $options['action'] === 'update' &&
                 $options['type'] === 'plugin' &&
                 in_array( $our_plugin, $options['plugins'], true ) ) {
-                error_log( 'Handle plugin updates (array).' );
+                // error_log( 'Handle plugin updates (array).' );
                 $this->handle_plugin_event();
                 return;
             }
@@ -245,7 +238,7 @@ class Activate_Plugin {
                 $options['action'] === 'install' &&
                 $options['type'] === 'plugin' &&
                 $options['plugin'] === $our_plugin ) {
-                error_log( 'Handle plugin installation/replacement (object).' );
+                // error_log( 'Handle plugin installation/replacement (object).' );
                 $this->handle_plugin_event();
                 return;
             }
@@ -255,14 +248,14 @@ class Activate_Plugin {
                 $options['action'] === 'update' &&
                 $options['type'] === 'plugin' &&
                 in_array( $our_plugin, $options['plugins'], true ) ) {
-                error_log( 'Handle plugin updates (object).' );
+                // error_log( 'Handle plugin updates (object).' );
                 $this->handle_plugin_event();
                 return;
             }
         }
 
         // If $options doesn't match expected formats, log it for debugging.
-         error_log( 'Unexpected upgrader options' );
+        // error_log( 'Unexpected upgrader options' );
     }
 
     /**

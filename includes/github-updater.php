@@ -110,7 +110,8 @@ class Github_Updater {
     }
 
     public function cleanupTemporaryFolders($hook_extra) {
-        if (isset($hook_extra['type']) && $hook_extra['type'] === 'plugin') {
+        // Ensure $hook_extra is an array and the type is 'plugin'
+        if (is_array($hook_extra) && isset($hook_extra['type']) && $hook_extra['type'] === 'plugin') {
             $upgrade_folder = WP_CONTENT_DIR . '/upgrade';
             $folders = glob($upgrade_folder . '/feed-them-social-*', GLOB_ONLYDIR);
 
@@ -118,6 +119,8 @@ class Github_Updater {
                 error_log("Cleaning up temporary folder: $folder");
                 $this->deleteFolder($folder);
             }
+        } else {
+            error_log("Unexpected upgrader options");
         }
     }
 

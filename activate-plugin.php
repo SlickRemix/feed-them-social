@@ -208,6 +208,12 @@ class Activate_Plugin {
         // The path to our plugin's main file.
         $our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
 
+        if (is_array($options) && isset($options['type'], $options['action']) &&
+            $options['type'] === 'plugin' && $options['action'] === 'update') {
+            error_log( 'WTF is going on?' );
+
+        }
+
         // Check if $options is an array or object and process accordingly.
         if ( is_array( $options ) ) {
             // Handle plugin installation.

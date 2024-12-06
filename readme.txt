@@ -24,7 +24,7 @@ Easily Create and Display Customizable Social Feeds from Instagram, Facebook, Ti
  * **Simple** Access Token fetching.
  * **Customize** Font colors.
  * **Convert** old shortcodes to saved feed options.
- * **Share** buttons for Instagram, Facebook, Twitter, and YouTube Feeds.
+ * **Share** buttons for Instagram, Facebook, TikTok, and YouTube Feeds.
  * **Add** Like and/or Follow Buttons above or below any feeds.
  * **Works** with Gutenberg Blocks or Classic Editor.
 
@@ -131,6 +131,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * Fix: Activation Hooks not firing.
   * Fix: Settings Page: headers already sent notice when saving the page.
   * Fix: Settings Page > Remove Data on Uninstall checkbox > Now all fts posts and cron jobs are removed as well.
+  * Fix: Default Settings: Default settings are set on activation of the plugin. fts_cache_time, fts_show_admin_bar, date_time_format, timezone
   * Remove: Backwards Capability and Unused code from the plugin.
   * Update: System Info Page: added cron job scheduled info for fts_clear_cache_event.
   * NOTE: Works with WordPress version 6.7.1

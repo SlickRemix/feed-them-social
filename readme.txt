@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.7.1
-Stable tag: 4.3.5
+Stable tag: 4.3.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -24,7 +24,7 @@ Easily Create and Display Customizable Social Feeds from Instagram, Facebook, Ti
  * **Simple** Access Token fetching.
  * **Customize** Font colors.
  * **Convert** old shortcodes to saved feed options.
- * **Share** buttons for Instagram, Facebook, Twitter, and YouTube Feeds.
+ * **Share** buttons for Instagram, Facebook, TikTok, and YouTube Feeds.
  * **Add** Like and/or Follow Buttons above or below any feeds.
  * **Works** with Gutenberg Blocks or Classic Editor.
 
@@ -124,11 +124,16 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.4 Monday, December 2nd, 2024 =
+= Version 4.3.4 Friday, December 6th, 2024 =
   * New: Cron Job > Clear Cache > Backup method to make sure the cache is deleted on set intervals according to the cache time set in the settings. Runs and clears cache on activation of the plugin, manual and automatic updates.
   * Fix: Remove last comma on a sprint_f that can cause potential error on some installs.
+  * Fix: get_plugin_data() causing a PHP warning about _load_textdomain_just_in_time for 6.7
   * Fix: Activation Hooks not firing.
-  * Remove: Unused code from the plugin.
+  * Fix: Settings Page: headers already sent notice when saving the page.
+  * Fix: Settings Page > Remove Data on Uninstall checkbox > Now all fts posts and cron jobs are removed as well.
+  * Fix: Default Settings: Default settings are set on activation of the plugin. fts_cache_time, fts_show_admin_bar, date_time_format, timezone
+  * Remove: Backwards Capability and Unused code from the plugin.
+  * Update: System Info Page: added cron job scheduled info for fts_clear_cache_event.
   * NOTE: Works with WordPress version 6.7.1
 
 = Version 4.3.3 Monday, November 18th, 2024 =

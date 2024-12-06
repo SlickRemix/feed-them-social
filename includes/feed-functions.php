@@ -122,7 +122,7 @@ class Feed_Functions {
 
 		// Display admin bar
 	    $display_admin_bar = $this->settings_functions->fts_get_option( 'fts_show_admin_bar' );
-	    if ( '1' === $display_admin_bar ) {
+	    if ( $display_admin_bar === '1' ) {
 		    // FTS Admin Bar!
 		    add_action( 'wp_before_admin_bar_render', array( $this, 'fts_admin_bar_menu' ), 999 );
 		}
@@ -131,11 +131,11 @@ class Feed_Functions {
 		    // THIS GIVES US SOME OPTIONS FOR STYLING THE ADMIN AREA!
 		    add_action( 'admin_enqueue_scripts', array( $this, 'feed_them_admin_css' ) );
 		    // Main Settings Page!
-		    if ( isset( $_GET['page'] ) && 'feed-them-settings-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-twitter-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-pinterest-feed-styles-submenu-page' === $_GET['page'] || isset( $_GET['page'] ) && 'fts-youtube-feed-styles-submenu-page' === $_GET['page'] ) {
+		    if ( isset( $_GET['page'] ) && $_GET['page'] === 'feed-them-settings-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-facebook-feed-styles-submenu-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-twitter-feed-styles-submenu-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-instagram-feed-styles-submenu-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-pinterest-feed-styles-submenu-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-youtube-feed-styles-submenu-page' ) {
 			    add_action( 'admin_enqueue_scripts', array( $this, 'feed_them_settings' ) );
 		    }
 		    // System Info Page!
-		    if ( isset( $_GET['page'] ) && 'fts-system-info-submenu-page' === $_GET['page'] ) {
+		    if ( isset( $_GET['page'] ) && $_GET['page'] === 'fts-system-info-submenu-page' ) {
 			    add_action( 'admin_enqueue_scripts', array( $this, 'feed_them_system_info_css' ) );
 		    }
 	    }
@@ -151,9 +151,7 @@ class Feed_Functions {
 	public function fts_admin_bar_menu() {
 		global $wp_admin_bar;
 
-		$fts_admin_bar_menu = $this->settings_functions->fts_get_option( 'fts_show_admin_bar' );
-		$fts_dev_mode_cache = $this->settings_functions->fts_get_option( 'fts_cache_time' );
-		if ( ! is_super_admin() || ! is_admin_bar_showing() || 'hide-admin-bar-menu' === $fts_admin_bar_menu ) {
+		if ( ! is_super_admin() || ! is_admin_bar_showing() ) {
 			return;
 		}
 		$wp_admin_bar->add_menu(
@@ -163,34 +161,24 @@ class Feed_Functions {
 				'href'  => false,
 			)
 		);
-		if ( '1' === $fts_dev_mode_cache ) {
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'feed_them_social_admin_bar_clear_cache',
-					'parent' => 'feed_them_social_admin_bar',
-					'title'  => __( 'Cache clears on page refresh now', 'feed-them-social' ),
-					'href'   => false,
-				)
-			);
-		} else {
-			$wp_admin_bar->add_menu(
-				array(
-					'id'     => 'feed_them_social_admin_set_cache',
-					'parent' => 'feed_them_social_admin_bar',
-					'title'  => __( 'Clear Cache', 'feed-them-social' ),
-					'href'   => false,
-					'meta' => array('onclick' => 'fts_ClearCache("alert");') //JavaScript function trigger just as an example.
-				)
-			);
-		}
 
-		$fts_cachetime = $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '86400';
+        $wp_admin_bar->add_menu(
+            array(
+                'id'     => 'feed_them_social_admin_set_cache',
+                'parent' => 'feed_them_social_admin_bar',
+                'title'  => __( 'Clear Cache', 'feed-them-social' ),
+                'href'   => false,
+                'meta' => array('onclick' => 'fts_ClearCache("alert");') //JavaScript function trigger just as an example.
+            )
+        );
+
+		$fts_cachetime = $this->settings_functions->fts_get_option( 'fts_cache_time' ) ?: '86400';
 
 		$wp_admin_bar->add_menu(
 			array(
 				'id'     => 'feed_them_social_admin_bar_set_cache',
 				'parent' => 'feed_them_social_admin_bar',
-				'title'  => sprintf(
+				'title'  => \sprintf(
 					__( 'Set Cache Time %1$s%2$s%3$s', 'feed-them-social' ),
 					'<span>',
 					$this->feed_cache->fts_cachetime_amount( $fts_cachetime ),

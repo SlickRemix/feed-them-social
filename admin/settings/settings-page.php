@@ -133,28 +133,40 @@ class Settings_Page {
      * @since   1.0.0
      * @return  void
      */
-    public function show_notices()   {
+    /**
+     * Displays plugin notices, including updated settings.
+     *
+     * @since   1.0.0
+     * @return  void
+     */
+    public function show_notices() {
         $notices = array(
             'updated' => array(),
             'error'   => array(),
         );
 
-        $notices = apply_filters( 'fts_admin_notices', $notices );
+        $notices = apply_filters('fts_admin_notices', $notices);
 
-        if ( count( $notices['updated'] ) > 0 ) {
-            foreach( $notices['updated'] as $notice => $message ) {
-                //add_settings_error( 'fts-notices', $notice, $message, 'updated' );
+        // Add success notices.
+        if (count($notices['updated']) > 0) {
+            foreach ($notices['updated'] as $notice => $message) {
+                add_settings_error('fts-notices', $notice, $message, 'updated');
             }
         }
 
-        if ( count( $notices['error'] ) > 0 ) {
-            foreach( $notices['error'] as $notice => $message ) {
-                add_settings_error( 'fts-notices', $notice, $message, 'error' );
+        // Add error notices.
+        if (count($notices['error']) > 0) {
+            foreach ($notices['error'] as $notice => $message) {
+                add_settings_error('fts-notices', $notice, $message, 'error');
             }
         }
 
-        settings_errors( 'fts-notices' );
-    } // show_notices
+        // Display the notices via `admin_notices` hook.
+        add_action('admin_notices', function () {
+            settings_errors('fts-notices');
+        });
+    }
+
     /**
      * Add all settings sections and fields.
      *
@@ -272,7 +284,7 @@ class Settings_Page {
                             'std'           => '',
                             'field_class'   => 'fts_cache_time',
                             'tooltip_class' => 'fts-cache-time-tooltip',
-                            'tooltip_desc' => 'Choose the amount of time you would like your feed to be cached for. If you are using an additional caching plugin or varnish make sure and omit the page the feed is on from caching, otherwise you will need manually empty the cache for the feed to update.',
+                            'tooltip_desc' => 'Choose the amount of time you would like your feed to be cached for. If you are using an additional caching plugin or varnish make sure and omit the page the feed is on from caching, otherwise you may need manually empty the cache for the feed to update.',
                             'desc' => '<div id="fts-clear-cache">Clear Cache</div><div class="clearfix"></div><div class="fts-cache-messages"></div>',
                         ),
                         'powered_by' => array(
@@ -291,14 +303,6 @@ class Settings_Page {
                             'tooltip_class' => 'fts-checkbox-tooltip-no-margin-top',
                             'tooltip_desc' => 'Check this if you are experiencing problems with your theme(s) or other plugin(s) and need to disable the Magnific Popup CSS that our plugin uses.',
                         ),
-                        'fix_curl_error' => array(
-                            'id'      => 'fix_curl_error',
-                            'name'    => __( 'Fix 500 Server Error', 'feed-them-social' ),
-                            'type'    => 'checkbox',
-                           // 'std'     => 0,
-                            'tooltip_class' => 'fts-checkbox-tooltip-no-margin-top',
-                            'tooltip_desc' => 'Check this option if you are getting a 500 Internal Server Error when trying to load a page with our feed on it.',
-                        ),
                         'fts_show_admin_bar' => array(
                             'id'      => 'fts_show_admin_bar',
                             'name'    => __( 'Show Admin Menu Bar ', 'feed-them-social' ),
@@ -306,15 +310,6 @@ class Settings_Page {
                            //'std'     => 0,
                             'tooltip_class' => 'fts-checkbox-tooltip-no-margin-top',
                             'tooltip_desc' => 'Display a menu in the Admin bar at the top of the website while logged in. The menu name will say Feed Them Social and contain a list of menu items to help navigate faster.',
-                        ),
-                        // Commenting this out until we actually need to use it so no mistakes happen.
-                        'remove_on_uninstall' => array(
-                            'id'      => 'remove_on_uninstall',
-                            'name'    => __( 'Remove Data on Uninstall', 'feed-them-social' ),
-                            'type'    => 'checkbox',
-                            //'std'     => 1,
-                            'tooltip_class' => 'fts-checkbox-tooltip',
-                            'tooltip_desc'    => __( 'Check this box if you would like Feed Them Social to completely remove all of its data when the plugin is deleted.', 'feed-them-social' )
                         )
                     ),
                     'formatting' => array(
@@ -331,7 +326,7 @@ class Settings_Page {
                         		'type'    => 'select',
                         		'options' => $this->settings_functions->fts_get_timezone_setting_options(),
                         		'std'     => 'America/Los_Angeles',
-                                'tooltip_desc'    => __( 'This option is only for Facebook or Twitter. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
+                                'tooltip_desc'    => __( 'This option is only for Facebook and TikTok. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
 
                         ),
                         'date_time_format' => array(
@@ -342,14 +337,6 @@ class Settings_Page {
                             'std'           => 'l, F jS, Y \a\t g:ia',
                             'field_class'   => 'fts_date_time_format',
                             'tooltip_desc'    => __( 'Select the date and time format you would like to see on your social feed. The 1 Day Ago option is set by default. You can hide the date and time when creating a feed if you prefer.', 'feed-them-social' )
-
-                        ),
-                        'twitter_time' => array(
-                            'id'      => 'twitter_time',
-                            'name'    => __( 'Fix Twitter Time', 'feed-them-gallery' ),
-                            'type'    => 'checkbox',
-                           // 'std'     => 0,
-                            'tooltip_desc'    => __( 'Check this if the Twitter time is still off by 3 hours after setting the TimeZone above.', 'feed-them-social' ),
 
                         ),
                     ),
@@ -433,9 +420,25 @@ class Settings_Page {
                 )
             ),
 
-            /*'licenses' => apply_filters( 'fts_settings_licenses',
-                array()
-            )*/
+            'delete' => apply_filters( 'fts_settings_delete',
+
+                array(
+                    'sharing_header' => array(
+                        'id'      => 'delete_data_header',
+                        'name'    => '<h2> ' . __( 'Delete Data', 'feed-them-social' ) . '</h2>',
+                        'type'    => 'header',
+                        'tooltip_desc' => 'This section is for deleting all of the data that Feed Them Social has created. This includes all feeds, settings, and cron jobs stored in the database.',
+                    ),
+                    'remove_on_uninstall' => array(
+                        'id'      => 'remove_on_uninstall',
+                        'name'    => __( 'Remove Data on Uninstall', 'feed-them-social' ),
+                        'type'    => 'checkbox',
+                        //'std'     => 1,
+                        'tooltip_class' => 'fts-checkbox-tooltip',
+                        'tooltip_desc'    => __( 'Check this box if you would like Feed Them Social to completely remove all of its data when the plugin is deleted.', 'feed-them-social' )
+                    )
+                )
+            )
         );
 
         return apply_filters( 'fts_registered_settings', $fts_settings );
@@ -482,6 +485,8 @@ class Settings_Page {
         $tabs                     = apply_filters( 'fts_settings_tabs_after_styles', $tabs );
         $tabs['sharing']           = __( 'Social Sharing', 'feed-them-social' );
         $tabs                     = apply_filters( 'fts_settings_tabs_after_sharing', $tabs );
+        $tabs['delete']           = __( 'Delete Data', 'feed-them-social' );
+        $tabs                     = apply_filters( 'fts_settings_tabs_after_delete', $tabs );
 
 
         if ( ! empty( $settings['extensions'] ) ) {
@@ -533,20 +538,12 @@ class Settings_Page {
         $sections = array(
             'general' => apply_filters( 'fts_settings_sections_general', array(
                 'general-main'       => __( 'Site', 'feed-them-social' ),
-                'formatting' => __( 'Date & Time Options', 'feed-them-social' ),
+                'formatting' => __( 'Date & Time', 'feed-them-social' ),
             ) ),
             'styles'  => apply_filters( 'fts_settings_sections_styles', array(
                 'css'        => __( 'Custom CSS', 'feed-them-social' ),
                 'js' => __( 'Custom JS', 'feed-them-social' ),
-            ) ),
-            'sharing'  => apply_filters( 'fts_settings_sections_sharing', array(
-               // 'css'        => __( 'Custom CSS', 'feed-them-social' ),
-               // 'js' => __( 'Custom JS', 'feed-them-social' ),
-            ) ),
-            // 'extensions' => apply_filters( 'fts_settings_sections_extensions', array(
-            //     'main'       => __( 'Main', 'feed-them-social' )
-            // ) ),
-            // 'licenses'   => apply_filters( 'fts_settings_sections_licenses', array() )
+            ) )
         );
 
         $sections = apply_filters( 'fts_settings_sections', $sections );
@@ -633,10 +630,10 @@ class Settings_Page {
 	   // error_log(print_r($all_settings, TRUE));
 
         // Is $fts_options an array? Show it successfully updated!
-        if( is_array($all_settings)){
+        if( \is_array($all_settings)){
 	        // Merge our new settings with the existing
 	        $output = array_merge( $all_settings, $input );
-	        add_settings_error( 'fts-notices', esc_attr( 'settings_updated' ), __( 'Settings Updated.', 'feed-them-social' ), 'updated' );
+	        add_settings_error( 'fts-notices', 'settings_updated', __( 'Settings Updated.', 'feed-them-social' ), 'updated' );
 
             // Set new cron job for clearing cache.
             // This is here so we can set a new cron job if the user changes the cache time.
@@ -646,13 +643,9 @@ class Settings_Page {
 
             return $output;
         }
+
         // Show error message for Settings not saving because something is wrong.
-        else{
-	        add_settings_error( 'fts-notices', esc_attr( 'settings_updated' ), __( 'Oops, Settings did not update.', 'feed-them-social' ), 'error' );
-        }
-
-	    return;
-
+        add_settings_error( 'fts-notices', 'settings_updated', __( 'Oops, Settings did not update.', 'feed-them-social' ), 'error' );
 
     } // settings_sanitize
 
@@ -678,7 +671,7 @@ class Settings_Page {
         $settings_tabs = $this->get_settings_tabs();
         $settings_tabs = empty( $settings_tabs ) ? array() : $settings_tabs;
         $active_tab    = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'general';
-        $active_tab    = array_key_exists( $active_tab, $settings_tabs ) ? $active_tab : 'general';
+        $active_tab    = \array_key_exists( $active_tab, $settings_tabs ) ? $active_tab : 'general';
         $sections      = $this->get_settings_tab_sections( $active_tab );
         $key           = 'main';
 
@@ -701,7 +694,7 @@ class Settings_Page {
         // Check for old non-sectioned settings
         if ( ! $has_main_settings )	{
             foreach( $all_settings[ $active_tab ] as $sid => $stitle )	{
-                if ( is_string( $sid ) && is_array( $sections ) && array_key_exists( $sid, $sections ) )	{
+                if ( \is_string( $sid ) && \is_array( $sections ) && \array_key_exists( $sid, $sections ) )	{
                     continue;
                 } else	{
                     $has_main_settings = true;
@@ -711,10 +704,10 @@ class Settings_Page {
         }
 
         $override = false;
-        if ( false === $has_main_settings ) {
+        if ( $has_main_settings === false ) {
             unset( $sections['main'] );
 
-            if ( 'main' === $section ) {
+            if ( $section === 'main' ) {
                 foreach ( $sections as $section_key => $section_title ) {
                     if ( ! empty( $all_settings[ $active_tab ][ $section_key ] ) ) {
                         $section  = $section_key;
@@ -758,7 +751,7 @@ class Settings_Page {
                     // Remove the section from the tabs so we always end up at the main section
                     $tab_url = remove_query_arg( 'section', $tab_url );
 
-                    $active = $active_tab == $tab_id ? ' nav-tab-active' : '';
+                    $active = $active_tab === $tab_id ? ' nav-tab-active' : '';
 
                     echo '<a href="' . esc_url( $tab_url ) . '" class="nav-tab' . $active . '">';
                     echo esc_html( $tab_name );
@@ -768,7 +761,7 @@ class Settings_Page {
             </h1>
             <?php
 
-            $number_of_sections = is_array( $sections ) ? count( $sections ) : 0;
+            $number_of_sections = \is_array( $sections ) ? \count( $sections ) : 0;
             $number = 0;
             if ( $number_of_sections > 1 ) {
                 echo '<div><ul class="subsubsub">';
@@ -900,7 +893,6 @@ class Settings_Page {
             $style = 'fts-custom-date' !== $this->settings_functions->fts_get_option( 'date_time_format' ) ? ' style="display: none;"' : '';
             ?>
 
-
                 <tr class="custom_date_time_wrap"<?php echo $style; ?>>
                     <th scope="row"><?php echo esc_html__( 'Custom Date', 'feed-them-social' ); ?></th>
                     <td>
@@ -914,7 +906,6 @@ class Settings_Page {
                         ) ); ?>
                     </td>
                 </tr>
-
 
                 <tr class="custom_date_time_wrap"<?php echo $style; ?>>
                     <th scope="row"><?php echo esc_html__( 'Custom Time', 'feed-them-social' ); ?></th>
@@ -940,7 +931,6 @@ class Settings_Page {
                         </p>
                     </td>
                 </tr>
-
             <?php
 
             $html .= ob_get_clean();
@@ -993,7 +983,7 @@ class Settings_Page {
             ?>
 
             <tr class="custom_time_ago_wrap"<?php echo $style; ?>>
-                <th scope="row"><?php _e( 'Custom Date & Time Options', 'feed-them-social' ); ?></th>
+                <th scope="row"><?php _e( 'Custom Date & Time', 'feed-them-social' ); ?></th>
                 <td>&nbsp;</td>
             </tr>
 

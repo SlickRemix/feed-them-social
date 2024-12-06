@@ -62,7 +62,7 @@ class Activate_Plugin {
 		register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'plugin_activation' ) );
 
 		// Set Plugin Timezone.
-		add_action( 'admin_init', array( $this, 'set_plugin_timezone' ) );
+		add_action( 'admin_init', array( $this, 'set_plugin_review_option' ) );
 
 		// Review/Rating notice option names
 		$review_transient = 'fts_slick_rating_notice_waiting2024';
@@ -166,9 +166,9 @@ class Activate_Plugin {
 		// Check the transient to see if we've just activated the plugin.
 		if ( get_transient( 'fts_activated' ) ) {
 			echo sprintf(
-				esc_html__( '%1$sThanks for installing Feed Them Social. To get started please view the %2$sSettings%3$s page.%4$s', 'feed-them-social' ),
+				esc_html__( '%1$sThanks for installing Feed Them Social. To get started create a %2$sNew Feed%3$s.%4$s', 'feed-them-social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
-				'<a href="' . esc_url( 'edit.php?post_type=fts&page=fts-settings-page' ) . '">',
+				'<a href="' . esc_url( 'edit.php?post_type=fts&page=create-new-feed' ) . '">',
 				'</a>',
 				'</p></div>'
 			);
@@ -316,36 +316,42 @@ class Activate_Plugin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function plugin_activation() {
+    public function plugin_activation() {
+
+        // Activation options to add to the fts_settings array.
+        $activation_options = array(
+            'fts_cache_time'     => '86400',
+            'fts_show_admin_bar' => '1',
+            'date_time_format'   => 'one-day-ago',
+            'timezone'           => 'America/New_York',
+        );
+
+        // Retrieve existing fts_settings or initialize an empty array.
+        $fts_settings = get_option('fts_settings', array());
+
+        // Only add keys from activation_options if they do not already exist in fts_settings.
+        foreach ($activation_options as $option_key => $option_value) {
+            if (!isset($fts_settings[$option_key])) {
+                $fts_settings[$option_key] = $option_value;
+            }
+        }
+
+        // Save the updated settings back to the database.
+        update_option('fts_settings', $fts_settings);
 
         // Set/Update new cron job for clearing cache.
         $this->set_cron_job();
+    }
 
-	}
 
-	/**
-	 * Set Plugin TimeZone
+    /**
+	 * Set Plugin Review Option
 	 *
-	 * Set timezone options for activated plugin.
+	 * Set the reviews options for the plugin.
 	 *
 	 * @since 1.0.0
 	 */
-	public function set_plugin_timezone() {
-
-		if ( is_admin() && get_option( 'Feed_Them_Social_Activated_Plugin' ) === 'feed-them-social' ) {
-
-			// Activation Options.
-			$activation_options = array(
-				'ft-gallery-date-and-time-format' => 'one-day-ago',
-				'ft-gallery-timezone'             => 'America/New_York',
-			);
-
-			foreach ( $activation_options as $option_key => $option_value ) {
-				// We don't use update_option because we only want this to run for options that have not already been set by the user.
-				add_option( $option_key, $option_value );
-			}
-
-		}
+	public function set_plugin_review_option() {
 
         // Review Nag Check.
         // Must run this on admin_init so no errors on multisite after clicking any buttons.

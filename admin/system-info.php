@@ -84,7 +84,31 @@ class System_Info {
 		);
 	}
 
-	/**
+    /**
+     * Check if a specific cron job is scheduled and get the next run time.
+     *
+     * @param string $cron_job_name The name of the cron job to check.
+     * @return string
+     * @since 4.3.4
+     */
+    public function is_cron_job_running($cron_job_name) {
+        $crons = _get_cron_array();
+        if (!$crons) {
+            return 'Cron jobs are not enabled or no cron jobs are scheduled.';
+        }
+
+        foreach ($crons as $timestamp => $cron_hooks) {
+            if (isset($cron_hooks[$cron_job_name])) {
+                $next_run_time = date_i18n('m-d-Y g:i A', $timestamp); // Format the timestamp in 12-hour format
+                return 'The cron job ' . esc_html($cron_job_name) . ' is scheduled. Next run time: ' . esc_html($next_run_time);
+            }
+        }
+
+        return 'The cron job ' . esc_html($cron_job_name) . ' is not scheduled.';
+    }
+
+
+    /**
 	 * System Info Page
 	 *
 	 * System info page html.
@@ -131,7 +155,14 @@ Permalink Structure: <?php echo esc_html( get_option( 'permalink_structure' ) ) 
 Active Theme: <?php echo esc_html( $theme ) . "\n"; ?>
 PHP Memory Limit: <?php echo esc_html( ini_get( 'memory_limit' ) ) . "\n"; ?>
 WP_DEBUG: <?php echo esc_html( defined( 'WP_DEBUG' ) && WP_DEBUG ? 'Enabled' . "\n" : 'Disabled' . "\n" ); ?>
+
+-- Cron Job Status:
 Cron Jobs: <?php echo esc_html( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ? 'Disabled' . "\n" : 'Enabled' . "\n" ); ?>
+<?php echo esc_html( $this->is_cron_job_running('fts_clear_cache_event') ) . "\n"; ?>
+
+-- FTS Settings->General Options:
+<?php $fts_cachetime = $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '86400'; ?>
+Cache time: <?php echo esc_html( $this->feed_cache->fts_cachetime_amount( $fts_cachetime ) ) . "\n"; ?>
 
 -- Webserver Configuration:
 PHP Version: <?php
@@ -154,10 +185,6 @@ json:                     <?php echo ( extension_loaded( 'json' ) ) ? 'Your serv
 FSOCKOPEN:                <?php echo ( function_exists( 'fsockopen' ) ) ? 'Your server supports fsockopen.' : 'Your server does not support fsockopen. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
 cURL:                     <?php echo ( function_exists( 'curl_init' ) ) ? 'Your server supports cURL.' : 'Your server does not support cURL. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
 curl_multi:               <?php echo ( function_exists( 'curl_multi_select' ) ) ? 'Your server supports curl_multi_select.' : 'Your server does not support curl_multi_select. Please contact your host to activate or install this php function.'; ?><?php echo "\n"; ?>
-
--- FTS Settings->Global Options: <?php $fts_cachetime = $this->settings_functions->fts_get_option( 'fts_cache_time' ) ? $this->settings_functions->fts_get_option( 'fts_cache_time' ) : '86400'; ?>
-
-Cache time: <?php echo esc_html( $this->feed_cache->fts_cachetime_amount( $fts_cachetime ) ) . "\n"; ?>
 
 -- Active Plugins:
 <?php

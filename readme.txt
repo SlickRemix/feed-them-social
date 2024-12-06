@@ -127,9 +127,12 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 = Version 4.3.4 Thursday, December 5th, 2024 =
   * New: Cron Job > Clear Cache > Backup method to make sure the cache is deleted on set intervals according to the cache time set in the settings. Runs and clears cache on activation of the plugin, manual and automatic updates.
   * Fix: Remove last comma on a sprint_f that can cause potential error on some installs.
-  * Fix: get_plugin_data() causing a PHP warning about _load_textdomain_just_in_time for 6.7.1
+  * Fix: get_plugin_data() causing a PHP warning about _load_textdomain_just_in_time for 6.7
   * Fix: Activation Hooks not firing.
-  * Remove: Unused code from the plugin.
+  * Fix: Settings Page: headers already sent notice when saving the page.
+  * Fix: Settings Page > Remove Data on Uninstall checkbox > Now all fts posts and cron jobs are removed as well.
+  * Remove: Backwards Capability and Unused code from the plugin.
+  * Update: System Info Page: added cron job scheduled info for fts_clear_cache_event.
   * NOTE: Works with WordPress version 6.7.1
 
 = Version 4.3.3 Monday, November 18th, 2024 =

@@ -124,7 +124,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.4 Thursday, December 5th, 2024 =
+= Version 4.3.4 Friday, December 6th, 2024 =
   * New: Cron Job > Clear Cache > Backup method to make sure the cache is deleted on set intervals according to the cache time set in the settings. Runs and clears cache on activation of the plugin, manual and automatic updates.
   * Fix: Remove last comma on a sprint_f that can cause potential error on some installs.
   * Fix: get_plugin_data() causing a PHP warning about _load_textdomain_just_in_time for 6.7

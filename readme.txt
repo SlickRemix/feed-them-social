@@ -124,9 +124,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.5 Monday, February 24th, 2025 = NOT PUSHED YET!!!!!!!!!!
+= Version 4.3.5 Monday, February 24th, 2025 =
   * New: Instagram Feed > Add Image Height (Portrait) option.
-  * New: Facebook Feed > Add Feed Type for Page > Display Reels & Posts (Beta)
+  * New: Facebook Feed > Add Display Reels & Posts (Beta) for Post Type Visible under the Page Feed Type.
   * Fix: Popup > @media width 1900px > Remove CSS that was causing the sidebar to be fully visible.
   * Remove: Facebook Feed > Location icon and text. This visual method is not used on Facebook posts anymore.
 

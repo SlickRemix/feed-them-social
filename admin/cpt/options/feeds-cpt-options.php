@@ -1560,7 +1560,7 @@ class Feed_CPT_Options {
 
 					'input_wrap_class' => 'facebook-album-covers-since-date',
 					'option_type'      => 'input',
-					'label'            => __( 'Album Since Date <br/>Example: 01-24-2023<br/><small>Add a date to show more recent albums if you have a large collection.</small>', 'feed-them-social' ),
+					'label'            => __( 'Album Since Date <br/>Example: 09-24-2024<br/><small>Add a date to show more recent albums if you have a large collection.</small>', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'facebook_album_covers_since_date',
 					'name'             => 'facebook_album_covers_since_date',

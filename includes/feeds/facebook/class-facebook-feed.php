@@ -565,7 +565,7 @@ class Facebook_Feed {
 
             $fts_facebook_reviews = new \feed_them_social_facebook_reviews\Facebook_Reviews_Feed( $this->feed_functions, $this->feed_access_token);
 
-            if ( isset( $saved_feed_options['remove_reviews_no_description'] ) && 'yes' === $saved_feed_options['remove_reviews_no_description'] && ! isset( $_GET['load_more_ajaxing'] ) ) {
+            if ( isset( $saved_feed_options['remove_reviews_no_description'] ) && $saved_feed_options['remove_reviews_no_description'] === 'yes' && ! isset( $_GET['load_more_ajaxing'] ) ) {
 
                 $no_description_count = $fts_facebook_reviews->review_count_check( $saved_feed_options );
 
@@ -586,10 +586,10 @@ class Facebook_Feed {
             // echo '<pre>';
             // print_r($feed_data );
             // echo '</pre>';
-            if ( isset( $saved_feed_options['remove_reviews_no_description'] ) && 'yes' === $saved_feed_options['remove_reviews_no_description'] ) {
+            if ( isset( $saved_feed_options['remove_reviews_no_description'] ) && $saved_feed_options['remove_reviews_no_description'] === 'yes' ) {
                 // $no_description_count2 = 0;.
 
-                if (isset($feed_data->data) && count($feed_data->data) > 0) {
+                if (isset($feed_data->data) && \count($feed_data->data) > 0) {
                     foreach ($feed_data->data as $k => $v) {
                         if (!isset($v->review_text)) {
                             // print $v->reviewer->name . ' (Key# ' . $k . ') : Now Unset from array<br/>';.
@@ -608,7 +608,7 @@ class Facebook_Feed {
             // echo '</pre>';.
             // Add fts_profile_pic_url to the array so we can show profile photos for reviews and comments in popup
 
-            if (isset($feed_data->data) && count($feed_data->data) > 0) {
+            if (isset($feed_data->data) && \count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $post_array) {
 
                     $the_image = 'https://graph.facebook.com/' . $post_array->reviewer->id . '/picture?redirect=false&access_token=' . $this->feed_access_token;
@@ -647,9 +647,9 @@ class Facebook_Feed {
             $feed_data            = (object) $merged_array;
         }
         // SHOW THE REGULAR FEEDS PRINT_R (WORKS FOR VIDEOS AND ALBUMS TOO)
-        // echo '<pre>';
-        // print_r($feed_data );
-        // echo '</pre>';
+         /*echo '<pre>';
+         print_r($feed_data );
+         echo '</pre>';*/
         // If No Response or Error then return.
         if ( isset( $response[0], $response[1] ) && \is_array( $response ) && $response[0] === false ) {
             return $response[1];
@@ -1052,7 +1052,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
 
                     echo '<div class="fts-fb-load-more-wrapper">';
                     echo '<div id="loadMore_' . esc_attr( $_REQUEST['fts_dynamic_name'] ) . '" style="';
-                    if ( isset( $saved_feed_options['facebook_loadmore_button_width'] ) && '' !== $saved_feed_options['facebook_loadmore_button_width'] ) {
+                    if ( isset( $saved_feed_options['facebook_loadmore_button_width'] ) && $saved_feed_options['facebook_loadmore_button_width'] !== '' ) {
                         echo 'max-width:' . esc_attr( $saved_feed_options['facebook_loadmore_button_width'] ) . ';';
                     }
                     $loadmore_btn_margin = $saved_feed_options['loadmore_button_margin'] ?? '20px';
@@ -1063,7 +1063,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
         }//End Check
 
         // Checks for Slider control option.
-        if( isset( $saved_feed_options['fts-slider'] ) && $saved_feed_options['slider_controls'] && 'yes' === $saved_feed_options['fts-slider'] ){
+        if( isset( $saved_feed_options['fts-slider'] ) && $saved_feed_options['slider_controls'] && $saved_feed_options['fts-slider'] === 'yes' ){
             //Check at lease one of Slider Controls is set.
             if (
                 $saved_feed_options['slider_controls'] === 'dots_below_feed' ||
@@ -1194,31 +1194,34 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @since 1.9.6
      */
     public function get_view_link( $saved_feed_options ) {
+
+        $facebook_url = 'https://www.facebook.com/';
+
         switch ( $saved_feed_options['facebook_page_feed_type'] ) {
             case 'group':
-                $fts_view_fb_link = 'https://www.facebook.com/groups/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/';
+                $fts_view_fb_link = $facebook_url . 'groups/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/';
                 break;
             case 'page':
-                $fts_view_fb_link = 'https://www.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/';
+                $fts_view_fb_link = $facebook_url . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/';
                 break;
             case 'event':
-                $fts_view_fb_link = 'https://www.facebook.com/events/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/';
+                $fts_view_fb_link = $facebook_url . 'events/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/';
                 break;
             case 'events':
-                $fts_view_fb_link = 'https://www.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/events/';
+                $fts_view_fb_link = $facebook_url . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/events/';
                 break;
             case 'albums':
-                $fts_view_fb_link = 'https://www.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/photos_stream?tab=photos_albums';
+                $fts_view_fb_link = $facebook_url . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/photos_stream?tab=photos_albums';
                 break;
             // album photos and videos album.
             case 'album_photos':
-                $fts_view_fb_link = isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ? 'https://www.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/videos/' : 'https://www.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/photos_stream/';
+                $fts_view_fb_link = isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] === 'yes' ? $facebook_url . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/videos/' : $facebook_url . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/photos_stream/';
                 break;
             case 'hashtag':
-                $fts_view_fb_link = 'https://www.facebook.com/hashtag/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/';
+                $fts_view_fb_link = $facebook_url . 'hashtag/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/';
                 break;
             case 'reviews':
-                $fts_view_fb_link = 'https://www.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/reviews/';
+                $fts_view_fb_link = $facebook_url . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/reviews/';
                 break;
             default:
                 break;
@@ -1308,7 +1311,8 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
 
             // echo $this->feed_access_token;
             // Page.
-            if ( $saved_feed_options['facebook_page_feed_type'] === 'page' && $saved_feed_options['facebook_page_posts_displayed'] === 'page_only' ) {
+            if ( $saved_feed_options['facebook_page_feed_type'] === 'page' && $saved_feed_options['facebook_page_posts_displayed'] === 'page_only' ||
+                $saved_feed_options['facebook_page_feed_type'] === 'page' && $saved_feed_options['facebook_page_posts_displayed'] === 'page_reels_and_posts') {
                 $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,picture&access_token=' . $this->feed_access_token . $language . '' );
 
                 if ( isset( $_REQUEST['next_url'] ) ) {
@@ -1316,10 +1320,13 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                 }
 
                 if ( ! $fts_count_ids >= 1 ) {
+                    // SRL 1-27-25: Testing out adding feed back so we can show reels. This might backfire and start showing posts we don't have formatted so keep an eye out.
+                    $page_type = $saved_feed_options['facebook_page_posts_displayed'] === 'page_reels_and_posts' ? 'feed' : 'posts';
                     // We cannot add sanitize_text_field here on the $_REQUEST['next_url'] otherwise it will fail to load the contents from the facebook API.
-                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/posts?fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/' . $page_type . '?fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 } else {
-                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/posts?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    // This used to be used to combine facebook feeds, but because we do not have Public Permission anymore this is not possible. Keeping for a rainy day.
+                    // $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/posts?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 }
             } elseif ( $saved_feed_options['facebook_page_feed_type'] === 'albums') {
                 // Albums.

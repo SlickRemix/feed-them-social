@@ -539,7 +539,7 @@ class Facebook_Feed_Post_Types {
 
 		$description = isset( $post_data->message ) ?? '';
 		// SHOW THE FB FEED PRINT_R
-        /* echo'<pre>';
+         /*echo'<pre>';
 		 print_r( $post_data);
 		 echo'</pre>';*/
 
@@ -829,7 +829,7 @@ class Facebook_Feed_Post_Types {
 		$facebook_post_places_id         = $facebook_post->place->id ?? '';
 
 		$facebook_post_picture_job       = $facebook_post->attachments->data[0]->media->image->src ?? '';
-		// YouTube and Vimeo embed url.
+		// YouTube and Vimeo embed url (2-10-25: and now Facebook Video Source)
 		$facebook_post_video_embed       = $facebook_post->attachments->data[0]->media->source ?? '';
 
 		$facebook_post_from_id           = $facebook_post->from->id ?? '';
@@ -1133,9 +1133,10 @@ class Facebook_Feed_Post_Types {
 
 			if ( $facebook_message && 'top' !== $show_media ) {
 
-				if ( ! empty( $facebook_post_places_id ) ) {
+                // Removing this for now as it just takes up to much room on a post, and this is rather an old practice imo.
+				/*if ( ! empty( $facebook_post_places_id ) ) {
 					$this->feed_location_option( $facebook_post_places_id, $facebook_post_name, $facebook_post_places_name );
-				}
+				}*/
 
 				$itemprop_description_reviews = is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? ' itemprop="description"' : '';
 
@@ -1567,9 +1568,18 @@ class Facebook_Feed_Post_Types {
 						} else {
 
 							if ( $facebook_post->attachments->data[0]->type === 'video_direct_response' || $facebook_post->attachments->data[0]->type === 'video_inline' ) {
-								$page_id = $facebook_post_from_id;
-								$video_id = $facebook_post->attachments->data[0]->target->id;
-								$facebook_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
+
+                                // SRL: 2-10-25 - Sometimes the else statement is not returning a video correctly so I am adding this if statement to check for the $facebook_post_video_embed option first.
+                                if( !empty( $facebook_post_video_embed ) ) {
+
+                                    $facebook_embed_url = $facebook_post_video_embed;
+                                }
+                                else {
+                                    $page_id = $facebook_post_from_id ?? '';
+                                    $video_id = $facebook_post->attachments->data[0]->target->id ?? '';
+                                    $facebook_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
+                                }
+
 								echo '<a href="' . esc_url( $facebook_embed_url ) . '" class="fts-jal-fb-vid-image ' . esc_attr( $fts_view_fb_videos_btn ) . ' fts-jal-fb-vid-html5video ">';
 
 							} else {
@@ -1620,10 +1630,17 @@ class Facebook_Feed_Post_Types {
                             isset( $saved_feed_options['facebook_popup']  ) && empty( $saved_feed_options['facebook_popup']  ) ||
                             isset( $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'no' ) {
 
-							$page_id = $facebook_post_from_id ?? '';
-							$video_id = $facebook_post->attachments->data[0]->target->id ?? '';
+                            // SRL: 2-10-25 - Sometimes the else statement is not returning a video correctly so I am adding this if statement to check for the $facebook_post_video_embed option first.
+                            if( !empty( $facebook_post_video_embed ) ) {
 
-							$facebook_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
+                                $facebook_embed_url = $facebook_post_video_embed;
+                            }
+                            else {
+                                $page_id = $facebook_post_from_id ?? '';
+                                $video_id = $facebook_post->attachments->data[0]->target->id ?? '';
+                                $facebook_embed_url = 'https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $page_id . '%2Fvideos%2F' . $video_id . '%2F&autoplay=true';
+                            }
+
                             ?><script> jQuery(document).ready(function() {
                                     jQuery(".<?php echo esc_js( $fts_dynamic_vid_name ) ?>").click(function() {
                                         if (!jQuery(this).hasClass("fts-iframe-loaded")) {
@@ -1991,9 +2008,10 @@ class Facebook_Feed_Post_Types {
 			// PostTime.
 			echo '<span class="fts-jal-fb-post-time">' . $fts_final_date . '</span><div class="fts-clear"></div>';
 
-			if ( ! empty( $facebook_post_places_id ) ) {
+            // Removing this for now as it just takes up to much room on a post, and this is rather an old practice imo.
+			/*if ( ! empty( $facebook_post_places_id ) ) {
 				$this->feed_location_option( $facebook_post_places_id, $facebook_post_name, $facebook_post_places_name );
-			}
+			}*/
 
 			// here we trim the words for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
 			if ( is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) && isset( $saved_feed_options['combine_word_count_option'] ) && $saved_feed_options['combine_word_count_option'] ||

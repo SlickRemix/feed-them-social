@@ -1528,12 +1528,12 @@ class Feed_CPT_Options {
 					'name'             => 'facebook_page_posts_displayed',
 					'options'          => array(
 						array(
-							'label' => __( 'Display Posts made by Page only', 'feed-them-social' ),
+							'label' => __( 'Display Posts', 'feed-them-social' ),
 							'value' => 'page_only',
 						),
 						array(
-							'label' => __( 'Display Posts made by Page and Others', 'feed-them-social' ),
-							'value' => 'page_only',
+							'label' => __( 'Display Reels & Posts (Beta)', 'feed-them-social' ),
+							'value' => 'page_reels_and_posts',
 							// SRL 8-23-23: We need to remove this option now because it requires the
 							// pages_read_user_content or Page Public Content Access permission.
 							// I made it default to page_only in case current users had the option selected.
@@ -1560,7 +1560,7 @@ class Feed_CPT_Options {
 
 					'input_wrap_class' => 'facebook-album-covers-since-date',
 					'option_type'      => 'input',
-					'label'            => __( 'Album Since Date <br/>Example: 01-24-2023<br/><small>Add a date to show more recent albums if you have a large collection.</small>', 'feed-them-social' ),
+					'label'            => __( 'Album Since Date <br/>Example: 09-24-2024<br/><small>Add a date to show more recent albums if you have a large collection.</small>', 'feed-them-social' ),
 					'type'             => 'text',
 					'id'               => 'facebook_album_covers_since_date',
 					'name'             => 'facebook_album_covers_since_date',
@@ -3156,6 +3156,18 @@ class Feed_CPT_Options {
 						),
 					),
 				),*/
+
+                // Image Height Size
+                array(
+                    'option_type'   => 'input',
+                    'label'         => __( 'Height of Image (Portrait)', 'feed-them-social' ) . '<br/><small>' . __( 'Leave blank to make image squared', 'feed-them-social' ) . '</small>',
+                    'label_note'    => __( 'Adjust the height of thumbnail', 'feed-them-social' ),
+                    'type'          => 'text',
+                    'id'            => 'instagram_image_height',
+                    'name'          => 'instagram_image_height',
+                    'default_value' => '',
+                    'placeholder'   => '120px for example',
+                ),
 
 				// Space between Photos
 				array(

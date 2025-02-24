@@ -249,11 +249,13 @@ class Settings_Options_JS {
                     <?php } ?>
 
                     // only show the post type visible if the facebook page feed type is selected
-                    // jQuery('.facebook-post-type-visible').hide();
+                    jQuery('.facebook-post-type-visible').hide();
                     if (facebooktype == 'page') {
                         // SRL 8-23-23: We need to hide this option now because it requires the
                         // pages_read_user_content or Page Public Content Access permission.
-                        jQuery('.facebook-post-type-visible').hide();
+                        // jQuery('.facebook-post-type-visible').hide();
+                        // SRL 1-27-25: setting to .show to beta test out the /feed? endpoint so we can show reels.
+                         jQuery('.facebook-post-type-visible').show();
                     }
                     var fb_feed_type_option = jQuery("select#facebook_page_feed_type").val();
                     if (fb_feed_type_option == 'album_photos') {

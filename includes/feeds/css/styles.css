@@ -3017,12 +3017,6 @@ body .fts-facebook-popup a.fts-powered-by-text {
     .fts-popup-image-position {
         min-height: 50px!important
     }
-
-    .fts-facebook-popup .fts-popup-second-half .mfp-bottom-bar {
-        height: auto!important;
-        overflow: visible!important;
-        min-height: auto!important
-    }
 }
 
 .fts-twitter-backg-image,.fts-twitter-backg-image img {

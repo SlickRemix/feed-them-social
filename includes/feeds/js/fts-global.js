@@ -89,7 +89,7 @@ function slickremixImageResizing() {
             ftsInstagramColumns = uniqueID.attr('data-ftsi-columns');
         }
 
-        // For TikTok lets let the user choose the height of the photo holder
+        // For Instagram & TikTok lets let the user choose the height of the photo holder
         let ftsInstagramHeight = uniqueID.attr('data-ftsi-height') && uniqueID.attr('data-ftsi-height') !== '' ? uniqueID.attr('data-ftsi-height') : 0;
         // The margin in between photos so we can subtract that from the total %
         let ftsInstagramMargin = uniqueID.attr('data-ftsi-margin');

@@ -288,7 +288,8 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
             // Testing
             // print_r( $saved_feed_options );
 
-            $height = $saved_feed_options['instagram_page_height'] ?? '';
+            $height         = $saved_feed_options['instagram_page_height'] ?? '';
+            $image_height   = $saved_feed_options['instagram_image_height'] ?? '';
 
 			if ( $fts_premium || $fts_instagram_slider ) {
 
@@ -750,10 +751,10 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                 if( $fts_instagram_slider && $instagram_slider_option === 'yes'){
                     echo '<div id="fts-slider-' .esc_attr( $fts_dynamic_class_name ) .'" class="ftsi-slider-wrapper"  style="display:none;'.$instagram_slider_padding.'">
                             <div class="ftsi-slider-content" '.$instagram_page_width. '>
-                                <div class="fts-instagram-slider ' .esc_attr( $instagram_popup  . $fts_dynamic_class_name ) .'" data-ftsi-slider-arrow-size="'. esc_attr( $saved_feed_options['instagram_slider_arrows_size'] ) .'" data-ftsi-slider-edge-padding="'. esc_attr( $saved_feed_options['instagram_slider_edge_padding'] ) .'" data-ftsi-slider-controls="'. esc_attr( $saved_feed_options['instagram_slider_controls'] ) .'" data-ftsi-slider-speed="'. esc_attr( $saved_feed_options['instagram_slider_speed'] ) .'" data-ftsi-slider-columns="'. esc_attr( $saved_feed_options['instagram_columns'] ) .'" data-ftsi-slider-columns-tablet="' . esc_attr( $saved_feed_options['instagram_columns_tablet'] ). '" data-ftsi-slider-columns-mobile="' .esc_attr( $saved_feed_options['instagram_columns_mobile'] ) .'" data-ftsi-slider-force-columns="'. esc_attr( $saved_feed_options['instagram_force_columns'] ) .'" data-ftsi-slider-padding="'. esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ) .'">';
+                                <div class="fts-instagram-slider ' .esc_attr( $instagram_popup  . $fts_dynamic_class_name ) .'" data-ftsi-slider-arrow-size="'. esc_attr( $saved_feed_options['instagram_slider_arrows_size'] ) .'" data-ftsi-slider-edge-padding="'. esc_attr( $saved_feed_options['instagram_slider_edge_padding'] ) .'" data-ftsi-slider-controls="'. esc_attr( $saved_feed_options['instagram_slider_controls'] ) .'" data-ftsi-slider-speed="'. esc_attr( $saved_feed_options['instagram_slider_speed'] ) .'" data-ftsi-slider-columns="'. esc_attr( $saved_feed_options['instagram_columns'] ) .'" data-ftsi-slider-columns-tablet="' . esc_attr( $saved_feed_options['instagram_columns_tablet'] ). '" data-ftsi-slider-columns-mobile="' .esc_attr( $saved_feed_options['instagram_columns_mobile'] ) .'" data-ftsi-slider-force-columns="'. esc_attr( $saved_feed_options['instagram_force_columns'] ) .'" data-ftsi-slider-padding="'. esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ) .'" data-ftsi-height="'. esc_attr( $image_height ) .'">';
                 }
                 else {
-                    echo '<div id="' .esc_attr( $fts_dynamic_class_name ).'" class="fts-instagram-inline-block-centered ' .esc_attr( $instagram_popup  . $fts_dynamic_class_name ) .'" '. $instagram_page_width .' data-ftsi-columns="'. esc_attr( $saved_feed_options['instagram_columns'] ) .'" data-ftsi-columns-tablet="' . esc_attr( $saved_feed_options['instagram_columns_tablet'] ). '" data-ftsi-columns-mobile="' .esc_attr( $saved_feed_options['instagram_columns_mobile'] ) .'" data-ftsi-force-columns="'. esc_attr( $saved_feed_options['instagram_force_columns'] ) .'" data-ftsi-margin="'. esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ) .'">';
+                    echo '<div id="' .esc_attr( $fts_dynamic_class_name ).'" class="fts-instagram-inline-block-centered ' .esc_attr( $instagram_popup  . $fts_dynamic_class_name ) .'" '. $instagram_page_width .' data-ftsi-columns="'. esc_attr( $saved_feed_options['instagram_columns'] ) .'" data-ftsi-columns-tablet="' . esc_attr( $saved_feed_options['instagram_columns_tablet'] ). '" data-ftsi-columns-mobile="' .esc_attr( $saved_feed_options['instagram_columns_mobile'] ) .'" data-ftsi-force-columns="'. esc_attr( $saved_feed_options['instagram_force_columns'] ) .'" data-ftsi-margin="'. esc_attr( $saved_feed_options['instagram_space_between_photos'] ?? '1px' ) .'" data-ftsi-height="'. esc_attr( $image_height ) .'">';
                 }
               	$set_zero = 0;
 			} // END Make sure it's not ajaxing

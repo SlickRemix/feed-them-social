@@ -361,6 +361,7 @@ function checkAnyFormFieldEdited() {
             jQuery(e.target).is('#instagram_profile_wrap') ||
             jQuery(e.target).is('#facebook_page_feed_type') ||
             jQuery(e.target).is('#facebook_page_post_count') ||
+            jQuery(e.target).is('#facebook_page_posts_displayed') ||
             jQuery(e.target).is('#facebook_hide_like_box_button') ||
             jQuery(e.target).is('#youtube-messages-selector') ||
             jQuery(e.target).is('#youtube_channelID') ||

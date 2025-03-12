@@ -1386,17 +1386,17 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @since 4.2.8
      */
     public function escape_special_chars($text, $charset) {
-        // Split the text into parts: tags and non-tags
+        // Split the text into HTML tags and non-tag content
         $parts = preg_split('/(<[^>]+>)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
         $escaped_text = '';
 
         foreach ($parts as $part) {
-            if (preg_match('/<[^>]+>/', $part)) {
-                // This part is an HTML tag, escape its attributes
+            if (preg_match('/^<[^>]+>$/', $part)) {
+                // This part is an HTML tag, keep it as is (or escape attributes only)
                 $escaped_text .= $this->escape_attributes($part, $charset);
             } else {
-                // This part is not an HTML tag, escape it
-                $escaped_text .= htmlspecialchars($part, ENT_QUOTES, $charset);
+                // This is normal text (not inside a tag), escape it
+                $escaped_text .= htmlspecialchars($part, ENT_NOQUOTES, $charset);
             }
         }
 
@@ -1417,7 +1417,10 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
         return preg_replace_callback(
             '/(\w+)=("[^"]*"|\'[^\']*\')/',
             function($matches) use ($charset) {
-                return $matches[1] . '=' . htmlspecialchars($matches[2], ENT_QUOTES, $charset);
+                // Strip the outer quotes, escape the value, and re-wrap with the same quote type
+                $quote = $matches[2][0]; // Keep track of whether it was single or double quotes
+                $escaped_value = htmlspecialchars(substr($matches[2], 1, -1), ENT_NOQUOTES, $charset);
+                return $matches[1] . '=' . $quote . $escaped_value . $quote;
             },
             $tag
         );

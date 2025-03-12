@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.7.2
-Stable tag: 4.3.5
+Stable tag: 4.3.6
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.3.6 Wednesday, March 12th, 2025 =
+  * Fix: Instagram Feed > escape_attributes function was outputting links with double quotes around the attributes.
+  * New: System Info > Additional Licence Key info added.
+
 = Version 4.3.5 Monday, February 24th, 2025 =
   * New: Instagram Feed > Add Image Height (Portrait) option.
   * New: Facebook Feed > Add Display Reels & Posts (Beta) for Post Type Visible under the Page Feed Type.

@@ -2716,3 +2716,7 @@ span.fts-toke-not-set {
     margin-left: 0;
     margin-right: 10px
 }
+.fts_page_fts-system-info-submenu-page .error.notice {
+    margin-left:0;
+    margin-top:20px;
+}

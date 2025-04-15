@@ -364,7 +364,7 @@ class Youtube_Feed {
 
                 elseif ( $saved_feed_options['youtube_feed_type'] === 'playlistID' && ! empty( $saved_feed_options['youtube_playlistID'] )  ) {
 
-                    // I don't understand the section here.. blllaaaaaahh need to clean this mess up!
+                    // I don't understand the section here.. Need to clean this up.
                    // echo '<br/>playlistID shortcode in use: ';
 
                     $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token ) );
@@ -1129,13 +1129,13 @@ class Youtube_Feed {
 	 * @since 1.9.6
 	 */
 	public function fts_youtube_video_and_wrap( $post_data, $feed_type ) {
-		$ssl                                = is_ssl() ? 'https' : 'http';
+		$ssl = is_ssl() ? 'https' : 'http';
 
         /*echo '<pre>';
         echo print_r($post_data);
         echo '</pre>';*/
 
-		if ( 'username' === $feed_type || 'userPlaylist' === $feed_type || 'playlistID' === $feed_type ) {
+		if ( $feed_type === 'username' || $feed_type === 'userPlaylist' || $feed_type === 'playlistID' ) {
             $youtube_video_user_or_playlist_url = !empty( $post_data->snippet->resourceId->videoId ) ? $post_data->snippet->resourceId->videoId : '';
 			$youtube_video_iframe = '<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( $ssl . '://www.youtube.com/embed/' . $youtube_video_user_or_playlist_url ) . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
 

@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.7.2
-Stable tag: 4.3.6
+Tested up to: 6.8
+Stable tag: 4.3.7
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,12 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.3.7 Tuesday, April 15th, 2025 =
+  * Works with WordPress version 6.8
+  * Note > Combined Streams Extension > Fix: YouTube Feed > feed_type added to fts_youtube_video_and_wrap function because only Channel ID Videos were showing up. This was causing videos to not appear if you were using a Playlist ID.
+  * Note > Combined Streams Extension > Fix: replace get_plugin_data() function with a constant FTS_PREMIUM_CURRENT_VERSION to get the plugin version. Fixes the Doing It Wrong warning.
+  * Note > Combined Streams Extension > Fix: re-order yoda arguments.
+
 = Version 4.3.6 Wednesday, March 12th, 2025 =
   * Fix: Instagram Feed > escape_attributes function was outputting links with double quotes around the attributes.
   * New: System Info > Additional Licence Key info added.

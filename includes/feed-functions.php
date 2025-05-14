@@ -180,9 +180,9 @@ class Feed_Functions {
 				'parent' => 'feed_them_social_admin_bar',
 				'title'  => \sprintf(
 					__( 'Set Cache Time %1$s%2$s%3$s', 'feed-them-social' ),
-					'<span>',
+					'(',
 					$this->feed_cache->fts_cachetime_amount( $fts_cachetime ),
-					'</span>'
+					')'
 				),
 				'href'   => admin_url( 'edit.php?post_type=fts&page=fts-settings-page' ),
 

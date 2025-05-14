@@ -88,37 +88,24 @@ class Activate_Plugin {
 			require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		}
 
-		// See if the PHP Version Constant exists.
-		if ( function_exists( 'phpversion' ) ) {
-			$server_php_version = PHP_VERSION;
-		}
+        // Initialize server PHP version variable
+        $server_php_version = '0.0.0';
 
-		// Check the server set PHP version against the minimum required PHP version needed to run plugin.
-		if ( $server_php_version >= FEED_THEM_SOCIAL_MIN_PHP ) {
-			// Load Translation Languages because PHP version check passed.
-			add_action( 'init', array( $this, 'load_translations_languages' ) );
-		} else {
-			deactivate_plugins( 'feed-them-social/feed-them-social.php' );
-			if ( $server_php_version < FEED_THEM_SOCIAL_MIN_PHP ) {
-				add_action( 'admin_notices', array( $this, 'failed_php_version_notice' ) );
-			}
-		}
+        // Check if PHP version can be detected
+        if (function_exists('phpversion')) {
+            $server_php_version = phpversion();
+        } elseif (defined('PHP_VERSION')) {
+            $server_php_version = PHP_VERSION;
+        }
+
+        // If PHP version is too low, deactivate the plugin and show a notice
+        if (version_compare($server_php_version, FEED_THEM_SOCIAL_MIN_PHP, '<')) {
+            deactivate_plugins('feed-them-social/feed-them-social.php');
+            add_action('admin_notices', array($this, 'failed_php_version_notice'));
+        }
 
 		// Uncomment this to test. PHP Version check.
-		//add_action( 'admin_notices', array( $this, 'failed_php_version_notice' ) );
-	}
-
-	/**
-	 * Load Translation Languages
-	 *
-	 * Loads Translation language files.
-	 *
-	 * @since 1.0.0
-	 */
-	public function load_translations_languages() {
-		// Localization. (Plugin string translations).
-		// Needs FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR to make sure the path to languages folder is correct.
-		load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/languages' );
+		// add_action( 'admin_notices', array( $this, 'failed_php_version_notice' ) );
 	}
 
 	/**
@@ -129,7 +116,7 @@ class Activate_Plugin {
 	 * @since 1.0.0
 	 */
 	public function failed_php_version_notice() {
-		echo sprintf(
+		echo \sprintf(
 			esc_html__( '%1$sWarning:%2$s Your server PHP version is %3$s. You need to be running at least %4$s or greater to use this plugin. Please upgrade the php by contacting your host provider.%5$s', 'feed-them-social' ),
 			'<div class="error"><p><strong>',
 			'</strong>',
@@ -165,7 +152,7 @@ class Activate_Plugin {
 	public function display_install_notice() {
 		// Check the transient to see if we've just activated the plugin.
 		if ( get_transient( 'fts_activated' ) ) {
-			echo sprintf(
+			echo \sprintf(
 				esc_html__( '%1$sThanks for installing Feed Them Social. To get started create a %2$sNew Feed%3$s.%4$s', 'feed-them-social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
 				'<a href="' . esc_url( 'edit.php?post_type=fts&page=create-new-feed' ) . '">',
@@ -187,7 +174,7 @@ class Activate_Plugin {
 	public function display_update_notice() {
 		// Check the transient to see if we've just updated the plugin.
 		if ( get_transient( 'fts_updated' ) ) {
-			echo sprintf(
+			echo \sprintf(
 				esc_html__( '%1$sThanks for updating Feed Them Social. The plugins cache has been cleared.%2$s', 'feed-them-social' ),
 				'<div class="notice notice-success updated is-dismissible"><p>',
 				'</p></div>'
@@ -300,7 +287,7 @@ class Activate_Plugin {
 	 */
 	public function leave_feedback_link( $links, $file ) {
 		if ( FEED_THEM_SOCIAL_PLUGIN_BASENAME === $file ) {
-			$links['feedback'] = sprintf(
+			$links['feedback'] = \sprintf(
 				esc_html__( '%1$sRate Plugin%2$s', 'feed-them-social' ),
 				'<a href="' . esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/' ) . '" target="_blank">',
 				'</a>'
@@ -377,7 +364,7 @@ class Activate_Plugin {
 		if ( isset( $_GET[ $review_nag ] ) ) {
 
 			// Includes pluggable.php to ensure that current_user_can can be used.
-			if ( ! function_exists( 'wp_get_current_user' ) ) {
+			if ( ! \function_exists( 'wp_get_current_user' ) ) {
 				require_once ABSPATH . WPINC . '/pluggable.php';
 			}
 

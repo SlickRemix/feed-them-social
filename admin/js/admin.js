@@ -22,6 +22,16 @@ function fts_ClearCache( notice ) {
 
 jQuery(document).ready(function ($) {
 
+    // Set these styles on the admin bar Clear Cache and Set Cache links.
+    $('#wp-admin-bar-feed_them_social_admin_set_cache div').css('cursor', 'pointer').hover(
+        function() {
+            $(this).css('color', '#72aee6');
+        },
+        function() {
+            $(this).css('color', '');
+        }
+    );
+
     // This code is on the front end of the website to assist in converting old shortcodes to new ones.
     if( !$('body.wp-admin').length ){
 

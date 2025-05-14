@@ -96,7 +96,7 @@ class Activate_Plugin {
 		// Check the server set PHP version against the minimum required PHP version needed to run plugin.
 		if ( $server_php_version >= FEED_THEM_SOCIAL_MIN_PHP ) {
 			// Load Translation Languages because PHP version check passed.
-			add_action( 'init', array( $this, 'load_translations_languages' ) );
+			// add_action( 'init', array( $this, 'load_translations_languages' ) );
 		} else {
 			deactivate_plugins( 'feed-them-social/feed-them-social.php' );
 			if ( $server_php_version < FEED_THEM_SOCIAL_MIN_PHP ) {
@@ -118,7 +118,7 @@ class Activate_Plugin {
 	public function load_translations_languages() {
 		// Localization. (Plugin string translations).
 		// Needs FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR to make sure the path to languages folder is correct.
-		load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/languages' );
+		// load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/languages' );
 	}
 
 	/**

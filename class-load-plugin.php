@@ -41,6 +41,9 @@ class Feed_Them_Social {
 	 */
 	private function load_plugin() {
 
+        // Load text domain for translations
+        add_action( 'init', array( $this, 'load_textdomain' ) );
+
 		$minimum_required_PHP_version = '7.0.0';
 
 		// Setup Constants for Feed Them Social.
@@ -150,6 +153,19 @@ class Feed_Them_Social {
         // Cron Jobs
         new feedthemsocial\Cron_Jobs( $feed_functions, $options_functions, $settings_functions, $feed_cache );
 	}
+
+    /**
+     * Load Textdomain
+     *
+     * Load plugin textdomain.
+     *
+     * @since 4.3.8
+     */
+    public function load_textdomain() {
+        // Localization. (Plugin string translations).
+        // Needs FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR to make sure the path to languages folder is correct.
+        load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/languages' );
+    }
 
 	/**
 	 * Load Extensions

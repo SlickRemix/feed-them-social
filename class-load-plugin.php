@@ -127,9 +127,6 @@ class Feed_Them_Social {
         // Instagram Feed.
         $instagram_feed = new feedthemsocial\Instagram_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
-        // Twitter Feed.
-        // $twitter_feed = new feedthemsocial\Twitter_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
-
         // TikTok Feed.
         $tiktok_feed = new feedthemsocial\Tiktok_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 

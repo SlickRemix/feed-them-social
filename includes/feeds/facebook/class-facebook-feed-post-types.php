@@ -1470,7 +1470,7 @@ class Facebook_Feed_Post_Types {
 					// Get the SoundCloud URL.
 					$url = $facebook_post_link;
 					// Get the JSON data of song details with embed code from SoundCloud oEmbed.
-					$get_values = file_get_contents( 'http://soundcloud.com/oembed?format=js&url=' . $url . '&auto_play=true&iframe=true' );
+					$get_values = file_get_contents( 'https://soundcloud.com/oembed?format=js&url=' . $url . '&auto_play=true&iframe=true' );
 					// Clean the Json to decode.
 					$decode_iframe = substr( $get_values, 1, -2 );
 					// json decode to convert it as an array.

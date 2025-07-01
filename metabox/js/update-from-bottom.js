@@ -1375,47 +1375,52 @@ function fts_check_valid() {
         });
 
         // Import Feed Options
-        $( '#fts-import-feed-options' ).click( function () {
+        $('#fts-import-feed-options').click(function (event) {
+            event.preventDefault();
 
             // Grab the url so we can do stuff.
             var url_string = window.location.href;
-            var url = new URL( url_string );
+            var url = new URL(url_string);
             var cpt_id = url.searchParams.get("post");
-            var cpt_import =  $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap input' ).val();
+            var cpt_import_val = $('#fts-import-export-feed-options-side-mb .fts-import-feed-widget-wrap input').val();
 
             try {
                 // Make sure this is valid JSON before proceeding.
-                var cpt_import = JSON.parse( cpt_import ) ? cpt_import : null;
+                JSON.parse(cpt_import_val);
                 console.log('JSON is valid');
             } catch (e) {
-                alert( 'JSON is not valid' );
+                alert('JSON is not valid');
                 console.log('JSON is not valid: ' + e);
-                return false;
+                return;
             }
 
-            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage'    class='ftg-successModal ftg-saving-form'></div></div></div>");
+            jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-saving-form'></div></div></div>");
             jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
             jQuery('#publishing-action .spinner').css("visibility", "visible");
+
             jQuery.ajax({
                 data: {
                     action: "fts_import_feed_options_ajax",
                     cpt_id: cpt_id,
-                    cpt_import: cpt_import,
+                    cpt_import: cpt_import_val,
                     _wpnonce: ftg_mb_tabs.ajaxImportFeedOptionsNonce
                 },
                 type: 'POST',
                 url: ftsAjax.ajaxurl,
                 success: function (response) {
                     console.log('Well Done and got this from sever: ' + response);
-                    $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap input' ).val('');
-                    $( '#fts-import-export-feed-options-side-mb  .fts-import-feed-widget-wrap .publishing-action' ).append('<div class="fts-import-feed-success">Import Success</div>');
+                    $('#fts-import-export-feed-options-side-mb .fts-import-feed-widget-wrap input').val('');
+                    $('#fts-import-export-feed-options-side-mb .fts-import-feed-widget-wrap .publishing-action').append('<div class="fts-import-feed-success">Import Success</div>');
 
                     location.reload();
-                    return false;
+                    // 3. The 'return false' here was not necessary.
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    // It's good practice to handle potential AJAX errors.
+                    console.error('AJAX Error: ' + textStatus, errorThrown);
+                    alert('An error occurred while importing. Please try again.');
                 }
             }); // end of ajax()
-            return false;
-
         });
 
         // Export Feed Options

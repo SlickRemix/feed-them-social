@@ -124,8 +124,8 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.9 Wednesday, July 1st, 2025 =
-  * Remove: Twitter Code.
+= Version 4.3.9 Tuesday, July 1st, 2025 =
+  * Remove: Twitter Code and Code Clean up.
 
 = Version 4.3.8 Wednesday, May 14th, 2025 =
   * Fix: Warning message for _load_textdomain_just_in_time()

@@ -500,5 +500,3 @@ class updater_check_class {
         exit;
     }
 }
-
-?>

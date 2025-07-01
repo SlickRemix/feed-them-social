@@ -219,5 +219,3 @@ class updater_init {
         }
     }
 }
-
-?>

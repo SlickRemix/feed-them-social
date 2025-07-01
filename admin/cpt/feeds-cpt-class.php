@@ -1354,4 +1354,4 @@ class Feeds_CPT {
             <?php
         }
     }
-} ?>
+}

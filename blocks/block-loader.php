@@ -137,7 +137,5 @@ class BlockLoader {
             'feedThemSocialBlockFeeds',
             $user_feeds
         );
-
     }
-
 }

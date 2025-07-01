@@ -1468,4 +1468,3 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 		return '<div class="fts-instagram-caption"><div class="fts-instagram-caption-content"><p>' . $this->fts_instagram_description( $post_data ) . '</p></div>' . $this->fts_view_on_instagram_link( $post_data ) . '</div>';
 	}
 }//end class
-?>

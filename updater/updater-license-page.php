@@ -648,4 +648,3 @@ class updater_license_page {
     }
 
 }//End CLASS
-?>

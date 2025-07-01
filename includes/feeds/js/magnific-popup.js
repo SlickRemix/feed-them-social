@@ -713,8 +713,8 @@
                     src: e.attr("href"),
                     type: o
                 };
-                r = jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-fb-album-additional-pics-description-wrap").html() ? jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-fb-album-additional-pics-description-wrap").html() : "",
-                    n = jQuery(this).parents(".fts-jal-fb-post-time-album").find(".fts-jal-fb-post-time-album").html() ? jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-jal-fb-post-time-album").html() : "";
+                let r = jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-fb-album-additional-pics-description-wrap").html() ? jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-fb-album-additional-pics-description-wrap").html() : "";
+                let n = jQuery(this).parents(".fts-jal-fb-post-time-album").find(".fts-jal-fb-post-time-album").html() ? jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-jal-fb-post-time-album").html() : "";
                 a.title = jQuery(this).parents(".fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-jal-fb-top-wrap").html() + r + n + jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-likes-shares-etc-wrap").html() + jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-fb-comments-wrap").html() + s, t.push(a)
             }), e.magnificPopup({
                 mainClass: "fts-facebook-popup fts-facebook-styles-popup",
@@ -860,7 +860,7 @@
                 t = [];
             e.each(function() {
                 var e = jQuery(this);
-                type = "iframe";
+                let type = "iframe";
                 var o = {
                     src: e.attr("href"),
                     type: type
@@ -922,7 +922,7 @@
                 t = [];
             e.each(function() {
                 var e = jQuery(this);
-                type = "iframe";
+                let type = "iframe";
                 var o = {
                     src: e.attr("href"),
                     type: type

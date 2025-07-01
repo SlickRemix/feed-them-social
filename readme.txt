@@ -5,7 +5,7 @@ Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
 Tested up to: 6.8.1
-Stable tag: 4.3.8
+Stable tag: 4.3.9
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,9 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.3.9 Wednesday, July 1st, 2025 =
+  * Remove: Twitter Code.
+
 = Version 4.3.8 Wednesday, May 14th, 2025 =
   * Fix: Warning message for _load_textdomain_just_in_time()
   * Fix: Spacing for Cache Settings time in admin menu bar.

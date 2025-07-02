@@ -5,7 +5,9 @@ namespace feedthemsocial\Widgets;
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 
-if (!defined('ABSPATH')) exit; // Exit if accessed directly
+if (!\defined('ABSPATH')) {
+    exit;
+} // Exit if accessed directly
 
 //https://developers.elementor.com/docs/scripts-styles/preview-styles/
 add_action('elementor/preview/enqueue_styles', function() {
@@ -70,7 +72,8 @@ add_action('elementor/editor/after_enqueue_scripts', function() {
 
 class Advertisement extends Widget_Base{
 
-    public function get_name() {
+    public function get_name(): string
+    {
         return 'feed-them-social';
     }
 

@@ -1,8 +1,8 @@
 // Grab the url so we can do stuff.
-var url_string = window.location.href;
-var url = new URL( url_string );
-var cpt_id = url.searchParams.get("post");
-var feed_type = url.searchParams.get("feed_type");
+const url_string = window.location.href;
+let url = new URL( url_string );
+let cpt_id = url.searchParams.get("post");
+let feed_type = url.searchParams.get("feed_type");
 
 jQuery(document).ready(ftg_admin_gallery_tabs);
 
@@ -43,11 +43,11 @@ function ftg_admin_gallery_tabs() {
     jQuery('ul.nav-tabs').each(function () {
         // For each set of tabs, we want to keep track of
         // which tab is active and its associated content
-        var $active, $content, $links = jQuery(this).find('a');
+        let $active, $content, $links = jQuery(this).find('a');
 
         // If the location.hash matches the data-key of one of the links, use that as the active tab.
         // If no match is found, use the first link as the initial active tab.
-        var hashKey = location.hash.substring(1); // Remove the '#' from the hash
+        const hashKey = location.hash.substring(1); // Remove the '#' from the hash
         $active = jQuery($links.filter('[data-key="' + hashKey + '"]')[0] || $links[0]);
         $active.addClass('active');
 
@@ -80,7 +80,7 @@ function ftg_admin_gallery_tabs() {
 
 function fts_ajax_cpt_save_token() {
 
-    var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
+    const newUrl = ftg_mb_tabs.submit_msgs.fts_post;
     window.location.replace( newUrl );
     // Testing removing this id #fts-feed-type because it just makes the process so damn jumpy
     // window.location.replace( newUrl + '#fts-feed-type' );
@@ -152,7 +152,7 @@ function fts_ajax_cpt_save( shortcodeConverted, should_we_empty_cache ) {
             jQuery('.updatefrombottom a.button-primary').html("Update");
 
             // Remove any hashtag data from the url
-            var hash2 = window.location.hash.replace('#', '');
+            let hash2 = window.location.hash.replace('#', '');
 
             // #fts-feed-type: comes from the url populated by slickremix where we get the access token from.
             // #feed_setup: comes from clicking on the Feed Setup tab
@@ -399,8 +399,8 @@ jQuery(document).ready(function ($) {
 
     // This is for the responsive options tabs
     $('.fts-responsive-options-wrap span').click(function() {
-        var parentWrap = $(this).closest('.fts-responsive-wrap');
-        var target = $(this).data('target');
+        let parentWrap = $(this).closest('.fts-responsive-wrap');
+        const target = $(this).data('target');
 
         // Remove active class from all spans within the same .fts-responsive-options-wrap
         parentWrap.find('.fts-responsive-options-wrap span').removeClass('fts-responsive-tab-active');
@@ -432,7 +432,7 @@ jQuery(document).ready(function ($) {
     // Show the proper tab if this link type is clicked on any tab of ours
     jQuery('.tab-content-wrap').on('click', '.fts-facebook-successful-api-token', function (e) {
         jQuery('.tab5 a').click();
-        var clickedLink = $('.tab5 a').attr('href');
+        const clickedLink = $('.tab5 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
         fts_show_hide_shortcode_feed( 'facebook');
@@ -443,7 +443,7 @@ jQuery(document).ready(function ($) {
 
     jQuery('.tab-content-wrap').on('click', '.fts-instagram-successful-api-token', function (e) {
         jQuery('.tab4 a').click();
-        var clickedLink = $('.tab4 a').attr('href');
+        const clickedLink = $('.tab4 a').attr('href');
         jQuery('#instagram_feed_type').bind('change', function (e) {
             jQuery(this).val('basic');
         }).change();
@@ -457,7 +457,7 @@ jQuery(document).ready(function ($) {
 
     jQuery('.tab-content-wrap').on('click', '.fts-instagram-business-successful-api-token', function (e) {
         jQuery('.tab4 a').click();
-        var clickedLink = $('.tab4 a').attr('href');
+        const clickedLink = $('.tab4 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
         fts_show_hide_shortcode_feed('instagram');
@@ -467,7 +467,7 @@ jQuery(document).ready(function ($) {
 
     jQuery('.tab-content-wrap').on('click', '.fts-twitter-successful-api-token', function (e) {
         jQuery('.tab6 a').click();
-        var clickedLink = $('.tab6 a').attr('href');
+        const clickedLink = $('.tab6 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
         fts_show_hide_shortcode_feed('twitter');
@@ -477,7 +477,7 @@ jQuery(document).ready(function ($) {
 
     jQuery('.tab-content-wrap').on('click', '.fts-youtube-successful-api-token', function (e) {
         jQuery('.tab7 a').click();
-        var clickedLink = $('.tab7 a').attr('href');
+        const clickedLink = $('.tab7 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
         fts_show_hide_shortcode_feed('youtube');
@@ -487,7 +487,7 @@ jQuery(document).ready(function ($) {
 
     jQuery('.tab-content-wrap').on('click', '.fts-combine-successful-api-token', function (e) {
         jQuery('.tab8 a').click();
-        var clickedLink = $('.tab8 a').attr('href');
+        const clickedLink = $('.tab8 a').attr('href');
         // push it into the url
         location.hash = clickedLink;
         fts_show_hide_shortcode_feed('combined');
@@ -495,7 +495,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
     });
 
-    var hash = window.location.hash.replace('#', '');
+    let hash = window.location.hash.replace('#', '');
     if (hash) {
         document.getElementById(hash).style.display = 'block'
     }
@@ -525,7 +525,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
 
         // get the id
-        var clickedLink = $(this).data('key');
+        let clickedLink = $(this).data('key');
 
         if( 'feed_setup' === clickedLink ){
             jQuery( '.fts-shortcode-view' ).css('display', 'none');
@@ -557,7 +557,7 @@ jQuery(document).ready(function ($) {
         }
 
         // Store the current scroll position
-        var scrollPos = $(window).scrollTop();
+        const scrollPos = $(window).scrollTop();
 
         // Push the hash to the URL without causing the scroll
         location.hash = clickedLink;
@@ -573,7 +573,7 @@ jQuery(document).ready(function ($) {
         // Prevent the anchor's default click action
         e.preventDefault();
 
-        var myURL = document.location;
+        const myURL = document.location;
         document.location = myURL + "&tab=" + jQuery(this).attr('id');
 
     });
@@ -660,7 +660,7 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
 
             console.log( response );
 
-            var data = JSON.parse( response );
+            let data = JSON.parse( response );
 
             console.log( data );
 
@@ -687,7 +687,7 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
                     'youtube' === data.feed_type ){
 
                     // alert( data.feed_type );
-                    var newUrl = ftg_mb_tabs.submit_msgs.fts_post;
+                    const newUrl = ftg_mb_tabs.submit_msgs.fts_post;
                     window.location.replace( newUrl );
                     // Testing removing this id #fts-feed-type because it just makes the process so damn jumpy
                    // window.location.replace( newUrl + '#fts-feed-type' );
@@ -730,8 +730,8 @@ function fts_show_decrypt_token_text(){
             jQuery( this ).addClass('fts-copy-decrypted-token').removeClass('fts-remove-decrypted-token');
         }
         else {
-            var encrypted_token = jQuery(this).parent().parent().find('input').attr('value');
-            var id              = jQuery(this).parent().parent().find('input').attr('id');
+            const encrypted_token = jQuery(this).parent().parent().find('input').attr('value');
+            const id              = jQuery(this).parent().parent().find('input').attr('id');
             // Decrypt the token for debugging.
             fts_decrypt_token_ajax( encrypted_token, id );
         }

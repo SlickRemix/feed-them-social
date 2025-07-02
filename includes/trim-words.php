@@ -38,8 +38,9 @@ class FeedThemSocialTruncateHTML {
     // https://php.watch/versions/8.1/ReturnTypeWillChange
     public static function fts_custom_trim_words($html, $limit, $ellipsis = null) {
 
-        if($limit <= 0 || $limit >= self::countWords(strip_tags($html)))
+        if($limit <= 0 || $limit >= self::countWords(strip_tags($html))) {
             return $html;
+        }
 
         // create new DOMDocument
         $dom = new DOMDocument();
@@ -100,10 +101,12 @@ class FeedThemSocialTruncateHTML {
             // Append as text node to parent instead
             $textNode = new DOMText($ellipsis);
 
-            if($domNode->parentNode->parentNode->nextSibling)
-                $domNode->parentNode->parentNode->insertBefore($textNode, $domNode->parentNode->parentNode->nextSibling);
-            else
-                $domNode->parentNode->parentNode->appendChild($textNode);
+            if($domNode->parentNode->parentNode->nextSibling) {
+                $domNode->parentNode->parentNode->insertBefore( $textNode, $domNode->parentNode->parentNode->nextSibling );
+            }
+            else {
+                $domNode->parentNode->parentNode->appendChild( $textNode );
+            }
         } else {
             // Append to current node
             $domNode->nodeValue = rtrim($domNode->nodeValue).$ellipsis;
@@ -141,11 +144,17 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
     /**
      * expects DOMElement or DOMDocument (see DOMDocument::load and DOMDocument::loadHTML)
      */
-    function __construct(DOMNode $el)
+    public function __construct(DOMNode $el)
     {
-        if ($el instanceof DOMDocument) $this->start = $el->documentElement;
-        else if ($el instanceof DOMElement) $this->start = $el;
-        else throw new InvalidArgumentException("Invalid arguments, expected DOMElement or DOMDocument");
+        if ($el instanceof DOMDocument) {
+            $this->start = $el->documentElement;
+        }
+        else if ($el instanceof DOMElement) {
+            $this->start = $el;
+        }
+        else {
+            throw new InvalidArgumentException( "Invalid arguments, expected DOMElement or DOMDocument" );
+        }
     }
 
     /**
@@ -155,7 +164,7 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
      *
      * @return array
      */
-    function currentWordPosition()
+    public function currentWordPosition()
     {
         return array($this->current, $this->offset, $this->words);
     }
@@ -165,22 +174,24 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
      *
      * @return DOMElement
      */
-    function currentElement()
+    public function currentElement()
     {
         return $this->current ? $this->current->parentNode : NULL;
     }
 
     // Implementation of Iterator interface
     #[\ReturnTypeWillChange]
-    function key()
+    public function key()
     {
         return $this->key;
     }
 
     #[\ReturnTypeWillChange]
-    function next()
+    public function next()
     {
-        if (!$this->current) return;
+        if (!$this->current) {
+            return;
+        }
 
         if ($this->current->nodeType == XML_TEXT_NODE || $this->current->nodeType == XML_CDATA_SECTION_NODE)
         {
@@ -202,7 +213,9 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
         while($this->current->nodeType == XML_ELEMENT_NODE && $this->current->firstChild)
         {
             $this->current = $this->current->firstChild;
-            if ($this->current->nodeType == XML_TEXT_NODE || $this->current->nodeType == XML_CDATA_SECTION_NODE) return $this->next();
+            if ($this->current->nodeType == XML_TEXT_NODE || $this->current->nodeType == XML_CDATA_SECTION_NODE) {
+                return $this->next();
+            }
         }
 
         while(!$this->current->nextSibling && $this->current->parentNode)
@@ -217,20 +230,22 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
     }
 
     #[\ReturnTypeWillChange]
-    function current()
+    public function current()
     {
-        if ($this->current) return $this->words[$this->offset][0];
+        if ($this->current) {
+            return $this->words[$this->offset][0];
+        }
         return NULL;
     }
 
     #[\ReturnTypeWillChange]
-    function valid()
+    public function valid()
     {
-        return !!$this->current;
+        return (bool)$this->current;
     }
 
     #[\ReturnTypeWillChange]
-    function rewind()
+    public function rewind()
     {
         $this->offset = -1; $this->words = array();
         $this->current = $this->start;

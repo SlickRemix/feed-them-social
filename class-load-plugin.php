@@ -305,111 +305,111 @@ class Feed_Them_Social {
      */
     private function includes() {
         // Activate Plugin Class. (Must be included early)
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'activate-plugin.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'activate-plugin.php';
 
         // System Info
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/system-info.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/system-info.php';
 
         // Data Protection Class.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'data-protection/data-protection.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'data-protection/data-protection.php';
 
         // Data Protection Class.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/trim-words.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/trim-words.php';
 
         // Options Functions Class.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'options/options-functions.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'options/options-functions.php';
 
         // Metabox Functions Class.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox/metabox-functions-class.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox/metabox-functions-class.php';
 
         // Settings Page.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';
 
         // Settings Functions.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-functions.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-functions.php';
 
         // Feed Functions Class. (eventually replacing most of FTS Functions Class.)
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-functions.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-functions.php';
 
         // Error Handler.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/error-handler.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/error-handler.php';
 
         // Feed Options Import Export.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feed-options-import-export.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feed-options-import-export.php';
 
         // Setting Options Js.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/cpt-settings-options-js.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/cpt-settings-options-js.php';
 
         // Facebook Access Token API.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/facebook-access-token.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/facebook-access-token.php';
 
         // Instagram Access Token API.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-access-token.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-access-token.php';
 
         // Instagram Business Access Token API.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-business-access-token.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-business-access-token.php';
 
         // Twitter Access Token API.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/tiktok-access-token.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/tiktok-access-token.php';
 
         // YouTube Access Token API.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/youtube-access-token.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/youtube-access-token.php';
 
         // Access Token Options.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/access-token-options.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/access-token-options.php';
 
         // Feeds CPT Options.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/feeds-cpt-options.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/feeds-cpt-options.php';
 
         // Facebook Additional Options
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/facebook-cpt-additional-options.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/facebook-cpt-additional-options.php';
 
         // Instagram Additional Options
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/instagram-cpt-additional-options.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/instagram-cpt-additional-options.php';
 
         // Twitter Additional Options
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/twitter-cpt-additional-options.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/twitter-cpt-additional-options.php';
 
         // YouTube Additional Options
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/youtube-cpt-additional-options.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/youtube-cpt-additional-options.php';
 
         // Feeds CPT Class.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feeds-cpt-class.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feeds-cpt-class.php';
 
         // Facebook Feed.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed.php';
 
         // Facebook Feed Post Types.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed-post-types.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed-post-types.php';
 
         // Instagram Feed.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/instagram/class-instagram-feed.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/instagram/class-instagram-feed.php';
 
         // TikTok Feed.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/tiktok/class-tiktok-feed.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/tiktok/class-tiktok-feed.php';
 
         // YouTube Feed.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/youtube/class-youtube-feed.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/youtube/class-youtube-feed.php';
 
         // Feed Cache.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';
 
         // Include Shortcodes.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-shortcode.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-shortcode.php';
 
         // Updater Classes.
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php';
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php';
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php';
 
         // Feed Block
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'blocks/block-loader.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'blocks/block-loader.php';
 
-        include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/cron-jobs/cron-jobs.php';
+        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/cron-jobs/cron-jobs.php';
 
         // Beaver Builder Module
         if (class_exists('FLBuilder')) {
-            include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/beaver-builder/includes/module.php';
+            include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/beaver-builder/includes/module.php';
         }
 
         // Elementor Module

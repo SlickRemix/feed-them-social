@@ -83,9 +83,9 @@ function fts_combine_social_icons_wrap_click() {
     jQuery( '.fts-combine-instagram-basic-token-button,' +
         '.fts-combine-instagram-business-token-button').click( function () {
 
-        var fts_type = jQuery( this ).data( 'fts-feed-type' );
+        let fts_type = jQuery( this ).data( 'fts-feed-type' );
         // todo SRL: line below needs to be re-written to be more understandable but for launch sake we are rolling with it. Mainly not fixing now because for ease of backward compatibility too.
-        var fts_type_value = 'instagram-feed-type' === fts_type ? 'basic' : 'business';
+        let fts_type_value = 'instagram-feed-type' === fts_type ? 'basic' : 'business';
         const url_string = window.location.href;
         const url = new URL( url_string );
         const cpt_id = url.searchParams.get( 'post' );
@@ -279,7 +279,7 @@ function combine_youtube_token_js() {
 // when a social tab is clicked on the first tab which is Feed Setup.
 function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
 
-    var combined_check = false !== combined ? combined : false;
+    const combined_check = false !== combined ? combined : false;
 
     jQuery.ajax({
         data: {
@@ -467,10 +467,10 @@ function fts_check_valid() {
             'change',
             function (e) {
                 // Grab the url so we can do stuff.
-                var url_string = window.location.href;
-                var url = new URL( url_string );
-                var cpt_id = url.searchParams.get("post");
-                var feed_type = url.searchParams.get("feed_type");
+                const url_string = window.location.href;
+                let url = new URL( url_string );
+                let cpt_id = url.searchParams.get("post");
+                let feed_type = url.searchParams.get("feed_type");
                 console.log( cpt_id );
 
                 var ftsGlobalValue = jQuery( this ).val();
@@ -550,7 +550,7 @@ function fts_check_valid() {
         // This way the tab will be active based on the save feed_type option.
 
         //This is for the sub nav tabs under each social network and controls what is visible.
-        var fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active"><span>'+ updatefrombottomParams.mainoptions + '</span></div><div class="fts-settings-tab"><span>'+ updatefrombottomParams.additionaloptions + '</span></div></div>';
+        const fts_sub_tabs = '<div class="fts-feed-settings-tabs-wrap"><div class="fts-feed-tab fts-sub-tab-active"><span>'+ updatefrombottomParams.mainoptions + '</span></div><div class="fts-settings-tab"><span>'+ updatefrombottomParams.additionaloptions + '</span></div></div>';
         // $( fts_sub_tabs ).insertBefore( '.fts-facebook_page-shortcode-form .fts-cpt-main-options, .fts-instagram-shortcode-form .instagram_feed_type, .fts-twitter-shortcode-form .twitter-messages-selector, .fts-youtube-shortcode-form .youtube-messages-selector, .fts-combine-streams-shortcode-form .combine_post_count' );
         $( fts_sub_tabs ).insertBefore( '.fts-cpt-main-options' );
 
@@ -598,12 +598,12 @@ function fts_check_valid() {
                     alert( 'Please add a Feed Them Social Shortcode to Convert.');
                     return;
                 }
-                var result = '';
-                var inQuotes = false;
-                var quoteSegment = '';
+                let result = '';
+                let inQuotes = false;
+                let quoteSegment = '';
 
                 for (var i = 0; i < fts_shortcode.length; i++) {
-                    var char = fts_shortcode[i];
+                    let char = fts_shortcode[i];
 
                     if (char === '"' || char === "'") {
                         if (inQuotes) {
@@ -619,14 +619,14 @@ function fts_check_valid() {
                     }
                 }
 
-                var fts_shortcode_fix = result;
+                let fts_shortcode_fix = result;
                 //console.log( fts_shortcode_fix );
                 // return;
                 // take shortcode and extract any spaces that surround a shortcode value. ie padding="20px 10px" end result looks like 20px*10px
 
-                var fts_final1 = fts_shortcode_fix.replace("fts_twitter", "").replace("[ ", "").replace("]", "").split( " " );
-                var fts_final2 = Array.from( fts_final1 );
-                let text = "";
+                const fts_final1 = fts_shortcode_fix.replace("fts_twitter", "").replace("[ ", "").replace("]", "").split( " " );
+                const fts_final2 = Array.from( fts_final1 );
+                // let text = "";
                 // text +=  item.substring(0, item.indexOf("=")) + '=' + item.substring(item.indexOf("=") + 1) + "<br>";
 
                 // The Combined shortcode is a little more tricky because we load up all the access tokens with ajax at once.
@@ -672,9 +672,9 @@ function fts_check_valid() {
 
                 function myFunction(item, index) {
 
-                    var attribute_id = '#' + item.substring(0, item.indexOf("=") );
-                    var attribute = item.substring(0, item.indexOf("=") );
-                    var value =   item.substring(item.indexOf("=") + 1).replace(/\*/g, " ");
+                    let attribute_id = '#' + item.substring(0, item.indexOf("=") );
+                    let attribute = item.substring(0, item.indexOf("=") );
+                    let value =   item.substring(item.indexOf("=") + 1).replace(/\*/g, " ");
 
                     // alert( value );
                     // alert( '#' + item.substring(0, item.indexOf("=") ) );
@@ -683,59 +683,59 @@ function fts_check_valid() {
 
                         $( '#feed_type option[value=twitter-feed-type]' ).attr('selected','selected');
 
-                        var id = '#ftg-tab-content7 ';
+                        let id = '#ftg-tab-content7 ';
 
-                        if( 'yes' == value ){
-                            if ( 'popup' == attribute ){
+                        if( 'yes' === value ){
+                            if ( 'popup' === attribute ){
                                 //alert( 'test' );
                                 $( id + '#tiktok_popup_option option[value=yes]' ).attr('selected','selected');
                             }
-                            else if ( 'grid' == attribute ){
+                            else if ( 'grid' === attribute ){
                                 //alert( 'test' );
                                 $( id + '#tiktok-grid-option option[value=yes]' ).attr('selected','selected');
                                 $( id + '.fts-twitter-grid-options-wrap' ).show();
                             }
-                            else if ( 'cover_photo' == attribute ){
+                            else if ( 'cover_photo' === attribute ){
                                 //alert( 'test' );
                                 $( id + '#twitter-cover-photo option[value=yes]' ).attr('selected','selected');
                             }
-                            else if ( 'stats_bar' == attribute ){
+                            else if ( 'stats_bar' === attribute ){
                                 $( '#twitter-stats-bar' ).val( value );
                             }
-                            else if ( 'show_retweets' == attribute ){
+                            else if ( 'show_retweets' === attribute ){
                                 $( '#twitter-show-retweets' ).val( value );
                             }
-                            else if ( 'show_replies' == attribute ){
+                            else if ( 'show_replies' === attribute ){
                                 $( '#twitter-show-replies' ).val( value );
                             }
                         }
-                        else if (  'search' == attribute ) {
+                        else if (  'search' === attribute ) {
                             $( id + '#twitter-messages-selector option[value=hashtag]' ).attr('selected','selected');
                             $( id + '.twitter-hashtag-etc-wrap' ).css('display', 'inline-block');
                             $( '#twitter_hashtag_etc_name' ).val( value );
                         }
-                        else if ( 'loadmore' == attribute ){
+                        else if ( 'loadmore' === attribute ){
                             // alert( 'test' );
-                            if ( 'autoscroll' == value ){
+                            if ( 'autoscroll' === value ){
                                 $( id + '#tiktok_load_more_style option[value=autoscroll]' ).attr('selected','selected');
                             }
                             $( id + '#tiktok_load_more_option option[value=yes]' ).attr('selected','selected');
                             $( id + '.fts-twitter-load-more-options-wrap, .fts-twitter-load-more-options2-wrap' ).show();
                         }
                         else {
-                            if( 'loadmore_btn_margin' == attribute ){
+                            if( 'loadmore_btn_margin' === attribute ){
                                 $( '#tiktok_loadmore_button_margin' ).val( value );
                             }
-                            else if ( 'loadmore_btn_maxwidth' == attribute ){
+                            else if ( 'loadmore_btn_maxwidth' === attribute ){
                                 $( '#tiktok_loadmore_button_width' ).val( value );
                             }
-                            else if ( 'loadmore_count' == attribute ){
+                            else if ( 'loadmore_count' === attribute ){
                                 $( '#twitter_loadmore_count' ).val( value );
                             }
-                            else if ( 'colmn_width' == attribute ){
+                            else if ( 'colmn_width' === attribute ){
                                 $( '#tiktok_grid_column_width' ).val( value );
                             }
-                            else if ( 'space_between_posts' == attribute ){
+                            else if ( 'space_between_posts' === attribute ){
                                 $( '#tiktok_grid_space_between_posts' ).val( value );
                             }
                             else {
@@ -748,7 +748,7 @@ function fts_check_valid() {
 
                         $( '#feed_type option[value=facebook-feed-type]' ).attr('selected','selected');
 
-                        var id = '#ftg-tab-content6 ';
+                        let id = '#ftg-tab-content6 ';
 
                         if ( 'type' == attribute ) {
                             $( id + '#facebook_page_feed_type option[value='+ value +']' ).attr('selected','selected');
@@ -942,7 +942,7 @@ function fts_check_valid() {
 
                         $( '#feed_type option[value=youtube-feed-type]' ).attr('selected','selected');
 
-                        var id = '#ftg-tab-content8 ';
+                        let id = '#ftg-tab-content8 ';
 
                         if( 'yes' == value ){
                             if ( 'grid' == attribute ){
@@ -1036,7 +1036,7 @@ function fts_check_valid() {
 
                         // $( '#feed_type option[value=instagram-feed-type], #feed_type option[value=instagram-business-feed-type]' ).attr('selected','selected');
 
-                        var id = '#ftg-tab-content5 ';
+                        let id = '#ftg-tab-content5 ';
 
                         if( 'yes' == value ){
                             if ( 'grid' == attribute ){
@@ -1145,8 +1145,6 @@ function fts_check_valid() {
                     if( fts_shortcode_fix.includes("fts_mashup") ){
 
                         $( '#feed_type option[value=combine-streams-feed-type]' ).attr('selected','selected');
-
-                        var id = '#ftg-tab-content9 ';
 
                         if( 'yes' == value ){
                             if ( 'grid' == attribute ){
@@ -1282,7 +1280,7 @@ function fts_check_valid() {
         );
 
         // once the page reloads we show the Success, Shortcode Converted Message.
-        var shortcodeConverted = window.location.hash.replace('#', '');
+        const shortcodeConverted = window.location.hash.replace('#', '');
 
         if ( shortcodeConverted === 'fts-convert-old-shortcode' ) {
             // Save all the options and show the success message
@@ -1304,7 +1302,7 @@ function fts_check_valid() {
         }
 
         // DOM Caching
-        var elements =  {
+        let elements =  {
             box    : $('.updatefrombottom'),
             heart  : $('#jsc-heart'),
             update  : $('.updatefrombottom .button-primary'),
@@ -1336,11 +1334,11 @@ function fts_check_valid() {
         });
 
         $.fn.isInViewport = function() {
-            var elementTop = $(this).offset().top;
-            var elementBottom = elementTop + $(this).outerHeight();
+            let elementTop = $(this).offset().top;
+            const elementBottom = elementTop + $(this).outerHeight();
 
-            var viewportTop = $(window).scrollTop();
-            var viewportBottom = viewportTop + $(window).height();
+            let viewportTop = $(window).scrollTop();
+            const viewportBottom = viewportTop + $(window).height();
 
             return elementBottom > viewportTop && elementTop < viewportBottom;
         };
@@ -1379,10 +1377,10 @@ function fts_check_valid() {
             event.preventDefault();
 
             // Grab the url so we can do stuff.
-            var url_string = window.location.href;
-            var url = new URL(url_string);
-            var cpt_id = url.searchParams.get("post");
-            var cpt_import_val = $('#fts-import-export-feed-options-side-mb .fts-import-feed-widget-wrap input').val();
+            const url_string = window.location.href;
+            const url = new URL(url_string);
+            const cpt_id = url.searchParams.get("post");
+            const cpt_import_val = $('#fts-import-export-feed-options-side-mb .fts-import-feed-widget-wrap input').val();
 
             try {
                 // Make sure this is valid JSON before proceeding.
@@ -1433,9 +1431,9 @@ function fts_check_valid() {
 
 function import_export_ajax_content( buttonClick ) {
     // Grab the url so we can do stuff.
-    var url_string = window.location.href;
-    var url = new URL( url_string );
-    var cpt_id = url.searchParams.get("post");
+    const url_string = window.location.href;
+    const url = new URL( url_string );
+    const cpt_id = url.searchParams.get("post");
 
     jQuery.ajax({
         data: {
@@ -1470,7 +1468,7 @@ function fts_beacon_support_click() {
 if( jQuery('.post-type-fts').length ) {
     !function (e, t, n) {
         function a() {
-            var e = t.getElementsByTagName("script")[0], n = t.createElement("script");
+            let e = t.getElementsByTagName("script")[0], n = t.createElement("script");
             n.type = "text/javascript", n.async = !0, n.src = "https://beacon-v2.helpscout.net", e.parentNode.insertBefore(n, e)
         }
         if (e.Beacon = n = function (t, n, a) {
@@ -1509,7 +1507,7 @@ if( jQuery('.post-type-fts').length ) {
 
         //console.log( JSON.parse( response ) );
 
-        var data = JSON.parse( response );
+        let data = JSON.parse( response );
 
         const systemInfo = data.system_info ?? '';
         const importExportOptions = data.feed_options ?? '';

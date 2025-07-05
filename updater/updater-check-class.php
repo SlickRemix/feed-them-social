@@ -13,7 +13,9 @@
 namespace feedthemsocial;
 
 // Exit if accessed directly
-if (!defined('ABSPATH')) exit;
+if (!\defined('ABSPATH')) {
+    exit;
+}
 
 /**
  * Allows plugins to use their own update API.
@@ -132,7 +134,7 @@ class updater_check_class {
         $plugin_folder_name = explode('/', $plugs);
 
 
-        require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+        require_once ABSPATH . '/wp-admin/includes/plugin.php';
         $plugins = get_plugins();
         foreach ($plugins as $plugin_file => $plugin_info) {
             if (strpos($plugin_file, $plugin_folder_name[0]) !== false) {

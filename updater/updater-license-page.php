@@ -495,19 +495,19 @@ class updater_license_page {
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
             } else {
-                $message = __('An error occurred, please try again.', 'feed-them-social');
+                $message = $this->get_generic_error_message();
             }
 
         } else {
             $license_data = json_decode(wp_remote_retrieve_body($response));
 
-            if (false == $license_data->success) {
+            if ( $license_data->success === false ) {
 
                 switch ($license_data->error) {
 
                     case 'expired' :
 
-                        $message = sprintf(
+                        $message = \sprintf(
                             __('Your license key expired on %s.', 'feed-them-social'),
                             date_i18n(get_option('date_format'), strtotime($license_data->expires, time()))
                         );
@@ -539,8 +539,7 @@ class updater_license_page {
                         break;
 
                     default :
-
-                        $message = __('An error occurred, please try again.', 'feed-them-social');
+                        $message = $this->get_generic_error_message();
                         break;
                 }
             }
@@ -598,7 +597,7 @@ class updater_license_page {
             if (is_wp_error($response)) {
                 $message = $response->get_error_message();
             } else {
-                $message = __('An error occurred, please try again.', 'feed-them-social');
+                $message = $this->get_generic_error_message();
             }
         }
 
@@ -645,6 +644,17 @@ class updater_license_page {
                     break;
             }
         }
+    }
+
+    /**
+     * Get Generic Error Message
+     *
+     * Returns a generic, translatable error message string.
+     *
+     * @return string
+     */
+    private function get_generic_error_message(): string {
+        return __( 'An error occurred, please try again.', 'feed-them-social' );
     }
 
 }//End CLASS

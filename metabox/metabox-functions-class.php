@@ -350,7 +350,7 @@ class Metabox_Functions {
                     // These next 2 options where added for the Main Options and Additional Options sub tabs under each feed.
                     'mainoptions'                    => esc_html__( 'Settings', 'feed-them-social' ),
                     'additionaloptions'              => esc_html__( 'Styles', 'feed-them-social' ),
-                    'additionalSettings'             => sprintf( esc_html__( 'View Additional %1$sGlobal Options%2$s', 'feed-them-social' ),
+                    'additionalSettings'             => \sprintf( esc_html__( 'View Additional %1$sGlobal Options%2$s', 'feed-them-social' ),
                         '<a href="edit.php?post_type=fts&amp;page=fts-settings-page" target="_blank">',
                         '</a>'
                     ),
@@ -756,6 +756,8 @@ class Metabox_Functions {
                             case 'youtube_custom_access_token':
                                 $check_encrypted = false !== $this->data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
                                 break;
+                            default:
+                                break;
                         }
 
                         // Check if field needs to be set to 'disabled'.
@@ -765,7 +767,7 @@ class Metabox_Functions {
                         switch ($option['option_type']) {
                             // Input Field.
                             case 'input':
-                                $output .= sprintf(
+                                $output .= \sprintf(
                                 // Any changes to fields here must be added to list of wp_kses list on output return below.
                                     '<input type="%s" name="%s" id="%s" class="feed-them-social-admin-input%s" placeholder="%s" value="%s" %s%s%s/>',
                                     $option['type'],
@@ -789,7 +791,7 @@ class Metabox_Functions {
                                     $multiple = ' multiple';
                                     $option_name = $option_name . '[]';
                                 }
-                                $output .= sprintf(
+                                $output .= \sprintf(
                                 // Any changes to fields here must be added to list of wp_kses list on output return below.
                                     '<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
                                     $disabled,
@@ -805,12 +807,12 @@ class Metabox_Functions {
 
                                     if ( 'select_multi' == $option['option_type'] ) {
                                         $final_value = !is_array( $final_value ) ? array($final_value) : $final_value;
-                                        $selected = in_array( $select_option['value'], $final_value ) ? ' selected="selected"' : '';
-                                    } elseif ( !empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ) {
-                                        $selected = ' selected="selected"';
+                                        $selected = in_array( $select_option['value'], $final_value ) ? $this->get_selected_attribute_string() : '';
+                                    } elseif ( !empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && $i === 0 ) {
+                                        $selected = $this->get_selected_attribute_string();
                                     }
 
-                                    $output .= sprintf(
+                                    $output .= \sprintf(
                                         '<option value="%s"%s>%s</option>',
                                         $select_option['value'],
                                         $selected,
@@ -825,7 +827,7 @@ class Metabox_Functions {
                             // Select Option Specific to the Facebook Language Option
 							case 'select_fb_language':
 
-								$output .= sprintf(
+								$output .= \sprintf(
 								// Any changes to fields here must be added to list of wp_kses list on output return below.
 									'<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
 									$disabled,
@@ -847,7 +849,7 @@ class Metabox_Functions {
 
 										// $selected = ' selected="'.$language->codes->code->standard->representation .'"';
 										if ( !empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
-											$selected = ' selected="selected"';
+											$selected = $this->get_selected_attribute_string();
 										}
 
 										$output .= '<option ' . $selected . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
@@ -857,35 +859,13 @@ class Metabox_Functions {
 									}
 								}
 
-
-                                /*$i = 0;
-                                foreach ( $option['options'] as $select_option ) {
-                                    $selected = '';
-
-                                    if ( 'select_multi' == $option['option_type'] )  {
-                                        $final_value = ! is_array( $final_value ) ? array( $final_value ) : $final_value;
-                                        $selected    = in_array( $select_option['value'], $final_value ) ? ' selected="selected"' : '';
-                                    } elseif ( ! empty( $final_value ) && $final_value === $select_option['value'] || empty( $final_value ) && 0 === $i ) {
-                                        $selected = ' selected="selected"';
-                                    }
-
-                                    $output .= sprintf(
-                                        '<option value="%s"%s>%s</option>',
-                                        $select_option['value'],
-                                        $selected,
-                                        $select_option['label']
-                                    );
-                                    $i++;
-                                }*/
-
-
                                 $output .= '</select>';
 
                                 break;
 
                             // Checkbox Field.
                             case 'checkbox':
-                                $output .= sprintf(
+                                $output .= \sprintf(
                                 // Any changes to fields here must be added to list of wp_kses list on output return below.
                                     '<input type="checkbox" name="%s" id="%s"%s%s/>',
                                     $option_name,
@@ -893,6 +873,8 @@ class Metabox_Functions {
                                     checked( 'true', $final_value, false ),
                                     $disabled
                                 );
+                                break;
+                            default:
                                 break;
                         }
                     }
@@ -910,12 +892,12 @@ class Metabox_Functions {
                             if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_premium' &&
                                 'feed_them_social_facebook_reviews' === $option['req_extensions'][1] ) {
 
-                                $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+                                $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
                                     $this->prem_extension_list[$req_extension]['purchase_url'],
-                                    'Premium Required'
+                                    $this->get_premium_required_message()
                                 );
                                 $output .= 'or';
-                                $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+                                $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
                                     $this->prem_extension_list[$option['req_extensions'][1]]['purchase_url'],
                                     'Reviews Required'
                                 );
@@ -924,9 +906,9 @@ class Metabox_Functions {
 
 							if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_tiktok_premium' ) {
 
-								$output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+								$output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
 									$this->prem_extension_list[$req_extension]['purchase_url'],
-									'TikTok Premium Required'
+									'TikTok ' . $this->get_premium_required_message()
 								);
 								break;
 							}
@@ -934,12 +916,12 @@ class Metabox_Functions {
                             if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_premium' &&
                                 'feed_them_social_instagram_slider' === $option['req_extensions'][1] ) {
 
-                                $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+                                $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
                                     $this->prem_extension_list[$req_extension]['purchase_url'],
-                                    'Premium Required'
+                                    $this->get_premium_required_message()
                                 );
                                 $output .= 'or';
-                                $output .= sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+                                $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
                                     $this->prem_extension_list[$option['req_extensions'][1]]['purchase_url'],
                                     'Instagram Slider Required'
                                 );
@@ -948,7 +930,7 @@ class Metabox_Functions {
 
                             switch ($this->prem_extension_list[$req_extension]['title']) {
                                 case 'Feed Them Social Premium':
-                                    $title_change = 'Premium Required';
+                                    $title_change = $this->get_premium_required_message();
                                     break;
                                 case 'Feed Them Social Instagram Slider':
                                     $title_change = 'Instagram Slider Required';
@@ -963,11 +945,13 @@ class Metabox_Functions {
                                     $title_change = 'Combined Streams Required';
                                     break;
 								case 'Feed Them Social TikTok Premium':
-									$title_change = 'TikTok Premium Required';
+									$title_change = 'TikTok ' . $this->get_premium_required_message();
 									break;
+                                default:
+                                    break;
                             }
 
-                            $output .= sprintf( '<a class="feed-them-social-req-extension" target="_blank" href="%s">%s</a>',
+                            $output .= \sprintf( '<a class="feed-them-social-req-extension" target="_blank" href="%s">%s</a>',
                                 $this->prem_extension_list[$req_extension]['purchase_url'],
                                 $title_change
                             );
@@ -1263,5 +1247,28 @@ class Metabox_Functions {
             });
         </script>
         <?php
+    }
+    /**
+     * Get Premium Required Message
+     *
+     * Returns a "Premium Required" message string.
+     *
+     * @return string
+     * @since 4.0.0
+     */
+    private function get_premium_required_message(): string {
+        return __( 'Premium Required', 'feed-them-social' );
+    }
+
+    /**
+     * Get Selected Attribute String
+     *
+     * Returns the ' selected="selected"' string for form elements.
+     *
+     * @return string
+     * @since 4.0.0
+     */
+    private function get_selected_attribute_string(): string {
+        return ' selected="selected"';
     }
 }

@@ -11,8 +11,9 @@
 namespace feedthemsocial;
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! \defined( 'ABSPATH' ) ) {
     exit;
+}
 
 /**
  * Option Functions Class.

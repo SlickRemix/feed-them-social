@@ -179,10 +179,10 @@ class Youtube_Feed {
             $thumbs_play_iframe = $saved_feed_options['youtube_play_thumbs'];
 
             if( $saved_feed_options['youtube_feed_type'] === 'singleID' && !empty( $saved_feed_options['youtube_singleVideoID'] ) ){
-                $wrap = isset( $saved_feed_options['youtube_comments_wrap'] ) ? $saved_feed_options['youtube_comments_wrap'] : '';
+                $wrap = $saved_feed_options['youtube_comments_wrap'] ?? '';
             }
             else {
-                $wrap = isset( $saved_feed_options['youtube_thumbs_wrap'] ) ? $saved_feed_options['youtube_thumbs_wrap'] : '';
+                $wrap = $saved_feed_options['youtube_thumbs_wrap'] ?? '';
             }
 
 
@@ -190,18 +190,18 @@ class Youtube_Feed {
                 $vid_count = 6;
                 $saved_feed_options['youtube_comments_count'] = '0';
             }
-            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'yes' === $saved_feed_options['youtube_play_thumbs'] ) {
+            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['youtube_play_thumbs'] === 'yes' ) {
                 $popup          = 'no';
                 // Thumb clicks play in iframe.
                 $thumbs_play_iframe = 'yes';
             }
-            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && 'popup' === $saved_feed_options['youtube_play_thumbs'] ) {
+            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $saved_feed_options['youtube_play_thumbs'] === 'popup' ) {
 
                 $popup                 = 'yes';
                 $saved_feed_options['youtube_play_thumbs'] = 'yes';
 
                 $fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
-                if ( isset( $fts_fix_magnific ) && '1' !== $fts_fix_magnific ) {
+                if ( isset( $fts_fix_magnific ) && $fts_fix_magnific !== '1' ) {
                     wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
                 }
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
@@ -255,7 +255,7 @@ class Youtube_Feed {
             // Default Omit First Thumb to false.
 	        $omit_first_thumb = true;
 	        // If omit_first_thumbnail is set to yes then we make sure and skip the first iteration in the loop.
-            if ( 'yes' === $saved_feed_options['youtube_omit_first_thumbnail'] ) {
+            if ( $saved_feed_options['youtube_omit_first_thumbnail'] === 'yes' ) {
 	            $omit_first_thumb = false;
                 $vid_count++;
             }
@@ -298,13 +298,13 @@ class Youtube_Feed {
                     $user_returned = $this->feed_functions->use_cache_check( $youtube_user_id_data, $user_cache_name, 'youtube' );
 
                     // If the YT User returned is not empty and is an array.
-                    if ( ! empty( $user_returned ) && is_array( $user_returned ) ) {
+                    if ( ! empty( $user_returned ) && \is_array( $user_returned ) ) {
 
                         // Decode User's data.
                         $user_returned = json_decode( $user_returned['data'] );
 
                         // error_log( print_r( $user_returned, true ) );
-                        if ( is_object( $user_returned ) && isset( $user_returned->items ) ) {
+                        if ( \is_object( $user_returned ) && isset( $user_returned->items ) ) {
                             // User Playlist ID!
                             $user_playlist_id = !empty( $user_returned->items[0]->contentDetails->relatedPlaylists->uploads ) ? $user_returned->items[0]->contentDetails->relatedPlaylists->uploads : '';
 
@@ -476,26 +476,26 @@ class Youtube_Feed {
                 echo '<div id="fts-yt-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="' . esc_attr( $thumbgallery_class_master . 'fts-master-youtube-wrap fts-yt-videogroup fts-yt-user-' . esc_attr( $youtube_name ) . ' fts-yt-vids-in-row' . esc_attr( $saved_feed_options['youtube_columns'] ) ) . '">';
                 echo '<div id="fts-yt-videolist-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" class="fts-yt-videolist">';
 
-                if ( isset( $videos->items ) &&  ( 'yes' === $saved_feed_options['youtube_first_video'] || '1' === $saved_feed_options['youtube_columns'] ) ) {
+                if ( isset( $videos->items ) &&  ( $saved_feed_options['youtube_first_video'] === 'yes' || $saved_feed_options['youtube_columns'] === '1') ) {
                     foreach ( $videos->items as $post_data ) {
                         // we check to make sure no playlist video kinds are in the array ($post_data->id->kind !== 'youtube#playlist') because they return a blank video in the channel feed because youtube is simply adding it to the array for youtube not thinking of the API in this case it would seem.
-                        $video_check = isset( $post_data->id->kind ) && 'youtube#playlist' === $post_data->id->kind ? 'set' : 'notset';
-                        if ( 'set' !== $video_check ) {
-                            $second_video_margin_btm = 'yes' === $saved_feed_options['youtube_large_vid_title'] && 'yes' !==  $saved_feed_options['youtube_large_vid_description'] ? 'fts-youtube-second-video-margin-btm' : '';
+                        $video_check = isset( $post_data->id->kind ) && $post_data->id->kind === 'youtube#playlist' ? 'set' : 'notset';
+                        if ( $video_check !== 'set' ) {
+                            $second_video_margin_btm = $saved_feed_options['youtube_large_vid_title'] === 'yes' && $saved_feed_options['youtube_large_vid_description'] !== 'yes' ? 'fts-youtube-second-video-margin-btm' : '';
 
                             echo '<div class="fts-yt-large' . esc_attr( $wrap . ' ' . $second_video_margin_btm ) . '">';
                             echo '<div class="fts-yt-first-video">';
 
-                            if ( 'yes' === $saved_feed_options['youtube_large_vid_title'] ) {
+                            if ( $saved_feed_options['youtube_large_vid_title'] === 'yes' ) {
                                 echo '<h2>' . esc_html( $this->fts_youtube_title( $post_data ) ) . '</h2>';
                             }
                             // URL for the video is escaped in this function.
                             echo $this->fts_youtube_video_and_wrap( $post_data, $saved_feed_options['youtube_feed_type'] );
 
                             $youtube_description   = $this->fts_youtube_tag_filter( $this->fts_youtube_description( $post_data ) );
-                             $saved_feed_options['youtube_large_vid_description'] = 'yes' ===  $saved_feed_options['youtube_large_vid_description'] ?  $saved_feed_options['youtube_large_vid_description'] : '';
+                             $saved_feed_options['youtube_large_vid_description'] = $saved_feed_options['youtube_large_vid_description'] === 'yes' ?  $saved_feed_options['youtube_large_vid_description'] : '';
 
-                            if ( 'yes' ===  $saved_feed_options['youtube_large_vid_description'] ) {
+                            if ( $saved_feed_options['youtube_large_vid_description'] === 'yes' ) {
                                 echo '<p>' . wp_kses(
                                     $youtube_description,
                                     array(
@@ -514,20 +514,20 @@ class Youtube_Feed {
                             echo '</div>';
                             echo '</div>';
                             // && $saved_feed_options['youtube_large_vid_title'] !== 'yes' &&  $saved_feed_options['youtube_large_vid_description'] !== 'yes'  are all about being set and if so they we show the oldschool 1 video with title and description format
-                            if ( 'yes' !== $saved_feed_options['youtube_play_thumbs'] && 'yes' !== $saved_feed_options['youtube_large_vid_title'] && 'yes' !==  $saved_feed_options['youtube_large_vid_description'] || 'no' !== $saved_feed_options['youtube_play_thumbs'] ) {
+                            if ( $saved_feed_options['youtube_play_thumbs'] !== 'yes' && $saved_feed_options['youtube_large_vid_title'] !== 'yes' && $saved_feed_options['youtube_large_vid_description'] !== 'yes' || $saved_feed_options['youtube_play_thumbs'] !== 'no' ) {
                                 // we stop the foreach loop here because we only want the first video in the loop!
                                 break;
                             }
                         }
                     }
                 }
-	            
+
                 $columns        =  $saved_feed_options['youtube_columns'] ?? '';
                 $columns_tablet =  $saved_feed_options['youtube_columns_tablet'] ?? '';
                 $columns_mobile =  $saved_feed_options['youtube_columns_mobile'] ?? '';
                 $saved_feed_options['youtube_force_columns'] = isset( $saved_feed_options['youtube_force_columns'] ) ? $saved_feed_options['youtube_force_columns'] . '" ' : 'no';
 
-                $saved_feed_options['youtube_container_margin'] = isset( $saved_feed_options['youtube_container_margin'] ) && '' !== $saved_feed_options['youtube_container_margin'] ? $saved_feed_options['youtube_container_margin'] : '1px';
+                $saved_feed_options['youtube_container_margin'] = isset( $saved_feed_options['youtube_container_margin'] ) && $saved_feed_options['youtube_container_margin'] !== '' ? $saved_feed_options['youtube_container_margin'] : '1px';
 
                 $thumbs_wrap_color_final  = isset( $saved_feed_options['youtube_thumbs_wrap_color']) ? 'background:' . $saved_feed_options['youtube_thumbs_wrap_color']. '!important' : '';
                 $thumbs_wrap_color_scroll = isset( $saved_feed_options['youtube_thumbs_wrap_color']) ? 'background:' . $saved_feed_options['youtube_thumbs_wrap_color'] : '';
@@ -535,16 +535,12 @@ class Youtube_Feed {
                 if ( ! empty( $saved_feed_options['youtube_singleVideoID'] ) && $saved_feed_options['youtube_feed_type'] === 'singleID' ) {
                     echo '<div id="fts-yt-large-' . esc_attr( $saved_feed_options['youtube_singleVideoID'] ) . '" class="fts-yt-large' . esc_attr( $wrap ) . '">';
                     echo '<div class="fts-yt-first-video">';
-                    echo '<div class="fts-fluid-videoWrapper">';
-
-                    echo '<iframe src="' . esc_url( $ssl . '://www.youtube.com/embed/' . $saved_feed_options['youtube_singleVideoID'] . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=0 ' ) . '" frameborder="0" allowfullscreen></iframe>';
-
-                    echo '</div>';
+                    echo $this->build_youtube_iframe( $saved_feed_options['youtube_singleVideoID'] );
                     echo '</div>';
                     echo '</div>';
 
                 } elseif ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! empty( $wrap ) ) {
-                    $set_comments_height = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && '' !== $wrap ? 'youtube-comments-wrap-premium ' : '';
+                    $set_comments_height = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $wrap !== '' ? 'youtube-comments-wrap-premium ' : '';
                     echo '<div class="' . esc_attr( $set_comments_height ) . 'youtube-comments-wrap' . esc_attr( $wrap ) . ' youtube-comments-thumbs"  id="fts-yt-comments"></div>';
                 }
 
@@ -561,9 +557,9 @@ class Youtube_Feed {
 
                     $youtube_video_url = 'https://www.youtube.com/watch?v=' . $saved_feed_options['youtube_singleVideoID'];
 
-                    $set_comments_height = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && '' !== $wrap ? 'youtube-comments-wrap-premium ' : '';
+                    $set_comments_height = is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && $wrap !== '' ? 'youtube-comments-wrap-premium ' : '';
 
-                    if ( 'right' !== $wrap || 'left' !== $wrap ) {
+                    if ( $wrap !== 'right' || $wrap !== 'left' ) {
                         echo '<div class="fts-youtube-noscroll">';
                     }
 
@@ -572,16 +568,16 @@ class Youtube_Feed {
                     $this->fts_youtube_single_video_info( $saved_feed_options['youtube_singleVideoID'], $youtube_api_key_or_token );
 
                     echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
-                    echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
+                    echo $this->get_view_on_youtube_link( $youtube_video_url );
 
                     // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions granted to view comments.
-                    if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
+                    if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                         $this->fts_youtube_commentThreads( $saved_feed_options['youtube_singleVideoID'], $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                     }
 
                     echo '</div>';
 
-                    if ( 'right' !== $wrap || 'left' !== $wrap ) {
+                    if ( $wrap !== 'right' || $wrap !== 'left' ) {
                         echo '</div>';
                     }
 
@@ -589,7 +585,7 @@ class Youtube_Feed {
 
                 }
             }
-            if ( '0' !== $saved_feed_options['youtube_columns'] && $saved_feed_options['youtube_feed_type'] !== 'singleID' && 'yes' !== $saved_feed_options['youtube_large_vid_title'] && 'yes' !==  $saved_feed_options['youtube_large_vid_description'] && isset( $videos->items ) ) {
+            if ( $saved_feed_options['youtube_columns'] !== '0' && $saved_feed_options['youtube_feed_type'] !== 'singleID' && $saved_feed_options['youtube_large_vid_title'] !== 'yes' && $saved_feed_options['youtube_large_vid_description'] !== 'yes' && isset( $videos->items ) ) {
 
                 $count = '0';
                 foreach ( $videos->items as $post_data ) {
@@ -602,16 +598,16 @@ class Youtube_Feed {
 
                     // print $omit_first_thumbnail;.
                     // This is the method to skip empty posts or posts that are simply about changing settings or other non important post types.
-                    if ( 'youtube#playlist' !== $kind ) {
+                    if ( $kind !== 'youtube#playlist' ) {
 
                         $user_name_href = 'https://www.youtube.com/channel/' . $post_data->snippet->channelId;
                         $date           = $this->feed_functions->fts_custom_date( $post_data->snippet->publishedAt, 'youtube' );
 
                         $thumbnail = $post_data->snippet->thumbnails->standard->url ?? $post_data->snippet->thumbnails->high->url;
 
-                        $saved_feed_options['youtube_maxres_thumbnail_images'] = isset( $saved_feed_options['youtube_maxres_thumbnail_images'] ) && '' !== $saved_feed_options['youtube_maxres_thumbnail_images'] ? $saved_feed_options['youtube_maxres_thumbnail_images'] : '';
+                        $saved_feed_options['youtube_maxres_thumbnail_images'] = isset( $saved_feed_options['youtube_maxres_thumbnail_images'] ) && $saved_feed_options['youtube_maxres_thumbnail_images'] !== '' ? $saved_feed_options['youtube_maxres_thumbnail_images'] : '';
 
-                        if ( isset( $post_data->snippet->thumbnails->maxres->url ) && 'yes' === $saved_feed_options['youtube_maxres_thumbnail_images'] ) {
+                        if ( isset( $post_data->snippet->thumbnails->maxres->url ) && $saved_feed_options['youtube_maxres_thumbnail_images'] === 'yes' ) {
                             $thumbnail = $post_data->snippet->thumbnails->maxres->url;
                         }
 
@@ -621,7 +617,7 @@ class Youtube_Feed {
                             $video_id = !empty( $post_data->id->videoId ) ? $post_data->id->videoId : '';
                         }
 
-                        $popup_set = isset( $wrap ) && '' !== $wrap && 'yes' === $saved_feed_options['youtube_play_thumbs'] || ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ? 'slicker-youtube-placeholder-' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) . ' ' : '';
+                        $popup_set = isset( $wrap ) && $wrap !== '' && $saved_feed_options['youtube_play_thumbs'] === 'yes' || ! is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ? 'slicker-youtube-placeholder-' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) . ' ' : '';
 
                         echo '<div class="' . esc_html( $popup_set ) . 'slicker-youtube-placeholder fts-youtube-' . esc_attr( $video_id ) . '" data-id="fts-youtube-id-' . esc_attr( $fts_dynamic_class_name ) . '" style="background-image:url(' . esc_url( $thumbnail ) . ')">';
 
@@ -637,7 +633,7 @@ class Youtube_Feed {
                             $youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
 
                             $href         = isset( $thumbs_play_iframe ) && $thumbs_play_iframe === 'yes' ? 'javascript:;' : esc_url( $youtube_video_url );
-                            $iframe_embed = '' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque';
+                            $iframe_embed = $this->build_youtube_iframe_url( $video_id, true );
                             $iframe       = isset( $thumbs_play_iframe ) && $thumbs_play_iframe === 'yes' ? ' fts-youtube-iframe-click' : '';
                             // escaping the $href above because one option is html and one is url raw.
                             echo '<a href="' . $href . '" rel="' . esc_url( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
@@ -663,9 +659,9 @@ class Youtube_Feed {
                                     )
                                 ) . '</div>';
                                 echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
-                                echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
+                                echo $this->get_view_on_youtube_link( $youtube_video_url );
                                 // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
-                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
+                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                                     $this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                                 }
                                 echo '</div>';
@@ -674,9 +670,9 @@ class Youtube_Feed {
 
                             $youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
 
-                            $href         = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? esc_html( 'javascript:;' ) : esc_url( $youtube_video_url );
-                            $iframe_embed = '' . $ssl . '://www.youtube.com/embed/' . $video_id . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=1&wmode=opaque';
-                            $iframe       = isset( $thumbs_play_iframe ) && 'yes' === $thumbs_play_iframe ? ' fts-youtube-iframe-click' : '';
+                            $href         = isset( $thumbs_play_iframe ) && $thumbs_play_iframe === 'yes' ? esc_html( 'javascript:;' ) : esc_url( $youtube_video_url );
+                            $iframe_embed = $this->build_youtube_iframe_url( $video_id, true );
+                            $iframe       = isset( $thumbs_play_iframe ) && $thumbs_play_iframe === 'yes' ? ' fts-youtube-iframe-click' : '';
                             // escaping the $href above because one option is html and one is url raw.
                             echo '<a href="' . $href . '" rel="' . esc_url( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
 
@@ -700,10 +696,10 @@ class Youtube_Feed {
                                     )
                                 ) . '</div>';
                                 echo $this->feed_functions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
-                                echo '<a href="' . esc_url( $youtube_video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
+                                echo $this->get_view_on_youtube_link( $youtube_video_url );
 
                                 // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
-                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && '0' !== $saved_feed_options['youtube_comments_count'] && !empty( $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
+                                if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty( $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                                     $this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                                 }
                                 echo '</div>';
@@ -726,22 +722,21 @@ class Youtube_Feed {
 
                 if ( ! empty( $saved_feed_options['youtube_name'] ) ) {
                     // now we parse the users uploaded vids ID and create the playlist.
-                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $vid_count . '&playlistId=' . $user_playlist_id . '&order=date&' . $youtube_api_key_or_token : '';
+                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_next_url( $videos->nextPageToken, $vid_count, $user_playlist_id, $youtube_api_key_or_token ) : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_channelID'] ) && empty( $saved_feed_options['youtube_playlistID'] ) ) {
                     $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_playlistID'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) && ! empty( $saved_feed_options['youtube_channelID'] ) ) {
-                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token : '';
+                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_next_url( $videos->nextPageToken, $vid_count, $saved_feed_options['youtube_playlistID'], $youtube_api_key_or_token ) : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_playlistID2'] ) || ! empty( $saved_feed_options['youtube_playlistID2'] ) && ! empty( $saved_feed_options['youtube_channelID2'] ) ) {
-                    $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/playlistItems?pageToken=' . $videos->nextPageToken . '&part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID2'] . '&order=date&' . $youtube_api_key_or_token : '';
-                }
-                else {
+                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_next_url( $videos->nextPageToken, $vid_count, $saved_feed_options['youtube_playlistID2'], $youtube_api_key_or_token ) : '';
+                } else {
                     $next_url = '';
                 }
 
-                if ( ! empty( $loadmore ) && 'yes' === $loadmore && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+                if ( ! empty( $loadmore ) && $loadmore === 'yes' && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
                     $loadmore_count = isset( $vid_count ) ? $vid_count * 2 : '25';
                     // we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
-                    $_REQUEST['next_url'] = ! empty( $loadmore ) && 'yes' === $loadmore ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
+                    $_REQUEST['next_url'] = ! empty( $loadmore ) && $loadmore === 'yes' ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
 
                     ?><script>
                         var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) ?>= "<?php echo  str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";
@@ -749,7 +744,7 @@ class Youtube_Feed {
                     <?php
                 }
                 // Make sure it's not ajaxing.
-                if ( ! isset( $_GET['load_more_ajaxing'] ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! empty( $loadmore ) && 'yes' === $loadmore) {
+                if ( ! isset( $_GET['load_more_ajaxing'] ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && ! empty( $loadmore ) && $loadmore === 'yes' ) {
                     $fts_dynamic_name       = sanitize_key( $_REQUEST['fts_dynamic_name'] );
                     $time                   = time();
                     $nonce                  = wp_create_nonce( $time . 'load-more-nonce' );
@@ -758,7 +753,7 @@ class Youtube_Feed {
                 <script>
                     jQuery(document).ready(function() {
 
-                    <?php if ( 'autoscroll' === $loadmore_type && 'yes' === $loadmore ) { ?>
+                    <?php if ( $loadmore_type === 'autoscroll' && $loadmore === 'yes' ) { ?>
                         // If =autoscroll in shortcode.
                         jQuery(".<?php echo esc_js( $fts_dynamic_class_name ) ?>").bind("scroll",function() {
 
@@ -843,7 +838,7 @@ class Youtube_Feed {
                             });// end of ajax().
                         return false;
                         // string $scrollMore is at top of this js script. exception for scroll option closing tag.
-                        <?php if ( 'autoscroll' === $loadmore_type && 'yes' === $loadmore ) { ?>
+                        <?php if ( $loadmore_type === 'autoscroll' && $loadmore === 'yes' ) { ?>
                                 };
                             }) // end of scroll ajax load.
                         <?php } else { ?>
@@ -854,7 +849,7 @@ class Youtube_Feed {
 
                 }//End Check.
                 // for gallery option play_video_in_iframe.
-                if ( 'yes' === $saved_feed_options['youtube_play_thumbs'] && ! isset( $_GET['load_more_ajaxing'] ) ) {
+                if ( $saved_feed_options['youtube_play_thumbs'] === 'yes' && ! isset( $_GET['load_more_ajaxing'] ) ) {
                     echo '<script>';
 
                     echo '  jQuery("#fts-yt-' . esc_js( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '").unbind().on("click", ".slicker-youtube-placeholder", function(event) {
@@ -908,14 +903,14 @@ class Youtube_Feed {
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                 echo '<div class="fts-clear"></div>';
                 if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) && isset( $loadmore_type ) &&
-                    'button' === $loadmore_type && 'yes' === $loadmore &&  $saved_feed_options['youtube_feed_type'] !== 'singleID' ) {
+                    $loadmore_type === 'button' && $loadmore === 'yes' &&  $saved_feed_options['youtube_feed_type'] !== 'singleID' ) {
 
                     echo '<div class="fts-youtube-load-more-wrapper">';
                     echo '<div id="loadMore_' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '" style="';
                     if ( ! empty( $loadmore_btn_maxwidth ) ) {
                         echo 'max-width:' . esc_attr( $loadmore_btn_maxwidth ) . ';';
                     }
-                    $loadmore_btn_margin = isset( $loadmore_btn_margin ) ? $loadmore_btn_margin : '20px';
+                    $loadmore_btn_margin = $loadmore_btn_margin ?? '20px';
                     echo 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $youtube_load_more_text ) . '</div>';
                     echo '</div>';
                 }
@@ -1121,44 +1116,14 @@ class Youtube_Feed {
 	}
 
 	/**
-	 * FTS YouTube Video and Wrap
-	 *
-	 * @param object $post_data post data.
-	 * @param string $username username.
-	 * @param string $playlist_id playlist id.
-	 * @since 1.9.6
-	 */
-	public function fts_youtube_video_and_wrap( $post_data, $feed_type ) {
-		$ssl = is_ssl() ? 'https' : 'http';
-
-        /*echo '<pre>';
-        echo print_r($post_data);
-        echo '</pre>';*/
-
-		if ( $feed_type === 'username' || $feed_type === 'userPlaylist' || $feed_type === 'playlistID' ) {
-            $youtube_video_user_or_playlist_url = !empty( $post_data->snippet->resourceId->videoId ) ? $post_data->snippet->resourceId->videoId : '';
-			$youtube_video_iframe = '<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( $ssl . '://www.youtube.com/embed/' . $youtube_video_user_or_playlist_url ) . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
-
-		}
-        else {
-            // This is a channel
-            $youtube_video_channel_url          = !empty( $post_data->id->videoId ) ? $post_data->id->videoId : '';
-			$youtube_video_iframe = '<div class="fts-fluid-videoWrapper"><iframe src="' . esc_url( $ssl . '://www.youtube.com/embed/' . $youtube_video_channel_url ) . '?wmode=transparent&HD=0&rel=0&showinfo=0&controls=1&autoplay=0" frameborder="0" allowfullscreen></iframe></div>';
-		}
-		return $youtube_video_iframe;
-	}
-
-
-	/**
 	 * YouTube Description
 	 *
 	 * @param object $post_data post data.
 	 * @return string
-	 * @since 1.9.6
+	 * @since 4.3.9
 	 */
 	public function fts_youtube_description( $post_data ) {
-		$pinterest_description = $post_data->snippet->description ?? '';
-		return $pinterest_description;
+        return $post_data->snippet->description ?? '';
 	}
 
 	/**
@@ -1166,10 +1131,119 @@ class Youtube_Feed {
 	 *
 	 * @param object $post_data post data.
 	 * @return string
-	 * @since 1.9.6
+	 * @since 4.3.9
 	 */
 	public function fts_youtube_title( $post_data ) {
-		$youtube_post_title = $post_data->snippet->title ?? '';
-		return $youtube_post_title;
+        return $post_data->snippet->title ?? '';
 	}
+
+    /**
+     * Build YouTube Playlist "Load More" URL.
+     *
+     * Constructs the complete URL for fetching the next page of playlist items.
+     *
+     * @param string $next_page_token The token for the next page of results.
+     * @param string $vid_count The number of videos to retrieve.
+     * @param string $playlist_id The ID of the YouTube playlist.
+     * @param string $api_key_or_token The API key or access token.
+     * @return string The fully constructed "Load More" API URL.
+     * @since 4.3.9
+     */
+    private function build_youtube_playlist_next_url( string $next_page_token, string $vid_count, string $playlist_id, string $api_key_or_token ): string {
+        $base_url = 'https://www.googleapis.com/youtube/v3/playlistItems';
+
+        $params = [
+            'pageToken'  => $next_page_token,
+            'part'       => 'snippet',
+            'maxResults' => $vid_count,
+            'playlistId' => $playlist_id,
+            'order'      => 'date',
+        ];
+
+        $query_string = http_build_query( $params, '', '&' );
+
+        return $base_url . '?' . $query_string . '&' . $api_key_or_token;
+    }
+
+    /**
+     * Get "View on YouTube" link.
+     *
+     * @param string $video_url The URL of the YouTube video.
+     * @return string The HTML for the link.
+     * @since 4.3.9
+     */
+    private function get_view_on_youtube_link( string $video_url ): string {
+        return '<a href="' . esc_url( $video_url ) . '" target="_blank" class="fts-jal-fb-see-more">' . esc_html__( 'View on YouTube', 'feed-them-premium' ) . '</a>';
+    }
+
+    /**
+     * Build YouTube Iframe URL.
+     *
+     * @param string $video_id The YouTube video ID.
+     * @param bool   $autoplay Whether to autoplay the video.
+     * @return string The URL for the YouTube iframe src.
+     * @since 4.3.9
+     */
+    private function build_youtube_iframe_url( string $video_id, bool $autoplay = false ): string {
+        $ssl = is_ssl() ? 'https' : 'http';
+        $params = [
+            'wmode'      => 'transparent',
+            'HD'         => '0',
+            'rel'        => '0',
+            'showinfo'   => '0',
+            'controls'   => '1',
+            'autoplay'   => $autoplay ? '1' : '0',
+        ];
+
+        // The wmode=opaque is added for some players.
+        if ($autoplay) {
+            $params['wmode'] = 'opaque';
+        }
+
+        return esc_url( $ssl . '://www.youtube.com/embed/' . $video_id . '?' . http_build_query( $params ) );
+    }
+
+    /**
+     * Build YouTube Iframe HTML.
+     *
+     * @param string $video_id The YouTube video ID.
+     * @param bool   $include_wrapper Whether to include the fts-fluid-videoWrapper div.
+     * @return string The HTML for the YouTube iframe.
+     * @since 4.3.9
+     */
+    private function build_youtube_iframe( string $video_id, bool $include_wrapper = true ): string {
+        $iframe_url = $this->build_youtube_iframe_url( $video_id, false );
+
+        $iframe = '<iframe src="' . $iframe_url . '" frameborder="0" allowfullscreen></iframe>';
+
+        if ( $include_wrapper ) {
+            return '<div class="fts-fluid-videoWrapper">' . $iframe . '</div>';
+        }
+
+        return $iframe;
+    }
+
+
+    /**
+     * FTS YouTube Video and Wrap
+     *
+     * @param object $post_data post data.
+     * @param string $username username.
+     * @param string $playlist_id playlist id.
+     * @since 1.9.6
+     */
+    public function fts_youtube_video_and_wrap( $post_data, $feed_type ): string {
+        if ( $feed_type === 'username' || $feed_type === 'userPlaylist' || $feed_type === 'playlistID' ) {
+            $video_id = $post_data->snippet->resourceId->videoId ?? '';
+        } else {
+            // This is a channel
+            $video_id = $post_data->id->videoId ?? '';
+        }
+
+        if ( ! empty( $video_id ) ) {
+            return $this->build_youtube_iframe( $video_id );
+        }
+
+        return '';
+    }
 }

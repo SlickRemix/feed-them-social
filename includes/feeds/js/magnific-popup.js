@@ -711,11 +711,13 @@
             e.each(function() {
                 const e = jQuery(this);
                 let o = "image";
+                let s = ""; // Declare s with a default value
                 if (e.hasClass("fts-jal-fb-vid-image") || e.hasClass("fts-view-fb-videos-btn")) {
                     o = "iframe";
                     const i = jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-fb-embed-iframe-check-used-for-popup").html();
-                    if (i) var s = i;
-                    else s = ""
+                    if (i) {
+                        s = i; // Re-assign s only if i exists
+                    }
                 } else s = "";
                 const a = {
                     src: e.attr("href"),

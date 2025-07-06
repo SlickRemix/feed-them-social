@@ -193,13 +193,10 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
             return;
         }
 
-        if ($this->current->nodeType == XML_TEXT_NODE || $this->current->nodeType == XML_CDATA_SECTION_NODE)
-        {
-            if ($this->offset == -1)
-            {
-                // fastest way to get individual Unicode chars and does not require mb_* functions
-                //preg_match_all('/./us',$this->current->textContent,$m); $this->words = $m[0];
-                $this->words = preg_split("/[\n\r\t ]+/", $this->current->textContent, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_OFFSET_CAPTURE);
+        // Use the helper function here
+        if ($this->isTextNode($this->current)) {
+            if ($this->offset == -1) {
+                $this->words = preg_split("/[\n\r\t ]+/", $this->current->textContent, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
             }
             $this->offset++;
 
@@ -210,18 +207,20 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
             $this->offset = -1;
         }
 
-        while($this->current->nodeType == XML_ELEMENT_NODE && $this->current->firstChild)
-        {
+        while ($this->current->nodeType == XML_ELEMENT_NODE && $this->current->firstChild) {
             $this->current = $this->current->firstChild;
-            if ($this->current->nodeType == XML_TEXT_NODE || $this->current->nodeType == XML_CDATA_SECTION_NODE) {
+            // Use the helper function here as well
+            if ($this->isTextNode($this->current)) {
                 return $this->next();
             }
         }
 
-        while(!$this->current->nextSibling && $this->current->parentNode)
-        {
+        while (!$this->current->nextSibling && $this->current->parentNode) {
             $this->current = $this->current->parentNode;
-            if ($this->current === $this->start) {$this->current = NULL; return;}
+            if ($this->current === $this->start) {
+                $this->current = null;
+                return;
+            }
         }
 
         $this->current = $this->current->nextSibling;
@@ -250,5 +249,15 @@ final class FeedThemSocialDOMWordsIterator implements Iterator {
         $this->offset = -1; $this->words = array();
         $this->current = $this->start;
         $this->next();
+    }
+
+    /**
+     * Checks if the current node is a text or CDATA node.
+     * @param \DOMNode $node The node to check.
+     * @return bool
+     */
+    private function isTextNode(\DOMNode $node): bool
+    {
+        return $node->nodeType === XML_TEXT_NODE || $node->nodeType === XML_CDATA_SECTION_NODE;
     }
 }

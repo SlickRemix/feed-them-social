@@ -335,7 +335,7 @@ class Youtube_Feed {
                     // I don't understand the section here.. Need to clean this up.
                    // echo '<br/>playlistID shortcode in use: ';
 
-                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID'] . '&order=date&' . $youtube_api_key_or_token ) );
+                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : $this->build_youtube_playlist_url($vid_count, $saved_feed_options['youtube_playlistID'], $youtube_api_key_or_token );
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                         // YouTube Playlist Cache Folder.
@@ -345,7 +345,7 @@ class Youtube_Feed {
 
                 elseif ( $saved_feed_options['youtube_feed_type'] === 'userPlaylist' && ! empty( $saved_feed_options['youtube_playlistID2'] )  ) {
 
-                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : sanitize_text_field( wp_unslash( 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=' . $vid_count . '&playlistId=' . $saved_feed_options['youtube_playlistID2'] . '&order=date&' . $youtube_api_key_or_token ) );
+                    $youtube_feed_api_url = isset( $_REQUEST['next_url'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['next_url'] ) ) : $this->build_youtube_playlist_url($vid_count, $saved_feed_options['youtube_playlistID2'], $youtube_api_key_or_token );
 
                     $user_playlist_id = $saved_feed_options['youtube_playlistID2'];
 
@@ -692,13 +692,13 @@ class Youtube_Feed {
 
                 if ( ! empty( $saved_feed_options['youtube_name'] ) ) {
                     // now we parse the users uploaded vids ID and create the playlist.
-                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_next_url( $videos->nextPageToken, $vid_count, $saved_feed_options['youtube_playlistID'], $youtube_api_key_or_token ) : '';
+                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_url( $vid_count, $saved_feed_options['youtube_playlistID'], $youtube_api_key_or_token, $videos->nextPageToken ) : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_channelID'] ) && empty( $saved_feed_options['youtube_playlistID'] ) ) {
                     $next_url = isset( $videos->nextPageToken ) ? 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_playlistID'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) && ! empty( $saved_feed_options['youtube_channelID'] ) ) {
-                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_next_url( $videos->nextPageToken, $vid_count, $saved_feed_options['youtube_playlistID'], $youtube_api_key_or_token ) : '';
+                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_url( $vid_count, $saved_feed_options['youtube_playlistID'], $youtube_api_key_or_token, $videos->nextPageToken ) : '';
                 } elseif ( ! empty( $saved_feed_options['youtube_playlistID2'] ) || ! empty( $saved_feed_options['youtube_playlistID2'] ) && ! empty( $saved_feed_options['youtube_channelID2'] ) ) {
-                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_next_url( $videos->nextPageToken, $vid_count, $saved_feed_options['youtube_playlistID2'], $youtube_api_key_or_token ) : '';
+                    $next_url = isset( $videos->nextPageToken ) ? $this->build_youtube_playlist_url( $vid_count, $saved_feed_options['youtube_playlistID2'], $youtube_api_key_or_token, $videos->nextPageToken ) : '';
                 } else {
                     $next_url = '';
                 }
@@ -1119,16 +1119,29 @@ class Youtube_Feed {
      * @return string The fully constructed "Load More" API URL.
      * @since 4.3.9
      */
-    private function build_youtube_playlist_next_url( string $next_page_token, string $vid_count, string $playlist_id, string $api_key_or_token ): string {
+    /**
+     * Build YouTube Playlist URL for the initial request or the next page.
+     *
+     * @param string      $vid_count        The number of videos to retrieve.
+     * @param string      $playlist_id      The ID of the YouTube playlist.
+     * @param string      $api_key_or_token The API key or access token.
+     * @param string|null $next_page_token  The token for the next page, if it exists.
+     * @return string The fully constructed API URL.
+     */
+    private function build_youtube_playlist_url( string $vid_count, string $playlist_id, string $api_key_or_token, ?string $next_page_token = null ): string {
         $base_url = 'https://www.googleapis.com/youtube/v3/playlistItems';
 
         $params = [
-            'pageToken'  => $next_page_token,
             'part'       => 'snippet',
             'maxResults' => $vid_count,
             'playlistId' => $playlist_id,
             'order'      => 'date',
         ];
+
+        // Conditionally add the page token to the parameters if it exists.
+        if ( ! empty( $next_page_token ) ) {
+            $params['pageToken'] = $next_page_token;
+        }
 
         $query_string = http_build_query( $params, '', '&' );
 

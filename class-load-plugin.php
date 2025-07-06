@@ -101,7 +101,7 @@ class Feed_Them_Social {
         new feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
 
         // System Info.
-        $system_info = new feedthemsocial\System_Info( $settings_functions, $feed_cache );
+        $system_info = new feedthemsocial\System_Info( $settings_functions, $feed_functions, $feed_cache );
 
         // Feed Options Import/Export.
         new feedthemsocial\Feed_Options_Import_Export( $feed_functions, $data_protection, $system_info );

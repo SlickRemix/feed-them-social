@@ -289,7 +289,7 @@ class Metabox_Functions {
             wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
 
             // Register Premium Styles & Scripts.
-            if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ) {
+            if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) || $this->feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
 
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );
@@ -301,12 +301,12 @@ class Metabox_Functions {
             }
 
             // Register Feed Them Carousel Scripts.
-            if ( is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) && is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+            if ( $this->feed_functions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
                 wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
             }
 
             // Register Feed Them Instagram Slider Scripts.
-            if ( is_plugin_active( 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php' ) ) {
+            if ( $this->feed_functions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
 
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );

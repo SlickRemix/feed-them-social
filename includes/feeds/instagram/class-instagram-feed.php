@@ -236,8 +236,8 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
             include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-            $fts_premium          = is_plugin_active( 'feed-them-premium/feed-them-premium.php' );
-            $fts_instagram_slider = is_plugin_active( 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php' );
+            $fts_premium          = $this->feed_functions->is_extension_active( 'feed_them_social_premium' );
+            $fts_instagram_slider = $this->feed_functions->is_extension_active( 'feed_them_social_instagram_slider' );
 
             // Saved Feed Options!
 		    $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );

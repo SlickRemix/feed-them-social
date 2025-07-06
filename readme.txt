@@ -126,6 +126,8 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 == Changelog ==
 = Version 4.3.9 Tuesday, July 1st, 2025 =
   * Remove: Twitter Code and Code Clean up.
+  * Remove: Convert Legacy Shortcode option.
+  * Remove: Convert Legacy Shortcode option.
 
 = Version 4.3.8 Wednesday, May 14th, 2025 =
   * Fix: Warning message for _load_textdomain_just_in_time()

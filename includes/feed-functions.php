@@ -104,7 +104,7 @@ class Feed_Functions {
         add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
         add_action( 'wp_ajax_fts_refresh_feed_ajax', array( $this, 'fts_refresh_feed_ajax' ) );
 
-        if ( is_admin() || is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) || is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) || is_plugin_active( 'fts-bar/fts-bar.php' ) ) {
+        if ( is_admin() || $this->is_extension_active( 'feed_them_social_premium' ) || $this->is_extension_active( 'feed_them_social_facebook_reviews' ) ) {
             // Load More Options.
             add_action( 'wp_ajax_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
             add_action( 'wp_ajax_nopriv_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );

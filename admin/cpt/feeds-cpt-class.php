@@ -132,7 +132,7 @@ class Feeds_CPT {
         $this->metabox_functions = $metabox_functions;
 
         // If Premium add Functionality!
-        if ( is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ) {
+        if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
             //Premium Features here.
             // Not being used atm
         }
@@ -264,7 +264,7 @@ class Feeds_CPT {
     private function isFeedThemPremiumActive() {
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        return is_plugin_active('feed-them-premium/feed-them-premium.php');
+        return $this->feed_functions->is_extension_active( 'feed_them_social_premium' );
     }
 
     /**
@@ -277,7 +277,7 @@ class Feeds_CPT {
     private function isFeedThemSocialInstagramSliderActive() {
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        return is_plugin_active('feed-them-social-instagram-slider/feed-them-social-instagram-slider.php');
+        return $this->feed_functions->is_extension_active( 'feed_them_social_instagram_slider' );
     }
 
     /**
@@ -295,7 +295,7 @@ class Feeds_CPT {
 
         // Set Feed CPT ID using _Get or _Post
         // Previous version that threw warning: $this->feed_cpt_id = (int) $current_get['post'] ?? $current_post['post'];
-        if ( 'fts' === $current_screen->post_type && 'post' === $current_screen->base && is_admin() && isset( $current_get['post'] ) ) {
+        if ( $current_screen->post_type === 'fts' && $current_screen->base === 'post' && is_admin() && isset( $current_get['post'] ) ) {
 
             // Add Custom Body Class.
             add_filter('admin_body_class', [$this, 'add_custom_body_class_admin']);
@@ -785,7 +785,7 @@ class Feeds_CPT {
 
         $this->metabox_functions->display_metabox_content( $this, $this->metabox_tabs_list() );
 
-        if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
+        if ( ! $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
             ?>
             <script>
                 jQuery('#ftg_sorting_options, #ftg_free_download_size').attr('disabled', 'disabled');
@@ -997,7 +997,7 @@ class Feeds_CPT {
             echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_style_options'], null, $this->feed_cpt_id );
 
             // FTS Premium ACTIVE
-            if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
+            if ( ! $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
                 // Twitter Grid Styles
                 echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->feed_cpt_id );
                 // Twitter Load More Button Styles & Options
@@ -1037,7 +1037,7 @@ class Feeds_CPT {
             echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->feed_cpt_id );
 
             // FTS Premium ACTIVE
-            if ( ! is_plugin_active( 'feed-them-social-premium/feed-them-social-premium.php' ) ) {
+            if ( ! $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
                 //YouTube Load More Options.
                 echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $this->feed_cpt_id );
             }?>

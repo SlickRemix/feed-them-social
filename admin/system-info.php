@@ -27,6 +27,15 @@ class System_Info {
 	 */
 	public $settings_functions;
 
+    /**
+     * Feed Functions
+     *
+     * General Feed Functions to be used in most Feeds.
+     *
+     * @var object
+     */
+    public $feed_functions;
+
 	/**
 	 * Feed Cache.
 	 *
@@ -39,10 +48,13 @@ class System_Info {
 	/**
 	 * System_Info constructor.
 	 */
-	public function __construct( $settings_functions, $feed_cache ) {
+	public function __construct( $settings_functions, $feed_functions, $feed_cache ) {
 
 		// Settings Functions.
 		$this->settings_functions = $settings_functions;
+
+        // Set Feed Functions object.
+        $this->feed_functions = $feed_functions;
 
 		// Set Feed Cache object.
 		$this->feed_cache = $feed_cache;
@@ -219,41 +231,41 @@ if ( is_multisite() ) :
     }
 endif;
 
-if ( is_plugin_active( 'feed-them-social/feed-them-social.php' ) ) {
+if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
     $feed_them_social_license_key = get_option( 'feed_them_social_license_keys' );
 	// print_r( $feed_them_social_license_key );
     ?>
 
 -- FTS Plugins Active & License Validation
-Premium: <?php echo is_plugin_active( 'feed-them-premium/feed-them-premium.php' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
+Premium: <?php echo $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_premium']['license_status']) && $feed_them_social_license_key['feed_them_social_premium']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_social_premium']['license_key']) ? $feed_them_social_license_key['feed_them_social_premium']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_social_premium']['license_error'])){
 echo 'Error: ' . $feed_them_social_license_key['feed_them_social_premium']['license_error'] . "\n";
 } ?>
 
-TikTok Premium: <?php echo is_plugin_active( 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
+TikTok Premium: <?php echo $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_tiktok_premium']['license_status']) && $feed_them_social_license_key['feed_them_social_tiktok_premium']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_social_tiktok_premium']['license_key']) ? $feed_them_social_license_key['feed_them_social_tiktok_premium']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_social_tiktok_premium']['license_error'])){
 echo 'Error: ' . $feed_them_social_license_key['feed_them_social_tiktok_premium']['license_error'] . "\n";
 } ?>
 
-Combined Streams: <?php echo is_plugin_active( 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
+Combined Streams: <?php echo $this->feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_combined_streams']['license_status']) && $feed_them_social_license_key['feed_them_social_combined_streams']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_social_combined_streams']['license_key']) ? $feed_them_social_license_key['feed_them_social_combined_streams']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_social_combined_streams']['license_error'])){
 echo 'Error: ' . $feed_them_social_license_key['feed_them_social_combined_streams']['license_error'] . "\n";
 } ?>
 
-Facebook Reviews: <?php echo is_plugin_active( 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
+Facebook Reviews: <?php echo $this->feed_functions->is_extension_active( 'feed_them_social_facebook_reviews' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_facebook_reviews']['license_status']) && $feed_them_social_license_key['feed_them_social_facebook_reviews']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_social_facebook_reviews']['license_key']) ? $feed_them_social_license_key['feed_them_social_facebook_reviews']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_social_facebook_reviews']['license_error'])){
 echo 'Error: ' . $feed_them_social_license_key['feed_them_social_facebook_reviews']['license_error'] . "\n";
 } ?>
 
-Carousel Premium: <?php echo is_plugin_active( 'feed-them-carousel-premium/feed-them-carousel-premium.php' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
+Carousel Premium: <?php echo $this->feed_functions->is_extension_active( 'feed_them_carousel_premium' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_carousel_premium']['license_status']) && $feed_them_social_license_key['feed_them_carousel_premium']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_carousel_premium']['license_key']) ? $feed_them_social_license_key['feed_them_carousel_premium']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_carousel_premium']['license_error'])){

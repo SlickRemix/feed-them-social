@@ -796,6 +796,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     $instagram_thumb_url                 = $post_data->images->thumbnail->url ?? '';
                     $instagram_lowrez_url                = $post_data->images->standard_resolution->url ?? '';
                     $instagram_video_standard_resolution = $post_data->videos->standard_resolution->url ?? '';
+                    $instagram_slider_option             =  $saved_feed_options['instagram_slider'] ?? '';
 
                     if ( isset( $_SERVER['HTTPS'] ) ) {
                         $instagram_thumb_url  = str_replace( 'http://', 'https://', $instagram_thumb_url );

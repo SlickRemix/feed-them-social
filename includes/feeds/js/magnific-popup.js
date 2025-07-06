@@ -392,13 +392,42 @@
             },
             findImageSize: function(e) {
                 let o = 0;
-                const i = e.img[0],
-                    s = function(a) {
-                        B && clearInterval(B), B = setInterval(function() {
-                            return i.naturalWidth > 0 ? void t._onImageHasSize(e) : (o > 200 && clearInterval(B), void(3 === ++o ? s(10) : 40 === o ? s(50) : 100 === o && s(500)))
-                        }, a)
-                    };
-                s(1)
+                const i = e.img[0];
+                const s = function(a) {
+                    // Clear any previous interval before setting a new one
+                    if (B) {
+                        clearInterval(B);
+                    }
+
+                    B = setInterval(function() {
+                        // If the image has loaded, call the success function and stop the interval.
+                        if (i.naturalWidth > 0) {
+                            t._onImageHasSize(e);
+                            return;
+                        }
+
+                        // If not loaded, increment the counter.
+                        o++;
+
+                        // If we've tried too many times, give up and clear the interval.
+                        if (o > 200) {
+                            clearInterval(B);
+                            return;
+                        }
+
+                        // Otherwise, reschedule the check with a different delay based on the number of attempts.
+                        if (o === 3) {
+                            s(10);
+                        } else if (o === 40) {
+                            s(50);
+                        } else if (o === 100) {
+                            s(500);
+                        }
+                    }, a);
+                };
+
+                // Start the first check after 1ms.
+                s(1);
             },
             getImage: function(o, i) {
                 let s = 0;
@@ -457,7 +486,7 @@
                         };
                     w("BuildControls" + i, function() {
                         if (t._allowZoom()) {
-                            if (clearTimeout(s), t.content.css("visibility", "hidden"), !(e = t._getItemToZoom())) return void f();
+                            if (clearTimeout(s), t.content.css("visibility", "hidden"), !(e = t._getItemToZoom())) return f();
                             (a = l(e)).css(t._getOffset()), t.wrap.append(a), s = setTimeout(function() {
                                 a.css(t._getOffset(!0)), s = setTimeout(function() {
                                     f(), setTimeout(function() {
@@ -568,63 +597,126 @@
         },
         proto: {
             initGallery: function() {
-                const o = t.st.gallery,
-                    s = ".mfp-gallery";
-                return t.direction = !0, !(!o || !o.enabled) && (a += " mfp-gallery", w(f + s, function() {
-                    o.navigateByImgClick && t.wrap.on("click" + s, ".mfp-img", function() {
-                        return t.items.length > 1 ? (t.next(), !1) : void 0
-                    }), i.on("keydown" + s, function(e) {
-                        37 === e.keyCode ? t.prev() : 39 === e.keyCode && t.next()
-                    })
-                }), w("UpdateStatus" + s, function(e, o) {
-                    o.text && (o.text = N(o.text, t.currItem.index, t.items.length))
-                }), w(l + s, function(e, i, s, a) {
-                    const r = t.items.length;
-                    s.counter = r > 1 ? N(o.tCounter, a.index, r) : ""
-                }), w("BuildControls" + s, function() {
-                    if (t.items.length > 1 && o.arrows && !t.arrowLeft) {
-                        const i = o.arrowMarkup,
-                            s = t.arrowLeft = e(i.replace(/%title%/gi, o.tPrev).replace(/%dir%/gi, "left")).addClass(g),
-                            a = t.arrowRight = e(i.replace(/%title%/gi, o.tNext).replace(/%dir%/gi, "right")).addClass(g);
-                        s.click(function() {
-                            t.prev()
-                        }), a.click(function() {
-                            t.next()
-                        }), t.container.append(s.add(a))
+                const o = t.st.gallery;
+                const s = ".mfp-gallery";
+
+                // Set the gallery direction
+                t.direction = true;
+
+                // Check if the gallery is enabled in the options. If not, do nothing further.
+                if (!o || !o.enabled) {
+                    return;
+                }
+
+                // Add the gallery class and bind all event handlers
+                a += " mfp-gallery";
+
+                w(f + s, function() {
+                    if (o.navigateByImgClick && t.items.length > 1) {
+                        t.wrap.on("click" + s, ".mfp-img", function() {
+                            t.next();
+                            return false;
+                        });
                     }
-                }), w(c + s, function() {
-                    t._preloadTimeout && clearTimeout(t._preloadTimeout), t._preloadTimeout = setTimeout(function() {
-                        t.preloadNearbyImages(), t._preloadTimeout = null
-                    }, 16)
-                }), void w(n + s, function() {
-                    i.off(s), t.wrap.off("click" + s), t.arrowRight = t.arrowLeft = null
-                }))
+
+                    i.on("keydown" + s, function(e) {
+                        if (e.keyCode === 37) {
+                            t.prev();
+                        } else if (e.keyCode === 39) {
+                            t.next();
+                        }
+                    });
+                });
+
+                w("UpdateStatus" + s, function(e, o) {
+                    if (o.text) {
+                        o.text = N(o.text, t.currItem.index, t.items.length);
+                    }
+                });
+
+                w(l + s, function(e, i, s, a) {
+                    const r = t.items.length;
+                    s.counter = r > 1 ? N(o.tCounter, a.index, r) : "";
+                });
+
+                w("BuildControls" + s, function() {
+                    if (t.items.length > 1 && o.arrows && !t.arrowLeft) {
+                        const i = o.arrowMarkup;
+                        const s = t.arrowLeft = e(i.replace(/%title%/gi, o.tPrev).replace(/%dir%/gi, "left")).addClass(g);
+                        const a = t.arrowRight = e(i.replace(/%title%/gi, o.tNext).replace(/%dir%/gi, "right")).addClass(g);
+
+                        s.click(function() {
+                            t.prev();
+                        });
+                        a.click(function() {
+                            t.next();
+                        });
+
+                        t.container.append(s.add(a));
+                    }
+                });
+
+                w(c + s, function() {
+                    if (t._preloadTimeout) {
+                        clearTimeout(t._preloadTimeout);
+                    }
+                    t._preloadTimeout = setTimeout(function() {
+                        t.preloadNearbyImages();
+                        t._preloadTimeout = null;
+                    }, 16);
+                });
+
+                w(n + s, function() {
+                    i.off(s);
+                    t.wrap.off("click" + s);
+                    t.arrowRight = t.arrowLeft = null;
+                });
             },
             next: function() {
-                t.direction = !0, t.index = H(t.index + 1), t.updateItemHTML()
+                t.direction = true;
+                t.index = H(t.index + 1);
+                t.updateItemHTML();
             },
             prev: function() {
-                t.direction = !1, t.index = H(t.index - 1), t.updateItemHTML()
+                t.direction = false;
+                t.index = H(t.index - 1);
+                t.updateItemHTML();
             },
             goTo: function(e) {
-                t.direction = e >= t.index, t.index = e, t.updateItemHTML()
+                t.direction = e >= t.index;
+                t.index = e;
+                t.updateItemHTML();
             },
             preloadNearbyImages: function() {
                 let e;
-                const o = t.st.gallery.preload,
-                    i = Math.min(o[0], t.items.length),
-                    s = Math.min(o[1], t.items.length);
-                for (e = 1; e <= (t.direction ? s : i); e++) t._preloadItem(t.index + e);
-                for (e = 1; e <= (t.direction ? i : s); e++) t._preloadItem(t.index - e)
+                const o = t.st.gallery.preload;
+                const i = Math.min(o[0], t.items.length);
+                const s = Math.min(o[1], t.items.length);
+                for (e = 1; e <= (t.direction ? s : i); e++) {
+                    t._preloadItem(t.index + e);
+                }
+                for (e = 1; e <= (t.direction ? i : s); e++) {
+                    t._preloadItem(t.index - e);
+                }
             },
             _preloadItem: function(o) {
-                if (o = H(o), !t.items[o].preloaded) {
+                o = H(o);
+                if (!t.items[o].preloaded) {
                     let i = t.items[o];
-                    i.parsed || (i = t.parseEl(o)), C("LazyLoad", i), "image" === i.type && (i.img = e('<img class="mfp-img" />').on("load.mfploader", function() {
-                        i.hasSize = !0
-                    }).on("error.mfploader", function() {
-                        i.hasSize = !0, i.loadError = !0, C("LazyLoadError", i)
-                    }).attr("src", i.src)), i.preloaded = !0
+                    if (!i.parsed) {
+                        i = t.parseEl(o);
+                    }
+                    C("LazyLoad", i);
+                    if (i.type === "image") {
+                        i.img = e('<img class="mfp-img" />').on("load.mfploader", function() {
+                            i.hasSize = true;
+                        }).on("error.mfploader", function() {
+                            i.hasSize = true;
+                            i.loadError = true;
+                            C("LazyLoadError", i);
+                        }).attr("src", i.src);
+                    }
+                    i.preloaded = true;
                 }
             }
         }

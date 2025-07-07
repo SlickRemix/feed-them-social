@@ -28,7 +28,6 @@ jQuery(document).ready(function($) {
     }
 });
 
-
 if (!jQuery.trim(jQuery('.fts-jal-fb-group-display').html()).length) {
     jQuery('.fts-jal-fb-group-display').append('<div class="fts-facebook-add-more-posts-notice"><p>Please go to the <strong>Facebook Options</strong> page of our plugin and look for the "<strong>Change Post Limit</strong>" option and add the number <strong>7</strong> or more. You can also hide this notice on the Facebook Options page if you want.</p>If you are trying to add a Personal Facebook feed and you are seeing this message too, please note: <strong>Personal Facebook Accounts generally do not work with our plugin.</strong></div>')
 }

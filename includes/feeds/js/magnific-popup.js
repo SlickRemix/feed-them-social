@@ -1953,325 +1953,325 @@
  * @version 4.3.9
  * @author SlickRemix
  */
-(function($) {
-    $(document).ready(function() {
+jQuery(document).ready(function() {
 
-        const magnificPopup = $.magnificPopup.instance;
+    const magnificPopup = jQuery.magnificPopup.instance;
 
-        // Navigation Functions
-        function handlePrevClick() {
-            magnificPopup.prev();
-            if ($(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < $(".mfp-img").height()) {
-                $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", $(".mfp-img").height());
+    // Navigation Functions
+    function handlePrevClick() {
+        magnificPopup.prev();
+        if (jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height()) {
+            jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height());
+        } else {
+            jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height());
+        }
+    }
+
+    function handleNextClick() {
+        magnificPopup.next();
+        if (jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height()) {
+            jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height());
+        }
+    }
+
+    function handleImageClick() {
+        magnificPopup.next();
+        if (jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height()) {
+            jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height());
+        }
+    }
+
+    function handleComplexNavigation(event) {
+        jQuery("body").addClass("fts-using-arrows");
+        setTimeout(function() {
+            if (typeof ftsShare === 'function') ftsShare();
+            if (/fbcdn.net/i.test(jQuery(".fts-iframe-popup-element").attr("src")) || /scontent.cdninstagram.com/i.test(jQuery(".fts-iframe-popup-element").attr("src"))) {
+                jQuery("body").addClass("fts-video-iframe-choice");
+                jQuery(".fts-video-popup-element").show();
+                jQuery(".fts-iframe-popup-element").attr("src", "").hide();
             } else {
-                $(".fts-popup-second-half .mfp-bottom-bar").css("height", $(".fts-popup-image-position").height());
+                jQuery("body").removeClass("fts-video-iframe-choice, .fts-using-arrows");
+                jQuery(".fts-video-popup-element").attr("src", "").hide();
+                jQuery(".fts-iframe-popup-element").show();
             }
-        }
-
-        function handleNextClick() {
-            magnificPopup.next();
-            if ($(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < $(".mfp-img").height()) {
-                $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", $(".mfp-img").height());
+            if (jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height()) {
+                jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height());
             }
-        }
-
-        function handleImageClick() {
-            magnificPopup.next();
-            if ($(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < $(".mfp-img").height()) {
-                $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", $(".mfp-img").height());
+            if (jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0]) {
+                console.log("Arrows: Open Callback: Irregular size");
+                jQuery("iframe.fts-iframe-popup-element").css({
+                    "max-width": "100%",
+                    width: jQuery(".fts-popup-half").height()
+                });
+                jQuery(".fts-popup-image-position").css({
+                    height: "100%",
+                    "min-height": "auto"
+                });
+                jQuery(".mfp-iframe-scaler").css("padding-top", "100%");
+            } else if (jQuery(".fts-popup-second-half .fts-equal-width-height")[0]) {
+                console.log("Arrows: Open Callback: Square size");
+                jQuery("iframe.fts-iframe-popup-element").css({
+                    "max-width": "100%",
+                    width: jQuery(".fts-popup-half").height()
+                });
+                jQuery(".mfp-iframe-scaler").css("padding-top", "");
+            } else {
+                console.log("Arrows: Open Callback: Regular size");
+                jQuery("iframe.fts-iframe-popup-element").css({
+                    "max-width": "100%",
+                    width: "100%"
+                });
+                jQuery(".mfp-iframe-scaler").css("padding-top", "56.0%");
+                jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-half").height());
             }
-        }
+        }, 100);
+    }
 
-        function handleComplexNavigation(event) {
-            $("body").addClass("fts-using-arrows");
-            setTimeout(function() {
+    // Event Handlers
+    jQuery("body").on("click", "#fts-photo-prev", handlePrevClick);
+    jQuery("body").on("click", "#fts-photo-next", handleNextClick);
+    jQuery("body").on("click", ".fts-facebook-popup .mfp-image-holder .fts-popup-image-position", handleImageClick);
+    jQuery("body").on("click", "#fts-photo-prev, #fts-photo-next, .fts-facebook-popup .mfp-image-holder .fts-popup-image-position", handleComplexNavigation);
+
+    /**
+     * -------------------------------------------------------------------
+     * Reusable Popup Functions
+     * -------------------------------------------------------------------
+     */
+
+    // Creates a reusable options object for Magnific Popup callbacks.
+    function getSharedCallbacks($galleryLinks) {
+        return {
+            beforeOpen: function() {
+                const itemIndex = $galleryLinks.index(this.st.el);
+                if (itemIndex !== -1) {
+                    this.goTo(itemIndex);
+                }
+            },
+            open: function() {
+                console.log("Popup is opened");
                 if (typeof ftsShare === 'function') ftsShare();
-                if (/fbcdn.net/i.test($(".fts-iframe-popup-element").attr("src")) || /scontent.cdninstagram.com/i.test($(".fts-iframe-popup-element").attr("src"))) {
-                    $("body").addClass("fts-video-iframe-choice");
-                    $(".fts-video-popup-element").show();
-                    $(".fts-iframe-popup-element").attr("src", "").hide();
-                } else {
-                    $("body").removeClass("fts-video-iframe-choice, .fts-using-arrows");
-                    $(".fts-video-popup-element").attr("src", "").hide();
-                    $(".fts-iframe-popup-element").show();
-                }
-                if ($(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < $(".mfp-img").height()) {
-                    $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", $(".mfp-img").height());
-                }
-                if ($(".fts-popup-second-half .fts-greater-than-width-height")[0]) {
-                    console.log("Arrows: Open Callback: Irregular size");
-                    $("iframe.fts-iframe-popup-element").css({
-                        "max-width": "100%",
-                        width: $(".fts-popup-half").height()
-                    });
-                    $(".fts-popup-image-position").css({
-                        height: "100%",
-                        "min-height": "auto"
-                    });
-                    $(".mfp-iframe-scaler").css("padding-top", "100%");
-                } else if ($(".fts-popup-second-half .fts-equal-width-height")[0]) {
-                    console.log("Arrows: Open Callback: Square size");
-                    $("iframe.fts-iframe-popup-element").css({
-                        "max-width": "100%",
-                        width: $(".fts-popup-half").height()
-                    });
-                    $(".mfp-iframe-scaler").css("padding-top", "");
-                } else {
-                    console.log("Arrows: Open Callback: Regular size");
-                    $("iframe.fts-iframe-popup-element").css({
-                        "max-width": "100%",
-                        width: "100%"
-                    });
-                    $(".mfp-iframe-scaler").css("padding-top", "56.0%");
-                    $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", $(".fts-popup-half").height());
-                }
-            }, 100);
-        }
+                jQuery(window).resize(function() {
+                    jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
+                }).trigger("resize");
 
-        // Event Handlers
-        $("body").on("click", "#fts-photo-prev", handlePrevClick);
-        $("body").on("click", "#fts-photo-next", handleNextClick);
-        $("body").on("click", ".fts-facebook-popup .mfp-image-holder .fts-popup-image-position", handleImageClick);
-        $("body").on("click", "#fts-photo-prev, #fts-photo-next, .fts-facebook-popup .mfp-image-holder .fts-popup-image-position", handleComplexNavigation);
-
-        /**
-         * -------------------------------------------------------------------
-         * Reusable Popup Functions
-         * -------------------------------------------------------------------
-         */
-
-        // Creates a reusable options object for Magnific Popup callbacks.
-        function getSharedCallbacks($galleryLinks) {
-            return {
-                beforeOpen: function() {
-                    const itemIndex = $galleryLinks.index(this.st.el);
-                    if (itemIndex !== -1) {
-                        this.goTo(itemIndex);
-                    }
-                },
-                open: function() {
-                    console.log("Popup is opened");
-                    if (typeof ftsShare === 'function') ftsShare();
-                    $(window).resize(function() {
-                        $(".fts-popup-second-half .mfp-bottom-bar").css("height", $(".fts-popup-image-position").height())
-                    }).trigger("resize");
-
-                    // Additional open logic for Facebook
-                    if (this.mainClass.includes('fts-facebook-styles-popup')) {
-                        setTimeout(function() {
-                            $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < $(".mfp-img").height() ? $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", $(".mfp-img").height()) : $(".fts-popup-second-half .mfp-bottom-bar").css("height", $(".fts-popup-image-position").height()), $(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Open Callback: Irregular size"), $("iframe.fts-iframe-popup-element").css({
-                                "max-width": "100%",
-                                width: $(".fts-popup-half").height()
-                            }), $(".mfp-iframe-scaler").css("padding-top", "100%")) : $(".fts-popup-second-half .fts-equal-width-height")[0] ? (console.log("Open Callback: Square size"), $("iframe.fts-iframe-popup-element").css({
-                                "max-width": "100%",
-                                width: $(".fts-popup-half").height()
-                            }), $(".mfp-iframe-scaler").css("padding-top", "")) : (console.log("Open Callback: Regular size"), $("iframe.fts-iframe-popup-element").css({
-                                "max-width": "100%",
-                                width: "100%"
-                            }), $(".mfp-iframe-scaler").css("padding-top", "56.0%"), $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", $(".fts-popup-half").height())), matchMedia("only screen and (max-device-width: 736px)").matches) {
-                                const eventTargetId = event.target.id,
-                                    posterUrl = $("#" + eventTargetId).data("poster");
-                                $(".fts-fb-vid-popup video").attr("poster", posterUrl), console.log(posterUrl)
-                            }
-                            $("body").addClass("fts-using-arrows")
-                        }, 100)
-                    }
-                },
-                change: function() {
-                    console.log("Content changed"), console.log(this.content);
-                    if (typeof ftsShare === 'function') ftsShare();
-                    $("body").hasClass("fts-using-arrows")
-                },
-                imageLoadComplete: function() {
-                    if (typeof ftsShare === 'function') ftsShare();
-                    $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < $(".mfp-img").height() ? $(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", $(".mfp-img").height()) : $(".fts-popup-second-half .mfp-bottom-bar").css("height", $(".fts-popup-image-position").height())
-                },
-                markupParse: function(template, values, item) {
-                    if (console.log("Parsing:", template, values, item), !$("body").hasClass("fts-using-arrows")) {
-                        const itemSrc = item.src;
-                        /fbcdn.net/i.test(itemSrc) && "image" !== item.type ? $("body").addClass("fts-video-iframe-choice") : $("body").hasClass("fts-using-arrows") || $("body").removeClass("fts-video-iframe-choice")
-                    }
-                },
-                afterClose: function() {
-                    $("body").removeClass("fts-using-arrows"), console.log("Popup is completely closed")
-                }
-            };
-        }
-
-        // Returns a reusable object with the standard popup options.
-        function getSharedMagnificOptions() {
-            return {
-                allowHTMLInTemplate: true,
-                removalDelay: 150,
-                preloader: !1,
-                closeOnContentClick: !1,
-                closeOnBgClick: !0,
-                closeBtnInside: !0,
-                showCloseBtn: !1,
-                enableEscapeKey: !0,
-                autoFocusLast: !1,
-                gallery: {
-                    enabled: !0,
-                    navigateByImgClick: !1,
-                    tCounter: '<span class="mfp-counter">%curr% of %total%</span>',
-                    preload: [0, 1],
-                    arrowMarkup: ""
-                }
-            };
-        }
-
-        /**
-         * -------------------------------------------------------------------
-         * Platform-Specific Popup Initializations
-         * -------------------------------------------------------------------
-         */
-
-        $.fn.slickFacebookPopUpFunction = function() {
-            $(".popup-gallery-fb-posts, .popup-gallery-fb, .popup-video-gallery-fb").each(function() {
-                const $galleryLinks = $(this).find("a.fts-facebook-link-target, a.fts-fb-large-photo, a.fts-view-album-photos-large, a.fts-view-fb-videos-large, a.fts-view-fb-videos-btn, a.fts-jal-fb-vid-html5video");
-                const popupItems = [];
-                $galleryLinks.each(function() {
-                    const $link = $(this);
-                    let itemType = "image";
-                    let iframeCheck = "";
-                    if ($link.hasClass("fts-jal-fb-vid-image") || $link.hasClass("fts-view-fb-videos-btn")) {
-                        itemType = "iframe";
-                        const embedHTML = $(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-fb-embed-iframe-check-used-for-popup").html();
-                        if (embedHTML) {
-                            iframeCheck = embedHTML;
+                // Additional open logic for Facebook
+                if (this.st.mainClass.includes('fts-facebook-styles-popup')) {
+                    setTimeout(function() {
+                        jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height()), jQuery(".fts-popup-second-half .fts-greater-than-width-height")[0] ? (console.log("Open Callback: Irregular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                            "max-width": "100%",
+                            width: jQuery(".fts-popup-half").height()
+                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "100%")) : jQuery(".fts-popup-second-half .fts-equal-width-height")[0] ? (console.log("Open Callback: Square size"), jQuery("iframe.fts-iframe-popup-element").css({
+                            "max-width": "100%",
+                            width: jQuery(".fts-popup-half").height()
+                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "")) : (console.log("Open Callback: Regular size"), jQuery("iframe.fts-iframe-popup-element").css({
+                            "max-width": "100%",
+                            width: "100%"
+                        }), jQuery(".mfp-iframe-scaler").css("padding-top", "56.0%"), jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-half").height()));
+                        if (matchMedia("only screen and (max-device-width: 736px)").matches) {
+                            const eventTargetId = event.target.id;
+                            const posterUrl = jQuery("#" + eventTargetId).data("poster");
+                            jQuery(".fts-fb-vid-popup video").attr("poster", posterUrl);
+                            console.log(posterUrl);
                         }
+                        jQuery("body").addClass("fts-using-arrows");
+                    }, 100)
+                }
+            },
+            change: function() {
+                console.log("Content changed"), console.log(this.content);
+                if (typeof ftsShare === 'function') ftsShare();
+                jQuery("body").hasClass("fts-using-arrows")
+            },
+            imageLoadComplete: function() {
+                if (typeof ftsShare === 'function') ftsShare();
+                jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").height() < jQuery(".mfp-img").height() ? jQuery(".fts-popup-image-position, .fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".mfp-img").height()) : jQuery(".fts-popup-second-half .mfp-bottom-bar").css("height", jQuery(".fts-popup-image-position").height())
+            },
+            markupParse: function(template, values, item) {
+                if (console.log("Parsing:", template, values, item), !jQuery("body").hasClass("fts-using-arrows")) {
+                    const itemSrc = item.src;
+                    /fbcdn.net/i.test(itemSrc) && "image" !== item.type ? jQuery("body").addClass("fts-video-iframe-choice") : jQuery("body").hasClass("fts-using-arrows") || jQuery("body").removeClass("fts-video-iframe-choice")
+                }
+            },
+            afterClose: function() {
+                jQuery("body").removeClass("fts-using-arrows"), console.log("Popup is completely closed")
+            }
+        };
+    }
+
+    // Returns a reusable object with the standard popup options.
+    function getSharedMagnificOptions() {
+        return {
+            allowHTMLInTemplate: true,
+            removalDelay: 150,
+            preloader: !1,
+            closeOnContentClick: !1,
+            closeOnBgClick: !0,
+            closeBtnInside: !0,
+            showCloseBtn: !1,
+            enableEscapeKey: !0,
+            autoFocusLast: !1,
+            gallery: {
+                enabled: !0,
+                navigateByImgClick: !1,
+                tCounter: '<span class="mfp-counter">%curr% of %total%</span>',
+                preload: [0, 1],
+                arrowMarkup: ""
+            }
+        };
+    }
+
+    /**
+     * -------------------------------------------------------------------
+     * Platform-Specific Popup Initializations
+     * -------------------------------------------------------------------
+     */
+
+    jQuery.fn.slickFacebookPopUpFunction = function() {
+        jQuery(".popup-gallery-fb-posts, .popup-gallery-fb, .popup-video-gallery-fb").each(function() {
+            const $galleryLinks = jQuery(this).find("a.fts-facebook-link-target, a.fts-fb-large-photo, a.fts-view-album-photos-large, a.fts-view-fb-videos-large, a.fts-view-fb-videos-btn, a.fts-jal-fb-vid-html5video");
+            const popupItems = [];
+            $galleryLinks.each(function() {
+                const $link = jQuery(this);
+                let itemType = "image";
+                let iframeCheck = "";
+                if ($link.hasClass("fts-jal-fb-vid-image") || $link.hasClass("fts-view-fb-videos-btn")) {
+                    itemType = "iframe";
+                    const embedHTML = jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-fb-embed-iframe-check-used-for-popup").html();
+                    if (embedHTML) {
+                        iframeCheck = embedHTML;
                     }
-                    const popupItem = {
-                        src: $link.attr("href"),
-                        type: itemType
-                    };
-                    let albumDescription = $(this).parents(".fts-fb-album-additional-pics-content").find(".fts-fb-album-additional-pics-description-wrap").html() || "";
-                    let albumTime = $(this).parents(".fts-jal-fb-post-time-album").find(".fts-jal-fb-post-time-album").html() || "";
-                    popupItem.title = $(this).parents(".fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-jal-fb-top-wrap").html() + albumDescription + albumTime + $(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-likes-shares-etc-wrap").html() + $(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-fb-comments-wrap").html() + iframeCheck;
-                    popupItems.push(popupItem);
-                });
-
-                const options = getSharedMagnificOptions();
-                options.mainClass = "fts-facebook-popup fts-facebook-styles-popup";
-                options.items = popupItems;
-                options.type = "image";
-                options.callbacks = getSharedCallbacks($galleryLinks);
-                options.image = {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position" style="height:591px;">                   <span class="fts-position-helper"></span><div class="mfp-img"></div>       </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
-                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
+                }
+                const popupItem = {
+                    src: $link.attr("href"),
+                    type: itemType
                 };
-                options.iframe = {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position"><div class="fts-fb-embed-iframe-check-used-for-popup"></div>                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" align="middle" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if($("body").hasClass("fts-video-iframe-choice")){$(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!$("body").hasClass("fts-using-arrows")){$(".fts-video-popup-element").attr("src", "").hide(); }  $(".fts-facebook-popup video").click(function(){$(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
-                    srcAction: "iframe_src"
-                };
-
-                $galleryLinks.magnificPopup(options);
+                let albumDescription = jQuery(this).parents(".fts-fb-album-additional-pics-content").find(".fts-fb-album-additional-pics-description-wrap").html() || "";
+                let albumTime = jQuery(this).parents(".fts-jal-fb-post-time-album").find(".fts-jal-fb-post-time-album").html() || "";
+                popupItem.title = jQuery(this).parents(".fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-jal-fb-top-wrap").html() + albumDescription + albumTime + jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-likes-shares-etc-wrap").html() + jQuery(this).parents(".fts-fb-photo-post-wrap, .fts-events-list-wrap, .fts-jal-single-fb-post").find(".fts-fb-comments-wrap").html() + iframeCheck;
+                popupItems.push(popupItem);
             });
-        };
-        $.fn.slickFacebookPopUpFunction();
 
-        $.fn.slickInstagramPopUpFunction = function() {
-            $(".popup-gallery").each(function() {
-                const $galleryLinks = $(this).find(".fts-instagram-link-target");
-                const popupItems = [];
-                $galleryLinks.each(function() {
-                    const $link = $(this);
-                    let itemType;
-                    if ($link.hasClass("fts-jal-fb-vid-image")) itemType = "iframe";
-                    else if ($link.hasClass("fts-instagram-video-link")) itemType = "inline";
-                    else itemType = "image";
-                    let itemSrc, videoMarkup;
-                    if ("inline" == itemType) {
-                        itemSrc = "";
-                        videoMarkup = '<video controls width="100%;" style="max-width:100%;" allowfullscreen  controls><source src="' + $link.attr("href") + '" type="video/mp4"></video><script>$(".fts-instagram-styles-popup video").get(0).play();$(".fts-instagram-styles-popup video").click(function(){ $(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause") });<\/script>';
-                    } else {
-                        itemSrc = $link.attr("href");
-                        videoMarkup = "";
-                    }
-                    const popupItem = {
-                        src: itemSrc,
-                        type: itemType,
-                        html5videolink: videoMarkup
-                    };
-                    popupItem.title = $(this).parents(".fts-instagram-wrapper").find(".fts-instagram-popup-profile-wrap").html() + $(this).parents(".fts-instagram-wrapper").find(".slicker-date").html() + $(this).parents(".fts-instagram-wrapper").find(".fts-insta-likes-comments-grab-popup").html() + $(this).parents(".fts-instagram-wrapper").find(".fts-instagram-caption").html();
-                    popupItems.push(popupItem);
-                });
+            const options = getSharedMagnificOptions();
+            options.mainClass = "fts-facebook-popup fts-facebook-styles-popup";
+            options.items = popupItems;
+            options.type = "image";
+            options.callbacks = getSharedCallbacks($galleryLinks);
+            options.image = {
+                markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position" style="height:591px;">                   <span class="fts-position-helper"></span><div class="mfp-img"></div>       </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
+            };
+            options.iframe = {
+                markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position"><div class="fts-fb-embed-iframe-check-used-for-popup"></div>                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" align="middle" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://www.slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                srcAction: "iframe_src"
+            };
 
-                const options = getSharedMagnificOptions();
-                options.mainClass = "fts-facebook-popup fts-instagram-styles-popup";
-                options.items = popupItems;
-                options.callbacks = getSharedCallbacks($galleryLinks);
-                options.inline = {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half fts-instagram-popup-half">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler mfp-html5videolink" id="fts-html5videolink">                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>       </div>    </div><div class="fts-popup-second-half fts-instagram-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>'
-                };
-                options.image = {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half fts-instagram-popup-half"> <div class="fts-carousel-image"></div>               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                   <span class="fts-position-helper"></span><div class="mfp-img"></div>       </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>    </div><div class="fts-popup-second-half fts-instagram-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://feedthemsocial.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
-                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
-                };
-                options.iframe = {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half fts-instagram-popup-half">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if($("body").hasClass("fts-video-iframe-choice")){$(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!$("body").hasClass("fts-using-arrows")){$(".fts-video-popup-element").attr("src", "").hide(); }  $(".fts-facebook-popup video").click(function(){$(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")});<\/script>       </div>    </div><div class="fts-popup-second-half fts-instagram-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://feedthemsocial.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
-                    srcAction: "iframe_src"
-                };
+            $galleryLinks.magnificPopup(options);
+        });
+    };
+    jQuery.fn.slickFacebookPopUpFunction();
 
-                $galleryLinks.magnificPopup(options);
+    jQuery.fn.slickInstagramPopUpFunction = function() {
+        jQuery(".popup-gallery").each(function() {
+            const $galleryLinks = jQuery(this).find(".fts-instagram-link-target");
+            const popupItems = [];
+            $galleryLinks.each(function() {
+                const $link = jQuery(this);
+                let itemType;
+                if ($link.hasClass("fts-jal-fb-vid-image")) itemType = "iframe";
+                else if ($link.hasClass("fts-instagram-video-link")) itemType = "inline";
+                else itemType = "image";
+                let itemSrc, videoMarkup;
+                if ("inline" == itemType) {
+                    itemSrc = "";
+                    videoMarkup = '<video controls width="100%;" style="max-width:100%;" allowfullscreen  controls><source src="' + $link.attr("href") + '" type="video/mp4"></video><script>jQuery(".fts-instagram-styles-popup video").get(0).play();jQuery(".fts-instagram-styles-popup video").click(function(){ jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause") });<\/script>';
+                } else {
+                    itemSrc = $link.attr("href");
+                    videoMarkup = "";
+                }
+                const popupItem = {
+                    src: itemSrc,
+                    type: itemType,
+                    html5videolink: videoMarkup
+                };
+                popupItem.title = jQuery(this).parents(".fts-instagram-wrapper").find(".fts-instagram-popup-profile-wrap").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".slicker-date").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".fts-insta-likes-comments-grab-popup").html() + jQuery(this).parents(".fts-instagram-wrapper").find(".fts-instagram-caption").html();
+                popupItems.push(popupItem);
             });
-        };
-        $.fn.slickInstagramPopUpFunction();
 
-        $.fn.slickYoutubePopUpFunction = function() {
-            $(".fts-youtube-popup-gallery").each(function() {
-                const $galleryLinks = $(this).find("a.fts-yt-popup-open");
-                const popupItems = [];
-                $galleryLinks.each(function() {
-                    const popupItem = {
-                        src: $(this).attr("href"),
-                        type: "iframe"
-                    };
-                    popupItem.title = $(this).parents(".slicker-youtube-placeholder").find(".youtube-social-btn-top").html() || $(this).parents(".slicker-youtube-placeholder").find(".entriestitle").html();
-                    popupItems.push(popupItem);
-                });
+            const options = getSharedMagnificOptions();
+            options.mainClass = "fts-facebook-popup fts-instagram-styles-popup";
+            options.items = popupItems;
+            options.callbacks = getSharedCallbacks($galleryLinks);
+            options.inline = {
+                markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half fts-instagram-popup-half">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler mfp-html5videolink" id="fts-html5videolink">                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>       </div>    </div><div class="fts-popup-second-half fts-instagram-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>'
+            };
+            options.image = {
+                markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half fts-instagram-popup-half"> <div class="fts-carousel-image"></div>               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                   <span class="fts-position-helper"></span><div class="mfp-img"></div>       </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button>    </div><div class="fts-popup-second-half fts-instagram-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://feedthemsocial.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                tError: '<a href="%url%">The image #%curr%</a> could not be loaded.'
+            };
+            options.iframe = {
+                markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half fts-instagram-popup-half">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide(); } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")});<\/script>       </div>    </div><div class="fts-popup-second-half fts-instagram-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://feedthemsocial.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                srcAction: "iframe_src"
+            };
 
-                const options = getSharedMagnificOptions();
-                options.mainClass = "fts-facebook-popup fts-facebook-styles-popup fts-youtube-popup";
-                options.items = popupItems;
-                options.callbacks = getSharedCallbacks($galleryLinks);
-                options.iframe = {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if($("body").hasClass("fts-video-iframe-choice")){$(".fts-iframe-popup-element").attr("src", "").hide();  } else if(!$("body").hasClass("fts-using-arrows")){$(".fts-video-popup-element").attr("src", "").hide(); }  $(".fts-facebook-popup video").click(function(){$(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
-                    srcAction: "iframe_src"
+            $galleryLinks.magnificPopup(options);
+        });
+    };
+    jQuery.fn.slickInstagramPopUpFunction();
+
+    jQuery.fn.slickYoutubePopUpFunction = function() {
+        jQuery(".fts-youtube-popup-gallery").each(function() {
+            const $galleryLinks = jQuery(this).find("a.fts-yt-popup-open");
+            const popupItems = [];
+            $galleryLinks.each(function() {
+                const popupItem = {
+                    src: jQuery(this).attr("href"),
+                    type: "iframe"
                 };
-
-                $galleryLinks.magnificPopup(options);
+                popupItem.title = jQuery(this).parents(".slicker-youtube-placeholder").find(".youtube-social-btn-top").html() || jQuery(this).parents(".slicker-youtube-placeholder").find(".entriestitle").html();
+                popupItems.push(popupItem);
             });
-        };
-        $.fn.slickYoutubePopUpFunction();
 
-        $.fn.slickTickTokPopUpFunction = function() {
-            $(".popup-gallery-tiktok").each(function() {
-                const $galleryLinks = $(this).find("a.fts-tiktok-popup-open");
-                const popupItems = [];
-                $galleryLinks.each(function() {
-                    const popupItem = {
-                        src: $(this).attr("href"),
-                        type: "iframe"
-                    };
-                    popupItem.title = $(this).parents(".fts-tiktok-popup-grab").find('.fts-tiktok-content').html() +
-                        $(this).parents(".fts-tiktok-popup-grab").find('.fts-likes-shares-etc-wrap').html() +
-                        $(this).parents(".fts-tiktok-popup-grab").find('.fts-tiktok-social-counts-wrap').html();
-                    popupItems.push(popupItem);
-                });
+            const options = getSharedMagnificOptions();
+            options.mainClass = "fts-facebook-popup fts-facebook-styles-popup fts-youtube-popup";
+            options.items = popupItems;
+            options.callbacks = getSharedCallbacks($galleryLinks);
+            options.iframe = {
+                markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide();  } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                srcAction: "iframe_src"
+            };
 
-                const options = getSharedMagnificOptions();
-                options.mainClass = "fts-facebook-popup fts-facebook-styles-popup fts-tiktok-popup";
-                options.items = popupItems;
-                options.callbacks = getSharedCallbacks($galleryLinks);
-                options.iframe = {
-                    markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if($("body").hasClass("fts-video-iframe-choice")){$(".fts-iframe-popup-element").attr("src", "").hide();  } else if(!$("body").hasClass("fts-using-arrows")){$(".fts-video-popup-element").attr("src", "").hide(); }  $(".fts-facebook-popup video").click(function(){$(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
-                    srcAction: "iframe_src"
+            $galleryLinks.magnificPopup(options);
+        });
+    };
+    jQuery.fn.slickYoutubePopUpFunction();
+
+    jQuery.fn.slickTickTokPopUpFunction = function() {
+        jQuery(".popup-gallery-tiktok").each(function() {
+            const $galleryLinks = jQuery(this).find("a.fts-tiktok-popup-open");
+            const popupItems = [];
+            $galleryLinks.each(function() {
+                const popupItem = {
+                    src: jQuery(this).attr("href"),
+                    type: "iframe"
                 };
-
-                $galleryLinks.magnificPopup(options);
+                popupItem.title = jQuery(this).parents(".fts-tiktok-popup-grab").find('.fts-tiktok-content').html() +
+                    jQuery(this).parents(".fts-tiktok-popup-grab").find('.fts-likes-shares-etc-wrap').html() +
+                    jQuery(this).parents(".fts-tiktok-popup-grab").find('.fts-tiktok-social-counts-wrap').html();
+                popupItems.push(popupItem);
             });
-        };
-        $.fn.slickTickTokPopUpFunction();
-    });
-})(jQuery);
+
+            const options = getSharedMagnificOptions();
+            options.mainClass = "fts-facebook-popup fts-facebook-styles-popup fts-tiktok-popup";
+            options.items = popupItems;
+            options.callbacks = getSharedCallbacks($galleryLinks);
+            options.iframe = {
+                markup: '<div class="mfp-figure"><div class="mfp-close">X</div><div class="fts-popup-wrap">    <div class="fts-popup-half ">               <button title="previous" type="button" id="fts-photo-prev" class="mfp-arrow mfp-arrow-left mfp-prevent-close"></button>           <div class="fts-popup-image-position">                           <div class="mfp-iframe-scaler"><iframe class="mfp-iframe fts-iframe-popup-element" frameborder="0" allowfullscreen></iframe><video class="mfp-iframe fts-video-popup-element" allowfullscreen autoplay controls></video>                           </div>               <button title="next" type="button" id="fts-photo-next" class="mfp-arrow mfp-arrow-right mfp-prevent-close"></button><script>if(jQuery("body").hasClass("fts-video-iframe-choice")){jQuery(".fts-iframe-popup-element").attr("src", "").hide();  } else if(!jQuery("body").hasClass("fts-using-arrows")){jQuery(".fts-video-popup-element").attr("src", "").hide(); }  jQuery(".fts-facebook-popup video").click(function(){jQuery(this).trigger(this.paused ? this.paused ? "play" : "play" : "pause")}); <\/script>       </div>    </div><div class="fts-popup-second-half"><div class="mfp-bottom-bar"><div class="mfp-title"></div><a class="fts-powered-by-text" href="https://slickremix.com" target="_blank">Powered by Feed Them Social</a><div class="mfp-counter"></div></div></div></div></div>',
+                srcAction: "iframe_src"
+            };
+
+            $galleryLinks.magnificPopup(options);
+        });
+    };
+    jQuery.fn.slickTickTokPopUpFunction();
+});

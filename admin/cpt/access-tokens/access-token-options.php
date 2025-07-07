@@ -14,7 +14,7 @@ namespace feedthemsocial;
 
 // Exit if accessed directly!
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 /**
@@ -25,32 +25,32 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Access_Options {
 
-	/**
-	 * Feed Functions
-	 *
-	 * The Feed Functions Class
-	 *
-	 * @var object
-	 */
-	public $feed_functions;
+    /**
+     * Feed Functions
+     *
+     * The Feed Functions Class
+     *
+     * @var object
+     */
+    public $feed_functions;
 
-	/**
-	 * Feed CPT Option Array
-	 *
-	 * An array of Feed Settings. Set in admin/cpt/options/feeds-cpt-options.php
-	 *
-	 * @var array
-	 */
-	public $feed_cpt_options_array;
+    /**
+     * Feed CPT Option Array
+     *
+     * An array of Feed Settings. Set in admin/cpt/options/feeds-cpt-options.php
+     *
+     * @var array
+     */
+    public $feed_cpt_options_array;
 
-	/**
-	 * Data Protection
-	 *
-	 * Data Protection Class for encryption.
-	 *
-	 * @var object
-	 */
-	public $data_protection;
+    /**
+     * Data Protection
+     *
+     * Data Protection Class for encryption.
+     *
+     * @var object
+     */
+    public $data_protection;
 
     /**
      * Options Functions
@@ -61,78 +61,78 @@ class Access_Options {
      */
     public $options_functions;
 
-	/**
-	 * Metabox Functions
-	 *
-	 * The Metabox Functions class.
-	 *
-	 * @var object
-	 */
-	public $metabox_functions;
+    /**
+     * Metabox Functions
+     *
+     * The Metabox Functions class.
+     *
+     * @var object
+     */
+    public $metabox_functions;
 
-	/**
-	 * Construct
-	 *
-	 * Access Token Options Page constructor.
-	 *
-	 * @since 1.9.6
-	 */
-	public function __construct( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions ) {
+    /**
+     * Construct
+     *
+     * Access Token Options Page constructor.
+     *
+     * @since 1.9.6
+     */
+    public function __construct( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions ) {
 
         // Options Functions Class.
         $this->options_functions = $options_functions;
 
-		// Set Feed Functions object.
-		$this->feed_functions = $feed_functions;
+        // Set Feed Functions object.
+        $this->feed_functions = $feed_functions;
 
-		// Data Protection.
-		$this->data_protection = $data_protection;
+        // Data Protection.
+        $this->data_protection = $data_protection;
 
         // Metabox Functions.
-		$this->metabox_functions = $metabox_functions;
+        $this->metabox_functions = $metabox_functions;
 
-		// Feed CPT Options Array.
-		$this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
+        // Feed CPT Options Array.
+        $this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
 
         add_action( 'wp_ajax_fts_access_token_type_ajax', array( $this, 'fts_access_token_type_ajax' ) );
 
         // Facebook & Instagram get Access Token.
-        add_shortcode( 'fts_fb_page_token', array( $this, 'fts_fb_page_token_func' ) );
+        add_shortcode( 'fts_fb_page_token', array( $this, 'ftsFbPageTokenFunc' ) );
     }
 
-	/**
-	 * Decrypt Access Token
-	 *
-	 * Decrypt the access token given.
-	 *
-	 * @since 4.0.0
-	 */
-	public function decrypt_access_token( $encrypted_token ) {
+    /**
+     * Decrypt Access Token
+     *
+     * Decrypt the access token given.
+     *
+     * @since 4.0.0
+     */
+    public function decrypt_access_token( $encrypted_token ) {
         // Was an encrypted token given?
         if( $encrypted_token ){
             // Decrypt the token.
-	        return $this->data_protection->decrypt( $encrypted_token );
+            return $this->data_protection->decrypt( $encrypted_token );
         }
         // Decryption didn't work.
         return false;
-	}
+    }
 
-	/**
-	 * Get Access Tokens Options
-	 *
-	 * Get Access Token Options based on Feed Type and Feed CPT ID
-	 *
-	 * @since 4.0.0
-	 */
-	public function get_access_token_options( $feed_type, $feed_cpt_id ) {?>
+    /**
+     * Get Access Tokens Options
+     *
+     * Get Access Token Options based on Feed Type and Feed CPT ID
+     *
+     * @since 4.0.0
+     */
+    public function getAccessTokenOptions( $feed_type, $feed_cpt_id ) {?>
 
         <?php
-		if($feed_type){
-			// Determine Feed Type. Call Class. Return Options.
-			switch ($feed_type){
-				case 'facebook-feed-type':
-					// Facebook Access Functions.
-					$facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
+        if($feed_type){
+            // Determine Feed Type. Call Class. Return Options.
+            switch ($feed_type){
+                case 'facebook-feed-type':
+                    // Facebook Access Functions.
+                    $facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Facebook Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
@@ -150,9 +150,9 @@ class Access_Options {
 
                     break;
 
-				case 'instagram-feed-type':
-					// Instagram Access Functions.
-					$instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
+                case 'instagram-feed-type':
+                    // Instagram Access Functions.
+                    $instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Instagram Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
@@ -160,11 +160,11 @@ class Access_Options {
                     // Load the options.
                     $instagram_access_functions->get_access_token_button( $feed_cpt_id );
 
-					break;
+                    break;
 
                 case 'instagram-business-feed-type':
-	                // Instagram Business Access Functions.
-	                $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
+                    // Instagram Business Access Functions.
+                    $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Instagram Business Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
@@ -178,31 +178,31 @@ class Access_Options {
                     </div>
 
                 <?php
-	               break;
+                   break;
 
-				case 'twitter-feed-type':
-					// Twitter Access Functions.
-					$twitter_access_functions = new Twitter_Access_Functions( $this->feed_functions, $this->data_protection );
+                case 'twitter-feed-type':
+                    // Twitter Access Functions.
+                    $twitter_access_functions = new Twitter_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load Twitter Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
 
                     // Load the options.
-					$twitter_access_functions->get_access_token_button( $feed_cpt_id );
+                    $twitter_access_functions->get_access_token_button( $feed_cpt_id );
 
-					break;
+                    break;
 
-				case 'youtube-feed-type':
-					// YouTube Access Functions.
-					$youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
+                case 'youtube-feed-type':
+                    // YouTube Access Functions.
+                    $youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
 
                     // Load YouTube Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
 
                     // Load the options.
-					$youtube_access_functions->get_access_token_button( $feed_cpt_id );
+                    $youtube_access_functions->get_access_token_button( $feed_cpt_id );
 
-					break;
+                    break;
 
                 case 'combine-streams-feed-type':
                     ?>
@@ -317,11 +317,11 @@ class Access_Options {
                     break;
                 default:
                     break;
-			}
-			// Return Access Options.
+            }
+            // Return Access Options.
 
-		}
-	}
+        }
+    }
 
 
 
@@ -333,7 +333,7 @@ class Access_Options {
      * @return mixed
      * @since 2.1.4
      */
-    public function fts_fb_page_token_func() {
+    public function ftsFbPageTokenFunc() {
 
         $fts_fb_page_token_users_nonce = wp_create_nonce( 'fts-fb-page-token-users-nonce' );
         if ( ! wp_verify_nonce( $fts_fb_page_token_users_nonce, 'fts-fb-page-token-users-nonce' ) ) {
@@ -343,11 +343,11 @@ class Access_Options {
         ob_start();
 
         // Fetch and process data using a helper.
-        $response = $this->fts_fetch_fb_data_and_decode();
+        $response = $this->ftsFetchFbDataAndDecode();
 
         // IF we still get an error then show a formatted response for the user.
         if ( ! empty( $response->error ) ) {
-            $this->fts_render_api_error_html( $response->error );
+            $this->ftsRenderApiErrorHtml( $response->error );
             return ob_get_clean();
         }
 
@@ -379,7 +379,7 @@ class Access_Options {
             <li class="fts-fb-main-page-li">
                 <div class="fb-click-wrapper">
                     <div class="fb-image">
-                        <img border="0" height="50" width="50" src="<?php echo esc_url( $data_thumbnail ); ?>"/>
+                        <img border="0" height="50" width="50" alt="Facebook" src="<?php echo esc_url( $data_thumbnail ); ?>"/>
                     </div>
                     <div class="fb-name-wrap"><span class="fb-name">
                     <?php echo $data_user_name; ?>
@@ -405,7 +405,7 @@ class Access_Options {
                 <?php
                 // Render locations using a helper if they exist.
                 if ( ! isset( $_GET['locations'] ) && isset( $data->locations->data ) ) {
-                    $this->fts_render_locations_list_html( $data );
+                    $this->ftsRenderLocationsListHtml( $data );
                 }
                 ?>
             </li>
@@ -433,7 +433,7 @@ class Access_Options {
                 'time'             => time(),
                 'nonce'            => wp_create_nonce( time() . 'load-more-nonce' ),
             );
-            $this->fts_render_final_scripts_html( $script_args );
+            $this->ftsRenderFinalScriptsHtml( $script_args );
         } //END Make sure it's not ajaxing
 
         // Make sure it's not ajaxing!
@@ -458,7 +458,7 @@ class Access_Options {
      *
      * @return object The decoded JSON response from the API.
      */
-    private function fts_fetch_fb_data_and_decode() {
+    private function ftsFetchFbDataAndDecode() {
         // Make sure it's not ajaxing!
         if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
             $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feed_functions->get_random_string() );
@@ -507,7 +507,7 @@ class Access_Options {
      *
      * @param object $error The error object from the API response.
      */
-    private function fts_render_api_error_html( $error ) {
+    private function ftsRenderApiErrorHtml( $error ) {
         ?>
         <div class="fts-fb-error-message-wrap">
             <p>
@@ -528,7 +528,7 @@ class Access_Options {
      *
      * @param object $data The data object for the parent page.
      */
-    private function fts_render_locations_list_html( $data ) {
+    private function ftsRenderLocationsListHtml( $data ) {
         $_REQUEST['next_location_url'] = isset( $data->locations->paging->next ) ? esc_url( $data->locations->paging->next ) : '';
         $data_id                       = isset( $data->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? $data->instagram_business_account->id : $data->id;
         $remove_class_or_not           = isset( $data->locations->paging->next ) ? 'fb-sublist-page-id-' . esc_attr( $data_id ) : '';
@@ -551,7 +551,7 @@ class Access_Options {
                 <li>
                     <div class="fb-click-wrapper">
                         <div class="fb-image">
-                            <img border="0" height="50" width="50" src="<?php echo esc_url( $loc_data_thumbnail ); ?>"/>
+                            <img border="0" height="50" width="50" alt="Facebook" src="<?php echo esc_url( $loc_data_thumbnail ); ?>"/>
                         </div>
                         <div class="fb-name-wrap"><span class="fb-name"><?php echo $loc_data_user_name; ?>
                                 <?php
@@ -646,7 +646,7 @@ class Access_Options {
      *
      * @param array $args An array of required variables for the script.
      */
-    private function fts_render_final_scripts_html( $args ) {
+    private function ftsRenderFinalScriptsHtml( $args ) {
         extract( $args ); // Extracts $fts_dynamic_name, $reviews_token, etc.
         ?>
         <script>
@@ -826,7 +826,7 @@ class Access_Options {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id, false );
         }
 
-        echo $this->get_access_token_options( $feed_type, $cpt_id );
+        echo $this->getAccessTokenOptions( $feed_type, $cpt_id );
 
         wp_die();
     }

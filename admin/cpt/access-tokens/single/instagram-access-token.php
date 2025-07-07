@@ -70,13 +70,13 @@ class Instagram_Access_Functions {
             'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_instagram' )
         ), admin_url( 'post.php' ) );
 
-	    // Saved Feed Options!
-	    $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
+        // Saved Feed Options!
+        $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
 
         $user_id_basic           = !empty( $saved_feed_options['fts_instagram_custom_id'] ) ? $saved_feed_options['fts_instagram_custom_id'] :  '';
         $access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
 
-	    // Decrypt Access Token?
+        // Decrypt Access Token?
         $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
         
         if ( isset( $_GET['feed_type'] ) && $_GET['feed_type'] === 'instagram_basic' && 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram' ) ) {

@@ -107,7 +107,7 @@ class Access_Options {
      *
      * @since 4.0.0
      */
-    public function decryptAccessToken( $encrypted_token ) {
+    public function decrypt_access_token( $encrypted_token ) {
         // Was an encrypted token given?
         if( $encrypted_token ){
             // Decrypt the token.

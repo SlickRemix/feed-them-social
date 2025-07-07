@@ -322,7 +322,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 			}
 
             // Decrypt Access Token.
-            $this->feed_access_token = $this->access_options->decryptAccessToken( $access_token );
+            $this->feed_access_token = $this->access_options->decrypt_access_token( $access_token );
 
          	$instagram_data_array = array();
 

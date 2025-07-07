@@ -262,11 +262,6 @@ function slickremixImageResizingFacebook3() {
     })
 }
 
-// https://www.w3schools.com/js/js_comparisons.asp
-// >	greater than   x > 8	true
-// <	less than      x < 8	true
-// https://www.slickremix.com/betablog/2017/09/20200/
-
 jQuery(document).ready(slickremixImageResizingYouTube);
 jQuery(window).on('resize',slickremixImageResizingYouTube);
 function slickremixImageResizingYouTube() {

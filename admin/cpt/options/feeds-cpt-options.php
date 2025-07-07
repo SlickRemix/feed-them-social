@@ -80,6 +80,8 @@ class Feed_CPT_Options {
 		$this->youtube_additional_options = $youtube_additional_options->get_all_options();
 	}
 
+    const DEFAULT_WIDTH_PLACEHOLDER = '310px ';
+
 	/**
 	 * Get All Token Options
 	 *

@@ -1946,7 +1946,7 @@ class Facebook_Feed_Post_Types {
 					if(!empty($comment->message)) {
 						echo '<div class="fts-fb-comment fts-fb-comment-' . esc_attr( $comment->id ) . '">';
 						// User Profile Img.
-                        $comment_profile_url_check = isset( $comment->from->id ) ? 'https://graph.facebook.com/'.$comment->from->id.'?fields=picture&access_token='. $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']) : 'WTF';
+                        $comment_profile_url_check = isset( $comment->from->id ) ? 'https://graph.facebook.com/'.$comment->from->id.'?fields=picture&access_token='. $this->access_options->decryptAccessToken($saved_feed_options['fts_facebook_custom_api_token']) : 'WTF';
                         $response                  = wp_remote_fopen( $comment_profile_url_check );
                         $comment_profile_url       = json_decode( $response, true );
 						$avatar_id = $comment_profile_url['picture']['data']['url'] ?? (plugin_dir_url( dirname( __FILE__ ) ) . 'images/slick-comment-pic.png');

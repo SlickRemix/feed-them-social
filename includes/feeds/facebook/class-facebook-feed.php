@@ -376,7 +376,7 @@ class Facebook_Feed {
 
         // Decrypt Access Token.
         $fts_facebook_custom_api_token = !empty( $saved_feed_options['fts_facebook_custom_api_token'] ) ? $saved_feed_options['fts_facebook_custom_api_token'] : '';
-        $this->feed_access_token = $this->access_options->decrypt_access_token( $fts_facebook_custom_api_token );
+        $this->feed_access_token = $this->access_options->decryptAccessToken( $fts_facebook_custom_api_token );
 
         $load_popup_scripts = false;
         if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
@@ -1538,9 +1538,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                     // Don't run these if it's a review feed otherwise you will get an error response from facebook.
                     if ( $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
                         // Set Likes URL in post array.
-                        $fb_post_array[$post_data_key . '_likes'] = 'https://graph.facebook.com/' . $post_data_key . '/reactions?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
+                        $fb_post_array[$post_data_key . '_likes'] = 'https://graph.facebook.com/' . $post_data_key . '/reactions?summary=1&access_token=' . $this->access_options->decryptAccessToken($saved_feed_options['fts_facebook_custom_api_token']);
                         // Set Comments URL in post array.
-                        $fb_post_array[$post_data_key . '_comments'] = 'https://graph.facebook.com/' . $post_data_key . '/comments?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
+                        $fb_post_array[$post_data_key . '_comments'] = 'https://graph.facebook.com/' . $post_data_key . '/comments?summary=1&access_token=' . $this->access_options->decryptAccessToken($saved_feed_options['fts_facebook_custom_api_token']);
                     }
 
                     // Video.

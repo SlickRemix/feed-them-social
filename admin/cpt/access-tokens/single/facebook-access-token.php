@@ -14,7 +14,7 @@ namespace feedthemsocial;
 
 // Exit if accessed directly!
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 /**
@@ -24,44 +24,44 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Facebook_Access_Functions {
 
-	/**
-	 * Feed Functions
-	 *
-	 * The Feed Functions Class
-	 *
-	 * @var object
-	 */
-	public $feed_functions;
+    /**
+     * Feed Functions
+     *
+     * The Feed Functions Class
+     *
+     * @var object
+     */
+    public $feed_functions;
 
-	/**
-	 * Data Protection
-	 *
-	 * Data Protection Class for encryption.
-	 *
-	 * @var object
-	 */
-	public $data_protection;
+    /**
+     * Data Protection
+     *
+     * Data Protection Class for encryption.
+     *
+     * @var object
+     */
+    public $data_protection;
 
-	/** * Construct
-	 *
-	 * Facebook Access Token Options.
-	 *
-	 * @since 4.0.0
-	 */
-	public function __construct( $feed_functions, $data_protection ) {
-		// Feed Functions.
-		$this->feed_functions = $feed_functions;
+    /** * Construct
+     *
+     * Facebook Access Token Options.
+     *
+     * @since 4.0.0
+     */
+    public function __construct( $feed_functions, $data_protection ) {
+        // Feed Functions.
+        $this->feed_functions = $feed_functions;
 
-		// Data Protection.
-		$this->data_protection = $data_protection;
-	}
+        // Data Protection.
+        $this->data_protection = $data_protection;
+    }
 
-	/**
-	 *  Get Access Token Button
-	 *
-	 * @since 4.0.0
-	 */
-	public function get_access_token_button( $feed_cpt_id ) {
+    /**
+     *  Get Access Token Button
+     *
+     * @since 4.0.0
+     */
+    public function get_access_token_button( $feed_cpt_id ) {
 
         $post_url = add_query_arg( array(
             'post' => $feed_cpt_id,
@@ -233,7 +233,7 @@ class Facebook_Access_Functions {
         </div>
 
         <div class="clear"></div>
-		<?php
-	}
+        <?php
+    }
 
 }//end class

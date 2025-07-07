@@ -834,7 +834,7 @@ class Feeds_CPT {
         <div class="fts-access-token">
             <?php
             // Get Access Token Options.
-            $this->access_token_options->get_access_token_options( $feed_type, $this->feed_cpt_id );
+            $this->access_token_options->getAccessTokenOptions( $feed_type, $this->feed_cpt_id );
             ?>
         </div>
         <?php

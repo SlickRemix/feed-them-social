@@ -322,7 +322,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 			}
 
             // Decrypt Access Token.
-            $this->feed_access_token = $this->access_options->decrypt_access_token( $access_token );
+            $this->feed_access_token = $this->access_options->decryptAccessToken( $access_token );
 
          	$instagram_data_array = array();
 
@@ -721,15 +721,24 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 					echo '</div>';
 				}
 
-				if ( !empty( $loadmore ) && $loadmore === 'autoscroll' || ! empty( $height ) ) {
-					?>
-<div class="fts-instagram-scrollable <?php echo esc_attr( $fts_dynamic_class_name ); ?>instagram" style="overflow:auto; <?php if ( !empty( $saved_feed_options['instagram_page_width'] ) ) {
-						?>max-width: <?php echo esc_attr( $saved_feed_options['instagram_page_width'] ) . ';';
-					} if ( !empty( $height ) ) { ?> height: <?php echo esc_attr( $height );
-					}
-					?>">
-					<?php
-				}
+            // Determine if the scrollable container is needed.
+            $is_scrollable = ( ! empty( $loadmore ) && $loadmore === 'autoscroll') || ! empty( $height );
+
+                if ( $is_scrollable ) {
+                    // Prepare style attributes in an array.
+                    $styles   = array();
+                    $styles[] = 'overflow:auto;';
+
+                    if ( ! empty( $saved_feed_options['instagram_page_width'] ) ) {
+                        $styles[] = 'max-width: ' . esc_attr( $saved_feed_options['instagram_page_width'] ) . ';';
+                    }
+                    if ( ! empty( $height ) ) {
+                        $styles[] = 'height: ' . esc_attr( $height ) . ';';
+                    }
+                    ?>
+                    <div class="fts-instagram-scrollable <?php echo esc_attr( $fts_dynamic_class_name ); ?>instagram" style="<?php echo implode( ' ', $styles ); ?>">
+                        <?php
+                }
 
                 $saved_feed_options['instagram_columns']        = $saved_feed_options['instagram_columns'] ?? '';
                 $saved_feed_options['instagram_force_columns']  = $saved_feed_options['instagram_force_columns'] ?? '';

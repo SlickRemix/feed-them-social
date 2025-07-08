@@ -138,8 +138,6 @@ class Instagram_Access_Functions {
         </script>
         <?php
 
-        // $insta_url = esc_url( 'https://api.instagram.com/v1/users/self/?access_token=' . $fts_instagram_access_token );
-
         if( !empty( $decrypted_access_token ) ) {
             $insta_url = esc_url_raw( 'https://graph.instagram.com/me?fields=id,username&access_token=' . $decrypted_access_token );
 
@@ -151,7 +149,7 @@ class Instagram_Access_Functions {
 
         }
         // https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login#step-2---exchange-the-code-for-a-token
-        echo sprintf(
+        echo \sprintf(
             esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
             '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://api.instagram.com/oauth/authorize?client_id=523345500405663&redirect_uri=https://www.slickremix.com/instagram-business-basic-token-redirect/&response_type=code&scope=instagram_business_basic&state=' . urlencode( urlencode( urlencode( $post_url ) ) ) ) . '" class="fts-instagram-get-access-token">',
             '</a>'
@@ -163,8 +161,8 @@ class Instagram_Access_Functions {
 
         ?>
         <div class="fts-settings-does-not-work-wrap">
-            <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-            <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+            <button type="button" class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></button>
+            <button type="button" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></button>
         </div>
 
         <div class="fts-clear"></div>
@@ -177,8 +175,8 @@ class Instagram_Access_Functions {
 
                 if( ! isset( $data->meta->error_message ) && ! isset( $data->error_message ) && $instagram_generic_response !== $response || isset( $data->meta->error_message ) && 'This client has not been approved to access this resource.' === $data->meta->error_message ){
 
-                    if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
-                        echo sprintf(
+                    if( $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) === 'combine-streams-feed-type' ){
+                        echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div class="fts-successful-api-token fts-special-working-wrap">',
                             '<a class="fts-instagram-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
@@ -187,7 +185,7 @@ class Instagram_Access_Functions {
 
                     }
                     else {
-                        echo sprintf(
+                        echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Instagram Feed%3$s', 'feed-them-social' ),
                             '<div class="fts-successful-api-token fts-special-working-wrap">',
                             '<a class="fts-instagram-successful-api-token fts-success-token-content" href="#instagram_feed">',
@@ -198,7 +196,7 @@ class Instagram_Access_Functions {
 
                 if ( $instagram_generic_response === $response || isset( $data->data->error->message ) && ! empty( $user_id_basic ) || isset( $data->error->message ) && ! empty( $user_id_basic ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {
                     if ( isset( $data->data->error->message ) ) {
-                        echo sprintf(
+                        echo \sprintf(
                             esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                             '<div class="fts-failed-api-token">',
                             esc_html( $data->data->error->message ),
@@ -206,7 +204,7 @@ class Instagram_Access_Functions {
                         );
                     }
                     if ( isset( $data->error->message ) ) {
-                        echo sprintf(
+                        echo \sprintf(
                             esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                             '<div class="fts-failed-api-token">',
                             esc_html( $data->error->message ),
@@ -214,7 +212,7 @@ class Instagram_Access_Functions {
                         );
                     }
                     if ( $instagram_generic_response === $response ) {
-                        echo sprintf(
+                        echo \sprintf(
                             esc_html__( '%1$sOh No something\'s wrong. Instagram Responded with: %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                             '<div class="fts-failed-api-token">',
                             esc_html( $response ),

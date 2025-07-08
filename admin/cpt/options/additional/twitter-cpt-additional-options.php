@@ -525,7 +525,7 @@ class Twitter_Additional_Options {
 					'input_wrap_class' => 'twitter_feed_margin',
 					'option_type'      => 'input',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Feed Margin %1$sTo center feed type auto%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'

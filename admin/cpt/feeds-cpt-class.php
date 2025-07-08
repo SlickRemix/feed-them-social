@@ -205,7 +205,7 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function fts_tab_premium_msg() {
-        echo sprintf(
+        echo \sprintf(
             esc_html__( '%1$sPlease purchase, install and activate %2$sFeed Them Social Premium%3$s for these additional awesome features!%4$s', 'feed-them-social' ),
             '<div class="ft-gallery-premium-mesg">',
             '<a href="' . esc_url( 'https://www.slickremix.com/downloads/feed-them-social/' ) . '" target="_blank">',

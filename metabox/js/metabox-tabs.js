@@ -504,7 +504,6 @@ jQuery(document).ready(function ($) {
     jQuery('.post-type-fts .wrap form#post').submit( function (e) {
         e.preventDefault();
         fts_ajax_cpt_save();
-        //  alert('yes');
     });
 
     if( location.hash === '#instagram_feed' ||

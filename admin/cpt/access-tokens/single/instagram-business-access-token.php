@@ -83,7 +83,7 @@ class Instagram_Business_Access_Functions {
 
                     // This click function is specific to fb and instagram fb when you click the green save button after
                     // clicking on a page in the list of facebook pages you manage.
-                    jQuery('.combine-instagram-business-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder span.fts-token-manual-save, .combine-instagram-business-access-token-placeholder span.fts-token-manual-save').click( function (e) {
+                    jQuery('.combine-instagram-business-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder div.fts-token-save, .instagram-facebook-access-token-placeholder .fts-token-manual-save, .combine-instagram-business-access-token-placeholder span.fts-token-manual-save').click( function (e) {
                         e.preventDefault();
 
                         let myString = jQuery('#fts_facebook_instagram_custom_api_token').val();
@@ -138,7 +138,7 @@ class Instagram_Business_Access_Functions {
                 // 1844222799032692 = slicktest fb page (dev user)
                 // 1844222799032692?fields=instagram_business_account&access_token=
                 // This redirect url must have an &state= instead of a ?state= otherwise it will not work proper with the fb app. https://www.slickremix.com/instagram-token/&state=.
-                echo sprintf(
+                echo \sprintf(
                     esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
                     '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/instagram-token/&state=' . urlencode( $post_url ) . '&scope=pages_show_list,pages_read_engagement,instagram_basic,business_management' ) . '" class="fts-facebook-get-access-token">',
                     '</a>'
@@ -146,9 +146,9 @@ class Instagram_Business_Access_Functions {
                 ?>
 
             <div class="fts-settings-does-not-work-wrap">
-                <span class="fts-token-manual-save"><?php esc_html_e( 'Save Token Manually', 'feed-them-social' ); ?></span>
-                <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-                <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+                <button type="button" class="fts-token-manual-save"><?php esc_html_e( 'Save Token Manually', 'feed-them-social' ); ?></button>
+                <button type="button" class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></button>
+                <button type="button" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></button>
             </div>
 
             <?php
@@ -190,7 +190,7 @@ class Instagram_Business_Access_Functions {
                                  $insta_fb_text = '<a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-insta-icon"></span>' . esc_html( $instagram_name ) . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . esc_html( $fb_name ) . '</a>';
 
                                  if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
-                                     echo sprintf(
+                                     echo \sprintf(
                                          esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                                          '<div class="fts-successful-api-token fts-special-working-wrap">',
                                          '<a class="fts-instagram-business-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
@@ -199,7 +199,7 @@ class Instagram_Business_Access_Functions {
 
                                  }
                                  else{
-                                     echo sprintf(
+                                     echo \sprintf(
                                          esc_html__( '%1$s%2$sCreate Instagram Feed%3$s', 'feed-them-social' ),
                                          '<div class="fts-successful-api-token fts-special-working-wrap">',
                                          '<a class="fts-instagram-business-successful-api-token fts-success-token-content" href="#instagram_feed">',
@@ -209,7 +209,7 @@ class Instagram_Business_Access_Functions {
                              }
                              if ( isset( $data->data->error->message ) && !empty( $data ) || isset( $data->error->message ) && !empty( $data ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {
                                  if ( isset( $data->data->error->message ) ) {
-                                     echo sprintf(
+                                     echo \sprintf(
                                          esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                                          '<div class="fts-failed-api-token">',
                                          esc_html( $data->data->error->message ),
@@ -217,7 +217,7 @@ class Instagram_Business_Access_Functions {
                                      );
                                  }
                                  if ( isset( $data->error->message ) ) {
-                                     echo sprintf(
+                                     echo \sprintf(
                                          esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                                          '<div class="fts-failed-api-token">',
                                          esc_html( $data->error->message ),

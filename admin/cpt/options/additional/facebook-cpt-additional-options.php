@@ -368,7 +368,7 @@ class Facebook_Additional_Options {
                     'input_wrap_class' => 'fb_hide_shared_by_etc_text',
                     'option_type'      => 'select',
                     'label'            =>
-                        sprintf(
+                        \sprintf(
                             esc_html__( 'Text after your Facebook name %1$sie* Shared by or New Photo Added etc.%2$s', 'feed-them-social' ),
                             '<br/><small>',
                             '</small>'
@@ -499,7 +499,7 @@ class Facebook_Additional_Options {
                     'input_wrap_class' => 'fb_feed_margin',
                     'option_type'      => 'input',
                     'label'            =>
-                        sprintf(
+                        \sprintf(
                             esc_html__( 'Feed Margin %1$sTo center feed type auto%2$s', 'feed-them-social' ),
                             '<br/><small>',
                             '</small>'
@@ -589,7 +589,7 @@ class Facebook_Additional_Options {
 					'input_wrap_class' => 'fb-reviews-title-color-label fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Background Color%1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
@@ -606,7 +606,7 @@ class Facebook_Additional_Options {
 					'input_wrap_class' => 'fb-reviews-text-color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Text Color %1$sApplies to Overall Rating too.%2$s', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
@@ -743,7 +743,7 @@ class Facebook_Additional_Options {
 					'input_wrap_class' => 'fb-reviews-title-color-label fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Background Color', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
@@ -762,7 +762,7 @@ class Facebook_Additional_Options {
 					'input_wrap_class' => 'fb-reviews-text-color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Text Color', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
@@ -780,7 +780,7 @@ class Facebook_Additional_Options {
 					'input_wrap_class' => 'fb-reviews-text-color fts-color-picker',
 					'option_type'      => 'input',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Border Color', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
@@ -798,7 +798,7 @@ class Facebook_Additional_Options {
 					'input_wrap_class' => 'fb_reviews_overall_rating_background_padding',
 					'option_type'      => 'input',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Background Padding', 'feed-them-social' ),
 							'<br/><small>',
 							'</small>'
@@ -816,7 +816,7 @@ class Facebook_Additional_Options {
                     'input_wrap_class' => 'fb_reviews_overall_rating_of_5_stars_text',
                     'option_type'      => 'input',
                     'label'            =>
-                        sprintf(
+                        \sprintf(
                             esc_html__( '"of 5 stars" text', 'feed-them-social' ),
                             '<br/><small>',
                             '</small>'
@@ -834,7 +834,7 @@ class Facebook_Additional_Options {
                     'input_wrap_class' => 'fb_reviews_overall_rating_reviews_text',
                     'option_type'      => 'input',
                     'label'            =>
-                        sprintf(
+                        \sprintf(
                             esc_html__( '"reviews" text', 'feed-them-social' ),
                             '<br/><small>',
                             '</small>'
@@ -1072,7 +1072,7 @@ class Facebook_Additional_Options {
 					'input_wrap_class' => 'fb_hide_error_handler_message',
 					'option_type'      => 'select',
 					'label'            => esc_html__( 'Hide Error Handler Message', 'feed-them-social' ),
-                    'instructional-text' => sprintf(
+                    'instructional-text' => \sprintf(
                         esc_html( 'If your feed is displaying a notice or error message at times you can utilize this option to hide them from displaying. Make sure and delete the %1$sCache%2$s to see the change. %3$sNOTE: This does not hide any php warnings that may come up. To remove those go to the wp-config.php file on root of your WordPress install and set the wp_debug option to FALSE. Having that option set to TRUE is really only necessary when developing.%4$s', 'feed-them-social' ),
                         '<a href="' . esc_url( 'admin.php?page=feed-them-settings-page&tab=global_options' ) . '">',
                         '</a>',

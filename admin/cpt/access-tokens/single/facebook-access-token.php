@@ -72,7 +72,7 @@ class Facebook_Access_Functions {
         // 1844222799032692 = slicktest fb page (dev user)
         // 1844222799032692?fields=instagram_business_account&access_token=
         // This redirect url must have an &state= instead of a ?state= otherwise it will not work proper with the fb app. https://www.slickremix.com/instagram-token/&state=.
-        echo sprintf(
+        echo \sprintf(
             esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
             '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.facebook.com/dialog/oauth?client_id=1123168491105924&redirect_uri=https://www.slickremix.com/facebook-token/&state=' . urlencode( $post_url ) . '&scope=pages_show_list,pages_read_engagement,pages_read_user_content,business_management' ) . '" class="fts-facebook-get-access-token">',
             '</a>'
@@ -89,7 +89,7 @@ class Facebook_Access_Functions {
                 }
 
                 // This click function is specific to combined fb when you click the green save button after clicking on a page in the list of facebook pages you manage.
-                jQuery('.combine-facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder span.fts-token-manual-save, .combine-facebook-access-token-placeholder span.fts-token-manual-save').click( function (e) {
+                jQuery('.combine-facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder .fts-token-manual-save, .combine-facebook-access-token-placeholder .fts-token-manual-save').click( function (e) {
                     e.preventDefault();
 
                     let myString = jQuery('#fts_facebook_custom_api_token').val();
@@ -133,9 +133,9 @@ class Facebook_Access_Functions {
         </script>
 
         <div class="fts-settings-does-not-work-wrap">
-            <span class="fts-token-manual-save"><?php esc_html_e( 'Save Token Manually', 'feed-them-social' ); ?></span>
-            <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-            <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+            <button type="button" class="fts-token-manual-save"><?php esc_html_e( 'Save Token Manually', 'feed-them-social' ); ?></button>
+            <button type="button" class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></button>
+            <button type="button" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></button>
         </div>
 
         <?php
@@ -176,7 +176,7 @@ class Facebook_Access_Functions {
                         }
 
                         if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
-                            echo sprintf(
+                            echo \sprintf(
                                 esc_html__( '%1$sCreate Combined Feed%2$s', 'feed-them-social' ),
                                 '<a class="fts-facebook-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
                                 '</a>'
@@ -184,7 +184,7 @@ class Facebook_Access_Functions {
 
                         }
                         else {
-                            echo sprintf(
+                            echo \sprintf(
                                 esc_html__( '%1$sCreate Facebook Feed%2$s', 'feed-them-social' ),
                                 '<a class="fts-facebook-successful-api-token fts-success-token-content" href="#facebook_feed">',
                                 '</a>'
@@ -195,7 +195,7 @@ class Facebook_Access_Functions {
                     }
                     if ( isset( $data->data->error->message ) && !empty( $data ) || isset( $data->error->message ) && !empty( $data ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {
                         if ( isset( $data->data->error->message ) ) {
-                            echo sprintf(
+                            echo \sprintf(
                                 esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                                 '<div class="fts-failed-api-token">',
                                 esc_html( $data->data->error->message ),
@@ -203,7 +203,7 @@ class Facebook_Access_Functions {
                             );
                         }
                         if ( isset( $data->error->message ) ) {
-                            echo sprintf(
+                            echo \sprintf(
                                 esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
                                 '<div class="fts-failed-api-token">',
                                 esc_html( $data->error->message ),

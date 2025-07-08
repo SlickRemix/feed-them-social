@@ -113,6 +113,7 @@ class Feed_Cache {
                 $fts_display_cache_time = __( 'Clear cache on every page load', 'feed-them-social' );
                 break;
             case '3600':
+            default:
                 $fts_display_cache_time = __( '1 Hour', 'feed-them-social' );
                 break;
             case '7200':
@@ -138,8 +139,6 @@ class Feed_Cache {
                 break;
             case '345600':
                 $fts_display_cache_time = __( '4 Days', 'feed-them-social' );
-                break;
-            default:
                 break;
         }
         return $fts_display_cache_time;

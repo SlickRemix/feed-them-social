@@ -363,7 +363,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
 				if ( $this->feed_cache->fts_check_feed_cache_exists( $cache_hashtag_id_array ) === false ) {
 					// This call is required because users enter a hashtag name, then we have to check the API to see if it exists and if it does return the ID number for that hashtag.
-					$instagram_hashtag_data_array['data'] = 'https://graph.facebook.com/ig_hashtag_search?user_id=' . $instagram_id . '&q=' . $hashtag . '&access_token=' . $this->feed_access_token;
+					$instagram_hashtag_data_array['data'] = FTS_FACEBOOK_GRAPH_URL . 'ig_hashtag_search?user_id=' . $instagram_id . '&q=' . $hashtag . '&access_token=' . $this->feed_access_token;
 
 					$hashtag_response = $this->feed_functions->fts_get_feed_json( $instagram_hashtag_data_array );
 
@@ -409,11 +409,11 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 				// The below needs to be cached and the hashtag ID above merged with like how we did below on line 493
 				if ( $search === 'recent-media' || '' === $search ) {
 					// Now that we have the Instagram ID we can do a search for the endpoint 'Recent Media'.
-					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $hashtag_id . '/recent_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,comments_count,permalink,like_count,media_type,id,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : FTS_FACEBOOK_GRAPH_URL . $hashtag_id . '/recent_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,comments_count,permalink,like_count,media_type,id,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 
 				} elseif ( $search === 'top-media' ) {
 					// Now that we have the Instagram ID we can do a search for the endpoint 'Top Media'.
-					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $hashtag_id . '/top_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,id,comments_count,permalink,like_count,media_type,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+					$instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : FTS_FACEBOOK_GRAPH_URL . $hashtag_id . '/top_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,id,comments_count,permalink,like_count,media_type,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 				}
 
 				// First we make sure the feed is not cached already before trying to run the Instagram API.
@@ -434,7 +434,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                             // so we can display it in the feed for carousel album posts that contain a video. All posts including hashtag video posts link back to Instagram for that user as well.
                             if( $media->media_type === 'VIDEO' ){
                                 $permalink = $media->permalink;
-                                $instagram_business_data_array['data'] = 'https://graph.facebook.com/v9.0/instagram_oembed?url=' . $permalink . '&fields=thumbnail_url&access_token='.$this->feed_access_token;
+                                $instagram_business_data_array['data'] = FTS_FACEBOOK_GRAPH_URL . 'v9.0/instagram_oembed?url=' . $permalink . '&fields=thumbnail_url&access_token='.$this->feed_access_token;
                                 $instagram_business_media_response     = $this->feed_functions->fts_get_feed_json( $instagram_business_data_array );
                                 $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
                                 $media->thumbnail_url = $instagram_business_media->thumbnail_url;
@@ -444,7 +444,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                             if( $media->media_type === 'CAROUSEL_ALBUM' ){
                                 if( $media->children->data[0]->media_type === 'VIDEO' ){
                                     $permalink_child = $media->children->data[0]->permalink;
-                                    $instagram_business_data_array_child['data'] = 'https://graph.facebook.com/v9.0/instagram_oembed?url=' . $permalink_child . '&fields=thumbnail_url&access_token='.$this->feed_access_token;
+                                    $instagram_business_data_array_child['data'] = FTS_FACEBOOK_GRAPH_URL . 'v9.0/instagram_oembed?url=' . $permalink_child . '&fields=thumbnail_url&access_token='.$this->feed_access_token;
                                     $instagram_business_media_response_child     = $this->feed_functions->fts_get_feed_json( $instagram_business_data_array_child );
                                     $instagram_business_media_child             = json_decode( $instagram_business_media_response_child['data'] );
                                     $media->children->data[0]->thumbnail_url = $instagram_business_media_child->thumbnail_url;
@@ -483,10 +483,10 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                 $business_cache = 'instagram_business_cache' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '';
 
                 // this is not getting cached currently
-                $instagram_data_array['user_info'] = 'https://graph.facebook.com/' . $instagram_id . '?fields=biography%2Cid%2Cig_id%2Cfollowers_count%2Cfollows_count%2Cmedia_count%2Cname%2Cprofile_picture_url%2Cusername%2Cwebsite&access_token=' . $this->feed_access_token;
+                $instagram_data_array['user_info'] = FTS_FACEBOOK_GRAPH_URL . $instagram_id . '?fields=biography%2Cid%2Cig_id%2Cfollowers_count%2Cfollows_count%2Cmedia_count%2Cname%2Cprofile_picture_url%2Cusername%2Cwebsite&access_token=' . $this->feed_access_token;
 
                 // This only returns the next url and a list of media ids. We then have to loop through the ids and make a call to get each ids data from the API.
-                $instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : 'https://graph.facebook.com/' . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
+                $instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : FTS_FACEBOOK_GRAPH_URL . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . '&access_token=' . $this->feed_access_token;
 
                 // First we make sure the feed is not cached already before trying to run the Instagram API.
                 if ( $this->feed_cache->fts_check_feed_cache_exists( $business_cache ) === false ) {
@@ -501,7 +501,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
                     foreach ( $instagram_business->data as $media ) {
                         $media_id                              = $media->id;
-                        $instagram_business_data_array['data'] = 'https://graph.facebook.com/' . $media_id . '?fields=caption,comments_count,like_count,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $this->feed_access_token;
+                        $instagram_business_data_array['data'] = FTS_FACEBOOK_GRAPH_URL . $media_id . '?fields=caption,comments_count,like_count,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $this->feed_access_token;
                         $instagram_business_media_response     = $this->feed_functions->fts_get_feed_json( $instagram_business_data_array );
                         $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
                         $instagram_business_output->data[]     = $instagram_business_media;

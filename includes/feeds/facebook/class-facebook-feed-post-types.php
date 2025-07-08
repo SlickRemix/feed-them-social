@@ -67,6 +67,13 @@ class Facebook_Feed_Post_Types {
     const JAVASCRIPT = 'javascript:;';
 
     /**
+     * Default Avatar Image.
+     *
+     * @var string
+     */
+    const DEFAULT_AVATAR_IMAGE = 'images/slick-comment-pic.png';
+
+    /**
      * Construct
      *
      * Facebook Feed constructor.
@@ -1092,7 +1099,7 @@ class Facebook_Feed_Post_Types {
                 if ( $saved_feed_options['facebook_page_feed_type'] !== 'albums' ) {
                     echo '<div class="fts-jal-fb-user-thumb">';
 
-                    $avatar_id                  = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';
+                    $avatar_id = plugin_dir_url( __DIR__ ) . self::DEFAULT_AVATAR_IMAGE;
                     $profile_photo_exists_check = isset( $facebook_post_profile_pic_url ) && strpos( $facebook_post_profile_pic_url, 'profilepic' ) !== false ? $facebook_post_profile_pic_url : $avatar_id;
 
                     if( $saved_feed_options['facebook_page_feed_type'] === 'reviews' && $this->feed_functions->is_extension_active( 'feed_them_social_facebook_reviews' )){
@@ -1101,7 +1108,7 @@ class Facebook_Feed_Post_Types {
                     elseif ( $saved_feed_options['feed_type'] !== 'combine-streams-feed-type' ) {
                         echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_attr( $fts_main_profile_pic_url ) . '"/></a>';
                     }
-                    // echo ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_attr( $facebook_post->reviewer->name ) : esc_attr( $facebook_post_from_name ) ) . '" src="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : 'https://graph.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) ) . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '/picture"/></a>' );
+                    // echo ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_attr( $facebook_post->reviewer->name ) : esc_attr( $facebook_post_from_name ) ) . '" src="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : FTS_FACEBOOK_GRAPH_URL . esc_attr( $facebook_post_from_id_picture ) ) . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '/picture"/></a>' );
 
                     echo '</div>';
 
@@ -1168,7 +1175,7 @@ class Facebook_Feed_Post_Types {
                     $trimmed_content = $trunacate_words::fts_custom_trim_words( $facebook_final_message, $word_count , $more );*/
 
                     // Going to consider this for the future if facebook fixes the api to define when are checking in. Add  '.$checked_in.' inside the fts-jal-fb-message div.
-                    // $checked_in = '<a target="_blank" class="fts-checked-in-img" href="https://www.facebook.com/'.$facebook_post->place->id.'"><img src="https://graph.facebook.com/'.$facebook_post->place->id.'/picture?width=150"/></a><a target="_blank" class="fts-checked-in-text-link" href="https://www.facebook.com/'.$facebook_post->place->id.'">'.esc_html("Checked in at", "feed-them-social").' '.$facebook_post->place->name.'</a><br/> '.esc_html("Location", "feed-them-social").': '.$facebook_post->place->location->city.', '.$facebook_post->place->location->country.' '.$facebook_post->place->location->zip.'<br/><a target="_blank" class="fts-fb-get-directions fts-checked-in-get-directions" href="https://www.facebook.com/'.$facebook_post->place->id.'">'.esc_html("Get Direction", "feed-them-social").'</a>';.
+                    // $checked_in = '<a target="_blank" class="fts-checked-in-img" href="https://www.facebook.com/'.$facebook_post->place->id.'"><img src="'FTS_FACEBOOK_GRAPH_URL . $facebook_post->place->id.'/picture?width=150"/></a><a target="_blank" class="fts-checked-in-text-link" href="'FTS_FACEBOOK_GRAPH_URL . $facebook_post->place->id.'">'.esc_html("Checked in at", "feed-them-social").' '.$facebook_post->place->name.'</a><br/> '.esc_html("Location", "feed-them-social").': '.$facebook_post->place->location->city.', '.$facebook_post->place->location->country.' '.$facebook_post->place->location->zip.'<br/><a target="_blank" class="fts-fb-get-directions fts-checked-in-get-directions" href="https://www.facebook.com/'.$facebook_post->place->id.'">'.esc_html("Get Direction", "feed-them-social").'</a>';.
                     echo '<div class="fts-jal-fb-message"' . esc_attr( $itemprop_description_reviews ) . '>';
 
                     echo esc_html( $facebook_title_job_opening );
@@ -1766,7 +1773,7 @@ class Facebook_Feed_Post_Types {
                 // Output Photo Picture.
                 if ( $facebook_post_picture ) {
                     if ( $facebook_post_object_id ) {
-                        $this->facebook_post_photo( $facebook_post_link, $saved_feed_options, $facebook_post_from_name, 'https://graph.facebook.com/' . $facebook_post_object_id . '/picture' );
+                        $this->facebook_post_photo( $facebook_post_link, $saved_feed_options, $facebook_post_from_name, FTS_FACEBOOK_GRAPH_URL . $facebook_post_object_id . '/picture' );
                     } else {
                         if ( isset( $saved_feed_options['facebook_video_album'] ) && 'yes' === $saved_feed_options['facebook_video_album'] ) {
                             $this->facebook_post_photo( $facebook_post_link, $saved_feed_options, $facebook_post_from_name, $facebook_post_video_photo );
@@ -1848,7 +1855,7 @@ class Facebook_Feed_Post_Types {
                 // if ( $facebook_post_object_id ) {
                 // if ( $facebook_post_object_id ) {
 
-                $photo_source_final = isset( $facebook_post->attachments->data[0]->media->image->src ) ? $facebook_post->attachments->data[0]->media->image->src : 'https://graph.facebook.com/' . $facebook_post_object_id . '/picture';
+                $photo_source_final = isset( $facebook_post->attachments->data[0]->media->image->src ) ? $facebook_post->attachments->data[0]->media->image->src : FTS_FACEBOOK_GRAPH_URL . $facebook_post_object_id . '/picture';
                 // This if statement is in place because we need to remove this link if its an albums so we don't get an extra image that is blank in the popup.
                 if ( 'albums' !== $saved_feed_options['facebook_page_feed_type'] ) {
                     // if we have more than one attachment we get the first image width and set that for the max width.
@@ -1960,10 +1967,10 @@ class Facebook_Feed_Post_Types {
                     if(!empty($comment->message)) {
                         echo '<div class="fts-fb-comment fts-fb-comment-' . esc_attr( $comment->id ) . '">';
                         // User Profile Img.
-                        $comment_profile_url_check = isset( $comment->from->id ) ? 'https://graph.facebook.com/'.$comment->from->id.'?fields=picture&access_token='. $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']) : 'WTF';
+                        $comment_profile_url_check = isset( $comment->from->id ) ? FTS_FACEBOOK_GRAPH_URL . $comment->from->id.'?fields=picture&access_token='. $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']) : '';
                         $response                  = wp_remote_fopen( $comment_profile_url_check );
                         $comment_profile_url       = json_decode( $response, true );
-                        $avatar_id = $comment_profile_url['picture']['data']['url'] ?? (plugin_dir_url( dirname( __FILE__ ) ) . 'images/slick-comment-pic.png');
+                        $avatar_id = $comment_profile_url['picture']['data']['url'] ?? plugin_dir_url( __DIR__ ) . self::DEFAULT_AVATAR_IMAGE;
                         echo '<img class="fts-fb-comment-user-pic" src="' . esc_url( $avatar_id ) . '"/>';
                         echo '<div class="fts-fb-comment-msg">';
                         if ( isset( $comment->from->name ) ) {
@@ -1999,7 +2006,7 @@ class Facebook_Feed_Post_Types {
             echo '<div class="fts-jal-fb-top-wrap ' . esc_attr( $saved_feed_options['facebook_hide_date_likes_comments'] ) . '" style="display:block !important;">';
             echo '<div class="fts-jal-fb-user-thumb">';
 
-            $avatar_id                  = plugin_dir_url( __DIR__ ) . 'images/slick-comment-pic.png';
+            $avatar_id                  = plugin_dir_url( __DIR__ ) . self::DEFAULT_AVATAR_IMAGE;
             $profile_photo_exists_check = isset( $facebook_post_profile_pic_url ) && strpos( $facebook_post_profile_pic_url, 'profilepic' ) !== false ? $facebook_post_profile_pic_url : $avatar_id;
 
 

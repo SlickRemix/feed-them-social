@@ -294,6 +294,11 @@ class Feed_Them_Social {
                 )
             );
         }
+
+        // Facebook Graph URL.
+        if ( ! defined( 'FTS_FACEBOOK_GRAPH_URL' ) ) {
+            define( 'FTS_FACEBOOK_GRAPH_URL', 'https://graph.facebook.com/' );
+        }
     }
 
     /**

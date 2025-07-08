@@ -611,7 +611,7 @@ class Facebook_Feed {
             if (isset($feed_data->data) && \count($feed_data->data) > 0) {
                 foreach ($feed_data->data as $post_array) {
 
-                    $the_image = 'https://graph.facebook.com/' . $post_array->reviewer->id . '/picture?redirect=false&access_token=' . $this->feed_access_token;
+                    $the_image = FTS_FACEBOOK_GRAPH_URL . $post_array->reviewer->id . '/picture?redirect=false&access_token=' . $this->feed_access_token;
 
                     $profile_pic_response = wp_remote_get($the_image);
                     $profile_pic_data = wp_remote_retrieve_body($profile_pic_response);
@@ -1313,7 +1313,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
             // Page.
             if ( $saved_feed_options['facebook_page_feed_type'] === 'page' && $saved_feed_options['facebook_page_posts_displayed'] === 'page_only' ||
                 $saved_feed_options['facebook_page_feed_type'] === 'page' && $saved_feed_options['facebook_page_posts_displayed'] === 'page_reels_and_posts') {
-                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,picture&access_token=' . $this->feed_access_token . $language . '' );
+                $mulit_data = array( 'page_data' => FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,picture&access_token=' . $this->feed_access_token . $language . '' );
 
                 if ( isset( $_REQUEST['next_url'] ) ) {
                     $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
@@ -1323,10 +1323,10 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                     // SRL 1-27-25: Testing out adding feed back so we can show reels. This might backfire and start showing posts we don't have formatted so keep an eye out.
                     $page_type = $saved_feed_options['facebook_page_posts_displayed'] === 'page_reels_and_posts' ? 'feed' : 'posts';
                     // We cannot add sanitize_text_field here on the $_REQUEST['next_url'] otherwise it will fail to load the contents from the facebook API.
-                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/' . $page_type . '?fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/' . $page_type . '?fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 } else {
                     // This used to be used to combine facebook feeds, but because we do not have Public Permission anymore this is not possible. Keeping for a rainy day.
-                    // $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/posts?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    // $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . 'posts?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 }
             } elseif ( $saved_feed_options['facebook_page_feed_type'] === 'albums') {
                 // Albums.
@@ -1351,23 +1351,23 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                     $albums_since_date = '';
                 }
 
-                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link,picture&access_token=' . $this->feed_access_token . $language . '' );
+                $mulit_data = array( 'page_data' => FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link,picture&access_token=' . $this->feed_access_token . $language . '' );
                 if ( isset( $_REQUEST['next_url'] ) ) {
                     $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
                 }
                 // Check If Ajax next URL needs to be used.
                 if ( ! $fts_count_ids >= 1 ) {
-                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/albums?fields=id,photos{images,name,created_time},created_time,name,from,link,cover_photo,count,updated_time,type'.$albums_since_date.'&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/albums?fields=id,photos{images,name,created_time},created_time,name,from,link,cover_photo,count,updated_time,type'.$albums_since_date.'&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 } else {
-                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( 'https://graph.facebook.com/albums?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,photos{images,name,created_time},created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : wp_unslash( FTS_FACEBOOK_GRAPH_URL . 'albums?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,photos{images,name,created_time},created_time,name,from,link,cover_photo,count,updated_time,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 }
 
-                // $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? esc_url($_REQUEST['next_url']) : 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/albums?fields=id,created_time,name,from,cover_photo,count,updated_time&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '';
+                // $mulit_data['feed_data'] = isset($_REQUEST['next_url']) ? esc_url($_REQUEST['next_url']) : FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/albums?fields=id,created_time,name,from,cover_photo,count,updated_time&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '';
             } elseif (
                 // Album Photos.
                 $saved_feed_options['facebook_page_feed_type'] === 'album_photos' ) {
 
-                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link,picture&access_token=' . $this->feed_access_token . $language . '' );
+                $mulit_data = array( 'page_data' => FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=id,name,description,link,picture&access_token=' . $this->feed_access_token . $language . '' );
 
                 $photo_stream = $saved_feed_options['facebook_page_feed_type'] === 'album_photos' && empty( $saved_feed_options['facebook_album_id'] ) ? 'photo_stream' : '';
 
@@ -1378,22 +1378,22 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                 // The reason I did not create a whole new else if for the video album is because I did not want to duplicate all the code required to make the video because the videos gallery comes from the photo albums on facebook.
                 if ( isset( $saved_feed_options['facebook_video_album'] ) && $saved_feed_options['facebook_video_album'] === 'yes' ) {
                     if ( ! $fts_count_ids >= 1 ) {
-                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/videos?fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/videos?fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     } else {
-                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/videos?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . 'videos?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,created_time,description,from,icon,link,message,object_id,picture,place,source,to,type,format,embed_html&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     }
                 } elseif ( $photo_stream === 'photo_stream' ) {
                     if ( ! $fts_count_ids >= 1 ) {
-                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     } else {
-                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/photos?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . 'photos?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&type=uploaded&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     }
 
                 } else {
                     if ( ! $fts_count_ids >= 1 ) {
-                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['facebook_album_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['facebook_album_id'] . '/photos?fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     } else {
-                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/photos?ids=' . $saved_feed_options['facebook_album_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                        $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . 'photos?ids=' . $saved_feed_options['facebook_album_id'] . '&fields=id,caption,created_time,description,from,icon,link,message,name,object_id,picture,place,shares,source,status_type,story,to,type&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                     }
                 }
             } elseif ( $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
@@ -1407,14 +1407,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
 
                     $mulit_data = $fts_facebook_reviews->review_connection( $saved_feed_options, $language );
 
-                    $mulit_data['ratings_data'] = esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/?fields=overall_star_rating,rating_count&access_token=' . $this->feed_access_token . '' );
+                    $mulit_data['ratings_data'] = esc_url_raw( FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/?fields=overall_star_rating,rating_count&access_token=' . $this->feed_access_token . '' );
 
                 } else {
                     return 'Please Purchase and Activate the Feed Them Social Reviews plugin.';
                 }
             } else {
                 // This is meant for posts made by others option, however it now requires a new permission from Facebook that we do not have. Page Public Content Access.
-                $mulit_data = array( 'page_data' => 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=feed,id,name,description,picture&access_token=' . $this->feed_access_token . $language . '' );
+                $mulit_data = array( 'page_data' => FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '?fields=feed,id,name,description,picture&access_token=' . $this->feed_access_token . $language . '' );
 
                 if ( isset( $_REQUEST['next_url'] ) ) {
                     $_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
@@ -1422,9 +1422,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
 
                 if ( ! $fts_count_ids >= 1 ) {
                     // We cannot add sanitize_text_field here on the $_REQUEST['next_url'] otherwise it will fail to load the contents from the facebook API.
-                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/posts?fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '/posts?fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 } else {
-                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( 'https://graph.facebook.com/posts?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
+                    $mulit_data['feed_data'] = !empty( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : esc_url_raw( FTS_FACEBOOK_GRAPH_URL . 'posts?ids=' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '&fields=id,attachments,created_time,from,icon,message,picture,full_picture,place,shares,status_type,story,to&limit=' . $saved_feed_options['facebook_page_post_count'] . '&access_token=' . $this->feed_access_token . $language . '' );
                 }
             }
             $response = $this->feed_functions->fts_get_feed_json( $mulit_data );
@@ -1538,14 +1538,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                     // Don't run these if it's a review feed otherwise you will get an error response from facebook.
                     if ( $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
                         // Set Likes URL in post array.
-                        $fb_post_array[$post_data_key . '_likes'] = 'https://graph.facebook.com/' . $post_data_key . '/reactions?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
+                        $fb_post_array[$post_data_key . '_likes'] = FTS_FACEBOOK_GRAPH_URL . $post_data_key . '/reactions?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
                         // Set Comments URL in post array.
-                        $fb_post_array[$post_data_key . '_comments'] = 'https://graph.facebook.com/' . $post_data_key . '/comments?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
+                        $fb_post_array[$post_data_key . '_comments'] = FTS_FACEBOOK_GRAPH_URL . $post_data_key . '/comments?summary=1&access_token=' . $this->access_options->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
                     }
 
                     // Video.
                     if ( $facebook_post_type === 'video' ) {
-                        $fb_post_array[$post_data_key . '_video'] = 'https://graph.facebook.com/' . $post_data_key;
+                        $fb_post_array[$post_data_key . '_video'] = FTS_FACEBOOK_GRAPH_URL . $post_data_key;
                     }
                     // Photo.
                     $fb_album_cover = isset($post_data->cover_photo->id) ? $post_data->cover_photo->id : '';
@@ -1554,14 +1554,14 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                         continue;
                     }
                     if ( $saved_feed_options['facebook_page_feed_type'] === 'albums' ) {
-                        $fb_post_array[$fb_album_cover . '_photo'] = 'https://graph.facebook.com/' . $fb_album_cover;
+                        $fb_post_array[$fb_album_cover . '_photo'] = FTS_FACEBOOK_GRAPH_URL . $fb_album_cover;
                     }
                     if ( $saved_feed_options['facebook_page_feed_type'] === 'hashtag' ) {
-                        $fb_post_array[$post_data_key . '_photo'] = 'https://graph.facebook.com/' . $post_data->source;
+                        $fb_post_array[$post_data_key . '_photo'] = FTS_FACEBOOK_GRAPH_URL . $post_data->source;
                     }
                     // GROUP Photo.
                     if ( $saved_feed_options['facebook_page_feed_type'] === 'group' ) {
-                        $fb_post_array[$post_data_key . '_group_post_photo'] = 'https://graph.facebook.com/' . $post_data->id . '?fields=picture,full_picture&access_token=' . $this->feed_access_token;
+                        $fb_post_array[$post_data_key . '_group_post_photo'] = FTS_FACEBOOK_GRAPH_URL . $post_data->id . '?fields=picture,full_picture&access_token=' . $this->feed_access_token;
                     }
 
                     $set_zero++;
@@ -1629,13 +1629,13 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                     $single_event_id = $post_data->id;
                     $language = $language ?? '';
                     // Event Info, Time etc.
-                    $fb_single_events_array['event_single_' . $single_event_id . '_info'] = 'https://graph.facebook.com/' . $single_event_id . '/?access_token=' . $this->feed_access_token . $language;
+                    $fb_single_events_array['event_single_' . $single_event_id . '_info'] = FTS_FACEBOOK_GRAPH_URL . $single_event_id . '/?access_token=' . $this->feed_access_token . $language;
                     // Event Location.
-                    $fb_single_events_array['event_single_' . $single_event_id . '_location'] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=place&access_token=' . $this->feed_access_token . $language;
+                    $fb_single_events_array['event_single_' . $single_event_id . '_location'] = FTS_FACEBOOK_GRAPH_URL . $single_event_id . '/?fields=place&access_token=' . $this->feed_access_token . $language;
                     // Event Cover Photo.
-                    $fb_single_events_array['event_single_' . $single_event_id . '_cover_photo'] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=cover&access_token=' . $this->feed_access_token . $language;
+                    $fb_single_events_array['event_single_' . $single_event_id . '_cover_photo'] = FTS_FACEBOOK_GRAPH_URL . $single_event_id . '/?fields=cover&access_token=' . $this->feed_access_token . $language;
                     // Event Ticket Info.
-                    $fb_single_events_array['event_single_' . $single_event_id . '_ticket_info'] = 'https://graph.facebook.com/' . $single_event_id . '/?fields=ticket_uri&access_token=' . $this->feed_access_token . $language;
+                    $fb_single_events_array['event_single_' . $single_event_id . '_ticket_info'] = FTS_FACEBOOK_GRAPH_URL . $single_event_id . '/?fields=ticket_uri&access_token=' . $this->feed_access_token . $language;
 
                     $set_zero++;
                 }

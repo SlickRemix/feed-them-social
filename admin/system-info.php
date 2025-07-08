@@ -18,14 +18,14 @@ namespace feedthemsocial;
  */
 class System_Info {
 
-	/**
-	 * Settings Functions
-	 *
-	 * The settings Functions class
-	 *
-	 * @var object
-	 */
-	public $settings_functions;
+    /**
+     * Settings Functions
+     *
+     * The settings Functions class
+     *
+     * @var object
+     */
+    public $settings_functions;
 
     /**
      * Feed Functions
@@ -36,65 +36,72 @@ class System_Info {
      */
     public $feed_functions;
 
-	/**
-	 * Feed Cache.
-	 *
-	 * Class used for caching.
-	 *
-	 * @var object
-	 */
-	public $feed_cache;
+    /**
+     * Feed Cache.
+     *
+     * Class used for caching.
+     *
+     * @var object
+     */
+    public $feed_cache;
 
-	/**
-	 * System_Info constructor.
-	 */
-	public function __construct( $settings_functions, $feed_functions, $feed_cache ) {
+    /**
+     * Error Code Text.
+     *
+     * @var string
+     */
+    const ERROR_CODE_TEXT = 'Error: ';
 
-		// Settings Functions.
-		$this->settings_functions = $settings_functions;
+    /**
+     * System_Info constructor.
+     */
+    public function __construct( $settings_functions, $feed_functions, $feed_cache ) {
+
+        // Settings Functions.
+        $this->settings_functions = $settings_functions;
 
         // Set Feed Functions object.
         $this->feed_functions = $feed_functions;
 
-		// Set Feed Cache object.
-		$this->feed_cache = $feed_cache;
+        // Set Feed Cache object.
+        $this->feed_cache = $feed_cache;
 
-		// Add Actions and Filters.
-		$this->add_actions_filters();
+        // Add Actions and Filters.
+        $this->add_actions_filters();
     }
 
-	/**
-	 * Add Action Filters
-	 *
-	 * Add System Info to our menu.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_actions_filters() {
-		if ( is_admin() ) {
-			// Adds setting page to Feed Them Social menu.
-			add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
-		}
-	}
+    /**
+     * Add Action Filters
+     *
+     * Add System Info to our menu.
+     *
+     * @since 1.0.0
+     */
+    public function add_actions_filters() {
+        if ( is_admin() ) {
+            // Adds setting page to Feed Them Social menu.
+            add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
+        }
+    }
 
-	/**
-	 *  Submenu Pages
-	 *
-	 * Admin Submenu buttons
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_submenu_page() {
-		// System Info.
-		add_submenu_page(
-			'edit.php?post_type=fts',
-			__( 'System Info', 'feed-them-social' ),
-			__( 'System Info', 'feed-them-social' ),
-			'manage_options',
-			'fts-system-info-submenu-page',
-			array( $this, 'fts_system_info_page' )
-		);
-	}
+    /**
+     *  Submenu Pages
+     *
+     * Admin Submenu buttons
+     *
+     * @since 1.0.0
+     */
+    public function add_submenu_page() {
+        // System Info.
+        add_submenu_page(
+            'edit.php?post_type=fts',
+            __( 'System Info', 'feed-them-social' ),
+            __( 'System Info', 'feed-them-social' ),
+            'manage_options',
+            'fts-system-info-submenu-page',
+            array( $this, 'fts_system_info_page' )
+        );
+    }
 
     /**
      * Check if a specific cron job is scheduled and get the next run time.
@@ -121,34 +128,34 @@ class System_Info {
 
 
     /**
-	 * System Info Page
-	 *
-	 * System info page html.
-	 *
-	 * @since 1.0.0
-	 */
-	public function fts_system_info_page() {
-		?>
-		<div class="ft-gallery-main-template-wrapper-all">
+     * System Info Page
+     *
+     * System info page html.
+     *
+     * @since 1.0.0
+     */
+    public function fts_system_info_page() {
+        ?>
+        <div class="ft-gallery-main-template-wrapper-all">
 
-		<div class="ft-gallery-settings-admin-wrap" id="theme-settings-wrap">
-			<h2><?php esc_html_e( 'System Info', 'feed-them-social' ); ?></h2>
-			<p>
-				<?php esc_html_e( 'Please click the box below and copy the report. You will need to paste this information along with your question when creating a', 'feed-them-social' ); ?>
-				<a href="https://www.slickremix.com/my-account/#tab-support" target="_blank">
-					<?php esc_html_e( 'Support Ticket', 'feed-them-social' ); ?></a>.</p>
-			<p>
-				<?php esc_html_e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>
-			</p>
-			<form action="<?php echo esc_url( admin_url( 'admin.php?page=ft-gallery-system-info-submenu-page' ) ); ?>" method="post" dir="ltr">
-		<textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="ft-gallery-sysinfo" title="<?php esc_html_e( 'To copy the system info, click here then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>">
+        <div class="ft-gallery-settings-admin-wrap" id="theme-settings-wrap">
+            <h2><?php esc_html_e( 'System Info', 'feed-them-social' ); ?></h2>
+            <p>
+                <?php esc_html_e( 'Please click the box below and copy the report. You will need to paste this information along with your question when creating a', 'feed-them-social' ); ?>
+                <a href="https://www.slickremix.com/my-account/#tab-support" target="_blank">
+                    <?php esc_html_e( 'Support Ticket', 'feed-them-social' ); ?></a>.</p>
+            <p>
+                <?php esc_html_e( 'To copy the system info, click below then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>
+            </p>
+            <form action="<?php echo esc_url( admin_url( 'admin.php?page=ft-gallery-system-info-submenu-page' ) ); ?>" method="post" dir="ltr">
+        <textarea readonly="readonly" onclick="this.focus();this.select()" id="system-info-textarea" name="ft-gallery-sysinfo" title="<?php esc_html_e( 'To copy the system info, click here then press Ctrl + C (PC) or Cmd + C (Mac).', 'feed-them-social' ); ?>">
 <?php echo $this->fts_system_info_support_ticket(); ?></textarea>
-			</form>
-		</div>
-		</div>
+            </form>
+        </div>
+        </div>
 
-		<?php
-	}
+        <?php
+    }
 
 function fts_system_info_support_ticket(){ ob_start() ?>
 ### Begin System Info ###
@@ -233,7 +240,7 @@ endif;
 
 if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
     $feed_them_social_license_key = get_option( 'feed_them_social_license_keys' );
-	// print_r( $feed_them_social_license_key );
+    // print_r( $feed_them_social_license_key );
     ?>
 
 -- FTS Plugins Active & License Validation
@@ -241,35 +248,35 @@ Premium: <?php echo $this->feed_functions->is_extension_active( 'feed_them_socia
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_premium']['license_status']) && $feed_them_social_license_key['feed_them_social_premium']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_social_premium']['license_key']) ? $feed_them_social_license_key['feed_them_social_premium']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_social_premium']['license_error'])){
-echo 'Error: ' . $feed_them_social_license_key['feed_them_social_premium']['license_error'] . "\n";
+echo self::ERROR_CODE_TEXT . $feed_them_social_license_key['feed_them_social_premium']['license_error'] . "\n";
 } ?>
 
 TikTok Premium: <?php echo $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_tiktok_premium']['license_status']) && $feed_them_social_license_key['feed_them_social_tiktok_premium']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_social_tiktok_premium']['license_key']) ? $feed_them_social_license_key['feed_them_social_tiktok_premium']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_social_tiktok_premium']['license_error'])){
-echo 'Error: ' . $feed_them_social_license_key['feed_them_social_tiktok_premium']['license_error'] . "\n";
+echo self::ERROR_CODE_TEXT . $feed_them_social_license_key['feed_them_social_tiktok_premium']['license_error'] . "\n";
 } ?>
 
 Combined Streams: <?php echo $this->feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_combined_streams']['license_status']) && $feed_them_social_license_key['feed_them_social_combined_streams']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_social_combined_streams']['license_key']) ? $feed_them_social_license_key['feed_them_social_combined_streams']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_social_combined_streams']['license_error'])){
-echo 'Error: ' . $feed_them_social_license_key['feed_them_social_combined_streams']['license_error'] . "\n";
+echo self::ERROR_CODE_TEXT . $feed_them_social_license_key['feed_them_social_combined_streams']['license_error'] . "\n";
 } ?>
 
 Facebook Reviews: <?php echo $this->feed_functions->is_extension_active( 'feed_them_social_facebook_reviews' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_social_facebook_reviews']['license_status']) && $feed_them_social_license_key['feed_them_social_facebook_reviews']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_social_facebook_reviews']['license_key']) ? $feed_them_social_license_key['feed_them_social_facebook_reviews']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_social_facebook_reviews']['license_error'])){
-echo 'Error: ' . $feed_them_social_license_key['feed_them_social_facebook_reviews']['license_error'] . "\n";
+echo self::ERROR_CODE_TEXT . $feed_them_social_license_key['feed_them_social_facebook_reviews']['license_error'] . "\n";
 } ?>
 
 Carousel Premium: <?php echo $this->feed_functions->is_extension_active( 'feed_them_carousel_premium' ) ? 'Active' . "\n" : 'No' . "\n"; ?>
 Valid: <?php echo isset($feed_them_social_license_key['feed_them_carousel_premium']['license_status']) && $feed_them_social_license_key['feed_them_carousel_premium']['license_status'] === 'valid' ? 'Yes' . "\n" : 'No' . "\n"; ?>
 Key: <?php echo isset($feed_them_social_license_key['feed_them_carousel_premium']['license_key']) ? $feed_them_social_license_key['feed_them_carousel_premium']['license_key'] . "\n" : 'NA' . "\n"; ?>
 <?php if( isset($feed_them_social_license_key['feed_them_carousel_premium']['license_error'])){
-echo 'Error: ' . $feed_them_social_license_key['feed_them_carousel_premium']['license_error'] . "\n";
+echo self::ERROR_CODE_TEXT . $feed_them_social_license_key['feed_them_carousel_premium']['license_error'] . "\n";
 } ?>
 
 <?php } // close is fts active ?>### End System Info ###<?php return ob_get_clean(); } // end fts_system_info_support_ticket

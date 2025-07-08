@@ -3,8 +3,9 @@
  */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) )
+if ( ! \defined( 'ABSPATH' ) ){
     exit;
+}
 
 /**
  * Class responsible for encrypting and decrypting data.

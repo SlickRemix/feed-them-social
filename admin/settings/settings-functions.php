@@ -390,7 +390,7 @@ class Settings_Functions {
 		$placeholder = isset( $args['placeholder'] ) ? $args['placeholder']   : '';
 		$size        = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
 
-		$html = sprintf(
+		$html = \sprintf(
 			'<input type="text" class="%s" id="fts_settings[%s]" %s value="%s" placeholder="%s"%s />',
 			$class . ' ' . sanitize_html_class( $size ) . '-text',
 			$this->fts_sanitize_key( $args['id'] ),
@@ -400,7 +400,7 @@ class Settings_Functions {
 			$readonly
 		);
 
-		$html .= sprintf(
+		$html .= \sprintf(
 			'<label for="fts_settings[%s]"> %s</label>',
 			$this->fts_sanitize_key( $args['id'] ),
 			wp_kses_post( $args['desc'] )
@@ -472,7 +472,7 @@ class Settings_Functions {
 		$cols  = isset( $args['cols'] ) && ! empty( absint( $args['cols'] ) ) ? absint( $args['cols'] ) : '50';
 		$rows  = isset( $args['rows'] ) && ! empty( absint( $args['rows'] ) ) ? absint( $args['rows'] ) : '5';
 
-		$html = sprintf(
+		$html = \sprintf(
 			'<textarea class="%s large-text" cols="%s" rows="%s" id="fts_settings[%s]" name="fts_settings[%s]">%s</textarea>',
 			$class,
 			$cols,
@@ -481,7 +481,7 @@ class Settings_Functions {
 			esc_attr( $args['id'] ),
 			esc_textarea( stripslashes( $value ) )
 		);
-		$html .= sprintf(
+		$html .= \sprintf(
 			'<label for="fts_settings[%s]"> %s</label>',
 			$this->fts_sanitize_key( $args['id'] ),
 			wp_kses_post( $args['desc'] )
@@ -655,7 +655,7 @@ class Settings_Functions {
 		$placeholder = isset( $args['placeholder'] ) ? $args['placeholder'] : '';
 		$class       = $this->fts_sanitize_html_class( $args['field_class'] );
 
-		$html = sprintf(
+		$html = \sprintf(
 			'<input type="text" class="%s ftg-color-picker" id="fts_settings[%s]" name="fts_settings[%s]" value="%s" data-default-color="%s" placeholder="%s" />',
 			$class,
 			$this->fts_sanitize_key( $args['id'] ),
@@ -790,7 +790,7 @@ class Settings_Functions {
 					case 'expired' :
 
 						$class = 'expired';
-						$messages[] = sprintf(
+						$messages[] = \sprintf(
 							__( 'Your license key expired on %s. Please <a href="%s" target="_blank" title="Renew your license key">renew your license key</a>.', 'feed_them_social' ),
 							date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ),
 							'https://slickremix.com/checkout/?edd_license_key=' . $value
@@ -803,7 +803,7 @@ class Settings_Functions {
 					case 'revoked' :
 
 						$class = 'error';
-						$messages[] = sprintf(
+						$messages[] = \sprintf(
 							__( 'Your license key has been disabled. Please <a href="%s" target="_blank">contact support</a> for more information.', 'feed_them_social' ),
 							'https://slickremix.com/support'
 						);
@@ -815,7 +815,7 @@ class Settings_Functions {
 					case 'missing' :
 
 						$class = 'error';
-						$messages[] = sprintf(
+						$messages[] = \sprintf(
 							__( 'Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'feed_them_social' ),
 							'https://slickremix.com/your-account'
 						);
@@ -828,7 +828,7 @@ class Settings_Functions {
 					case 'site_inactive' :
 
 						$class = 'error';
-						$messages[] = sprintf(
+						$messages[] = \sprintf(
 							__( 'Your %s is not active for this URL. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'feed_them_social' ),
 							$args['name'],
 							'https://slickremix.com/your-account'
@@ -841,7 +841,7 @@ class Settings_Functions {
 					case 'item_name_mismatch' :
 
 						$class = 'error';
-						$messages[] = sprintf( __( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $args['name'] );
+						$messages[] = \sprintf( __( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $args['name'] );
 
 						$license_status = 'license-' . $class . '-notice';
 
@@ -850,7 +850,7 @@ class Settings_Functions {
 					case 'no_activations_left':
 
 						$class = 'error';
-						$messages[] = sprintf( __( 'Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'feed-them-social' ), 'https://slickremix.com/your-account/' );
+						$messages[] = \sprintf( __( 'Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'feed-them-social' ), 'https://slickremix.com/your-account/' );
 
 						$license_status = 'license-' . $class . '-notice';
 
@@ -868,7 +868,7 @@ class Settings_Functions {
 
 						$class = 'error';
 						$error = ! empty(  $license->error ) ?  $license->error : __( 'Unknown error.', 'feed_them_social' );
-						$messages[] = sprintf( __( 'There was an error with this license key: %s. Please <a href="%s">contact our support team</a>.', 'feed_them_social' ), $error, 'https://slickremix.com/support' );
+						$messages[] = \sprintf( __( 'There was an error with this license key: %s. Please <a href="%s">contact our support team</a>.', 'feed_them_social' ), $error, 'https://slickremix.com/support' );
 
 						$license_status = 'license-' . $class . '-notice';
 						break;
@@ -895,7 +895,7 @@ class Settings_Functions {
 
 						} elseif( $expiration > $now && $expiration - $now < ( DAY_IN_SECONDS * 30 ) ) {
 
-							$messages[] = sprintf(
+							$messages[] = \sprintf(
 								__( 'Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'feed_them_social' ),
 								date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ),
 								'https://slickremix.com/checkout/?edd_license_key=' . $value
@@ -905,7 +905,7 @@ class Settings_Functions {
 
 						} else {
 
-							$messages[] = sprintf(
+							$messages[] = \sprintf(
 								__( 'Your license key expires on %s.', 'feed_them_social' ),
 								date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) )
 							);
@@ -923,7 +923,7 @@ class Settings_Functions {
 		} else	{
 			$class = 'empty';
 
-			$messages[] = sprintf(
+			$messages[] = \sprintf(
 				__( 'To receive updates, please enter your valid %s license key.', 'feed_them_social' ),
 				$args['name']
 			);

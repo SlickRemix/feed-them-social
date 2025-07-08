@@ -193,7 +193,7 @@ class Feed_CPT_Options {
 					'option_type'        => 'select',
 					'label'              => esc_html__( 'Feed Type: ', 'feed_them_social' ),
 					'type'               => 'text',
-					'instructional-text' => sprintf(
+					'instructional-text' => \sprintf(
 						esc_html__( '%5$s %10$s %11$sChoose the Social Network you want to create a feed for below.%12$s%11$sClick on the "Login and Get my Access Token" button.%12$s%11$sOnce your Access Token is Valid, you can view your feed and set options from the menu on the left.%12$s%11$sTo view your social feed on the front end of your website, copy the Feed Shortcode from the right sidebar and paste it to any page, post, widget, or page builder. If you are using Gutenberg, Elementor, or Beaver Builder, you can search for the block, widget, or module called Feed Them Social and select your feed from there. %9$sRead More%3$s %12$s%13$s %7$sNote:%8$s You can only choose one social platform per feed. To create an additional feed, click %2$sAdd New Feed%3$s and follow the same 4 steps. Set the cache time and other global options from the %14$sSettings%3$s page of our plugin.%6$s%4$s', 'feed_them_social' ),
 						'<br/>',
 						'<a href="post-new.php?post_type=fts" target="_blank">',
@@ -292,7 +292,7 @@ class Feed_CPT_Options {
 					'name'             => 'fts_tiktok_user_id',
 					'placeholder'      => '',
 					'default_value'    => '',
-					'instructional-text' => sprintf(
+					'instructional-text' => \sprintf(
 						esc_html__( '%1$s %2$s Click the button below to get an access token. This gives the plugin read-only access to get your TikTok posts. Once you have your Access Token you will be able to create a feed.
 						', 'feed_them_social' ),
 						'<strong>',
@@ -395,7 +395,7 @@ class Feed_CPT_Options {
 					'name'               => 'fts_facebook_custom_api_token_user_id',
 					'placeholder'        => '',
 					'default_value'      => '',
-					'instructional-text' => sprintf(
+					'instructional-text' => \sprintf(
 						esc_html__( 'This option is for Facebook Pages and is used to display the feed. This will NOT work for personal profiles or groups. You must be an admin of the page to gain an access token using the button below. Additionally, you can add a Page ID and Access Token then click the "Save Token Manually" button. Tokens are encrypted for additional security before being saved. %1$sClick the button below to get an access token. This gives the plugin read-only access to get your Facebook posts. We will never post or change anything within your Facebook account. Once an Access Token is in place you can create a feed. Please note, use of this plugin is subject to %2$sMeta\'s Platform Terms%3$s%4$s', 'feed_them_social' ),
 						'<p>',
 						'<a href="https://developers.facebook.com/terms/" target="_blank">',
@@ -460,7 +460,7 @@ class Feed_CPT_Options {
 					'name'               => 'fts_instagram_custom_id',
 					'placeholder'        => '',
 					'default_value'      => '',
-					'instructional-text' => sprintf(
+					'instructional-text' => \sprintf(
                             esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. %5$sYour Instagram account must be set to Professional and have the Creator or Business option selected. %1$sRead Instructions%2$s. Once you have an Access Token you will be able to create your feed. Tokens are encrypted for additional security before being saved. Please note, use of this plugin is subject to %3$sMeta\'s Platform Terms%4$s', 'feed_them_social' ),
 						'<a target="_blank" href="https://www.slickremix.com/documentation/connect-instagram-professional-account/">',
 						'</a>',
@@ -537,7 +537,7 @@ class Feed_CPT_Options {
 					'name'               => 'fts_facebook_instagram_custom_api_token_user_id',
 					'placeholder'        => '',
 					'default_value'      => '',
-					'instructional-text' => sprintf(
+					'instructional-text' => \sprintf(
 						esc_html__( 'Click the button below to get an access token. Additionally, you can add a Page ID and Access Token then click the "Save Token Manually" button. This gives the plugin read-only access to get your Instagram posts. We will never post or change anything within your Instagram account. %5$sYour Instagram must be linked to a Facebook Business Page. Once you have your Access Token you will be able to create a feed. Tokens are encrypted for additional security before being saved. %1$sRead Instructions%2$s. Please note, use of this plugin is subject to %3$sMeta\'s Platform Terms%4$s', 'feed_them_social' ),
 						'<a target="_blank" href="https://www.slickremix.com/documentation/connect-instagram-to-facebook/">',
 						'</a>',
@@ -610,7 +610,7 @@ class Feed_CPT_Options {
 				array(
 					'input_wrap_class'   => 'fts-youtube-add-all-keys-click-option',
 					'option_type'        => 'input',
-					'label'              => sprintf(
+					'label'              => \sprintf(
 						esc_html__( '%1$sAPI Key%2$s %3$sPress Update to save Key.%4$s', 'feed_them_social' ),
 						'<a href="https://www.slickremix.com/documentation/create-youtube-api-key/" target="_blank">',
 						'</a>',
@@ -622,7 +622,7 @@ class Feed_CPT_Options {
 					'name'               => 'youtube_custom_api_token',
 					'placeholder'        => '',
 					'default_value'      => '',
-					'instructional-text' => sprintf(
+					'instructional-text' => \sprintf(
 						esc_html__( 'Click the button below to get an access token. This gives the plugin read-only access to get your YouTube videos. It would be best to %1$sadd your own API Key%2$s in the long run because they allow more API calls. Once you have Access Tokens or have entered an API key, you can create a feed.', 'feed_them_social' ),
 						'<span>',
 						'</span>'
@@ -712,7 +712,7 @@ class Feed_CPT_Options {
 					'input_wrap_class' => 'ft-wp-gallery-type',
 					'option_type'      => 'select',
 					'label'            => trim(
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Choose the gallery type%1$s View all Gallery %2$sDemos%3$s', 'feed_them_social' ),
 							'<br/><small>',
 							'<a href="' . esc_url( 'https://feedthemgallery.com/gallery-demo-one/' ) . '" target="_blank">',
@@ -797,7 +797,7 @@ class Feed_CPT_Options {
 					'option_type'        => 'select',
 					'label'              => esc_html__( 'Number of Columns', 'feed_them_social' ),
 					'type'               => 'text',
-					'instructional-text' => sprintf(
+					'instructional-text' => \sprintf(
 						esc_html__( '%1$sNOTE:%2$s Choose the Number of Columns and Space between each image below.', 'feed_them_social' ),
 						'<strong>',
 						'</strong>'
@@ -845,7 +845,7 @@ class Feed_CPT_Options {
 					'option_type'        => 'select',
 					'label'              => esc_html__( 'Number of Columns', 'feed_them_social' ),
 					'type'               => 'text',
-					'instructional-text' => sprintf(
+					'instructional-text' => \sprintf(
 						esc_html__( '%1$sNOTE:%2$s Choose the Number of Columns and Space between each image below.', 'feed_them_social' ),
 						'<strong>',
 						'</strong>'
@@ -919,7 +919,7 @@ class Feed_CPT_Options {
 					'input_wrap_class' => 'fb-page-columns-option-hide',
 					'option_type'      => 'select',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Force Columns%1$s Yes, will force image columns. No, will allow the images to be responsive for smaller devices%2$s', 'feed_them_social' ),
 							'<br/><small>',
 							'</small>'
@@ -949,7 +949,7 @@ class Feed_CPT_Options {
 				// 'id' => 'fts_grid_column_width',
 				// 'name' => 'fts_grid_column_width',
 				// 'instructional-text' =>
-				// sprintf(__('%1$sNOTE:%2$s Define the Width of each post and the Space between each post below. You must add px after any number.', 'feed_them_social'),
+				// \sprintf(__('%1$sNOTE:%2$s Define the Width of each post and the Space between each post below. You must add px after any number.', 'feed_them_social'),
 				// '<strong>',
 				// '</strong>'
 				// ),
@@ -978,7 +978,7 @@ class Feed_CPT_Options {
 					'input_wrap_class' => 'ft-gallery-user-name',
 					'option_type'      => 'input',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'User Name%1$s Company or user who took this photo%2$s', 'feed_them_social' ),
 							'<br/><small>',
 							'</small>'
@@ -993,7 +993,7 @@ class Feed_CPT_Options {
 				array(
 					'option_type'   => 'input',
 					'label'         =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'User Custom Link%1$s Custom about page or social media page link%2$s', 'feed_them_social' ),
 							'<br/><small>',
 							'</small>'
@@ -1009,7 +1009,7 @@ class Feed_CPT_Options {
 					'input_wrap_class' => 'ft-gallery-share',
 					'option_type'      => 'select',
 					'label'            =>
-						sprintf(
+                        \sprintf(
 							esc_html__( 'Show Share Options%1$s Appears in the bottom left corner and in popup%2$s', 'feed_them_social' ),
 							'<br/><small>',
 							'</small>'

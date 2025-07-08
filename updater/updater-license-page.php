@@ -272,7 +272,7 @@ class updater_license_page {
 			<h2><?php echo esc_html__( 'Extension License Options', 'feed-them-social' ); ?></h2>
 			<div class="license-note">
 				<?php
-				echo sprintf(
+				echo \sprintf(
 					esc_html__( 'If you need more licenses or your key has expired, please go to the %1$sMY ACCOUNT%2$s page on our website to upgrade or renew your license.%3$sTo get started follow the instructions below.', 'feed-them-social' ),
 					'<a href="' . esc_url( 'https://www.slickremix.com/my-account/' ) . '" target="_blank">',
 					'</a>',
@@ -285,7 +285,7 @@ class updater_license_page {
 				<ol>
 					<li>
 					<?php
-					echo sprintf(
+					echo \sprintf(
 						esc_html__( 'Install the plugin zip file you\'ve received after purchase on the %1$splugins page%2$s and leave the free version active.', 'feed-them-social' ),
 						'<a href="' . esc_url( 'plugin-install.php' ) . '" target="_blank">',
 						'</a>'
@@ -294,7 +294,7 @@ class updater_license_page {
 					</li>
 					<li>
 					<?php
-					echo sprintf(
+					echo \sprintf(
 						esc_html__( 'Enter your License Key and Click the %1$sSave Changes button%2$s.', 'feed-them-social' ),
 						'<strong>',
 						'</strong>'
@@ -402,7 +402,7 @@ class updater_license_page {
             $license_data = json_decode($response[$plugin_key]);
 
             if (isset($license_data->payment_id) && !empty($license_data->payment_id) && isset($license_data->payment_id) && !empty($license_data->payment_id)) {
-                echo sprintf(__('%1$sUpgrade License%2$s', 'feed-them-social'),
+                echo \sprintf(__('%1$sUpgrade License%2$s', 'feed-them-social'),
                     '<a class="edd-upgrade-license-btn button-secondary" href="'.esc_url('https://www.slickremix.com/my-account/?&view=upgrades&license_key=' . $license_data->license_id).'" target="_blank">',
                     '</a>'
                 );
@@ -530,7 +530,7 @@ class updater_license_page {
                         break;
 
 					case 'item_name_mismatch':
-						$message = sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $this->prem_extension_list[ $key ]['title'] );
+						$message = \sprintf( esc_html__( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $this->prem_extension_list[ $key ]['title'] );
 						break;
 
                     case 'no_activations_left':

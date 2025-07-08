@@ -263,8 +263,8 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 						}
 					break;
 
-				default:
-				case 'basic':
+                case 'basic':
+                default:
 					$instagram_id            = !empty( $saved_feed_options['fts_instagram_custom_id'] ) ? $saved_feed_options['fts_instagram_custom_id'] : '';
 					$access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
 					// The check requires '' to be checked not empty() and it needs to be inside this case statement otherwise

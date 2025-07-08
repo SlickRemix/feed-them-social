@@ -140,7 +140,7 @@ class Youtube_Access_Functions {
 
            // print_r( $test_app_token_response );
         }
-            echo sprintf(
+            echo \sprintf(
                 esc_html__( '%1$sLogin and Get my Access Token %2$s', 'feed-them-social' ),
                 '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/youtube-token/?redirect_url=' . urlencode( $post_url ) ) . '" class="fts-youtube-get-access-token">',
                 '</a>'
@@ -148,8 +148,8 @@ class Youtube_Access_Functions {
             ?>
 
         <div class="fts-settings-does-not-work-wrap">
-            <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
-            <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+            <button type="button" class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></button>
+            <button type="button" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></button>
         </div>
 
             <?php
@@ -208,7 +208,7 @@ class Youtube_Access_Functions {
                 if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
 
                     if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
-                        echo sprintf(
+                        echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div id="fts-combined-youtube-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',
                             '<a class="fts-youtube-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
@@ -216,7 +216,7 @@ class Youtube_Access_Functions {
                         );
                     }
                     else {
-                        echo sprintf(
+                        echo \sprintf(
                             esc_html__( '%1$s%2$sCreate YouTube Feed%3$s', 'feed-them-social' ),
                             '<div class="fts-successful-api-token fts-special-working-wrap" >',
                             '<a class="fts-youtube-successful-api-token fts-success-token-content" href="#youtube_feed">',
@@ -225,7 +225,7 @@ class Youtube_Access_Functions {
                     }
                 }
                 elseif ( empty( $youtube_api_key ) && 'true' === $error_response && ! empty( $youtube_access_token ) ) {
-                    echo sprintf(
+                    echo \sprintf(
                         esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
                         '<div class="fts-failed-api-token">',
                         wp_kses(
@@ -238,7 +238,7 @@ class Youtube_Access_Functions {
                     );
                 }
                 elseif ( 'true' === $error_response && ! empty( $youtube_api_key ) ) {
-                    echo sprintf(
+                    echo \sprintf(
                         esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
                         '<div class="fts-failed-api-token">',
                         esc_html( $user_id->error->errors[0]->message ),

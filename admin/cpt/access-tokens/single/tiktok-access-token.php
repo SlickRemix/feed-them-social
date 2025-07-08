@@ -217,7 +217,7 @@ class Twitter_Access_Functions {
             }
         }
 
-        echo sprintf(
+        echo \sprintf(
             esc_html__( '%1$sLogin and Get my Access Token%2$s', 'feed-them-social' ),
             '<div class="fts-clear fts-token-spacer"></div><a href="' . esc_url( 'https://www.slickremix.com/tiktok-token/?redirect_url=' . urlencode( $post_url )) . '" class="fts-twitter-get-access-token">',
             '</a>'
@@ -225,9 +225,9 @@ class Twitter_Access_Functions {
         ?>
 
         <div class="fts-settings-does-not-work-wrap">
-            <span class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></span>
+            <button type="button" class="fts-admin-token-settings"><?php esc_html_e( 'Settings', 'feed-them-social' ); ?></button>
             <?php if ( $access_token !== '' ){ ?>
-                <a href="javascript:;" onclick="fts_revoke_tiktok_access_token()" class="fts-tiktok-revoke-token"><?php esc_html_e( 'Revoke Access Token', 'feed-them-social' ); ?></a>
+            <button type="button" onclick="fts_revoke_tiktok_access_token()" class="fts-tiktok-revoke-token"><?php esc_html_e( 'Revoke Access Token', 'feed-them-social' ); ?></button>
                 <script>
                     function fts_revoke_tiktok_access_token(){
                         const result = confirm("This action will revoke your current Access Token. You will need to obtain a new Access Token if you want to display your TikTok feed. Are you sure you want to continue?");
@@ -241,7 +241,7 @@ class Twitter_Access_Functions {
                     }
                 </script>
             <?php } ?>
-            <a href="javascript:;" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></a>
+            <button type="button" class="fts-admin-button-no-work" onclick="fts_beacon_support_click()"><?php esc_html_e( 'Not working?', 'feed-them-social' ); ?></button>
         </div>
 
         <div class="fts-clear"></div>
@@ -251,7 +251,7 @@ class Twitter_Access_Functions {
             // && !empty($test_fts_tiktok_access_token) && !empty($test_fts_tiktok_refresh_token)!
             if ( ! empty( $access_token ) && ! empty( $refresh_token ) ) {
                 if ( $data->error->code !== 'ok' ) {
-                    echo sprintf(
+                    echo \sprintf(
                         esc_html__( '%1$s%2$s Please click the Login and Get my Access Token button again.%3$s', 'feed-them-social' ),
                         '<div class="fts-failed-api-token">',
                         $data->error->message,
@@ -261,7 +261,7 @@ class Twitter_Access_Functions {
                 else {
 
                     if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
-                        echo sprintf(
+                        echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div id="fts-combined-twitter-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',
                             '<a class="fts-twitter-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
@@ -269,7 +269,7 @@ class Twitter_Access_Functions {
                         );
                     }
                     else {
-                        echo sprintf(
+                        echo \sprintf(
                             esc_html__( '%1$s%2$sCreate TikTok Feed%3$s', 'feed-them-social' ),
                             '<div class="fts-successful-api-token fts-special-working-wrap">',
                             '<a class="fts-twitter-successful-api-token fts-success-token-content" href="#tiktok_feed">',

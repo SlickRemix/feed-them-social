@@ -459,7 +459,7 @@ class Settings_Page {
         foreach( $plugins as $plugin => $data ) {
             $license_settings[] = array(
                 'id'   => "{$plugin}_license_upsell",
-                'name' => sprintf( __( '%1$s', 'feed-them-social' ), $data['title'] ),
+                'name' => \sprintf( __( '%1$s', 'feed-them-social' ), $data['title'] ),
                 'type' => 'premium_plugin',
                 'data' => $data
             );
@@ -920,7 +920,7 @@ class Settings_Page {
                         ) ); ?>
                         <p>
                             <?php
-                            echo sprintf(
+                            echo \sprintf(
                         __( 'Add your own custom date or time format.', 'feed-them-social' ) . '<br>' .
                         '<a href="%s" target="_blank">%s.</a>',
                         'https://wordpress.org/support/article/formatting-date-and-time/#format-string-examples',
@@ -1107,13 +1107,13 @@ class Settings_Page {
             <div class="fts-plugin-reviews-support">
                 <?php
                 // Free Support Message!
-                echo sprintf(
+                echo \sprintf(
                     esc_html( 'If you\'re using the Free plugin and are having troubles getting setup please contact us on the %1$sFree WordPress Support Forum%2$s. We will respond within 24hrs during weekdays.', 'feed-them-social' ),
                     '<a href="' . esc_url( 'https://wordpress.org/support/plugin/feed-them-social' ) . '" target="_blank">',
                     '</a>'
                 );
                 // Paid Support Message!
-                echo sprintf(
+                echo \sprintf(
                     esc_html( 'If you have a paid extensions from us please use our %1$sPaid Extension Support Ticket System%2$s', 'feed-them-social' ),
                     '<a href="' . esc_url( 'https://www.slickremix.com/my-account/#tab-support' ) . '" target="_blank">',
                     '</a>'

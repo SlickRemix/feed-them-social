@@ -116,7 +116,7 @@ class Feed_Them_Social {
         $access_options = new feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
 
         // Feeds CPT.
-        $feeds_cpt = new feedthemsocial\Feeds_CPT( $settings_functions, $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
+        new feedthemsocial\Feeds_CPT( $settings_functions, $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
 
         // Facebook Post Types.
         $facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions, $settings_functions, $access_options );
@@ -169,26 +169,6 @@ class Feed_Them_Social {
         // Needs FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR to make sure the path to languages folder is correct.
         load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/languages' );
     }
-
-    /**
-     * Load Extensions
-     *
-     * Service function to load up extensions.
-     *
-     * @since 1.0.0
-     */
-    private function load_extensions() {
-        // Load Extension's Classes needed.
-        foreach (FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $extension){
-            if( $extension ){
-                // Is Extension Active?
-                if ( is_plugin_active( $extension['plugin_url'] && $extension['load_class'] ) ) {
-
-                }
-            }
-        }
-    }
-
 
     /**
      * Setup Constants

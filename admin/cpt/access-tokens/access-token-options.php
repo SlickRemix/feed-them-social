@@ -833,7 +833,7 @@ class Access_Options {
             $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id, false );
         }
 
-        echo $this->getAccessTokenOptions( $feed_type, $cpt_id );
+        $this->getAccessTokenOptions( $feed_type, $cpt_id );
 
         wp_die();
     }

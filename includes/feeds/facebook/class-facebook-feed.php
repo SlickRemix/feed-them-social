@@ -80,13 +80,6 @@ class Facebook_Feed {
     private $feed_access_token;
 
     /**
-     * Added an Event Text.
-     *
-     * @var string
-     */
-    const ADDED_AN_EVENT_TEXT = 'added an event';
-
-    /**
      * Construct
      *
      * Facebook Feed constructor.

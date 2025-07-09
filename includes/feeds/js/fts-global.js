@@ -183,17 +183,17 @@ function slickremixImageResizingFacebook() {
         // This is the container for the instagram image post
         let ftsImageSize = jQuery('#' + ftsBlockCenteredAttr + ' .slicker-facebook-placeholder');
 
-        // How many colums do we want to show
+        // How many do we want to show
         let ftsInstagramColumns = uniqueID.attr('data-ftsi-columns');
         // The margin in between photos so we can subtract that from the total %
         let ftsInstagramMargin = uniqueID.attr('data-ftsi-margin');
         // The margin without the px and we multiply it by 2 because the margin is on the left and right
         let ftsInstagramMarginfinal = parseFloat(ftsInstagramMargin) * 1;
         // Get the Instagram container .width() so we can keep track of the container size
-        let ftsContainerWidth = uniqueID.width();
+        // let ftsContainerWidth = uniqueID.width();
         // Force columns so the images to not scale up from 376px-736px.
         // This keeps the aspect ratio for the columns and is in the if statements below where you will see ftsContainerWidth <= '376' && ftsForceColumns === 'no' and ftsContainerWidth <= '736' && ftsForceColumns === 'no'
-        let ftsForceColumns = 'yes';
+        // let ftsForceColumns = 'yes';
         // we or each option so if someone tries something other than that it will go to else statement
         if (ftsInstagramColumns === '2' ||
             ftsInstagramColumns === '3') {
@@ -336,7 +336,7 @@ function slickremixImageResizingYouTube() {
             }
         // }
         let ftsYoutubeLargeHeight = ftsYoutubeLarge.height();
-        let ftsYoutubeLargeHeightFinal = 'calc(100% - ' + ftsYoutubeLargeHeight + 'px)';
+        // let ftsYoutubeLargeHeightFinal = 'calc(100% - ' + ftsYoutubeLargeHeight + 'px)';
 
         ftsYoutubeThumbsWrap.css({'height': ftsYoutubeLargeHeight + 'px'});
 

@@ -147,7 +147,7 @@ class Facebook_Access_Functions {
         if ( ! empty( $decrypted_access_token ) ) {
 
             $test_app_token_url = array(
-                'app_token_id' => FTS_FACEBOOK_GRAPH_URL . 'debug_token?input_token=' . $decrypted_access_token .' &access_token=' . $decrypted_access_token,
+                'app_token_id' => FTS_FACEBOOK_GRAPH_URL . 'debug_token?input_token=' . $decrypted_access_token .' ' . FTS_AND_ACCESS_TOKEN_EQUALS . $decrypted_access_token,
             );
 
             // Check to see what the response is.

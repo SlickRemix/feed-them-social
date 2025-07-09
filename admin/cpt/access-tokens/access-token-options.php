@@ -71,6 +71,13 @@ class Access_Options {
     public $metabox_functions;
 
     /**
+     * And Limit 500.
+     *
+     * @var string
+     */
+    const AND_LIMIT_EQUALS_500 = '&limit=500';
+
+    /**
      * Construct
      *
      * Access Token Options Page constructor.
@@ -467,7 +474,7 @@ class Access_Options {
         if ( ! isset( $_GET['locations'] ) ) {
 
             // SRL 4-23-22. Locations: This endpoint is not supported for Pages that have been migrated to the New Pages Experience. So we need to make an exception.
-            $fb_url = isset( $_GET['page'] ) && $_GET['page'] === 'fts-facebook-feed-styles-submenu-page' ? wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,has_transitioned_to_new_page_experience,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
+            $fb_url = isset( $_GET['page'] ) && $_GET['page'] === 'fts-facebook-feed-styles-submenu-page' ? wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,has_transitioned_to_new_page_experience,access_token' . FTS_AND_ACCESS_TOKEN_EQUALS . $_GET['code'] . self::AND_LIMIT_EQUALS_500 ) : wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token' . FTS_AND_ACCESS_TOKEN_EQUALS . $_GET['code'] . self::AND_LIMIT_EQUALS_500 );
 
             $test_fb_app_token_response = json_decode( $fb_url );
 
@@ -476,7 +483,7 @@ class Access_Options {
             // but then you have to run a call for each page and that seems like overkill if you have hundreds of pages. FB should come up with a simpler way.
             if ( isset( $test_fb_app_token_response->error ) ) {
                 // Possibly the user is on a new page experience so let's run the call without locations.
-                $fb_url = isset( $_GET['page'] ) && $_GET['page'] === 'fts-facebook-feed-styles-submenu-page' ? wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
+                $fb_url = isset( $_GET['page'] ) && $_GET['page'] === 'fts-facebook-feed-styles-submenu-page' ? wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token' . FTS_AND_ACCESS_TOKEN_EQUALS . $_GET['code'] . self::AND_LIMIT_EQUALS_500 ) : wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token' . FTS_AND_ACCESS_TOKEN_EQUALS . $_GET['code'] . self::AND_LIMIT_EQUALS_500 );
             }
             if ( isset( $_REQUEST['next_url'] ) && ! empty( $_REQUEST['next_url'] ) ) {
                 $next_url_host = parse_url( $_REQUEST['next_url'], PHP_URL_HOST );

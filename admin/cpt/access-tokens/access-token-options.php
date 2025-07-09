@@ -13,7 +13,7 @@
 namespace feedthemsocial;
 
 // Exit if accessed directly!
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! \defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -372,9 +372,9 @@ class Access_Options {
 
         // Loop through API data to display pages and locations
         foreach ( $response->data as $data ) {
-            $data_id        = isset( $data->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? $data->instagram_business_account->id : $data->id;
-            $data_user_name = isset( $data->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? '<span class="fts-insta-icon">' . $data->instagram_business_account->username . '</span><span class="fts-arrow-icon"></span><span class="fts-fb-icon">' . $data->name . '</span>' : $data->name;
-            $data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && 'facebook' !== $_GET['feed_type'] ? $data->instagram_business_account->profile_picture_url : FTS_FACEBOOK_GRAPH_URL . $data->id . '/picture';
+            $data_id        = isset( $data->instagram_business_account ) && $_GET['feed_type'] !== 'facebook' ? $data->instagram_business_account->id : $data->id;
+            $data_user_name = isset( $data->instagram_business_account ) && $_GET['feed_type'] !== 'facebook' ? '<span class="fts-insta-icon">' . $data->instagram_business_account->username . '</span><span class="fts-arrow-icon"></span><span class="fts-fb-icon">' . $data->name . '</span>' : $data->name;
+            $data_thumbnail = isset( $data->instagram_business_account->profile_picture_url ) && $_GET['feed_type'] !== 'facebook' ? $data->instagram_business_account->profile_picture_url : FTS_FACEBOOK_GRAPH_URL . $data->id . '/picture';
             ?>
             <li class="fts-fb-main-page-li">
                 <div class="fb-click-wrapper">
@@ -467,7 +467,7 @@ class Access_Options {
         if ( ! isset( $_GET['locations'] ) ) {
 
             // SRL 4-23-22. Locations: This endpoint is not supported for Pages that have been migrated to the New Pages Experience. So we need to make an exception.
-            $fb_url = isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,has_transitioned_to_new_page_experience,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
+            $fb_url = isset( $_GET['page'] ) && $_GET['page'] === 'fts-facebook-feed-styles-submenu-page' ? wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=locations{name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,has_transitioned_to_new_page_experience,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=instagram_business_account{id,username,profile_picture_url},locations{instagram_business_account{profile_picture_url,id,username},name,id,page_username,locations,store_number,store_location_descriptor,access_token},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
 
             $test_fb_app_token_response = json_decode( $fb_url );
 
@@ -476,7 +476,7 @@ class Access_Options {
             // but then you have to run a call for each page and that seems like overkill if you have hundreds of pages. FB should come up with a simpler way.
             if ( isset( $test_fb_app_token_response->error ) ) {
                 // Possibly the user is on a new page experience so let's run the call without locations.
-                $fb_url = isset( $_GET['page'] ) && 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ? wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
+                $fb_url = isset( $_GET['page'] ) && $_GET['page'] === 'fts-facebook-feed-styles-submenu-page' ? wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=has_transitioned_to_new_page_experience,name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' ) : wp_remote_fopen( FTS_FACEBOOK_GRAPH_URL . 'me/accounts?fields=has_transitioned_to_new_page_experience,instagram_business_account{id,username,profile_picture_url},name,id,link,access_token&access_token=' . $_GET['code'] . '&limit=500' );
             }
             if ( isset( $_REQUEST['next_url'] ) && ! empty( $_REQUEST['next_url'] ) ) {
                 $next_url_host = parse_url( $_REQUEST['next_url'], PHP_URL_HOST );
@@ -491,7 +491,7 @@ class Access_Options {
 
             if ( isset( $_GET['next_location_url'] ) && ! empty( $_GET['next_location_url'] ) ) {
                 $next_location_url_host = parse_url( $_REQUEST['next_location_url'], PHP_URL_HOST );
-                if ( 'graph.facebook.com' !== $next_location_url_host && 'graph.instagram.com' !== $next_location_url_host ) {
+                if ( $next_location_url_host !== 'graph.facebook.com' && $next_location_url_host !== 'graph.instagram.com' ) {
                     wp_die( esc_html__( 'Invalid Facebook URL', 'feed-them-social' ), 403 );
                 }
             }
@@ -513,7 +513,7 @@ class Access_Options {
             <p>
                 <strong>Facebook Response: </strong>
                 <?php echo esc_html( $error->message . ' Code #' . $error->code . '. ' . $error->error_user_title . $error->error_user_msg ); ?>
-                <?php if ( 'fts-facebook-feed-styles-submenu-page' === $_GET['page'] ) { ?>
+                <?php if ( 'fts-facebook-feed-styles-submenu-page' === $_GET['page']) { ?>
             </p> <strong>Helpful Tips:</strong> Make sure you are an admin of the page or pages you are choosing. Next you will see, "What SlickRemix is allowed to do." The 2 options should be, Read content posted on the Page and Show a list of the Pages you manage. Make sure and choose Yes for both.<a href="#" style="display: none" target="_blank">More Tips</a>
             <?php } ?>
             <?php if ( 'fts-instagram-feed-styles-submenu-page' === $_GET['page'] ) { ?>
@@ -530,12 +530,12 @@ class Access_Options {
      */
     private function ftsRenderLocationsListHtml( $data ) {
         $_REQUEST['next_location_url'] = isset( $data->locations->paging->next ) ? esc_url( $data->locations->paging->next ) : '';
-        $data_id                       = isset( $data->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? $data->instagram_business_account->id : $data->id;
+        $data_id                       = isset( $data->instagram_business_account ) && $_GET['feed_type'] !== 'facebook' ? $data->instagram_business_account->id : $data->id;
         $remove_class_or_not           = isset( $data->locations->paging->next ) ? 'fb-sublist-page-id-' . esc_attr( $data_id ) : '';
 
-        $location_count     = count( $data->locations->data );
+        $location_count     = \count( $data->locations->data );
         $location_plus_sign = isset( $data->locations->paging->next ) ? '+' : '';
-        $location_text      = 1 === $location_count ? esc_html( $location_count . ' ' . __( 'Location for', 'feed-them-social' ) ) : esc_html( $location_count . $location_plus_sign . ' ' . __( 'Locations for', 'feed-them-social' ) );
+        $location_text      = $location_count === 1 ? esc_html( $location_count . ' ' . __( 'Location for', 'feed-them-social' ) ) : esc_html( $location_count . $location_plus_sign . ' ' . __( 'Locations for', 'feed-them-social' ) );
         // if the locations equal 3 or less we will set the location container height to auto so the scroll loadmore does not fire.
         $location_scroll_loadmore_needed_check = $location_count <= 3 ? 'height:auto !important' : 'height: 200px !important;';
         ?>
@@ -544,9 +544,9 @@ class Access_Options {
             <?php foreach ( $data->locations->data as $location ) { ?>
                 <?php
                 // if ( !empty( $location->instagram_business_account ) ) {
-                $loc_data_id        = isset( $location->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? $location->instagram_business_account->id : $location->id;
-                $loc_data_user_name = isset( $location->instagram_business_account ) && 'facebook' !== $_GET['feed_type'] ? '<span class="fts-insta-icon"></span>' . $location->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $location->name : $location->name;
-                $loc_data_thumbnail = isset( $location->instagram_business_account->profile_picture_url ) && 'facebook' !== $_GET['feed_type'] ? $location->instagram_business_account->profile_picture_url : FTS_FACEBOOK_GRAPH_URL . $location->id . '/picture';
+                $loc_data_id        = isset( $location->instagram_business_account ) && $_GET['feed_type'] !== 'facebook' ? $location->instagram_business_account->id : $location->id;
+                $loc_data_user_name = isset( $location->instagram_business_account ) && $_GET['feed_type'] !== 'facebook' ? '<span class="fts-insta-icon"></span>' . $location->instagram_business_account->username . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . $location->name : $location->name;
+                $loc_data_thumbnail = isset( $location->instagram_business_account->profile_picture_url ) && $_GET['feed_type'] !== 'facebook' ? $location->instagram_business_account->profile_picture_url : FTS_FACEBOOK_GRAPH_URL . $location->id . '/picture';
                 ?>
                 <li>
                     <div class="fb-click-wrapper">
@@ -657,7 +657,7 @@ class Access_Options {
             if (document.querySelector('#fts-fb-token-wrap .fts-pages-info') !== null) {
                 jQuery(".fts-successful-api-token.default-token").hide();
             }
-            <?php if ( 'yes' === $reviews_token || isset( $_GET['fts_reviews_feed'] ) && 'yes' === $_GET['fts_reviews_feed'] ) { ?>
+            <?php if ( 'yes' === $reviews_token || isset( $_GET['fts_reviews_feed'] ) && $_GET['fts_reviews_feed'] === 'yes' ) { ?>
             if (document.querySelector('.default-token') !== null) {
                 jQuery(".default-token").show();
             }
@@ -676,7 +676,7 @@ class Access_Options {
                 var token = $(this).find('.page-token').html();
                 var name = $(this).find('.fts-insta-icon').html();
 
-                <?php if ( isset( $_GET['feed_type'] ) && 'instagram' === $_GET['feed_type'] ) { ?>
+                <?php if ( isset( $_GET['feed_type'] ) && $_GET['feed_type'] === 'instagram' ) { ?>
                 var fb_name = $(this).find('.fts-fb-icon').html();
                 $("#fts_facebook_instagram_custom_api_token").val(token);
                 $("#fts_facebook_instagram_custom_api_token_user_id").val(facebook_page_id);

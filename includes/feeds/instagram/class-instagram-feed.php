@@ -342,7 +342,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 			}
 
 			if ( isset( $_REQUEST['next_url'] ) ) {
-				$_REQUEST['next_url'] = str_replace( 'access_token=XXX', 'access_token=' . $this->feed_access_token, $_REQUEST['next_url'] );
+				$_REQUEST['next_url'] = str_replace( FTS_ACCESS_TOKEN_XXX, FTS_ACCESS_TOKEN_EQUALS . $this->feed_access_token, $_REQUEST['next_url'] );
 			}
 			// URL to get Feeds.
 			 $debug = 'false';
@@ -1021,8 +1021,8 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
 					$instagram_loadmore_count = $saved_feed_options['instagram_loadmore_count'] ?? '';
 
-					$access_token         = 'access_token=' . $this->feed_access_token;
-                    $_REQUEST['next_url'] = str_replace( $access_token, 'access_token=XXX', $next_url );
+					$access_token         = FTS_ACCESS_TOKEN_EQUALS . $this->feed_access_token;
+                    $_REQUEST['next_url'] = str_replace( $access_token, FTS_ACCESS_TOKEN_XXX, $next_url );
                     ?>
             		<script>var nextURL_<?php echo sanitize_key( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ); ?>= "<?php echo str_replace( ['"', "'"], '', $_REQUEST['next_url'] ); ?>";</script>
                     <?php

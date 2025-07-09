@@ -299,6 +299,21 @@ class Feed_Them_Social {
         if ( ! defined( 'FTS_FACEBOOK_GRAPH_URL' ) ) {
             define( 'FTS_FACEBOOK_GRAPH_URL', 'https://graph.facebook.com/' );
         }
+
+        // Access Token XXX.
+        if ( ! defined( 'FTS_ACCESS_TOKEN_XXX' ) ) {
+            define( 'FTS_ACCESS_TOKEN_XXX', 'access_token=XXX' );
+        }
+
+        // Access Token Equals.
+        if ( ! defined( 'FTS_ACCESS_TOKEN_EQUALS' ) ) {
+            define( 'FTS_ACCESS_TOKEN_EQUALS', 'access_token=' );
+        }
+
+        // And Access Token Equals.
+        if ( ! defined( 'FTS_AND_ACCESS_TOKEN_EQUALS' ) ) {
+            define( 'FTS_AND_ACCESS_TOKEN_EQUALS', '&access_token=' );
+        }
     }
 
     /**

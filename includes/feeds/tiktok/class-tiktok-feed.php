@@ -53,6 +53,13 @@ class Tiktok_Feed {
 	 */
 	public $access_options;
 
+    /**
+     * Authorization Bearer.
+     *
+     * @var string
+     */
+    const AUTHORIZATION_BEARER = 'Bearer ';
+
 	/**
 	 * Constructor
 	 *
@@ -543,7 +550,7 @@ class Tiktok_Feed {
 				 $user_feed_data = array(
 					 'url' => 'https://open.tiktokapis.com/v2/user/info/?fields=union_id,avatar_url,avatar_url_100,avatar_large_url,display_name,bio_description,profile_deep_link,follower_count,following_count,likes_count,video_count',
 					 'headers' => array(
-						 'Authorization' => 'Bearer ' . $fts_tiktok_access_token
+						 'Authorization' => self::AUTHORIZATION_BEARER . $fts_tiktok_access_token
 					 ),
 					 'feed_type' => 'tiktok',
 				 );
@@ -571,7 +578,7 @@ class Tiktok_Feed {
 				$video_feed_request = array(
 					'url' => 'https://open.tiktokapis.com/v2/video/list/?fields=cover_image_url,id,title',
 					'headers' => array(
-						'Authorization' => 'Bearer ' . $fts_tiktok_access_token,
+						'Authorization' => self::AUTHORIZATION_BEARER . $fts_tiktok_access_token,
 						'Content-Type' => 'application/json'
 					),
 					'body' => json_encode($body_array),
@@ -607,7 +614,7 @@ class Tiktok_Feed {
 				$video_query_data = array(
 					'url' => 'https://open.tiktokapis.com/v2/video/query/?fields=id,duration,height,width,like_count,comment_count,share_count,view_count,create_time,share_url',
 					'headers' => array(
-						'Authorization' => 'Bearer ' . $fts_tiktok_access_token,
+						'Authorization' => self::AUTHORIZATION_BEARER . $fts_tiktok_access_token,
 						'Content-Type' => 'application/json'
 					),
 					'body' => json_encode(array(

@@ -119,7 +119,7 @@ class Youtube_Access_Functions {
         if ( isset( $youtube_api_key ) && ! empty( $youtube_api_key ) ) {
             $youtube_api_key_or_token = 'key=' . $youtube_api_key;
         } elseif ( isset( $youtube_api_key ) && empty( $youtube_api_key ) && isset( $youtube_access_token ) && ! empty( $youtube_access_token ) ) {
-            $youtube_api_key_or_token = 'access_token=' . $youtube_access_token;
+            $youtube_api_key_or_token = FTS_ACCESS_TOKEN_EQUALS . $youtube_access_token;
         } else {
             $youtube_api_key_or_token = '';
         }

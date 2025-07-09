@@ -408,7 +408,6 @@ img.fts-twitter-description-image {
     font-weight: 600!important
 }
 .fts-tiktok-bio-follow-button a:before {
-    content:"\e07b";
     -webkit-font-smoothing: antialiased;
     font-family: FontAwesomeSlick,monospace!important;
     content: "\e07b";

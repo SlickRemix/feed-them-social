@@ -1611,9 +1611,8 @@ class Facebook_Feed_Post_Types {
                     // srl: 8/27/17 - FB BUG: for some reason the full_picture for animated gifs is not correct so we dig deeper and grab another image size fb has set.
                     if ( isset( $facebook_post->attachments->data[0]->type ) && $facebook_post->attachments->data[0]->type === 'animated_image_video' ) {
                         $vid_pic = $facebook_post->attachments->data[0]->media->image->src;
-                    } else {
-                        $vid_pic = $facebook_post->attachments->data[0]->media->image->src;
                     }
+
                     echo '<img class="fts-jal-fb-vid-image" border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_url( $vid_pic ) . '"/>';
 
                     // This puts the video in a popup instead of displaying it directly on the page.

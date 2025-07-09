@@ -470,7 +470,7 @@ function fts_check_valid() {
                 const url_string = window.location.href;
                 let url = new URL( url_string );
                 let cpt_id = url.searchParams.get("post");
-                let feed_type = url.searchParams.get("feed_type");
+                // let feed_type = url.searchParams.get("feed_type");
                 console.log( cpt_id );
 
                 let ftsGlobalValue = jQuery( this ).val();

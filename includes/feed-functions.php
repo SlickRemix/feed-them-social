@@ -37,7 +37,7 @@ class Feed_Functions {
      * @var object
      */
     public $options_functions;
-    
+
 
     /**
      * Feed Settings Array
@@ -94,7 +94,7 @@ class Feed_Functions {
 
         // Options Functions Class.
         $this->options_functions = $options_functions;
-        
+
         // Feed Settings array.
         $this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
 
@@ -435,15 +435,15 @@ class Feed_Functions {
      * @since 4.0.0
      */
     public function get_feed_dynamic_class_name() {
-        
+
         $feed_dynamic_class_name = '';
         if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
             $feed_dynamic_class_name = 'feed_dynamic_class' . esc_attr( wp_unslash( $_REQUEST['fts_dynamic_name'] ) );
         }
         return $feed_dynamic_class_name;
-        
+
     }
-    
+
     /**
      * FTS Ago
      *
@@ -674,10 +674,10 @@ class Feed_Functions {
      * @since 1.9.6
      */
     public function feed_them_settings() {
-        
+
         wp_register_style( 'feed_them_settings_css', plugins_url( 'admin/css/settings-page.min.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
         wp_enqueue_style( 'feed_them_settings_css' );
-        
+
     }
 
     /**
@@ -733,25 +733,25 @@ class Feed_Functions {
 
         /**
          * Mapping the request parameter to the next URL host
-         * 
-         * 
+         *
+         *
          */
 
         if ( ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) || ( isset( $_REQUEST['next_location_url'] ) && !empty( $_REQUEST['next_location_url'] ) ) ) {
 
-            $next_urls = [ 
+            $next_urls = [
                 'graph.facebook.com',
                 'www.googleapis.com',
                 'graph.instagram.com'
             ];
-            
+
             if ( isset( $_REQUEST['next_url'] ) ) {
 
                 $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
-                
+
 
             } elseif ( isset( $_REQUEST['next_location_url'] ) ) {
-                
+
                 $next_url_host = parse_url( $_REQUEST['next_location_url'],  PHP_URL_HOST );
 
             }
@@ -784,7 +784,7 @@ class Feed_Functions {
         $check_token =  $this->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' );
 
         $check_basic_token_value = $this->data_protection->decrypt( $check_token ) !== false ? $this->data_protection->decrypt( $check_token ) : $check_token;
-        $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=' . $check_basic_token_value );
+        $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token' . FTS_AND_ACCESS_TOKEN_EQUALS . $check_basic_token_value );
 
         // Make the request
         $get_response = wp_remote_get( $oauth2token_url );
@@ -1051,7 +1051,7 @@ class Feed_Functions {
      * @since 1.9.6
      */
     public function social_follow_button( $feed, $user_id, $saved_feed_options = null ) {
-        
+
         // Return Social follow button based on Feed Type.
         switch ( $feed ) {
             case 'facebook':
@@ -1358,7 +1358,7 @@ class Feed_Functions {
 
 
                     $media_id = $media->id;
-                    $instagram_basic_data_array['data'] = 'https://graph.instagram.com/' . $media_id . '?fields=caption,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}&access_token=' . $access_token;
+                    $instagram_basic_data_array['data'] = 'https://graph.instagram.com/' . $media_id . '?fields=caption,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}' . FTS_AND_ACCESS_TOKEN_EQUALS . $access_token;
                     $instagram_basic_media_response = $this->fts_get_feed_json( $instagram_basic_data_array );
                     $instagram_basic_media = json_decode( $instagram_basic_media_response['data'] );
                     $instagram_basic_output->data[] = $instagram_basic_media;

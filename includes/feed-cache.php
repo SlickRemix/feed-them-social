@@ -92,7 +92,7 @@ class Feed_Cache {
             '10800'   => __( '3 Hours', 'feed-them-social' ),
             '21600'   => __( '6 Hours', 'feed-them-social' ),
             '43200'   => __( '12 Hours', 'feed-them-social' ),
-            self::CACHE_TIME_ONE_DAY => __( self::CACHE_TIME_ONE_DAY, 'feed-them-social' ),
+            self::CACHE_TIME_ONE_DAY => __( '1 Day', 'feed-them-social' ),
             '172800'  => __( '2 Days', 'feed-them-social' ),
             '259200'  => __( '3 Days', 'feed-them-social' ),
             '345600'  => __( '4 Days', 'feed-them-social' ),
@@ -295,17 +295,11 @@ class Feed_Cache {
         // Clear Expired Timed Cache!
         $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
 
-        $this->settings_functions->fts_update_option( 'fts_cache_time', false );
-
         // Set new cron job when user deletes cache so the cron job time matches up with the new transient_timeout_fts cache time.
         $cron_job = new Cron_Jobs( null, null, null, null );
         $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
-        // error_log('FTS Plugin Cache Empted. Settings Cron Job from feed-cache.php.');
-
         wp_reset_query();
-
         echo 'Success';
-
         wp_die();
     }
 
@@ -323,7 +317,6 @@ class Feed_Cache {
         $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_t_%' ) );
         // Clear Expired Timed Cache!
         $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
-        // error_log('Cron Job Success: Cache for ALL FTS Feeds cleared!');
         wp_reset_query();
         return 'Cache for ALL FTS Feeds cleared!';
     }
@@ -338,10 +331,8 @@ class Feed_Cache {
      */
     public function delete_permanent_feed_cache( $transient_name ) {
         global $wpdb;
-
         // Clear ONLY Specific Feeds Cache!
         $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_fts_p_' . $transient_name ) );
-
         wp_reset_query();
         return 'Cache for this feed cleared!';
     }

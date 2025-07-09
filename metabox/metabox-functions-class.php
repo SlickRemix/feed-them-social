@@ -27,103 +27,103 @@ class Metabox_Functions {
      */
     public $feed_functions;
 
-	/**
-	 * Holds the hook id
-	 *
-	 * @since 1.0.0
-	 *
-	 * @var object
-	 */
-	public $hook_id;
+    /**
+     * Holds the hook id
+     *
+     * @since 1.0.0
+     *
+     * @var object
+     */
+    public $hook_id;
 
-	/**
-	 * Settings Page Name
-	 *
-	 * This is the page name set for the edit settings page (ie. page=template_settings_page) generally set in URL
-	 *
-	 * @var array
-	 */
-	public $settings_page_name;
+    /**
+     * Settings Page Name
+     *
+     * This is the page name set for the edit settings page (ie. page=template_settings_page) generally set in URL
+     *
+     * @var array
+     */
+    public $settings_page_name;
 
-	/**
-	 * Main Post Type
-	 *
-	 * The post type to be checked
-	 *
-	 * @var string
-	 */
-	public $main_post_type;
+    /**
+     * Main Post Type
+     *
+     * The post type to be checked
+     *
+     * @var string
+     */
+    public $main_post_type;
 
-	/**
-	 * Data Protection
-	 *
-	 * Data Protection Class for encryption.
-	 *
-	 * @var object
-	 */
-	public $data_protection;
+    /**
+     * Data Protection
+     *
+     * Data Protection Class for encryption.
+     *
+     * @var object
+     */
+    public $data_protection;
 
-	/**
-	 * Is Page
-	 *
-	 * Is the class being loaded on a page?
-	 *
-	 * @var boolean
-	 */
-	public $is_page;
+    /**
+     * Is Page
+     *
+     * Is the class being loaded on a page?
+     *
+     * @var boolean
+     */
+    public $is_page;
 
-	/**
-	 * Parent Post ID
-	 * used to set Gallery ID
-	 *
-	 * @var string
-	 */
-	public $parent_post_id;
+    /**
+     * Parent Post ID
+     * used to set Gallery ID
+     *
+     * @var string
+     */
+    public $parent_post_id;
 
-	/**
-	 * Specific Form Options
-	 * This allows us to add Specific Metabox Inputs from the constructing class using '' function we add to that class.
-	 *
-	 * @var string
-	 */
-	private $metabox_specific_form_inputs;
+    /**
+     * Specific Form Options
+     * This allows us to add Specific Metabox Inputs from the constructing class using '' function we add to that class.
+     *
+     * @var string
+     */
+    private $metabox_specific_form_inputs;
 
-	/**
-	 * Default Options Array
-	 *
+    /**
+     * Default Options Array
+     *
      * Default options array. Usually set in the options file.
-	 *
-	 * @var array
-	 */
-	public $default_options_array;
+     *
+     * @var array
+     */
+    public $default_options_array;
 
 
-	/**
-	 * Settings Functions
-	 *
-	 * The settings Functions class.
-	 *
-	 * @var object
-	 */
-	public $settings_functions;
+    /**
+     * Settings Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $settings_functions;
 
-	/**
-	 * Options Functions
-	 *
-	 * The settings Functions class.
-	 *
-	 * @var object
-	 */
-	public $options_functions;
+    /**
+     * Options Functions
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $options_functions;
 
-	/**
-	 * Array Options Name
-	 *
-	 * The settings Functions class.
-	 *
-	 * @var object
-	 */
-	public $array_options_name;
+    /**
+     * Array Options Name
+     *
+     * The settings Functions class.
+     *
+     * @var object
+     */
+    public $array_options_name;
 
     /**
      * Metabox Nonce Name.
@@ -135,155 +135,155 @@ class Metabox_Functions {
      */
     public $metabox_nonce_name;
 
-	/**
-	 * Extension List.
-	 *
-	 * List of extensions for FTS.
-	 *
-	 * @var object
-	 */
-	public $prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
+    /**
+     * Extension List.
+     *
+     * List of extensions for FTS.
+     *
+     * @var object
+     */
+    public $prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
-	/**
-	 * Metabox Functions constructor.
-	 *
-	 * Constructor.
-	 *
-	 * @param array $default_options_array All the options.
+    /**
+     * Metabox Functions constructor.
+     *
+     * Constructor.
+     *
+     * @param array $default_options_array All the options.
      * @param object $settings_functions Settings Functions.
      * @param object $options_functions Options Functions.
      * @param string $array_options_name Array Options name.
-	 * @param string $is_page What page.
+     * @param string $is_page What page.
      *
-	 * @since 1.0
-	 */
-	public function __construct( $feed_functions, $default_options_array, $settings_functions, $options_functions, $array_options_name, $data_protection, $is_page = null) {
+     * @since 1.0
+     */
+    public function __construct( $feed_functions, $default_options_array, $settings_functions, $options_functions, $array_options_name, $data_protection, $is_page = null) {
 
         // Feed Functions Class.
         $this->feed_functions = $feed_functions;
 
-		// Default Options Array.
-		$this->default_options_array = $default_options_array;
+        // Default Options Array.
+        $this->default_options_array = $default_options_array;
 
-		// Settings Functions Class.
-		$this->settings_functions = $settings_functions;
+        // Settings Functions Class.
+        $this->settings_functions = $settings_functions;
 
-		// Options Functions Class.
-		$this->options_functions = $options_functions;
+        // Options Functions Class.
+        $this->options_functions = $options_functions;
 
         // Array Options Name.
-		$this->array_options_name = $array_options_name;
+        $this->array_options_name = $array_options_name;
 
-		// Data Protection.
-		$this->data_protection = $data_protection;
+        // Data Protection.
+        $this->data_protection = $data_protection;
 
-		// Is Page.
-		$this->is_page = $is_page;
+        // Is Page.
+        $this->is_page = $is_page;
 
-		// Add Actions & Filters.
-		$this->add_actions_filters();
+        // Add Actions & Filters.
+        $this->add_actions_filters();
 
-		// Set Default main post type.
-		$this->main_post_type = FEED_THEM_SOCIAL_POST_TYPE;
+        // Set Default main post type.
+        $this->main_post_type = FEED_THEM_SOCIAL_POST_TYPE;
 
         // Metabox Nonce Name
-		$this->metabox_nonce_name = $this->main_post_type . '_metabox_options_nonce';
-	}
+        $this->metabox_nonce_name = $this->main_post_type . '_metabox_options_nonce';
+    }
 
-	/**
-	 * Add Action Filters
-	 *
-	 * Load up all our styles and js.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_actions_filters() {
+    /**
+     * Add Action Filters
+     *
+     * Load up all our styles and js.
+     *
+     * @since 1.0.0
+     */
+    public function add_actions_filters() {
 
-		if ( is_admin() ) {
-			// Save Page Metaboxes.
-			if ( true == $this->is_page ) {
-				// Add Save Metabox if Settings page is a page.
-				add_action( 'admin_init', array( $this, 'add_submit_meta_box' ) );
+        if ( is_admin() ) {
+            // Save Page Metaboxes.
+            if ( true == $this->is_page ) {
+                // Add Save Metabox if Settings page is a page.
+                add_action( 'admin_init', array( $this, 'add_submit_meta_box' ) );
 
-				// Save Admin Page Metabox.
-				add_action( 'admin_post_slickmetabox_form', array( $this, 'save_meta_box' ) );
+                // Save Admin Page Metabox.
+                add_action( 'admin_post_slickmetabox_form', array( $this, 'save_meta_box' ) );
 
-			} else {
-				// Save Post Metaboxes.
-				add_action( 'save_post', array( $this, 'save_meta_box' ), 10, 2 );
-			}
+            } else {
+                // Save Post Metaboxes.
+                add_action( 'save_post', array( $this, 'save_meta_box' ), 10, 2 );
+            }
 
-			// Load Metabox Scripts.
-			add_action( 'admin_enqueue_scripts', array( $this, 'metabox_scripts_styles' ) );
+            // Load Metabox Scripts.
+            add_action( 'admin_enqueue_scripts', array( $this, 'metabox_scripts_styles' ) );
 
             // FTS License Page!
             if ( isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ) {
                 add_action( 'admin_footer', array( $this, 'fts_plugin_license' ) );
             }
-		}
-	}
+        }
+    }
 
-	/**
-	 * Settings Page Scripts Styles
-	 *
-	 * Registers and Enqueues (in the admin) scripts and styles for settings page
-	 *
-	 * @param string $hook_suffix Find the hook suffix.
-	 * @since 1.0.0
-	 */
-	public function metabox_scripts_styles( $hook_suffix ) {
+    /**
+     * Settings Page Scripts Styles
+     *
+     * Registers and Enqueues (in the admin) scripts and styles for settings page
+     *
+     * @param string $hook_suffix Find the hook suffix.
+     * @since 1.0.0
+     */
+    public function metabox_scripts_styles( $hook_suffix ) {
 
-		$current_info = $this->current_info_array();
+        $current_info = $this->current_info_array();
 
-		$page_base = $this->main_post_type . '_page_' . $this->settings_page_name;
+        $page_base = $this->main_post_type . '_page_' . $this->settings_page_name;
 
-		// SRL: THESE SCRIPTS CAN BE LOADED ON ALL OF OUR PAGES, BUT SHOULD ONLY LOAD ON OUR PLUGINS PAGES.
-		if ( $this->main_post_type === $current_info['post_type'] ) {
-			// Register Admin Page CSS.
-			wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.min.css' ), array(), FTS_CURRENT_VERSION );
-			// Enqueue Admin Page CSS.
-			wp_enqueue_style( 'slick-admin-page' );
-			// Register Metabox CSS.
-			wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.min.css' ), array(), FTS_CURRENT_VERSION );
-			// Enqueue Metabox CSS.
-			wp_enqueue_style( 'slick-metabox' );
-		}
+        // SRL: THESE SCRIPTS CAN BE LOADED ON ALL OF OUR PAGES, BUT SHOULD ONLY LOAD ON OUR PLUGINS PAGES.
+        if ( $this->main_post_type === $current_info['post_type'] ) {
+            // Register Admin Page CSS.
+            wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.min.css' ), array(), FTS_CURRENT_VERSION );
+            // Enqueue Admin Page CSS.
+            wp_enqueue_style( 'slick-admin-page' );
+            // Register Metabox CSS.
+            wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.min.css' ), array(), FTS_CURRENT_VERSION );
+            // Enqueue Metabox CSS.
+            wp_enqueue_style( 'slick-metabox' );
+        }
 
-		// Is a 'Page' edit page. (aka Settings Class )
-		// if ( $this->main_post_type === $current_info['post_type'] && $page_base === $current_info['base'] ) {
-		// SRL: THESE SCRIPTS SHOULD ONLY BE LOADED ON THE GALLERY, ALBUM AND TEMPLATE SETTINGS PAGE.
-		if ( isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] || $this->main_post_type === $current_info['post_type'] && 'post' === $current_info['base'] && in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
+        // Is a 'Page' edit page. (aka Settings Class )
+        // if ( $this->main_post_type === $current_info['post_type'] && $page_base === $current_info['base'] ) {
+        // SRL: THESE SCRIPTS SHOULD ONLY BE LOADED ON THE GALLERY, ALBUM AND TEMPLATE SETTINGS PAGE.
+        if ( isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] || $this->main_post_type === $current_info['post_type'] && 'post' === $current_info['base'] && in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
 
-			// Enqueue jQuery. (Registered in WordPress Core)!
-			wp_enqueue_script( 'jquery' );
+            // Enqueue jQuery. (Registered in WordPress Core)!
+            wp_enqueue_script( 'jquery' );
 
             // Enqueue jQuery Form JS. (Registered in WordPress Core)!
             wp_enqueue_script( 'jquery-form' );
 
-			// Register Metabox Tabs JS.
-			wp_register_script( 'slick-metabox-tabs', plugins_url( 'feed-them-social/metabox/js/metabox-tabs.min.js' ), array(), FTS_CURRENT_VERSION, true );
+            // Register Metabox Tabs JS.
+            wp_register_script( 'slick-metabox-tabs', plugins_url( 'feed-them-social/metabox/js/metabox-tabs.min.js' ), array(), FTS_CURRENT_VERSION, true );
 
-			// Localize Metabox Tabs JS.
-			wp_localize_script(
-				'slick-metabox-tabs',
-				'ftg_mb_tabs',
-				array(
-					'ajaxEncryptNonce' => wp_create_nonce( 'fts_encrypt_token' ),
-					'ajaxDecryptNonce' => wp_create_nonce( 'fts_decrypt_token' ),
-					'ajaxRefreshFeedNonce' => wp_create_nonce( 'fts_refresh_feed_nonce' ),
+            // Localize Metabox Tabs JS.
+            wp_localize_script(
+                'slick-metabox-tabs',
+                'ftg_mb_tabs',
+                array(
+                    'ajaxEncryptNonce' => wp_create_nonce( 'fts_encrypt_token' ),
+                    'ajaxDecryptNonce' => wp_create_nonce( 'fts_decrypt_token' ),
+                    'ajaxRefreshFeedNonce' => wp_create_nonce( 'fts_refresh_feed_nonce' ),
                     'ajaxExportFeedOptionsNonce' => wp_create_nonce( 'fts_export_feed_options_nonce' ),
                     'ajaxImportFeedOptionsNonce' => wp_create_nonce( 'fts_import_feed_options_nonce' ),
-					'submit_msgs' => array(
-						'saving_msg'  => __( 'Saving Options' ),
-						'success_msg' => __( 'Settings Saved Successfully' ),
+                    'submit_msgs' => array(
+                        'saving_msg'  => __( 'Saving Options' ),
+                        'success_msg' => __( 'Settings Saved Successfully' ),
                         'fts_loading_message' =>  __( 'Loading Changes & Clearing Cache.' ),
                         'fts_post'    => admin_url( 'post.php?post=' .$_GET['post'] . '&action=edit' ),
                     )
-				)
-			);
+                )
+            );
 
-			// Enqueue Metabox Tabs JS.
-			wp_enqueue_script( 'slick-metabox-tabs' );
+            // Enqueue Metabox Tabs JS.
+            wp_enqueue_script( 'slick-metabox-tabs' );
 
             // Shortcode preview specific scripts
             wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
@@ -322,31 +322,31 @@ class Metabox_Functions {
             wp_enqueue_script( 'fts-global-js' );
         }
 
-		// If is page we need to load extra metabox scripts usually loaded on a post page.
-		if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ||
+        // If is page we need to load extra metabox scripts usually loaded on a post page.
+        if ( in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ||
             isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] ||
             isset( $_GET['page'] ) && 'fts-settings-page' === $_GET['page'] ||
             isset( $_GET['page'] ) && 'fts-license-page' === $_GET['page'] ||
             isset( $_GET['page'] ) && 'fts-system-info-submenu-page' === $_GET['page'] ) {
 
             // SRL 4.0.3: pretty sure we don't need these anymore.
-			wp_enqueue_script( 'common' );
-			wp_enqueue_script( 'wp-lists' );
-			wp_enqueue_script( 'postbox' );
+            wp_enqueue_script( 'common' );
+            wp_enqueue_script( 'wp-lists' );
+            wp_enqueue_script( 'postbox' );
 
-			// Register Update From Bottom JS.
-			wp_register_script( 'updatefrombottom-admin-js', plugins_url( 'feed-them-social/metabox/js/update-from-bottom.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
-			// Localize Update From Bottom JS.
-			wp_localize_script(
-				'updatefrombottom-admin-js',
-				'updatefrombottomParams',
-				array(
-					'accessTokenUpdateNonce'				=> wp_create_nonce( 'fts_update_access_token' ),
-					'update'                         => esc_html__( 'Update', 'feed-them-social' ),
-					'publish'                        => esc_html__( 'Publish', 'feed-them-social' ),
-					'publishing'                     => esc_html__( 'Publishing...', 'feed-them-social' ),
-					'updating'                       => esc_html__( 'Updating...', 'feed-them-social' ),
-					'totop'                          => esc_html__( 'To top', 'feed-them-social' ),
+            // Register Update From Bottom JS.
+            wp_register_script( 'updatefrombottom-admin-js', plugins_url( 'feed-them-social/metabox/js/update-from-bottom.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, true );
+            // Localize Update From Bottom JS.
+            wp_localize_script(
+                'updatefrombottom-admin-js',
+                'updatefrombottomParams',
+                array(
+                    'accessTokenUpdateNonce'                => wp_create_nonce( 'fts_update_access_token' ),
+                    'update'                         => esc_html__( 'Update', 'feed-them-social' ),
+                    'publish'                        => esc_html__( 'Publish', 'feed-them-social' ),
+                    'publishing'                     => esc_html__( 'Publishing...', 'feed-them-social' ),
+                    'updating'                       => esc_html__( 'Updating...', 'feed-them-social' ),
+                    'totop'                          => esc_html__( 'To top', 'feed-them-social' ),
                     // These next 2 options where added for the Main Options and Additional Options sub tabs under each feed.
                     'mainoptions'                    => esc_html__( 'Settings', 'feed-them-social' ),
                     'additionaloptions'              => esc_html__( 'Styles', 'feed-them-social' ),
@@ -354,157 +354,157 @@ class Metabox_Functions {
                         '<a href="edit.php?post_type=fts&amp;page=fts-settings-page" target="_blank">',
                         '</a>'
                     ),
-					// used in the success message for when images have been completely uploaded in the drag and drop are or file add button.
-					'images_complete_on_auto_upload' => esc_html__( 'The Image(s) are done uploading. Please click the Publish or Update button now to edit your image(s).', 'feed-them-social' ),
-				)
-			);
+                    // used in the success message for when images have been completely uploaded in the drag and drop are or file add button.
+                    'images_complete_on_auto_upload' => esc_html__( 'The Image(s) are done uploading. Please click the Publish or Update button now to edit your image(s).', 'feed-them-social' ),
+                )
+            );
 
-			// Enqueue Update From Bottom JS.
-			wp_enqueue_script( 'updatefrombottom-admin-js' );
-		}
-	}
+            // Enqueue Update From Bottom JS.
+            wp_enqueue_script( 'updatefrombottom-admin-js' );
+        }
+    }
 
-	/**
-	 * Set Hook ID
-	 *
-	 * Set the hook ID
-	 *
-	 * @param string $hook_id Get the hook ID.
-	 * @since 1.0
-	 */
-	public function set_hook_id( $hook_id ) {
-		global $hook_suffix;
+    /**
+     * Set Hook ID
+     *
+     * Set the hook ID
+     *
+     * @param string $hook_id Get the hook ID.
+     * @since 1.0
+     */
+    public function set_hook_id( $hook_id ) {
+        global $hook_suffix;
 
-		// Set Custom Hook ID or used Global Hook Suffix for hook naming.
-		$this->hook_id = ! empty( $hook_id ) ? $hook_id : $hook_suffix;
-	}
+        // Set Custom Hook ID or used Global Hook Suffix for hook naming.
+        $this->hook_id = ! empty( $hook_id ) ? $hook_id : $hook_suffix;
+    }
 
-	/**
-	 * Set Settings Page Name
-	 *
-	 * Set the settings page name.
-	 *
-	 * @param string $settings_page_name Get the settings page name.
-	 * @since 1.0
-	 */
-	public function set_settings_page_name( $settings_page_name ) {
-		// This is the page name set for the edit settings page (ie. page=template_settings_page) generally set in URL.
-		$this->settings_page_name = $settings_page_name;
-	}
+    /**
+     * Set Settings Page Name
+     *
+     * Set the settings page name.
+     *
+     * @param string $settings_page_name Get the settings page name.
+     * @since 1.0
+     */
+    public function set_settings_page_name( $settings_page_name ) {
+        // This is the page name set for the edit settings page (ie. page=template_settings_page) generally set in URL.
+        $this->settings_page_name = $settings_page_name;
+    }
 
-	/**
-	 * Set Metabox Specific Form Inputs
-	 *
-	 * Set the specific form inputs
-	 *
-	 * @param string $metabox_specific_form_inputs Get the specific form inputs.
-	 * @since 1.0
-	 */
-	public function set_metabox_specific_form_inputs( $metabox_specific_form_inputs ) {
-		// This allows us to add Metabox Specific Form Inputs from the constructing class using 'metabox_specific_form_inputs' function we add to that class.
-		$this->metabox_specific_form_inputs = $metabox_specific_form_inputs;
-	}
+    /**
+     * Set Metabox Specific Form Inputs
+     *
+     * Set the specific form inputs
+     *
+     * @param string $metabox_specific_form_inputs Get the specific form inputs.
+     * @since 1.0
+     */
+    public function set_metabox_specific_form_inputs( $metabox_specific_form_inputs ) {
+        // This allows us to add Metabox Specific Form Inputs from the constructing class using 'metabox_specific_form_inputs' function we add to that class.
+        $this->metabox_specific_form_inputs = $metabox_specific_form_inputs;
+    }
 
-	/**
-	 * Set Main Post Type
-	 *
-	 * Set the main post type
-	 *
-	 * @param string $main_post_type Get the main post type.
-	 * @since 1.0
-	 */
-	public function set_main_post_type( $current_class = null, $main_post_type = null ) {
-		if ( $main_post_type ) {
-			$this->main_post_type = $main_post_type;
-		} else {
-			$this->main_post_type = isset( $current_class->main_post_type ) ? $current_class->main_post_type : 'post';
-		}
-	}
+    /**
+     * Set Main Post Type
+     *
+     * Set the main post type
+     *
+     * @param string $main_post_type Get the main post type.
+     * @since 1.0
+     */
+    public function set_main_post_type( $current_class = null, $main_post_type = null ) {
+        if ( $main_post_type ) {
+            $this->main_post_type = $main_post_type;
+        } else {
+            $this->main_post_type = isset( $current_class->main_post_type ) ? $current_class->main_post_type : 'post';
+        }
+    }
 
-	/**
-	 * Current Info Array
-	 *
-	 * Get the current info array.
-	 *
-	 * @since 1.0
-	 */
-	public function current_info_array() {
+    /**
+     * Current Info Array
+     *
+     * Get the current info array.
+     *
+     * @since 1.0
+     */
+    public function current_info_array() {
 
-		if ( function_exists( 'get_current_screen' ) ) {
-			// Current Info!
-			$current_info['info'] = get_current_screen();
+        if ( function_exists( 'get_current_screen' ) ) {
+            // Current Info!
+            $current_info['info'] = get_current_screen();
 
-			// Current Base!
-			$current_info['base'] = isset( $current_info['info']->base ) ? $current_info['info']->base : null;
+            // Current Base!
+            $current_info['base'] = isset( $current_info['info']->base ) ? $current_info['info']->base : null;
 
-			// Current Post type!
-			$current_info['post_type'] = isset( $current_info['info'] ) && $this->main_post_type === $current_info['info']->post_type ? $current_info['info']->post_type : null;
+            // Current Post type!
+            $current_info['post_type'] = isset( $current_info['info'] ) && $this->main_post_type === $current_info['info']->post_type ? $current_info['info']->post_type : null;
 
-			return $current_info;
-		}
-	}
+            return $current_info;
+        }
+    }
 
-	/**
-	 * Add Submit Meta Box
-	 *
-	 * Add the metaboxes to our pages.
-	 *
-	 * @since 1.0
-	 */
-	public function add_submit_meta_box() {
-		add_meta_box( 'submitdiv', esc_html__( 'Save Options', 'feed-them-social' ), array( $this, 'submit_meta_box' ), $this->hook_id, 'side', 'high' );
-	}
+    /**
+     * Add Submit Meta Box
+     *
+     * Add the metaboxes to our pages.
+     *
+     * @since 1.0
+     */
+    public function add_submit_meta_box() {
+        add_meta_box( 'submitdiv', esc_html__( 'Save Options', 'feed-them-social' ), array( $this, 'submit_meta_box' ), $this->hook_id, 'side', 'high' );
+    }
 
-	/**
-	 * Submit Meta Box Callback
-	 *
-	 * @since 0.1.0
-	 */
-	public function submit_meta_box() {
-		/* Reset URL */
-		$reset_url = '#';
+    /**
+     * Submit Meta Box Callback
+     *
+     * @since 0.1.0
+     */
+    public function submit_meta_box() {
+        /* Reset URL */
+        $reset_url = '#';
 
-		?>
-		<div id="submitpost" class="submitbox">
+        ?>
+        <div id="submitpost" class="submitbox">
 
-			<div id="major-publishing-actions">
+            <div id="major-publishing-actions">
 
-				<?php
-				// <div id="delete-action">
-				// <a href=" echo esc_url( $reset_url ); " class="submitdelete deletion">Reset Settings</a>
-				// </div><!-- #delete-action -->.
-				?>
+                <?php
+                // <div id="delete-action">
+                // <a href=" echo esc_url( $reset_url ); " class="submitdelete deletion">Reset Settings</a>
+                // </div><!-- #delete-action -->.
+                ?>
 
-				<div id="publishing-action">
-					<span class="spinner"></span>
-					<input type="submit" value="Save" class="button button-primary button-large">
-				</div>
+                <div id="publishing-action">
+                    <span class="spinner"></span>
+                    <input type="submit" value="Save" class="button button-primary button-large">
+                </div>
 
-				<div class="clear"></div>
+                <div class="clear"></div>
 
-			</div><!-- #major-publishing-actions -->
+            </div><!-- #major-publishing-actions -->
 
-		</div><!-- #submitpost -->
+        </div><!-- #submitpost -->
 
-		<?php
-	}
+        <?php
+    }
 
 
-	/**
-	 * Metabox Tabs Menu
-	 *
-	 * Outputs the metabox tabs menu html
-	 *
-	 * @param string $current_info Array Info for the current page.
-	 * @param array  $tabs_list Array List of tabs.
-	 *
-	 * @since 1.1.6
-	 */
-	public function metabox_tabs_menu( $current_info, $tabs_list ) {
-		if ( $tabs_list ) {
-			foreach ( $tabs_list['base_tabs'] as $base_key => $base_items ) {
-				// If Base array key is equal to current base (page)!
-				if ( $base_key === $current_info['base'] ) {
+    /**
+     * Metabox Tabs Menu
+     *
+     * Outputs the metabox tabs menu html
+     *
+     * @param string $current_info Array Info for the current page.
+     * @param array  $tabs_list Array List of tabs.
+     *
+     * @since 1.1.6
+     */
+    public function metabox_tabs_menu( $current_info, $tabs_list ) {
+        if ( $tabs_list ) {
+            foreach ( $tabs_list['base_tabs'] as $base_key => $base_items ) {
+                // If Base array key is equal to current base (page)!
+                if ( $base_key === $current_info['base'] ) {
                     // Display the Tabs Menu Items that are in the base items list!
                     foreach ( $tabs_list['tabs_list'] as $tab_key => $tab_item ) {
                         if ( in_array( $tab_key, $base_items, true ) ) {
@@ -529,38 +529,38 @@ class Metabox_Functions {
                             <?php
                         }
                     }
-				}
-			}
-		}
+                }
+            }
+        }
         // SRL: Must be in place for wp_kses to not return error about preg_replace...
         // Without return false you in PHP 8.1 you get; Deprecated: preg_replace(): Passing null to parameter #3 ($subject)
         // of type array|string is deprecated
         return false;
-	}
+    }
 
-	/**
-	 * Display Metabox Content
-	 *
-	 * Display the Metabox content for each tab based on menu key 'cont_func'!
-	 *
-	 * @param array $tabs_list The tabs list.
-	 * @param array $params The parameters.
-	 * @since 1.1.6
-	 */
-	public function display_metabox_content( $current_class, $tabs_list ) {
+    /**
+     * Display Metabox Content
+     *
+     * Display the Metabox content for each tab based on menu key 'cont_func'!
+     *
+     * @param array $tabs_list The tabs list.
+     * @param array $params The parameters.
+     * @since 1.1.6
+     */
+    public function display_metabox_content( $current_class, $tabs_list ) {
 
         // Set and return Nonce Field by nonce name.
-		wp_nonce_field( basename( __FILE__ ), $this->metabox_nonce_name );
+        wp_nonce_field( basename( __FILE__ ), $this->metabox_nonce_name );
 
-		$current_info = $this->current_info_array();
+        $current_info = $this->current_info_array();
 
-		// Get Base of Current Screen.
-		if ( isset( $current_info['base'] ) ) {
-			?>
-			<div class="ft-gallery-settings-tabs-meta-wrap">
-				<div class="tabs" id="tabs">
+        // Get Base of Current Screen.
+        if ( isset( $current_info['base'] ) ) {
+            ?>
+            <div class="ft-gallery-settings-tabs-meta-wrap">
+                <div class="tabs" id="tabs">
                     <div class="tabs-menu-wrap" id="tabs-menu">
-						<ul class="nav nav-tabs nav-append-content">
+                        <ul class="nav nav-tabs nav-append-content">
                             <?php
                                 // Tabs Menu!
                                 echo wp_kses(
@@ -580,7 +580,7 @@ class Metabox_Functions {
                         </ul>
                     </div>
 
-					<div class="tab-content-wrap">
+                    <div class="tab-content-wrap">
                         <div class="tab-options-shortcode-view-wrap">
                             <div class="tab-options-content">
                             <?php
@@ -622,7 +622,7 @@ class Metabox_Functions {
                             <div class="fts-shortcode-view">
                                     <div class="fts-shortcode-content">
                                     <?php
-									$post_id = (int) $_GET['post'];
+                                    $post_id = (int) $_GET['post'];
                                     echo do_shortcode( '[feed_them_social cpt_id=' . $post_id . ']' );
                                     ?>
                                 </div>
@@ -631,56 +631,56 @@ class Metabox_Functions {
                         </div>
                         <?php
 
-						?>
-					</div>
+                        ?>
+                    </div>
 
-					<div class="clear"></div>
+                    <div class="clear"></div>
 
-				</div> <!-- #tabs close -->
+                </div> <!-- #tabs close -->
 
-				<div id="ftg-saveResult"></div>
-			</div>
-			<?php
-		}
-	}
+                <div id="ftg-saveResult"></div>
+            </div>
+            <?php
+        }
+    }
 
-	/**
-	 * Options HTML Form
-	 *
-	 * Return metabox options form fields for output.
-	 *
-	 * @param array $section_info The section info.
-	 * @param array $required_extensions An array of Required Extensions.
-	 * @param string $current_post_id Current post id.
-	 * @return string
-	 * @since @since 1.0.0
-	 */
-	public function options_html_form( $section_info, $required_extensions, $current_post_id = null ) {
+    /**
+     * Options HTML Form
+     *
+     * Return metabox options form fields for output.
+     *
+     * @param array $section_info The section info.
+     * @param array $required_extensions An array of Required Extensions.
+     * @param string $current_post_id Current post id.
+     * @return string
+     * @since @since 1.0.0
+     */
+    public function options_html_form( $section_info, $required_extensions, $current_post_id = null ) {
 
         // If page set false otherwise this is a CPT!
         $is_cpt = true == $this->is_page ? false : true;
 
-		// Get Old Settings Array if set.
-		$saved_options = $this->options_functions->get_saved_options_array( $this->array_options_name, $is_cpt, $current_post_id);
+        // Get Old Settings Array if set.
+        $saved_options = $this->options_functions->get_saved_options_array( $this->array_options_name, $is_cpt, $current_post_id);
 
-		// Is an extension required for this section?
-		$section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->prem_extension_list[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? true : false;
+        // Is an extension required for this section?
+        $section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->prem_extension_list[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? true : false;
 
         $section_wrap_id = !empty( $section_info['section_wrap_id'] ) ? $section_info['section_wrap_id'] : '';
         $section_wrap_class = !empty( $section_info['section_wrap_class'] ) ? $section_info['section_wrap_class'] : '';
-		// Start creation of fields for each Feed.
-		$output = '<div id="' . esc_attr( $section_wrap_id ) . '" class="fts-section ' .$section_wrap_class . '">';
+        // Start creation of fields for each Feed.
+        $output = '<div id="' . esc_attr( $section_wrap_id ) . '" class="fts-section ' .$section_wrap_class . '">';
 
-		// Section Title.
-		$output .= isset( $section_info['section_title'] ) ? '<h3>' . $section_info['section_title'] . '</h3>' : '';
+        // Section Title.
+        $output .= isset( $section_info['section_title'] ) ? '<h3>' . $section_info['section_title'] . '</h3>' : '';
 
-		// Errors Notice Div.
-		$output .= $this->error_notice_html();
+        // Errors Notice Div.
+        $output .= $this->error_notice_html();
 
-		// Section Options Wrap Class.
-		$output .= isset( $section_info['options_wrap_class'] ) ? '<div class="'.$section_info['options_wrap_class'].'">' : '';
+        // Section Options Wrap Class.
+        $output .= isset( $section_info['options_wrap_class'] ) ? '<div class="'.$section_info['options_wrap_class'].'">' : '';
 
-		// Create settings fields for Feed OPTIONS.
+        // Create settings fields for Feed OPTIONS.
         if ( !empty( $section_info['main_options'] ) ) {
             foreach ( (array) $section_info['main_options'] as $option) {
                 if ( !isset( $option['no_html'] ) || isset( $option['no_html'] ) && 'yes' !== $option['no_html'] ) {
@@ -825,39 +825,39 @@ class Metabox_Functions {
                                 break;
 
                             // Select Option Specific to the Facebook Language Option
-							case 'select_fb_language':
+                            case 'select_fb_language':
 
-								$output .= \sprintf(
-								// Any changes to fields here must be added to list of wp_kses list on output return below.
-									'<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
-									$disabled,
-									$option_name,
-									$option_id,
-									isset( $option['class'] ) ? ' ' . $option['class'] : '',
-									isset( $multiple ) ? $multiple : ''
-								);
+                                $output .= \sprintf(
+                                // Any changes to fields here must be added to list of wp_kses list on output return below.
+                                    '<select %s name="%s" id="%s" class="feed-them-social-admin-input%s"%s>',
+                                    $disabled,
+                                    $option_name,
+                                    $option_id,
+                                    isset( $option['class'] ) ? ' ' . $option['class'] : '',
+                                    isset( $multiple ) ? $multiple : ''
+                                );
 
-								$lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
-
-
-								if ( !empty( $lang_options_array->locale ) ) {
-
-									$i = 0;
-									foreach ( $lang_options_array->locale as $language ) {
-
-										$selected = '';
-
-										// $selected = ' selected="'.$language->codes->code->standard->representation .'"';
-										if ( !empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
-											$selected = $this->get_selected_attribute_string();
-										}
-
-										$output .= '<option ' . $selected . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
+                                $lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
 
 
-										$i++;
-									}
-								}
+                                if ( !empty( $lang_options_array->locale ) ) {
+
+                                    $i = 0;
+                                    foreach ( $lang_options_array->locale as $language ) {
+
+                                        $selected = '';
+
+                                        // $selected = ' selected="'.$language->codes->code->standard->representation .'"';
+                                        if ( !empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
+                                            $selected = $this->get_selected_attribute_string();
+                                        }
+
+                                        $output .= '<option ' . $selected . ' value="' . esc_html( $language->codes->code->standard->representation ) . '">' . esc_html( $language->englishName ) . '</option>';
+
+
+                                        $i++;
+                                    }
+                                }
 
                                 $output .= '</select>';
 
@@ -904,14 +904,14 @@ class Metabox_Functions {
                                 break;
                             }
 
-							if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_tiktok_premium' ) {
+                            if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_tiktok_premium' ) {
 
-								$output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
-									$this->prem_extension_list[$req_extension]['purchase_url'],
-									'TikTok ' . $this->get_premium_required_message()
-								);
-								break;
-							}
+                                $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
+                                    $this->prem_extension_list[$req_extension]['purchase_url'],
+                                    'TikTok ' . $this->get_premium_required_message()
+                                );
+                                break;
+                            }
 
                             if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_premium' &&
                                 'feed_them_social_instagram_slider' === $option['req_extensions'][1] ) {
@@ -944,9 +944,9 @@ class Metabox_Functions {
                                 case 'Feed Them Social Combined Streams':
                                     $title_change = 'Combined Streams Required';
                                     break;
-								case 'Feed Them Social TikTok Premium':
-									$title_change = 'TikTok ' . $this->get_premium_required_message();
-									break;
+                                case 'Feed Them Social TikTok Premium':
+                                    $title_change = 'TikTok ' . $this->get_premium_required_message();
+                                    break;
                                 default:
                                     break;
                             }
@@ -982,60 +982,60 @@ class Metabox_Functions {
             }
         }
 
-		//END Section Options Wrap Class.
-		$output .= isset( $section_info['options_wrap_class'] ) ? '</div>' : '';
+        //END Section Options Wrap Class.
+        $output .= isset( $section_info['options_wrap_class'] ) ? '</div>' : '';
 
-		$output .= '</div> <!--/Section Wrap Class END -->';
+        $output .= '</div> <!--/Section Wrap Class END -->';
 
-		return wp_kses(
-			$output,
-			array(
-				'a'      => array(
-					'href'  => array(),
+        return wp_kses(
+            $output,
+            array(
+                'a'      => array(
+                    'href'  => array(),
                     'target'  => array(),
-					'title' => array(),
-					'class' => array(),
-				),
-				'div'    => array(
-					'class' => array(),
-					'id'    => array(),
-					'style' => array(),
+                    'title' => array(),
+                    'class' => array(),
+                ),
+                'div'    => array(
+                    'class' => array(),
+                    'id'    => array(),
+                    'style' => array(),
                     'data-fts-feed-type' => array(),
-				),
-				'select' => array(
-					'name'  => array(),
-					'class' => array(),
-					'id'    => array(),
-					'disabled'    => array()
-				),
-				'option' => array(
-					'value'    => array(),
-					'selected' => array(),
-				),
-				'input'  => array(
-					'value'       => array(),
-					'type'        => array(),
-					'class'       => array(),
-					'id'          => array(),
-					'placeholder' => array(),
-					'name'        => array(),
-					'checked'     => array(),
+                ),
+                'select' => array(
+                    'name'  => array(),
+                    'class' => array(),
+                    'id'    => array(),
+                    'disabled'    => array()
+                ),
+                'option' => array(
+                    'value'    => array(),
+                    'selected' => array(),
+                ),
+                'input'  => array(
+                    'value'       => array(),
+                    'type'        => array(),
+                    'class'       => array(),
+                    'id'          => array(),
+                    'placeholder' => array(),
+                    'name'        => array(),
+                    'checked'     => array(),
                     'data-token'  => array(),
-					'autocomplete'    => array(),
-					'disabled'    => array()
-				),
-				'h3'     => array(
-					'class' => array(),
-				),
+                    'autocomplete'    => array(),
+                    'disabled'    => array()
+                ),
+                'h3'     => array(
+                    'class' => array(),
+                ),
                 'img'     => array(
                     'src' => array(),
                     'class' => array(),
                 ),
                 'p'     => array(),
-				'br'     => array(),
-				'em'     => array(),
-				'strong' => array(),
-				'small'  => array(),
+                'br'     => array(),
+                'em'     => array(),
+                'strong' => array(),
+                'small'  => array(),
                 'span'      => array(
                     'class'   => array(),
                     'data-target' => array(),
@@ -1053,48 +1053,48 @@ class Metabox_Functions {
                     'class' => array(),
                 ),
                 'li' => array(),
-			)
-		);
-	}
+            )
+        );
+    }
 
-	/**
-	 * Check Required Extensions.
-	 *
-	 * Check Required Extensions are active.
-	 *
-	 * @param array $required_extensions An array of Required Extensions.
-	 *
-	 * @return boolean
-	 *
-	 */
-	public function check_req_extensions( $required_extensions ) {
+    /**
+     * Check Required Extensions.
+     *
+     * Check Required Extensions are active.
+     *
+     * @param array $required_extensions An array of Required Extensions.
+     *
+     * @return boolean
+     *
+     */
+    public function check_req_extensions( $required_extensions ) {
         if($required_extensions){
             $active_extensions = 0;
-	        // All Required Extensions
-	        foreach( $required_extensions as $extension_name){
-		        // Check this specific Extension is Active.
-		        if( is_plugin_active( $this->prem_extension_list[$extension_name]['plugin_url'] )){
-			        //Required Extension is active return true!
-			        $active_extensions++;
-		        }
-	        }
-	        // If at least 1 required extension is not active.
-	        return $active_extensions >= 1 ? false : true;
+            // All Required Extensions
+            foreach( $required_extensions as $extension_name){
+                // Check this specific Extension is Active.
+                if( is_plugin_active( $this->prem_extension_list[$extension_name]['plugin_url'] )){
+                    //Required Extension is active return true!
+                    $active_extensions++;
+                }
+            }
+            // If at least 1 required extension is not active.
+            return $active_extensions >= 1 ? false : true;
         }
         // No Required extensions are set.
         return false;
-	}
+    }
 
-	/**
-	 * Save Meta Box
-	 *
+    /**
+     * Save Meta Box
+     *
      * Save or Update Metabox Options Array.
-	 *
-	 * @param string $cpt_id The post ID.
-	 * @return array | string
-	 * @since 1.0.0
-	 */
-	public function save_meta_box( $cpt_id ) {
+     *
+     * @param string $cpt_id The post ID.
+     * @return array | string
+     * @since 1.0.0
+     */
+    public function save_meta_box( $cpt_id ) {
 
         if ( 
             ! isset( $_REQUEST['post_type'] ) ||
@@ -1108,20 +1108,20 @@ class Metabox_Functions {
         // Check if User can Manage Options.
         $this->options_functions->check_user_perms();
 
-		// Verify Nonce by set nonce name.
-		if ( !wp_verify_nonce( $_POST[ $this->metabox_nonce_name ], basename( __FILE__ ) ) ) {
-			return wp_die( 'Cannot Verify This form!' );
-		}
+        // Verify Nonce by set nonce name.
+        if ( !wp_verify_nonce( $_POST[ $this->metabox_nonce_name ], basename( __FILE__ ) ) ) {
+            return wp_die( 'Cannot Verify This form!' );
+        }
 
         // Testing
-		//error_log( print_r( $_POST, true ) );
-		//$this->options_functions->delete_options_array( $this->array_options_name, true, $cpt_id);
-		//$this->options_functions->update_single_option( $this->array_options_name, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
+        //error_log( print_r( $_POST, true ) );
+        //$this->options_functions->delete_options_array( $this->array_options_name, true, $cpt_id);
+        //$this->options_functions->update_single_option( $this->array_options_name, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
 
         //Merge Additional Options.
 
         // Save/Update the Options array using the Array Option Name and Default Options Array.
-		return $this->options_functions->update_options_array( $this->array_options_name, $this->default_options_array, true, $cpt_id );
+        return $this->options_functions->update_options_array( $this->array_options_name, $this->default_options_array, true, $cpt_id );
     }
 
     /**

@@ -16,7 +16,7 @@ class Widget_Loader{
 
 
     private function include_widgets_files(){
-        require_once(FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/elementor/includes/custom-elementor.php');
+        require_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/elementor/includes/custom-elementor.php';
     }
 
     public function register_widgets(){

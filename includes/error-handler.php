@@ -34,6 +34,13 @@ class fts_error_handler {
     const ERROR_CODE_TEXT = 'Error: ';
 
     /**
+     * Solution Text.
+     *
+     * @var string
+     */
+    const SOLUTION_TEXT = 'Here are some possible solutions to fix the error.';
+
+    /**
      * Construct
      *
      * Error Handler constructor.
@@ -148,7 +155,7 @@ class fts_error_handler {
         try {
             if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
                 // Solution Text!
-                $solution_text = 'Here are some possible solutions to fix the error.';
+                $solution_text = self::SOLUTION_TEXT;
                 // ID Error!
                 if ( isset( $feed_data->error ) && 803 === $feed_data->error->code ) {
                     if ( false !== strpos( $feed_data->error->message, '(#803) Cannot query users by their username' ) || 'group' === $saved_feed_options['facebook_page_feed_type'] ) {
@@ -226,7 +233,7 @@ class fts_error_handler {
             if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
 
                 // Solution Text!
-                $solution_text = 'Here are some possible solutions to fix the error.';
+                $solution_text = self::SOLUTION_TEXT;
                 if ( isset( $feed_data->error ) && 400 === $feed_data->error->code  ) {
                     throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - A VALID access token is required to request this resource. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
                 }
@@ -262,7 +269,7 @@ class fts_error_handler {
         try {
             if ( !isset( $feed_data->data ) || empty( $feed_data->data ) ) {
 
-                $solution_text = 'Here are some possible solutions to fix the error.';
+                $solution_text = self::SOLUTION_TEXT;
                 throw new \Exception( '<div style="clear:both; padding:15px 0;">A Valid access token is required to request this resource. <a style="color:red !important;" target="_blank" href="https://www.slickremix.com/docs/instagram-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
             }
         } catch (\Exception $e) {

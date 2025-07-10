@@ -162,7 +162,7 @@ class System_Info {
         <?php
     }
 
-function fts_system_info_support_ticket(){ ob_start() ?>
+public function fts_system_info_support_ticket(){ ob_start() ?>
 ### Begin System Info ###
 <?php
 $theme_data = wp_get_theme();

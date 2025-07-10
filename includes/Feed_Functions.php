@@ -1327,7 +1327,7 @@ class Feed_Functions {
             }
         }
 
-        $fts_error_check = new Fts_Error_Handler();
+        $fts_error_check = new ErrorHandler();
         // Error Check.
         if( $feed_type === 'youtube' ){
             $response = $this->fts_get_feed_json( $api_url );

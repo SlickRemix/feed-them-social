@@ -249,7 +249,7 @@ class Metabox_Functions {
             // Enqueue Admin Page CSS.
             wp_enqueue_style( 'slick-admin-page' );
             // Register Metabox CSS.
-            wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.min.css' ), array(), FTS_CURRENT_VERSION );
+            wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.css' ), array(), FTS_CURRENT_VERSION );
             // Enqueue Metabox CSS.
             wp_enqueue_style( 'slick-metabox' );
         }
@@ -512,20 +512,20 @@ class Metabox_Functions {
                 if ( $base_key === $current_info['base'] ) {
                     // Display the Tabs Menu Items that are in the base items list!
                     foreach ( $tabs_list['tabs_list'] as $tab_key => $tab_item ) {
-                        if ( in_array( $tab_key, $base_items, true ) ) {
+                        if ( \in_array( $tab_key, $base_items, true ) ) {
                             ?>
                             <li class="tabbed <?php echo esc_attr( $tab_item['menu_li_class'] ); ?>">
                                 <a href="#<?php echo esc_attr( $tab_key ); ?>" data-key="<?php echo esc_attr( $tab_key ); ?>" data-toggle="tab"<?php echo isset( $tab_item['menu_a_class'] ) ? 'class="' . esc_attr( $tab_item['menu_a_class'] ) . '"' : ''; ?><?php echo isset( $tab_item['menu_aria_expanded'] ) ? ' aria-expanded="' . esc_attr( $tab_item['menu_aria_expanded'] ) . '"' : ''; ?>>
                                     <div class="fts-click-cover"></div>
                                     <div class="ft_icon">
-                                        <?php if( 'combine_streams_feed' === $tab_key ){ ?>
+                                        <?php if( $tab_key === 'combine_streams_feed' ){ ?>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                                 <!--! Font Awesome Pro 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                 <path d="M0 96C0 78.33 14.33 64 32 64H144.6C164.1 64 182.4 72.84 194.6 88.02L303.4 224H384V176C384 166.3 389.8 157.5 398.8 153.8C407.8 150.1 418.1 152.2 424.1 159L504.1 239C514.3 248.4 514.3 263.6 504.1 272.1L424.1 352.1C418.1 359.8 407.8 361.9 398.8 358.2C389.8 354.5 384 345.7 384 336V288H303.4L194.6 423.1C182.5 439.2 164.1 448 144.6 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H144.6L247 256L144.6 128H32C14.33 128 0 113.7 0 96V96z"/>
                                             </svg>
                                         <?php }
-                                              if( 'instagram_feed' === $tab_key ){ ?>
-                                                  <img src="<?php echo plugins_url(); ?>/feed-them-social/metabox/images/instagram-logo-admin.png" class="instagram-feed-type-image-tab">
+                                              if( $tab_key === 'instagram_feed' ){ ?>
+                                                  <img src="<?php echo plugins_url(); ?>/feed-them-social/metabox/images/instagram-logo-admin.png" class="instagram-feed-type-image-tab" alt="Instagram Logo">
                                         <?php } ?>
                                     </div>
                                     <span class="das-text"><?php echo esc_html( $tab_item['menu_a_text'] ); ?></span>

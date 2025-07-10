@@ -17,7 +17,7 @@ namespace feedthemsocial\includes;
  *
  * @package feedthemsocial
  */
-class Fts_Error_Handler {
+class ErrorHandler {
 
     /**
      * Ouput string

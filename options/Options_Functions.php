@@ -56,7 +56,7 @@ class Options_Functions {
      *
      * @since    4.0.2
      */
-    function check_user_perms() {
+    public function check_user_perms() {
         // Can Current User Manage Options? If not Die!
         if ( ! current_user_can( 'edit_posts' ) ) {
             wp_die( 'Unauthorized User: Unable to save Feeds!' );
@@ -112,7 +112,7 @@ class Options_Functions {
      * @since    3.0.0
      * @return    mixed
      */
-    function get_single_option( $array_option_name, $option_name = '', $default = false, $is_cpt = false, $cpt_id = false ) {
+    public function get_single_option( $array_option_name, $option_name = '', $default = false, $is_cpt = false, $cpt_id = false ) {
         $options = get_option( $array_option_name );
 
         $value = ! empty( $options[ $option_name ] ) ? $options[ $option_name ] : $default;

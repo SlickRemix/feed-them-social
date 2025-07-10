@@ -12,6 +12,8 @@
 
 namespace feedthemsocial\includes\feeds\tiktok;
 
+use feedthemsocial\includes\TrimWords;
+
 // Exit if accessed directly.
 if ( ! \defined( 'ABSPATH' ) ) {
     exit;
@@ -130,7 +132,7 @@ class Tiktok_Feed {
         $full_text = preg_replace( $pattern, $replace, $text );
 
         if ( $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) && $word_count !== '' ) {
-            $truncate_words = new \Trim_Words();
+            $truncate_words = new TrimWords();
             $full_text = $truncate_words::fts_custom_trim_words( $full_text, $word_count, $more );
         }
 

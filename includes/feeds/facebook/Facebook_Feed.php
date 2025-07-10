@@ -13,7 +13,7 @@
 namespace feedthemsocial\includes\feeds\facebook;
 
 // Exit if accessed directly!
-use feedthemsocial\includes\Fts_Error_Handler;
+use feedthemsocial\includes\ErrorHandler;
 
 if ( ! \defined( 'ABSPATH' ) ) {
     exit;
@@ -1423,7 +1423,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
 
                 // Error Check.
                 $feed_data                = json_decode( $response['feed_data'] );
-                $fts_error_check          = new Fts_Error_Handler();
+                $fts_error_check          = new ErrorHandler();
                 $fts_error_check_complete = $fts_error_check->facebook_error_check( $saved_feed_options, $feed_data );
 
                 if ( \is_array( $fts_error_check_complete ) && $fts_error_check_complete[0] === true ) {
@@ -1554,7 +1554,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
             }
 
 
-            $fts_error_check          = new Fts_Error_Handler();
+            $fts_error_check          = new ErrorHandler();
             $fts_error_check_complete = $fts_error_check->facebook_error_check( $saved_feed_options, $feed_data );
             if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
 

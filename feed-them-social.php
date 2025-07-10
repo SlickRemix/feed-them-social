@@ -28,11 +28,17 @@
  * Paid Extension Support: https://www.slickremix.com/my-account/#tab-support
  */
 
-// Set Plugin's Current Version.
+// Exit if accessed directly.
+if ( ! \defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+// Define the plugin version.
 define( 'FTS_CURRENT_VERSION', '4.3.9' );
 
-// Require file for plugin loading.
+// Require the file that contains the new autoloader and main plugin class.
 require_once __DIR__ . '/class-load-plugin.php';
 
-// Feed Them Social Class. Load up the plugin.
-new Feed_Them_Social();
+// Instantiate the main class to start the plugin.
+// The autoloader will handle all other class dependencies from here.
+new \feedthemsocial\Feed_Them_Social();

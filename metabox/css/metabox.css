@@ -2052,9 +2052,12 @@ ol.fts-instructions-list li::marker {
     background: #fff
 }
 
+#ftg-tab-content1 .feed-them-social-admin-input-label {
+    float: left;
+}
+
 .feed-them-social-admin-input-label {
     min-width: 140px;
-    float: left;
     font-weight: 500;
     margin-top: 0;
 }

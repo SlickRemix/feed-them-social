@@ -11,10 +11,55 @@
  * @author   SlickRemix
  */
 
+namespace feedthemsocial;
+
 // Exit if accessed directly!
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! \defined( 'ABSPATH' ) ) {
     exit;
 }
+
+// PSR-4 Autoloader.
+spl_autoload_register(function ( $class ) {
+    $prefix = 'feedthemsocial\\';
+    $base_dir = __DIR__ . '/';
+    $len = \strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) {
+        return;
+    }
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+    if (file_exists($file)) {
+        require $file;
+    }
+});
+
+// Import classes to use short names, following the instantiation order.
+use feedthemsocial\data_protection\Data_Protection;
+use feedthemsocial\options\Options_Functions;
+use feedthemsocial\admin\settings\Settings_Functions;
+use feedthemsocial\includes\Feed_Cache;
+use feedthemsocial\admin\cpt\options\additional\Facebook_Additional_Options;
+use feedthemsocial\admin\cpt\options\additional\Instagram_Additional_Options;
+use feedthemsocial\admin\cpt\options\additional\Twitter_Additional_Options;
+use feedthemsocial\admin\cpt\options\additional\Youtube_Additional_Options;
+use feedthemsocial\admin\cpt\options\Feed_CPT_Options;
+use feedthemsocial\includes\Feed_Functions;
+use feedthemsocial\admin\settings\Settings_Page;
+use feedthemsocial\admin\System_Info;
+use feedthemsocial\admin\cpt\Feed_Options_Import_Export;
+use feedthemsocial\admin\cpt\options\Settings_Options_JS;
+use feedthemsocial\metabox\Metabox_Functions;
+use feedthemsocial\admin\cpt\access_tokens\Access_Token_Options;
+use feedthemsocial\admin\cpt\Feeds_CPT;
+use feedthemsocial\includes\feeds\facebook\Facebook_Feed_Post_Types;
+use feedthemsocial\includes\feeds\facebook\Facebook_Feed;
+use feedthemsocial\includes\feeds\instagram\Instagram_Feed;
+use feedthemsocial\includes\feeds\tiktok\Tiktok_Feed;
+use feedthemsocial\includes\feeds\youtube\Youtube_Feed;
+use feedthemsocial\includes\Feed_Shortcode;
+use feedthemsocial\updater\Updater_Check_Init;
+use feedthemsocial\blocks\Block_Loader;
+use feedthemsocial\admin\cron_jobs\Cron_Jobs;
 
 /**
  * Feed Them Social Class
@@ -29,17 +74,16 @@ class Feed_Them_Social {
      * @since 1.9.6
      */
     public function __construct() {
-        // Set up actions and filters first
+        // Set up actions and filters first.
         $this->add_actions_filters();
 
-        // Setup constants
-        $minimum_required_PHP_version = '7.0.0';
-        $this->setup_constants($minimum_required_PHP_version);
+        // Setup constants.
+        $this->setup_constants('7.0.0');
 
-        // Include necessary files
+        // Misc Includes.
         $this->includes();
 
-        // Load plugin components on init, AFTER WordPress is fully loaded
+        // Load plugin components on init, AFTER WordPress is fully loaded.
         add_action('init', array($this, 'load_plugin_components'), 5);
     }
 
@@ -63,98 +107,44 @@ class Feed_Them_Social {
      * @since 4.3.8
      */
     public function load_plugin_components() {
-        // Activate Plugin Class
-        $activate_plugin = new \feedthemsocial\Activate_Plugin();
+        // All these 'new' statements will now automatically trigger the autoloader.
+        $activate_plugin = new Activate_Plugin();
         $activate_plugin->add_actions_filters();
 
-        // Data Protection.
-        $data_protection = new feedthemsocial\Data_Protection();
+        $data_protection = new Data_Protection();
+        $options_functions = new Options_Functions( FEED_THEM_SOCIAL_POST_TYPE );
+        $settings_functions = new Settings_Functions();
+        $feed_cache = new Feed_Cache( $data_protection, $settings_functions );
+        $facebook_additional_options = new Facebook_Additional_Options();
+        $instagram_additional_options = new Instagram_Additional_Options();
+        $twitter_additional_options = new Twitter_Additional_Options();
+        $youtube_additional_options = new Youtube_Additional_Options();
+        $feed_cpt_options = new Feed_CPT_Options( $facebook_additional_options, $instagram_additional_options, $twitter_additional_options, $youtube_additional_options );
+        $feed_functions = new Feed_Functions( $settings_functions, $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
 
-        // Options Functions.
-        $options_functions = new feedthemsocial\Options_Functions( FEED_THEM_SOCIAL_POST_TYPE );
+        new Settings_Page( $settings_functions, $feed_cache );
+        $system_info = new System_Info( $settings_functions, $feed_functions, $feed_cache );
+        new Feed_Options_Import_Export( $feed_functions, $data_protection, $system_info );
+        $setting_options_js = new Settings_Options_JS();
+        $metabox_functions = new Metabox_Functions( $feed_functions, $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, FEED_THEM_SOCIAL_OPTION_ARRAY_NAME, $data_protection );
+        $access_options = new Access_Token_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
+        new Feeds_CPT( $settings_functions, $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
+        $facebook_post_types = new Facebook_Feed_Post_Types( $feed_functions, $settings_functions, $access_options );
+        $facebook_feed = new Facebook_Feed( $settings_functions, $feed_functions, $feed_cache, $facebook_post_types, $access_options );
+        $instagram_feed = new Instagram_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
+        $tiktok_feed = new Tiktok_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
+        $youtube_feed = new Youtube_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
 
-        // Settings Functions.
-        $settings_functions = new feedthemsocial\Settings_Functions();
-
-        // Feed Cache.
-        $feed_cache = new feedthemsocial\Feed_Cache( $data_protection, $settings_functions );
-
-        // Facebook Additional Options.
-        $facebook_additional_options = new feedthemsocial\Facebook_Additional_Options();
-
-        // Instagram Additional Options.
-        $instagram_additional_options = new feedthemsocial\Instagram_Additional_Options();
-
-        // Twitter Additional Options.
-        $twitter_additional_options = new feedthemsocial\Twitter_Additional_Options();
-
-        // YouTube Additional Options.
-        $youtube_additional_options = new feedthemsocial\Youtube_Additional_Options();
-
-        // Feed Options.
-        $feed_cpt_options = new feedthemsocial\Feed_CPT_Options( $facebook_additional_options, $instagram_additional_options, $twitter_additional_options, $youtube_additional_options );
-
-        // Feed Functions.
-        $feed_functions = new feedthemsocial\Feed_Functions( $settings_functions, $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
-
-        // Settings Page.
-        new feedthemsocial\Settings_Page( $settings_functions, $feed_cache );
-
-        // System Info.
-        $system_info = new feedthemsocial\System_Info( $settings_functions, $feed_functions, $feed_cache );
-
-        // Feed Options Import/Export.
-        new feedthemsocial\Feed_Options_Import_Export( $feed_functions, $data_protection, $system_info );
-
-        // Setting Options JS.
-        $setting_options_js = new feedthemsocial\Settings_Options_JS();
-
-        // Metabox Functions.
-        $metabox_functions = new feedthemsocial\Metabox_Functions( $feed_functions, $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, FEED_THEM_SOCIAL_OPTION_ARRAY_NAME, $data_protection );
-
-        // Access Options.
-        $access_options = new feedthemsocial\Access_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
-
-        // Feeds CPT.
-        new feedthemsocial\Feeds_CPT( $settings_functions, $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
-
-        // Facebook Post Types.
-        $facebook_post_types = new feedthemsocial\Facebook_Feed_Post_Types( $feed_functions, $settings_functions, $access_options );
-
-        // Facebook Feed.
-        $facebook_feed = new feedthemsocial\Facebook_Feed( $settings_functions, $feed_functions, $feed_cache, $facebook_post_types, $access_options );
-
-        // Instagram Feed.
-        $instagram_feed = new feedthemsocial\Instagram_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
-
-        // TikTok Feed.
-        $tiktok_feed = new feedthemsocial\Tiktok_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
-
-        // YouTube Feed.
-        $youtube_feed = new feedthemsocial\Youtube_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
-
-        // Check if Extension is active if so call class.
         if( $feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
-            // Display Combined Streams Feed.
             $combined_streams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feed_functions, $feed_cache, $access_options, $facebook_feed, $facebook_post_types, $instagram_feed, $tiktok_feed, $youtube_feed );
-        }
-        else {
+        } else {
             $combined_streams = '';
         }
-        // Feed Display.
-        new feedthemsocial\Feed_Shortcode( $settings_functions, $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $tiktok_feed, $youtube_feed, $combined_streams );
 
-        // Shorten words in Posts.
-        new FeedThemSocialTruncateHTML();
-
-        // Updater Init.
-        new feedthemsocial\updater_init( $feed_functions );
-
-        // Block Init
-        new feedthemsocial\BlockLoader();
-
-        // Cron Jobs
-        new feedthemsocial\Cron_Jobs( $feed_functions, $options_functions, $settings_functions, $feed_cache );
+        new Feed_Shortcode( $settings_functions, $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $tiktok_feed, $youtube_feed, $combined_streams );
+        new Block_Loader();
+        new Cron_Jobs( $feed_functions, $options_functions, $settings_functions, $feed_cache );
+        new Updater_Check_Init( $feed_functions );
     }
 
     /**
@@ -179,58 +169,58 @@ class Feed_Them_Social {
      */
     private function setup_constants( $minimum_required_PHP_version ) {
         // Makes sure the plugin is defined before trying to use it.
-        if ( ! function_exists( 'is_plugin_active' ) ) {
+        if ( ! \function_exists( 'is_plugin_active' ) ) {
             require_once ABSPATH . '/wp-admin/includes/plugin.php';
         }
 
         // This is the URL the Updater / License Key Validation pings.
-        if (!defined('SLICKREMIX_STORE_URL')) {
-            define('SLICKREMIX_STORE_URL', 'https://www.slickremix.com/');
+        if (!\defined('SLICKREMIX_STORE_URL')) {
+            \define('SLICKREMIX_STORE_URL', 'https://www.slickremix.com/');
         }
 
         // Feed Them Social Post Type.
-        if ( ! defined( 'FEED_THEM_SOCIAL_POST_TYPE' )  ) {
-            define( 'FEED_THEM_SOCIAL_POST_TYPE', 'fts' );
+        if ( ! \defined( 'FEED_THEM_SOCIAL_POST_TYPE' )  ) {
+            \define( 'FEED_THEM_SOCIAL_POST_TYPE', 'fts' );
         }
 
         // Feed Them Social Option Array Name. Used to set the option name in the database.
-        if ( ! defined( 'FEED_THEM_SOCIAL_OPTION_ARRAY_NAME' )  ) {
+        if ( ! \defined( 'FEED_THEM_SOCIAL_OPTION_ARRAY_NAME' )  ) {
             define( 'FEED_THEM_SOCIAL_OPTION_ARRAY_NAME', 'fts_feed_options_array' );
         }
 
         // Minimum PHP Version for Feed Them Social.
-        if ( ! defined( 'FEED_THEM_SOCIAL_MIN_PHP' ) ) {
-            define( 'FEED_THEM_SOCIAL_MIN_PHP', $minimum_required_PHP_version );
+        if ( ! \defined( 'FEED_THEM_SOCIAL_MIN_PHP' ) ) {
+            \define( 'FEED_THEM_SOCIAL_MIN_PHP', $minimum_required_PHP_version );
         }
 
         // Plugin Basename.
-        if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_BASENAME' ) ) {
-            define( 'FEED_THEM_SOCIAL_PLUGIN_BASENAME', 'feed-them-social/feed-them-social.php' );
+        if ( ! \defined( 'FEED_THEM_SOCIAL_PLUGIN_BASENAME' ) ) {
+            \define( 'FEED_THEM_SOCIAL_PLUGIN_BASENAME', 'feed-them-social/feed-them-social.php' );
         }
 
         // Plugins Absolute Path. (Needs to be after BASENAME constant to work).
-        if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH' ) ) {
-            define( 'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH', plugin_dir_path( __DIR__ ) . FEED_THEM_SOCIAL_PLUGIN_BASENAME );
+        if ( ! \defined( 'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH' ) ) {
+            \define( 'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH', plugin_dir_path( __DIR__ ) . FEED_THEM_SOCIAL_PLUGIN_BASENAME );
         }
 
         // Plugin version. (Needs to be after BASENAME and ABS_PATH constants to work).
-        if ( ! defined( 'FEED_THEM_SOCIAL_VERSION' ) ) {
-            define( 'FEED_THEM_SOCIAL_VERSION', FTS_CURRENT_VERSION );
+        if ( ! \defined( 'FEED_THEM_SOCIAL_VERSION' ) ) {
+            \define( 'FEED_THEM_SOCIAL_VERSION', FTS_CURRENT_VERSION );
         }
 
         // Plugin Folder Path.
-        if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_PATH' ) ) {
-            define( 'FEED_THEM_SOCIAL_PLUGIN_PATH', plugins_url() );
+        if ( ! \defined( 'FEED_THEM_SOCIAL_PLUGIN_PATH' ) ) {
+            \define( 'FEED_THEM_SOCIAL_PLUGIN_PATH', plugins_url() );
         }
 
         // Plugin Directory Path.
-        if ( ! defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
-            define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
+        if ( ! \defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
+            \define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
         }
 
         // Premium Extension List.
-        if ( ! defined( 'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST' ) ) {
-            define( 'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST', array(
+        if ( ! \defined( 'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST' ) ) {
+            \define( 'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST', array(
                     'feed_them_social_premium'          => array(
                         // Title MUST match title of product in EDD store on site plugin is being sold!
                         'title'        => 'Feed Them Social Premium',
@@ -276,23 +266,23 @@ class Feed_Them_Social {
         }
 
         // Facebook Graph URL.
-        if ( ! defined( 'FTS_FACEBOOK_GRAPH_URL' ) ) {
-            define( 'FTS_FACEBOOK_GRAPH_URL', 'https://graph.facebook.com/' );
+        if ( ! \defined( 'FTS_FACEBOOK_GRAPH_URL' ) ) {
+            \define( 'FTS_FACEBOOK_GRAPH_URL', 'https://graph.facebook.com/' );
         }
 
         // Access Token XXX.
-        if ( ! defined( 'FTS_ACCESS_TOKEN_XXX' ) ) {
-            define( 'FTS_ACCESS_TOKEN_XXX', 'access_token=XXX' );
+        if ( ! \defined( 'FTS_ACCESS_TOKEN_XXX' ) ) {
+            \define( 'FTS_ACCESS_TOKEN_XXX', 'access_token=XXX' );
         }
 
         // Access Token Equals.
-        if ( ! defined( 'FTS_ACCESS_TOKEN_EQUALS' ) ) {
-            define( 'FTS_ACCESS_TOKEN_EQUALS', 'access_token=' );
+        if ( ! \defined( 'FTS_ACCESS_TOKEN_EQUALS' ) ) {
+            \define( 'FTS_ACCESS_TOKEN_EQUALS', 'access_token=' );
         }
 
         // And Access Token Equals.
-        if ( ! defined( 'FTS_AND_ACCESS_TOKEN_EQUALS' ) ) {
-            define( 'FTS_AND_ACCESS_TOKEN_EQUALS', '&access_token=' );
+        if ( ! \defined( 'FTS_AND_ACCESS_TOKEN_EQUALS' ) ) {
+            \define( 'FTS_AND_ACCESS_TOKEN_EQUALS', '&access_token=' );
         }
     }
 
@@ -303,109 +293,7 @@ class Feed_Them_Social {
      *
      * @since 1.0.0
      */
-    private function includes() {
-        // Activate Plugin Class. (Must be included early)
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'activate-plugin.php';
-
-        // System Info
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/system-info.php';
-
-        // Data Protection Class.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'data-protection/data-protection.php';
-
-        // Data Protection Class.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/trim-words.php';
-
-        // Options Functions Class.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'options/options-functions.php';
-
-        // Metabox Functions Class.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'metabox/metabox-functions-class.php';
-
-        // Settings Page.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-page.php';
-
-        // Settings Functions.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/settings/settings-functions.php';
-
-        // Feed Functions Class. (eventually replacing most of FTS Functions Class.)
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-functions.php';
-
-        // Error Handler.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/error-handler.php';
-
-        // Feed Options Import Export.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feed-options-import-export.php';
-
-        // Setting Options Js.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/cpt-settings-options-js.php';
-
-        // Facebook Access Token API.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/facebook-access-token.php';
-
-        // Instagram Access Token API.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-access-token.php';
-
-        // Instagram Business Access Token API.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/instagram-business-access-token.php';
-
-        // Twitter Access Token API.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/tiktok-access-token.php';
-
-        // YouTube Access Token API.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/single/youtube-access-token.php';
-
-        // Access Token Options.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/access-tokens/access-token-options.php';
-
-        // Feeds CPT Options.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/feeds-cpt-options.php';
-
-        // Facebook Additional Options
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/facebook-cpt-additional-options.php';
-
-        // Instagram Additional Options
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/instagram-cpt-additional-options.php';
-
-        // Twitter Additional Options
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/twitter-cpt-additional-options.php';
-
-        // YouTube Additional Options
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/options/additional/youtube-cpt-additional-options.php';
-
-        // Feeds CPT Class.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'admin/cpt/feeds-cpt-class.php';
-
-        // Facebook Feed.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed.php';
-
-        // Facebook Feed Post Types.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/facebook/class-facebook-feed-post-types.php';
-
-        // Instagram Feed.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/instagram/class-instagram-feed.php';
-
-        // TikTok Feed.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/tiktok/class-tiktok-feed.php';
-
-        // YouTube Feed.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feeds/youtube/class-youtube-feed.php';
-
-        // Feed Cache.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-cache.php';
-
-        // Include Shortcodes.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'includes/feed-shortcode.php';
-
-        // Updater Classes.
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-license-page.php';
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-class.php';
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'updater/updater-check-init.php';
-
-        // Feed Block
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . 'blocks/block-loader.php';
-
-        include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/cron-jobs/cron-jobs.php';
+    public function includes() {
 
         // Beaver Builder Module
         if (class_exists('FLBuilder')) {
@@ -414,7 +302,7 @@ class Feed_Them_Social {
 
         // Elementor Module
         if ( did_action( 'elementor/loaded' ) ) {
-            include FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/elementor/includes/module.php';
+            include_once FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/admin/modules/elementor/includes/module.php';
         }
     }
 }

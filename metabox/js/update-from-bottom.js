@@ -569,7 +569,7 @@ function fts_check_valid() {
                         $( this ).addClass('fts-sub-tab-active').next( 'div').removeClass('fts-sub-tab-active');
                     }
                 }
-                else if( $( this ).hasClass( 'fts-settings-tab' ) || $( this ).hasClass( 'fts-settings-tab' ) ){
+                else if( $( this ).hasClass( 'fts-settings-tab' ) ){
 
                     $('.fts-cpt-extra-options').show();
                     $('.fts-cpt-main-options').hide();

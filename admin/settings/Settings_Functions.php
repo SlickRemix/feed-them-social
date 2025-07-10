@@ -51,26 +51,6 @@ class Settings_Functions {
         add_filter( 'fts_after_setting_output', array( $this, 'fts_add_setting_tooltip' ), 10, 2 );
     }
 
-    /**
-     * Required Plugins
-     *
-     * Return an array of required plugins.
-     *
-     * @return array
-     * @since 1.0.0
-     */
-    public function fts_required_plugins() {
-        $required_premium_plugins = array(
-            // Title MUST match title of product in EDD store on site plugin is being sold!
-            'title'        => 'Feed Them Social Premium',
-            'plugin_url'   => 'feed-them-premium/feed-them-premium.php',
-            'demo_url'     => 'https://feedthemsocial.com/facebook-page-feed-demo/',
-            'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/',
-        );
-
-        return $required_premium_plugins;
-    }
-
 
     /**
      * Get an option
@@ -80,7 +60,7 @@ class Settings_Functions {
      * @since    1.0.0
      * @return    mixed
      */
-    function fts_get_option( $key = '', $default = false ) {
+    public function fts_get_option($key = '', $default = false ) {
         $options = get_option( 'fts_settings' );
 
         $value = ! empty( $options[ $key ] ) ? $options[ $key ] : $default;
@@ -110,8 +90,7 @@ class Settings_Functions {
         }
 
         if ( empty( $value ) ) {
-            $remove_option = $this->fts_delete_option( $key );
-            return $remove_option;
+            return $this->fts_delete_option( $key );
         }
 
         // First let's grab the current settings
@@ -575,12 +554,6 @@ class Settings_Functions {
 
         $readonly    = $args['readonly'] === true    ? 'disabled="disabled"' : '';
 
-        if( 'fts_get_user_options' === $args['options'] ){
-            $html  = $this->fts_get_user_options( $readonly );
-        }
-        else {
-
-
             $html = '<select id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" ' . $readonly . ' name="fts_settings[' . esc_attr( $args['id'] ) . ']' . $name_array . '" class="' . $class . '"' . $multiple . ' data-placeholder="' . esc_html( $placeholder ) . '" />';
             foreach ( $args['options'] as $option => $name ) {
                 if ( ! empty( $multiple ) && is_array( $value ) ) {
@@ -592,7 +565,6 @@ class Settings_Functions {
             }
 
             $html .= '</select>';
-        }
 
         $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
 
@@ -759,258 +731,6 @@ class Settings_Functions {
     } // fts_descriptive_text_callback
 
     /**
-     * Registers the license field callback for Software Licensing
-     *
-     * @since    1.0
-     * @param    array    $args    Arguments passed by the setting
-     * @global    $fts_options    Array of all the FTG options
-     * @return void
-     */
-
-    public function fts_license_key_callback( $args )    {
-        if ( ! function_exists( 'fts_license_key_callback' ) ) {
-        $fts_option = $this->fts_get_option( $args['id'] );
-
-        $messages = array();
-        $license  = get_option( $args['options']['is_valid_license_option'] );
-
-        if ( $fts_option )    {
-            $value = $fts_option;
-        } else    {
-            $value = isset( $args['std'] ) ? $args['std'] : '';
-        }
-
-        if ( ! empty( $license ) && is_object( $license ) )    {
-
-            // activate_license 'invalid' on anything other than valid, so if there was an error capture it
-            if ( false === $license->success ) {
-
-                switch( $license->error ) {
-
-                    case 'expired' :
-
-                        $class = 'expired';
-                        $messages[] = \sprintf(
-                            __( 'Your license key expired on %s. Please <a href="%s" target="_blank" title="Renew your license key">renew your license key</a>.', 'feed_them_social' ),
-                            date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ),
-                            'https://slickremix.com/checkout/?edd_license_key=' . $value
-                        );
-
-                        $license_status = 'license-' . $class . '-notice';
-
-                        break;
-
-                    case 'revoked' :
-
-                        $class = 'error';
-                        $messages[] = \sprintf(
-                            __( 'Your license key has been disabled. Please <a href="%s" target="_blank">contact support</a> for more information.', 'feed_them_social' ),
-                            'https://slickremix.com/support'
-                        );
-
-                        $license_status = 'license-' . $class . '-notice';
-
-                        break;
-
-                    case 'missing' :
-
-                        $class = 'error';
-                        $messages[] = \sprintf(
-                            __( 'Invalid license. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> and verify it.', 'feed_them_social' ),
-                            'https://slickremix.com/your-account'
-                        );
-
-                        $license_status = 'license-' . $class . '-notice';
-
-                        break;
-
-                    case 'invalid' :
-                    case 'site_inactive' :
-
-                        $class = 'error';
-                        $messages[] = \sprintf(
-                            __( 'Your %s is not active for this URL. Please <a href="%s" target="_blank" title="Visit account page">visit your account page</a> to manage your license key URLs.', 'feed_them_social' ),
-                            $args['name'],
-                            'https://slickremix.com/your-account'
-                        );
-
-                        $license_status = 'license-' . $class . '-notice';
-
-                        break;
-
-                    case 'item_name_mismatch' :
-
-                        $class = 'error';
-                        $messages[] = \sprintf( __( 'This appears to be an invalid license key for %s.', 'feed-them-social' ), $args['name'] );
-
-                        $license_status = 'license-' . $class . '-notice';
-
-                        break;
-
-                    case 'no_activations_left':
-
-                        $class = 'error';
-                        $messages[] = \sprintf( __( 'Your license key has reached its activation limit. <a href="%s">View possible upgrades</a> now.', 'feed-them-social' ), 'https://slickremix.com/your-account/' );
-
-                        $license_status = 'license-' . $class . '-notice';
-
-                        break;
-
-                    case 'license_not_activable':
-
-                        $class = 'error';
-                        $messages[] = __( 'The key you entered belongs to a bundle, please use the product specific license key.', 'feed-them-social' );
-
-                        $license_status = 'license-' . $class . '-notice';
-                        break;
-
-                    default :
-
-                        $class = 'error';
-                        $error = ! empty(  $license->error ) ?  $license->error : __( 'Unknown error.', 'feed_them_social' );
-                        $messages[] = \sprintf( __( 'There was an error with this license key: %s. Please <a href="%s">contact our support team</a>.', 'feed_them_social' ), $error, 'https://slickremix.com/support' );
-
-                        $license_status = 'license-' . $class . '-notice';
-                        break;
-
-                }
-
-            } else {
-
-                switch( $license->license ) {
-
-                    case 'valid' :
-                    default:
-
-                        $class = 'valid';
-
-                        $now        = current_time( 'timestamp' );
-                        $expiration = strtotime( $license->expires, current_time( 'timestamp' ) );
-
-                        if( 'lifetime' === $license->expires ) {
-
-                            $messages[] = __( 'License key never expires.', 'feed_them_social' );
-
-                            $license_status = 'license-lifetime-notice';
-
-                        } elseif( $expiration > $now && $expiration - $now < ( DAY_IN_SECONDS * 30 ) ) {
-
-                            $messages[] = \sprintf(
-                                __( 'Your license key expires soon! It expires on %s. <a href="%s" target="_blank" title="Renew license">Renew your license key</a>.', 'feed_them_social' ),
-                                date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) ),
-                                'https://slickremix.com/checkout/?edd_license_key=' . $value
-                            );
-
-                            $license_status = 'license-expires-soon-notice';
-
-                        } else {
-
-                            $messages[] = \sprintf(
-                                __( 'Your license key expires on %s.', 'feed_them_social' ),
-                                date_i18n( get_option( 'date_format' ), strtotime( $license->expires, current_time( 'timestamp' ) ) )
-                            );
-
-                            $license_status = 'license-expiration-date-notice';
-
-                        }
-
-                        break;
-
-                }
-
-            }
-
-        } else    {
-            $class = 'empty';
-
-            $messages[] = \sprintf(
-                __( 'To receive updates, please enter your valid %s license key.', 'feed_them_social' ),
-                $args['name']
-            );
-
-            $license_status = null;
-        }
-
-        $class .= ' ' . $this->fts_sanitize_html_class( $args['field_class'] );
-
-        $size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-        $html = '<input type="text" class="' . sanitize_html_class( $size ) . '-text" id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" name="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';
-
-        if ( ( is_object( $license ) && 'valid' == $license->license ) || 'valid' == $license ) {
-            $html .= '<input type="submit" class="button-secondary" name="' . $args['id'] . '_deactivate" value="' . __( 'Deactivate License',  'feed_them_social' ) . '"/>';
-        }
-
-        $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
-
-        if ( ! empty( $messages ) ) {
-            foreach( $messages as $message ) {
-
-                $html .= '<div class="ftg-license-data ftg-license-' . $class . ' ' . $license_status . '">';
-                $html .= '<p>' . $message . '</p>';
-                $html .= '</div>';
-
-            }
-        }
-
-        wp_nonce_field( $this->fts_sanitize_key( $args['id'] ) . '-nonce', $this->fts_sanitize_key( $args['id'] ) . '-nonce' );
-
-        echo $html;
-        } // fts_license_key_callback
-    }
-
-
-
-    /**
-     * Registers the premium plugin field callback.
-     *
-     * @since    1.0.0
-     * @param    array    $args    Arguments passed by the setting
-     * @global    $fts_options    Array of all the FTG options
-     * @return void
-     */
-    public function fts_premium_plugin_callback( $args )    {
-        if ( ! function_exists( 'fts_premium_plugin_callback' ) ) {
-        $data = $args['data'];
-        ob_start(); ?>
-
-        <div class="ftg-no-license-overlay">
-            <div class="ftg-no-license-button-wrap">
-                <?php printf(
-                    __('<a class="ftg-no-license-button-purchase-btn" href="%s" target="_blank">Demo</a>', 'feed_them_social'),
-                    esc_url( $data['demo_url'] )
-                ); ?>
-
-                <?php printf(
-                    __('<a class="ftg-no-license-button-demo-btn" href="%s" target="_blank">Buy Extension</a>', 'feed_them_social'),
-                    esc_url( $data['purchase_url'] )
-                );  ?>
-            </div>
-        </div>
-        <input id="no_license_key" name="no_license_key" type="text" placeholder="<?php _e( 'Enter your license key', 'feed_them_social' ); ?>" class="regular-text" value="">
-        <label class="description" for="no_license_key">
-            <div class="ftg-license-data ftg-license-error license-error-notice">
-                <p><?php _e( 'To receive update notifications, please enter your valid license key.', 'feed_them_social' ); ?></p>
-            </div>
-        </label>
-
-        <?php echo ob_get_clean();
-        } // fts_premium_plugin_callback
-    }
-
-    /**
-     * Hook Callback
-     *
-     * Adds a do_action() hook in place of the field
-     *
-     * @since    1.0
-     * @param    arr        $args    Arguments passed by the setting
-     * @return    void
-     */
-    public function fts_hook_callback( $args ) {
-        do_action( 'fts_' . $args['id'], $args );
-    } // fts_hook_callback
-
-    /**
      * Sanitizes a string key for FTG Settings
      *
      * Keys are used as internal identifiers. Alphanumeric characters, dashes, underscores, stops, colons and slashes are allowed
@@ -1032,19 +752,6 @@ class Settings_Functions {
          */
         return apply_filters( 'fts_sanitize_key', $key, $raw_key );
     } // fts_sanitize_key
-
-    /**
-     * Get date format options.
-     *
-     * @since    1.0.0
-     */
-    public function fts_get_user_options( $readonly )    {
-        global $fts_options;
-        $user_id_echo = isset( $fts_options['msp_local_user_allowed'] ) ? $fts_options['msp_local_user_allowed'] : '';
-        $readonly     = true == $readonly ? 'pgr-disable-select' : '';
-        wp_dropdown_users( array( 'selected' => $user_id_echo, 'name' => 'fts_settings[msp_local_user_allowed]',  'id' => 'msp_local_user_allowed',  'class' => $readonly ) );
-
-    } // fts_get_user_options
 
     /**
      * Get timezone options.

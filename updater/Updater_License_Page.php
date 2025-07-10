@@ -108,7 +108,7 @@ class Updater_License_Page {
      *
      * @since 2.1.6
      */
-    function __construct( $updater_options_info,  $feed_functions) {
+    public function __construct( $updater_options_info,  $feed_functions) {
 
         // Set License Page Variables
         $this->store_url = $updater_options_info['store_url'];
@@ -467,7 +467,7 @@ class Updater_License_Page {
      *
      * @since 1.5.6
      */
-    function activate_license($key, $license, $settings_array) {
+    public function activate_license($key, $license, $settings_array) {
 
         $license = trim($license);
 
@@ -569,7 +569,7 @@ class Updater_License_Page {
      * @return mixed
      * @since 1.5.6
      */
-    function deactivate_license($key, $license, $settings_array) {
+    public function deactivate_license($key, $license, $settings_array) {
         // retrieve the license from the database
         $license = trim($license);
 

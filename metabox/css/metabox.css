@@ -2518,7 +2518,9 @@ svg.fts-info-icon:hover {
     display: block;
     width: 100%
 }
-
+.fts-import-export-tabs input {
+    margin-top:5px;
+}
 .fts-export-feed-widget-wrap label,.fts-import-feed-widget-wrap label {
     margin-bottom: 5px;
     display: block

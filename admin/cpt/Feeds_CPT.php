@@ -1073,46 +1073,6 @@ class Feeds_CPT {
         <?php
     }
 
-    /**
-     *  Old Shortcode Meta Box
-     *
-     *  copy & paste shortcode input box
-     *
-     * @param $object
-     * @since 1.0.0
-     */
-    public function fts_old_shortcode_meta_box() {
-        ?>
-        <div class="ft-gallery-meta-wrap">
-            <?php
-
-                // Copy Shortcode
-                // [fts_facebook hide_date_likes_comments=yes type=page id=1562664650673366 access_token=EAAP9hArvboQBAM2dmJtxprnC6XnDeWfkEbgHPnhZBgvQ79OZA3Q9C3dsTTN9RsrvFpSB3MKBjIg4LhT5QWZAntzrL2tgZAjJh8STYCrsIjVqR0j9gM0yZAbW2mkWJUd78sCKxkKCWHKtgOt7kwZCzOwaxZAarvRFZCFSDizEAXpUhqZAOjRTbwRiP posts=6 title=no title_align=center description=no height=350px show_media=top show_thumbnail=no show_date=yes show_name=yes words=45 popup=yes grid=yes posts_displayed=page_only center_container=yes image_stack_animation=no colmn_width=310px images_align=center album_id=photo_stream image_width=250px image_height=250px space_between_photos=1px space_between_posts=10px show_follow_btn_where=below_title like_option_align=center facebook_like_box_width=500px hide_like_option=no hide_comments_popup=no loadmore=autoscroll loadmore_btn_maxwidth=300px loadmore_btn_margin=10px reviews_type_to_show=4 reviews_rating_format=3 overall_rating=yes remove_reviews_no_description=yes hide_see_more_reviews_link=yes play_btn_size=400px play_btn_visible=yes play_btn=yes scrollhorz_or_carousel=carousel slides_visible=55 slider_spacing=33px slider_margin="-6px auto 1px auto" slider_speed=1000 slider_timeout=1000 slider_controls=arrows_above_feed slider_controls_text_color=#FFF slider_controls_bar_color=320px slider_controls_width=320px ]
-                // [fts_twitter twitter_name=gopro tweets_count=6 twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes grid=yes search=sadfsdf popup=yes loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px colmn_width=310px space_between_posts=10px]
-                // [fts_instagram instagram_id=17841417310560005 hashtag=erwer type=business profile_wrap=yes search=top-media profile_photo=yes profile_stats=yes profile_name=yes profile_description=yes  access_token=IGQVJXeVNoMUNkeURQbFdobVljSm5MNkdHOW92LW1UU2I0SnZAEZAGk5Q0s2bUxIWkdoOXFyRkJyN2RlUjFjeURObGJrVjB6by1RV0xVUTQ5QWxiN203UnYzU3JYdm5CcWhRV3JUUjhn pics_count=6 width=240px height=450px popup=yes super_gallery=yes columns=5 force_columns=yes space_between_photos=1px icon_size=65px hide_date_likes_comments=yes loadmore=autoscroll loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]
-                // [fts_youtube vid_count=23 youtube_name2=asas youtube_channelID2=jhgjgh youtube_singleVideoID=mnbmnb youtube_name=oiuuoouiuio youtube_playlistID=sadfsadfsadf youtube_playlistID2=hjkkhj large_vid=no large_vid_title=yes large_vid_description=yes thumbs_play_in_iframe=popup vids_in_row=3 omit_first_thumbnail=yes space_between_videos=1px force_columns=yes maxres_thumbnail_images=no wrap_single=right video_wrap_display_single=2 video_wrap_display_single=3 thumbs_wrap_color=#333 wrap=left video_wrap_display=2 comments_count=56 channel_id=erqwtwertwert loadmore=autoscroll loadmore_count=2 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]
-                // [fts_mashup posts=12 social_network_posts=4 words=55 center_container=no height=450px background_color=#75a3ff show_social_icon=left show_media=top show_date=no show_name=no padding=20px facebook_name=1562664650673366 twitter_name=twittername hashtag=tytytyty instagram_search=top-media grid=yes instagram_type=business hashtag=asdfasdfasdf instagram_name=17841400646076739  channel_id=mnmnmnm playlist_id=vasdfbvbvb column_width=310px space_between_posts=10px]
-                ?>
-                <p>
-                    <label><?php echo esc_html__( 'Paste an Old shortcode here and click Convert button. This converts old options to new, saved input fields.', 'feed_them_social' ); ?></label>
-                        <input value="" />
-                </p><div class="publishing-action" style="text-align: right;"><a href="#fts-convert-old-shortcode" id="fts-convert-old-shortcode" class="button button-primary button-large"><?php echo esc_html__( 'Convert', 'feed_them_social' ); ?></a></div>
-
-                <small style="display: none">
-                    for testing:<br/>
-                    <br/>[fts_facebook hide_date_likes_comments=yes type=page id=1562664650673366 access_token=asasdf posts=6 title=no title_align=center description=no height=350px show_media=top show_thumbnail=no show_date=yes show_name=yes words=45 popup=yes grid=yes posts_displayed=page_only center_container=yes image_stack_animation=no colmn_width=310px images_align=center album_id=photo_stream image_width=250px image_height=250px space_between_photos=1px space_between_posts=10px show_follow_btn_where=below_title like_option_align=center facebook_like_box_width=500px hide_like_option=no hide_comments_popup=no loadmore=autoscroll loadmore_btn_maxwidth=300px loadmore_btn_margin=10px reviews_type_to_show=4 reviews_rating_format=3 overall_rating=yes remove_reviews_no_description=yes hide_see_more_reviews_link=yes play_btn_size=400px play_btn_visible=yes play_btn=yes scrollhorz_or_carousel=carousel slides_visible=55 slider_spacing=33px slider_margin="6px auto 1px auto" slider_speed=1000 slider_timeout=1000 slider_controls=arrows_above_feed slider_controls_text_color=#FFF slider_controls_bar_color=320px slider_controls_width=320px ]
-                    <br/><br/>[fts_twitter twitter_name=gopro tweets_count=6 twitter_height=240px cover_photo=yes stats_bar=yes show_retweets=yes show_replies=yes grid=yes search=sadfsdf popup=yes loadmore=button loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px colmn_width=310px space_between_posts=10px]
-                    <br/><br/>[fts_instagram instagram_id=17841417310560005 hashtag=erwer type=business profile_wrap=yes search=top-media profile_photo=yes profile_stats=yes profile_name=yes profile_description=yes access_token=asdf pics_count=6 width=240px height=450px popup=yes super_gallery=yes columns=5 force_columns=yes space_between_photos=1px icon_size=65px hide_date_likes_comments=yes loadmore=autoscroll loadmore_count=5 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]
-                    <br/><br/>[fts_youtube vid_count=23 youtube_name2=asas youtube_channelID2=jhgjgh youtube_singleVideoID=mnbmnb youtube_name=oiuuoouiuio youtube_playlistID=sadfsadfsadf youtube_playlistID2=hjkkhj large_vid=no large_vid_title=yes large_vid_description=yes thumbs_play_in_iframe=popup vids_in_row=3 omit_first_thumbnail=yes space_between_videos=1px force_columns=yes maxres_thumbnail_images=no wrap_single=right video_wrap_display_single=2 video_wrap_display_single=3 thumbs_wrap_color=#333 wrap=left video_wrap_display=2 comments_count=56 channel_id=erqwtwertwert loadmore=autoscroll loadmore_count=2 loadmore_btn_maxwidth=300px loadmore_btn_margin=10px]
-                    <br/><br/>[fts_mashup posts=12 social_network_posts=4 words=55 center_container=no height=450px background_color=#75a3ff show_social_icon=left show_media=top show_date=no show_name=no padding=20px facebook_name=1562664650673366 twitter_name=twittername hashtag=tytytyty instagram_search=top-media grid=yes instagram_type=business hashtag=asdfasdfasdf instagram_name=17841400646076739  channel_id=mnmnmnm playlist_id=vasdfbvbvb column_width=310px space_between_posts=10px]
-
-                </small>
-
-                <?php
-            ?>
-        </div>
-        <?php
-    }
 
     /**
      *  Export Options Meta Box
@@ -1133,8 +1093,9 @@ class Feeds_CPT {
                 <div id="fts-import-export-tab1">
                     <div class="fts-export-feed-widget-wrap">
                         <p>
-                            <label><?php echo esc_html__( 'Need Support with your feed or want to copy options to new feed?', 'feed-them-social' ); ?></label>
-                            <input readonly="readonly" value="" onclick="this.select();"/>
+                            <label><?php echo esc_html__( 'Need Support with your feed or want to copy options to new feed?', 'feed-them-social' ); ?>
+                                <input readonly="readonly" value="" onclick="this.select();"/>
+                            </label>
                         </p>
                         <div class="publishing-action" style="text-align: right;">
                             <a href="javascript:;" id="fts-export-feed-options" class="button button-primary button-large"><?php echo esc_html__( 'Export', 'feed-them-social' ); ?></a>
@@ -1144,8 +1105,9 @@ class Feeds_CPT {
                 <div id="fts-import-export-tab2">
                     <div class="fts-import-feed-widget-wrap">
                         <p>
-                            <label><?php echo esc_html__( 'Helpful when debugging problems and copying options to another feed.', 'feed-them-social' ); ?></label>
-                            <input value="" onclick="this.select();"/>
+                            <label><?php echo esc_html__( 'Helpful when debugging problems and copying options to another feed.', 'feed-them-social' ); ?>
+                                <input value="" onclick="this.select();"/>
+                            </label>
                         </p>
                         <div class="publishing-action" style="text-align: right;">
                             <a href="#fts-import-feed-options" id="fts-import-feed-options" class="button button-primary button-large"><?php echo esc_html__( 'Import', 'feed-them-social' ); ?></a>
@@ -1170,13 +1132,14 @@ class Feeds_CPT {
         <div class="ft-gallery-meta-wrap">
             <?php
 
-            $feed_id = isset( $_GET['post'] ) ? $_GET['post'] : '';
+            $feed_id = $_GET['post'] ?? '';
 
             // Copy Shortcode
             ?>
             <p>
-                <label><?php echo esc_html__( 'Copy and Paste this shortcode to any page, post or widget.', 'feed_them_social' ); ?></label>
+                <label><?php echo esc_html__( 'Copy and Paste this shortcode to any page, post or widget.', 'feed_them_social' ); ?>
                     <input readonly="readonly" value="[feed_them_social cpt_id=<?php echo esc_html( $feed_id ); ?>]" onclick="this.select();"/>
+                </label>
             </p>
             <?php
             ?>
@@ -1192,7 +1155,7 @@ class Feeds_CPT {
      */
     public function fts_duplicate_post_as_draft() {
         global $wpdb;
-        if ( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] ) || ( isset( $_REQUEST['action'] ) && 'fts_duplicate_post_as_draft' === $_REQUEST['action'] ) ) ) {
+        if ( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] ) || ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'fts_duplicate_post_as_draft') ) ) {
             wp_die( esc_html__( 'No Feed to duplicate has been supplied!', 'feed_them_social' ) );
         }
 
@@ -1270,9 +1233,9 @@ class Feeds_CPT {
              */
             $post_meta_results = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id = %d", $post_id ) );
 
-            if ( 0 !== count( $post_meta_results ) ) {
+            if ( count( $post_meta_results ) !== 0 ) {
                 foreach ( $post_meta_results as $meta_info ) {
-                    if ( '_wp_old_slug' === $meta_info->meta_value ) {
+                    if ( $meta_info->meta_value === '_wp_old_slug' ) {
                         continue;
                     }
                     $wpdb->query(
@@ -1346,7 +1309,7 @@ class Feeds_CPT {
      */
     public function fts_duplicate_post_add_duplicate_post_button() {
         $current_screen = get_current_screen();
-        $verify         = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
+        $verify         = $_GET['post_type'] ?? '';
         // check to make sure we are not on a new fts post, because what is the point of duplicating a new one until we have published it?
         if ( FEED_THEM_SOCIAL_POST_TYPE === $current_screen->post_type && FEED_THEM_SOCIAL_POST_TYPE !== $verify ) {
             $id = $_GET['post'];

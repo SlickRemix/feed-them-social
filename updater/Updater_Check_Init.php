@@ -13,10 +13,10 @@
 namespace feedthemsocial\updater;
 
 // uncomment this line for testing
-// set_site_transient( 'update_plugins', null );
+ set_site_transient( 'update_plugins', null );
 // Exit if accessed directly!
 if ( ! \defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 /**
@@ -28,56 +28,56 @@ if ( ! \defined( 'ABSPATH' ) ) {
  * @version 1.6.5
  */
 class Updater_Check_Init {
-	/**
-	 * Updater Options Info
-	 *
-	 * This info is for creating the updater license page and updater license options
-	 *
-	 * @var array
-	 */
-	public $updater_options_info = array();
+    /**
+     * Updater Options Info
+     *
+     * This info is for creating the updater license page and updater license options
+     *
+     * @var array
+     */
+    public $updater_options_info = array();
 
-	/**
-	 * Premium Plugin List
-	 *
-	 * List of Premium Plugins!
-	 *
-	 * @var array
-	 */
-	public $prem_plugins_list = array();
+    /**
+     * Premium Plugin List
+     *
+     * List of Premium Plugins!
+     *
+     * @var array
+     */
+    public $prem_plugins_list = array();
 
-	/**
-	 * Feed Functions
-	 *
-	 * General Feed Functions to be used in most Feeds.
-	 *
-	 * @var object
-	 */
-	public $feed_functions;
+    /**
+     * Feed Functions
+     *
+     * General Feed Functions to be used in most Feeds.
+     *
+     * @var object
+     */
+    public $feed_functions;
 
-	/**
-	 * Premium Extension List.
-	 *
-	 * A list of the Premium Extensions and its urls to SlickRemix.com.
-	 *
-	 * @var array
-	 */
-	public $prem_extension_list;
+    /**
+     * Premium Extension List.
+     *
+     * A list of the Premium Extensions and its urls to SlickRemix.com.
+     *
+     * @var array
+     */
+    public $prem_extension_list;
 
-	/**
-	 * Updater_Check_Init constructor.
-	 */
-	public function __construct( $feed_functions ) {
-		// New Updater! - This is the URL our updater / license checker pings. This should be the URL of the site with EDD installed!
-		if ( ! \function_exists( 'is_plugin_active' ) ) {
-			require_once ABSPATH . '/wp-admin/includes/plugin.php';
-		}
+    /**
+     * Updater_Check_Init constructor.
+     */
+    public function __construct( $feed_functions ) {
+        // New Updater! - This is the URL our updater / license checker pings. This should be the URL of the site with EDD installed!
+        if ( ! \function_exists( 'is_plugin_active' ) ) {
+            require_once ABSPATH . '/wp-admin/includes/plugin.php';
+        }
 
-		// Set Feed Functions object.
-		$this->feed_functions = $feed_functions;
+        // Set Feed Functions object.
+        $this->feed_functions = $feed_functions;
 
-		// Premium Extension List.
-		$this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
+        // Premium Extension List.
+        $this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
         $this->updater_options_info = array(
             //Plugins
@@ -103,25 +103,25 @@ class Updater_Check_Init {
         add_action('plugins_loaded', array($this, 'plugin_updater_check_init'), 11, 1);
     }
 
-	/**
-	 * Update old License Keys Check
-	 *
-	 * Check if the old License Keys options need to be converted to new array method. (Backwards Compatibility)
-	 *
-	 * @param array $settings_array the settings array!
-	 * @since 1.6.5
-	 */
-	public function update_old_license_keys_check( $settings_array ) {
-		$option_update_needed = false;
+    /**
+     * Update old License Keys Check
+     *
+     * Check if the old License Keys options need to be converted to new array method. (Backwards Compatibility)
+     *
+     * @param array $settings_array the settings array!
+     * @since 1.6.5
+     */
+    public function update_old_license_keys_check( $settings_array ) {
+        $option_update_needed = false;
 
         //If Setting array is not set then set to array
-		$settings_array = $settings_array ?? array();
+        $settings_array = $settings_array ?? array();
 
 
-		// Remove Old Updater Actions!
-		foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $plugin_key => $prem_plugin ) {
-			// Set Old Key (for EDD sample remove this code. This is only here because we messed up originally)!
-			$plugin_key = $plugin_key === 'feed_them_social_facebook_reviews' ? 'feed-them-social-facebook-reviews' : $plugin_key;
+        // Remove Old Updater Actions!
+        foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $plugin_key => $prem_plugin ) {
+            // Set Old Key (for EDD sample remove this code. This is only here because we messed up originally)!
+            $plugin_key = $plugin_key === 'feed_them_social_facebook_reviews' ? 'feed-them-social-facebook-reviews' : $plugin_key;
 
             //Backwards Compatibility for Pre-1-click license page will get removed on first save in Sanitize function.
             $old_license = get_option($plugin_key . '_license_key');
@@ -146,26 +146,26 @@ class Updater_Check_Init {
             }
         }
 
-		// Re-save Settings array with new options!
-		if ( $option_update_needed === true ) {
-			update_option( $this->updater_options_info['setting_option_name'], $settings_array );
-		}
-	}
+        // Re-save Settings array with new options!
+        if ( $option_update_needed === true ) {
+            update_option( $this->updater_options_info['setting_option_name'], $settings_array );
+        }
+    }
 
-	/**
-	 * Remove Old Updater Actions
-	 *
-	 * Removes any actions previous set by old updaters
-	 *
-	 * @since 1.5.6
-	 */
-	public function remove_old_updater_actions() {
-		// Remove Old Updater Actions!
-		foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $plugin_key => $prem_plugin ) {
-			if ( has_action( 'plugins_loaded', $plugin_key . '_plugin_updater' ) ) {
-				remove_action( 'plugins_loaded', $plugin_key . '_plugin_updater', 10 );
-			}
-		}
+    /**
+     * Remove Old Updater Actions
+     *
+     * Removes any actions previous set by old updaters
+     *
+     * @since 1.5.6
+     */
+    public function remove_old_updater_actions() {
+        // Remove Old Updater Actions!
+        foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $plugin_key => $prem_plugin ) {
+            if ( has_action( 'plugins_loaded', $plugin_key . '_plugin_updater' ) ) {
+                remove_action( 'plugins_loaded', $plugin_key . '_plugin_updater', 10 );
+            }
+        }
 
         //License Key Array Option
         $settings_array = get_option($this->updater_options_info['setting_option_name']);
@@ -177,17 +177,17 @@ class Updater_Check_Init {
         }
     }
 
-	/**
-	 * Premium Plugin Updater Check Initialize
-	 *
-	 * Licensing and update code
-	 *
-	 * @since 1.5.6
-	 */
-	public function plugin_updater_check_init() {
+    /**
+     * Premium Plugin Updater Check Initialize
+     *
+     * Licensing and update code
+     *
+     * @since 1.5.6
+     */
+    public function plugin_updater_check_init() {
 
         $installed_plugins = get_plugins();
-		
+        
                 /*echo '<pre style=" width: 500px; margin: 0 auto; text-align: left">';
                     //print_r($this->updater_options_info['store_url']);
                     print_r($this->updater_options_info);

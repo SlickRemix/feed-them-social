@@ -29,7 +29,7 @@ spl_autoload_register(function ( $class ) {
     $relative_class = substr($class, $len);
     $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
     if (file_exists($file)) {
-        require $file;
+        require_once $file;
     }
 });
 
@@ -60,6 +60,7 @@ use feedthemsocial\includes\Feed_Shortcode;
 use feedthemsocial\updater\Updater_Check_Init;
 use feedthemsocial\blocks\Block_Loader;
 use feedthemsocial\admin\cron_jobs\Cron_Jobs;
+use feedthemsocial\includes\TrimWords;
 
 /**
  * Feed Them Social Class
@@ -145,6 +146,7 @@ class Feed_Them_Social {
         new Block_Loader();
         new Cron_Jobs( $feed_functions, $options_functions, $settings_functions, $feed_cache );
         new Updater_Check_Init( $feed_functions );
+        new TrimWords();
     }
 
     /**
@@ -290,6 +292,7 @@ class Feed_Them_Social {
      * Includes Files
      *
      * Include files needed for Feed Them Social
+     * Exceptions for PSR-4 autoloader.
      *
      * @since 1.0.0
      */

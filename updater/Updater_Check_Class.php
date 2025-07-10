@@ -76,7 +76,7 @@ class Updater_Check_Class {
      *
      * @since 1.0.2
      */
-    function plugin_key_empty_admin_notice() {
+    public function plugin_key_empty_admin_notice() {
         ?>
 
         <div class="error notice">
@@ -101,7 +101,7 @@ class Updater_Check_Class {
      *
      * @version 1.0.2
      */
-    function plugin_key_not_valid_admin_notice() {
+    public function plugin_key_not_valid_admin_notice() {
         ?>
 
         <div class="error notice">
@@ -128,7 +128,7 @@ class Updater_Check_Class {
      *
      * @since 1.0.2
      */
-    function get_plugin_file_name($_plugin_file) {
+    public function get_plugin_file_name($_plugin_file) {
 
         $plugs = plugin_basename($_plugin_file);
         $plugin_folder_name = explode('/', $plugs);

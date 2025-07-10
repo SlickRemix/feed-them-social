@@ -251,15 +251,6 @@ class Settings_Page {
     public function get_registered_settings() {
 
         global $fts_options;
-        $pg_message_visibility = !empty( $fts_options['projects_data'] ) ? 'fts-message-inline-block' : '';
-        $pg_project_retrieved_date = isset( $fts_options['projects_data_date'] ) ? esc_attr( $fts_options['projects_data_date'] ) : '';
-        $pg_project_message_wrap = '<div class="pg-fetch-projects-messages ' . $pg_message_visibility .'">Projects Data Last Updated: '. $pg_project_retrieved_date .'</div>';
-        $pg_project_button = !empty( $fts_options['projects_data'] ) ? esc_html__( 'Refresh', '' ) : esc_html__( 'Fetch', '' );
-
-        $current_user = wp_get_current_user();
-
-        // If user does not exists then return false else true.
-        $readonly =  !( 'spencer.labadie' === $current_user->user_login );
 
         /**
          * 'Whitelisted' FTS settings, filters are provided for each settings
@@ -807,23 +798,22 @@ class Settings_Page {
                 <form method="post" action="options.php">
                     <table class="form-table">
                         <?php
+                            settings_fields( 'fts_settings' );
 
-                        settings_fields( 'fts_settings' );
+                            if ( $section === 'main' ) {
+                                do_action( 'fts_settings_tab_top', $active_tab );
+                            }
 
-                        if ( 'main' === $section ) {
-                            do_action( 'fts_settings_tab_top', $active_tab );
-                        }
+                            do_action( 'fts_settings_tab_top_' . $active_tab . '_' . $section );
 
-                        do_action( 'fts_settings_tab_top_' . $active_tab . '_' . $section );
+                            do_settings_sections( 'fts_settings_' . $active_tab . '_' . $section );
 
-                        do_settings_sections( 'fts_settings_' . $active_tab . '_' . $section );
+                            do_action( 'fts_settings_tab_bottom_' . $active_tab . '_' . $section  );
 
-                        do_action( 'fts_settings_tab_bottom_' . $active_tab . '_' . $section  );
-
-                        // If the main section was empty and we overrode the view with the next subsection, prepare the section for saving
-                        if ( true === $override ) {
-                            ?><input type="hidden" name="fts_section_override" value="<?php echo esc_attr( $section ); ?>" /><?php
-                        }
+                            // If the main section was empty and we overrode the view with the next subsection, prepare the section for saving
+                            if ( $override === true ) {
+                                ?><input type="hidden" name="fts_section_override" value="<?php echo esc_attr( $section ); ?>" /><?php
+                            }
                         ?>
                     </table>
                     <?php submit_button(); ?>

@@ -11,7 +11,7 @@ if ( ! \defined( 'ABSPATH' ) ) {
  *
  * @author pjgalbraith http://www.pjgalbraith.com
  */
-class Trim_Words {
+class TrimWords {
     /**
      * Truncate words.
      *

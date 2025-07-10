@@ -77,9 +77,9 @@ class Instagram_Access_Functions {
         $access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
 
         // Decrypt Access Token?
-        $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
+        $decrypted_access_token  = $this->data_protection->decrypt( $access_token ) !== false ?  $this->data_protection->decrypt( $access_token ) : $access_token;
         
-        if ( isset( $_GET['feed_type'] ) && $_GET['feed_type'] === 'instagram_basic' && 1 !== wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram' ) ) {
+        if ( isset( $_GET['feed_type'] ) && $_GET['feed_type'] === 'instagram_basic' && wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram' ) !== 1 ) {
 
             wp_die( __('Invalid instagram oauth nonce.', 'feed-them-social' ) );
         }
@@ -171,7 +171,7 @@ class Instagram_Access_Functions {
 
             $instagram_generic_response = 'Sorry, this content isn\'t available right now';
 
-            if ( ! empty( $data ) || ! empty( $response ) && $instagram_generic_response === $response && !empty( $fts_instagram_access_token ) ) {
+            if ( ! empty( $data ) || ! empty( $response ) && $instagram_generic_response === $response && !empty( $decrypted_access_token ) ) {
 
                 if( ! isset( $data->meta->error_message ) && ! isset( $data->error_message ) && $instagram_generic_response !== $response || isset( $data->meta->error_message ) && 'This client has not been approved to access this resource.' === $data->meta->error_message ){
 
@@ -194,7 +194,7 @@ class Instagram_Access_Functions {
                     }
                 }
 
-                if ( $instagram_generic_response === $response || isset( $data->data->error->message ) && ! empty( $user_id_basic ) || isset( $data->error->message ) && ! empty( $user_id_basic ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {
+                if ( $instagram_generic_response === $response || isset( $data->data->error->message ) && ! empty( $user_id_basic ) || isset( $data->error->message ) && ! empty( $user_id_basic ) && $data->error->message !== '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' ) {
                     if ( isset( $data->data->error->message ) ) {
                         echo \sprintf(
                             esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),

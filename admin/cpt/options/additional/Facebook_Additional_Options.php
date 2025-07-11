@@ -14,7 +14,7 @@
 namespace feedthemsocial\admin\cpt\options\additional;
 
 // Exit if accessed directly!
-if ( !defined( 'ABSPATH' ) ) {
+if ( !\defined( 'ABSPATH' ) ) {
     exit;
 }
 

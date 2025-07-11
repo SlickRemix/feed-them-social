@@ -35,7 +35,7 @@ class Updater_License_Page {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Premium Extension List.
@@ -108,7 +108,7 @@ class Updater_License_Page {
      *
      * @since 2.1.6
      */
-    public function __construct( $updater_options_info,  $feed_functions) {
+    public function __construct( $updater_options_info,  $feedFunctions) {
 
         // Set License Page Variables
         $this->store_url = $updater_options_info['store_url'];
@@ -121,7 +121,7 @@ class Updater_License_Page {
         $this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
         // Set Feed Functions object.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         //Add the License Page.
         $this->add_license_page();
@@ -397,7 +397,7 @@ class Updater_License_Page {
             $response[ $plugin_key ] = 'https://www.slickremix.com/wp-json/slick-license/v2/get-license-info?license_key=' . $license_key;
 
             // Get License Info From SlickRemix.com
-            $response = $this->feed_functions->fts_get_feed_json($response);
+            $response = $this->feedFunctions->fts_get_feed_json($response);
 
             $license_data = json_decode($response[$plugin_key]);
 

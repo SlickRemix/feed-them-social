@@ -12,7 +12,7 @@
 
 namespace feedthemsocial\includes;
 
-use feedthemsocial\admin\cron_jobs\Cron_Jobs;
+use feedthemsocial\admin\cron_jobs\CronJobs;
 
 // Exit if accessed directly!
 if ( ! \defined( 'ABSPATH' ) ) {
@@ -32,7 +32,7 @@ class Feed_Cache {
      *
      * @var object
      */
-    public $data_protection;
+    public $dataProtection;
 
     /**
      * Settings Functions
@@ -41,7 +41,7 @@ class Feed_Cache {
      *
      * @var object
      */
-    public $settings_functions;
+    public $settingsFunctions;
 
     /**
      * 1 Day Time.
@@ -57,25 +57,25 @@ class Feed_Cache {
      *
      * @since 1.9.6
      */
-    public function __construct(  $data_protection, $settings_functions ) {
+    public function __construct(  $dataProtection, $settingsFunctions ) {
         // Data Protection Class.
-        $this->data_protection = $data_protection;
+        $this->dataProtection = $dataProtection;
 
         // Settings Functions.
-        $this->settings_functions = $settings_functions;
+        $this->settingsFunctions = $settingsFunctions;
 
         // Add Actions and Filters.
-        $this->add_actions_filters();
+        $this->addActionsFilters();
     }
 
     /**
-     * add_actions_filters
+     * addActionsFilters
      *
      * For Loading in the Admin.
      *
      * @since 1.9.6
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
 
         add_action( 'init', array( $this, 'fts_clear_cache_script' ) );
         add_action( 'wp_ajax_fts_clear_cache_ajax', array( $this, 'fts_clear_cache_ajax' ) );
@@ -163,7 +163,7 @@ class Feed_Cache {
         if( \is_array($response)){
             $encrypted_response = array();
             foreach ($response as $item_key => $item_value){
-                $encrypted_response[ $item_key ] = $this->data_protection->encrypt( $item_value );
+                $encrypted_response[ $item_key ] = $this->dataProtection->encrypt( $item_value );
             }
 
             $encrypted_response = serialize($encrypted_response);
@@ -173,7 +173,7 @@ class Feed_Cache {
             // print_r($encrypted_response);
         }
         else{
-            $encrypted_response = $this->data_protection->encrypt( $response );
+            $encrypted_response = $this->dataProtection->encrypt( $response );
             // YO!
             // echo '<br/><br/>#2 Now we have encrypted the data. What is the response at this point.<br/>';
             // print_r($encrypted_response);
@@ -186,7 +186,7 @@ class Feed_Cache {
             $this->delete_permanent_feed_cache( $transient_name );
         }
         // Cache Time set on Settings Page under FTS Tab. 86400 = 1 day.
-        $cache_time_option = $this->settings_functions->fts_get_option('fts_cache_time');
+        $cache_time_option = $this->settingsFunctions->fts_get_option('fts_cache_time');
         // Ensure a valid cache time or fallback to default (86400 seconds)
         $cache_time_limit = (is_numeric($cache_time_option) && $cache_time_option > 0) ? $cache_time_option : self::CACHE_TIME_ONE_DAY;
 
@@ -235,14 +235,14 @@ class Feed_Cache {
             if( \is_array($unserialized_value)){
                 $decrypted_value = array();
                 foreach ($unserialized_value as $item_key => $item_value){
-                    $decrypted_value[ $item_key ] = $this->data_protection->decrypt( $item_value );
+                    $decrypted_value[ $item_key ] = $this->dataProtection->decrypt( $item_value );
                 }
             }
             else{
                 // YO!
                 //echo '<br/><br/>Not an array so decrypt string.<br/>';
                 // Not an array so decrypt string.
-                $decrypted_value = $this->data_protection->decrypt( $trans ) !== false ? $this->data_protection->decrypt( $trans ) : $trans;
+                $decrypted_value = $this->dataProtection->decrypt( $trans ) !== false ? $this->dataProtection->decrypt( $trans ) : $trans;
             }
 
             // YO!
@@ -298,8 +298,8 @@ class Feed_Cache {
         $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", '_transient_timeout_fts_t_%' ) );
 
         // Set new cron job when user deletes cache so the cron job time matches up with the new transient_timeout_fts cache time.
-        $cron_job = new Cron_Jobs( null, null, null, null );
-        $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+        $cron_job = new CronJobs( null, null, null, null );
+        $cron_job->ftsSetCronJob( 'clear-cache-set-cron-job', null, null );
         wp_reset_query();
         echo 'Success';
         wp_die();
@@ -367,7 +367,7 @@ class Feed_Cache {
     public function fts_clear_cache_script()
     {
         if( is_user_logged_in() ) {
-            $fts_dev_mode_cache = $this->settings_functions->fts_get_option( 'fts_cache_time' );
+            $fts_dev_mode_cache = $this->settingsFunctions->fts_get_option( 'fts_cache_time' );
             if ( $fts_dev_mode_cache !== '1' ) {
                 wp_enqueue_script( 'jquery' );
                 wp_enqueue_script( 'fts_clear_cache_script', plugins_url( 'feed-them-social/admin/js/admin.min.js' ), array('jquery'), FTS_CURRENT_VERSION, false );

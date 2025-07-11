@@ -31,7 +31,7 @@ class Tiktok_Feed {
      *
      * @var object
      */
-    public $settings_functions;
+    public $settingsFunctions;
 
    /**
      * Feed Functions
@@ -40,7 +40,7 @@ class Tiktok_Feed {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Feed Cache
@@ -49,7 +49,7 @@ class Tiktok_Feed {
      *
      * @var object
      */
-    public $feed_cache;
+    public $feedCache;
 
     /**
      * Access Options
@@ -58,7 +58,7 @@ class Tiktok_Feed {
      *
      * @var object
      */
-    public $access_options;
+    public $accessOptions;
 
     /**
      * Authorization Bearer.
@@ -74,20 +74,20 @@ class Tiktok_Feed {
      *
      * @since 4.2.1
      */
-    public function __construct( $settings_functions, $feed_functions, $feed_cache, $access_options ) {
-        $this->add_actions_filters();
+    public function __construct( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions ) {
+        $this->addActionsFilters();
 
         // Settings Functions Class.
-        $this->settings_functions = $settings_functions;
+        $this->settingsFunctions = $settingsFunctions;
 
         // Set Feed Functions object.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Set Feed Cache object.
-        $this->feed_cache = $feed_cache;
+        $this->feedCache = $feedCache;
 
         // Access Options for tokens.
-        $this->access_options = $access_options;
+        $this->accessOptions = $accessOptions;
     }
 
     /**
@@ -97,7 +97,7 @@ class Tiktok_Feed {
      *
      * @since 4.0.0
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
 
         add_action( 'wp_enqueue_scripts', array( $this, 'tiktok_head' ) );
     }
@@ -131,7 +131,7 @@ class Tiktok_Feed {
         $replace   = array( ' <a href="${0}" target="_blank" rel="nofollow">${0}</a>', ' <a href="${0}" target="_blank" rel="nofollow">${0}</a>', ' <a href="https://www.tiktok.com/@$1" target="_blank" rel="nofollow">@$1</a>', ' <a href="https://www.tiktok.com/tag/$1" target="_blank" rel="nofollow">#$1</a>' );
         $full_text = preg_replace( $pattern, $replace, $text );
 
-        if ( $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) && $word_count !== '' ) {
+        if ( $this->feedFunctions->is_extension_active( 'feed_them_social_tiktok_premium' ) && $word_count !== '' ) {
             $truncate_words = new TrimWords();
             $full_text = $truncate_words::fts_custom_trim_words( $full_text, $word_count, $more );
         }
@@ -232,7 +232,7 @@ class Tiktok_Feed {
      */
     public function tiktok_custom_styles( $feed_post_id ) {
 
-        $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
+        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_post_id );
         ?>
         <style type="text/css">
         <?php
@@ -251,9 +251,9 @@ class Tiktok_Feed {
             $twitter_loadmore_background_color   = $saved_feed_options['twitter_loadmore_background_color'] ?? '';
             $twitter_loadmore_text_color         = $saved_feed_options['twitter_loadmore_text_color'] ?? '';
 
-            $fts_social_icons_color              = $this->settings_functions->fts_get_option( 'social_icons_text_color' ) ;
-            $fts_social_icons_hover_color        = $this->settings_functions->fts_get_option( 'social_icons_text_color_hover' );
-            $fts_social_icons_back_color         = $this->settings_functions->fts_get_option( 'icons_wrap_background' );
+            $fts_social_icons_color              = $this->settingsFunctions->fts_get_option( 'social_icons_text_color' ) ;
+            $fts_social_icons_hover_color        = $this->settingsFunctions->fts_get_option( 'social_icons_text_color_hover' );
+            $fts_social_icons_back_color         = $this->settingsFunctions->fts_get_option( 'icons_wrap_background' );
 
             if ( ! empty( $twitter_grid_posts_background_color ) ) { ?>
             .fts-slicker-twitter-posts .fts-tweeter-wrap {
@@ -383,7 +383,7 @@ class Tiktok_Feed {
     public function load_popup_scripts( $premium_options ) {
         if ( isset( $premium_options['popup']  ) && $premium_options['popup'] === 'yes' ) {
             // It's ok if these styles & scripts load at the bottom of the page.
-            $fts_fix_magnific = $this->settings_functions->fts_get_option( 'remove_magnific_css' ) ?? '';
+            $fts_fix_magnific = $this->settingsFunctions->fts_get_option( 'remove_magnific_css' ) ?? '';
             if ( isset( $fts_fix_magnific ) && $fts_fix_magnific !== '1' ) {
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
             }
@@ -430,7 +430,7 @@ class Tiktok_Feed {
             wp_localize_script( 'fts-global-js', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
             // Saved Feed Settings!
-            $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_post_id );
+            $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_post_id );
 
             // Get our Additional Options.
             $this->tiktok_custom_styles( $feed_post_id );
@@ -477,9 +477,9 @@ class Tiktok_Feed {
             $load_popup_scripts = false;
 
             // option to allow this action or not from the Twitter Options page.
-            if ( $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) ) {
+            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_tiktok_premium' ) ) {
 
-                $fts_tiktok_premium = new \feed_them_social_tiktok_premium\TikTok_Feed( $this->feed_functions, null);
+                $fts_tiktok_premium = new \feed_them_social_tiktok_premium\TikTok_Feed( $this->feedFunctions, null);
                 $premium_options = $fts_tiktok_premium->tiktok_premium_options( $saved_feed_options );
                 $popup                   = $premium_options['popup'] ?? '';
                 $loadmore              = $premium_options['loadmore'] ?? '';
@@ -503,13 +503,13 @@ class Tiktok_Feed {
             }
 
             // Premium TikTok Count Check!
-            if ( ! $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) && $video_count > '6' ) {
+            if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_tiktok_premium' ) && $video_count > '6' ) {
                 $video_count = '6';
             }
 
             // Make sure it's not ajaxing.
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feed_functions->get_random_string() . '_' . 'twitter' );
+                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feedFunctions->get_random_string() . '_' . 'twitter' );
                 if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
                     $fts_dynamic_class = 'feed_dynamic_class' . sanitize_key( $_REQUEST['fts_dynamic_name'] );
                 }
@@ -533,9 +533,9 @@ class Tiktok_Feed {
                     return false;
                 }
 
-            if ( $this->feed_cache->fts_check_feed_cache_exists( $data_cache ) !== false && ! isset( $_GET['load_more_ajaxing'] ) ) {
+            if ( $this->feedCache->fts_check_feed_cache_exists( $data_cache ) !== false && ! isset( $_GET['load_more_ajaxing'] ) ) {
 
-                $fetched_data = $this->feed_cache->fts_get_feed_cache( $data_cache );
+                $fetched_data = $this->feedCache->fts_get_feed_cache( $data_cache );
                 /*echo 'Cached TikTok Feed...';
                 echo '<pre>';
                     print_r( $fetched_data );
@@ -544,7 +544,7 @@ class Tiktok_Feed {
             else {
 
             // Decrypt Access Token? Turning this off for TikTok Feed because Tokens refresh every 24hrs.
-            // $decrypted_access_token = $this->feed_access_token = $this->access_options->decrypt_access_token( $fts_tiktok_access_token );
+            // $decrypted_access_token = $this->feedAccessToken = $this->accessOptions->decrypt_access_token( $fts_tiktok_access_token );
             // $user_open_id = $saved_feed_options['fts_tiktok_user_id'];
 
             // if(  !isset( $_GET['load_more_ajaxing'] ) ) {
@@ -563,7 +563,7 @@ class Tiktok_Feed {
                  );
 
                  $data['user_data'] = $user_feed_data;
-                 $fetched_user_data = $this->feed_functions->fts_get_feed_json( $data );
+                 $fetched_user_data = $this->feedFunctions->fts_get_feed_json( $data );
                  $fetched_data_user = json_decode( $fetched_user_data['user_data'] );
             // }
             // else {
@@ -573,7 +573,7 @@ class Tiktok_Feed {
 
                 $body_array = array('max_count' => $video_count);
 
-                if( isset( $_GET['load_more_ajaxing'] ) && $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) ){
+                if( isset( $_GET['load_more_ajaxing'] ) && $this->feedFunctions->is_extension_active( 'feed_them_social_tiktok_premium' ) ){
                     $since_id = $fts_tiktok_premium->tiktok_connection( $_REQUEST['since_id'] );
                     if (!empty($since_id)) {
                         $body_array['cursor'] = $since_id;
@@ -593,7 +593,7 @@ class Tiktok_Feed {
                 );
 
                 $multi_data_video['feed_data'] = $video_feed_request;
-                $video_feed_response = $this->feed_functions->fts_get_feed_json($multi_data_video);
+                $video_feed_response = $this->feedFunctions->fts_get_feed_json($multi_data_video);
                 $fetched_data_videos = json_decode($video_feed_response['feed_data']);
 
 
@@ -634,7 +634,7 @@ class Tiktok_Feed {
 
                 // Add this new call to your multi_data array
                 $multi_data_video_final['video_query'] = $video_query_data;
-                $final_data = $this->feed_functions->fts_get_feed_json( $multi_data_video_final );
+                $final_data = $this->feedFunctions->fts_get_feed_json( $multi_data_video_final );
                 $video_return_data = json_decode($final_data['video_query'], true);
 
                 /*echo '<pre>';
@@ -688,7 +688,7 @@ class Tiktok_Feed {
 
                 // Cache It.
                 if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                    $this->feed_cache->fts_create_feed_cache( $data_cache, $fetched_data );
+                    $this->feedCache->fts_create_feed_cache( $data_cache, $fetched_data );
 
                     // echo 'Caching TikTok Feed...';
                     /*echo '<pre>';
@@ -771,7 +771,7 @@ class Tiktok_Feed {
 
                         if ( $stats_bar === 'no' && isset( $twitter_show_follow_btn ) && $twitter_show_follow_btn === 'yes' && $twitter_show_follow_btn_where === 'twitter-follow-above' ) {
                             echo '<div class="tiktok-social-btn-top">';
-                            echo $this->feed_functions->social_follow_button( 'tiktok', $user_permalink, $saved_feed_options );
+                            echo $this->feedFunctions->social_follow_button( 'tiktok', $user_permalink, $saved_feed_options );
                             echo '</div>';
                         }
 
@@ -876,7 +876,7 @@ class Tiktok_Feed {
                         $feed_type = 'twitter';
 
                         // call our function to get the date.
-                        $fts_date_time = $this->feed_functions->fts_custom_date( $times, $feed_type );
+                        $fts_date_time = $this->feedFunctions->fts_custom_date( $times, $feed_type );
 
                         $fts_dynamic_name = isset( $fts_dynamic_name ) ? $fts_dynamic_name : '';
 
@@ -937,7 +937,7 @@ class Tiktok_Feed {
                                     $permalink = !empty( $post_data->share_url ) ? $post_data->share_url : '';
                                     ?>
                                     <div class="fts-likes-shares-etc-wrap">
-                                    <?php echo $this->feed_functions->fts_share_option( $permalink, $description ); ?>
+                                    <?php echo $this->feedFunctions->fts_share_option( $permalink, $description ); ?>
                                     </div>
                                 </div>
                                 <div class="fts-twitter-reply-wrap-left fts-twitter-svg-addition">
@@ -953,7 +953,7 @@ class Tiktok_Feed {
 
                             <div class="slicker-instagram-placeholder fts-instagram-wrapper fts-tiktok-popup-grab fts-tiktok-responsive" style="background-image:url('<?php echo esc_url( $post_data->cover_image_url ); ?>')">
                                 <?php
-                                if ( $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) && isset( $popup ) && $popup === 'yes' ) { ?>
+                                if ( $this->feedFunctions->is_extension_active( 'feed_them_social_tiktok_premium' ) && isset( $popup ) && $popup === 'yes' ) { ?>
                                     <div class="fts-instagram-popup-profile-wrap">
 
                                         <div class="fts-tiktok-content fts-tiktok-popup">
@@ -997,7 +997,7 @@ class Tiktok_Feed {
                                     </div>
                                     <?php
                                 }
-                                $popup_options = $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) && isset( $popup ) && $popup === 'yes' ? 'https://www.tiktok.com/embed/v2/'. $post_data->id : $post_data->share_url;
+                                $popup_options = $this->feedFunctions->is_extension_active( 'feed_them_social_tiktok_premium' ) && isset( $popup ) && $popup === 'yes' ? 'https://www.tiktok.com/embed/v2/'. $post_data->id : $post_data->share_url;
                                 ?>
                                 <a href='<?php echo $popup_options ?>' title='<?php echo wp_kses(
                                     $description,
@@ -1037,7 +1037,7 @@ class Tiktok_Feed {
                                         // TikTok permalink per post.
                                         $permalink = !empty( $post_data->share_url ) ? $post_data->share_url : '';
                                         // this is already escaping in the function, escaping again will cause errors.
-                                        echo $this->feed_functions->fts_share_option( $permalink, $description );
+                                        echo $this->feedFunctions->fts_share_option( $permalink, $description );
                                         ?>
                                     </div>
 
@@ -1067,7 +1067,7 @@ class Tiktok_Feed {
                         $fts_dynamic_name = $_REQUEST['fts_dynamic_name'];
                         // This div returns outputs our ajax request via jquery append html from above.
                         echo '<div id="output_' . esc_attr( $fts_dynamic_name ) . '"></div>';
-                        if ( $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) ) {
+                        if ( $this->feedFunctions->is_extension_active( 'feed_them_social_tiktok_premium' ) ) {
                             echo '<div class="fts-twitter-load-more-wrapper">';
                             echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader">' . esc_html( $load_more_text ) . '</div>';
                             echo '</div>';
@@ -1217,7 +1217,7 @@ class Tiktok_Feed {
 
                 // Make sure it's not ajaxing.
                 if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                    if ( $this->feed_functions->is_extension_active( 'feed_them_social_tiktok_premium' ) && $loadmore_style === 'button' && $loadmore === 'yes' ) {
+                    if ( $this->feedFunctions->is_extension_active( 'feed_them_social_tiktok_premium' ) && $loadmore_style === 'button' && $loadmore === 'yes' ) {
                         echo '<div class="fts-clear"></div>';
                         echo '<div class="fts-twitter-load-more-wrapper">';
                         echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '"" style="';
@@ -1235,7 +1235,7 @@ class Tiktok_Feed {
                 // Social Button Bottom.
                 if ( ! isset( $_GET['load_more_ajaxing'] ) && $stats_bar === 'no' && isset( $twitter_show_follow_btn ) && $twitter_show_follow_btn === 'yes' && $twitter_show_follow_btn_where === 'twitter-follow-below' ) {
                         echo '<div class="tiktok-social-btn-bottom">';
-                        echo $this->feed_functions->social_follow_button( 'tiktok', $user_permalink, $saved_feed_options );
+                        echo $this->feedFunctions->social_follow_button( 'tiktok', $user_permalink, $saved_feed_options );
                         echo '</div>';
                 }
                 ?>

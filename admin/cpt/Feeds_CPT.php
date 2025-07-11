@@ -36,7 +36,7 @@ class Feeds_CPT {
      *
      * @var object
      */
-    public $settings_functions;
+    public $settingsFunctions;
 
     /**
      * Feed CPT ID
@@ -53,7 +53,7 @@ class Feeds_CPT {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Feed CPT Option Array
@@ -98,7 +98,7 @@ class Feeds_CPT {
      *
      * @var object
      */
-    public $options_functions;
+    public $optionsFunctions;
 
     /**
      * Metabox Functions Class
@@ -114,15 +114,15 @@ class Feeds_CPT {
      *
      * @param object $feed_cpt_options All options.
      */
-    public function __construct( $settings_functions, $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options, $options_functions) {
+    public function __construct( $settingsFunctions, $feedFunctions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options, $optionsFunctions) {
 
         // Add Actions and Filters.
-        $this->add_actions_filters();
+        $this->addActionsFilters();
 
-        $this->settings_functions = $settings_functions;
+        $this->settingsFunctions = $settingsFunctions;
 
         // Set Feed Functions object.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Feed CPT Options Array.
         $this->feed_cpt_options_array = $feed_cpt_options->get_all_options( true );
@@ -137,7 +137,7 @@ class Feeds_CPT {
         $this->metabox_functions = $metabox_functions;
 
         // If Premium add Functionality!
-        if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
+        if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
             //Premium Features here.
             // Not being used atm
         }
@@ -146,7 +146,7 @@ class Feeds_CPT {
         $this->access_token_options = $access_token_options;
 
         // Set Feed Functions object.
-        $this->options_functions = $options_functions;
+        $this->optionsFunctions = $optionsFunctions;
     }
 
     /**
@@ -156,7 +156,7 @@ class Feeds_CPT {
      *
      * @since 1.1.8
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
         // Register Feed CPT!
         add_action( 'init', array( $this, 'fts_cpt' ) );
 
@@ -232,7 +232,7 @@ class Feeds_CPT {
             // This is used for the areas we want to hide the text and link for, More than 6 Requires Premium
             $classes .= ' fts-premium-active';
         }
-        $powered_by = $this->settings_functions->fts_get_option( 'powered_by' );
+        $powered_by = $this->settingsFunctions->fts_get_option( 'powered_by' );
         if ( $powered_by === '1' ) {
             // This is used for the popup so we can remove the powered by text and a space to start is required.
             $classes .= ' fts-remove-powered-by';
@@ -250,7 +250,7 @@ class Feeds_CPT {
      */
     public function add_custom_body_class_frontend($classes) {
 
-        $powered_by = $this->settings_functions->fts_get_option( 'powered_by' );
+        $powered_by = $this->settingsFunctions->fts_get_option( 'powered_by' );
         if ( $powered_by === '1' ) {
             // This is used for the popup so we can remove the powered by text and NO space to start is required.
             $classes[] = 'fts-remove-powered-by';
@@ -269,7 +269,7 @@ class Feeds_CPT {
     private function isFeedThemPremiumActive() {
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        return $this->feed_functions->is_extension_active( 'feed_them_social_premium' );
+        return $this->feedFunctions->is_extension_active( 'feed_them_social_premium' );
     }
 
     /**
@@ -282,7 +282,7 @@ class Feeds_CPT {
     private function isFeedThemSocialInstagramSliderActive() {
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        return $this->feed_functions->is_extension_active( 'feed_them_social_instagram_slider' );
+        return $this->feedFunctions->is_extension_active( 'feed_them_social_instagram_slider' );
     }
 
     /**
@@ -463,7 +463,7 @@ class Feeds_CPT {
                 );
 
                 // Set Default Options for Post.
-                //$create_options_status = $this->options_functions->create_initial_options_array( 'fts_feed_options_array', $this->feed_cpt_options_array, true, $new_post_id, true );
+                //$create_options_status = $this->optionsFunctions->create_initial_options_array( 'fts_feed_options_array', $this->feed_cpt_options_array, true, $new_post_id, true );
 
                 // Post was inserted. Redirect to new edit page!
                 if( $new_post_id ){
@@ -569,7 +569,7 @@ class Feeds_CPT {
 
                 // Take the ID that we store in the fts_shortcode_location post meta key and return the page title and permalink
                 // so users can click to the page the shortcode is on and replace it or remove it.
-                $shortcode_location_id = $this->feed_functions->get_feed_option( $post_id, 'fts_shortcode_location' );
+                $shortcode_location_id = $this->feedFunctions->get_feed_option( $post_id, 'fts_shortcode_location' );
                 $shortcode_location_id = json_decode( $shortcode_location_id );
                 // Test
                 //print_r( $shortcode_location_id );
@@ -594,7 +594,7 @@ class Feeds_CPT {
                             }
                             else {
                                 // If an ID is checked and not found the user must have removed the shortcode so we remove the id from the array and re-save it.
-                                $array_check = $this->feed_functions->get_feed_option( $post_id, 'fts_shortcode_location' );
+                                $array_check = $this->feedFunctions->get_feed_option( $post_id, 'fts_shortcode_location' );
                                 $array_check_decode = json_decode( $array_check );
 
                                 // Check to see if the id exists in array and if not then update single option to omit that id from the array.
@@ -615,7 +615,7 @@ class Feeds_CPT {
                                         echo __( 'Not Set', 'feed-them-social' );
                                     }
                                     // Update the fts_shortcode_location with our newly compiled array has at least one id, or we clear the field.
-                                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $post_id, false );
+                                    $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $post_id, false );
                                 }
                             }
                         }
@@ -790,7 +790,7 @@ class Feeds_CPT {
 
         $this->metabox_functions->display_metabox_content( $this, $this->metabox_tabs_list() );
 
-        if ( ! $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
+        if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
             ?>
             <script>
                 jQuery('#ftg_sorting_options, #ftg_free_download_size').attr('disabled', 'disabled');
@@ -816,7 +816,7 @@ class Feeds_CPT {
     public function tab_feed_setup() {
 
         // Get Feed Type.
-        $feed_type = $this->feed_functions->get_feed_type( $this->feed_cpt_id );
+        $feed_type = $this->feedFunctions->get_feed_type( $this->feed_cpt_id );
 
         // Feed Type Options Selector.
         echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['feed_type_options'], null, $this->feed_cpt_id );
@@ -1002,7 +1002,7 @@ class Feeds_CPT {
             echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_style_options'], null, $this->feed_cpt_id );
 
             // FTS Premium ACTIVE
-            if ( ! $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
+            if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
                 // Twitter Grid Styles
                 echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->feed_cpt_id );
                 // Twitter Load More Button Styles & Options
@@ -1042,7 +1042,7 @@ class Feeds_CPT {
             echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->feed_cpt_id );
 
             // FTS Premium ACTIVE
-            if ( ! $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
+            if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
                 //YouTube Load More Options.
                 echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $this->feed_cpt_id );
             }?>

@@ -13,7 +13,7 @@
 
 namespace feedthemsocial\admin\settings;
 
-use feedthemsocial\admin\cron_jobs\Cron_Jobs;
+use feedthemsocial\admin\cron_jobs\CronJobs;
 
 /**
  * Class Settings
@@ -27,7 +27,7 @@ class Settings_Page {
      *
      * @var object
      */
-    public $settings_functions;
+    public $settingsFunctions;
 
     /**
      * Feed Cache.
@@ -36,7 +36,7 @@ class Settings_Page {
      *
      * @var object
      */
-    public $feed_cache;
+    public $feedCache;
 
     /**
      * Settings Functions
@@ -50,18 +50,18 @@ class Settings_Page {
     /**
      * Settings constructor.
      */
-    public function __construct( $settings_functions, $feed_cache ) {
+    public function __construct( $settingsFunctions, $feedCache ) {
         // Settings Functions.
-        $this->settings_functions = $settings_functions;
+        $this->settingsFunctions = $settingsFunctions;
 
         // Set Feed Cache object.
-        $this->feed_cache = $feed_cache;
+        $this->feedCache = $feedCache;
 
         // Get All Settings.
-        $this->all_settings = $this->settings_functions->fts_get_settings();
+        $this->all_settings = $this->settingsFunctions->fts_get_settings();
 
         // Add Actions and Filters.
-        $this->add_actions_filters();
+        $this->addActionsFilters();
     }
 
     /**
@@ -71,7 +71,7 @@ class Settings_Page {
      *
      * @since 1.0.0
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
         // if ( is_admin() ) {}
 
         // Notices
@@ -227,7 +227,7 @@ class Settings_Page {
                     add_settings_field(
                         'fts_settings[' . $args['id'] . ']',
                         $args['name'],
-                        method_exists( $this->settings_functions, 'fts_' . $args['type'] . '_callback' ) ? array( $this->settings_functions, 'fts_' . $args['type'] . '_callback') : array( $this->settings_functions, 'fts_missing_callback'),
+                        method_exists( $this->settingsFunctions, 'fts_' . $args['type'] . '_callback' ) ? array( $this->settingsFunctions, 'fts_' . $args['type'] . '_callback') : array( $this->settingsFunctions, 'fts_missing_callback'),
                         'fts_settings_' . $tab . '_' . $section,
                         'fts_settings_' . $tab . '_' . $section,
                         $args
@@ -271,7 +271,7 @@ class Settings_Page {
                             'id'            => 'fts_cache_time',
                             'name'          => __( 'Cache Time', 'feed-them-social' ),
                             'type'          => 'select',
-                            'options'       => $this->feed_cache->fts_get_cache_options(),
+                            'options'       => $this->feedCache->fts_get_cache_options(),
                             'std'           => '',
                             'field_class'   => 'fts_cache_time',
                             'tooltip_class' => 'fts-cache-time-tooltip',
@@ -315,7 +315,7 @@ class Settings_Page {
                                 'id'      => 'timezone',
                                 'name'    => __( 'TimeZone', 'feed-them-gallery' ),
                                 'type'    => 'select',
-                                'options' => $this->settings_functions->fts_get_timezone_setting_options(),
+                                'options' => $this->settingsFunctions->fts_get_timezone_setting_options(),
                                 'std'     => 'America/Los_Angeles',
                                 'tooltip_desc'    => __( 'This option is only for Facebook and TikTok. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
 
@@ -324,7 +324,7 @@ class Settings_Page {
                             'id'            => 'date_time_format',
                             'name'          => __( 'Format', 'feed-them-social' ),
                             'type'          => 'select',
-                            'options'       => $this->settings_functions->fts_get_date_format_setting_options(),
+                            'options'       => $this->settingsFunctions->fts_get_date_format_setting_options(),
                             'std'           => 'l, F jS, Y \a\t g:ia',
                             'field_class'   => 'fts_date_time_format',
                             'tooltip_desc'    => __( 'Select the date and time format you would like to see on your social feed. The 1 Day Ago option is set by default. You can hide the date and time when creating a feed if you prefer.', 'feed-them-social' )
@@ -628,8 +628,8 @@ class Settings_Page {
 
             // Set new cron job for clearing cache.
             // This is here so we can set a new cron job if the user changes the cache time.
-            $cron_job = new Cron_Jobs( null, null, null, null );
-            $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+            $cron_job = new CronJobs( null, null, null, null );
+            $cron_job->ftsSetCronJob( 'clear-cache-set-cron-job', null, null );
             // error_log('FTS Cache Emptied. Setting Cron Job from settings-page.php.');
 
             return $output;
@@ -837,7 +837,7 @@ class Settings_Page {
         if ( $args['id'] === 'date_time_format' )    {
             ob_start();
 
-            $style = $this->settings_functions->fts_get_option( 'date_time_format' ) !== 'one-day-ago' ? ' style="display: none;"' : '';
+            $style = $this->settingsFunctions->fts_get_option( 'date_time_format' ) !== 'one-day-ago' ? ' style="display: none;"' : '';
             ?>
 
             <tr class="custom_time_ago_wrap"<?php echo $style; ?>>
@@ -850,7 +850,7 @@ class Settings_Page {
                 <tr class="custom_time_ago_wrap fts-<?php echo str_replace( 'language_', '', esc_html( $field ) ); ?>"<?php echo $style; ?>>
                     <th scope="row"><?php echo str_replace( 'language_', '', esc_html( $field ) ); ?></th>
                     <td>
-                        <?php $this->settings_functions->fts_text_callback( array(
+                        <?php $this->settingsFunctions->fts_text_callback( array(
                             'id'          => $field,
                             'std'         => $value,
                             'readonly'    => 'false',
@@ -880,13 +880,13 @@ class Settings_Page {
         if ( $args['id'] === 'date_time_format' )    {
             ob_start();
 
-            $style = $this->settings_functions->fts_get_option( 'date_time_format' ) !== 'fts-custom-date' ? ' style="display: none;"' : '';
+            $style = $this->settingsFunctions->fts_get_option( 'date_time_format' ) !== 'fts-custom-date' ? ' style="display: none;"' : '';
             ?>
 
                 <tr class="custom_date_time_wrap"<?php echo $style; ?>>
                     <th scope="row"><?php echo esc_html__( 'Custom Date', 'feed-them-social' ); ?></th>
                     <td>
-                        <?php $this->settings_functions->fts_text_callback( array(
+                        <?php $this->settingsFunctions->fts_text_callback( array(
                             'id'          => 'custom_date',
                             'std'         => '',
                             'readonly'    => 'false',
@@ -900,7 +900,7 @@ class Settings_Page {
                 <tr class="custom_date_time_wrap"<?php echo $style; ?>>
                     <th scope="row"><?php echo esc_html__( 'Custom Time', 'feed-them-social' ); ?></th>
                     <td>
-                        <?php $this->settings_functions->fts_text_callback( array(
+                        <?php $this->settingsFunctions->fts_text_callback( array(
                             'id'          => 'custom_time',
                             'std'         => '',
                             'readonly'    => 'false',
@@ -937,21 +937,21 @@ class Settings_Page {
      */
     public function get_translation_fields()    {
         $fields = array(
-            'language_second'  => $this->settings_functions->fts_get_option( 'language_second', __( 'second', 'feed-them-social' ) ),
-            'language_seconds' => $this->settings_functions->fts_get_option( 'language_seconds', __( 'seconds', 'feed-them-social' ) ),
-            'language_minute'  => $this->settings_functions->fts_get_option( 'language_minute', __( 'minute', 'feed-them-social' ) ),
-            'language_minutes' => $this->settings_functions->fts_get_option( 'language_minutes', __( 'minutes', 'feed-them-social' ) ),
-            'language_hour'    => $this->settings_functions->fts_get_option( 'language_hour', __( 'hour', 'feed-them-social' ) ),
-            'language_hours'   => $this->settings_functions->fts_get_option( 'language_hours', __( 'hours', 'feed-them-social' ) ),
-            'language_day'     => $this->settings_functions->fts_get_option( 'language_day', __( 'day', 'feed-them-social' ) ),
-            'language_days'    => $this->settings_functions->fts_get_option( 'language_days', __( 'days', 'feed-them-social' ) ),
-            'language_week'    => $this->settings_functions->fts_get_option( 'language_week', __( 'week', 'feed-them-social' ) ),
-            'language_weeks'   => $this->settings_functions->fts_get_option( 'language_weeks', __( 'weeks', 'feed-them-social' ) ),
-            'language_month'   => $this->settings_functions->fts_get_option( 'language_month', __( 'month', 'feed-them-social' ) ),
-            'language_months'  => $this->settings_functions->fts_get_option( 'language_months', __( 'months', 'feed-them-social' ) ),
-            'language_year'    => $this->settings_functions->fts_get_option( 'language_year', __( 'year', 'feed-them-social' ) ),
-            'language_years'   => $this->settings_functions->fts_get_option( 'language_years', __( 'years', 'feed-them-social' ) ),
-            'language_ago'     => $this->settings_functions->fts_get_option( 'language_ago', __( 'ago', 'feed-them-social' ) ),
+            'language_second'  => $this->settingsFunctions->fts_get_option( 'language_second', __( 'second', 'feed-them-social' ) ),
+            'language_seconds' => $this->settingsFunctions->fts_get_option( 'language_seconds', __( 'seconds', 'feed-them-social' ) ),
+            'language_minute'  => $this->settingsFunctions->fts_get_option( 'language_minute', __( 'minute', 'feed-them-social' ) ),
+            'language_minutes' => $this->settingsFunctions->fts_get_option( 'language_minutes', __( 'minutes', 'feed-them-social' ) ),
+            'language_hour'    => $this->settingsFunctions->fts_get_option( 'language_hour', __( 'hour', 'feed-them-social' ) ),
+            'language_hours'   => $this->settingsFunctions->fts_get_option( 'language_hours', __( 'hours', 'feed-them-social' ) ),
+            'language_day'     => $this->settingsFunctions->fts_get_option( 'language_day', __( 'day', 'feed-them-social' ) ),
+            'language_days'    => $this->settingsFunctions->fts_get_option( 'language_days', __( 'days', 'feed-them-social' ) ),
+            'language_week'    => $this->settingsFunctions->fts_get_option( 'language_week', __( 'week', 'feed-them-social' ) ),
+            'language_weeks'   => $this->settingsFunctions->fts_get_option( 'language_weeks', __( 'weeks', 'feed-them-social' ) ),
+            'language_month'   => $this->settingsFunctions->fts_get_option( 'language_month', __( 'month', 'feed-them-social' ) ),
+            'language_months'  => $this->settingsFunctions->fts_get_option( 'language_months', __( 'months', 'feed-them-social' ) ),
+            'language_year'    => $this->settingsFunctions->fts_get_option( 'language_year', __( 'year', 'feed-them-social' ) ),
+            'language_years'   => $this->settingsFunctions->fts_get_option( 'language_years', __( 'years', 'feed-them-social' ) ),
+            'language_ago'     => $this->settingsFunctions->fts_get_option( 'language_ago', __( 'ago', 'feed-them-social' ) ),
         );
 
         return $fields;
@@ -969,7 +969,7 @@ class Settings_Page {
         if ( 'date_time_format' == $args['id'] )    {
             ob_start();
 
-            $style = 'fts-custom-date' != $this->settings_functions->fts_get_option( 'date_time_format' ) ? ' style="display: none;"' : '';
+            $style = 'fts-custom-date' != $this->settingsFunctions->fts_get_option( 'date_time_format' ) ? ' style="display: none;"' : '';
             ?>
 
             <tr class="custom_time_ago_wrap"<?php echo $style; ?>>
@@ -982,7 +982,7 @@ class Settings_Page {
                 <tr class="custom_date_time_wrap">
                     <th scope="row"><?php echo str_replace( 'language_', '', esc_html( $field ) ); ?></th>
                     <td>
-                        <?php $this->settings_functions->fts_text_callback( array(
+                        <?php $this->settingsFunctions->fts_text_callback( array(
                             'id'          => $field,
                             'std'         => $value,
                             'readonly'    => 'false',

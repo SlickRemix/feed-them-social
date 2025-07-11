@@ -26,7 +26,7 @@ class Options_Functions {
      * Settings Function constructor.
      */
     public function __construct( $post_type_name ){
-        $this->add_actions_filters();
+        $this->addActionsFilters();
 
         // Post Type Name.
         $this->post_type_name = $post_type_name;
@@ -39,7 +39,7 @@ class Options_Functions {
      *
      * @since 1.1.8
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
         // Update Options Filter
         add_filter( 'fts_update_single_option', array( $this, 'update_single_option' ), 10, 2 );
 
@@ -251,9 +251,9 @@ class Options_Functions {
      * @since    3.0.0
      * @return    array | boolean Updated Saved Options Array.
      */
-    public function set_options_in_array( $default_options_array, $set_default = true, $set_empty = false ) {
+    public function set_options_in_array( $defaultOptionsArray, $set_default = true, $set_empty = false ) {
         // Go through default options array. (Usually set in an options file)
-        foreach ( $default_options_array as $option_section ) {
+        foreach ( $defaultOptionsArray as $option_section ) {
             // Options section is a group of options.
             foreach ( $option_section as $option_section_key => $main_options ) {
                 // Only Load the main options key.
@@ -307,12 +307,12 @@ class Options_Functions {
      *
      * @since    3.0.0
      */
-    public function update_options_array( $array_option_name, $default_options_array, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
+    public function update_options_array( $array_option_name, $defaultOptionsArray, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
         // Can Current User Manage Options? If not Die!
         $this->check_user_perms();
 
         // Save Options Array based on CPT or Page
-        $save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $default_options_array, $set_empty ), $is_cpt, $cpt_id);
+        $save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $defaultOptionsArray, $set_empty ), $is_cpt, $cpt_id);
 
         //Return Save Status.
         return false !== $save_status ? $save_status : false;
@@ -325,10 +325,10 @@ class Options_Functions {
      *
      * @return array | boolean
      */
-    public function create_initial_options_array( $array_option_name, $default_options_array, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
+    public function create_initial_options_array( $array_option_name, $defaultOptionsArray, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
 
         // Save Options Array based on CPT or Page
-        $save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $default_options_array,true, $set_empty ), $is_cpt, $cpt_id);
+        $save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $defaultOptionsArray,true, $set_empty ), $is_cpt, $cpt_id);
 
         //Return Save Status.
         return false !== $save_status ? $save_status : false;

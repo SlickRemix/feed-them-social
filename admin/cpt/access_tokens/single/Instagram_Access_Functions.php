@@ -32,7 +32,7 @@ class Instagram_Access_Functions {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Data Protection
@@ -41,7 +41,7 @@ class Instagram_Access_Functions {
      *
      * @var object
      */
-    public $data_protection;
+    public $dataProtection;
 
     /**
      * Construct
@@ -50,12 +50,12 @@ class Instagram_Access_Functions {
      *
      * @since 4.0.0
      */
-    public function __construct( $feed_functions, $data_protection ) {
+    public function __construct( $feedFunctions, $dataProtection ) {
         // Feed Functions.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Data Protection.
-        $this->data_protection = $data_protection;
+        $this->dataProtection = $dataProtection;
     }
 
     /**
@@ -71,13 +71,13 @@ class Instagram_Access_Functions {
         ), admin_url( 'post.php' ) );
 
         // Saved Feed Options!
-        $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
+        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_cpt_id );
 
         $user_id_basic           = !empty( $saved_feed_options['fts_instagram_custom_id'] ) ? $saved_feed_options['fts_instagram_custom_id'] :  '';
         $access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
 
         // Decrypt Access Token?
-        $decrypted_access_token  = $this->data_protection->decrypt( $access_token ) !== false ?  $this->data_protection->decrypt( $access_token ) : $access_token;
+        $decrypted_access_token  = $this->dataProtection->decrypt( $access_token ) !== false ?  $this->dataProtection->decrypt( $access_token ) : $access_token;
         
         if ( isset( $_GET['feed_type'] ) && $_GET['feed_type'] === 'instagram_basic' && wp_verify_nonce( $_GET['fts_oauth_nonce'], 'fts_oauth_instagram' ) !== 1 ) {
 
@@ -175,7 +175,7 @@ class Instagram_Access_Functions {
 
                 if( ! isset( $data->meta->error_message ) && ! isset( $data->error_message ) && $instagram_generic_response !== $response || isset( $data->meta->error_message ) && 'This client has not been approved to access this resource.' === $data->meta->error_message ){
 
-                    if( $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) === 'combine-streams-feed-type' ){
+                    if( $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) === 'combine-streams-feed-type' ){
                         echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div class="fts-successful-api-token fts-special-working-wrap">',

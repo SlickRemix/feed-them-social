@@ -53,7 +53,7 @@ class Updater_Check_Init {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Premium Extension List.
@@ -67,14 +67,14 @@ class Updater_Check_Init {
     /**
      * Updater_Check_Init constructor.
      */
-    public function __construct( $feed_functions ) {
+    public function __construct( $feedFunctions ) {
         // New Updater! - This is the URL our updater / license checker pings. This should be the URL of the site with EDD installed!
         if ( ! \function_exists( 'is_plugin_active' ) ) {
             require_once ABSPATH . '/wp-admin/includes/plugin.php';
         }
 
         // Set Feed Functions object.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Premium Extension List.
         $this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
@@ -95,7 +95,7 @@ class Updater_Check_Init {
         );
 
         //Create License Page for main plugin.
-        new Updater_License_Page($this->updater_options_info, $this->feed_functions);
+        new Updater_License_Page($this->updater_options_info, $this->feedFunctions);
 
         add_action('plugins_loaded', array($this, 'remove_old_updater_actions'), 0);
 

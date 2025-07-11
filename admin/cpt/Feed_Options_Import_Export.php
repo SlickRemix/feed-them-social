@@ -26,7 +26,7 @@ class Feed_Options_Import_Export {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Data Protection
@@ -35,7 +35,7 @@ class Feed_Options_Import_Export {
      *
      * @var object
      */
-    public $data_protection;
+    public $dataProtection;
 
     /**
      * System Info
@@ -49,12 +49,12 @@ class Feed_Options_Import_Export {
     /**
      * Feed Options Import Export constructor.
      */
-    public function __construct( $feed_functions, $data_protection, $system_info ) {
+    public function __construct( $feedFunctions, $dataProtection, $system_info ) {
         // Set Feed Functions object.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Set Data Protection object.
-        $this->data_protection = $data_protection;
+        $this->dataProtection = $dataProtection;
 
         // Set System info object.
         $this->system_info = $system_info;
@@ -81,25 +81,25 @@ class Feed_Options_Import_Export {
         }
 
         $cpt_id = (int) $_REQUEST['cpt_id'];
-        $saved_feed_options = $this->feed_functions->get_saved_feed_options( esc_html( $cpt_id ) );
+        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( esc_html( $cpt_id ) );
 
         // If Instagram token decrypt.
         if ( isset($saved_feed_options['fts_instagram_custom_api_token']) ) {
-            $saved_feed_options['fts_instagram_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_instagram_custom_api_token'] );
+            $saved_feed_options['fts_instagram_custom_api_token'] = $this->dataProtection->decrypt( $saved_feed_options['fts_instagram_custom_api_token'] );
         }
         // If Instagram Business token decrypt.
         if ( isset($saved_feed_options['fts_facebook_instagram_custom_api_token']) ) {
-            $saved_feed_options['fts_facebook_instagram_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
+            $saved_feed_options['fts_facebook_instagram_custom_api_token'] = $this->dataProtection->decrypt( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
         }
 
         // If Facebook Business token decrypt.
         if ( isset($saved_feed_options['fts_facebook_custom_api_token']) ) {
-            $saved_feed_options['fts_facebook_custom_api_token'] = $this->data_protection->decrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
+            $saved_feed_options['fts_facebook_custom_api_token'] = $this->dataProtection->decrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
         }
 
         // If YouTube Refresh token decrypt.
         if ( isset($saved_feed_options['youtube_custom_refresh_token']) ) {
-            $saved_feed_options['youtube_custom_refresh_token'] = $this->data_protection->decrypt( $saved_feed_options['youtube_custom_refresh_token'] );
+            $saved_feed_options['youtube_custom_refresh_token'] = $this->dataProtection->decrypt( $saved_feed_options['youtube_custom_refresh_token'] );
         }
 
         $data = array(
@@ -244,15 +244,15 @@ class Feed_Options_Import_Export {
 
         // If Instagram token encrypt.
         if ( isset($saved_feed_options['fts_instagram_custom_api_token']) ) {
-            $saved_feed_options['fts_instagram_custom_api_token'] = $this->data_protection->encrypt( $saved_feed_options['fts_instagram_custom_api_token'] );
+            $saved_feed_options['fts_instagram_custom_api_token'] = $this->dataProtection->encrypt( $saved_feed_options['fts_instagram_custom_api_token'] );
         }
         // If Instagram Business token encrypt.
         if ( isset($saved_feed_options['fts_facebook_instagram_custom_api_token']) ) {
-            $saved_feed_options['fts_facebook_instagram_custom_api_token'] = $this->data_protection->encrypt( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
+            $saved_feed_options['fts_facebook_instagram_custom_api_token'] = $this->dataProtection->encrypt( $saved_feed_options['fts_facebook_instagram_custom_api_token'] );
         }
         // If Facebook Business token decrypt.
         if ( isset($saved_feed_options['fts_facebook_custom_api_token']) ) {
-            $saved_feed_options['fts_facebook_custom_api_token'] = $this->data_protection->encrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
+            $saved_feed_options['fts_facebook_custom_api_token'] = $this->dataProtection->encrypt( $saved_feed_options['fts_facebook_custom_api_token'] );
         }
 
         update_post_meta( $cpt_id, 'fts_feed_options_array', $saved_feed_options );

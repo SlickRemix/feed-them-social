@@ -25,7 +25,7 @@ class Feed_Shortcode {
      *
      * @var object
      */
-    public $settings_functions;
+    public $settingsFunctions;
 
 	/**
 	 * Feed Functions
@@ -34,7 +34,7 @@ class Feed_Shortcode {
 	 *
 	 * @var object
 	 */
-	public $feed_functions;
+	public $feedFunctions;
 
     /**
      * Options Functions
@@ -43,7 +43,7 @@ class Feed_Shortcode {
      *
      * @var object
      */
-    public $options_functions;
+    public $optionsFunctions;
 
 	/**
 	 * Feed Cache.
@@ -52,7 +52,7 @@ class Feed_Shortcode {
 	 *
 	 * @var object
 	 */
-	public $feed_cache;
+	public $feedCache;
 
 	/**
 	 * Access Options
@@ -61,7 +61,7 @@ class Feed_Shortcode {
 	 *
 	 * @var object
 	 */
-	public $access_options;
+	public $accessOptions;
 
 	/**
 	 * Facebook Feed
@@ -112,17 +112,17 @@ class Feed_Shortcode {
 	/**
 	 * Feed Display Constructor.
 	 */
-	public function __construct( $settings_functions, $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams = null ){
+	public function __construct( $settingsFunctions, $feedFunctions, $optionsFunctions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams = null ){
 		// Add Actions and filters.
-		$this->add_actions_filters();
+		$this->addActionsFilters();
 
-        $this->settings_functions = $settings_functions;
+        $this->settingsFunctions = $settingsFunctions;
 
 		// Set Feed Functions object.
-		$this->feed_functions = $feed_functions;
+		$this->feedFunctions = $feedFunctions;
 
         // Set Feed Functions object.
-        $this->options_functions = $options_functions;
+        $this->optionsFunctions = $optionsFunctions;
 
 		// Facebook Feed.
 		$this->facebook_feed = $facebook_feed;
@@ -147,7 +147,7 @@ class Feed_Shortcode {
      *
      * @since 4.0.0
      */
-    public function add_actions_filters(){
+    public function addActionsFilters(){
 		// Add Shortcode Filter for displaying a feed.
         add_shortcode( 'feed_them_social', array( $this, 'display_feed_shortcode_filter' ) );
 
@@ -171,7 +171,7 @@ class Feed_Shortcode {
         wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
 		// Register Premium Styles & Scripts.
-		if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) || $this->feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+		if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) || $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
 			// Masonry Script.
             wp_register_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
 			// Images Loaded Script.
@@ -179,12 +179,12 @@ class Feed_Shortcode {
 		}
 
 		// Register Feed Them Carousel Scripts.
-		if ( $this->feed_functions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
+		if ( $this->feedFunctions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
             wp_register_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
 		}
 
         // Register Feed Them Instagram Slider Scripts.
-        if ( $this->feed_functions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
+        if ( $this->feedFunctions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
             // Register Feed Styles.
             wp_register_style( 'fts-instagram-slider-styles', plugins_url( 'feed-them-social-instagram-slider/includes/scripts/css/tiny-slider.min.css' ), false, FTS_CURRENT_VERSION );
             // Register Feed Scripts.
@@ -204,18 +204,18 @@ class Feed_Shortcode {
 		wp_enqueue_style('fts-feed-styles');
 
         // Add Custom CSS to the header if option checked.
-        $custom_css_checked_css = $this->settings_functions->fts_get_option( 'use_custom_css' );
+        $custom_css_checked_css = $this->settingsFunctions->fts_get_option( 'use_custom_css' );
         if ( $custom_css_checked_css === '1' ) {
-            $css = !empty( $this->settings_functions->fts_get_option( 'custom_css' ) ) ?  $this->settings_functions->fts_get_option( 'custom_css' ) : '';
+            $css = !empty( $this->settingsFunctions->fts_get_option( 'custom_css' ) ) ?  $this->settingsFunctions->fts_get_option( 'custom_css' ) : '';
             wp_register_style( 'fts-feed-custom-styles', false, array( 'fts-feed-styles' ) );
             wp_enqueue_style( 'fts-feed-custom-styles' );
             wp_add_inline_style( 'fts-feed-custom-styles', $css );
         }
 
         // Add Custom JS to the header if option checked.
-        $use_custom_js = $this->settings_functions->fts_get_option( 'use_custom_js' );
+        $use_custom_js = $this->settingsFunctions->fts_get_option( 'use_custom_js' );
         if ( $use_custom_js === '1' ) {
-            $js = !empty( $this->settings_functions->fts_get_option( 'custom_js' ) ) ?  $this->settings_functions->fts_get_option( 'custom_js' ) : '';
+            $js = !empty( $this->settingsFunctions->fts_get_option( 'custom_js' ) ) ?  $this->settingsFunctions->fts_get_option( 'custom_js' ) : '';
             wp_register_script( 'fts-feed-custom-script', false, array( 'fts-global-js' ) );
             wp_enqueue_script( 'fts-feed-custom-script' );
             wp_add_inline_script( 'fts-feed-custom-script', $js );
@@ -225,14 +225,14 @@ class Feed_Shortcode {
 		wp_enqueue_script('fts-global-js');
 
         // Set Powered by JS for FTS!
-        $fts_powered_text_options_settings = $this->settings_functions->fts_get_option( 'powered_by' );
+        $fts_powered_text_options_settings = $this->settingsFunctions->fts_get_option( 'powered_by' );
         if ( '1' !== $fts_powered_text_options_settings ) {
             //Powered By JS.
             wp_enqueue_script('fts-powered-by-js');
         }
 
 		// Premium Feed Scripts.
-		if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) || $this->feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+		if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) || $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
 			// Masonry Script
             wp_enqueue_script('fts-masonry-pkgd');
 			// Images Loaded
@@ -240,12 +240,12 @@ class Feed_Shortcode {
 		}
 
         // Carousel Feed Scripts || Instagram Slider Scripts.
-        if ( $this->feed_functions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feed_functions->is_extension_active( 'feed_them_social_premium' )) {
+        if ( $this->feedFunctions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' )) {
             wp_enqueue_script( 'fts-feeds');
         }
 
         // Carousel Feed Scripts || Instagram Slider Scripts.
-        if ( $this->feed_functions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
+        if ( $this->feedFunctions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
             wp_enqueue_style( 'fts-instagram-slider-styles' );
             wp_enqueue_script( 'fts-instagram-slider-js');
         }
@@ -282,17 +282,17 @@ class Feed_Shortcode {
 
             // error_log('is admin: ' . current_user_can('administrator') );
 
-            $array_check = $this->feed_functions->get_feed_option( $cpt_id, 'fts_shortcode_location' );
+            $array_check = $this->feedFunctions->get_feed_option( $cpt_id, 'fts_shortcode_location' );
             $array_check_decode = json_decode( $array_check );
 
             if ( !is_array( $array_check_decode ) ) {
                 $encoded = json_encode( array($post->ID) );
-                $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
+                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
             } elseif ( is_array( $array_check_decode ) ) {
                 if ( !\in_array( $post->ID, $array_check_decode, true ) ) {
                     $add_id = array_merge( $array_check_decode, array($post->ID) );
                     $encoded = json_encode( $add_id );
-                    $this->options_functions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
+                    $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $cpt_id, false );
                 }
             }
         }
@@ -353,7 +353,7 @@ class Feed_Shortcode {
 				// Combine Streams Feed.
 				case 'combine-streams-feed-type':
 					// Display Combined Streams Feed.
-                    if ( $this->feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+                    if ( $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
 
                         echo $this->combined_streams->display_combined_streams( $feed_post_id );
                     }
@@ -380,7 +380,7 @@ class Feed_Shortcode {
 		// If Feed Post ID exists then outputting what is needed.
 		if( $feed_post_id ){
 			// Get Feed Type.
-			$feed_type = $this->feed_functions->get_feed_type( $feed_post_id );
+			$feed_type = $this->feedFunctions->get_feed_type( $feed_post_id );
 
 			// Load Frontend Styles & Scripts ONLY on Feed pages.
 			$this->load_frontend_styles_scripts();

@@ -39,7 +39,7 @@ class Activate_Plugin {
      *
      * @since 1.0.0
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
         // Register Activate Transient
         register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'activate_transient' ) );
 
@@ -492,8 +492,8 @@ class Activate_Plugin {
     public function set_cron_job() {
 
         // Set new cron job for clearing cache.
-        $cron_job = new Cron_Jobs( null, null, null, null );
-        $cron_job->fts_set_cron_job( 'clear-cache-set-cron-job', null, null );
+        $cron_job = new CronJobs( null, null, null, null );
+        $cron_job->ftsSetCronJob( 'clear-cache-set-cron-job', null, null );
         // error_log('FTS Plugin Activated. Setting Cron Job from activate-plugin.php.');
     }
 }

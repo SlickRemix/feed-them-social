@@ -38,7 +38,7 @@ class Access_Token_Options {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Feed CPT Option Array
@@ -56,7 +56,7 @@ class Access_Token_Options {
      *
      * @var object
      */
-    public $data_protection;
+    public $dataProtection;
 
     /**
      * Options Functions
@@ -65,7 +65,7 @@ class Access_Token_Options {
      *
      * @var object
      */
-    public $options_functions;
+    public $optionsFunctions;
 
     /**
      * Metabox Functions
@@ -90,16 +90,16 @@ class Access_Token_Options {
      *
      * @since 1.9.6
      */
-    public function __construct( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions ) {
+    public function __construct( $feedFunctions, $feed_cpt_options, $metabox_functions, $dataProtection, $optionsFunctions ) {
 
         // Options Functions Class.
-        $this->options_functions = $options_functions;
+        $this->optionsFunctions = $optionsFunctions;
 
         // Set Feed Functions object.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Data Protection.
-        $this->data_protection = $data_protection;
+        $this->dataProtection = $dataProtection;
 
         // Metabox Functions.
         $this->metabox_functions = $metabox_functions;
@@ -124,7 +124,7 @@ class Access_Token_Options {
         // Was an encrypted token given?
         if( $encrypted_token ){
             // Decrypt the token.
-            return $this->data_protection->decrypt( $encrypted_token );
+            return $this->dataProtection->decrypt( $encrypted_token );
         }
         // Decryption didn't work.
         return false;
@@ -145,7 +145,7 @@ class Access_Token_Options {
             switch ($feed_type){
                 case 'facebook-feed-type':
                     // Facebook Access Functions.
-                    $facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
+                    $facebook_access_functions = new Facebook_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                     // Load Facebook Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
@@ -165,7 +165,7 @@ class Access_Token_Options {
 
                 case 'instagram-feed-type':
                     // Instagram Access Functions.
-                    $instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
+                    $instagram_access_functions = new Instagram_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                     // Load Instagram Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
@@ -177,7 +177,7 @@ class Access_Token_Options {
 
                 case 'instagram-business-feed-type':
                     // Instagram Business Access Functions.
-                    $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
+                    $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                     // Load Instagram Business Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
@@ -195,7 +195,7 @@ class Access_Token_Options {
 
                 case 'twitter-feed-type':
                     // Twitter Access Functions.
-                    $twitter_access_functions = new Tiktok_Access_Functions( $this->feed_functions, $this->data_protection );
+                    $twitter_access_functions = new Tiktok_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                     // Load Twitter Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
@@ -207,7 +207,7 @@ class Access_Token_Options {
 
                 case 'youtube-feed-type':
                     // YouTube Access Functions.
-                    $youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
+                    $youtube_access_functions = new Youtube_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                     // Load YouTube Token Option Fields.
                     echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
@@ -230,7 +230,7 @@ class Access_Token_Options {
                         <div class="combine-instagram-access-token-placeholder">
                             <div class="combine-instagram-basic-access-token-placeholder">
                                 <?php
-                                $instagram_access_functions = new Instagram_Access_Functions( $this->feed_functions, $this->data_protection );
+                                $instagram_access_functions = new Instagram_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                                 // Load Instagram Token Option Fields.
                                 echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
@@ -244,7 +244,7 @@ class Access_Token_Options {
                             <?php
 
                                 // Instagram Business Access Functions.
-                                $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feed_functions, $this->data_protection );
+                                $instagram_business_access_functions = new Instagram_Business_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                                 // Load Instagram Business Token Option Fields.
                                 echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
@@ -265,7 +265,7 @@ class Access_Token_Options {
                         <div class="combine-facebook-access-token-placeholder">
                                 <?php
                         // Facebook Access Functions.
-                        $facebook_access_functions = new Facebook_Access_Functions( $this->feed_functions, $this->data_protection );
+                        $facebook_access_functions = new Facebook_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                         // Load Facebook Token Option Fields.
                         echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
@@ -285,7 +285,7 @@ class Access_Token_Options {
                         <div class="combine-twitter-access-token-placeholder">
                             <?php
                             // Twitter Access Functions.
-                            $twitter_access_functions = new Tiktok_Access_Functions( $this->feed_functions, $this->data_protection );
+                            $twitter_access_functions = new Tiktok_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                             // Load Twitter Token Option Fields.
                             echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
@@ -309,7 +309,7 @@ class Access_Token_Options {
                         <div class="combine-youtube-access-token-placeholder">
                             <?php
                             // Twitter Access Functions.
-                            $youtube_access_functions = new Youtube_Access_Functions( $this->feed_functions, $this->data_protection );
+                            $youtube_access_functions = new Youtube_Access_Functions( $this->feedFunctions, $this->dataProtection );
 
                             // Load YouTube Token Option Fields.
                             echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
@@ -474,7 +474,7 @@ class Access_Token_Options {
     private function ftsFetchFbDataAndDecode() {
         // Make sure it's not ajaxing!
         if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-            $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feed_functions->get_random_string() );
+            $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feedFunctions->get_random_string() );
         } //End make sure it's not ajaxing!
 
         if ( ! isset( $_GET['locations'] ) ) {
@@ -803,7 +803,7 @@ class Access_Token_Options {
         if( $combined === 'false' ) {
             // This check is in place because the combine tab can also load the access token options, however we don't want to
             // save the feed_type in this case because we want to remain on the combine tab.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id, false );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id, false );
         }
 
         if( $combined === 'basic' || $combined === 'business' ) {
@@ -813,8 +813,8 @@ class Access_Token_Options {
             // These 2 options are to save the combine instagram type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram_type', $combined, true, $cpt_id, false );
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_instagram', 'yes', true, $cpt_id, false );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_instagram_type', $combined, true, $cpt_id, false );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_instagram', 'yes', true, $cpt_id, false );
 
         }
 
@@ -822,21 +822,21 @@ class Access_Token_Options {
             // This option is to save the combine facebook type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_facebook', 'yes', true, $cpt_id, false );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_facebook', 'yes', true, $cpt_id, false );
         }
 
         if( $combined === 'combined-twitter' ) {
             // This option is to save the combine twitter type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_twitter', 'yes', true, $cpt_id, false );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_twitter', 'yes', true, $cpt_id, false );
         }
 
         if( $combined === 'combined-youtube' ) {
             // This option is to save the combine youtube type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->options_functions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id, false );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id, false );
         }
 
         $this->getAccessTokenOptions( $feed_type, $cpt_id );

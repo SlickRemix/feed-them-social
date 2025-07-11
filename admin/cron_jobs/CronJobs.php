@@ -7,7 +7,7 @@
  * Instagram expires every 60 days, but we are setting it to 54 days to be safe.
  * YouTube expires every hour.
  *
- * @class     Cron_Jobs
+ * @class     CronJobs
  * @version   4.2.3
  * @copyright Copyright (c) 2012-2024, SlickRemix
  * @category  Class
@@ -16,12 +16,14 @@
 
 namespace feedthemsocial\admin\cron_jobs;
 
+use feedthemsocial\includes\DebugLog;
+
 // Exit if accessed directly.
 if ( ! \defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Cron_Jobs {
+class CronJobs {
 
     /**
      * Feed Functions
@@ -30,7 +32,7 @@ class Cron_Jobs {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Options Functions
@@ -39,7 +41,7 @@ class Cron_Jobs {
      *
      * @var object
      */
-    public $options_functions;
+    public $optionsFunctions;
 
     /**
      * Settings Functions
@@ -48,7 +50,7 @@ class Cron_Jobs {
      *
      * @var object
      */
-    public $settings_functions;
+    public $settingsFunctions;
 
     /**
      * Feed Cache.
@@ -57,44 +59,44 @@ class Cron_Jobs {
      *
      * @var object
      */
-    public $feed_cache;
+    public $feedCache;
 
     /**
      * Core_Functions constructor.
      */
-    public function __construct( $feed_functions, $options_functions, $settings_functions, $feed_cache ) {
+    public function __construct( $feedFunctions, $optionsFunctions, $settingsFunctions, $feedCache ) {
 
         // Feed Functions Class.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Options Functions Class.
-        $this->options_functions = $options_functions;
+        $this->optionsFunctions = $optionsFunctions;
 
         // Feed Settings.
-        $this->settings_functions = $settings_functions;
+        $this->settingsFunctions = $settingsFunctions;
 
         // Set Feed Cache object.
-        $this->feed_cache = $feed_cache;
+        $this->feedCache = $feedCache;
 
         // Add Actions and Filters.
-        $this->add_actions_filters();
+        $this->addActionsFilters();
     }
 
     /**
      * Add Action Filters
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
         // Hook for the custom cron schedules
-        add_filter('cron_schedules', array($this, 'fts_cron_schedules'));
+        add_filter('cron_schedules', array($this, 'ftsCronSchedules'));
 
         // Register actions on init
-        add_action('init', array($this, 'register_cron_actions'));
+        add_action('init', array($this, 'registerCronActions'));
     }
 
     /**
      * Adds custom intervals for cron jobs
      */
-    public function fts_cron_schedules($schedules) {
+    public function ftsCronSchedules($schedules) {
         // Tiktok refreshes every 24 hours.
         if (!isset($schedules['once_daily'])) {
             $schedules['once_daily'] = array(
@@ -122,7 +124,7 @@ class Cron_Jobs {
         if (!isset($schedules['fts_cache_clear'])) {
             // Cache clear interval
             // Production: Must be active.
-            $cache_time = $this->settings_functions->fts_get_option('fts_cache_time');
+            $cache_time = $this->settingsFunctions->fts_get_option('fts_cache_time');
             // Testing: Set cache clear interval to 60 seconds.
             // $cache_time = '60';
             $cache_interval = is_numeric($cache_time) && $cache_time > 0 ? (int)$cache_time : 86400; // Default to 1 Day if not set.
@@ -140,16 +142,16 @@ class Cron_Jobs {
      *
      * Backup to delete all cache in case transient_timeout fails
      */
-    public function clear_cache_task() {
+    public function clearCacheTask() {
         // Debug: Log task execution
-        // error_log('Running clear_cache_task');
-        $this->feed_cache->feed_them_clear_cache();
+        DebugLog::log( 'cronJobs', 'Running clearCacheTask', true );
+        $this->feedCache->feed_them_clear_cache();
     }
 
     /**
      * Set up a cron job.
      */
-    public function fts_set_cron_job($cpt_id, $feed_name, $revoke_token) {
+    public function ftsSetCronJob($cpt_id, $feed_name, $revoke_token) {
 
         if( $cpt_id === 'clear-cache-set-cron-job' ){
             $event_hook = 'fts_clear_cache_event';
@@ -196,7 +198,7 @@ class Cron_Jobs {
             }
 
             // Store the event hook name in the feed options
-            $this->options_functions->update_single_option('fts_feed_options_array', "{$feed_name}_scheduled_event", $event_hook, true, $cpt_id, false);
+            $this->optionsFunctions->update_single_option('fts_feed_options_array', "{$feed_name}_scheduled_event", $event_hook, true, $cpt_id, false);
         }
 
     }
@@ -204,22 +206,22 @@ class Cron_Jobs {
     /**
      * The task to run for each cron job.
      */
-    public function fts_refresh_token_task($cpt_id, $feed_name ) {
+    public function ftsRefreshTokenTask($cpt_id, $feed_name ) {
         if ($feed_name === 'instagram_business_basic') {
-            $this->feed_functions->fts_instagram_refresh_token($cpt_id);
+            $this->feedFunctions->fts_instagram_refresh_token($cpt_id);
         }
         elseif ($feed_name === 'tiktok') {
-            $this->feed_functions->fts_tiktok_refresh_token($cpt_id);
+            $this->feedFunctions->fts_tiktok_refresh_token($cpt_id);
         }
         elseif ($feed_name === 'youtube') {
-            $this->feed_functions->fts_youtube_refresh_token($cpt_id);
+            $this->feedFunctions->fts_youtube_refresh_token($cpt_id);
         }
     }
 
     /**
      * Register actions for each scheduled cron event.
      */
-    public function register_cron_actions() {
+    public function registerCronActions() {
         // Retrieve all CPTs that have a cron event hook set
         $args = [
             'post_type'   => 'fts', // Replace with your CPT name
@@ -229,29 +231,29 @@ class Cron_Jobs {
         $posts = get_posts($args);
         foreach ($posts as $feed_cpt_id) {
 
-            $instagram_hook = $this->feed_functions->get_feed_option($feed_cpt_id, 'instagram_business_basic_scheduled_event');
+            $instagram_hook = $this->feedFunctions->get_feed_option($feed_cpt_id, 'instagram_business_basic_scheduled_event');
             if (!empty($instagram_hook)) {
                 add_action($instagram_hook, function() use ($feed_cpt_id) {
-                    $this->fts_refresh_token_task($feed_cpt_id, 'instagram_business_basic');
+                    $this->ftsRefreshTokenTask($feed_cpt_id, 'instagram_business_basic');
                 });
             }
 
-            $tiktok_hook = $this->feed_functions->get_feed_option($feed_cpt_id, 'tiktok_scheduled_event');
+            $tiktok_hook = $this->feedFunctions->get_feed_option($feed_cpt_id, 'tiktok_scheduled_event');
             if (!empty($tiktok_hook)) {
                 add_action($tiktok_hook, function() use ($feed_cpt_id) {
-                    $this->fts_refresh_token_task($feed_cpt_id, 'tiktok');
+                    $this->ftsRefreshTokenTask($feed_cpt_id, 'tiktok');
                 });
             }
 
-            $youtube_hook = $this->feed_functions->get_feed_option($feed_cpt_id, 'youtube_scheduled_event');
+            $youtube_hook = $this->feedFunctions->get_feed_option($feed_cpt_id, 'youtube_scheduled_event');
             if (!empty($youtube_hook)) {
                 add_action($youtube_hook, function() use ($feed_cpt_id) {
-                    $this->fts_refresh_token_task($feed_cpt_id, 'youtube');
+                    $this->ftsRefreshTokenTask($feed_cpt_id, 'youtube');
                 });
             }
         }
 
         // Register cache clear action
-        add_action('fts_clear_cache_event', array($this, 'clear_cache_task'));
+        add_action('fts_clear_cache_event', array($this, 'clearCacheTask'));
     }
 }//end class

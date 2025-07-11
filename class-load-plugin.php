@@ -34,7 +34,7 @@ spl_autoload_register(function ( $class ) {
 });
 
 // Import classes to use short names, following the instantiation order.
-use feedthemsocial\data_protection\Data_Protection;
+use feedthemsocial\data_protection\DataProtection;
 use feedthemsocial\options\Options_Functions;
 use feedthemsocial\admin\settings\Settings_Functions;
 use feedthemsocial\includes\Feed_Cache;
@@ -59,8 +59,9 @@ use feedthemsocial\includes\feeds\youtube\Youtube_Feed;
 use feedthemsocial\includes\Feed_Shortcode;
 use feedthemsocial\updater\Updater_Check_Init;
 use feedthemsocial\blocks\Block_Loader;
-use feedthemsocial\admin\cron_jobs\Cron_Jobs;
+use feedthemsocial\admin\cron_jobs\CronJobs;
 use feedthemsocial\includes\TrimWords;
+use feedthemsocial\includes\DebugLog;
 
 /**
  * Feed Them Social Class
@@ -76,7 +77,7 @@ class Feed_Them_Social {
      */
     public function __construct() {
         // Set up actions and filters first.
-        $this->add_actions_filters();
+        $this->addActionsFilters();
 
         // Setup constants.
         $this->setup_constants('7.0.0');
@@ -95,7 +96,7 @@ class Feed_Them_Social {
      *
      * @since 1.0.0
      */
-    private function add_actions_filters() {
+    private function addActionsFilters() {
         // Load text domain for translations
         add_action( 'init', array( $this, 'load_textdomain' ) );
     }
@@ -110,42 +111,42 @@ class Feed_Them_Social {
     public function load_plugin_components() {
         // All these 'new' statements will now automatically trigger the autoloader.
         $activate_plugin = new Activate_Plugin();
-        $activate_plugin->add_actions_filters();
+        $activate_plugin->addActionsFilters();
 
-        $data_protection = new Data_Protection();
-        $options_functions = new Options_Functions( FEED_THEM_SOCIAL_POST_TYPE );
-        $settings_functions = new Settings_Functions();
-        $feed_cache = new Feed_Cache( $data_protection, $settings_functions );
+        $dataProtection = new DataProtection();
+        $optionsFunctions = new Options_Functions( FEED_THEM_SOCIAL_POST_TYPE );
+        $settingsFunctions = new Settings_Functions();
+        $feedCache = new Feed_Cache( $dataProtection, $settingsFunctions );
         $facebook_additional_options = new Facebook_Additional_Options();
         $instagram_additional_options = new Instagram_Additional_Options();
         $twitter_additional_options = new Twitter_Additional_Options();
         $youtube_additional_options = new Youtube_Additional_Options();
         $feed_cpt_options = new Feed_CPT_Options( $facebook_additional_options, $instagram_additional_options, $twitter_additional_options, $youtube_additional_options );
-        $feed_functions = new Feed_Functions( $settings_functions, $options_functions, $feed_cpt_options, $feed_cache, $data_protection );
+        $feedFunctions = new Feed_Functions( $settingsFunctions, $optionsFunctions, $feed_cpt_options, $feedCache, $dataProtection );
 
-        new Settings_Page( $settings_functions, $feed_cache );
-        $system_info = new System_Info( $settings_functions, $feed_functions, $feed_cache );
-        new Feed_Options_Import_Export( $feed_functions, $data_protection, $system_info );
+        new Settings_Page( $settingsFunctions, $feedCache );
+        $system_info = new System_Info( $settingsFunctions, $feedFunctions, $feedCache );
+        new Feed_Options_Import_Export( $feedFunctions, $dataProtection, $system_info );
         $setting_options_js = new Settings_Options_JS();
-        $metabox_functions = new Metabox_Functions( $feed_functions, $feed_cpt_options->get_all_options(true), $settings_functions, $options_functions, FEED_THEM_SOCIAL_OPTION_ARRAY_NAME, $data_protection );
-        $access_options = new Access_Token_Options( $feed_functions, $feed_cpt_options, $metabox_functions, $data_protection, $options_functions );
-        new Feeds_CPT( $settings_functions, $feed_functions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_options, $options_functions );
-        $facebook_post_types = new Facebook_Feed_Post_Types( $feed_functions, $settings_functions, $access_options );
-        $facebook_feed = new Facebook_Feed( $settings_functions, $feed_functions, $feed_cache, $facebook_post_types, $access_options );
-        $instagram_feed = new Instagram_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
-        $tiktok_feed = new Tiktok_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
-        $youtube_feed = new Youtube_Feed( $settings_functions, $feed_functions, $feed_cache, $access_options );
+        $metabox_functions = new Metabox_Functions( $feedFunctions, $feed_cpt_options->get_all_options(true), $settingsFunctions, $optionsFunctions, FEED_THEM_SOCIAL_OPTION_ARRAY_NAME, $dataProtection );
+        $accessOptions = new Access_Token_Options( $feedFunctions, $feed_cpt_options, $metabox_functions, $dataProtection, $optionsFunctions );
+        new Feeds_CPT( $settingsFunctions, $feedFunctions, $feed_cpt_options, $setting_options_js, $metabox_functions, $accessOptions, $optionsFunctions );
+        $facebookPostTypes = new Facebook_Feed_Post_Types( $feedFunctions, $settingsFunctions, $accessOptions );
+        $facebook_feed = new Facebook_Feed( $settingsFunctions, $feedFunctions, $feedCache, $facebookPostTypes, $accessOptions );
+        $instagram_feed = new Instagram_Feed( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions );
+        $tiktok_feed = new Tiktok_Feed( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions );
+        $youtube_feed = new Youtube_Feed( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions );
 
-        if( $feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
-            $combined_streams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feed_functions, $feed_cache, $access_options, $facebook_feed, $facebook_post_types, $instagram_feed, $tiktok_feed, $youtube_feed );
+        if( $feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+            $combined_streams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feedFunctions, $feedCache, $accessOptions, $facebook_feed, $facebookPostTypes, $instagram_feed, $tiktok_feed, $youtube_feed );
         } else {
             $combined_streams = '';
         }
 
-        new Feed_Shortcode( $settings_functions, $feed_functions, $options_functions, $facebook_feed, $instagram_feed, $tiktok_feed, $youtube_feed, $combined_streams );
+        new Feed_Shortcode( $settingsFunctions, $feedFunctions, $optionsFunctions, $facebook_feed, $instagram_feed, $tiktok_feed, $youtube_feed, $combined_streams );
         new Block_Loader();
-        new Cron_Jobs( $feed_functions, $options_functions, $settings_functions, $feed_cache );
-        new Updater_Check_Init( $feed_functions );
+        new CronJobs( $feedFunctions, $optionsFunctions, $settingsFunctions, $feedCache );
+        new Updater_Check_Init( $feedFunctions );
         new TrimWords();
     }
 

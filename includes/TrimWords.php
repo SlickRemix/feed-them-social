@@ -20,7 +20,8 @@ class TrimWords {
      * @param string $ellipsis The ellipsis string.
      * @return string
      */
-    public static function fts_custom_trim_words($html, $limit, $ellipsis = null) {
+    public static function fts_custom_trim_words($html, $limit, $ellipsis = null): string
+    {
 
         if($limit <= 0 || $limit >= self::countWords(strip_tags($html))) {
             return $html;
@@ -30,8 +31,8 @@ class TrimWords {
         $dom = new \DOMDocument();
         // set error level
         $internalErrors = libxml_use_internal_errors(true);
-        // load HTML
-        $dom->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+        // load HTML. Adding a meta tag is the modern way to specify the encoding for DOMDocument.
+        $dom->loadHTML('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">' . $html);
         // Restore error level
         libxml_use_internal_errors($internalErrors);
 
@@ -40,14 +41,14 @@ class TrimWords {
         // Here is where the other class is needed. The autoloader will now find it.
         $it = new Dom_Words_Iterator($body);
 
-        foreach($it as $word) {
+        foreach( $it as $ignored ) {
             if($it->key() >= $limit) {
                 $currentWordPosition = $it->currentWordPosition();
                 $curNode = $currentWordPosition[0];
                 $offset = $currentWordPosition[1];
                 $words = $currentWordPosition[2];
 
-                $curNode->nodeValue = substr($curNode->nodeValue, 0, $words[$offset][1] + strlen($words[$offset][0]));
+                $curNode->nodeValue = substr($curNode->nodeValue, 0, $words[$offset][1] + \strlen($words[$offset][0]));
 
                 self::removeProceedingNodes($curNode, $body);
                 self::insertEllipsis($curNode, $ellipsis);
@@ -94,7 +95,7 @@ class TrimWords {
     private static function insertEllipsis(\DOMNode $domNode, $ellipsis) {
         $avoid = array('a', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'); //html tags to avoid appending the ellipsis to
 
-        if( in_array($domNode->parentNode->nodeName, $avoid) && $domNode->parentNode->parentNode !== NULL) {
+        if( \in_array( $domNode->parentNode->nodeName, $avoid, true ) && $domNode->parentNode->parentNode !== NULL) {
             // Append as text node to parent instead
             $textNode = new \DOMText($ellipsis);
 
@@ -118,7 +119,7 @@ class TrimWords {
      */
     private static function countWords($text) {
         $words = preg_split("/[\n\r\t ]+/", $text, -1, PREG_SPLIT_NO_EMPTY);
-        return count($words);
+        return \count($words);
     }
 
 }

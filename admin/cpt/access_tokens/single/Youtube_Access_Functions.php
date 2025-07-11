@@ -32,7 +32,7 @@ class Youtube_Access_Functions {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Data Protection
@@ -41,7 +41,7 @@ class Youtube_Access_Functions {
      *
      * @var object
      */
-    public $data_protection;
+    public $dataProtection;
 
     /**
      * Construct
@@ -50,12 +50,12 @@ class Youtube_Access_Functions {
      *
      * @since 4.0.0
      */
-    public function __construct( $feed_functions, $data_protection ) {
+    public function __construct( $feedFunctions, $dataProtection ) {
         // Feed Functions.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Data Protection.
-        $this->data_protection = $data_protection;
+        $this->dataProtection = $dataProtection;
     }
 
     /**
@@ -71,10 +71,10 @@ class Youtube_Access_Functions {
             'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_youtube' )
         ), admin_url( 'post.php' ) );
 
-        $youtube_api_key        = $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_api_token' );
-        $youtube_refresh_token  = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['refresh_token'] ) : $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' );
-        $youtube_access_token   = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_access_token' );
-        $expiration_time        = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['expires_in'] ) : $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
+        $youtube_api_key        = $this->feedFunctions->get_feed_option( $feed_cpt_id, 'youtube_custom_api_token' );
+        $youtube_refresh_token  = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['refresh_token'] ) : $this->feedFunctions->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' );
+        $youtube_access_token   = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['code'] ) : $this->feedFunctions->get_feed_option( $feed_cpt_id, 'youtube_custom_access_token' );
+        $expiration_time        = isset( $_GET['code'], $_GET['feed_type']  ) && 'youtube' === $_GET['feed_type'] ? sanitize_text_field( $_GET['expires_in'] ) : $this->feedFunctions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
 
         ?>
             
@@ -153,7 +153,7 @@ class Youtube_Access_Functions {
         </div>
 
             <?php
-            $expiration_time = $this->feed_functions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
+            $expiration_time = $this->feedFunctions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
            // echo $expiration_time;
            // echo ' asdfasdfasdf ';
 
@@ -207,7 +207,7 @@ class Youtube_Access_Functions {
                 // Error Check!
                 if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
 
-                    if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                    if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
                         echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div id="fts-combined-youtube-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',

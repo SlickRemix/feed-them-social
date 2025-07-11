@@ -79,7 +79,7 @@ class ErrorHandler {
             ),
             'feed-them-social-combined-streams/feed-them-social-combined-streams.php' => array(
                 'clean_name'     => __( 'Feed Them Social Combined Streams', 'feed-them-social' ),
-                'version_needed' => '1.1.1',
+                'version_needed' => '2.0.6',
             ),
         );
         return $fts_versions_needed;

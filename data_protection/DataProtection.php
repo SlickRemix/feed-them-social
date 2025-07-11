@@ -1,4 +1,6 @@
 <?php namespace feedthemsocial\data_protection;
+
+use feedthemsocial\includes\DebugLog;
 /**
  */
 
@@ -14,7 +16,7 @@ if ( ! \defined( 'ABSPATH' ) ){
  * @access private
  * @ignore
  */
-class Data_Protection {
+class DataProtection {
 
     /**
      * Key to use for encryption.
@@ -38,8 +40,8 @@ class Data_Protection {
      * @since 1.0.0
      */
     public function __construct() {
-        $this->key  = $this->get_default_key();
-        $this->salt = $this->get_default_salt();
+        $this->key  = $this->getDefaultKey();
+        $this->salt = $this->getDefaultSalt();
     }
 
     /**
@@ -48,13 +50,13 @@ class Data_Protection {
      * Encrypt the data.
      *
      * @param $value
-     * @return false|mixed|string
+     * @return string
      */
-    public function encrypt($value ) {
+    public function encrypt($value) {
 
-       //error_log( print_r( 'json_decoded Value: '. json_decode($value), true ) );
+        DebugLog::log( 'dataProtection', 'Decoded JSON Value', $value );
 
-        if ( ! extension_loaded( 'openssl' ) || empty( $value ) ) {
+        if ( ! \extension_loaded( 'openssl' ) || empty( $value ) ) {
             return false;
         }
 
@@ -62,7 +64,7 @@ class Data_Protection {
         $ivlen  = openssl_cipher_iv_length( $method );
         $iv     = openssl_random_pseudo_bytes( $ivlen );
 
-        if( is_object($value) ) {
+        if( \is_object($value) ) {
             $value =  json_encode($value);
         }
 
@@ -71,7 +73,7 @@ class Data_Protection {
             return false;
         }
 
-        //error_log( print_r( $encrypted_value, true ) );
+        DebugLog::log( 'dataProtection', 'Encrypted Value', $encrypted_value );
 
         return base64_encode( $iv . $encrypted_value );
     }
@@ -81,10 +83,10 @@ class Data_Protection {
      * Decrypt the data.
      *
      * @param $encrypted_value
-     * @return false|mixed|string
+     * @return string
      */
     public function decrypt( $encrypted_value ) {
-        if ( ! extension_loaded( 'openssl' ) || empty( $encrypted_value ) ) {
+        if ( ! \extension_loaded( 'openssl' ) || empty( $encrypted_value ) ) {
             return false;
         }
         $encrypted_value = base64_decode( $encrypted_value, true );
@@ -97,11 +99,11 @@ class Data_Protection {
         $encrypted_value = substr( $encrypted_value, $ivlen );
 
         $decrypted_value = openssl_decrypt( $encrypted_value, $method, $this->key, 0, $iv );
-        if ( ! $decrypted_value || substr( $decrypted_value, - strlen( $this->salt ) ) !== $this->salt ) {
+        if ( ! $decrypted_value || substr( $decrypted_value, - \strlen( $this->salt ) ) !== $this->salt ) {
             return false;
         }
 
-        return substr( $decrypted_value, 0, - strlen( $this->salt ) );
+        return substr( $decrypted_value, 0, - \strlen( $this->salt ) );
     }
 
     /**
@@ -111,9 +113,12 @@ class Data_Protection {
      *
      * @return string Default (not user-based) encryption key.
      */
-    private function get_default_key() {
-        if ( defined( 'AUTH_KEY' ) && '' !== AUTH_KEY ) {
-            //error_log( print_r( AUTH_KEY, true ) );
+    private function getDefaultKey(): string
+    {
+        if ( \defined( 'AUTH_KEY' ) && '' !== AUTH_KEY ) {
+
+            DebugLog::log('dataProtection', 'WordPress Auth Key', AUTH_KEY);
+
             return AUTH_KEY;
 
 
@@ -128,8 +133,9 @@ class Data_Protection {
      *
      * @return string Encryption salt.
      */
-    private function get_default_salt() {
-        if ( defined( 'AUTH_KEY' ) && '' !== AUTH_KEY ) {
+    private function getDefaultSalt(): string
+    {
+        if ( \defined( 'AUTH_KEY' ) && '' !== AUTH_KEY ) {
             return AUTH_KEY;
         }
 

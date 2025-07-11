@@ -51,14 +51,14 @@ class FtsBeaverBuilderModule extends \FLBuilderModule {
         ));
 
         // Retrieve all 'fts' posts
-        $this->fts_posts = get_posts(array(
+        $fts_posts = get_posts(array(
             'post_type'   => 'fts',
             'numberposts' => -1
         ));
 
         // Generate associative array with post title and shortcode
         $this->ftsPostsArr = array();
-        foreach($this->fts_posts as $post){
+        foreach($fts_posts as $post){
             $this->ftsPostsArr[$post->ID] = array(
                 'title' => $post->post_title,
                 'shortcode' => '[feed_them_social cpt_id=' . $post->ID . ']',

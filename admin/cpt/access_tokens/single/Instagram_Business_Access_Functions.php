@@ -32,7 +32,7 @@ class Instagram_Business_Access_Functions {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Data Protection
@@ -41,7 +41,7 @@ class Instagram_Business_Access_Functions {
      *
      * @var object
      */
-    public $data_protection;
+    public $dataProtection;
 
     /**
      * Construct
@@ -50,12 +50,12 @@ class Instagram_Business_Access_Functions {
      *
      * @since 4.0.0
      */
-    public function __construct( $feed_functions, $data_protection ) {
+    public function __construct( $feedFunctions, $dataProtection ) {
         // Feed Functions.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Data Protection.
-        $this->data_protection = $data_protection;
+        $this->dataProtection = $dataProtection;
     }
 
     /**
@@ -153,7 +153,7 @@ class Instagram_Business_Access_Functions {
 
             <?php
                 // Saved Feed Options!
-                $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
+                $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_cpt_id );
 
                 $page_id            = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] : '';
                 $access_token       = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token'] : '';
@@ -161,7 +161,7 @@ class Instagram_Business_Access_Functions {
                 $fb_name            = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'] )? $saved_feed_options['fts_facebook_instagram_custom_api_token_fb_user_name'] : '';
 
                 // Decrypt Access Token?
-                $decrypted_access_token = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
+                $decrypted_access_token = false !== $this->dataProtection->decrypt( $access_token ) ?  $this->dataProtection->decrypt( $access_token ) : $access_token;
 
                 if ( ! empty( $page_id ) || ! empty( $access_token ) ) {
 
@@ -170,7 +170,7 @@ class Instagram_Business_Access_Functions {
                     );
 
                     // Check to see what the response is.
-                    $response = $this->feed_functions->fts_get_feed_json( $test_app_token_url );
+                    $response = $this->feedFunctions->fts_get_feed_json( $test_app_token_url );
                     $data = json_decode( $response['app_token_id'] );
 
                     /*echo '<pre>';
@@ -189,7 +189,7 @@ class Instagram_Business_Access_Functions {
 
                                  $insta_fb_text = '<a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-insta-icon"></span>' . esc_html( $instagram_name ) . '<span class="fts-arrow-icon"></span><span class="fts-fb-icon"></span>' . esc_html( $fb_name ) . '</a>';
 
-                                 if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                                 if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
                                      echo \sprintf(
                                          esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                                          '<div class="fts-successful-api-token fts-special-working-wrap">',

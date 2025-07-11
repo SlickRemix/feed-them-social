@@ -30,7 +30,7 @@ class Metabox_Functions {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Holds the hook id
@@ -39,7 +39,7 @@ class Metabox_Functions {
      *
      * @var object
      */
-    public $hook_id;
+    public $hookId;
 
     /**
      * Settings Page Name
@@ -57,7 +57,7 @@ class Metabox_Functions {
      *
      * @var string
      */
-    public $main_post_type;
+    public $mainPostType;
 
     /**
      * Data Protection
@@ -66,7 +66,7 @@ class Metabox_Functions {
      *
      * @var object
      */
-    public $data_protection;
+    public $dataProtection;
 
     /**
      * Is Page
@@ -75,7 +75,7 @@ class Metabox_Functions {
      *
      * @var boolean
      */
-    public $is_page;
+    public $isPage;
 
     /**
      * Parent Post ID
@@ -83,7 +83,7 @@ class Metabox_Functions {
      *
      * @var string
      */
-    public $parent_post_id;
+    public $parentPostId;
 
     /**
      * Specific Form Options
@@ -91,7 +91,7 @@ class Metabox_Functions {
      *
      * @var string
      */
-    private $metabox_specific_form_inputs;
+    private $metaboxSpecificFormInputs;
 
     /**
      * Default Options Array
@@ -100,7 +100,7 @@ class Metabox_Functions {
      *
      * @var array
      */
-    public $default_options_array;
+    public $defaultOptionsArray;
 
 
     /**
@@ -110,7 +110,7 @@ class Metabox_Functions {
      *
      * @var object
      */
-    public $settings_functions;
+    public $settingsFunctions;
 
     /**
      * Options Functions
@@ -119,7 +119,7 @@ class Metabox_Functions {
      *
      * @var object
      */
-    public $options_functions;
+    public $optionsFunctions;
 
     /**
      * Array Options Name
@@ -128,7 +128,7 @@ class Metabox_Functions {
      *
      * @var object
      */
-    public $array_options_name;
+    public $arrayOptionsName;
 
     /**
      * Metabox Nonce Name.
@@ -138,7 +138,7 @@ class Metabox_Functions {
      * @var object
      * @since 4.2.8
      */
-    public $metabox_nonce_name;
+    public $metaboxNonceName;
 
     /**
      * Extension List.
@@ -154,45 +154,45 @@ class Metabox_Functions {
      *
      * Constructor.
      *
-     * @param array $default_options_array All the options.
-     * @param object $settings_functions Settings Functions.
-     * @param object $options_functions Options Functions.
-     * @param string $array_options_name Array Options name.
-     * @param string $is_page What page.
+     * @param array $defaultOptionsArray All the options.
+     * @param object $settingsFunctions Settings Functions.
+     * @param object $optionsFunctions Options Functions.
+     * @param string $arrayOptionsName Array Options name.
+     * @param string $isPage What page.
      *
      * @since 1.0
      */
-    public function __construct( $feed_functions, $default_options_array, $settings_functions, $options_functions, $array_options_name, $data_protection, $is_page = null) {
+    public function __construct( $feedFunctions, $defaultOptionsArray, $settingsFunctions, $optionsFunctions, $arrayOptionsName, $dataProtection, $isPage = null) {
 
         // Feed Functions Class.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Default Options Array.
-        $this->default_options_array = $default_options_array;
+        $this->defaultOptionsArray = $defaultOptionsArray;
 
         // Settings Functions Class.
-        $this->settings_functions = $settings_functions;
+        $this->settingsFunctions = $settingsFunctions;
 
         // Options Functions Class.
-        $this->options_functions = $options_functions;
+        $this->optionsFunctions = $optionsFunctions;
 
         // Array Options Name.
-        $this->array_options_name = $array_options_name;
+        $this->arrayOptionsName = $arrayOptionsName;
 
         // Data Protection.
-        $this->data_protection = $data_protection;
+        $this->dataProtection = $dataProtection;
 
         // Is Page.
-        $this->is_page = $is_page;
+        $this->isPage = $isPage;
 
         // Add Actions & Filters.
-        $this->add_actions_filters();
+        $this->addActionsFilters();
 
         // Set Default main post type.
-        $this->main_post_type = FEED_THEM_SOCIAL_POST_TYPE;
+        $this->mainPostType = FEED_THEM_SOCIAL_POST_TYPE;
 
         // Metabox Nonce Name
-        $this->metabox_nonce_name = $this->main_post_type . '_metabox_options_nonce';
+        $this->metaboxNonceName = $this->mainPostType . '_metabox_options_nonce';
     }
 
     /**
@@ -202,11 +202,11 @@ class Metabox_Functions {
      *
      * @since 1.0.0
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
 
         if ( is_admin() ) {
             // Save Page Metaboxes.
-            if ( true == $this->is_page ) {
+            if ( true == $this->isPage ) {
                 // Add Save Metabox if Settings page is a page.
                 add_action( 'admin_init', array( $this, 'add_submit_meta_box' ) );
 
@@ -240,10 +240,10 @@ class Metabox_Functions {
 
         $current_info = $this->current_info_array();
 
-        $page_base = $this->main_post_type . '_page_' . $this->settings_page_name;
+        $page_base = $this->mainPostType . '_page_' . $this->settings_page_name;
 
         // SRL: THESE SCRIPTS CAN BE LOADED ON ALL OF OUR PAGES, BUT SHOULD ONLY LOAD ON OUR PLUGINS PAGES.
-        if ( $this->main_post_type === $current_info['post_type'] ) {
+        if ( $this->mainPostType === $current_info['post_type'] ) {
             // Register Admin Page CSS.
             wp_register_style( 'slick-admin-page', plugins_url( 'feed-them-social/metabox/css/admin-pages.min.css' ), array(), FTS_CURRENT_VERSION );
             // Enqueue Admin Page CSS.
@@ -255,9 +255,9 @@ class Metabox_Functions {
         }
 
         // Is a 'Page' edit page. (aka Settings Class )
-        // if ( $this->main_post_type === $current_info['post_type'] && $page_base === $current_info['base'] ) {
+        // if ( $this->mainPostType === $current_info['post_type'] && $page_base === $current_info['base'] ) {
         // SRL: THESE SCRIPTS SHOULD ONLY BE LOADED ON THE GALLERY, ALBUM AND TEMPLATE SETTINGS PAGE.
-        if ( isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] || $this->main_post_type === $current_info['post_type'] && 'post' === $current_info['base'] && in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
+        if ( isset( $_GET['page'] ) && 'template_settings_page' === $_GET['page'] || $this->mainPostType === $current_info['post_type'] && 'post' === $current_info['base'] && in_array( $hook_suffix, array( 'post.php', 'post-new.php' ) ) ) {
 
             // Enqueue jQuery. (Registered in WordPress Core)!
             wp_enqueue_script( 'jquery' );
@@ -294,7 +294,7 @@ class Metabox_Functions {
             wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
 
             // Register Premium Styles & Scripts.
-            if ( $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) || $this->feed_functions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) || $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
 
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );
@@ -306,12 +306,12 @@ class Metabox_Functions {
             }
 
             // Register Feed Them Carousel Scripts.
-            if ( $this->feed_functions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feed_functions->is_extension_active( 'feed_them_social_premium' ) ) {
+            if ( $this->feedFunctions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
                 wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
             }
 
             // Register Feed Them Instagram Slider Scripts.
-            if ( $this->feed_functions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
+            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
 
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );
@@ -374,14 +374,14 @@ class Metabox_Functions {
      *
      * Set the hook ID
      *
-     * @param string $hook_id Get the hook ID.
+     * @param string $hookId Get the hook ID.
      * @since 1.0
      */
-    public function set_hook_id( $hook_id ) {
+    public function set_hook_id( $hookId ) {
         global $hook_suffix;
 
         // Set Custom Hook ID or used Global Hook Suffix for hook naming.
-        $this->hook_id = ! empty( $hook_id ) ? $hook_id : $hook_suffix;
+        $this->hookId = ! empty( $hookId ) ? $hookId : $hook_suffix;
     }
 
     /**
@@ -402,12 +402,12 @@ class Metabox_Functions {
      *
      * Set the specific form inputs
      *
-     * @param string $metabox_specific_form_inputs Get the specific form inputs.
+     * @param string $metaboxSpecificFormInputs Get the specific form inputs.
      * @since 1.0
      */
-    public function set_metabox_specific_form_inputs( $metabox_specific_form_inputs ) {
+    public function set_metabox_specific_form_inputs( $metaboxSpecificFormInputs ) {
         // This allows us to add Metabox Specific Form Inputs from the constructing class using 'metabox_specific_form_inputs' function we add to that class.
-        $this->metabox_specific_form_inputs = $metabox_specific_form_inputs;
+        $this->metabox_specific_form_inputs = $metaboxSpecificFormInputs;
     }
 
     /**
@@ -415,14 +415,14 @@ class Metabox_Functions {
      *
      * Set the main post type
      *
-     * @param string $main_post_type Get the main post type.
+     * @param string $mainPostType Get the main post type.
      * @since 1.0
      */
-    public function set_main_post_type( $current_class = null, $main_post_type = null ) {
-        if ( $main_post_type ) {
-            $this->main_post_type = $main_post_type;
+    public function set_main_post_type( $current_class = null, $mainPostType = null ) {
+        if ( $mainPostType ) {
+            $this->mainPostType = $mainPostType;
         } else {
-            $this->main_post_type = isset( $current_class->main_post_type ) ? $current_class->main_post_type : 'post';
+            $this->mainPostType = isset( $current_class->main_post_type ) ? $current_class->main_post_type : 'post';
         }
     }
 
@@ -443,7 +443,7 @@ class Metabox_Functions {
             $current_info['base'] = isset( $current_info['info']->base ) ? $current_info['info']->base : null;
 
             // Current Post type!
-            $current_info['post_type'] = isset( $current_info['info'] ) && $this->main_post_type === $current_info['info']->post_type ? $current_info['info']->post_type : null;
+            $current_info['post_type'] = isset( $current_info['info'] ) && $this->mainPostType === $current_info['info']->post_type ? $current_info['info']->post_type : null;
 
             return $current_info;
         }
@@ -457,7 +457,7 @@ class Metabox_Functions {
      * @since 1.0
      */
     public function add_submit_meta_box() {
-        add_meta_box( 'submitdiv', esc_html__( 'Save Options', 'feed-them-social' ), array( $this, 'submit_meta_box' ), $this->hook_id, 'side', 'high' );
+        add_meta_box( 'submitdiv', esc_html__( 'Save Options', 'feed-them-social' ), array( $this, 'submit_meta_box' ), $this->hookId, 'side', 'high' );
     }
 
     /**
@@ -555,7 +555,7 @@ class Metabox_Functions {
     public function display_metabox_content( $current_class, $tabs_list ) {
 
         // Set and return Nonce Field by nonce name.
-        wp_nonce_field( basename( __FILE__ ), $this->metabox_nonce_name );
+        wp_nonce_field( basename( __FILE__ ), $this->metaboxNonceName );
 
         $current_info = $this->current_info_array();
 
@@ -663,10 +663,10 @@ class Metabox_Functions {
     public function options_html_form( $section_info, $required_extensions, $current_post_id = null ) {
 
         // If page set false otherwise this is a CPT!
-        $is_cpt = true == $this->is_page ? false : true;
+        $is_cpt = true == $this->isPage ? false : true;
 
         // Get Old Settings Array if set.
-        $saved_options = $this->options_functions->get_saved_options_array( $this->array_options_name, $is_cpt, $current_post_id);
+        $saved_options = $this->optionsFunctions->get_saved_options_array( $this->arrayOptionsName, $is_cpt, $current_post_id);
 
         // Is an extension required for this section?
         $section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->prem_extension_list[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? true : false;
@@ -759,7 +759,7 @@ class Metabox_Functions {
                             case 'fts_tiktok_access_token':
                             case 'youtube_custom_api_token':
                             case 'youtube_custom_access_token':
-                                $check_encrypted = false !== $this->data_protection->decrypt( $final_value ) ? 'encrypted' : $final_value;
+                                $check_encrypted = false !== $this->dataProtection->decrypt( $final_value ) ? 'encrypted' : $final_value;
                                 break;
                             default:
                                 break;
@@ -842,7 +842,7 @@ class Metabox_Functions {
                                     isset( $multiple ) ? $multiple : ''
                                 );
 
-                                $lang_options_array = json_decode( $this->feed_functions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
+                                $lang_options_array = json_decode( $this->feedFunctions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
 
 
                                 if ( !empty( $lang_options_array->locale ) ) {
@@ -1105,28 +1105,28 @@ class Metabox_Functions {
             ! isset( $_REQUEST['post_type'] ) ||
             'fts' !== $_REQUEST['post_type'] ||
             ! isset( $_REQUEST['action'] ) || 
-            ! isset( $_POST[$this->metabox_nonce_name] )
+            ! isset( $_POST[$this->metaboxNonceName] )
         ) {
             return;
         }
 
         // Check if User can Manage Options.
-        $this->options_functions->check_user_perms();
+        $this->optionsFunctions->check_user_perms();
 
         // Verify Nonce by set nonce name.
-        if ( !wp_verify_nonce( $_POST[ $this->metabox_nonce_name ], basename( __FILE__ ) ) ) {
+        if ( !wp_verify_nonce( $_POST[ $this->metaboxNonceName ], basename( __FILE__ ) ) ) {
             return wp_die( 'Cannot Verify This form!' );
         }
 
         // Testing
         //error_log( print_r( $_POST, true ) );
-        //$this->options_functions->delete_options_array( $this->array_options_name, true, $cpt_id);
-        //$this->options_functions->update_single_option( $this->array_options_name, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
+        //$this->optionsFunctions->delete_options_array( $this->arrayOptionsName, true, $cpt_id);
+        //$this->optionsFunctions->update_single_option( $this->arrayOptionsName, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
 
         //Merge Additional Options.
 
         // Save/Update the Options array using the Array Option Name and Default Options Array.
-        return $this->options_functions->update_options_array( $this->array_options_name, $this->default_options_array, true, $cpt_id );
+        return $this->optionsFunctions->update_options_array( $this->arrayOptionsName, $this->defaultOptionsArray, true, $cpt_id );
     }
 
     /**

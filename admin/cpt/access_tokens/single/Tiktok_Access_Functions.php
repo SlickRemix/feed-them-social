@@ -32,7 +32,7 @@ class Tiktok_Access_Functions {
      *
      * @var object
      */
-    public $feed_functions;
+    public $feedFunctions;
 
     /**
      * Data Protection
@@ -41,7 +41,7 @@ class Tiktok_Access_Functions {
      *
      * @var object
      */
-    public $data_protection;
+    public $dataProtection;
 
     /**
      * Construct
@@ -50,12 +50,12 @@ class Tiktok_Access_Functions {
      *
      * @since 4.0.0
      */
-    public function __construct( $feed_functions, $data_protection ) {
+    public function __construct( $feedFunctions, $dataProtection ) {
         // Feed Functions.
-        $this->feed_functions = $feed_functions;
+        $this->feedFunctions = $feedFunctions;
 
         // Data Protection.
-        $this->data_protection = $data_protection;
+        $this->dataProtection = $dataProtection;
     }
 
     /**
@@ -72,14 +72,14 @@ class Tiktok_Access_Functions {
         ), admin_url( 'post.php' ) );
 
 
-        $saved_feed_options = $this->feed_functions->get_saved_feed_options( $feed_cpt_id );
+        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_cpt_id );
 
         $access_token       = !empty( $saved_feed_options['fts_tiktok_access_token'] ) ? $saved_feed_options['fts_tiktok_access_token'] : '';
         // Tokens expire every 24 hours. Hence expires_in from tiktok array is 86400 seconds.
         $refresh_token      = !empty( $saved_feed_options['fts_tiktok_refresh_token'] ) ? $saved_feed_options['fts_tiktok_refresh_token'] :  '';
 
         // Decrypt Access Token? Turning this off for TikTok Feed because Tokens refresh every 24hrs.
-        // $decrypted_access_token  = false !== $this->data_protection->decrypt( $access_token ) ?  $this->data_protection->decrypt( $access_token ) : $access_token;
+        // $decrypted_access_token  = false !== $this->dataProtection->decrypt( $access_token ) ?  $this->dataProtection->decrypt( $access_token ) : $access_token;
 
         if ( isset( $_GET['revoke_token'], $_GET['feed_type'] ) && 'tiktok' === $_GET['feed_type'] ) {
                 ?>
@@ -260,7 +260,7 @@ class Tiktok_Access_Functions {
                 }
                 else {
 
-                    if( 'combine-streams-feed-type' === $this->feed_functions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                    if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
                         echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div id="fts-combined-twitter-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',

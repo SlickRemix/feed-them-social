@@ -26,7 +26,7 @@ class Settings_Functions {
      * Settings Function constructor.
      */
     public function __construct(){
-        $this->add_actions_filters();
+        $this->addActionsFilters();
     }
 
     /**
@@ -36,7 +36,7 @@ class Settings_Functions {
      *
      * @since 1.1.8
      */
-    public function add_actions_filters() {
+    public function addActionsFilters() {
 
         // Update Options Filter
         add_filter( 'fts_update_option', array( $this, 'fts_update_option' ), 10, 2 );

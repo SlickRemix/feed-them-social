@@ -82,8 +82,8 @@ function fts_ajax_cpt_save_token() {
 
     const newUrl = ftg_mb_tabs.submit_msgs.fts_post;
     window.location.replace( newUrl );
-    // Testing removing this id #fts-feed-type because it just makes the process so damn jumpy
-    // window.location.replace( newUrl + '#fts-feed-type' );
+    // Testing removing this id .fts-token-wrap because it just makes the process so damn jumpy
+    // window.location.replace( newUrl + '.fts-token-wrap' );
 
     //alert('test1');
 

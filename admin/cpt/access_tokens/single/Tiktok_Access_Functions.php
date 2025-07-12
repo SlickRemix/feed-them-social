@@ -246,7 +246,7 @@ class Tiktok_Access_Functions {
 
         <div class="fts-clear"></div>
 
-        <div class="fts-fb-token-wrap fts-token-wrap" id="fts-twitter-token-wrap">
+        <div class="fts-fb-token-wrap" id="fts-twitter-token-wrap">
             <?php
             // && !empty($test_fts_tiktok_access_token) && !empty($test_fts_tiktok_refresh_token)!
             if ( ! empty( $access_token ) && ! empty( $refresh_token ) ) {

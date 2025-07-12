@@ -5,7 +5,7 @@
  * This class has the options for building and saving on the Custom Meta Boxes
  *
  * @class    Twitter_Additional_Options
- * @version  1.0.0
+ * @since    4.3.9
  * @package  FeedThemSocial/Admin
  * @category Class
  * @author   SlickRemix
@@ -49,7 +49,7 @@ class Twitter_Additional_Options {
      * Function to return all Twitter Additional Options
      *
      * @return array
-     * @since 1.0.0
+     * @since 4.3.9
      */
     public function get_all_options() {
         return $this->all_options;
@@ -65,7 +65,6 @@ class Twitter_Additional_Options {
         // Set default values for all common keys.
         $defaults = [
             'section_attr_key'   => '',
-            'section_title'      => '',
             'section_wrap_id'    => 'fts-tab-content1',
             'section_wrap_class' => 'fts-tab-content',
             'form_wrap_classes'  => 'fb-page-shortcode-form',
@@ -83,7 +82,7 @@ class Twitter_Additional_Options {
      * Twitter Follow Button Options
      *
      * @return mixed
-     * @since 1.0.0
+     * @since 4.3.9
      */
     public function follow_btn_options() {
         $main_options = [
@@ -214,7 +213,7 @@ class Twitter_Additional_Options {
      * Twitter Language Options
      *
      * @return mixed
-     * @since 1.0.0
+     * @since 4.3.9
      */
     public function language_options() {
         $main_options = [
@@ -257,7 +256,7 @@ class Twitter_Additional_Options {
      * Twitter Video Player Options
      *
      * @return mixed
-     * @since 1.0.0
+     * @since 4.3.9
      */
     public function video_player_options() {
         $main_options = [
@@ -292,7 +291,7 @@ class Twitter_Additional_Options {
      * Twitter Profile Photo Options
      *
      * @return mixed
-     * @since 1.0.0
+     * @since 4.3.9
      */
     public function profile_photo_options() {
         $main_options = [
@@ -329,7 +328,7 @@ class Twitter_Additional_Options {
      * Twitter Style Options
      *
      * @return mixed
-     * @since 1.0.0
+     * @since 4.3.9
      */
     public function style_options() {
         $main_options = [
@@ -449,7 +448,7 @@ class Twitter_Additional_Options {
      * Twitter Grid Styles
      *
      * @return mixed
-     * @since 1.0.0
+     * @since 4.3.9
      */
     public function grid_style_options() {
         $main_options = [
@@ -494,7 +493,7 @@ class Twitter_Additional_Options {
      * Twitter Load More Button Styles & Options
      *
      * @return mixed
-     * @since 1.0.0
+     * @since 4.3.9
      */
     public function load_more_options() {
         $main_options = [

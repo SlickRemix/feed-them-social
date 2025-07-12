@@ -1436,7 +1436,7 @@ h1.plugin-author-note {
     padding: 15px
 }
 
-#fts-feed-type.fts-token-wrap h3.fts-admin-token-settings-open:before,.fts-facebook-waiting-color,.fts-facebook-waiting-color a {
+.fts-token-wrap.fts-token-wrap h3.fts-admin-token-settings-open:before,.fts-facebook-waiting-color,.fts-facebook-waiting-color a {
     color: #1977f2!important;
     background: #fff
 }
@@ -1985,7 +1985,7 @@ ol.fts-instructions-list li::marker {
     width: 100%
 }
 
-#fts-feed-type {
+.fts-token-wrap {
     display: inline-block!important;
     float: left;
     padding-top: 30px
@@ -2724,7 +2724,7 @@ button.ft-gallery-edit-img-popup {
     padding-top: 25px!important
 }
 
-#fts-feed-type.fts-token-wrap h3:before {
+.fts-token-wrap h3:before {
     font-family: FontAwesomeSlickFeed,monospace!important;
     content: "\f013";
     color: #c9c9c9;
@@ -2844,7 +2844,7 @@ button.fts-admin-button-no-work, a.fts-tiktok-revoke-token {
     text-decoration: none!important
 }
 
-#fts-feed-type h3 {
+.fts-token-wrap h3 {
     font-weight: 700!important;
     color: #434343!important
 }
@@ -2852,9 +2852,10 @@ button.fts-admin-button-no-work, a.fts-tiktok-revoke-token {
     margin-left:15px;
     margin-bottom:0
 }
-#fts-feed-type .instructional-text {
+.combine-streams-feed-wrap .instructional-text {
     margin:0 25px 15px
 }
+
 .fts-instagram-sub-menu-active,.fts-social-icon-wrap-active {
     cursor: auto!important
 }
@@ -2920,7 +2921,7 @@ img.instagram-feed-type-image-tab {
     margin-left: 10px
 }
 
-#combine_streams_feed #fts-feed-type h3 span {
+#combine_streams_feed .fts-token-wrap h3 span {
     color: #1aae1f;
     pointer-events: none
 }
@@ -3076,7 +3077,7 @@ img.instagram-feed-type-image-tab {
 
 
 
-#fts-feed-type .tab-pane select,.tab-pane #fts-feed-type input {
+.fts-token-wrap .tab-pane select,.tab-pane .fts-token-wrap input {
     width: 100%!important;
     max-width: 250px!important;
 }
@@ -3096,7 +3097,7 @@ img.instagram-feed-type-image-tab {
         min-width: 165px!important
     }
 
-    #fts-feed-type .feed-them-social-admin-input-label {
+    .fts-token-wrap .feed-them-social-admin-input-label {
         padding-top: 4px!important;
         max-width: 165px!important;
         min-width: 165px!important
@@ -3104,7 +3105,7 @@ img.instagram-feed-type-image-tab {
 }
 
 @media (max-width: 1295px) {
-    #fts-feed-type .feed-them-social-admin-input-label {
+    .fts-token-wrap .feed-them-social-admin-input-label {
         padding-top:0!important
     }
 
@@ -3120,7 +3121,7 @@ img.instagram-feed-type-image-tab {
     width: 100%;
 }
 
-.combine-streams-feed-wrap #fts-feed-type {
+.combine-streams-feed-wrap .fts-token-wrap {
     width: 100%!important;
     padding-top: 0;
 }
@@ -3154,7 +3155,6 @@ img.instagram-feed-type-image-tab {
 
 .fts-tab-content1-combine.fts-twitter-combine,.fts-tab-content1-combine.fts-youtube-combine {
     margin-left: 10px;
-    margin-right: 40px
 }
 
 .combine-streams-feed-wrap #fts-fb-token-wrap,.combine-streams-feed-wrap .fts-instagram-token-wrap.fts-token-wrap {
@@ -3231,7 +3231,7 @@ img.instagram-feed-type-image-tab {
     display: none
 }
 
-#fts-feed-type.fts-combined-twitter-feed-type {
+.fts-combined-twitter-feed-type {
     display: none!important
 }
 

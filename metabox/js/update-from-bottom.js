@@ -378,12 +378,12 @@ function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
 // otherwise the click function will not fire.
 function fts_reload_toggle_click(){
 
-    jQuery('#fts-feed-type h3, #fts-feed-type span, .fts-settings-does-not-work-wrap .fts-admin-token-settings').click(function () {
+    jQuery('.fts-token-wrap h3, .fts-token-wrap span, .fts-settings-does-not-work-wrap .fts-admin-token-settings').click(function () {
 
         jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input, .fts-decrypted-view' ).toggle();
         jQuery( this ).toggleClass( 'fts-feed-type-active' );
         jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
-        jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
+        jQuery( '.fts-token-wrap h3' ).toggleClass( 'fts-admin-token-settings-open' );
 
         if( jQuery('.combine-instagram-business-access-token-placeholder').length !== 0 ){
             // If the input field is empty, set the cursor to it

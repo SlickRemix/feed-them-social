@@ -60,7 +60,6 @@ class Youtube_Additional_Options {
         // Set default values for all common keys.
         $defaults = [
             'section_attr_key'   => '',
-            'section_title'      => '',
             'section_wrap_id'    => 'fts-tab-content1',
             'section_wrap_class' => 'fts-tab-content',
             'form_wrap_classes'  => 'fb-page-shortcode-form',

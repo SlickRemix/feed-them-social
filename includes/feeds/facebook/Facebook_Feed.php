@@ -12,8 +12,10 @@
 
 namespace feedthemsocial\includes\feeds\facebook;
 
-// Exit if accessed directly!
 use feedthemsocial\includes\ErrorHandler;
+use feedthemsocial\includes\DebugLog;
+
+// Exit if accessed directly!
 
 if ( ! \defined( 'ABSPATH' ) ) {
     exit;
@@ -492,10 +494,6 @@ class Facebook_Feed {
                     $fb_message         = $post_count->message ?? '';
                     $fb_story           = $post_count->story ?? '';
                     $facebook_post_type = $post_count->attachments->data[0]->type ?? '';
-                    $fb_status_type     = $post_count->status_type ?? '';
-
-                    // Testing.
-                    // echo $facebook_post_type;
 
                     // SRL 4.0: Made some edits below, probably need to revisit this in the future and find a more efficient way of omitting specific posts.
                     // This is the method to skip empty posts or posts that are simply about changing settings or other non important post types
@@ -560,7 +558,7 @@ class Facebook_Feed {
             $page_data = !empty($response['page_data']) ? json_decode($response['page_data'], true) : null;
             $feed_data = !empty($response['feed_data']) ? json_decode( $response['feed_data'] ) : null;
 
-            // *error_log(print_r($feed_data));
+            DebugLog::log( 'FacebookFeed', 'Feed Data', $feed_data );
         }
 
         if ( $this->feedFunctions->is_extension_active( 'feed_them_social_facebook_reviews' ) && $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
@@ -615,9 +613,6 @@ class Facebook_Feed {
                     $profile_pic_data = wp_remote_retrieve_body($profile_pic_response);
                     $profile_pic_output = json_decode($profile_pic_data);
 
-                    // echo '<pre>';
-                    // print_r($profile_pic_output->data->url);
-                    // echo '</pre>';
                     $post_array->fts_profile_pic_url = $profile_pic_output->data->url;
                 }
             }
@@ -965,7 +960,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                     $post_data->fts_main_profile_pic_url = $page_data['picture']['data']['url'] ?? '';
                 }
                 $fb_message = $post_data->message ?? '';
-                $fb_status_type = $post_data->status_type ?? '';
 
                 $fb_story = $post_data->story ?? '';
 

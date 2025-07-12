@@ -13,6 +13,7 @@
 namespace feedthemsocial\includes\feeds\tiktok;
 
 use feedthemsocial\includes\TrimWords;
+use feedthemsocial\includes\DebugLog;
 
 // Exit if accessed directly.
 if ( ! \defined( 'ABSPATH' ) ) {
@@ -147,12 +148,11 @@ class Tiktok_Feed {
      * @return string
      * @since 4.2.1
      */
-    public function tiktok_image( $post_data, $popup, $hide_images_in_posts ) {
+    public function tiktok_image( $post_data, $popup ) {
 
         $screen_name = isset( $post_data->user->screen_name ) ?  $post_data->user->screen_name : '';
         $post_id = isset( $post_data->id ) ?  $post_data->id : '';
         $permalink  =  isset( $post_data->share_url ) ?  $post_data->share_url : '';
-        $twitter_video_extended = isset( $post_data->extended_entities->media[0]->type ) ? $post_data->extended_entities->media[0]->type : '';
 
         if ( is_array( $popup ) ) {
             // This is specific to function fts_twitter_external_link_wrap. This is the only function where we pass an array through the $popup string.
@@ -160,7 +160,6 @@ class Tiktok_Feed {
             $popup = $details_array->popup;
             $permalink = $details_array->post_url;
             $media_url = $details_array->image;
-            $media_addition = 'yes';
         } else {
 
             $media_url = $post_data->cover_image_url;
@@ -426,7 +425,8 @@ class Tiktok_Feed {
     public function display_tiktok( $feed_post_id ) {
 
             // SRL: this needs attention on because this will not load proper on block based themes. ie* 2022, 2020 WordPress Themes.
-            // Here is a fix reference. https://wordpress.org/support/topic/issue-with-wp_localize_script-or-similar-on-block-themes/
+            // Here is a fix reference.
+            // https://wordpress.org/support/topic/issue-with-wp_localize_script-or-similar-on-block-themes/
             wp_localize_script( 'fts-global-js', 'fts_twitter_ajax', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 
             // Saved Feed Settings!
@@ -434,10 +434,6 @@ class Tiktok_Feed {
 
             // Get our Additional Options.
             $this->tiktok_custom_styles( $feed_post_id );
-
-             /*echo'<pre>';
-             print_r($saved_feed_options);
-             echo'</pre>';*/
 
             $tiktok_user_id = $saved_feed_options['fts_tiktok_user_id'] ?? '';
             // Show Follow Button.
@@ -469,8 +465,6 @@ class Tiktok_Feed {
             $stats_bar_follow_button_inline = $saved_feed_options['tiktok_show_follow_button_inline'] ?? '';
             $stats_bar_counts                 = $saved_feed_options['tiktok_show_stats_counts'] ?? '';
             $stats_bar_description             = $saved_feed_options['tiktok_show_stats_description'] ?? '';
-            $twitter_hide_profile_photo     = $saved_feed_options['twitter_hide_profile_photo'] ?? '';
-            $hide_images_in_posts           = $saved_feed_options['twitter_hide_images_in_posts'] ?? '';
 
             include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
@@ -536,10 +530,7 @@ class Tiktok_Feed {
             if ( $this->feedCache->fts_check_feed_cache_exists( $data_cache ) !== false && ! isset( $_GET['load_more_ajaxing'] ) ) {
 
                 $fetched_data = $this->feedCache->fts_get_feed_cache( $data_cache );
-                /*echo 'Cached TikTok Feed...';
-                echo '<pre>';
-                    print_r( $fetched_data );
-                echo '</pre>';*/
+                // For testing Cached TikTok Feed print_r( $fetched_data );
             }
             else {
 
@@ -596,12 +587,7 @@ class Tiktok_Feed {
                 $video_feed_response = $this->feedFunctions->fts_get_feed_json($multi_data_video);
                 $fetched_data_videos = json_decode($video_feed_response['feed_data']);
 
-
-                /*echo '<pre>';
-                error_log( print_r($fetched_data_videos, true));
-                echo '</pre>';*/
-
-
+                DebugLog::log( 'TiktokFeed', 'Fetched data videos', $fetched_data_videos );
 
                 // Extract video IDs
                 $video_ids = array();
@@ -612,9 +598,8 @@ class Tiktok_Feed {
                         }
                     }
                 }
-                /*echo '<pre>';
-                error_log( print_r($video_ids, true));
-                echo '</pre>';*/
+
+                DebugLog::log( 'TiktokFeed', 'Videos Ids', $video_ids );
 
                 // Prepare the new API call data
                 // https://developers.tiktok.com/doc/tiktok-api-v2-video-query/
@@ -637,13 +622,11 @@ class Tiktok_Feed {
                 $final_data = $this->feedFunctions->fts_get_feed_json( $multi_data_video_final );
                 $video_return_data = json_decode($final_data['video_query'], true);
 
-                /*echo '<pre>';
-                error_log( 'wtf' . print_r($video_return_data, true));
-                echo '</pre>';*/
+                DebugLog::log( 'TiktokFeed', 'Fetched video return data', $video_return_data );
 
                 // Step 1: Create a map of video query results
                 $video_details_map = array();
-                if (isset($video_return_data['data']['videos']) && is_array($video_return_data['data']['videos'])) {
+                if (isset($video_return_data['data']['videos']) && \is_array($video_return_data['data']['videos'])) {
                     foreach ($video_return_data['data']['videos'] as $video_details) {
                         if (isset($video_details['id'])) {
                             $video_details_map[$video_details['id']] = $video_details;
@@ -665,9 +648,7 @@ class Tiktok_Feed {
                         }
                     }
                 }
-                /*echo '<pre>';
-                error_log( 'wtf' . print_r($fetched_data_videos, true));
-                echo '</pre>';*/
+                DebugLog::log( 'TiktokFeed', 'Fetched data videos', $fetched_data_videos );
 
                 // Encode $fetched_data_videos into a JSON string
                 $fetched_data_videos_json = json_encode($fetched_data_videos);
@@ -679,40 +660,23 @@ class Tiktok_Feed {
                     'feed_data' => $fetched_data_videos_json
                 );
 
-                /*// TikTok Error Check.
-                echo 'WTF <pre>';
-                print_r( $fetched_data['user_data'] );
-                echo '</pre>';
-
-                return;*/
+                DebugLog::log( 'TiktokFeed', 'Fetched user data', $fetched_data['user_data'] );
 
                 // Cache It.
                 if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                     $this->feedCache->fts_create_feed_cache( $data_cache, $fetched_data );
 
-                    // echo 'Caching TikTok Feed...';
-                    /*echo '<pre>';
-                        print_r( $fetched_data );
-                    echo '</pre>';*/
+                    DebugLog::log( 'TiktokFeed', 'Caching TikTok Feed', $fetched_data );
+
                 }
             }
 
-            // TikTok Error Check.
-            /*echo '<pre>';
-            print_r( $fetched_data);
-            echo '</pre>';*/
+            DebugLog::log( 'TiktokFeed', 'TikTok Error Check', $fetched_data );
 
             $user_data = json_decode( $fetched_data['user_data'] );
             $feed_data = json_decode( $fetched_data['feed_data'] );
 
-            /*echo 'User Data<pre>';
-             print_r( $user_data);
-            echo '</pre>';*/
-
-            /*echo 'Feed Data<pre>';
-             print_r( $feed_data);
-            echo '</pre>';*/
-
+            // For Testing echo 'User Data print_r( $user_data) or Feed Data print_r( $feed_data) ';
             // Error Check.
             if ( !empty($feed_data->data->error_msg ) ) {
                 // No Tweets Found!
@@ -724,7 +688,7 @@ class Tiktok_Feed {
             if ( isset( $error_check ) ) {
 
                 if ( current_user_can( 'administrator' ) ) {
-                    echo sprintf(
+                    echo \sprintf(
                      esc_html__( 'TikTok error message: '.$error_check.' Please click the Login and Get my Access Token button again from the %1$sfeed edit page%2$s', 'feed-them-social' ),
                             '<a href="'.site_url() . '/wp-admin/post.php?post='. $feed_post_id .'&action=edit#feed_setup" target="_blank">',
                             '</a>'
@@ -857,11 +821,7 @@ class Tiktok_Feed {
 
                     }// End if is not ajaxing
 
-                    /* echo'<pre>';
-                     print_r($fetched_data->data);
-                     echo'</pre>';
-
-                     echo 'WTF';*/
+                    // For Testing you can print_r($fetched_data->data);
 
                     foreach ( $feed_data->data->videos as $post_data ) {
 
@@ -927,7 +887,7 @@ class Tiktok_Feed {
                                         </div>
                                     </div>
                                     <?php
-                                    $fts_image = $this->tiktok_image( $post_data, $popup, $hide_images_in_posts );
+                                    $fts_image = $this->tiktok_image( $post_data, $popup );
                                     echo $fts_image;
                                     ?>
                                 </div>

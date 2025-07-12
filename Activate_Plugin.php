@@ -202,7 +202,7 @@ class Activate_Plugin {
                 $options['action'] === 'install' &&
                 $options['type'] === 'plugin' &&
                 $options['plugin'] === $our_plugin ) {
-                // error_log( 'Handle plugin installation/replacement (array).' );
+                DebugLog::log( 'ActivatePlugin', 'Handle plugin installation/replacement (array).', true );
                 $this->handle_plugin_event();
                 return;
             }
@@ -211,8 +211,8 @@ class Activate_Plugin {
             if ( isset( $options['action'], $options['type'], $options['plugins'] ) &&
                 $options['action'] === 'update' &&
                 $options['type'] === 'plugin' &&
-                in_array( $our_plugin, $options['plugins'], true ) ) {
-                // error_log( 'Handle plugin updates (array).' );
+                \in_array( $our_plugin, $options['plugins'], true ) ) {
+                DebugLog::log( 'ActivatePlugin', 'Handle plugin updates (array).', true );
                 $this->handle_plugin_event();
                 return;
             }
@@ -225,7 +225,7 @@ class Activate_Plugin {
                 $options['action'] === 'install' &&
                 $options['type'] === 'plugin' &&
                 $options['plugin'] === $our_plugin ) {
-                // error_log( 'Handle plugin installation/replacement (object).' );
+                DebugLog::log( 'ActivatePlugin', 'Handle plugin installation/replacement (object).', true );
                 $this->handle_plugin_event();
                 return;
             }
@@ -234,15 +234,15 @@ class Activate_Plugin {
             if ( isset( $options['action'], $options['type'], $options['plugins'] ) &&
                 $options['action'] === 'update' &&
                 $options['type'] === 'plugin' &&
-                in_array( $our_plugin, $options['plugins'], true ) ) {
-                // error_log( 'Handle plugin updates (object).' );
+                \in_array( $our_plugin, $options['plugins'], true ) ) {
+                DebugLog::log( 'ActivatePlugin', 'Handle plugin updates (object).', true );
                 $this->handle_plugin_event();
                 return;
             }
         }
 
         // If $options doesn't match expected formats, log it for debugging.
-        // error_log( 'Unexpected upgrader options' );
+        DebugLog::log( 'ActivatePlugin', 'Unexpected upgrader options', true );
     }
 
     /**
@@ -382,8 +382,7 @@ class Activate_Plugin {
                 update_option( $review_option, 'dismissed2024' );
             } elseif ( $_GET[ $review_nag ] === 'later' ) {
                 $time = 2 * WEEK_IN_SECONDS;
-                // Testing.
-                // $time = 2;
+                // For Testing use $time = 2;
                 set_transient( $review_transient, 'fts-review-waiting2024', $time );
                 update_option( $review_option, 'pending2024' );
             }
@@ -405,8 +404,7 @@ class Activate_Plugin {
 
         if ( ! $rating_notice_waiting && ! ( $notice_status === 'dismissed2024' || $notice_status === 'pending2024') ) {
             $time = 2 * WEEK_IN_SECONDS;
-            // Testing.
-            // $time = 2;
+            // For Testing use $time = 2;
             set_transient( $review_transient, 'fts-review-waiting2024', $time );
             update_option( $review_option, 'pending2024' );
         }
@@ -429,13 +427,13 @@ class Activate_Plugin {
         }
 
         // Testing.
-        /*echo $get_notice_status;
-        echo ' ';
-        print_r( get_transient( $review_transient ) );
+        // echo $get_notice_status;
+        // echo ' ';
+        // print_r( get_transient( $review_transient ) );
         // Uncomment this for testing the notice.
-         if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag2024'] ) ) {
-          add_action( 'admin_notices', array($this, 'rating_notice_html') );
-         }*/
+        // if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag2024'] ) ) {
+        //  add_action( 'admin_notices', array($this, 'rating_notice_html') );
+        // }
     }
 
     /**
@@ -452,11 +450,11 @@ class Activate_Plugin {
             $user_id = $current_user->ID;
 
             // Used for testing:
-            /* print_r( get_user_meta( $user_id, 'fts_slick_ignore_rating_notice_nag2024' ) );
-             $all_meta_for_user = get_user_meta( $user_id );
-             print_r( $all_meta_for_user );*/
+            // print_r( get_user_meta( $user_id, 'fts_slick_ignore_rating_notice_nag2024' ) );
+            // $all_meta_for_user = get_user_meta( $user_id );
+            // print_r( $all_meta_for_user );
 
-            /* Has the user already clicked to ignore the message? */
+            // Has the user already clicked to ignore the message?
             if ( ! get_user_meta( $user_id, 'fts_slick_ignore_rating_notice_nag2024' )  && ! isset( $_GET['fts_slick_ignore_rating_notice_nag2024'] ) ) {
 
                 $ignore_rating_notice_nag_nonce = wp_create_nonce( 'ignore_rating_notice_nag2024' );
@@ -494,6 +492,7 @@ class Activate_Plugin {
         // Set new cron job for clearing cache.
         $cron_job = new CronJobs( null, null, null, null );
         $cron_job->ftsSetCronJob( 'clear-cache-set-cron-job', null, null );
-        // error_log('FTS Plugin Activated. Setting Cron Job from activate-plugin.php.');
+
+        DebugLog::log( 'ActivatePlugin', 'Setting Cron Job from activate-plugin.php.', true );
     }
 }

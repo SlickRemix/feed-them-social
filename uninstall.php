@@ -45,21 +45,21 @@ if ( is_multisite() )   {
  * @since   4.3.4
  */
 function fts_uninstall()    {
-	$fts_settings = get_option( 'fts_settings' );
+    $fts_settings = get_option( 'fts_settings' );
 
     if ( isset( $fts_settings['remove_on_uninstall'] ) && $fts_settings['remove_on_uninstall'] === '-1' ) {
         return;
-	}
+    }
 
-	$fts_all_options = array(
-		'fts_version',
-		'fts_settings'
-	);
+    $fts_all_options = array(
+        'fts_version',
+        'fts_settings'
+    );
 
-	foreach( $fts_all_options as $fts_all_option )	{
-		delete_option( $fts_all_option );
-        // error_log('fts_uninstall: deleted option: ' . $fts_all_option);
-	}
+    foreach( $fts_all_options as $fts_all_option )    {
+        delete_option( $fts_all_option );
+        DebugLog::log( 'uninstall', 'Run fts_uninstall: deleted option', $fts_all_option );
+    }
 
     // Remove custom post types
     $custom_post_types = array('fts');
@@ -74,7 +74,7 @@ function fts_uninstall()    {
 
         foreach ($posts as $post) {
             wp_delete_post($post->ID, true); // Delete permanently
-            // error_log('fts_uninstall: deleted custom post type: ' . $post_type . ' with ID: ' . $post->ID);
+            DebugLog::log( 'uninstall', 'fts_uninstall: deleted custom post type: ' . $post_type . ' with ID: ' . $post->ID, true );
         }
     }
 
@@ -90,7 +90,8 @@ function fts_uninstall()    {
                     if (strpos($hook, $prefix) === 0) {
                         // Remove all instances of this hook
                         unset($crons[$timestamp][$hook]);
-                        // error_log('fts_uninstall: fully removed cron job: ' . $hook . ' from timestamp: ' . $timestamp);
+
+                        DebugLog::log( 'uninstall', 'fts_uninstall: fully removed cron job: ' . $hook . ' from timestamp: ' . $timestamp, true );
                     }
                 }
             }

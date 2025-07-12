@@ -310,12 +310,12 @@ class Feed_Functions {
         $data = array();
 
         // Log the request data for debugging
-        // error_log('Request Data: ' . print_r($request_feed_data, true));
+        DebugLog::log( 'FeedFunctions', 'Request Data', $request_feed_data );
 
         // Make Multiple Requests from array with more than 2 keys!
         // Multi is only being used with Facebook
         // This is so we can return the page data and the feed data all at once.
-        if ( is_array( $request_feed_data ) && count( $request_feed_data ) > 1 ) {
+        if ( \is_array( $request_feed_data ) && \count( $request_feed_data ) > 1 ) {
             $multi_request_data = array();
 
             // Build Multiple Feed request data.
@@ -377,7 +377,7 @@ class Feed_Functions {
     public function get_response( $request_feed_data, $multiple = false ) {
 
         // Log the request data for debugging
-        // error_log('Get Response Data: ' . print_r($request_feed_data, true));
+        DebugLog::log( 'FeedFunctions', 'Get Response Data', $request_feed_data );
 
         // WordPress 6.2 or greater. Call Requests Class for PSR-4 requests.
         if ( class_exists('\WpOrg\Requests\Requests') ) {
@@ -796,7 +796,7 @@ class Feed_Functions {
 
         // Check for errors
         if ( is_wp_error( $get_response ) ) {
-            // error_log( 'Instagram token refresh failed: ' . $get_response->get_error_message() );
+            DebugLog::log( 'FeedFunctions', 'Instagram token refresh failed', $get_response->get_error_message() );
             return; // Stop execution if there is an error
         }
 
@@ -804,18 +804,17 @@ class Feed_Functions {
         $response_body = wp_remote_retrieve_body( $get_response );
         $response = json_decode( $response_body, true );
 
-        // Log the entire response array to the error log
-        // error_log( 'Instagram token refresh response: ' . print_r( $response, true ) );
+        DebugLog::log( 'FeedFunctions', 'Instagram token refresh response', $response );
 
         // https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=IGQWRNQUJZAWW03ESTdITHlvOWtZASmtoZADh4RkstZAE5ULTNIdkpfUHB4b3o4SEh4QTMtUTBsYmlhUHJRcXMtRU5jVlhySUFkRkkyYWdPWnlvdlVhTXpOb3pweG5QcnhxZAlhPTjdBdGVEQjdlZAwZDZD
-        /* Example Response from Instagram:
-        {
-           "access_token": "IGQWRNQUJZAWW03ESTdITHlvOWtZASmtoZADh4RkstZAE5ULTNIdkpfUHB4b3o4SEh4QTMtUTBsYmlhUHJRcXMtRU5jVlhySUFkRkkyYWdPWnlvdlVhTXpOb3pweG5QcnhxZAlhPTjdBdGVEQjdlZAwZDZD",
-           "token_type": "bearer",
-           "expires_in": 5165891,
-           "permissions": "instagram_business_basic"
-        }
-        */
+        // Example Response from Instagram:
+        // {
+        //   "access_token": "IGQWRNQUJZAWW03ESTdITHlvOWtZASmtoZADh4RkstZAE5ULTNIdkpfUHB4b3o4SEh4QTMtUTBsYmlhUHJRcXMtRU5jVlhySUFkRkkyYWdPWnlvdlVhTXpOb3pweG5QcnhxZAlhPTjdBdGVEQjdlZAwZDZD",
+        //   "token_type": "bearer",
+        //   "expires_in": 5165891,
+        //   "permissions": "instagram_business_basic"
+        // }
+        //
 
         if ( isset( $response['access_token'], $response['expires_in'] ) ) {
             $access_token = $this->dataProtection->encrypt( $response['access_token'] );
@@ -828,16 +827,14 @@ class Feed_Functions {
             $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $access_token, true, $feed_cpt_id, true );
             $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $start_of_time_final, true, $feed_cpt_id, true );
 
-            // error_log("Updated Instagram Business Basic Token for feed $feed_cpt_id");
+            DebugLog::log( 'FeedFunctions', 'Updated Instagram Business Basic Token for feed', $feed_cpt_id );
 
             return false;
         }
-        // else {
-            // Return if no access token queried from refresh token.
-            // Make sure this does not cause error on front end feed if cached already.
-            // error_log("No Token returned from Instagram");
 
-        // }
+        // Return if no access token queried from refresh token.
+        // Make sure this does not cause error on front end feed if cached already.
+        DebugLog::log( 'FeedFunctions', 'No Token returned from Instagram', $feed_cpt_id );
     }
 
     /**
@@ -886,15 +883,16 @@ class Feed_Functions {
 
         $response = json_decode($result);
 
-        // Log the entire response array to the error log
-        // error_log( 'YouTube token refresh response: ' . print_r( $response, true ) );
+        DebugLog::log( 'FeedFunctions', 'YouTube token refresh response', $response );
 
         $nonce   = $response->fts_oauth_nonce ?? null;
         $post_id = $response->fts_cpt_id ?? null;
 
         // Check if nonce is valid and cross check the post id.
-        if ( ! isset( $nonce ) || 1 !== wp_verify_nonce( $nonce, 'fts_oauth_youtube' ) && $post_id === $feed_cpt_id ) {
-            // error_log( 'Invalid YouTube oauth nonce' );
+        if ( ! isset( $nonce ) || wp_verify_nonce( $nonce, 'fts_oauth_youtube' ) !== 1 && $post_id === $feed_cpt_id ) {
+
+            DebugLog::log( 'FeedFunctions', 'Invalid YouTube oauth nonce', true );
+
             wp_die( __( 'Invalid YouTube oauth nonce', 'feed-them-social' ) );
         }
 
@@ -917,10 +915,11 @@ class Feed_Functions {
 
             return false;
         }
-        // else {
-            // Return if no access token queried from refresh token. This will stop error on front end feed if cached already.
-            // error_log( 'YouTube Token Not Returned' );
-        // }
+
+        // Return if no access token queried from refresh token.
+        // This will stop error on front end feed if cached already.
+        DebugLog::log( 'FeedFunctions', 'YouTube Token Not Returned', true );
+
     }
 
     /**
@@ -967,22 +966,20 @@ class Feed_Functions {
         $response = json_decode($result);
 
         // Testing
-        // error_log( "fts_tiktok_refresh_token: " . print_r( $postdata, true ));
+        DebugLog::log( 'FeedFunctions', 'fts_tiktok_refresh_token', $postdata );
 
         $nonce   = $response->fts_oauth_nonce ?? null;
         $post_id = $response->fts_cpt_id ?? null;
 
         // Check if nonce is valid and cross check the post id.
         if ( ! isset( $nonce ) || wp_verify_nonce( $nonce, 'fts_oauth_tiktok' ) !== 1 && $post_id === $feed_cpt_id ) {
-            // error_log( 'Invalid TikTok oauth nonce' );
+            DebugLog::log( 'FeedFunctions', 'Invalid TikTok oauth nonce', true );
             wp_die( __( 'Invalid TikTok oauth nonce', 'feed-them-social' ) );
         }
 
-        //    echo '<br/>';
-        //    print_r( $response );
-        //    echo '<br/>';
-        //    print_r($result);
-        //    return;
+        DebugLog::log( 'FeedFunctions', 'Invalid TikTok oauth nonce', $response );
+        DebugLog::log( 'FeedFunctions', 'Invalid TikTok oauth nonce', $result );
+
 
         // Example Response
         // access_token": "act.example12345Example12345Example",
@@ -999,7 +996,12 @@ class Feed_Functions {
         $refresh_token = $response->refresh_token ?? null;
 
         // Debugging: Print the values
-        // error_log("Nonce: $nonce, Post ID: $feed_cpt_id, expires_in: $expires_in, access_token: $access_token, refresh_expires_in: $refresh_expires_in, refresh_token: $refresh_token");
+        DebugLog::log( 'TikTokFeedFunctions', 'Nonce', $nonce );
+        DebugLog::log( 'TikTokFeedFunctions', 'Post ID', $feed_cpt_id );
+        DebugLog::log( 'TikTokFeedFunctions', 'expires_in', $expires_in );
+        DebugLog::log( 'TikTokFeedFunctions', 'access_token', $access_token );
+        DebugLog::log( 'TikTokFeedFunctions', 'refresh_expires_in', $refresh_expires_in );
+        DebugLog::log( 'TikTokFeedFunctions', 'refresh_token', $refresh_token );
 
         // Check if any of the variables are empty
         if (!empty($expires_in) &&
@@ -1016,14 +1018,11 @@ class Feed_Functions {
             $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $refresh_expires_in, true, $feed_cpt_id, true );
             $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $refresh_token, true, $feed_cpt_id, true );
 
-            // error_log("Updated TikTok Token for feed $feed_cpt_id");
+            DebugLog::log( 'TikTokFeedFunctions', 'Updated TikTok Token for feed', $feed_cpt_id );
 
             return false;
         }
-        // else {
-            // Return if no access token queried from refresh token.
-            // error_log("No Token returned from TikTok");
-        // }
+        DebugLog::log( 'TikTokFeedFunctions', 'No Token returned from TikTok', $feed_cpt_id );
     }
 
     /**
@@ -1181,7 +1180,8 @@ class Feed_Functions {
 
         $access_token = json_decode( wp_unslash( $_REQUEST['access_token'] ) , true );
         $encrypt      = $this->dataProtection->encrypt( $access_token['token'] );
-       // error_log( $access_token  );
+
+        DebugLog::log( 'FeedFunctions', 'Encrypt Access Token', $access_token );
 
         $cpt_id = (int) $_REQUEST['cpt_id'];
 
@@ -1374,26 +1374,19 @@ class Feed_Functions {
             $response = json_encode( $feed_data );
             $fts_error_check_complete = $fts_error_check->instagram_error_check( $instagram_basic );
         }
-        // echo ' 333333333333 ';
-        // print_r( $response );
 
-        // echo ' TTTTTTTT ';
-        // print_r( $fts_error_check_complete );
+        // Check the response print_r( $fts_error_check_complete ) or response print_r( $response );
 
         // An Access token will expire every 60 minutes for Youtube.
-        // Instagram Basic token expires everyting 60 days, but we are going to refresh the token every 7 days for now.
+        // Instagram Basic token expires every 60 days, but we are going to refresh the token every 7 days for now.
         // When a user refreshes any page on the front end or backend settings page we user our refresh token to get a new access token if the time has expired.
         // If the time has passed before a user has refreshed the website, then the API call will error, and we don't want to cache that error.
         // Instead we allow the cached version to be served and upon page reload the new access token will be saved to the db via ajax and the feed will continue to show.
         // Yes works for front end users not logged in too because we use nopriv for the add_action ajax call.
-        if ( is_array( $fts_error_check_complete ) && true === $fts_error_check_complete[0] ) {
-
-            // echo ' rrrrrrrrrrrrrr ';
+        if ( \is_array( $fts_error_check_complete ) && $fts_error_check_complete[0] === true ) {
 
             // If old Cache exists use it instead of showing an error.
-            if ( true === $this->feedCache->fts_check_feed_cache_exists( $cache_name, true ) ) {
-
-                // echo ' OOOOOOOOOOOOOOOOOO ';
+            if ( $this->feedCache->fts_check_feed_cache_exists( $cache_name, true ) === true ) {
 
                 // If Current user is Admin and Cache exists for use, then still show Admin the error for debugging purposes.
                 if ( current_user_can( 'administrator' ) ) {
@@ -1415,33 +1408,23 @@ class Feed_Functions {
                 return $this->feedCache->fts_get_feed_cache( $cache_name, true );
             }
 
-            // If User is Admin and no Old cache is saved in database for use.
+            // If User is Admin and no old cache is saved in database for use.
             if ( current_user_can( 'administrator' ) ) {
-                //echo ' If User is Admin and no Old cache is saved in database for use ';
                 echo $fts_error_check_complete[0];
             }
         }
 
         // Finally if nothing else, check if there is a response and if so create the cache.
-        if( 'youtube_single' === $feed_type ){
-            if( !empty( $response[ 'data' ] ) ) {
-                echo ' CREATING CACHE NOW: ';
-                $this->feedCache->fts_create_feed_cache( $cache_name, $response );
-            }
+        if( ($feed_type === 'youtube_single') && !empty( $response['data'] ) ) {
+            $this->feedCache->fts_create_feed_cache( $cache_name, $response );
         }
 
-        if( 'youtube' === $feed_type ){
-            if( !empty( $response[ 'data' ] ) ) {
-                // echo ' CREATING CACHE NOW: ';
-                $this->feedCache->fts_create_feed_cache( $cache_name, $response );
-            }
+        if( ($feed_type === 'youtube') && !empty( $response['data'] ) ) {
+            $this->feedCache->fts_create_feed_cache( $cache_name, $response );
         }
 
-        if( 'instagram' === $feed_type ) {
-            if( !empty( $instagram_basic->data ) ) {
-                // echo ' CREATING CACHE NOW: ';
-                $this->feedCache->fts_create_feed_cache( $cache_name, $response );
-            }
+        if( ($feed_type === 'instagram') && !empty( $instagram_basic->data ) ) {
+            $this->feedCache->fts_create_feed_cache( $cache_name, $response );
         }
 
         return $response;
@@ -1456,7 +1439,7 @@ class Feed_Functions {
      */
     public function xml_json_parse( $url ) {
 
-        // error_log( 'xml_json_parse: ' . print_r($url, true) );
+        DebugLog::log( 'FeedFunctions', 'xml_json_parse', $url );
 
         $url_to_get['xml_url']      = $url;
         $file_contents_returned = $this->fts_get_feed_json( $url_to_get );

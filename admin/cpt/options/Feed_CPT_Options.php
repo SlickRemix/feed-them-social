@@ -2872,7 +2872,7 @@ class Feed_CPT_Options
             'main_options'       => $main_options,
         ] );
 
-       // return $this->all_options['combine_twitter_token_select_options'];
+       // Commenting this out for now until we use it for TikTok return $this->all_options['combine_twitter_token_select_options'];
     }
 
     /**
@@ -2921,7 +2921,7 @@ class Feed_CPT_Options
             'main_options'       => $main_options,
         ] );
 
-       // return $this->all_options['combine_twitter_token_options'];
+       // Remove until we adjust for tiktok return $this->all_options['combine_twitter_token_options'];
     }
 
     /**

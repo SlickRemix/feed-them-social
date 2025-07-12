@@ -203,12 +203,12 @@ class Updater_License_Page {
         //License Key Array Option
         $settings_array = get_option($this->setting_option_name);
 
-        $license       = isset( $settings_array[ $key ]['license_key'] ) ? $settings_array[ $key ]['license_key'] : '';
-        $status        = isset( $settings_array[ $key ]['license_status'] ) ? $settings_array[ $key ]['license_status'] : '';
-        $license_error = isset( $settings_array[ $key ]['license_error'] ) ? $settings_array[ $key ]['license_error'] : '';
+        $license       = $settings_array[$key]['license_key'] ?? '';
+        $status        = $settings_array[$key]['license_status'] ?? '';
+        $license_error = $settings_array[$key]['license_error'] ?? '';
 
         ?>
-        <tr valign="top" class="fts-license-wrap">
+        <tr class="fts-license-wrap">
             <th scope="row" valign="top">
                 <?php echo esc_html( $plugin_name ); ?>
             </th>
@@ -311,7 +311,8 @@ class Updater_License_Page {
                     <?php
                     $prem_active = false;
 
-                    //$this->prem_extension_list;
+                    // Use this for testing $this->prem_extension_list;
+
                     foreach ( $this->prem_extension_list as $plugin ) {
                         if ( is_plugin_active( $plugin['plugin_url'] ) ) {
                             $prem_active = true;
@@ -362,7 +363,7 @@ class Updater_License_Page {
         $this->purchase_url = $args['purchase_url'];
         ?>
 
-        <tr valign="top" class="fts-license-wrap">
+        <tr class="fts-license-wrap">
             <th scope="row" valign="top"><?php echo esc_html( $this->plugin_title ); ?></th>
             <td>
                 <div class="fts-no-license-overlay">

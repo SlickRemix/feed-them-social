@@ -85,12 +85,10 @@ function fts_ajax_cpt_save_token() {
     // Testing removing this id .fts-token-wrap because it just makes the process so damn jumpy
     // window.location.replace( newUrl + '.fts-token-wrap' );
 
-    //alert('test1');
 
     jQuery( '.post-type-fts .wrap form#post' ).ajaxSubmit({
         beforeSend: function () {
 
-            //alert('test2');
             jQuery('#ftg-saveResult').html("<div class='ftg-overlay-background'><div class='ftg-relative-wrap-overlay'><div id='ftg-saveMessage' class='ftg-successModal ftg-saving-form'></div></div></div>");
             jQuery('#ftg-saveMessage').append(ftg_mb_tabs.submit_msgs.saving_msg).show();
             jQuery('#publishing-action .spinner').css("visibility", "visible");
@@ -180,8 +178,6 @@ function refresh_feed_ajax(should_we_empty_cache) {
         fts_ClearCache();
     }
 
-    // return false;
-
     jQuery.ajax({
         data: {
             action: 'fts_refresh_feed_ajax',
@@ -198,7 +194,6 @@ function refresh_feed_ajax(should_we_empty_cache) {
             // 'Feed Them Social:' is text I added to the start of the error messages now in all feeds.
             // This way we can also detect it on the back end.
             if( response.indexOf('Feed Them Social:') > -1 ){
-                //alert('test');
                 jQuery( '.fts-shortcode-content' ).html( response );
                 jQuery( '.fts-loading-feed-admin' ).remove();
             }
@@ -305,46 +300,6 @@ function fts_show_hide_shortcode_feed( feed ) {
 
 function checkAnyFormFieldEdited() {
 
-    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input, #combine_streams_feed input').keypress(function(e) { // text written
-        // SRL: turning this one off for now. I think the change even further down is enough for now. Need more testing.
-
-        // fts_ajax_cpt_save( 'no-save-message' );
-        //  alert('test 1');
-    });
-
-    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input, #combine_streams_feed input').keyup(function(e) {
-        if (e.keyCode == 8 || e.keyCode == 46) { //backspace and delete key
-            //     alert('test backspace or delete key');
-            // SRL: turning this one off for now. I think the change even further down is enough for now. Need more testing.
-
-            //    fts_ajax_cpt_save( 'no-save-message' );
-        } else { // rest ignore
-            e.preventDefault();
-        }
-    });
-
-    jQuery('select').keyup(function(e) {
-        // SRL: turning this one off for now. I think the change even further down is enough for now. Need more testing.
-
-        //fts_ajax_cpt_save( 'no-save-message' );
-
-        // alert('test 2');
-    });
-
-    jQuery('#instagram_feed, #facebook_feed, #twitter_feed, #youtube_feed, #combine_streams_feed').on('input, select, :checkbox', function() {
-        // SRL: turning this one off for now. I think the change even further down is enough for now. Need more testing.
-
-        // fts_ajax_cpt_save( 'no-save-message' );
-        // alert('test 3');
-    });
-
-    jQuery('#instagram_feed input, #facebook_feed input, #twitter_feed input, #youtube_feed input, #combine_streams_feed input').bind('paste', function(e) { // text pasted
-        // SRL: turning this one off for now. I think the change event further down is enough for now. Need more testing.
-
-        // fts_ajax_cpt_save( 'no-save-message' );
-        // alert('test 4');
-    });
-
     jQuery('#instagram_feed select, #instagram_feed input, ' +
         '#facebook_feed select, #facebook_feed input, ' +
         '#tiktok_feed select, #tiktok_feed input, ' +
@@ -380,8 +335,6 @@ function checkAnyFormFieldEdited() {
         else {
             should_we_empty_cache = 'do-not-empty-cache';
         }
-        // Testing
-        // alert(should_we_empty_cache);
 
         // Select or input element changed. Those are the only 2 items so far we are using in the options.
         fts_ajax_cpt_save( 'no-save-message', should_we_empty_cache );
@@ -666,7 +619,6 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
             // Add the OG token to the input value and add the encrypted token to the data-attribute.
             if( 'firstRequest' === firstRequest) {
 
-                // alert('step 1');
                 jQuery( id ).val('');
                 jQuery( id ).val( jQuery( id ).val() + data.encrypted );
                 jQuery( id ).attr('data-token', 'encrypted').attr( 'value', data.encrypted ) ;
@@ -678,7 +630,6 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
                 if( 'instagram_business' === data.feed_type ||
                     'facebook_business' === data.feed_type ){
 
-                    // alert( data.feed_type );
                     location.reload();
                 }
                 if( 'instagram_basic' === data.feed_type ||
@@ -688,12 +639,9 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
                     // alert( data.feed_type );
                     const newUrl = ftg_mb_tabs.submit_msgs.fts_post;
                     window.location.replace( newUrl );
-                    // Testing removing this id #fts-feed-type because it just makes the process so damn jumpy
-                   // window.location.replace( newUrl + '#fts-feed-type' );
                 }
             }
 
-            // alert('step 2');
             console.log( id + ': OG Token and Encrypted Response........: ' + response );
         },
         error: function ( response ) {

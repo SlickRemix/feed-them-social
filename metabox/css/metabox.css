@@ -1523,7 +1523,9 @@ h1.plugin-author-note {
     padding-left: 20px;
     padding-right: 5px;
 }
-
+.fts-access-token .fts-section {
+    padding-top:30px
+}
 .fts-exp-time-wrapper,.fts-youtube-add-all-keys-click-option .instructional-text,div#contact-me.postbox div.inside {
     margin-bottom: 0!important
 }
@@ -1985,10 +1987,21 @@ ol.fts-instructions-list li::marker {
     width: 100%
 }
 
-.fts-token-wrap {
-    display: inline-block!important;
-    float: left;
-    padding-top: 30px
+.combine-streams-feed-wrap .fts-cpt-additional-options {
+    display:inline-block;
+    width: 100%
+
+}
+.fts-section.fts-tab-content1-combine.fts-instagram-hashtag-combine {
+    display:block;
+}
+.fts-section.fts-tab-content1-combine.fts-instagram-hashtag-combine .fts-cpt-additional-options {
+    display:flex;
+    flex-direction: column;
+}
+.combine-streams-feed-wrap .fts-token-wrap {
+    float:left;
+    padding-top: 30px;
 }
 
 #poststuff #ft-galleries-upload-mb .inside,.fts_page_template_settings_page .inside {
@@ -3130,8 +3143,12 @@ img.instagram-feed-type-image-tab {
     margin-right: 25px;
     margin-top: 25px;
 }
+.combine-streams-feed-wrap .fts-section {
+    padding-top:0
+}
 .combine-streams-feed-wrap h3 {
     margin: 0px 0px 18px;
+    display: block;
 }
 .combine-streams-feed-wrap .feed-them-social-admin-input-label {
     float: left!important;
@@ -3163,7 +3180,7 @@ img.instagram-feed-type-image-tab {
 
 .combine-instagram-wrap {
     margin-left: 10px;
-    margin-right: 60px
+    margin-right: 35px;
 }
 
 #fts_facebook_custom_api_token_user_id,#fts_facebook_instagram_custom_api_token_user_id,#fts_instagram_custom_id,#fts_tiktok_user_id,#youtube_custom_api_token {

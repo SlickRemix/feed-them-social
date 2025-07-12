@@ -129,8 +129,6 @@ class Instagram_Access_Functions {
                         // I am passing the user id and expires in and saving too, this creates one less save function in the end.
                         // so instead I can just refresh the page instead of re-saving again which is not necessary.
                         fts_encrypt_token_ajax( codeArray, 'basic', '#fts_instagram_custom_api_token', 'firstRequest');
-
-                       // alert('test');
                     }
 
                 }, 500);

@@ -489,7 +489,6 @@ class Feeds_CPT {
      * @since 1.0.0
      */
     public function fts_updated_messages( $messages ) {
-        // global $post, $post_ID;
         $messages['fts'] = array(
             0  => '', // Unused. Messages start at index 1.
             1  => esc_html__( 'Feed updated.', 'feed-them-social' ),
@@ -497,7 +496,7 @@ class Feeds_CPT {
             3  => esc_html__( 'Custom field deleted.', 'feed-them-social' ),
             4  => esc_html__( 'Feed updated.', 'feed-them-social' ),
             /* translators: %s: date and time of the revision */
-            5  => isset( $_GET['revision'] ) ? sprintf( esc_html__( 'Feed restored to revision from %s', 'feed_them_social' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+            5  => isset( $_GET['revision'] ) ? \sprintf( esc_html__( 'Feed restored to revision from %s', 'feed_them_social' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
             6  => esc_html__( 'Feed created.', 'feed_them_social' ),
             7  => esc_html__( 'Feed saved.', 'feed_them_social' ),
             8  => esc_html__( 'Feed submitted.', 'feed_them_social' ),

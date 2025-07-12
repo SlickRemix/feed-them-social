@@ -458,8 +458,6 @@ function fts_check_valid() {
             fts_reload_toggle_click();
             fts_check_valid();
 
-            // alert('test');
-
         }, 100);
 
         // This is for the select a social network tab and controls what tab is selected and visible in the tabs menu,
@@ -470,14 +468,14 @@ function fts_check_valid() {
                 const url_string = window.location.href;
                 let url = new URL( url_string );
                 let cpt_id = url.searchParams.get("post");
-                // let feed_type = url.searchParams.get("feed_type");
+                // Leaving this to test for later let feed_type = url.searchParams.get("feed_type");
                 console.log( cpt_id );
 
                 let ftsGlobalValue = jQuery( this ).val();
 
-                // console.log(ftgGlobalValue);
+                // Use for testing console.log(ftgGlobalValue);
                 // I know we can figure a way to condense this but for time sake just rolling with this.
-                if ( 'facebook-feed-type' == ftsGlobalValue ) {
+                if ( 'facebook-feed-type' === ftsGlobalValue ) {
                     jQuery( '.tab5' ).addClass( 'fts-facebook-waiting-color' );
                     jQuery( '.tab5 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab5 a .fts-click-cover' ).hide();
@@ -798,7 +796,7 @@ if( jQuery('.post-type-fts').length ) {
 
     function fts_beacon_support_auto_fill_json_options( response ){
 
-        //console.log( JSON.parse( response ) );
+        //Use this for testing console.log( JSON.parse( response ) );
 
         let data = JSON.parse( response );
 
@@ -807,10 +805,10 @@ if( jQuery('.post-type-fts').length ) {
 
         Beacon('prefill', {
             // Uncomment to test fields quickly.
-            /* name: 'Spencer Labadie',
-             email: 'spencer@test.com',
-             subject: 'Testing System Info & JSON Feed Options Auto Fill',
-             text: 'Testy Test was quite the Tester',*/
+            // name: 'Spencer Labadie',
+            // email: 'spencer@test.com',
+            // subject: 'Testing System Info & JSON Feed Options Auto Fill',
+            // text: 'Testy Test was quite the Tester',
             fields: [
                 {
                     id: 42859, //  field ID. System Info

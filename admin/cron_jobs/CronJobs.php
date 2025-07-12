@@ -156,22 +156,20 @@ class CronJobs {
         if( $cpt_id === 'clear-cache-set-cron-job' ){
             $event_hook = 'fts_clear_cache_event';
 
-            // Debug: Log before scheduling
-            // error_log('Running set_cache_clear_cron');
+            DebugLog::log( 'cronJobs', 'Running fts_clear_cache_event', true );
 
             // Unschedule any existing events
             $timestamp = wp_next_scheduled($event_hook);
             if ($timestamp) {
                 wp_unschedule_event($timestamp, $event_hook);
-                // Debug: Log unscheduled event.
-                // error_log('Unscheduling existing cron job for fts_clear_cache_event');
+
+                DebugLog::log( 'cronJobs', 'Running wp_unschedule_event', true );
             }
 
             // Schedule the new event
             wp_schedule_event(time(), 'fts_cache_clear', $event_hook);
 
-            // Debug: Log scheduling
-            // error_log('Scheduled new cron job for fts_clear_cache_event');
+            DebugLog::log( 'cronJobs', 'Running wp_schedule_event', true );
         }
         else {
             $event_hook = "fts_{$feed_name}_refresh_token_{$cpt_id}";

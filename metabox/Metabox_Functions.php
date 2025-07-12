@@ -11,6 +11,8 @@
 
 namespace feedthemsocial\metabox;
 
+use feedthemsocial\includes\DebugLog;
+
 // Exit if accessed directly.
 if ( ! \defined( 'ABSPATH' ) ) {
     exit;
@@ -406,8 +408,8 @@ class Metabox_Functions {
      * @since 1.0
      */
     public function set_metabox_specific_form_inputs( $metaboxSpecificFormInputs ) {
-        // This allows us to add Metabox Specific Form Inputs from the constructing class using 'metabox_specific_form_inputs' function we add to that class.
-        $this->metabox_specific_form_inputs = $metaboxSpecificFormInputs;
+        // This allows us to add Metabox Specific Form Inputs from the constructing class using 'metaboxSpecificFormInputs' function we add to that class.
+        $this->metaboxSpecificFormInputs = $metaboxSpecificFormInputs;
     }
 
     /**
@@ -663,7 +665,7 @@ class Metabox_Functions {
     public function options_html_form( $section_info, $required_extensions, $current_post_id = null ) {
 
         // If page set false otherwise this is a CPT!
-        $is_cpt = true == $this->isPage ? false : true;
+        $is_cpt = $this->isPage == true ? false : true;
 
         // Get Old Settings Array if set.
         $saved_options = $this->optionsFunctions->get_saved_options_array( $this->arrayOptionsName, $is_cpt, $current_post_id);
@@ -735,7 +737,7 @@ class Metabox_Functions {
                     $final_value = isset( $saved_options[$option_name] ) && !empty( $saved_options[$option_name] ) ? $saved_options[$option_name] : $default_value;
 
                     // Do we need to output any Metabox Specific Form Inputs?
-                    if ( isset( $this->metabox_specific_form_inputs ) && $this->metabox_specific_form_inputs == true ) {
+                    if ( isset( $this->metaboxSpecificFormInputs ) && $this->metaboxSpecificFormInputs ) {
                         // Set Current Params.
                         $params = array(
                             // 'This' Class object.
@@ -744,7 +746,7 @@ class Metabox_Functions {
                             //'input_option' => $option,
                         );
 
-                        $output .= call_user_func( array($this, 'metabox_specific_form_inputs'), $params );
+                        $output .= \call_user_func( array($this, 'metaboxSpecificFormInputs'), $params );
                     }
 
                     if ( isset( $option['option_type'] ) ) {
@@ -852,7 +854,6 @@ class Metabox_Functions {
 
                                         $selected = '';
 
-                                        // $selected = ' selected="'.$language->codes->code->standard->representation .'"';
                                         if ( !empty( $final_value ) && $final_value === $language->codes->code->standard->representation || empty( $final_value ) && 0 === $i ) {
                                             $selected = $this->get_selected_attribute_string();
                                         }
@@ -1101,10 +1102,10 @@ class Metabox_Functions {
      */
     public function save_meta_box( $cpt_id ) {
 
-        if ( 
+        if (
             ! isset( $_REQUEST['post_type'] ) ||
-            'fts' !== $_REQUEST['post_type'] ||
-            ! isset( $_REQUEST['action'] ) || 
+            $_REQUEST['post_type'] !== 'fts' ||
+            ! isset( $_REQUEST['action'] ) ||
             ! isset( $_POST[$this->metaboxNonceName] )
         ) {
             return;
@@ -1119,12 +1120,11 @@ class Metabox_Functions {
         }
 
         // Testing
-        //error_log( print_r( $_POST, true ) );
-        //$this->optionsFunctions->delete_options_array( $this->arrayOptionsName, true, $cpt_id);
-        //$this->optionsFunctions->update_single_option( $this->arrayOptionsName, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
+        // Use this to delete an option $this->optionsFunctions->delete_options_array( $this->arrayOptionsName, true, $cpt_id);
+        // Use this to update an option $this->optionsFunctions->update_single_option( $this->arrayOptionsName, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
+        DebugLog::log( 'MetaboxFunctions', 'Testing Metabox Post', $_POST );
 
         //Merge Additional Options.
-
         // Save/Update the Options array using the Array Option Name and Default Options Array.
         return $this->optionsFunctions->update_options_array( $this->arrayOptionsName, $this->defaultOptionsArray, true, $cpt_id );
     }

@@ -72,7 +72,6 @@ class Settings_Page {
      * @since 1.0.0
      */
     public function addActionsFilters() {
-        // if ( is_admin() ) {}
 
         // Notices
         add_action( 'admin_init', array( $this, 'show_notices' ) );
@@ -82,9 +81,6 @@ class Settings_Page {
 
         // Register Settings
         add_action( 'admin_init', array( $this, 'register_settings' ) );
-
-        // Premium extension license upsells
-        //add_filter( 'fts_settings_licenses', array( $this, 'premium_extension_license_fields' ), 100 );
 
         // Additional date format fieldsmsp_local_user_allowed
         add_filter( 'fts_after_setting_output', array( $this, 'date_translate_fields' ), 10, 2 );
@@ -435,29 +431,6 @@ class Settings_Page {
         return apply_filters( 'fts_registered_settings', $fts_settings );
     } // get_registered_settings
 
-    /**
-     * Adds premium plugins not yet installed to settings.
-     *
-     * @since   1.0
-     * @param   array   $settings   Array of license settings
-     * @return  array   Array of license settings
-     */
-    public function premium_extension_license_fields( $settings )   {
-        $plugins          = $this->ft_gallery_premium_plugins();
-        $plugins          = apply_filters( 'fts_unlicensed_plugins_settings', $plugins );
-        $license_settings = array();
-
-        foreach( $plugins as $plugin => $data ) {
-            $license_settings[] = array(
-                'id'   => "{$plugin}_license_upsell",
-                'name' => \sprintf( __( '%1$s', 'feed-them-social' ), $data['title'] ),
-                'type' => 'premium_plugin',
-                'data' => $data
-            );
-        }
-
-        return array_merge( $settings, $license_settings );
-    } // premium_extension_license_fields
 
     /**
      * Retrieve settings tabs
@@ -618,7 +591,7 @@ class Settings_Page {
             }
         }
 
-       // error_log(print_r($all_settings, TRUE));
+        DebugLog::log( 'SettingsPage', 'Print All Settings', $all_settings );
 
         // Is $fts_options an array? Show it successfully updated!
         if( \is_array($all_settings)){
@@ -630,7 +603,7 @@ class Settings_Page {
             // This is here so we can set a new cron job if the user changes the cache time.
             $cron_job = new CronJobs( null, null, null, null );
             $cron_job->ftsSetCronJob( 'clear-cache-set-cron-job', null, null );
-            // error_log('FTS Cache Emptied. Setting Cron Job from settings-page.php.');
+            DebugLog::log( 'SettingsPage', 'FTS Cache Emptied. Setting Cron Job from settings-page.php.', true );
 
             return $output;
         }
@@ -666,7 +639,7 @@ class Settings_Page {
         $sections      = $this->get_settings_tab_sections( $active_tab );
         $key           = 'main';
 
-        if ( is_array( $sections ) ) {
+        if ( \is_array( $sections ) ) {
             $key = key( $sections );
         }
 
@@ -708,9 +681,6 @@ class Settings_Page {
                 }
             }
         }
-
-        $current_user = wp_get_current_user();
-
 
         ob_start();
 
@@ -969,7 +939,7 @@ class Settings_Page {
         if ( 'date_time_format' == $args['id'] )    {
             ob_start();
 
-            $style = 'fts-custom-date' != $this->settingsFunctions->fts_get_option( 'date_time_format' ) ? ' style="display: none;"' : '';
+            $style = $this->settingsFunctions->fts_get_option( 'date_time_format' ) !== 'fts-custom-date' ? ' style="display: none;"' : '';
             ?>
 
             <tr class="custom_time_ago_wrap"<?php echo $style; ?>>

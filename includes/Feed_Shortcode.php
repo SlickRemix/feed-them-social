@@ -11,7 +11,7 @@
 
 // Exit if accessed directly!
 if ( ! \defined( 'ABSPATH' ) ) {
-	exit;
+    exit;
 }
 
 /**
@@ -27,14 +27,14 @@ class Feed_Shortcode {
      */
     public $settingsFunctions;
 
-	/**
-	 * Feed Functions
-	 *
-	 * General Feed Functions to be used in most Feeds.
-	 *
-	 * @var object
-	 */
-	public $feedFunctions;
+    /**
+     * Feed Functions
+     *
+     * General Feed Functions to be used in most Feeds.
+     *
+     * @var object
+     */
+    public $feedFunctions;
 
     /**
      * Options Functions
@@ -45,100 +45,100 @@ class Feed_Shortcode {
      */
     public $optionsFunctions;
 
-	/**
-	 * Feed Cache.
-	 *
-	 * Class used for caching.
-	 *
-	 * @var object
-	 */
-	public $feedCache;
+    /**
+     * Feed Cache.
+     *
+     * Class used for caching.
+     *
+     * @var object
+     */
+    public $feedCache;
 
-	/**
-	 * Access Options
-	 *
-	 * Access Options for tokens.
-	 *
-	 * @var object
-	 */
-	public $accessOptions;
+    /**
+     * Access Options
+     *
+     * Access Options for tokens.
+     *
+     * @var object
+     */
+    public $accessOptions;
 
-	/**
-	 * Facebook Feed
-	 *
-	 * The Facebook feed object.
-	 *
-	 * @var object
-	 */
-	public $facebook_feed;
+    /**
+     * Facebook Feed
+     *
+     * The Facebook feed object.
+     *
+     * @var object
+     */
+    public $facebook_feed;
 
-	/**
-	 * Instagram Feed
-	 *
-	 * The Instagram feed object.
-	 *
-	 * @var object
-	 */
-	public $instagram_feed;
+    /**
+     * Instagram Feed
+     *
+     * The Instagram feed object.
+     *
+     * @var object
+     */
+    public $instagram_feed;
 
-	/**
-	 * Twitter Feed
-	 *
-	 * The Twitter feed object.
-	 *
-	 * @var object
-	 */
-	public $twitter_feed;
+    /**
+     * Twitter Feed
+     *
+     * The Twitter feed object.
+     *
+     * @var object
+     */
+    public $twitter_feed;
 
-	/**
-	 * YouTube Feed
-	 *
-	 * The YouTube feed object.
-	 *
-	 * @var object
-	 */
-	public $youtube_feed;
+    /**
+     * YouTube Feed
+     *
+     * The YouTube feed object.
+     *
+     * @var object
+     */
+    public $youtube_feed;
 
-	/**
-	 * Combined Streams Feed
-	 *
-	 * The Combined Streams feed object.
-	 *
-	 * @var object
-	 */
-	public $combined_streams;
+    /**
+     * Combined Streams Feed
+     *
+     * The Combined Streams feed object.
+     *
+     * @var object
+     */
+    public $combined_streams;
 
 
-	/**
-	 * Feed Display Constructor.
-	 */
-	public function __construct( $settingsFunctions, $feedFunctions, $optionsFunctions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams = null ){
-		// Add Actions and filters.
-		$this->addActionsFilters();
+    /**
+     * Feed Display Constructor.
+     */
+    public function __construct( $settingsFunctions, $feedFunctions, $optionsFunctions, $facebook_feed, $instagram_feed, $twitter_feed, $youtube_feed, $combined_streams = null ){
+        // Add Actions and filters.
+        $this->addActionsFilters();
 
         $this->settingsFunctions = $settingsFunctions;
 
-		// Set Feed Functions object.
-		$this->feedFunctions = $feedFunctions;
+        // Set Feed Functions object.
+        $this->feedFunctions = $feedFunctions;
 
         // Set Feed Functions object.
         $this->optionsFunctions = $optionsFunctions;
 
-		// Facebook Feed.
-		$this->facebook_feed = $facebook_feed;
+        // Facebook Feed.
+        $this->facebook_feed = $facebook_feed;
 
-		// Instagram Feed.
-		$this->instagram_feed = $instagram_feed;
+        // Instagram Feed.
+        $this->instagram_feed = $instagram_feed;
 
-		// Twitter Feed.
-		$this->twitter_feed = $twitter_feed;
+        // Twitter Feed.
+        $this->twitter_feed = $twitter_feed;
 
-		// YouTube Feed.
-		$this->youtube_feed = $youtube_feed;
+        // YouTube Feed.
+        $this->youtube_feed = $youtube_feed;
 
-		// Combined Streams Feed.
-		$this->combined_streams = $combined_streams ?? null;
-	}
+        // Combined Streams Feed.
+        $this->combined_streams = $combined_streams ?? null;
+    }
 
     /**
      * Register Frontend Styles and Scripts
@@ -148,40 +148,40 @@ class Feed_Shortcode {
      * @since 4.0.0
      */
     public function addActionsFilters(){
-		// Add Shortcode Filter for displaying a feed.
+        // Add Shortcode Filter for displaying a feed.
         add_shortcode( 'feed_them_social', array( $this, 'display_feed_shortcode_filter' ) );
 
-	    // Register Frontend Styles & Scripts
-	    add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend_styles_scripts' ) );
+        // Register Frontend Styles & Scripts
+        add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend_styles_scripts' ) );
     }
 
-	/**
-	 * Register Frontend Styles & Scripts
-	 *
-	 * Registers Frontend Styles & Scripts for the Feeds.
-	 *
-	 * @since 4.0.0
-	 */
-	public function register_frontend_styles_scripts(){
+    /**
+     * Register Frontend Styles & Scripts
+     *
+     * Registers Frontend Styles & Scripts for the Feeds.
+     *
+     * @since 4.0.0
+     */
+    public function register_frontend_styles_scripts(){
 
-		// Register Feed Styles.
-		wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
+        // Register Feed Styles.
+        wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
 
         // Masonry snippet in fts-global.js file.
         wp_register_script( 'fts-global-js', plugins_url( 'feed-them-social/includes/feeds/js/fts-global.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
-		// Register Premium Styles & Scripts.
-		if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) || $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
-			// Masonry Script.
+        // Register Premium Styles & Scripts.
+        if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) || $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+            // Masonry Script.
             wp_register_script( 'fts-masonry-pkgd', plugins_url( 'feed-them-social/includes/feeds/js/masonry.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
-			// Images Loaded Script.
+            // Images Loaded Script.
             wp_register_script( 'fts-images-loaded', plugins_url( 'feed-them-social/includes/feeds/js/imagesloaded.pkgd.min.js' ), array(), FTS_CURRENT_VERSION, false );
-		}
+        }
 
-		// Register Feed Them Carousel Scripts.
-		if ( $this->feedFunctions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+        // Register Feed Them Carousel Scripts.
+        if ( $this->feedFunctions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
             wp_register_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
-		}
+        }
 
         // Register Feed Them Instagram Slider Scripts.
         if ( $this->feedFunctions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
@@ -190,18 +190,18 @@ class Feed_Shortcode {
             // Register Feed Scripts.
             wp_register_script( 'fts-instagram-slider-js', plugins_url( 'feed-them-social-instagram-slider/includes/scripts/js/tiny-slider.min.js' ), array(), FTS_CURRENT_VERSION, false );
         }
-	}
+    }
 
-	/**
-	 * Load Frontend Styles & Scripts
-	 *
-	 * Load Frontend Styles & Scripts ONLY on pages feed is on.
-	 *
-	 * @since 4.0.0
-	 */
-	public function load_frontend_styles_scripts(){
-		// Feed Styles.
-		wp_enqueue_style('fts-feed-styles');
+    /**
+     * Load Frontend Styles & Scripts
+     *
+     * Load Frontend Styles & Scripts ONLY on pages feed is on.
+     *
+     * @since 4.0.0
+     */
+    public function load_frontend_styles_scripts(){
+        // Feed Styles.
+        wp_enqueue_style('fts-feed-styles');
 
         // Add Custom CSS to the header if option checked.
         $custom_css_checked_css = $this->settingsFunctions->fts_get_option( 'use_custom_css' );
@@ -222,7 +222,7 @@ class Feed_Shortcode {
         }
 
         //Feed Global JS.
-		wp_enqueue_script('fts-global-js');
+        wp_enqueue_script('fts-global-js');
 
         // Set Powered by JS for FTS!
         $fts_powered_text_options_settings = $this->settingsFunctions->fts_get_option( 'powered_by' );
@@ -231,13 +231,13 @@ class Feed_Shortcode {
             wp_enqueue_script('fts-powered-by-js');
         }
 
-		// Premium Feed Scripts.
-		if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) || $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
-			// Masonry Script
+        // Premium Feed Scripts.
+        if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) || $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+            // Masonry Script
             wp_enqueue_script('fts-masonry-pkgd');
-			// Images Loaded
-			wp_enqueue_script('fts-images-loaded');
-		}
+            // Images Loaded
+            wp_enqueue_script('fts-images-loaded');
+        }
 
         // Carousel Feed Scripts || Instagram Slider Scripts.
         if ( $this->feedFunctions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' )) {
@@ -249,9 +249,9 @@ class Feed_Shortcode {
             wp_enqueue_style( 'fts-instagram-slider-styles' );
             wp_enqueue_script( 'fts-instagram-slider-js');
         }
-	}
+    }
 
-	/**
+    /**
      * Shortcode_location
      *
      * When a page containing a shortcode is viewed on the front end we
@@ -266,7 +266,7 @@ class Feed_Shortcode {
             return;
         }
 
-		global $post;
+        global $post;
 
         // Process: A user saves a shortcode to a page, when they view the page we update the fts_shortcode_location with the id.
         // the fts_shortcode_location option will contain an array of ids, that is all.
@@ -280,7 +280,7 @@ class Feed_Shortcode {
                 return;
             }
 
-            // error_log('is admin: ' . current_user_can('administrator') );
+            DebugLog::log( 'FeedShortcode', 'is admin', current_user_can('administrator') );
 
             $array_check = $this->feedFunctions->get_feed_option( $cpt_id, 'fts_shortcode_location' );
             $array_check_decode = json_decode( $array_check );
@@ -298,71 +298,71 @@ class Feed_Shortcode {
         }
     }
 
-	/**
-	 * Shortcode Feed ID Exists
-	 *
-	 * Check to see Feed ID exists in shortcode
-	 *
-	 * @param array $atts
-	 * @return array|bool
-	 * @since 4.0.0
-	 */
-	public function shortcode_feed_id_exists( $atts ) {
-		// Make sure attributes contain cpt_id which is the Feed's CPT Post ID.
-		if ( is_array( $atts ) && isset( $atts['cpt_id'] ) && ! empty( $atts['cpt_id'] ) ) {
-			return $atts['cpt_id'];
-		}
-		// If it doesn't exists return false.
-		return false;
-	}
+    /**
+     * Shortcode Feed ID Exists
+     *
+     * Check to see Feed ID exists in shortcode
+     *
+     * @param array $atts
+     * @return array|bool
+     * @since 4.0.0
+     */
+    public function shortcode_feed_id_exists( $atts ) {
+        // Make sure attributes contain cpt_id which is the Feed's CPT Post ID.
+        if ( is_array( $atts ) && isset( $atts['cpt_id'] ) && ! empty( $atts['cpt_id'] ) ) {
+            return $atts['cpt_id'];
+        }
+        // If it doesn't exists return false.
+        return false;
+    }
 
-	/**
-	 * Display Feed
-	 *
-	 * Display the feed by Feed Type.
-	 *
-	 * @param array $feed_post_id Feed Post ID.
-	 * @param array $feed_type Feed Type for a Feed.
-	 * @since 4.0.0
-	 */
-	public function display_feed( $feed_post_id, $feed_type ) {
-		if ( $feed_type ){
-			//Filter by Feed Type
-			switch ( $feed_type ){
-				// Facebook Feed
-				case 'facebook-feed-type':
-					// Display Facebook Feed!
-					echo $this->facebook_feed->display_facebook( $feed_post_id );
-					break;
-				// Instagram Feed.
-				case 'instagram-business-feed-type':
-				case 'instagram-feed-type':
-					// Display the Instagram Feed!
+    /**
+     * Display Feed
+     *
+     * Display the feed by Feed Type.
+     *
+     * @param array $feed_post_id Feed Post ID.
+     * @param array $feed_type Feed Type for a Feed.
+     * @since 4.0.0
+     */
+    public function display_feed( $feed_post_id, $feed_type ) {
+        if ( $feed_type ){
+            //Filter by Feed Type
+            switch ( $feed_type ){
+                // Facebook Feed
+                case 'facebook-feed-type':
+                    // Display Facebook Feed!
+                    echo $this->facebook_feed->display_facebook( $feed_post_id );
+                    break;
+                // Instagram Feed.
+                case 'instagram-business-feed-type':
+                case 'instagram-feed-type':
+                    // Display the Instagram Feed!
                     echo $this->instagram_feed->display_instagram( $feed_post_id );
-					break;
-				// Twitter Feed.
-				case 'twitter-feed-type':
-					// Display Twitter Feed!
-					echo $this->twitter_feed->display_tiktok( $feed_post_id );
-					break;
-				// YouTube Feed.
-				case 'youtube-feed-type':
-					// Display YouTube Feed!
-					echo $this->youtube_feed->display_youtube( $feed_post_id );
-					break;
-				// Combine Streams Feed.
-				case 'combine-streams-feed-type':
-					// Display Combined Streams Feed.
+                    break;
+                // Twitter Feed.
+                case 'twitter-feed-type':
+                    // Display Twitter Feed!
+                    echo $this->twitter_feed->display_tiktok( $feed_post_id );
+                    break;
+                // YouTube Feed.
+                case 'youtube-feed-type':
+                    // Display YouTube Feed!
+                    echo $this->youtube_feed->display_youtube( $feed_post_id );
+                    break;
+                // Combine Streams Feed.
+                case 'combine-streams-feed-type':
+                    // Display Combined Streams Feed.
                     if ( $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
 
                         echo $this->combined_streams->display_combined_streams( $feed_post_id );
                     }
-					break;
+                    break;
                 default:
                     break;
-			}
-		}
-	}
+            }
+        }
+    }
 
     /**
      * Display Feed ShortCode Filter
@@ -374,26 +374,26 @@ class Feed_Shortcode {
      * @since 4.0.0
      */
     public function display_feed_shortcode_filter( $atts ){
-		// Feed Post ID that exists in the shortcode.
-	    $feed_post_id = $this->shortcode_feed_id_exists( $atts );
+        // Feed Post ID that exists in the shortcode.
+        $feed_post_id = $this->shortcode_feed_id_exists( $atts );
 
-		// If Feed Post ID exists then outputting what is needed.
-		if( $feed_post_id ){
-			// Get Feed Type.
-			$feed_type = $this->feedFunctions->get_feed_type( $feed_post_id );
+        // If Feed Post ID exists then outputting what is needed.
+        if( $feed_post_id ){
+            // Get Feed Type.
+            $feed_type = $this->feedFunctions->get_feed_type( $feed_post_id );
 
-			// Load Frontend Styles & Scripts ONLY on Feed pages.
-			$this->load_frontend_styles_scripts();
+            // Load Frontend Styles & Scripts ONLY on Feed pages.
+            $this->load_frontend_styles_scripts();
 
-			// Shortcode Location.
-			$this->shortcode_location( $feed_post_id );
+            // Shortcode Location.
+            $this->shortcode_location( $feed_post_id );
 
             // Prevent the shortcode from appearing above page content.
             ob_start();
-			// Display Feed by the Feed Post ID and Feed Type.
-			$this->display_feed( $feed_post_id, $feed_type);
+            // Display Feed by the Feed Post ID and Feed Type.
+            $this->display_feed( $feed_post_id, $feed_type);
 
             return ob_get_clean();
-		}
+        }
     }
 }

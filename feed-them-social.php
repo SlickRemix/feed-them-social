@@ -37,8 +37,8 @@ if ( ! \defined( 'ABSPATH' ) ) {
 define( 'FTS_CURRENT_VERSION', '4.3.9' );
 
 // Require the file that contains the new autoloader and main plugin class.
-require_once __DIR__ . '/class-load-plugin.php';
+require_once __DIR__ . '/classLoadPlugin.php';
 
 // Instantiate the main class to start the plugin.
 // The autoloader will handle all other class dependencies from here.
-new \feedthemsocial\Feed_Them_Social();
+new \feedthemsocial\classLoadPlugin();

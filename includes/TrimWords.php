@@ -39,7 +39,7 @@ class TrimWords {
         $body = $dom->getElementsByTagName( 'body' )->item(0);
 
         // Here is where the other class is needed. The autoloader will now find it.
-        $it = new Dom_Words_Iterator($body);
+        $it = new DomWordsIterator($body);
 
         foreach( $it as $ignored ) {
             if($it->key() >= $limit) {

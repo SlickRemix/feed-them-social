@@ -571,8 +571,6 @@ class Feeds_CPT {
                 // so users can click to the page the shortcode is on and replace it or remove it.
                 $shortcode_location_id = $this->feedFunctions->get_feed_option( $post_id, 'fts_shortcode_location' );
                 $shortcode_location_id = json_decode( $shortcode_location_id );
-                // Test
-                //print_r( $shortcode_location_id );
 
                 // Check to see if the shortcode_location_id has been set with an ID and if so lets double check that content has a shortcode in it.
                 // IF so then we will display a page title and link to it so the user can see where there shortcode is being used.

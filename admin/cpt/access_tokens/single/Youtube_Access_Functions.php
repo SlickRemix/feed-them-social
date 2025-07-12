@@ -126,19 +126,14 @@ class Youtube_Access_Functions {
 
         if( !empty( $youtube_api_key ) || !empty( $youtube_access_token ) ) {
 
-
-           // $youtube_user_id_data = esc_url( 'https://www.googleapis.com/youtube/v3/search?pageToken=' . $videos->nextPageToken . '&part=snippet&channelId=' . $saved_feed_options['youtube_channelID'] . '&order=date&maxResults=' . $vid_count . '&' . $youtube_api_key_or_token );
-
             $youtube_user_id_data = esc_url_raw( 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=gopro&' . $youtube_api_key_or_token );
-            // echo '$youtube_user_id_data';
-            // echo $youtube_user_id_data;
 
-            // Get Data for Youtube!
+            // Get Data for Youtube.
             $response = wp_remote_fopen( $youtube_user_id_data );
             // Error Check!
             $test_app_token_response = json_decode( $response );
 
-           // print_r( $test_app_token_response );
+           // Use this to test the token response print_r( $test_app_token_response );
         }
             echo \sprintf(
                 esc_html__( '%1$sLogin and Get my Access Token %2$s', 'feed-them-social' ),
@@ -154,10 +149,7 @@ class Youtube_Access_Functions {
 
             <?php
             $expiration_time = $this->feedFunctions->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' );
-           // echo $expiration_time;
-           // echo ' asdfasdfasdf ';
 
-            // Test Liner!
             $expiration_time = (int) $expiration_time;
             if ( time() < $expiration_time && empty( $youtube_api_key ) ) {
                 ?>
@@ -205,9 +197,9 @@ class Youtube_Access_Functions {
                 $error_response = isset( $test_app_token_response->error->errors[0]->message ) ? 'true' : 'false';
 
                 // Error Check!
-                if ( 'false' === $error_response && ! empty( $youtube_api_key ) || 'false' === $error_response && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
+                if ( $error_response === 'false' && ! empty( $youtube_api_key ) || $error_response === 'false' && ! empty( $youtube_access_token ) && empty( $youtube_api_key ) ) {
 
-                    if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                    if( $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) === 'combine-streams-feed-type' ){
                         echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div id="fts-combined-youtube-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',
@@ -224,7 +216,7 @@ class Youtube_Access_Functions {
                         );
                     }
                 }
-                elseif ( empty( $youtube_api_key ) && 'true' === $error_response && ! empty( $youtube_access_token ) ) {
+                elseif ( empty( $youtube_api_key ) && $error_response === 'true' && ! empty( $youtube_access_token ) ) {
                     echo \sprintf(
                         esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
                         '<div class="fts-failed-api-token">',
@@ -237,7 +229,7 @@ class Youtube_Access_Functions {
                         '</div>'
                     );
                 }
-                elseif ( 'true' === $error_response && ! empty( $youtube_api_key ) ) {
+                elseif ( $error_response === 'true' && ! empty( $youtube_api_key ) ) {
                     echo \sprintf(
                         esc_html__( '%1$sYouTube responded with: %2$s %3$s ', 'feed-them-social' ),
                         '<div class="fts-failed-api-token">',

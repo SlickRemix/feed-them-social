@@ -187,22 +187,16 @@ class Updater_Check_Init {
     public function plugin_updater_check_init() {
 
         $installed_plugins = get_plugins();
-        
-                /*echo '<pre style=" width: 500px; margin: 0 auto; text-align: left">';
-                    //print_r($this->updater_options_info['store_url']);
-                    print_r($this->updater_options_info);
-                 echo '</pre>';*/
 
+        // Simple Checks print_r($this->updater_options_info['store_url']) and also print_r($this->updater_options_info)
         foreach ( $this->prem_extension_list as $plugin_identifier => $plugin_info) {
 
             if (isset($plugin_info['plugin_url']) && !empty($plugin_info['plugin_url']) && is_plugin_active($plugin_info['plugin_url'])) {
 
                 $settings_array = get_option($this->updater_options_info['setting_option_name']);
 
-                $license = isset($settings_array[$plugin_identifier]['license_key']) ? $settings_array[$plugin_identifier]['license_key'] : '';
-                $status = isset($settings_array[$plugin_identifier]['license_status']) ? $settings_array[$plugin_identifier]['license_status'] : '';
-
-                $plugin_path = plugin_dir_path(basename($plugin_info['plugin_url'], '.php'));
+                $license = $settings_array[$plugin_identifier]['license_key'] ?? '';
+                $status = $settings_array[$plugin_identifier]['license_status'] ?? '';
 
                 //Build updater Array
                 $plugin_details = array(

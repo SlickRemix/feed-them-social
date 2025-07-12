@@ -153,10 +153,6 @@ class Facebook_Access_Functions {
             // Check to see what the response is.
             $response = $this->feedFunctions->fts_get_feed_json( $test_app_token_url );
             $data = json_decode( $response['app_token_id'] );
-
-            /*echo '<pre>';
-            print_r($data);
-            echo '</pre>';*/
         }
         ?>
 

@@ -245,7 +245,7 @@ endif;
 
 if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
     $feed_them_social_license_key = get_option( 'feed_them_social_license_keys' );
-    // print_r( $feed_them_social_license_key );
+    // Use this for testing print_r( $feed_them_social_license_key );
     ?>
 
 -- FTS Plugins Active & License Validation

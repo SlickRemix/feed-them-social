@@ -209,11 +209,6 @@ class Tiktok_Access_Functions {
 
                 // Output the response
                 $data = json_decode( $body );
-
-                // Error Check.
-                /*echo '<pre>';
-                print_r( $data );
-                echo '</pre>';*/
             }
         }
 

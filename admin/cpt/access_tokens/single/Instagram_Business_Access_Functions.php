@@ -94,7 +94,7 @@ class Instagram_Business_Access_Functions {
                                 jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input, .fts-decrypted-view' ).toggle();
                                 jQuery( this ).toggleClass( 'fts-feed-type-active' );
                                 jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
-                                jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
+                                jQuery( '.fts-token-wrap h3' ).toggleClass( 'fts-admin-token-settings-open' );
                                 // If the input field is empty, set the cursor to it
                                 jQuery('#fts_facebook_instagram_custom_api_token_user_id').focus();
                             }
@@ -123,7 +123,7 @@ class Instagram_Business_Access_Functions {
                                 jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input, .fts-decrypted-view' ).toggle();
                                 jQuery( this ).toggleClass( 'fts-feed-type-active' );
                                 jQuery( '.fts-admin-token-settings' ).toggleClass( 'fts-admin-token-settings-open' );
-                                jQuery( '#fts-feed-type h3' ).toggleClass( 'fts-admin-token-settings-open' );
+                                jQuery( '.fts-token-wrap h3' ).toggleClass( 'fts-admin-token-settings-open' );
                                 // If the input field is empty, set the cursor to it
                                 jQuery('#fts_facebook_instagram_custom_api_token_user_id').focus();
                             }
@@ -179,7 +179,7 @@ class Instagram_Business_Access_Functions {
                 }
                 ?>
                 <div class="clear"></div>
-                <div class="fts-fb-token-wrap fts-token-wrap" id="fts-fb-token-wrap">
+                <div class="fts-fb-token-wrap" id="fts-fb-token-wrap">
                      <?php
                      if( !isset( $_GET['feed_type'] ) ) {
                          if ( !empty( $data ) ) {

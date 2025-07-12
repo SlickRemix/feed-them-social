@@ -2576,13 +2576,13 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
     margin-bottom: 15px
 }
 
-#fts-feed-type h3 {
+.fts-token-wrap h3 {
     text-transform: none !important;
     cursor: pointer;
     font-weight: 400
 }
 
-#fts-feed-type h3 span {
+.fts-token-wrap h3 span {
     color: #1aae1f;
     pointer-events: none
 }

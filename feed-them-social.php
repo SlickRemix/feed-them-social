@@ -1,6 +1,6 @@
 <?php
 /**
- * Feed Them Social Class (Main Class)
+ * Feed Them Social
  *
  * This class is what initiates the Feed Them Social class
  *

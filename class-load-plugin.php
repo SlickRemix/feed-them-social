@@ -176,116 +176,67 @@ class Feed_Them_Social {
             require_once ABSPATH . '/wp-admin/includes/plugin.php';
         }
 
-        // This is the URL the Updater / License Key Validation pings.
-        if (!\defined('SLICKREMIX_STORE_URL')) {
-            \define('SLICKREMIX_STORE_URL', 'https://www.slickremix.com/');
-        }
+        $fts_constants = [
+            'SLICKREMIX_STORE_URL'                 => 'https://www.slickremix.com/',
+            'FEED_THEM_SOCIAL_POST_TYPE'           => 'fts',
+            'FEED_THEM_SOCIAL_OPTION_ARRAY_NAME'   => 'fts_feed_options_array',
+            'FEED_THEM_SOCIAL_MIN_PHP'             => $minimum_required_PHP_version,
+            'FEED_THEM_SOCIAL_PLUGIN_BASENAME'     => 'feed-them-social/feed-them-social.php',
+            'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH'     => plugin_dir_path( __DIR__ ) . 'feed-them-social/feed-them-social.php',
+            'FEED_THEM_SOCIAL_VERSION'             => FTS_CURRENT_VERSION,
+            'FEED_THEM_SOCIAL_PLUGIN_PATH'         => plugins_url(),
+            'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR'   => plugin_dir_path( __FILE__ ),
+            'FTS_FACEBOOK_GRAPH_URL'               => 'https://graph.facebook.com/',
+            'FTS_ACCESS_TOKEN_XXX'                 => 'access_token=XXX',
+            'FTS_ACCESS_TOKEN_EQUALS'              => 'access_token=',
+            'FTS_AND_ACCESS_TOKEN_EQUALS'          => '&access_token=',
+            'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST' => [
+                'feed_them_social_premium'          => [
+                    'title'        => 'Feed Them Social Premium',
+                    'plugin_url'   => 'feed-them-premium/feed-them-premium.php',
+                    'demo_url'     => 'https://feedthemsocial.com/facebook-page-feed-demo/',
+                    'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/',
+                ],
+                'feed_them_social_combined_streams' => [
+                    'title'        => 'Feed Them Social Combined Streams',
+                    'plugin_url'   => 'feed-them-social-combined-streams/feed-them-social-combined-streams.php',
+                    'demo_url'     => 'https://feedthemsocial.com/feed-them-social-combined-streams/',
+                    'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-combined-streams/',
+                ],
+                'feed_them_social_facebook_reviews' => [
+                    'title'        => 'Feed Them Social Facebook Reviews',
+                    'load_class'   => 'Feed_Them_Social_Facebook_Reviews',
+                    'plugin_url'   => 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php',
+                    'demo_url'     => 'https://feedthemsocial.com/facebook-page-reviews-demo/',
+                    'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-facebook-reviews/',
+                ],
+                'feed_them_carousel_premium'        => [
+                    'title'        => 'Feed Them Carousel Premium',
+                    'plugin_url'   => 'feed-them-carousel-premium/feed-them-carousel-premium.php',
+                    'demo_url'     => 'https://feedthemsocial.com/facebook-carousels-or-sliders/',
+                    'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-carousel-premium/',
+                ],
+                'feed_them_social_tiktok_premium' => [
+                    'title'        => 'Feed Them Social TikTok Premium',
+                    'load_class'   => 'Feed_Them_Social_TikTok_Premium',
+                    'plugin_url'   => 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php',
+                    'demo_url'     => 'https://feedthemsocial.com/tiktok-feed-demo/',
+                    'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-tiktok-premium/',
+                ],
+                'feed_them_social_instagram_slider' => [
+                    'title'        => 'Feed Them Social Instagram Slider',
+                    'load_class'   => 'Feed_Them_Social_Instagram_Slider',
+                    'plugin_url'   => 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php',
+                    'demo_url'     => 'https://feedthemsocial.com/instagram-slider/',
+                    'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-instagram-slider/',
+                ],
+            ],
+        ];
 
-        // Feed Them Social Post Type.
-        if ( ! \defined( 'FEED_THEM_SOCIAL_POST_TYPE' )  ) {
-            \define( 'FEED_THEM_SOCIAL_POST_TYPE', 'fts' );
-        }
-
-        // Feed Them Social Option Array Name. Used to set the option name in the database.
-        if ( ! \defined( 'FEED_THEM_SOCIAL_OPTION_ARRAY_NAME' )  ) {
-            define( 'FEED_THEM_SOCIAL_OPTION_ARRAY_NAME', 'fts_feed_options_array' );
-        }
-
-        // Minimum PHP Version for Feed Them Social.
-        if ( ! \defined( 'FEED_THEM_SOCIAL_MIN_PHP' ) ) {
-            \define( 'FEED_THEM_SOCIAL_MIN_PHP', $minimum_required_PHP_version );
-        }
-
-        // Plugin Basename.
-        if ( ! \defined( 'FEED_THEM_SOCIAL_PLUGIN_BASENAME' ) ) {
-            \define( 'FEED_THEM_SOCIAL_PLUGIN_BASENAME', 'feed-them-social/feed-them-social.php' );
-        }
-
-        // Plugins Absolute Path. (Needs to be after BASENAME constant to work).
-        if ( ! \defined( 'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH' ) ) {
-            \define( 'FEED_THEM_SOCIAL_PLUGIN_ABS_PATH', plugin_dir_path( __DIR__ ) . FEED_THEM_SOCIAL_PLUGIN_BASENAME );
-        }
-
-        // Plugin version. (Needs to be after BASENAME and ABS_PATH constants to work).
-        if ( ! \defined( 'FEED_THEM_SOCIAL_VERSION' ) ) {
-            \define( 'FEED_THEM_SOCIAL_VERSION', FTS_CURRENT_VERSION );
-        }
-
-        // Plugin Folder Path.
-        if ( ! \defined( 'FEED_THEM_SOCIAL_PLUGIN_PATH' ) ) {
-            \define( 'FEED_THEM_SOCIAL_PLUGIN_PATH', plugins_url() );
-        }
-
-        // Plugin Directory Path.
-        if ( ! \defined( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR' ) ) {
-            \define( 'FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR', plugin_dir_path( __FILE__ ) );
-        }
-
-        // Premium Extension List.
-        if ( ! \defined( 'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST' ) ) {
-            \define( 'FEED_THEM_SOCIAL_PREM_EXTENSION_LIST', array(
-                    'feed_them_social_premium'          => array(
-                        // Title MUST match title of product in EDD store on site plugin is being sold!
-                        'title'        => 'Feed Them Social Premium',
-                        'plugin_url'   => 'feed-them-premium/feed-them-premium.php',
-                        'demo_url'     => 'https://feedthemsocial.com/facebook-page-feed-demo/',
-                        'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-premium-extension/',
-                    ),
-                    'feed_them_social_combined_streams' => array(
-                        'title'        => 'Feed Them Social Combined Streams',
-                        'plugin_url'   => 'feed-them-social-combined-streams/feed-them-social-combined-streams.php',
-                        'demo_url'     => 'https://feedthemsocial.com/feed-them-social-combined-streams/',
-                        'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-combined-streams/',
-                    ),
-                    'feed_them_social_facebook_reviews' => array(
-                        'title'        => 'Feed Them Social Facebook Reviews',
-                        'load_class'   => 'Feed_Them_Social_Facebook_Reviews',
-                        'plugin_url'   => 'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php',
-                        'demo_url'     => 'https://feedthemsocial.com/facebook-page-reviews-demo/',
-                        'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-facebook-reviews/',
-                    ),
-                    'feed_them_carousel_premium'        => array(
-                        'title'        => 'Feed Them Carousel Premium',
-                        'plugin_url'   => 'feed-them-carousel-premium/feed-them-carousel-premium.php',
-                        'demo_url'     => 'https://feedthemsocial.com/facebook-carousels-or-sliders/',
-                        'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-carousel-premium/',
-                    ),
-                    'feed_them_social_tiktok_premium' => array(
-                        'title'        => 'Feed Them Social TikTok Premium',
-                        'load_class'   => 'Feed_Them_Social_TikTok_Premium',
-                        'plugin_url'   => 'feed-them-social-tiktok-premium/feed-them-social-tiktok-premium.php',
-                        'demo_url'     => 'https://feedthemsocial.com/tiktok-feed-demo/',
-                        'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-tiktok-premium/',
-                    ),
-                    'feed_them_social_instagram_slider' => array(
-                        'title'        => 'Feed Them Social Instagram Slider',
-                        'load_class'   => 'Feed_Them_Social_Instagram_Slider',
-                        'plugin_url'   => 'feed-them-social-instagram-slider/feed-them-social-instagram-slider.php',
-                        'demo_url'     => 'https://feedthemsocial.com/instagram-slider/',
-                        'purchase_url' => 'https://www.slickremix.com/downloads/feed-them-social-instagram-slider/',
-                    ),
-                )
-            );
-        }
-
-        // Facebook Graph URL.
-        if ( ! \defined( 'FTS_FACEBOOK_GRAPH_URL' ) ) {
-            \define( 'FTS_FACEBOOK_GRAPH_URL', 'https://graph.facebook.com/' );
-        }
-
-        // Access Token XXX.
-        if ( ! \defined( 'FTS_ACCESS_TOKEN_XXX' ) ) {
-            \define( 'FTS_ACCESS_TOKEN_XXX', 'access_token=XXX' );
-        }
-
-        // Access Token Equals.
-        if ( ! \defined( 'FTS_ACCESS_TOKEN_EQUALS' ) ) {
-            \define( 'FTS_ACCESS_TOKEN_EQUALS', 'access_token=' );
-        }
-
-        // And Access Token Equals.
-        if ( ! \defined( 'FTS_AND_ACCESS_TOKEN_EQUALS' ) ) {
-            \define( 'FTS_AND_ACCESS_TOKEN_EQUALS', '&access_token=' );
+        foreach ( $fts_constants as $name => $value ) {
+            if ( ! \defined( $name ) ) {
+                \define( $name, $value );
+            }
         }
     }
 

@@ -80,13 +80,13 @@ class Feed_Them_Social {
         $this->addActionsFilters();
 
         // Setup constants.
-        $this->setup_constants('7.0.0');
+        $this->setupConstants('7.0.0');
 
         // Misc Includes.
         $this->includes();
 
         // Load plugin components on init, AFTER WordPress is fully loaded.
-        add_action('init', array($this, 'load_plugin_components'), 5);
+        add_action('init', array($this, 'loadPluginComponents'), 5);
     }
 
     /**
@@ -98,7 +98,7 @@ class Feed_Them_Social {
      */
     private function addActionsFilters() {
         // Load text domain for translations
-        add_action( 'init', array( $this, 'load_textdomain' ) );
+        add_action( 'init', array( $this, 'loadTextdomain' ) );
     }
 
     /**
@@ -108,7 +108,7 @@ class Feed_Them_Social {
      *
      * @since 4.3.8
      */
-    public function load_plugin_components() {
+    public function loadPluginComponents() {
         // All these 'new' statements will now automatically trigger the autoloader.
         $activate_plugin = new Activate_Plugin();
         $activate_plugin->addActionsFilters();
@@ -157,7 +157,7 @@ class Feed_Them_Social {
      *
      * @since 4.3.8
      */
-    public function load_textdomain() {
+    public function loadTextdomain() {
         // Localization. (Plugin string translations).
         // Needs FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR to make sure the path to languages folder is correct.
         load_plugin_textdomain( 'feed-them-social', false, FEED_THEM_SOCIAL_PLUGIN_FOLDER_DIR . '/languages' );
@@ -170,7 +170,7 @@ class Feed_Them_Social {
      *
      * @since 1.0.0
      */
-    private function setup_constants( $minimum_required_PHP_version ) {
+    private function setupConstants( $minimum_required_PHP_version ) {
         // Makes sure the plugin is defined before trying to use it.
         if ( ! \function_exists( 'is_plugin_active' ) ) {
             require_once ABSPATH . '/wp-admin/includes/plugin.php';

@@ -64,11 +64,6 @@ function slickremixImageResizing() {
         // Get the Instagram container .width() so we can keep track of the container size
         let ftsContainerWidth = uniqueID.width();
 
-        // var ftsname = arguments["0"]
-        //  var ftsBlockCenteredAttr = jQuery(ftsname);
-
-        // alert(ftsBlockCenteredAttr);
-
         // This is the container for the instagram image post
         let ftsImageSize = jQuery('#' + ftsBlockCenteredAttr + ' .slicker-instagram-placeholder');
 
@@ -105,16 +100,7 @@ function slickremixImageResizing() {
             ftsInstagramColumns === '6' ||
             ftsInstagramColumns === '7' ||
             ftsInstagramColumns === '8') {
-            //   alert('wtf');
-            // if the container is 376px or less we force the image size to be 100%
-            /* if (ftsContainerWidth <= '376' && ftsForceColumns === 'no') {
-                 og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';
-             }
-             // if the container is 736px or less we force the image size to be 50%
-             else if (ftsContainerWidth <= '736' && ftsForceColumns === 'no') {
-                 og_size = 'calc(50% - ' + ftsInstagramMarginfinal + 'px)';
-             }
-             else {*/
+
             if (ftsInstagramColumns === '8') {
                 og_size = 'calc(12.5% - ' + ftsInstagramMarginfinal + 'px)';
             } else if (ftsInstagramColumns === '7') {
@@ -132,7 +118,6 @@ function slickremixImageResizing() {
             } else if (ftsInstagramColumns === '1') {
                 og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';
             }
-            // }
 
             ftsImageSize.css({'width': og_size});
 
@@ -307,15 +292,6 @@ function slickremixImageResizingYouTube() {
         ftsInstagramColumns === '4' ||
         ftsInstagramColumns === '5' ||
         ftsInstagramColumns === '6') {
-       /* // if the container is 376px or less we force the image size to be 100%
-        if (ftsContainerWidth <= '376' && ftsForceColumns === 'no') {
-            og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';
-        }
-        // if the container is 736px or less we force the image size to be 50%
-        else if (ftsContainerWidth <= '736' && ftsForceColumns === 'no') {
-            og_size = 'calc(50% - ' + ftsInstagramMarginfinal + 'px)';
-        }
-        else {*/
             if (ftsInstagramColumns === '6') {
                 og_size = 'calc(16.66666666666667% - ' + ftsInstagramMarginfinal + 'px)';
             }
@@ -334,9 +310,7 @@ function slickremixImageResizingYouTube() {
             else if (ftsInstagramColumns === '1') {
                 og_size = 'calc(100% - ' + ftsInstagramMarginfinal + 'px)';
             }
-        // }
         let ftsYoutubeLargeHeight = ftsYoutubeLarge.height();
-        // let ftsYoutubeLargeHeightFinal = 'calc(100% - ' + ftsYoutubeLargeHeight + 'px)';
 
         ftsYoutubeThumbsWrap.css({'height': ftsYoutubeLargeHeight + 'px'});
 

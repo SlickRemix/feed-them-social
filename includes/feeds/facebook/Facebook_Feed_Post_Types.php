@@ -558,10 +558,7 @@ class Facebook_Feed_Post_Types {
     //public function facebook_post_see_more( $fb_link, $lcs_array, $facebook_post_type, $fb_post_id = null, $saved_feed_options, $fb_post_user_id = null, $fb_post_single_id = null, $single_event_id = null, $post_data = null ) {
 
         $description = isset( $post_data->message ) ?? '';
-        // SHOW THE FB FEED PRINT_R
-         /*echo'<pre>';
-         print_r( $post_data);
-         echo'</pre>';*/
+        // Use this to show the fb feed for testing print_r( $post_data)
 
         $likes = !empty( $lcs_array['likes'] ) ? $lcs_array['likes'] : '';
         $comments = !empty( $lcs_array['comments'] ) ? $lcs_array['comments'] : '';
@@ -804,10 +801,8 @@ class Facebook_Feed_Post_Types {
      * @since 1.9.6
      */
     public function feed_post_types( $set_zero, $facebook_post_type, $facebook_post, $saved_feed_options, $response_post_array, $single_event_array_response = null, $fts_facebook_reviews = null ) {
-        /*echo '<pre>';
-        echo print_r($facebook_post);
-        echo '</pre>';*/
 
+        // Use this to test the facebook post types print_r($facebook_post)
         $fts_dynamic_vid_name_string = sanitize_key( $this->feedFunctions->get_random_string( 10 ) . '_' . $saved_feed_options['facebook_page_feed_type'] );
 
         // If Set Zero skip this post and return
@@ -947,15 +942,8 @@ class Facebook_Feed_Post_Types {
         // Count Likes/Shares/.
         $lcs_array = $this->get_likes_shares_comments( $response_post_array, $facebook_post_key, $facebook_post_share_count );
 
-        /*echo '$lcs_array<pre>';
-         print_r($lcs_array);
-        echo '</pre>'; */
+        // Use this to test the lcs_array print_r($lcs_array) and post response print_r($response_post_array);
 
-       /* echo '$response_post_array<pre>';
-        print_r($response_post_array);
-        echo '</pre>';*/
-
-        // $facebook_location  = $facebook_post->location ?? '';
         $facebook_from_name = $facebook_post_from_name ?? '';
         $facebook_from_name = preg_quote( $facebook_from_name, '/' );
 
@@ -1107,7 +1095,6 @@ class Facebook_Feed_Post_Types {
                     elseif ( $saved_feed_options['feed_type'] !== 'combine-streams-feed-type' ) {
                         echo '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer"><img border="0" alt="' . esc_attr( $facebook_post_from_name ) . '" src="' . esc_attr( $fts_main_profile_pic_url ) . '"/></a>';
                     }
-                    // echo ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '<a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' ) . '<img border="0" alt="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_attr( $facebook_post->reviewer->name ) : esc_attr( $facebook_post_from_name ) ) . '" src="' . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? esc_url( $profile_photo_exists_check ) . '"/>' : FTS_FACEBOOK_GRAPH_URL . esc_attr( $facebook_post_from_id_picture ) ) . ( 'reviews' === esc_attr( $saved_feed_options['facebook_page_feed_type'] ) ? '' : '/picture"/></a>' );
 
                     echo '</div>';
 
@@ -1120,7 +1107,7 @@ class Facebook_Feed_Post_Types {
                 // WHY REVIEWS IS LOADING SO DAMN SLOW... LEAVING OFF HERE.. STATEMENT BELOW DOES NOT HAVE ANYTHING TO DO WITH IT FROM WHAT I CAN TELL.
                 echo $saved_feed_options['facebook_page_feed_type'] === 'reviews' && $this->feedFunctions->is_extension_active( 'feed_them_social_facebook_reviews' ) ? '<span class="fts-jal-fb-user-name fts-review-name" itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">' . esc_attr( $facebook_post->reviewer->name ) . '</span>' . $fts_facebook_reviews->reviews_rating_format( $saved_feed_options, isset( $facebook_post->rating ) ? esc_html( $facebook_post->rating ) : '' ) . '</span>' : '<span class="fts-jal-fb-user-name' . $hide_name . '"><a href="https://www.facebook.com/' . esc_attr( $facebook_post_from_id_picture ) . '" target="_blank" rel="noreferrer">' . esc_html( $facebook_post_from_name ) . '</a>' . esc_html( $facebook_hide_shared_by_etc_text ) . '</span>';
 
-                // tied to date function.
+                // Tied to date function.
                 $feed_type      = 'facebook';
                 $times          = $custom_time_format;
                 $fts_final_date = $this->feedFunctions->fts_custom_date( $times, $feed_type );
@@ -1139,24 +1126,17 @@ class Facebook_Feed_Post_Types {
             $facebook_title_job_opening = isset( $facebook_post->attachments->data[0]->title ) && $facebook_post->attachments->data[0]->type === 'job_search_job_opening' ? $facebook_post->attachments->data[0]->title : '';
 
             // filter messages to have urls.
-            if ( empty( $facebook_message ) ) {
+            if ( empty( $facebook_message ) && !empty( $facebook_description ) ) {
 
-                if ( !empty( $facebook_description ) ) {
-                    $facebook_message = $facebook_description;
-                }
+                $facebook_message = $facebook_description;
                 // If a post is shared that has $facebook_post->attachments->data[0]->description then we want to show that under the photo.
                 // SRL 10-13-24 commenting out for the moment because this should appear under the photo not as the main message.
-                /*if ( isset( $facebook_post->attachments->data[0]->description ) ) {
-                    $facebook_message = isset( $facebook_post->attachments->data[0]->description ) ? $facebook_post->attachments->data[0]->description : '';
-                }*/
+                // Keeping for potential use if ( isset( $facebook_post->attachments->data[0]->description ) ) {
+                //    $facebook_message = isset( $facebook_post->attachments->data[0]->description ) ? $facebook_post->attachments->data[0]->description : '';
+                // }
             }
 
             if ( $facebook_message && $show_media !== 'top' ) {
-
-                // Removing this for now as it just takes up to much room on a post, and this is rather an old practice imo.
-                /*if ( ! empty( $facebook_post_places_id ) ) {
-                    $this->feed_location_option( $facebook_post_places_id, $facebook_post_name, $facebook_post_places_name );
-                }*/
 
                 $itemprop_description_reviews = $this->feedFunctions->is_extension_active( 'feed_them_social_facebook_reviews' ) ? ' itemprop="description"' : '';
 
@@ -1164,14 +1144,7 @@ class Facebook_Feed_Post_Types {
                 if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && isset( $saved_feed_options['facebook_page_word_count'] ) && $saved_feed_options['facebook_page_word_count'] && 'top' !== $show_media ||
                     $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) && isset( $saved_feed_options['combine_word_count_option'] ) && $saved_feed_options['combine_word_count_option'] && 'top' !== $show_media ||
                     $this->feedFunctions->is_extension_active( 'feed_them_social_facebook_reviews' ) && isset( $saved_feed_options['facebook_page_word_count'] ) && $saved_feed_options['facebook_page_word_count'] && 'top' !== $show_media ) {
-                    // SRL 4.0: make this an option eventually.
-                    $more = '...';
-
-                   // $word_count = !empty( $saved_feed_options['combine_word_count_option'] ) ? $saved_feed_options['combine_word_count_option'] : $saved_feed_options['facebook_page_word_count'];
-
-                   /* $facebook_final_message = $this->facebook_tag_filter( $facebook_message );
-                    $trunacate_words = new TrimWords();
-                    $trimmed_content = $trunacate_words::fts_custom_trim_words( $facebook_final_message, $word_count , $more );*/
+                    // SRL 4.0: make this an option eventually $more = '...';
 
                     // Going to consider this for the future if facebook fixes the api to define when are checking in. Add  '.$checked_in.' inside the fts-jal-fb-message div.
                     // $checked_in = '<a target="_blank" class="fts-checked-in-img" href="https://www.facebook.com/'.$facebook_post->place->id.'"><img src="'FTS_FACEBOOK_GRAPH_URL . $facebook_post->place->id.'/picture?width=150"/></a><a target="_blank" class="fts-checked-in-text-link" href="'FTS_FACEBOOK_GRAPH_URL . $facebook_post->place->id.'">'.esc_html("Checked in at", "feed-them-social").' '.$facebook_post->place->name.'</a><br/> '.esc_html("Location", "feed-them-social").': '.$facebook_post->place->location->city.', '.$facebook_post->place->location->country.' '.$facebook_post->place->location->zip.'<br/><a target="_blank" class="fts-fb-get-directions fts-checked-in-get-directions" href="https://www.facebook.com/'.$facebook_post->place->id.'">'.esc_html("Get Direction", "feed-them-social").'</a>';.
@@ -1180,8 +1153,7 @@ class Facebook_Feed_Post_Types {
                     echo esc_html( $facebook_title_job_opening );
                     // $trimmed_content CANNOT be esc at this time.
                     $this->facebook_post_desc( $facebook_message, $saved_feed_options, $facebook_post_type );
-                    // The Popup.
-                    // echo $saved_feed_options['facebook_popup']  == 'yes' ? '<div class="fts-fb-caption"><a href="' . $facebook_post_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html__('View on Facebook', 'feed-them-social') . '</a></div> ' : '';.
+
                     echo '<div class="fts-clear"></div></div> ';
 
                 } elseif ( $show_media !== 'top' ) {
@@ -1190,8 +1162,6 @@ class Facebook_Feed_Post_Types {
                     echo '<div class="fts-jal-fb-message"' . esc_attr( $itemprop_description_reviews ) . '>';
                     // $facebook_final_message CANNOT be esc at this time.
                     echo nl2br( $facebook_final_message );
-                    // If POPUP.
-                    // echo isset($saved_feed_options['facebook_popup'] ) && $saved_feed_options['facebook_popup']  == 'yes' ? '<div class="fts-fb-caption"><a href="' . $facebook_post_link . '" class="fts-view-on-facebook-link" target="_blank">' . esc_html('View on Facebook', 'feed-them-facebook') . '</a></div> ' : '';.
                     echo '<div class="fts-clear"></div></div>';
                 }
             } elseif ( ! $facebook_message && $saved_feed_options['facebook_page_feed_type'] === 'album_photos' ||
@@ -1213,9 +1183,6 @@ class Facebook_Feed_Post_Types {
                     echo '</div>';
                 }
 
-                // Location.
-                // $facebook_location ? $this->fts_facebook_location( $facebook_post_type, $facebook_location ) : '';
-
                 // Output Photo Description.
                 $this->facebook_post_desc( $facebook_post_description, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
 
@@ -1230,8 +1197,7 @@ class Facebook_Feed_Post_Types {
                         $isFirst = true;
                         if( isset( $facebook_post->photos->data ) ) {
                             foreach ( $facebook_post->photos->data as $key => $facebook_album_additional_pic ) {
-                                // $facebook_album_additional_pic_check = isset( $facebook_album_additional_pic->name ) ? $this->facebook_post_desc( $facebook_album_additional_pic->name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by  ): '';
-                                // $facebook_album_additional_pic ? $facebook_album_additional_pic_check : '';
+
                                 echo '<div class="fts-fb-album-additional-pics-content">';
 
                                 $hide_all_but_one_link = !$isFirst ? 'style="display:none"' : '';
@@ -1258,18 +1224,17 @@ class Facebook_Feed_Post_Types {
                                 echo '<div class="fts-clear"></div>';
 
                                 // Album Post Description.
-                                // $facebook_post_name ? $this->facebook_post_desc( $facebook_post_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by ) : '';
                                 // Albums Photo Count.
                                 $this->facebook_post_desc( $facebook_post_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
                                 $view_additional_album_photos = '24' == $key ? '. <a href="' . $facebook_post_album_link . '" target="_blank" rel="noreferrer">' . esc_html__( 'View more for this Album', 'feed-them-social' ) . '</a>' : '';
                                 echo $facebook_post_album_photo_count ? ' ' . esc_html( $key + 1 ) . ' ' . esc_html__( 'of', 'feed-them-social' ) . ' ' . esc_html( $facebook_post_album_photo_count ) . ' ' . esc_html__( 'Photos', 'feed-them-social' ) . ' ' . $view_additional_album_photos : '';
                                 echo '<br/><br/>';
 
-                                $facebook_album_additional_pic_name = isset( $facebook_album_additional_pic->name ) ? $facebook_album_additional_pic->name : '';
+                                $facebook_album_additional_pic_name = $facebook_album_additional_pic->name ?? '';
                                 $this->facebook_post_desc( $facebook_album_additional_pic_name, $saved_feed_options, $facebook_post_type, null, $facebook_post_by );
                                 echo '</div>';
 
-                                $facebook_album_single_picture_id = isset( $facebook_album_additional_pic->id ) ? $facebook_album_additional_pic->id : '';
+                                $facebook_album_single_picture_id = $facebook_album_additional_pic->id ?? '';
                                 $facebook_single_image_link = self::FACEBOOK_URL . $facebook_album_single_picture_id . '';
                                 $single_event_id = isset( $single_event_id ) ?? '';
                                 $this->facebook_post_see_more( $facebook_single_image_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $facebook_post );
@@ -1627,8 +1592,7 @@ class Facebook_Feed_Post_Types {
                     $facebook_post_embed_height = $facebook_post->attachments->data[0]->media->image->height ?? '';
                     $facebook_post_embed_width = $facebook_post->attachments->data[0]->media->image->width ?? '';
                     $video_type = $facebook_post->attachments->data[0]->type ?? '';
-                    // $video_inline = isset( $facebook_post->attachments->data[0]->type ) ? $facebook_post->attachments->data[0]->type : '';
-
+                    // Keeping because this may return $video_inline = isset( $facebook_post->attachments->data[0]->type ) ? $facebook_post->attachments->data[0]->type : '';
                     // && $video_inline == 'video_inline'. /////// || 'video' === $video_type && 'animated_image_video' === $video_inline
                     if ( $video_type === 'video_direct_response' || $video_type === 'video_inline' ) {
 
@@ -1984,9 +1948,7 @@ class Facebook_Feed_Post_Types {
                 }
                 echo '</div>';
 
-                // echo '<pre>';
-                // print_r( $lcs_array['comments_thread']->data );
-                // echo '</pre>';
+                // Check for comment threads by using print_r( $lcs_array['comments_thread']->data );
             }
             echo '</div><!-- END Comments Wrap -->';
         }
@@ -2029,11 +1991,6 @@ class Facebook_Feed_Post_Types {
             // PostTime.
             echo '<span class="fts-jal-fb-post-time">' . $fts_final_date . '</span><div class="fts-clear"></div>';
 
-            // Removing this for now as it just takes up to much room on a post, and this is rather an old practice imo.
-            /*if ( ! empty( $facebook_post_places_id ) ) {
-                $this->feed_location_option( $facebook_post_places_id, $facebook_post_name, $facebook_post_places_name );
-            }*/
-
             // here we trim the words for the premium version. The $saved_feed_options['facebook_page_word_count']string actually comes from the javascript.
             if ( $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) && isset( $saved_feed_options['combine_word_count_option'] ) && $saved_feed_options['combine_word_count_option'] ||
                 $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && isset( $saved_feed_options['facebook_page_word_count'] ) && $saved_feed_options['facebook_page_word_count'] ) {
@@ -2064,18 +2021,14 @@ class Facebook_Feed_Post_Types {
 
         echo '<div class="fts-clear"></div>';
         echo '</div>';
-        $facebook_post_single_id = isset( $facebook_post_single_id ) ? $facebook_post_single_id : '';
-        $single_event_id   = isset( $single_event_id ) ? $single_event_id : '';
+        $facebook_post_single_id = $facebook_post_single_id ?? '';
+        $single_event_id   = $single_event_id ?? '';
 
-         /*echo '<pre>';
-        print_r($facebook_post_type);
-         echo '</pre>';*/
+        // Use this to test the facebook post type print_r($facebook_post_type);
 
         $post_data = $facebook_post ?? '';
 
         $this->facebook_post_see_more( $facebook_post_link, $lcs_array, $facebook_post_type, $saved_feed_options, $facebook_post_username, $facebook_post_id, $facebook_post_user_id, $facebook_post_single_id, $single_event_id, $post_data );
-        // old call..
-           // $this->fts_facebook_post_see_more( $fb_link, $lcs_array, $fb_type, $fb_post_id, $fb_shortcode, $fb_post_user_id, $fb_post_single_id, $single_event_id, $post_data );
 
         echo '<div class="fts-clear"></div>';
         echo '</div>';

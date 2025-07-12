@@ -157,26 +157,26 @@ class ErrorHandler {
                 // Solution Text!
                 $solution_text = self::SOLUTION_TEXT;
                 // ID Error!
-                if ( isset( $feed_data->error ) && 803 === $feed_data->error->code ) {
-                    if ( false !== strpos( $feed_data->error->message, '(#803) Cannot query users by their username' ) || 'group' === $saved_feed_options['facebook_page_feed_type'] ) {
+                if ( isset( $feed_data->error ) && $feed_data->error->code === 803 ) {
+                    if ( strpos( $feed_data->error->message, '(#803) Cannot query users by their username' ) !== false || $saved_feed_options['facebook_page_feed_type'] === 'group' ) {
                         throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . '.2 - Cannot query users by their username. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-803-2" target="_blank">' . $solution_text . '</a></div>' );
                     } else {
                         throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - Facebook cannot find this ID. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-803" target="_blank">' . $solution_text . '</a></div>' );
                     }
-                } elseif ( isset( $feed_data->error ) && ( 341 === $feed_data->error->code || 4 === $feed_data->error->code || 17 === $feed_data->error->code ) ) {
+                } elseif ( isset( $feed_data->error ) && ( $feed_data->error->code === 341 || $feed_data->error->code === 4 || $feed_data->error->code === 17) ) {
                     throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - Too many calls made to Facebook. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-rate-limiting" target="_blank">' . $solution_text . '</a></div>' );
-                } elseif ( isset( $feed_data->error ) && 190 === $feed_data->error->code ) {
+                } elseif ( isset( $feed_data->error ) && $feed_data->error->code === 190 ) {
                     throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - Error validating application. Invalid application ID. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-invalid-app-id" target="_blank">' . $solution_text . '</a></div>' );
-                } elseif ( isset( $feed_data->error ) && 104 === $feed_data->error->code ) {
+                } elseif ( isset( $feed_data->error ) && $feed_data->error->code === 104 ) {
                     throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - An access token is required to request this resource. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
-                } elseif ( isset( $feed_data->error ) && 210 === $feed_data->error->code ) {
+                } elseif ( isset( $feed_data->error ) && $feed_data->error->code === 210 ) {
                     throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - This call requires a Page access token. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
-                } elseif ( isset( $feed_data->error ) && 100 === $feed_data->error->code ) {
+                } elseif ( isset( $feed_data->error ) && $feed_data->error->code === 100 ) {
                     throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - This Page may not be public. <a style="color:red !important;" href="http://www.slickremix.com/docs/facebook-error-messages/#error-100" target="_blank">' . $solution_text . '</a></div>' );
-                } elseif ( 'group' === $saved_feed_options['facebook_page_feed_type'] && isset( $feed_data->error ) && 1 === $feed_data->error->code ) {
+                } elseif ( $saved_feed_options['facebook_page_feed_type'] === 'group' && isset( $feed_data->error ) && $feed_data->error->code === 1 ) {
                     $solution_text = 'Please view this link for a temporary solution.';
                     throw new \Exception( '<div style="clear:both; padding:15px 0;">#' . $feed_data->error->code . ' - The group feed is experiencing a known error at this time. <a style="color:red !important;" href="http://www.slickremix.com/docs/facebook-error-messages/#group-feed-error-pinned-post" target="_blank">' . $solution_text . '</a></div>' );
-                } elseif ( 'reviews' === $saved_feed_options['facebook_page_feed_type'] && ( empty( $feed_data->data ) || ! isset( $feed_data->data ) ) ) {
+                } elseif ( $saved_feed_options['facebook_page_feed_type'] === 'reviews' && ( empty( $feed_data->data ) || ! isset( $feed_data->data ) ) ) {
                     // Rate Limit Exceeded!
                     throw new \Exception( '<div style="clear:both; padding:15px 0;">No Reviews Found or You may not have Admin Permissions for this page. <a style="color:red !important;" href="https://www.slickremix.com/docs/facebook-error-messages/#error-no-reviews" target="_blank">' . $solution_text . '</a></div>' );
                 } elseif ( isset( $feed_data->error ) ) {
@@ -204,8 +204,8 @@ class ErrorHandler {
                 }
             }
         } catch ( \Exception $e ) {
-            $fb_hide_error_handler_message = $saved_feed_options['fb_hide_error_handler_message'] && 'yes' === $saved_feed_options['fb_hide_error_handler_message'] ? 'yes' : 'no';
-            if ( 'no' === $fb_hide_error_handler_message ) {
+            $fb_hide_error_handler_message = $saved_feed_options['fb_hide_error_handler_message'] && $saved_feed_options['fb_hide_error_handler_message'] === 'yes' ? 'yes' : 'no';
+            if ( $fb_hide_error_handler_message === 'no' ) {
                 return array( true, $e->getMessage() );
             } else {
                 return array( true, '' );
@@ -224,9 +224,6 @@ class ErrorHandler {
      * @since 1.9.6
      */
     public function youtube_error_check( $feed_data ) {
-
-        //$feed_data$feed_data = json_decode( $feed_data->data );
-        // print_r($feed_data);
 
         // return error if no data retrieved!
         try {
@@ -249,7 +246,7 @@ class ErrorHandler {
                     throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">' . $output . '</div>' );
                 }
 
-                //throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
+                // Keeping this to look into potential issues. so use throw new \Exception( '<div style="clear:both; padding:15px 0;" class="fts-error-m">'.esc_html__('Oops, It appears something is wrong with this YouTube feed. Are there videos posted on the YouTube account?').'</div>' );
             }
         } catch ( \Exception $e ) {
             return array( true, $e->getMessage() );
@@ -273,7 +270,6 @@ class ErrorHandler {
                 throw new \Exception( '<div style="clear:both; padding:15px 0;">A Valid access token is required to request this resource. <a style="color:red !important;" target="_blank" href="https://www.slickremix.com/docs/instagram-error-messages/#error-access-token-required" target="_blank">' . $solution_text . '</a></div>' );
             }
         } catch (\Exception $e) {
-            // echo ' instagram_error_check ';
             return array(true, $e->getMessage());
         }
 

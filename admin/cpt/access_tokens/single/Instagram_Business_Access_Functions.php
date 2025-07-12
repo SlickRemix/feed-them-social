@@ -238,7 +238,6 @@ class Instagram_Business_Access_Functions {
                         echo do_shortcode( '[fts_fb_page_token]' );
 
                     }
-                  //  echo do_shortcode( '[feed_them_social cpt_id=' . esc_html( $_GET['post'] ) . ']' );
                     ?>
                 </div>
 

@@ -14,6 +14,7 @@
 namespace feedthemsocial\admin\settings;
 
 use feedthemsocial\admin\cron_jobs\CronJobs;
+use feedthemsocial\includes\DebugLog;
 
 /**
  * Class Settings

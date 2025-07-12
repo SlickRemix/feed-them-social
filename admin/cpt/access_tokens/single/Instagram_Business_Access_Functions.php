@@ -171,12 +171,7 @@ class Instagram_Business_Access_Functions {
 
                     // Check to see what the response is.
                     $response = $this->feedFunctions->fts_get_feed_json( $test_app_token_url );
-                    $data = json_decode( $response['app_token_id'] );
-
-                    /*echo '<pre>';
-                    print_r($data);
-                    echo '</pre>';*/
-                }
+                    $data = json_decode( $response['app_token_id'] );                }
                 ?>
                 <div class="clear"></div>
                 <div class="fts-fb-token-wrap" id="fts-fb-token-wrap">

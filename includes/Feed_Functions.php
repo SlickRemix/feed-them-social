@@ -1346,7 +1346,7 @@ class Feed_Functions {
             $instagram_basic = json_decode( $instagram_basic_response['data']);
             $instagram_basic_user = json_decode( $instagram_basic_response['user_info'] );
 
-            // return print_r( $instagram_basic_user );
+            // Use for testing to return print_r( $instagram_basic_user );
 
             $instagram_basic_output = (object)['data' => []];
 

@@ -156,9 +156,9 @@ class Feed_Cache {
      * @since 1.9.6
      */
     public function fts_create_feed_cache( $transient_name, $response ) {
-        // YO!
-        // echo '<br/><br/>Now we are in the create feed cache function. What is the response at this point just before we encrypt response.<br/>';
-        // print_r($response);
+
+        // Now we are in the create feed cache function.
+        // The response at this point just before we encrypt response print_r($response).
 
         if( \is_array($response)){
             $encrypted_response = array();
@@ -167,17 +167,9 @@ class Feed_Cache {
             }
 
             $encrypted_response = serialize($encrypted_response);
-
-            // YO!
-            // echo '<br/><br/> Serialized Array<br/>';
-            // print_r($encrypted_response);
         }
         else{
             $encrypted_response = $this->dataProtection->encrypt( $response );
-            // YO!
-            // echo '<br/><br/>#2 Now we have encrypted the data. What is the response at this point.<br/>';
-            // print_r($encrypted_response);
-
         }
 
         // Is there old Cache? If so Delete it!
@@ -219,17 +211,10 @@ class Feed_Cache {
             $trans =  get_transient( 'fts_t_' . $transient_name );
         }
 
-        // YO!
-        // echo '<br/>GET CACHE What is the response at this point:<br/>';
-        // print_r($trans);
-
         if ($trans){
 
             //is the transient value serialized? If so, un-serialize it!
             $unserialized_value = \maybe_unserialize( $trans );
-
-            // echo '<br/><br/>UNSerialized Array<br/>';
-            // print_r($unserialized_value);
 
             // Is value an array?
             if( \is_array($unserialized_value)){
@@ -239,15 +224,9 @@ class Feed_Cache {
                 }
             }
             else{
-                // YO!
-                //echo '<br/><br/>Not an array so decrypt string.<br/>';
                 // Not an array so decrypt string.
                 $decrypted_value = $this->dataProtection->decrypt( $trans ) !== false ? $this->dataProtection->decrypt( $trans ) : $trans;
             }
-
-            // YO!
-            // echo '<br/><br/>Decrypted!<br/>';
-            // print_r($decrypted_value);
         }
 
         return !empty( $decrypted_value ) ? $decrypted_value : '';

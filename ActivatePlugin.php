@@ -4,7 +4,7 @@
  *
  * Class Feed Them Social Load Plugin Class.
  *
- * @class    classLoadPlugin
+ * @class    LoadPlugin
  * @version  3.0.0
  * @package  FeedThemSocial/Core
  * @category Class
@@ -29,7 +29,7 @@ class ActivatePlugin {
      */
     public function __construct() {
         //Pre-Activate Plugin Checks.
-        $this->pre_activate_plugin_checks();
+        $this->preActivatePluginChecks();
     }
 
     /**
@@ -41,38 +41,38 @@ class ActivatePlugin {
      */
     public function addActionsFilters() {
         // Register Activate Transient
-        register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'activate_transient' ) );
+        register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'activateTransient' ) );
 
         // Display Install Notice Add Action.
-        add_action( 'admin_notices', array( $this, 'display_install_notice' ) );
+        add_action( 'admin_notices', array( $this, 'displayInstallNotice' ) );
 
         // Display Update Notice Add Action.
-        add_action( 'admin_notices', array( $this, 'display_update_notice' ) );
+        add_action( 'admin_notices', array( $this, 'displayUpdateNotice' ) );
 
         // Upgrade Completed Add Action.
-        add_action( 'upgrader_process_complete', array( $this, 'upgrade_completed' ), 10, 2 );
+        add_action( 'upgrader_process_complete', array( $this, 'upgradeCompleted' ), 10, 2 );
 
         // Add Support/Settings links on plugin install page.
-        add_filter( 'plugin_action_links_' . FEED_THEM_SOCIAL_PLUGIN_BASENAME, array( $this, 'free_plugin_install_page_links' ), 10, 4 );
+        add_filter( 'plugin_action_links_' . FEED_THEM_SOCIAL_PLUGIN_BASENAME, array( $this, 'freePluginInstallPageLinks' ), 10, 4 );
 
         // Add filters for feedback/Rate link on plugin install page.
-        add_filter( 'plugin_row_meta', array( $this, 'leave_feedback_link' ), 10, 2 );
+        add_filter( 'plugin_row_meta', array( $this, 'leaveFeedbackLink' ), 10, 2 );
 
         // Plugin Activation Function.
-        register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'plugin_activation' ) );
+        register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'pluginActivation' ) );
 
         // Set Plugin Timezone.
-        add_action( 'admin_init', array( $this, 'set_plugin_review_option' ) );
+        add_action( 'admin_init', array( $this, 'setPluginReviewOption' ) );
 
         // Review/Rating notice option names
         $review_transient = 'fts_slick_rating_notice_waiting2024';
         $review_option    = 'fts_slick_rating_notice2024';
 
         // Set Review Transient.
-        $this->set_review_transient( $review_transient, $review_option );
+        $this->setReviewTransient( $review_transient, $review_option );
 
         // Set Review Status.
-        $this->set_review_status( $review_option, $review_transient );
+        $this->setReviewStatus( $review_option, $review_transient );
 
     }
 
@@ -83,29 +83,19 @@ class ActivatePlugin {
      *
      * @since 1.0.0
      */
-    public function pre_activate_plugin_checks() {
-        if ( ! function_exists( 'is_plugin_active' ) ) {
+    public function preActivatePluginChecks() {
+        if ( ! \function_exists( 'is_plugin_active' ) ) {
             require_once ABSPATH . '/wp-admin/includes/plugin.php';
         }
 
-        // Initialize server PHP version variable
-        $server_php_version = '0.0.0';
-
-        // Check if PHP version can be detected
-        if (function_exists('phpversion')) {
-            $server_php_version = phpversion();
-        } elseif (defined('PHP_VERSION')) {
-            $server_php_version = PHP_VERSION;
-        }
-
         // If PHP version is too low, deactivate the plugin and show a notice
-        if (version_compare($server_php_version, FEED_THEM_SOCIAL_MIN_PHP, '<')) {
+        if (version_compare(PHP_VERSION, FEED_THEM_SOCIAL_MIN_PHP, '<')) {
             deactivate_plugins('feed-them-social/feed-them-social.php');
-            add_action('admin_notices', array($this, 'failed_php_version_notice'));
+            add_action('admin_notices', array($this, 'failedPhpVersionNotice'));
         }
 
         // Uncomment this to test. PHP Version check.
-        // add_action( 'admin_notices', array( $this, 'failed_php_version_notice' ) );
+        // add_action( 'admin_notices', array( $this, 'failedPhpVersionNotice' ) );
     }
 
     /**
@@ -115,7 +105,7 @@ class ActivatePlugin {
      *
      * @since 1.0.0
      */
-    public function failed_php_version_notice() {
+    public function failedPhpVersionNotice() {
         echo \sprintf(
             esc_html__( '%1$sWarning:%2$s Your server PHP version is %3$s. You need to be running at least %4$s or greater to use this plugin. Please upgrade the php by contacting your host provider.%5$s', 'feed-them-social' ),
             '<div class="error"><p><strong>',
@@ -133,7 +123,7 @@ class ActivatePlugin {
      *
      * @since 1.0.0
      */
-    public function activate_transient() {
+    public function activateTransient() {
 
         // Set Activation Transient.
         set_transient( 'fts_activated', 1 );
@@ -149,7 +139,7 @@ class ActivatePlugin {
      *
      * @since 1.0.0
      */
-    public function display_install_notice() {
+    public function displayInstallNotice() {
         // Check the transient to see if we've just activated the plugin.
         if ( get_transient( 'fts_activated' ) ) {
             echo \sprintf(
@@ -171,7 +161,7 @@ class ActivatePlugin {
      *
      * @since 1.0.0
      */
-    public function display_update_notice() {
+    public function displayUpdateNotice() {
         // Check the transient to see if we've just updated the plugin.
         if ( get_transient( 'fts_updated' ) ) {
             echo \sprintf(
@@ -191,7 +181,7 @@ class ActivatePlugin {
      * @param array $options Array The options.
      * @since 1.0.0
      */
-    public function upgrade_completed( $options ) {
+    public function upgradeCompleted( $options ) {
         // The path to our plugin's main file.
         $our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
 
@@ -203,7 +193,7 @@ class ActivatePlugin {
                 $options['type'] === 'plugin' &&
                 $options['plugin'] === $our_plugin ) {
                 DebugLog::log( 'ActivatePlugin', 'Handle plugin installation/replacement (array).', true );
-                $this->handle_plugin_event();
+                $this->handlePluginEvent();
                 return;
             }
 
@@ -213,10 +203,10 @@ class ActivatePlugin {
                 $options['type'] === 'plugin' &&
                 \in_array( $our_plugin, $options['plugins'], true ) ) {
                 DebugLog::log( 'ActivatePlugin', 'Handle plugin updates (array).', true );
-                $this->handle_plugin_event();
+                $this->handlePluginEvent();
                 return;
             }
-        } elseif ( is_object( $options ) ) {
+        } elseif ( \is_object( $options ) ) {
             // Convert object to array for easier processing.
             $options = (array) $options;
 
@@ -226,7 +216,7 @@ class ActivatePlugin {
                 $options['type'] === 'plugin' &&
                 $options['plugin'] === $our_plugin ) {
                 DebugLog::log( 'ActivatePlugin', 'Handle plugin installation/replacement (object).', true );
-                $this->handle_plugin_event();
+                $this->handlePluginEvent();
                 return;
             }
 
@@ -236,7 +226,7 @@ class ActivatePlugin {
                 $options['type'] === 'plugin' &&
                 \in_array( $our_plugin, $options['plugins'], true ) ) {
                 DebugLog::log( 'ActivatePlugin', 'Handle plugin updates (object).', true );
-                $this->handle_plugin_event();
+                $this->handlePluginEvent();
                 return;
             }
         }
@@ -250,12 +240,12 @@ class ActivatePlugin {
      *
      * Common logic for when the plugin is updated or replaced.
      */
-    protected function handle_plugin_event() {
+    protected function handlePluginEvent() {
         // Set a transient to record that our plugin has just been updated/replaced.
         set_transient( 'fts_updated', 1 );
 
         // Set/Update new cron job for clearing cache.
-        $this->set_cron_job();
+        $this->setCronJob();
     }
 
     /**
@@ -267,7 +257,7 @@ class ActivatePlugin {
      * @return mixed
      * @since 1.0.0
      */
-    public function free_plugin_install_page_links( $install_page_links ) {
+    public function freePluginInstallPageLinks( $install_page_links ) {
         array_unshift(
             $install_page_links,
             '<a href="' . admin_url() . 'edit.php?post_type=fts">' . esc_html__( 'Feeds', 'feed-them-social' ) . '</a> | <a href="' . admin_url() . 'edit.php?post_type=fts&page=fts-settings-page">' . esc_html__( 'Settings',  'feed-them-social' ) . '</a> | <a target="_blank" href="' . esc_url( 'https://www.slickremix.com/support/' ) . '">' . esc_html__( 'Support',  'feed-them-social' ) . '</a>'
@@ -285,8 +275,8 @@ class ActivatePlugin {
      * @return mixed
      * @since 1.0.0
      */
-    public function leave_feedback_link( $links, $file ) {
-        if ( FEED_THEM_SOCIAL_PLUGIN_BASENAME === $file ) {
+    public function leaveFeedbackLink( $links, $file ) {
+        if ( $file === FEED_THEM_SOCIAL_PLUGIN_BASENAME ) {
             $links['feedback'] = \sprintf(
                 esc_html__( '%1$sRate Plugin%2$s', 'feed-them-social' ),
                 '<a href="' . esc_url( 'https://wordpress.org/support/plugin/feed-them-social/reviews/' ) . '" target="_blank">',
@@ -303,7 +293,7 @@ class ActivatePlugin {
      *
      * @since 1.0.0
      */
-    public function plugin_activation() {
+    public function pluginActivation() {
 
         // Activation options to add to the fts_settings array.
         $activation_options = array(
@@ -327,7 +317,7 @@ class ActivatePlugin {
         update_option('fts_settings', $fts_settings);
 
         // Set/Update new cron job for clearing cache.
-        $this->set_cron_job();
+        $this->setCronJob();
     }
 
 
@@ -338,14 +328,14 @@ class ActivatePlugin {
      *
      * @since 1.0.0
      */
-    public function set_plugin_review_option() {
+    public function setPluginReviewOption() {
 
         // Review Nag Check.
         // Must run this on admin_init so no errors on multisite after clicking any buttons.
         $review_transient = 'fts_slick_rating_notice_waiting2024';
         $review_option    = 'fts_slick_rating_notice2024';
         $review_nag       = 'fts_slick_ignore_rating_notice_nag2024';
-        $this->review_nag_check( $review_nag, $review_option, $review_transient );
+        $this->reviewNagCheck( $review_nag, $review_option, $review_transient );
     }
 
     /**
@@ -359,7 +349,7 @@ class ActivatePlugin {
      * @param string $review_transient Check the transient exists or not.
      * @since 1.0.8
      */
-    public function review_nag_check( $review_nag, $review_option, $review_transient ) {
+    public function reviewNagCheck( $review_nag, $review_option, $review_transient ) {
 
         if ( isset( $_GET[ $review_nag ] ) ) {
 
@@ -398,7 +388,7 @@ class ActivatePlugin {
      * @param string $review_option The option to check for.
      * @since 1.0.8
      */
-    public function set_review_transient( $review_transient, $review_option ) {
+    public function setReviewTransient( $review_transient, $review_option ) {
         $rating_notice_waiting = get_transient( $review_transient );
         $notice_status         = get_option( $review_option, false );
 
@@ -419,11 +409,11 @@ class ActivatePlugin {
      * @param string $review_transient Check the transient exists or not.
      * @since 1.0.8
      */
-    public function set_review_status( $review_option, $review_transient ) {
+    public function setReviewStatus( $review_option, $review_transient ) {
         $get_notice_status = get_option( $review_option, false );
         // Only display the notice if the time offset has passed and the user hasn't already dismissed it!.
         if ( get_transient( $review_transient ) !== 'fts-review-waiting2024' && $get_notice_status !== 'dismissed2024' ) {
-            add_action( 'admin_notices', array( $this, 'rating_notice_html' ) );
+            add_action( 'admin_notices', array( $this, 'ratingNoticeHtml' ) );
         }
 
         // Testing.
@@ -432,7 +422,7 @@ class ActivatePlugin {
         // print_r( get_transient( $review_transient ) );
         // Uncomment this for testing the notice.
         // if ( !isset( $_GET['ftg_slick_ignore_rating_notice_nag2024'] ) ) {
-        //  add_action( 'admin_notices', array($this, 'rating_notice_html') );
+        //  add_action( 'admin_notices', array($this, 'ratingNoticeHtml') );
         // }
     }
 
@@ -443,7 +433,7 @@ class ActivatePlugin {
      *
      * @since 1.0.8
      */
-    public function rating_notice_html() {
+    public function ratingNoticeHtml() {
         // Only show to admins.
         if ( current_user_can( 'manage_options' ) ) {
             global $current_user;
@@ -487,7 +477,7 @@ class ActivatePlugin {
      *
      * @since 4.3.4
      */
-    public function set_cron_job() {
+    public function setCronJob() {
 
         // Set new cron job for clearing cache.
         $cron_job = new CronJobs( null, null, null, null );

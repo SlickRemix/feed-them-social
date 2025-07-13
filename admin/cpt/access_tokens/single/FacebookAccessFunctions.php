@@ -160,52 +160,50 @@ class FacebookAccessFunctions {
         <div class="fts-fb-token-wrap" id="fts-fb-token-wrap">
             <?php
 
-            if( !isset( $_GET['feed_type'] ) ) {
-                if ( !empty( $data ) ) {
+            if( !isset( $_GET['feed_type'] ) && !empty( $data ) ) {
 
-                    if ( isset( $data->data->is_valid ) || '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' === $data->error->message ) {
+                if ( isset( $data->data->is_valid ) || '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' === $data->error->message ) {
 
-                        echo '<div class="fts-successful-api-token fts-special-working-wrap">';
+                    echo '<div class="fts-successful-api-token fts-special-working-wrap">';
 
-                        if ( !empty( $fb_name ) && !empty( $access_token ) ) {
-                            echo '<h4><a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-fb-icon"></span>' . esc_html( $fb_name ) . '</a></h4>';
-                        }
-
-                        if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
-                            echo \sprintf(
-                                esc_html__( '%1$sCreate Combined Feed%2$s', 'feed-them-social' ),
-                                '<a class="fts-facebook-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
-                                '</a>'
-                            );
-
-                        }
-                        else {
-                            echo \sprintf(
-                                esc_html__( '%1$sCreate Facebook Feed%2$s', 'feed-them-social' ),
-                                '<a class="fts-facebook-successful-api-token fts-success-token-content" href="#facebook_feed">',
-                                '</a>'
-                            );
-                        }
-
-                        echo '</div>';
+                    if ( !empty( $fb_name ) && !empty( $access_token ) ) {
+                        echo '<h4><a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-fb-icon"></span>' . esc_html( $fb_name ) . '</a></h4>';
                     }
-                    if ( isset( $data->data->error->message ) && !empty( $data ) || isset( $data->error->message ) && !empty( $data ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {
-                        if ( isset( $data->data->error->message ) ) {
-                            echo \sprintf(
-                                esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
-                                '<div class="fts-failed-api-token">',
-                                esc_html( $data->data->error->message ),
-                                '</div>'
-                            );
-                        }
-                        if ( isset( $data->error->message ) ) {
-                            echo \sprintf(
-                                esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
-                                '<div class="fts-failed-api-token">',
-                                esc_html( $data->error->message ),
-                                '</div>'
-                            );
-                        }
+
+                    if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                        echo \sprintf(
+                            esc_html__( '%1$sCreate Combined Feed%2$s', 'feed-them-social' ),
+                            '<a class="fts-facebook-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',
+                            '</a>'
+                        );
+
+                    }
+                    else {
+                        echo \sprintf(
+                            esc_html__( '%1$sCreate Facebook Feed%2$s', 'feed-them-social' ),
+                            '<a class="fts-facebook-successful-api-token fts-success-token-content" href="#facebook_feed">',
+                            '</a>'
+                        );
+                    }
+
+                    echo '</div>';
+                }
+                if ( isset( $data->data->error->message ) && !empty( $data ) || isset( $data->error->message ) && !empty( $data ) && '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' !== $data->error->message ) {
+                    if ( isset( $data->data->error->message ) ) {
+                        echo \sprintf(
+                            esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
+                            '<div class="fts-failed-api-token">',
+                            esc_html( $data->data->error->message ),
+                            '</div>'
+                        );
+                    }
+                    if ( isset( $data->error->message ) ) {
+                        echo \sprintf(
+                            esc_html__( '%1$sOh No something\'s wrong. %2$s. Please click the button above to retrieve a new Access Token.%3$s', 'feed-them-social' ),
+                            '<div class="fts-failed-api-token">',
+                            esc_html( $data->error->message ),
+                            '</div>'
+                        );
                     }
                 }
             }

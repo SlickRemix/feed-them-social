@@ -5,6 +5,7 @@
 [![Plugin Rating](https://img.shields.io/wordpress/plugin/r/feed-them-social.svg?maxAge=2592000)](https://wordpress.org/plugins/feed-them-social/)
 [![WordPress Compatibility](https://img.shields.io/wordpress/v/feed-them-social.svg?maxAge=2592000)](https://wordpress.org/plugins/feed-them-social/)
 [![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SlickRemix_feed-them-social&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=SlickRemix_feed-them-social)
 
 ### 🚀 Welcome to the Feed Them Social GitHub Repository!
 

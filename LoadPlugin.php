@@ -4,7 +4,7 @@
  *
  * Class Feed Them Social Load Plugin Class
  *
- * @class    classLoadPlugin
+ * @class    LoadPlugin
  * @version  3.0.0
  * @package  FeedThemSocial/Core
  * @category Class
@@ -66,7 +66,7 @@ use feedthemsocial\includes\DebugLog;
 /**
  * Feed Them Social Class
  */
-class classLoadPlugin {
+class LoadPlugin {
 
     /**
      * Construct

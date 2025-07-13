@@ -966,19 +966,19 @@ class FeedFunctions {
         $response = json_decode($result);
 
         // Testing
-        DebugLog::log( 'FeedFunctions', 'fts_tiktok_refresh_token', $postdata );
+        DebugLog::log( 'FeedFunctions', 'Show fts_tiktok_refresh_token $postdata', $postdata );
 
         $nonce   = $response->fts_oauth_nonce ?? null;
         $post_id = $response->fts_cpt_id ?? null;
 
         // Check if nonce is valid and cross check the post id.
         if ( ! isset( $nonce ) || wp_verify_nonce( $nonce, 'fts_oauth_tiktok' ) !== 1 && $post_id === $feed_cpt_id ) {
-            DebugLog::log( 'FeedFunctions', 'Invalid TikTok oauth nonce', true );
+            DebugLog::log( 'FeedFunctions', 'Invalid TikTok oauth nonce for refresh token', true );
             wp_die( __( 'Invalid TikTok oauth nonce', 'feed-them-social' ) );
         }
 
-        DebugLog::log( 'FeedFunctions', 'Invalid TikTok oauth nonce', $response );
-        DebugLog::log( 'FeedFunctions', 'Invalid TikTok oauth nonce', $result );
+        DebugLog::log( 'FeedFunctions', 'Show TikTok $response', $response );
+        DebugLog::log( 'FeedFunctions', 'Show TikTok $result', $result );
 
 
         // Example Response

@@ -9,7 +9,7 @@
 
 ### 🚀 Welcome to the Feed Them Social GitHub Repository!
 
-Easily Create and Display Customizable Social Feeds for Instagram, Facebook, Twitter, or Youtube. Responsive on Desktops, Tablets, and Mobile Devices.
+Easily Create and Display Customizable Social Feeds for Instagram, Facebook, TikTok, or Youtube. Responsive on Desktops, Tablets, and Mobile Devices.
 **Features**
 - Quick installation and setup
 - Create unlimited social feeds

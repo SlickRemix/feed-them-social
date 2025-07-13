@@ -980,7 +980,6 @@ class FeedFunctions {
         DebugLog::log( 'FeedFunctions', 'Show TikTok $response', $response );
         DebugLog::log( 'FeedFunctions', 'Show TikTok $result', $result );
 
-
         // Example Response
         // access_token": "act.example12345Example12345Example",
         // "expires_in": 86400,

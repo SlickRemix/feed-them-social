@@ -116,7 +116,7 @@ class FacebookFeed {
      * @param string $feed_post_id Feed Post ID.
      * @since 4.0
      */
-    public function fb_custom_styles( $feed_post_id ) {
+    public function fbCustomStyles( $feed_post_id ) {
 
         $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feed_post_id );
 
@@ -363,7 +363,7 @@ class FacebookFeed {
      * @return string
      * @since 1.9.6
      */
-    public function display_facebook( $feed_post_id ) {
+    public function displayFacebook( $feed_post_id ) {
 
         if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
             $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
@@ -382,10 +382,10 @@ class FacebookFeed {
         $fts_facebook_custom_api_token = !empty( $saved_feed_options['fts_facebook_custom_api_token'] ) ? $saved_feed_options['fts_facebook_custom_api_token'] : '';
         $this->feedAccessToken = $this->accessOptions->decryptAccessToken( $fts_facebook_custom_api_token );
 
-        $load_popup_scripts = false;
+        $loadPopupScripts = false;
         if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
             // Load up some scripts for popup.
-            $load_popup_scripts = true;
+            $loadPopupScripts = true;
         }
         else {
             if ( $saved_feed_options['facebook_page_post_count'] === null ) {
@@ -394,12 +394,12 @@ class FacebookFeed {
         }
 
         // Load Pop Up Scripts
-        if( $load_popup_scripts ){
-            $this->load_popup_scripts( $saved_feed_options );
+        if( $loadPopupScripts ){
+            $this->loadPopupScripts( $saved_feed_options );
         }
 
         // Get our Additional Options.
-        $this->fb_custom_styles( $feed_post_id );
+        $this->fbCustomStyles( $feed_post_id );
 
         if ( $saved_feed_options['facebook_page_feed_type'] === 'album_videos' ) {
             $saved_feed_options['facebook_page_feed_type'] = 'album_photos';
@@ -445,7 +445,7 @@ class FacebookFeed {
             $language = '';
 
             // Get Response (AKA Page & Feed Information) ERROR CHECK inside this function.
-            $response2 = $this->get_facebook_feed_response( $saved_feed_options, $fb_cache_name, $language );
+            $response2 = $this->getFacebookFeedResponse( $saved_feed_options, $fb_cache_name, $language );
 
             // Test to see if the re-sort date option is working from function above.
             // print $this->dateSort;.
@@ -545,15 +545,15 @@ class FacebookFeed {
         // print   $facebook_post_type;
 
         // View Link.
-        $fts_view_fb_link = $this->get_view_link( $saved_feed_options );
+        $fts_view_fb_link = $this->getViewLink( $saved_feed_options );
         // Get Cache Name.
-        $fb_cache_name = $this->get_fb_cache_name( $saved_feed_options );
+        $fb_cache_name = $this->getFbCacheName( $saved_feed_options );
         // Get language.
-        $language = $this->get_language( $saved_feed_options );
+        $language = $this->getLanguage( $saved_feed_options );
 
         if ( $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
             // Get Response (AKA Page & Feed Information) ERROR CHECK inside this function.
-            $response = $this->get_facebook_feed_response( $saved_feed_options, $fb_cache_name, $language );
+            $response = $this->getFacebookFeedResponse( $saved_feed_options, $fb_cache_name, $language );
             // Json decode data and build it from cache or response.
             $page_data = !empty($response['page_data']) ? json_decode($response['page_data'], true) : null;
             $feed_data = !empty($response['feed_data']) ? json_decode( $response['feed_data'] ) : null;
@@ -576,7 +576,7 @@ class FacebookFeed {
             }
 
             // Get Response (AKA Page & Feed Information) ERROR CHECK inside this function.
-            $response = $this->get_facebook_feed_response( $saved_feed_options, $fb_cache_name, $language );
+            $response = $this->getFacebookFeedResponse( $saved_feed_options, $fb_cache_name, $language );
 
             $feed_data = json_decode( $response['feed_data'] );
 
@@ -689,7 +689,7 @@ class FacebookFeed {
             // SOCIAL BUTTON.
 
             if ( ! $fts_count_ids >= 1 && $saved_feed_options['facebook_hide_like_box_button'] === 'no' ) {
-                $this->fb_social_btn_placement( $saved_feed_options, 'above_title' );
+                $this->fbSocialBtnPlacement( $saved_feed_options, 'above_title' );
             }
 
             // fts-fb-header-wrapper (for grid).
@@ -733,7 +733,7 @@ class FacebookFeed {
                 }
                 // Description.
                 echo !empty( $saved_feed_options['facebook_page_description'] ) && $saved_feed_options['facebook_page_description'] !== 'no' ? '<div class="fts-jal-fb-group-header-desc">' . wp_kses(
-                        $this->facebookPostTypes->facebook_tag_filter( $page_description ),
+                        $this->facebookPostTypes->facebookTagFilter( $page_description ),
                         array(
                             'a'      => array(
                                 'href'  => array(),
@@ -754,7 +754,7 @@ class FacebookFeed {
 
         // SOCIAL BUTTON.
         if ( ! $fts_count_ids >= 1 && $saved_feed_options['facebook_hide_like_box_button'] === 'no' ) {
-            $this->fb_social_btn_placement( $saved_feed_options, 'below_title' );
+            $this->fbSocialBtnPlacement( $saved_feed_options, 'below_title' );
         }
 
         // Feed Header.
@@ -920,11 +920,11 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
         // Post Information
         // *********************
         $fb_load_more_text   = $saved_feed_options['fb_load_more_text'] ?? esc_html( 'Load More', 'feed-them-social' );
-        $response_post_array = $this->get_post_info( $feed_data, $saved_feed_options, $language, $fb_cache_name );
+        $response_post_array = $this->getPostInfo( $feed_data, $saved_feed_options, $language, $fb_cache_name );
 
         // Single event info call.
         if ( $saved_feed_options['facebook_page_feed_type'] === 'events' ) {
-            $single_event_array_response = $this->get_event_post_info( $feed_data, $saved_feed_options, $language );
+            $single_event_array_response = $this->getEventPostInfo( $feed_data, $saved_feed_options, $language );
         }
 
         $set_zero = 0;
@@ -1013,7 +1013,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
 
         if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && $saved_feed_options['facebook_page_feed_type'] !== 'reviews' || $this->feedFunctions->isExtensionActive( 'feed_them_social_facebook_reviews' ) && $saved_feed_options['facebook_page_feed_type'] === 'reviews' ) {
             if ( ! empty( $feed_data->data ) ) {
-                $this->fts_facebook_loadmore( $feed_post_id, $feed_data, $facebook_post_type, $saved_feed_options );
+                $this->ftsFacebookLoadmore( $feed_post_id, $feed_data, $facebook_post_type, $saved_feed_options );
             }
         }
 
@@ -1147,7 +1147,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
         // SOCIAL BUTTON
         // ******************
         if ( ! $fts_count_ids >= 1 && $saved_feed_options['facebook_hide_like_box_button'] === 'no' ) {
-            $this->fb_social_btn_placement( $saved_feed_options, 'bottom' );
+            $this->fbSocialBtnPlacement( $saved_feed_options, 'bottom' );
         }
 
         return ob_get_clean();
@@ -1162,7 +1162,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @param string $location The location of the photo or video.
      * @since 1.9.6
      */
-    public function fts_facebook_location( $facebook_post_type, $location ) {
+    public function ftsFacebookLocation( $facebook_post_type, $location ) {
         switch ( $facebook_post_type ) {
             case 'app':
             case 'cover':
@@ -1185,7 +1185,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @return string
      * @since 1.9.6
      */
-    public function get_view_link( $saved_feed_options ) {
+    public function getViewLink( $saved_feed_options ) {
 
         $facebook_url = 'https://www.facebook.com/';
 
@@ -1229,7 +1229,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @return string
      * @since 1.9.6
      */
-    public function get_fb_cache_name( $saved_feed_options ) {
+    public function getFbCacheName( $saved_feed_options ) {
         // URL to get page info.
         $r_count = substr_count( $saved_feed_options['fts_facebook_custom_api_token_user_id'], ',' );
 
@@ -1256,7 +1256,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @return string
      * @since 1.9.6
      */
-    public function get_language( $saved_feed_options ) {
+    public function getLanguage( $saved_feed_options ) {
         // this check is in place because we used this option and it failed for many people because we use wp get contents instead of curl.
         // this can be removed in a future update and just keep the $language_option = get_option('fb_language', 'en_US');.
         $language_option_check = ! empty( $saved_feed_options['fb_language'] ) ? $saved_feed_options['fb_language'] : '';
@@ -1280,7 +1280,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @throws \Exception
      * @since 1.9.6
      */
-    public function get_facebook_feed_response( $saved_feed_options, $fb_cache_name, $language ) {
+    public function getFacebookFeedResponse( $saved_feed_options, $fb_cache_name, $language ) {
 
         if ( isset( $_REQUEST['next_url'] ) && ! empty( $_REQUEST['next_url'] ) ) {
             $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
@@ -1475,7 +1475,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @throws \Exception
      * @since 1.9.6
      */
-    public function get_post_info( $feed_data, $saved_feed_options, $language, $fb_cache_name ) {
+    public function getPostInfo( $feed_data, $saved_feed_options, $language, $fb_cache_name ) {
 
         // If Album include album ID in Post Data Cache name.
         if ( $saved_feed_options['facebook_page_feed_type'] === 'album_photos' ) {
@@ -1586,7 +1586,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @return array|mixed
      * @since 2.1.6
      */
-    public function get_event_post_info( $feed_data, $saved_feed_options, $language ) {
+    public function getEventPostInfo( $feed_data, $saved_feed_options, $language ) {
 
         $fb_event_post_data_cache = 'fbe_' . $saved_feed_options['facebook_page_feed_type'] . '_post_' . $saved_feed_options['fts_facebook_custom_api_token_user_id'] . '_num' . $saved_feed_options['facebook_page_post_count'] . '';
         if ( $this->feedCache->ftsCheckFeedCacheExists( $fb_event_post_data_cache ) !== false && ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -1643,7 +1643,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @return string|void
      * @since 2.0.1
      */
-    public function fb_social_btn_placement( $saved_feed_options, $share_loc ) {
+    public function fbSocialBtnPlacement( $saved_feed_options, $share_loc ) {
 
         // Don't do it for these!
         if ( $saved_feed_options['facebook_page_feed_type'] === 'group' || $saved_feed_options['facebook_page_feed_type'] === 'event' || isset( $saved_feed_options['hide_like_option'] ) && $saved_feed_options['hide_like_option'] === 'yes' ) {
@@ -1692,7 +1692,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @param array $saved_feed_options The feed options saved in the CPT.
      * @since 1.9.6
      */
-    public function load_popup_scripts( $saved_feed_options ) {
+    public function loadPopupScripts( $saved_feed_options ) {
         if ( isset(  $saved_feed_options['facebook_popup']  ) && $saved_feed_options['facebook_popup'] === 'yes' ) {
             // it's ok if these styles & scripts load at the bottom of the page.
             $fts_fix_magnific = $this->settingsFunctions->fts_get_option( 'remove_magnific_css' ) ?? '';
@@ -1713,7 +1713,7 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
      * @param array $saved_feed_options The feed options saved in the CPT.
      * @since 1.9.6
      */
-    public function fts_facebook_loadmore( $feed_post_id, $feed_data, $facebook_post_type, $saved_feed_options ) {
+    public function ftsFacebookLoadmore( $feed_post_id, $feed_data, $facebook_post_type, $saved_feed_options ) {
 
         if ( ( isset( $saved_feed_options['facebook_load_more_style'] ) && $saved_feed_options['facebook_load_more_style'] === 'button' && $saved_feed_options['facebook_load_more'] === 'yes' || isset( $saved_feed_options['facebook_load_more_style'] ) && $saved_feed_options['facebook_load_more_style'] === 'autoscroll') && ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && $saved_feed_options['facebook_page_feed_type'] !== 'reviews' || $this->feedFunctions->isExtensionActive( 'feed_them_social_facebook_reviews' ) && $saved_feed_options['facebook_page_feed_type'] === 'reviews') ) {
 
@@ -1886,6 +1886,6 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
         }
         // end of if loadmore is button or autoscroll.
     }
-    // end fts_facebook_loadmore().
+    // end ftsFacebookLoadmore().
 
 }//end class

@@ -100,7 +100,7 @@ class TiktokFeed {
      */
     public function addActionsFilters() {
 
-        add_action( 'wp_enqueue_scripts', array( $this, 'tiktok_head' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'tiktokHead' ) );
     }
 
     /**
@@ -110,7 +110,7 @@ class TiktokFeed {
      *
      * @since 2.9.6.5
      */
-    public function tiktok_head() {
+    public function tiktokHead() {
         // no actions or filters to load at this time.
     }
 
@@ -148,7 +148,7 @@ class TiktokFeed {
      * @return string
      * @since 4.2.1
      */
-    public function tiktok_image( $post_data, $popup ) {
+    public function tiktokImage( $post_data, $popup ) {
 
         $screen_name = isset( $post_data->user->screen_name ) ?  $post_data->user->screen_name : '';
         $post_id = isset( $post_data->id ) ?  $post_data->id : '';
@@ -180,8 +180,8 @@ class TiktokFeed {
      * @return string
      * @since 4.2.1
      */
-    public function comment_count( $post_data ) {
-        $comment_count = isset( $post_data->comment_count ) && $post_data->comment_count !== '0' ? $post_data->comment_count : '';
+    public function commentCount( $post_data ) {
+        $comment_count = isset( $post_data->commentCount ) && $post_data->commentCount !== '0' ? $post_data->commentCount : '';
 
         if( $comment_count !== 0) {
             return '<span class="fts-tiktok-comment-count">' . esc_html( $comment_count ) . '</span>';
@@ -195,9 +195,9 @@ class TiktokFeed {
      * @return string
      * @since 4.2.1
      */
-    public function like_count( $post_data ) {
+    public function likeCount( $post_data ) {
         // Retweet count.
-        $like_count = isset( $post_data->like_count ) && '0' !== $post_data->like_count ? $post_data->like_count : '';
+        $like_count = isset( $post_data->likeCount ) && '0' !== $post_data->likeCount ? $post_data->likeCount : '';
 
         if( $like_count !== 0) {
             return '<span class="fts-tiktok-like-count">' . esc_html( $like_count ) . '</span>';
@@ -211,9 +211,9 @@ class TiktokFeed {
      * @return string
      * @since 4.2.1
      */
-    public function view_count( $post_data ) {
+    public function viewCount( $post_data ) {
         // Favorite count.
-        $view_count = isset( $post_data->view_count ) && '0' !== $post_data->view_count ? $post_data->view_count : '';
+        $view_count = isset( $post_data->viewCount ) && '0' !== $post_data->viewCount ? $post_data->viewCount : '';
 
         if( $view_count !== 0) {
             return '<span class="fts-tiktok-views-count">' . esc_html( $view_count ) . '</span>';
@@ -229,7 +229,7 @@ class TiktokFeed {
      * @return false|int
      * @since 4.2.1
      */
-    public function tiktok_custom_styles( $feed_post_id ) {
+    public function tiktokCustomStyles( $feed_post_id ) {
 
         $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feed_post_id );
         ?>
@@ -379,7 +379,7 @@ class TiktokFeed {
      * @param array $premium_options The feed options saved in the CPT but loaded in tiktok Premium.
      * @since 4.2.1
      */
-    public function load_popup_scripts( $premium_options ) {
+    public function loadPopupScripts( $premium_options ) {
         if ( isset( $premium_options['popup']  ) && $premium_options['popup'] === 'yes' ) {
             // It's ok if these styles & scripts load at the bottom of the page.
             $fts_fix_magnific = $this->settingsFunctions->fts_get_option( 'remove_magnific_css' ) ?? '';
@@ -400,7 +400,7 @@ class TiktokFeed {
      * @return string
      * @since 4.2.3
      */
-    public function format_count($count) {
+    public function formatCount($count) {
         if ($count <= 9999) {
             return number_format((float) $count);
         }
@@ -422,7 +422,7 @@ class TiktokFeed {
      * @return array
      * @since 4.2.1
      */
-    public function display_tiktok( $feed_post_id ) {
+    public function displayTiktok( $feed_post_id ) {
 
             // SRL: this needs attention on because this will not load proper on block based themes. ie* 2022, 2020 WordPress Themes.
             // Here is a fix reference.
@@ -433,7 +433,7 @@ class TiktokFeed {
             $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feed_post_id );
 
             // Get our Additional Options.
-            $this->tiktok_custom_styles( $feed_post_id );
+            $this->tiktokCustomStyles( $feed_post_id );
 
             $tiktok_user_id = $saved_feed_options['fts_tiktok_user_id'] ?? '';
             // Show Follow Button.
@@ -468,7 +468,7 @@ class TiktokFeed {
 
             include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-            $load_popup_scripts = false;
+            $loadPopupScripts = false;
 
             // option to allow this action or not from the Twitter Options page.
             if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_tiktok_premium' ) ) {
@@ -485,15 +485,15 @@ class TiktokFeed {
                 $space_between_posts   = $premium_options['space_between_posts'] ?? '';
                 $load_more_text        = $premium_options['load_more_text'] ?? '';
                 $no_more_posts_text    = $premium_options['no_more_posts_text'] ?? '';
-                $load_popup_scripts    = $premium_options['load_popup_scripts'] ?? false;
+                $loadPopupScripts    = $premium_options['load_popup_scripts'] ?? false;
             }
             else {
                 $grid = 'no';
                 $popup = 'no';
             }
              // Load Pop Up Scripts
-            if( $load_popup_scripts ){
-                $this->load_popup_scripts( $premium_options );
+            if( $loadPopupScripts ){
+                $this->loadPopupScripts( $premium_options );
             }
 
             // Premium TikTok Count Check!
@@ -753,10 +753,10 @@ class TiktokFeed {
                             $stats_followers_count_check = 400200;
                             $stats_likes_count_check     = 6000300;*/
 
-                            $stats_video_count        = isset($stats_video_count_check) ? $this->format_count($stats_video_count_check) : '';
-                            $stats_following_count = isset($stats_following_count_check) ? $this->format_count($stats_following_count_check) : '';
-                            $stats_followers_count = isset($stats_followers_count_check) ? $this->format_count($stats_followers_count_check) : '';
-                            $stats_likes_count        = isset($stats_likes_count_check) ? $this->format_count($stats_likes_count_check) : '';
+                            $stats_video_count        = isset($stats_video_count_check) ? $this->formatCount($stats_video_count_check) : '';
+                            $stats_following_count = isset($stats_following_count_check) ? $this->formatCount($stats_following_count_check) : '';
+                            $stats_followers_count = isset($stats_followers_count_check) ? $this->formatCount($stats_followers_count_check) : '';
+                            $stats_likes_count        = isset($stats_likes_count_check) ? $this->formatCount($stats_likes_count_check) : '';
                         }
 
                         if ( $stats_bar === 'yes' ) {
@@ -887,7 +887,7 @@ class TiktokFeed {
                                         </div>
                                     </div>
                                     <?php
-                                    $fts_image = $this->tiktok_image( $post_data, $popup );
+                                    $fts_image = $this->tiktokImage( $post_data, $popup );
                                     echo $fts_image;
                                     ?>
                                 </div>
@@ -901,7 +901,7 @@ class TiktokFeed {
                                     </div>
                                 </div>
                                 <div class="fts-twitter-reply-wrap-left fts-twitter-svg-addition">
-                                    <div class="fts-tiktok-social-counts-wrap"><a href="<?php echo $permalink ?>" target="_blank" class="fts-jal-fb-see-more"><div class="fts-tiktok-social-counts"><?php echo $this->view_count( $post_data ); ?><?php echo $this->like_count( $post_data ); ?><?php echo $this->comment_count( $post_data ); ?><span class="fts-view-on-facebook"><?php echo esc_html( $saved_feed_options['tiktok_view_on_tiktok'] ) ?></span></div></a></div>
+                                    <div class="fts-tiktok-social-counts-wrap"><a href="<?php echo $permalink ?>" target="_blank" class="fts-jal-fb-see-more"><div class="fts-tiktok-social-counts"><?php echo $this->viewCount( $post_data ); ?><?php echo $this->likeCount( $post_data ); ?><?php echo $this->commentCount( $post_data ); ?><span class="fts-view-on-facebook"><?php echo esc_html( $saved_feed_options['tiktok_view_on_tiktok'] ) ?></span></div></a></div>
                                 </div>
                                 <div class="fts-clear"></div>
                             </div><?php // <!--tweeter-info-->. ?>
@@ -1006,9 +1006,9 @@ class TiktokFeed {
                                             <a href="<?php echo $permalink ?>" target="_blank" class="fts-jal-fb-see-more">
                                                 <div class="fts-tiktok-social-counts">
                                                     <?php if ( isset($tiktok_hide_date_likes_comments) && $tiktok_hide_date_likes_comments === 'yes' ) {
-                                                        echo $this->view_count( $post_data );
-                                                        echo $this->like_count( $post_data );
-                                                        echo $this->comment_count( $post_data );
+                                                        echo $this->viewCount( $post_data );
+                                                        echo $this->likeCount( $post_data );
+                                                        echo $this->commentCount( $post_data );
                                                     } ?><span class="fts-view-on-facebook"><?php echo esc_html( $saved_feed_options['tiktok_view_on_tiktok'] ) ?></span>
                                                 </div>
                                             </a>
@@ -1176,18 +1176,16 @@ class TiktokFeed {
                 }//End Check.
 
                 // Make sure it's not ajaxing.
-                if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                    if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_tiktok_premium' ) && $loadmore_style === 'button' && $loadmore === 'yes' ) {
-                        echo '<div class="fts-clear"></div>';
-                        echo '<div class="fts-twitter-load-more-wrapper">';
-                        echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '"" style="';
-                        if ( isset( $loadmore_btn_maxwidth ) && ! empty( $loadmore_btn_maxwidth ) ) {
-                            echo 'max-width:' . esc_attr( $loadmore_btn_maxwidth ) . ';';
-                        }
-                        $loadmore_btn_margin = isset( $loadmore_btn_margin ) ? $loadmore_btn_margin : '10px';
-                        echo 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $load_more_text ) . '</div>';
-                        echo '</div>';
+                if ( !isset( $_GET['load_more_ajaxing'] ) && $this->feedFunctions->isExtensionActive( 'feed_them_social_tiktok_premium' ) && $loadmore_style === 'button' && $loadmore === 'yes' ) {
+                    echo '<div class="fts-clear"></div>';
+                    echo '<div class="fts-twitter-load-more-wrapper">';
+                    echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '"" style="';
+                    if ( isset( $loadmore_btn_maxwidth ) && ! empty( $loadmore_btn_maxwidth ) ) {
+                        echo 'max-width:' . esc_attr( $loadmore_btn_maxwidth ) . ';';
                     }
+                    $loadmore_btn_margin = isset( $loadmore_btn_margin ) ? $loadmore_btn_margin : '10px';
+                    echo 'margin:' . esc_attr( $loadmore_btn_margin ) . ' auto ' . esc_attr( $loadmore_btn_margin ) . '" class="fts-fb-load-more">' . esc_html( $load_more_text ) . '</div>';
+                    echo '</div>';
                 }
                 // End Check.
                 unset( $_REQUEST['since_id'], $_REQUEST['max_id'] );

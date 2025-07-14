@@ -191,7 +191,7 @@ class FeedsCPT {
         // Set Current Feed CPT ID.
         add_action( 'current_screen', array( $this, 'currentFeedCptId' ) );
 
-        add_action( 'admin_action_fts_duplicate_post_as_draft', array( $this, 'ftsDuplicatePostAsDraft' ) );
+        add_action( 'admin_action_ftsDuplicatePostAsDraft', array( $this, 'ftsDuplicatePostAsDraft' ) );
         add_filter( 'page_row_actions', array( $this, 'ftsDuplicatePostLink' ), 10, 2 );
         add_filter( 'fts_row_actions', array( $this, 'ftsDuplicatePostLink' ), 10, 2 );
         add_action( 'post_submitbox_start', array( $this, 'ftsDuplicatePostAddDuplicatePostButton' ) );
@@ -1150,9 +1150,17 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
+    /**
+     * Duplicate Post As Draft
+     * Function creates post duplicate as a draft and redirects then to the edit post screen
+     *
+     * @since 1.0.0
+     */
     public function ftsDuplicatePostAsDraft() {
         global $wpdb;
-        if ( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] ) || ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'ftsDuplicatePostAsDraft') ) ) {
+
+        // Verify the action is correct.
+        if ( ! isset( $_REQUEST['action'] ) || 'ftsDuplicatePostAsDraft' !== $_REQUEST['action'] ) {
             wp_die( esc_html__( 'No Feed to duplicate has been supplied!', 'feed_them_social' ) );
         }
 
@@ -1167,17 +1175,9 @@ class FeedsCPT {
          * get the original post id
          */
         $post_id = ( isset( $_GET['post'] ) ? absint( $_GET['post'] ) : absint( $_POST['post'] ) );
-        /*
-         * and all the original post data then
-         */
-        $post = get_post( $post_id );
-
-        /*
-         * if you don't want current user to be the new post author,
-         * then change next couple of lines to this: $new_post_author = $post->post_author;
-         */
-        $current_user    = wp_get_current_user();
-        $new_post_author = $current_user->ID;
+        if ( ! $post_id ) {
+            wp_die( esc_html__( 'No Feed to duplicate has been supplied!', 'feed_them_social' ) );
+        }
 
         /**
          * Make sure that the user has the capability to duplicate this feed.
@@ -1186,55 +1186,69 @@ class FeedsCPT {
             wp_die( esc_html__( 'You are not allowed to duplicate this feed.', 'feed_them_social' ) );
         }
 
+        /*
+         * and all the original post data then
+         */
+        $post = get_post( $post_id );
 
         /*
-         * if post data exists, create the post duplicate
+         * Stop if post data doesn't exist.
          */
-        if ( isset( $post ) && $post !== null ) {
+        if ( ! $post ) {
+            wp_die( esc_html__( 'Gallery duplication failed, could not find original Gallery: ' . esc_html( $post_id ), 'feed_them_social' ) );
+        }
 
-            /*
-             * new post data array
-             */
-            $args = array(
-                'comment_status' => $post->comment_status,
-                'ping_status'    => $post->ping_status,
-                'post_author'    => $new_post_author,
-                'post_content'   => $post->post_content,
-                'post_excerpt'   => $post->post_excerpt,
-                'post_name'      => $post->post_name,
-                'post_parent'    => $post->post_parent,
-                'post_password'  => $post->post_password,
-                'post_status'    => 'publish',
-                'post_title'     => $post->post_title,
-                'post_type'      => $post->post_type,
-                'to_ping'        => $post->to_ping,
-                'menu_order'     => $post->menu_order,
-            );
+        // All checks passed. Proceed with duplication.
 
-            /*
-             * insert the post by wp_insert_post() function
-             */
-            $new_post_id = wp_insert_post( $args );
+        /*
+         * if you don't want current user to be the new post author,
+         * then change next couple of lines to this: $new_post_author = $post->post_author;
+         */
+        $current_user    = wp_get_current_user();
+        $new_post_author = $current_user->ID;
 
-            /*
-             * get all current post terms ad set them to the new post draft
-             */
-            $taxonomies = get_object_taxonomies( $post->post_type ); // returns array of taxonomy names for post type, ex array("category", "post_tag");
-            foreach ( $taxonomies as $taxonomy ) {
-                $post_terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'slugs' ) );
-                wp_set_object_terms( $new_post_id, $post_terms, $taxonomy, false );
-            }
+        /*
+         * new post data array
+         */
+        $args = array(
+            'comment_status' => $post->comment_status,
+            'ping_status'    => $post->ping_status,
+            'post_author'    => $new_post_author,
+            'post_content'   => $post->post_content,
+            'post_excerpt'   => $post->post_excerpt,
+            'post_name'      => $post->post_name,
+            'post_parent'    => $post->post_parent,
+            'post_password'  => $post->post_password,
+            'post_status'    => 'publish',
+            'post_title'     => $post->post_title,
+            'post_type'      => $post->post_type,
+            'to_ping'        => $post->to_ping,
+            'menu_order'     => $post->menu_order,
+        );
 
-            /*
-             * duplicate all post meta just in two SQL queries
-             */
-            $post_meta_results = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id = %d", $post_id ) );
+        /*
+         * insert the post by wp_insert_post() function
+         */
+        $new_post_id = wp_insert_post( $args );
 
-            if ( count( $post_meta_results ) !== 0 ) {
-                foreach ( $post_meta_results as $meta_info ) {
-                    if ( $meta_info->meta_value === '_wp_old_slug' ) {
-                        continue;
-                    }
+        /*
+         * get all current post terms ad set them to the new post draft
+         */
+        $taxonomies = get_object_taxonomies( $post->post_type ); // returns array of taxonomy names for post type, ex array("category", "post_tag");
+        foreach ( $taxonomies as $taxonomy ) {
+            $post_terms = wp_get_object_terms( $post_id, $taxonomy, array( 'fields' => 'slugs' ) );
+            wp_set_object_terms( $new_post_id, $post_terms, $taxonomy, false );
+        }
+
+        /*
+         * duplicate all post meta just in two SQL queries
+         */
+        $post_meta_results = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id = %d", $post_id ) );
+
+        if ( ! empty( $post_meta_results ) ) {
+            foreach ( $post_meta_results as $meta_info ) {
+                // Check the meta value and insert if it's not '_wp_old_slug'.
+                if ( $meta_info->meta_value !== '_wp_old_slug' ) {
                     $wpdb->query(
                         $wpdb->prepare(
                             "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) VALUES ( %d, %s, %s )",
@@ -1245,16 +1259,15 @@ class FeedsCPT {
                     );
                 }
             }
-
-            /*
-             * finally, redirect to the edit post screen for the new draft
-             */
-            wp_safe_redirect( admin_url( 'post.php?action=edit&post=' . $new_post_id ) );
-            exit;
         }
 
-        wp_die( esc_html__( 'Gallery duplication failed, could not find original Gallery: ' . $post_id, 'feed_them_social' ) );
+        /*
+         * finally, redirect to the edit post screen for the new draft
+         */
+        wp_safe_redirect( admin_url( 'post.php?action=edit&post=' . $new_post_id ) );
+        exit;
     }
+
 
     /**
      * Duplicate Post Link

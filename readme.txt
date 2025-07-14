@@ -137,7 +137,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 = Version 4.3.7 Tuesday, April 15th, 2025 =
   * Works with WordPress version 6.8
-  * Note > Combined Streams Extension > Fix: YouTube Feed > feed_type added to fts_youtube_video_and_wrap function because only Channel ID Videos were showing up. This was causing videos to not appear if you were using a Playlist ID.
+  * Note > Combined Streams Extension > Fix: YouTube Feed > feed_type added to ftsYoutubeVideoAndWrap function because only Channel ID Videos were showing up. This was causing videos to not appear if you were using a Playlist ID.
   * Note > Combined Streams Extension > Fix: replace get_plugin_data() function with a constant FTS_PREMIUM_CURRENT_VERSION to get the plugin version. Fixes the Doing It Wrong warning.
   * Note > Combined Streams Extension > Fix: re-order yoda arguments.
 

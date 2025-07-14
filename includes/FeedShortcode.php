@@ -332,23 +332,23 @@ class FeedShortcode {
                 // Facebook Feed
                 case 'facebook-feed-type':
                     // Display Facebook Feed!
-                    echo $this->facebookFeed->display_facebook( $feed_post_id );
+                    echo $this->facebookFeed->displayFacebook( $feed_post_id );
                     break;
                 // Instagram Feed.
                 case 'instagram-business-feed-type':
                 case 'instagram-feed-type':
                     // Display the Instagram Feed!
-                    echo $this->instagramFeed->display_instagram( $feed_post_id );
+                    echo $this->instagramFeed->displayInstagram( $feed_post_id );
                     break;
                 // Twitter Feed.
                 case 'twitter-feed-type':
                     // Display Twitter Feed!
-                    echo $this->twitterFeed->display_tiktok( $feed_post_id );
+                    echo $this->twitterFeed->displayTiktok( $feed_post_id );
                     break;
                 // YouTube Feed.
                 case 'youtube-feed-type':
                     // Display YouTube Feed!
-                    echo $this->youtubeFeed->display_youtube( $feed_post_id );
+                    echo $this->youtubeFeed->displayYoutube( $feed_post_id );
                     break;
                 // Combine Streams Feed.
                 case 'combine-streams-feed-type':

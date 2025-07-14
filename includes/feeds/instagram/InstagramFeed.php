@@ -119,7 +119,7 @@ class InstagramFeed {
      * @return false|int
      * @since 4.0
      */
-    public function instagram_custom_styles( $feed_post_id, $fts_instagram_slider ) {
+    public function instagramCustomStyles( $feed_post_id, $fts_instagram_slider ) {
 
         $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feed_post_id );
 
@@ -183,7 +183,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
      * @return null|string
      * @since 1.9.6
      */
-    public function convert_instagram_description_links( $bio ) {
+    public function convertInstagramDescriptionLinks( $bio ) {
         // Create links from @mentions and regular links.
         $bio = preg_replace( '~https?://[^<>\s]+~i', '<a href="$0" target="_blank" rel="noreferrer">$0</a>', $bio );
         $bio = preg_replace( '/#+(\w+)/u', '<a href="https://www.instagram.com/explore/tags/$1" target="_blank" rel="noreferrer">$0</a>', $bio );
@@ -201,7 +201,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
      * @return null|string
      * @since 1.9.6
      */
-    public function convert_instagram_links( $instagram_caption_a_title ) {
+    public function convertInstagramLinks( $instagram_caption_a_title ) {
         // Create links from @mentions, #hashtags and regular links.
         $instagram_caption_a_title = preg_replace( '~https?://[^<>\s]+~i', '<a href="$0" target="_blank" rel="noreferrer">$0</a>', $instagram_caption_a_title );
         $instagram_caption         = preg_replace( '/#+(\w+)/u', '<a href="https://www.instagram.com/explore/tags/$1" target="_blank" rel="noreferrer">$0</a>', $instagram_caption_a_title );
@@ -219,7 +219,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
      * @return mixed
      * @since 1.9.6
      */
-    public function display_instagram( $feed_post_id ) {
+    public function displayInstagram( $feed_post_id ) {
 
         if ( isset( $_REQUEST['next_url'] ) && !empty( $_REQUEST['next_url'] ) ) {
             $next_url_host = parse_url( $_REQUEST['next_url'],  PHP_URL_HOST );
@@ -281,7 +281,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
             }
 
             // Get our Additional Options.
-            $this->instagram_custom_styles( $feed_post_id, $fts_instagram_slider );
+            $this->instagramCustomStyles( $feed_post_id, $fts_instagram_slider );
 
             $height         = $saved_feed_options['instagram_page_height'] ?? '';
             $image_height   = $saved_feed_options['instagram_image_height'] ?? '';
@@ -675,7 +675,7 @@ if ( isset( $saved_feed_options['instagram_profile_stats'], $saved_feed_options[
 if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_options['instagram_feed_type'] ) && $saved_feed_options['instagram_profile_description'] === 'yes' && $saved_feed_options['instagram_feed_type'] === 'business' ) {
     ?>
 
-            <div class="fts-profile-description"><?php echo $this->convert_instagram_description_links( $bio ); ?>
+            <div class="fts-profile-description"><?php echo $this->convertInstagramDescriptionLinks( $bio ); ?>
                 <a href="<?php echo esc_url( $website ); ?>"><?php echo esc_url( $website ); ?></a></div>
 
         <?php } ?>
@@ -765,7 +765,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     $instagram_caption_a_hashtag_title = $post_data->caption ?? '';
                     $instagram_caption_a_title         = $post_data->caption->text ?? $instagram_caption_a_hashtag_title;
                     $instagram_caption_a_title         = htmlspecialchars( $instagram_caption_a_title );
-                    $instagram_caption                 = $this->convert_instagram_links( $instagram_caption_a_title );
+                    $instagram_caption                 = $this->convertInstagramLinks( $instagram_caption_a_title );
 
                     $instagram_thumb_url                 = $post_data->images->thumbnail->url ?? '';
                     $instagram_lowrez_url                = $post_data->images->standard_resolution->url ?? '';
@@ -780,7 +780,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     if( $fts_instagram_slider && $instagram_slider_option === 'yes'){ ?>
                         <div class="fts-instagram-slider-wrap">
                     <?php } ?>
-                            <div class="slicker-instagram-placeholder fts-instagram-wrapper" style="background-image:url('<?php echo esc_url( $this->fts_instagram_image_link( $post_data ) ); ?>')">
+                            <div class="slicker-instagram-placeholder fts-instagram-wrapper" style="background-image:url('<?php echo esc_url( $this->ftsInstagramImageLink( $post_data ) ); ?>')">
                         <?php
                         if ( $fts_premium && isset( $popup ) && $popup === 'yes' || $fts_instagram_slider && isset( $popup ) && $popup === 'yes' ) {
                             ?>
@@ -834,7 +834,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                         </div>
                             <?php
                             // this is already escaping in the function, re escaping will cause errors.
-                             echo $this->fts_instagram_popup_description( $post_data );
+                             echo $this->ftsInstagramPopupDescription( $post_data );
                         }
 
                         // We need to check the type now because hashtag feeds from facebooks API use all caps now.
@@ -859,7 +859,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                             $fts_premium && $popup === 'yes' && $data_type_carousel === $data_type && empty( $data_type_child ) ||
                             $fts_instagram_slider && $popup === 'yes' && $data_type_carousel === $data_type && empty( $data_type_child )) {
 
-                            print esc_url( $this->fts_instagram_image_link( $post_data ) );
+                            print esc_url( $this->ftsInstagramImageLink( $post_data ) );
 
                         } elseif ( $fts_premium && $popup === 'yes' && $data_type_video === $data_type ||
                             $fts_instagram_slider && $popup === 'yes' && $data_type_video === $data_type ||
@@ -867,15 +867,15 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                             $fts_instagram_slider && $popup === 'yes' && ! empty( $data_type_child ) && $data_type_child === 'VIDEO') {
 
                             // Some videos are not returned for a number of reason from the API so we fall back to the image url
-                            print $this->fts_instagram_video_link( $post_data ) ? esc_url( $this->fts_instagram_video_link( $post_data ) ) : esc_url( $this->fts_instagram_image_link( $post_data ) );
+                            print $this->ftsInstagramVideoLink( $post_data ) ? esc_url( $this->ftsInstagramVideoLink( $post_data ) ) : esc_url( $this->ftsInstagramImageLink( $post_data ) );
 
                         } else {
-                            print esc_url( $this->fts_view_on_instagram_url( $post_data ) );
+                            print esc_url( $this->ftsViewOnInstagramUrl( $post_data ) );
                         }
                         $fts_child = isset( $post_data->children ) || isset( $post_data->carousel_media ) ? 'fts-child-media ' : '';
                         ?>' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='<?php print $fts_child; ?>fts-instagram-link-target fts-slicker-backg
                         <?php
-                        if ( $data_type_video === $data_type && isset( $popup ) && $popup === 'yes' && ! empty( $this->fts_instagram_video_link( $post_data ) ) || ! empty( $data_type_child ) && 'VIDEO' === $data_type_child && isset( $popup ) && $popup === 'yes' && ! empty( $this->fts_instagram_video_link( $post_data ) ) ) {
+                        if ( $data_type_video === $data_type && isset( $popup ) && $popup === 'yes' && ! empty( $this->ftsInstagramVideoLink( $post_data ) ) || ! empty( $data_type_child ) && 'VIDEO' === $data_type_child && isset( $popup ) && $popup === 'yes' && ! empty( $this->ftsInstagramVideoLink( $post_data ) ) ) {
                             ?>fts-instagram-video-link<?php
                         } else {
                             ?> fts-instagram-img-link<?php
@@ -900,10 +900,10 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                 <a href='<?php
                                 if ( $fts_premium && isset( $popup ) && $popup === 'yes' && $data_type_video_child === 'image_media' ||
                                     $fts_instagram_slider && isset( $popup ) && $popup === 'yes' && $data_type_video_child === 'image_media' ) {
-                                    print esc_url( $this->fts_instagram_image_link( $child ) );
+                                    print esc_url( $this->ftsInstagramImageLink( $child ) );
                                 } elseif ( $fts_premium && $popup === 'yes' && $data_type_video_child === 'video_media' ||
                                     $fts_instagram_slider && $popup === 'yes' && $data_type_video_child === 'video_media' ) {
-                                    print esc_url( $this->fts_instagram_video_link( $child ) );
+                                    print esc_url( $this->ftsInstagramVideoLink( $child ) );
                                 }
                                 ?>' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='fts-child-media fts-child-media-hide fts-instagram-link-target fts-slicker-backg
                                 <?php
@@ -916,7 +916,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                      fts-instagram-img-link<?php } ?>'></a>
                                 <?php
                             }
-                        } elseif ( isset( $data_type ) && 'VIDEO' === $data_type && !empty($this->fts_instagram_video_link( $post_data )) || isset( $data_type ) && $data_type === 'video' && !empty($this->fts_instagram_video_link( $post_data )) ) {
+                        } elseif ( isset( $data_type ) && 'VIDEO' === $data_type && !empty($this->ftsInstagramVideoLink( $post_data )) || isset( $data_type ) && $data_type === 'video' && !empty($this->ftsInstagramVideoLink( $post_data )) ) {
                             ?>
                             <div class="fts-instagram-video-image-wrapper"><div class="fts-instagram-video-image"></div></div>
                             <?php
@@ -943,15 +943,15 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
                             <?php
                                 // this is already escaping in the function, re escaping will cause errors.
-                                echo $this->feedFunctions->ftsShareOption( $this->fts_view_on_instagram_url( $post_data ), $this->fts_instagram_description( $post_data ) );
+                                echo $this->feedFunctions->ftsShareOption( $this->ftsViewOnInstagramUrl( $post_data ), $this->ftsInstagramDescription( $post_data ) );
 
                                 if ( $saved_feed_options['instagram_feed_type'] !== 'basic' && $saved_feed_options['instagram_hide_date_likes_comments'] === 'yes' ) {
                                     ?>
                                     <div class="fts-instagram-reply-wrap-left">
                                         <ul class='slicker-heart-comments-wrap'>
-                                            <li class='slicker-instagram-image-likes'><?php echo esc_html( $this->fts_instagram_likes_count( $post_data ) ); ?> </li>
+                                            <li class='slicker-instagram-image-likes'><?php echo esc_html( $this->ftsInstagramLikesCount( $post_data ) ); ?> </li>
                                             <li class='slicker-instagram-image-comments'>
-                                                <span class="fts-comment-instagram"></span> <?php echo esc_html( $this->fts_instagram_comments_count( $post_data ) ); ?>
+                                                <span class="fts-comment-instagram"></span> <?php echo esc_html( $this->ftsInstagramCommentsCount( $post_data ) ); ?>
                                             </li>
                                         </ul>
                                     </div>
@@ -1196,7 +1196,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return string
      * @since 1.9.6
      */
-    public function fts_instagram_likes_count( $post_data ) {
+    public function ftsInstagramLikesCount( $post_data ) {
         // These need to be in this order to keep the different counts straight since I used either $instagram_likes or $instagram_comments throughout.
         $hastag_likes    = isset( $post_data->like_count ) ? $post_data->like_count : '';
         $instagram_likes = isset( $post_data->likes->count ) ? $post_data->likes->count : $hastag_likes;
@@ -1225,7 +1225,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return string
      * @since 1.9.6
      */
-    public function fts_instagram_comments_count( $post_data ) {
+    public function ftsInstagramCommentsCount( $post_data ) {
         $hastag_comments    = isset( $post_data->comments_count ) ? $post_data->comments_count : '';
         $instagram_comments = isset( $post_data->comments->count ) ? $post_data->comments->count : $hastag_comments;
         // here we add a , for all numbers below 9,999.
@@ -1253,8 +1253,8 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return string
      * @since 1.9.6
      */
-    public function fts_instagram_likes_comments_wrap( $post_data ) {
-        return '<ul class="heart-comments-wrap"><li class="instagram-image-likes">' . $this->fts_instagram_likes_count( $post_data ) . '</li><li class="instagram-image-comments">' . $this->fts_instagram_comments_count( $post_data ) . '</li></ul>';
+    public function ftsInstagramLikesCommentsWrap( $post_data ) {
+        return '<ul class="heart-comments-wrap"><li class="instagram-image-likes">' . $this->ftsInstagramLikesCount( $post_data ) . '</li><li class="instagram-image-comments">' . $this->ftsInstagramCommentsCount( $post_data ) . '</li></ul>';
     }
 
     /**
@@ -1266,7 +1266,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return string
      * @since 1.9.6
      */
-    public function fts_instagram_image_link( $post_data ) {
+    public function ftsInstagramImageLink( $post_data ) {
 
         $hashtag_children_pic = $post_data->children->data[0]->thumbnail_url ?? '';
 
@@ -1293,7 +1293,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @param string $post_data Post data.
      * @since 1.9.6
      */
-    public function fts_instagram_carousel_links( $post_data ) {
+    public function ftsInstagramCarouselLinks( $post_data ) {
         foreach ( $post_data->children->data as $image ) {?>
             <div class='slicker-instagram-placeholder fts-instagram-wrapper' style='background-image:url(
             <?php
@@ -1309,7 +1309,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return string
      * @since 1.9.6
      */
-    public function fts_instagram_video_link( $post_data ) {
+    public function ftsInstagramVideoLink( $post_data ) {
         if ( isset( $post_data->children ) ) {
             $video = $post_data->children->data[0]->media_url ?? '';
         } else {
@@ -1334,12 +1334,12 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return null|string|string[]
      * @since 1.9.6
      */
-    public function fts_instagram_description( $post_data ) {
+    public function ftsInstagramDescription( $post_data ) {
         $hashtag_caption           = $post_data->caption ?? '';
         $instagram_caption_a_title = $post_data->caption->text ?? $hashtag_caption;
-        $instagram_caption         = $this->convert_instagram_links( $instagram_caption_a_title );
+        $instagram_caption         = $this->convertInstagramLinks( $instagram_caption_a_title );
         $charset = \get_option('blog_charset') ?? 'UTF-8';
-        $instagram_caption         = $this->escape_special_chars($instagram_caption, $charset);
+        $instagram_caption         = $this->escapeSpecialChars($instagram_caption, $charset);
 
         return $instagram_caption;
     }
@@ -1353,7 +1353,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return null|string|string[]
      * @since 4.2.8
      */
-    public function escape_special_chars($text, $charset) {
+    public function escapeSpecialChars($text, $charset) {
         // Split the text into HTML tags and non-tag content
         $parts = preg_split('/(<[^>]+>)/', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
         $escaped_text = '';
@@ -1361,7 +1361,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
         foreach ($parts as $part) {
             if (preg_match('/^<[^>]+>$/', $part)) {
                 // This part is an HTML tag, keep it as is (or escape attributes only)
-                $escaped_text .= $this->escape_attributes($part, $charset);
+                $escaped_text .= $this->escapeAttributes($part, $charset);
             } else {
                 // This is normal text (not inside a tag), escape it
                 $escaped_text .= htmlspecialchars($part, ENT_NOQUOTES, $charset);
@@ -1381,7 +1381,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return null|string|string[]
      * @since 4.2.8
      */
-    public function escape_attributes($tag, $charset) {
+    public function escapeAttributes($tag, $charset) {
         return preg_replace_callback(
             '/(\w+)=("[^"]*"|\'[^\']*\')/',
             function($matches) use ($charset) {
@@ -1403,11 +1403,9 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return string
      * @since 1.9.6
      */
-    public function fts_view_on_instagram_url( $post_data ) {
+    public function ftsViewOnInstagramUrl( $post_data ) {
         $hashtag_permalink   = $post_data->permalink ?? '';
-        $instagram_post_url = $post_data->link ?? $hashtag_permalink;
-
-        return $instagram_post_url;
+        return $post_data->link ?? $hashtag_permalink;
     }
 
     /**
@@ -1419,8 +1417,8 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return string
      * @since 1.9.6
      */
-    public function fts_view_on_instagram_link( $post_data ) {
-        return '<a href="' . esc_url( $this->fts_view_on_instagram_url( $post_data ) ) . '" class="fts-view-on-instagram-link" target="_blank" rel="noreferrer">' . esc_html__( 'View on Instagram', 'feed-them-social' ) . '</a>';
+    public function ftsViewOnInstagramLink( $post_data ) {
+        return '<a href="' . esc_url( $this->ftsViewOnInstagramUrl( $post_data ) ) . '" class="fts-view-on-instagram-link" target="_blank" rel="noreferrer">' . esc_html__( 'View on Instagram', 'feed-them-social' ) . '</a>';
     }
 
     /**
@@ -1432,7 +1430,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @return string
      * @since 1.9.6
      */
-    public function fts_instagram_popup_description( $post_data ) {
-        return '<div class="fts-instagram-caption"><div class="fts-instagram-caption-content"><p>' . $this->fts_instagram_description( $post_data ) . '</p></div>' . $this->fts_view_on_instagram_link( $post_data ) . '</div>';
+    public function ftsInstagramPopupDescription( $post_data ) {
+        return '<div class="fts-instagram-caption"><div class="fts-instagram-caption-content"><p>' . $this->ftsInstagramDescription( $post_data ) . '</p></div>' . $this->ftsViewOnInstagramLink( $post_data ) . '</div>';
     }
 }//end class

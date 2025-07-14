@@ -49,13 +49,13 @@ final class DomWordsIterator implements \Iterator {
     }
 
     /**
-     * Returns DOMElement that is currently being iterated or NULL if iterator has finished.
+     * Returns DOMElement that is currently being iterated or null if iterator has finished.
      *
      * @return \DOMElement|null
      */
     public function currentElement()
     {
-        return $this->current ? $this->current->parentNode : NULL;
+        return $this->current ? $this->current->parentNode : null;
     }
 
     // Implementation of Iterator interface
@@ -113,7 +113,7 @@ final class DomWordsIterator implements \Iterator {
         if ($this->current) {
             return $this->words[$this->offset][0];
         }
-        return NULL;
+        return null;
     }
 
     #[\ReturnTypeWillChange]

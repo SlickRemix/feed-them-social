@@ -113,7 +113,7 @@ class InstagramBusinessAccessFunctions {
                         // Encrypt: Instagram Business
                         if( jQuery('#fts_facebook_instagram_custom_api_token').length !== 0 && jQuery('#fts_facebook_instagram_custom_api_token').val().trim() !== '' ) {
                             console.log('Instagram Business: Token set, now encrypting.');
-                            fts_encrypt_token_ajax( codeArray, 'business', '#fts_facebook_instagram_custom_api_token', 'firstRequest');
+                            ftsEncryptTokenAjax( codeArray, 'business', '#fts_facebook_instagram_custom_api_token', 'firstRequest');
                         }
                         else {
                             if( jQuery('.combine-instagram-business-access-token-placeholder').length !== 0 ){
@@ -153,7 +153,7 @@ class InstagramBusinessAccessFunctions {
 
             <?php
                 // Saved Feed Options!
-                $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feedCptId );
+                $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feedCptId );
 
                 $page_id            = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] : '';
                 $access_token       = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token'] : '';
@@ -168,7 +168,7 @@ class InstagramBusinessAccessFunctions {
                     );
 
                     // Check to see what the response is.
-                    $response = $this->feedFunctions->fts_get_feed_json( $test_app_token_url );
+                    $response = $this->feedFunctions->ftsGetFeedJson( $test_app_token_url );
                     $data = json_decode( $response['app_token_id'] );
                 }
                 ?>
@@ -179,7 +179,7 @@ class InstagramBusinessAccessFunctions {
 
                          if ( isset( $data->data->is_valid ) || $data->error->message === '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' ) {
 
-                             if( $this->feedFunctions->get_feed_option( $feedCptId, 'feed_type' ) === 'combine-streams-feed-type' ){
+                             if( $this->feedFunctions->getFeedOption( $feedCptId, 'feed_type' ) === 'combine-streams-feed-type' ){
                                  echo \sprintf(
                                      esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                                      '<div class="fts-successful-api-token fts-special-working-wrap">',

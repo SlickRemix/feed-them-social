@@ -2,7 +2,7 @@ function fts_ClearCache( notice ) {
     console.log('Clicked Clear Cache function');
     jQuery.ajax({
         data: {
-            action: "fts_clear_cache_ajax",
+            action: "ftsClearCacheAjax",
             _wpnonce: ftsAjax.clearCacheNonce
         },
         type: 'POST',
@@ -38,7 +38,7 @@ jQuery(document).ready(function ($) {
 
         jQuery.ajax({
             data: {
-                action: "fts_clear_cache_ajax",
+                action: "ftsClearCacheAjax",
                 _wpnonce: ftsAjax.clearCacheNonce
             },
             type: 'POST',

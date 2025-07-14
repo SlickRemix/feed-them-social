@@ -56,7 +56,7 @@ use feedthemsocial\includes\feeds\facebook\FacebookFeed;
 use feedthemsocial\includes\feeds\instagram\InstagramFeed;
 use feedthemsocial\includes\feeds\tiktok\TiktokFeed;
 use feedthemsocial\includes\feeds\youtube\YoutubeFeed;
-use feedthemsocial\includes\Feed_Shortcode;
+use feedthemsocial\includes\FeedShortcode;
 use feedthemsocial\updater\UpdaterCheckInit;
 use feedthemsocial\blocks\BlockLoader;
 use feedthemsocial\admin\cron_jobs\CronJobs;
@@ -132,18 +132,18 @@ class LoadPlugin {
         $accessOptions = new AccessTokenOptions( $feedFunctions, $feed_cpt_options, $metaboxFunctions, $dataProtection, $optionsFunctions );
         new FeedsCPT( $settingsFunctions, $feedFunctions, $feed_cpt_options, $settingOptionsJs, $metaboxFunctions, $accessOptions, $optionsFunctions );
         $facebookPostTypes = new FacebookFeedPostTypes( $feedFunctions, $settingsFunctions, $accessOptions );
-        $facebook_feed = new FacebookFeed( $settingsFunctions, $feedFunctions, $feedCache, $facebookPostTypes, $accessOptions );
-        $instagram_feed = new InstagramFeed( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions );
+        $facebookFeed = new FacebookFeed( $settingsFunctions, $feedFunctions, $feedCache, $facebookPostTypes, $accessOptions );
+        $instagramFeed = new InstagramFeed( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions );
         $tiktok_feed = new TiktokFeed( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions );
-        $youtube_feed = new YoutubeFeed( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions );
+        $youtubeFeed = new YoutubeFeed( $settingsFunctions, $feedFunctions, $feedCache, $accessOptions );
 
-        if( $feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
-            $combined_streams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feedFunctions, $feedCache, $accessOptions, $facebook_feed, $facebookPostTypes, $instagram_feed, $tiktok_feed, $youtube_feed );
+        if( $feedFunctions->isExtensionActive( 'feed_them_social_combined_streams' ) ) {
+            $combinedStreams = new \feed_them_social_combined_streams\Combined_Streams_Feed( $feedFunctions, $feedCache, $accessOptions, $facebookFeed, $facebookPostTypes, $instagramFeed, $tiktok_feed, $youtubeFeed );
         } else {
-            $combined_streams = '';
+            $combinedStreams = '';
         }
 
-        new Feed_Shortcode( $settingsFunctions, $feedFunctions, $optionsFunctions, $facebook_feed, $instagram_feed, $tiktok_feed, $youtube_feed, $combined_streams );
+        new FeedShortcode( $settingsFunctions, $feedFunctions, $optionsFunctions, $facebookFeed, $instagramFeed, $tiktok_feed, $youtubeFeed, $combinedStreams );
         new BlockLoader();
         new CronJobs( $feedFunctions, $optionsFunctions, $settingsFunctions, $feedCache );
         new UpdaterCheckInit( $feedFunctions );

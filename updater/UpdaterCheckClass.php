@@ -25,14 +25,14 @@ if (!\defined('ABSPATH')) {
  */
 class UpdaterCheckClass {
 
-    private $api_url;
-    private $api_data = array();
+    private $apiUrl;
+    private $apiData = array();
     private $name;
     private $slug;
     private $version;
-    private $wp_override = false;
-    private $plugin_identifier;
-    private $plugin_name;
+    private $wpOverride = false;
+    private $pluginIdentifier;
+    private $pluginName;
 
     /**
      * Class constructor.
@@ -44,25 +44,25 @@ class UpdaterCheckClass {
      * @param string $_plugin_file Path to the plugin file.
      * @param array $_api_data Optional data to send with API calls.
      */
-    public function __construct($_api_url, $_plugin_file, $plugin_identifier, $item_name, $_api_data = null) {
+    public function __construct($_api_url, $_plugin_file, $pluginIdentifier, $item_name, $_api_data = null) {
 
         global $edd_plugin_data;
 
-        $this->api_url = trailingslashit($_api_url);
-        $this->api_data = $_api_data;
-        $this->name = plugin_basename($this->get_plugin_file_name($_plugin_file));
-        $this->slug = basename($this->get_plugin_file_name($_plugin_file), '.php');
+        $this->apiUrl = trailingslashit($_api_url);
+        $this->apiData = $_api_data;
+        $this->name = plugin_basename($this->getPluginFileName($_plugin_file));
+        $this->slug = basename($this->getPluginFileName($_plugin_file), '.php');
         $this->version = $_api_data['version'];
-        $this->wp_override = isset($_api_data['wp_override']) ? (bool)$_api_data['wp_override'] : false;
-        $this->plugin_identifier = $plugin_identifier;
-        $this->plugin_name = $item_name;
+        $this->wpOverride = isset($_api_data['wp_override']) ? (bool)$_api_data['wp_override'] : false;
+        $this->pluginIdentifier = $pluginIdentifier;
+        $this->pluginName = $item_name;
 
-        $edd_plugin_data[$this->slug] = $this->api_data;
+        $edd_plugin_data[$this->slug] = $this->apiData;
 
         if ( empty( $_api_data['license'] ) && $_api_data['status'] !== 'valid' ) {
-            add_action( 'admin_notices', array( $this, 'plugin_key_empty_admin_notice' ) );
+            add_action( 'admin_notices', array( $this, 'pluginKeyEmptyAdminNotice' ) );
         } elseif ( ! empty( $_api_data['license'] ) && $_api_data['status'] !== 'valid' ) {
-            add_action( 'admin_notices', array( $this, 'plugin_key_not_valid_admin_notice' ) );
+            add_action( 'admin_notices', array( $this, 'pluginKeyNotValidAdminNotice' ) );
         }
 
 
@@ -76,7 +76,7 @@ class UpdaterCheckClass {
      *
      * @since 1.0.2
      */
-    public function plugin_key_empty_admin_notice() {
+    public function pluginKeyEmptyAdminNotice() {
         ?>
 
         <div class="error notice">
@@ -84,7 +84,7 @@ class UpdaterCheckClass {
                 <?php
                 echo \sprintf(
                     esc_html__( '%1$s needs a valid License Key! %2$sClick here to add one%4$s or you will not receive update notices in WordPress. - %3$sGet your License Key Here%4$s.', 'feed-them-social' ),
-                    esc_html( $this->plugin_name ),
+                    esc_html( $this->pluginName ),
                     '<a href="' . esc_url( 'admin.php?page=fts-license-page' ) . '">',
                     '<a href="' . esc_url( 'https://www.slickremix.com/my-account/' ) . '" target="_blank">',
                     '</a>'
@@ -101,7 +101,7 @@ class UpdaterCheckClass {
      *
      * @version 1.0.2
      */
-    public function plugin_key_not_valid_admin_notice() {
+    public function pluginKeyNotValidAdminNotice() {
         ?>
 
         <div class="error notice">
@@ -109,7 +109,7 @@ class UpdaterCheckClass {
                 <?php
                 echo \sprintf(
                     esc_html__( '%1$s - Your License Key is not active, expired, or is invalid. %2$sClick here to add one%4$s or you will not receive update notices in WordPress. - %3$sGet your License Key Here%4$s.', 'feed-them-social' ),
-                    esc_html( $this->plugin_name ),
+                    esc_html( $this->pluginName ),
                     '<a href="' . esc_url( 'admin.php?page=fts-license-page' ) . '">',
                     '<a href="' . esc_url( 'https://www.slickremix.com/my-account/' ) . '" target="_blank">',
                     '</a>'
@@ -128,7 +128,7 @@ class UpdaterCheckClass {
      *
      * @since 1.0.2
      */
-    public function get_plugin_file_name($_plugin_file) {
+    public function getPluginFileName($_plugin_file) {
 
         $plugs = plugin_basename($_plugin_file);
         $plugin_folder_name = explode('/', $plugs);
@@ -155,10 +155,10 @@ class UpdaterCheckClass {
      */
     public function init() {
 
-        add_filter('pre_set_site_transient_update_plugins', array($this, 'check_update'), 10);
-        add_filter('plugins_api', array($this, 'plugins_api_filter'), 10, 3);
+        add_filter('pre_set_site_transient_update_plugins', array($this, 'checkUpdate'), 10);
+        add_filter('plugins_api', array($this, 'pluginsApiFilter'), 10, 3);
         remove_action('after_plugin_row_' . $this->name, 'wp_plugin_update_row', 10, 2);
-        add_action('after_plugin_row_' . $this->name, array($this, 'show_update_notification'), 10, 2);
+        add_action('after_plugin_row_' . $this->name, array($this, 'showUpdateNotification'), 10, 2);
         add_action('admin_init', array($this, 'showChangelog'));
     }
 
@@ -170,18 +170,18 @@ class UpdaterCheckClass {
      * It is reassembled from parts of the native WordPress plugin update code.
      * See wp-includes/update.php line 121 for the original wp_update_plugins() function.
      *
-     * @uses api_request()
+     * @uses apiRequest()
      *
      * @param array $_transient_data Update array build by WordPress.
      * @return array Modified update array with custom plugin data.
      *
      * @since 1.0.2
      */
-    public function check_update($_transient_data) {
+    public function checkUpdate($_transient_data) {
 
         global $pagenow;
 
-        if (!is_object($_transient_data)) {
+        if (!\is_object($_transient_data)) {
             $_transient_data = new \stdClass;
         }
 
@@ -189,11 +189,11 @@ class UpdaterCheckClass {
             return $_transient_data;
         }
 
-        if (!empty($_transient_data->response) && !empty($_transient_data->response[$this->name]) && $this->wp_override == false ) {
+        if (!empty($_transient_data->response) && !empty($_transient_data->response[$this->name]) && $this->wpOverride == false ) {
             return $_transient_data;
         }
 
-        $version_info = $this->api_request('plugin_latest_version', array('slug' => $this->slug));
+        $version_info = $this->apiRequest('plugin_latest_version', array('slug' => $this->slug));
 
         if ( $version_info !== false && \is_object($version_info) && isset($version_info->new_version)) {
 
@@ -218,14 +218,14 @@ class UpdaterCheckClass {
      * @param array  $plugin
      * @since 1.0.2
      */
-    public function show_update_notification( $file, $plugin ) {
+    public function showUpdateNotification( $file, $plugin ) {
         // Early exit if the user can't update, it's not a multisite, or not the correct plugin file.
         if ( ! current_user_can( 'update_plugins' ) || ! is_multisite() || $this->name !== $file ) {
             return;
         }
 
         // Remove our filter on the site transient to avoid conflicts.
-        remove_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ), 10 );
+        remove_filter( 'pre_set_site_transient_update_plugins', array( $this, 'checkUpdate' ), 10 );
 
         $update_cache = get_site_transient( 'update_plugins' );
         $update_cache = is_object( $update_cache ) ? $update_cache : new \stdClass();
@@ -236,7 +236,7 @@ class UpdaterCheckClass {
             $version_info = get_transient( $cache_key );
 
             if ( false === $version_info ) {
-                $version_info = $this->api_request( 'plugin_latest_version', array( 'slug' => $this->slug ) );
+                $version_info = $this->apiRequest( 'plugin_latest_version', array( 'slug' => $this->slug ) );
                 set_transient( $cache_key, $version_info, 3600 );
             }
 
@@ -253,7 +253,7 @@ class UpdaterCheckClass {
         $version_info = $update_cache->response[ $this->name ] ?? null;
 
         // Restore our filter
-        add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_update' ), 10 );
+        add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'checkUpdate' ), 10 );
 
         // Guard clause: exit if there's no valid update information or the version is not newer.
         if ( empty( $version_info ) || ! is_object( $version_info ) || version_compare( $this->version, $version_info->new_version, '>=' ) ) {
@@ -297,14 +297,14 @@ class UpdaterCheckClass {
     /**
      * Updates information on the "View version x.x details" page with custom data.
      *
-     * @uses api_request()
+     * @uses apiRequest()
      *
      * @param mixed $_data
      * @param string $_action
      * @param object $_args
      * @return object $_data
      */
-    public function plugins_api_filter($_data, $_action = '', $_args = null) {
+    public function pluginsApiFilter($_data, $_action = '', $_args = null) {
 
         if ( $_action !== 'plugin_information' ) {
 
@@ -335,7 +335,7 @@ class UpdaterCheckClass {
         //If we have no transient-saved value, run the API, set a fresh transient with the API value, and return that value too right now.
         if (empty($edd_api_request_transient)) {
 
-            $api_response = $this->api_request('plugin_information', $to_send);
+            $api_response = $this->apiRequest('plugin_information', $to_send);
 
             //Expires in 1 day
             set_site_transient($cache_key, $api_response, DAY_IN_SECONDS);
@@ -356,7 +356,8 @@ class UpdaterCheckClass {
      * @param string $url
      * @return array $array
      */
-    public function http_request_args($args, $url) {
+    public function httpRequestArgs($args, $url): array
+    {
         // If it is an https request and we are performing a package download, disable ssl verification
         if (strpos($url, 'https://') !== false && strpos($url, 'edd_action=package_download')) {
             $args['sslverify'] = false;
@@ -375,17 +376,17 @@ class UpdaterCheckClass {
      * @param array $_data Parameters for the API action.
      * @return false|object
      */
-    private function api_request($_action, $_data) {
+    private function apiRequest($_action, $_data) {
 
         global $wp_version;
 
-        $data = array_merge($this->api_data, $_data);
+        $data = array_merge($this->apiData, $_data);
 
         if ($data['slug'] != $this->slug) {
             return;
         }
 
-        if ( trailingslashit( home_url() ) === $this->api_url ) {
+        if ( trailingslashit( home_url() ) === $this->apiUrl ) {
             return false; // Don't allow a plugin to ping itself!
         }
 
@@ -400,7 +401,7 @@ class UpdaterCheckClass {
         );
 
         $request = wp_remote_post(
-            $this->api_url,
+            $this->apiUrl,
             array(
                 'timeout'   => 15,
                 'sslverify' => false,
@@ -459,7 +460,7 @@ class UpdaterCheckClass {
                 'url'        => home_url(),
             );
 
-            $request = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
+            $request = wp_remote_post( $this->apiUrl, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
 
             // Assume failure, only populate on successful response.
             $version_info = false;

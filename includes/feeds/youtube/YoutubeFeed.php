@@ -114,7 +114,7 @@ class YoutubeFeed {
         }
 
         // Saved Feed Options!
-        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_post_id );
+        $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feed_post_id );
 
         $youtube_api_key      = !empty( $saved_feed_options['youtube_custom_api_token'] ) ? $saved_feed_options['youtube_custom_api_token'] : '';
         $youtube_access_token = !empty( $saved_feed_options['youtube_custom_access_token'] ) ? $saved_feed_options['youtube_custom_access_token'] : '';
@@ -156,16 +156,16 @@ class YoutubeFeed {
             }
 
 
-            if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && $vid_count > '6' ) {
+            if ( ! $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && $vid_count > '6' ) {
                 $vid_count = 6;
                 $saved_feed_options['youtube_comments_count'] = '0';
             }
-            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && $saved_feed_options['youtube_play_thumbs'] === 'yes' ) {
+            if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && $saved_feed_options['youtube_play_thumbs'] === 'yes' ) {
                 $popup          = 'no';
                 // Thumb clicks play in iframe.
                 $thumbs_play_iframe = 'yes';
             }
-            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && $saved_feed_options['youtube_play_thumbs'] === 'popup' ) {
+            if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && $saved_feed_options['youtube_play_thumbs'] === 'popup' ) {
 
                 $popup                 = 'yes';
                 $saved_feed_options['youtube_play_thumbs'] = 'yes';
@@ -177,7 +177,7 @@ class YoutubeFeed {
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array( 'jquery' ), FTS_CURRENT_VERSION, false );
 
             }
-            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && isset($saved_feed_options['youtube_load_more_option']) && $saved_feed_options['youtube_load_more_option'] === 'yes' ) {
+            if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && isset($saved_feed_options['youtube_load_more_option']) && $saved_feed_options['youtube_load_more_option'] === 'yes' ) {
 
                     $loadmore                  = !empty( $saved_feed_options['youtube_load_more_option']) ? $saved_feed_options['youtube_load_more_option'] : '';
                     $loadmore_type             = !empty( $saved_feed_options['youtube_load_more_style']) ? $saved_feed_options['youtube_load_more_style'] : '';
@@ -233,7 +233,7 @@ class YoutubeFeed {
 
             // Make sure its not ajaxing.
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feedFunctions->get_random_string() );
+                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feedFunctions->getRandomString() );
                 // Create Dynamic Class Name.
                 $fts_dynamic_class_name = '';
                 if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
@@ -255,7 +255,7 @@ class YoutubeFeed {
                 if ( $saved_feed_options['youtube_feed_type'] === 'username' && ! empty( $saved_feed_options['youtube_name'] ) ) {
                     // here we are getting the users channel ID for their uploaded videos.
                     $youtube_user_id_data = 'https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=' . $saved_feed_options['youtube_name'] . '&' . $youtube_api_key_or_token;
-                    // $user_id_returned              = $this->feedFunctions->fts_get_feed_json( $youtube_user_id_data );
+                    // $user_id_returned              = $this->feedFunctions->ftsGetFeedJson( $youtube_user_id_data );
                     // $user_id_final                 = json_decode( $user_id_returned['items'] );
                     // YouTube Username.
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -265,7 +265,7 @@ class YoutubeFeed {
                         $user_cache_name = '';
                     }
 
-                    $user_returned = $this->feedFunctions->use_cache_check( $youtube_user_id_data, $user_cache_name, 'youtube' );
+                    $user_returned = $this->feedFunctions->useCacheCheck( $youtube_user_id_data, $user_cache_name, 'youtube' );
 
                     // If the YT User returned is not empty and is an array.
                     if ( ! empty( $user_returned ) && \is_array( $user_returned ) ) {
@@ -333,7 +333,7 @@ class YoutubeFeed {
                     // echo $youtube_feed_api_url;
                     // Call, fetch and Check data from API url! youtube URL: echo $youtube_feed_api_url;
                     $feed_cache_name = !empty( $feed_cache_name ) ? $feed_cache_name : '';
-                    $feed_returned = $this->feedFunctions->use_cache_check( $youtube_feed_api_url, $feed_cache_name, 'youtube' );
+                    $feed_returned = $this->feedFunctions->useCacheCheck( $youtube_feed_api_url, $feed_cache_name, 'youtube' );
 
                     // JSON Decode the Feed Data.
                     $videos = json_decode( $feed_returned['data'] );
@@ -349,15 +349,15 @@ class YoutubeFeed {
                 echo '<div class="youtube-social-btn-top">';
                 if ( $saved_feed_options['youtube_feed_type'] === 'username' && !empty( $saved_feed_options['youtube_name'] ) || $saved_feed_options['youtube_feed_type'] === 'userPlaylist'  && !empty( $saved_feed_options['youtube_name2'] ) ) {
                     $youtube_name = !empty($saved_feed_options['youtube_name']) ? $saved_feed_options['youtube_name'] : '';
-                    echo $this->feedFunctions->social_follow_button( 'youtube', $youtube_name, $saved_feed_options );
+                    echo $this->feedFunctions->socialFollowButton( 'youtube', $youtube_name, $saved_feed_options );
                 }
                 elseif (  $saved_feed_options['youtube_feed_type'] === 'channelID' && !empty( $saved_feed_options['youtube_channelID'] )  ) {
                     $youtube_channelID = !empty($saved_feed_options['youtube_channelID']) ? $saved_feed_options['youtube_channelID'] : '';
-                    echo $this->feedFunctions->social_follow_button( 'youtube', $youtube_channelID, $saved_feed_options );
+                    echo $this->feedFunctions->socialFollowButton( 'youtube', $youtube_channelID, $saved_feed_options );
                 }
                 elseif (  $saved_feed_options['youtube_feed_type'] === 'playlistID' && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
                     $youtube_channelID2 = !empty($saved_feed_options['youtube_channelID2']) ? $saved_feed_options['youtube_channelID2'] : '';
-                    echo $this->feedFunctions->social_follow_button( 'youtube', $youtube_channelID2, $saved_feed_options );
+                    echo $this->feedFunctions->socialFollowButton( 'youtube', $youtube_channelID2, $saved_feed_options );
                 }
                 echo '</div>';
             }
@@ -473,8 +473,8 @@ class YoutubeFeed {
                     echo '</div>';
                     echo '</div>';
 
-                } elseif ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && ! empty( $wrap ) ) {
-                    $set_comments_height = $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && $wrap !== '' ? 'youtube-comments-wrap-premium ' : '';
+                } elseif ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && ! empty( $wrap ) ) {
+                    $set_comments_height = $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && $wrap !== '' ? 'youtube-comments-wrap-premium ' : '';
                     echo '<div class="' . esc_attr( $set_comments_height ) . 'youtube-comments-wrap' . esc_attr( $wrap ) . ' youtube-comments-thumbs"  id="fts-yt-comments"></div>';
                 }
 
@@ -491,7 +491,7 @@ class YoutubeFeed {
 
                     $youtube_video_url = 'https://www.youtube.com/watch?v=' . $saved_feed_options['youtube_singleVideoID'];
 
-                    $set_comments_height = $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && $wrap !== '' ? 'youtube-comments-wrap-premium ' : '';
+                    $set_comments_height = $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && $wrap !== '' ? 'youtube-comments-wrap-premium ' : '';
 
                     if ( $wrap !== 'right' || $wrap !== 'left' ) {
                         echo '<div class="fts-youtube-noscroll">';
@@ -501,11 +501,11 @@ class YoutubeFeed {
 
                     $this->fts_youtube_single_video_info( $saved_feed_options['youtube_singleVideoID'], $youtube_api_key_or_token );
 
-                    echo $this->feedFunctions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
+                    echo $this->feedFunctions->ftsShareOption( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
                     echo $this->get_view_on_youtube_link( $youtube_video_url );
 
                     // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions granted to view comments.
-                    if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
+                    if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                         $this->fts_youtube_commentThreads( $saved_feed_options['youtube_singleVideoID'], $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                     }
 
@@ -535,7 +535,7 @@ class YoutubeFeed {
                     if ( $kind !== 'youtube#playlist' ) {
 
                         $user_name_href = 'https://www.youtube.com/channel/' . $post_data->snippet->channelId;
-                        $date           = $this->feedFunctions->fts_custom_date( $post_data->snippet->publishedAt, 'youtube' );
+                        $date           = $this->feedFunctions->ftsCustomDate( $post_data->snippet->publishedAt, 'youtube' );
 
                         $thumbnail = $post_data->snippet->thumbnails->standard->url ?? $post_data->snippet->thumbnails->high->url;
 
@@ -551,7 +551,7 @@ class YoutubeFeed {
                             $video_id = !empty( $post_data->id->videoId ) ? $post_data->id->videoId : '';
                         }
 
-                        $popup_set = isset( $wrap ) && $wrap !== '' && $saved_feed_options['youtube_play_thumbs'] === 'yes' || ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ? 'slicker-youtube-placeholder-' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) . ' ' : '';
+                        $popup_set = isset( $wrap ) && $wrap !== '' && $saved_feed_options['youtube_play_thumbs'] === 'yes' || ! $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ? 'slicker-youtube-placeholder-' . sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) . ' ' : '';
 
                         echo '<div class="' . esc_html( $popup_set ) . 'slicker-youtube-placeholder fts-youtube-' . esc_attr( $video_id ) . '" data-id="fts-youtube-id-' . esc_attr( $fts_dynamic_class_name ) . '" style="background-image:url(' . esc_url( $thumbnail ) . ')">';
 
@@ -559,7 +559,7 @@ class YoutubeFeed {
                         $youtube_description = $this->fts_youtube_tag_filter( $this->fts_youtube_description( $post_data ) );
                         $channel_title       = $post_data->snippet->channelTitle;
 
-                        $url    = $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && isset($popup) && $popup === 'yes' && $thumbs_play_iframe !== 'yes' ? ' fts-yt-popup-open' : '';
+                        $url    = $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && isset($popup) && $popup === 'yes' && $thumbs_play_iframe !== 'yes' ? ' fts-yt-popup-open' : '';
                         $target = $thumbs_play_iframe === 'yes' ? '' : 'target="_blank"';
 
                         if ( ! empty( $saved_feed_options['youtube_name'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) ) { // https://www.youtube.com/watch?v=g9ArG6H_z0Q.
@@ -572,7 +572,7 @@ class YoutubeFeed {
                             // escaping the $href above because one option is html and one is url raw.
                             echo '<a href="' . $href . '" rel="' . esc_url( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
 
-                            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+                            if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
                                 // echo '<div id="#fts-' . $video_id . '" class="fts-yt-overlay-wrap">';.
                                 echo '<div class="entriestitle fts-youtube-popup fts-facebook-popup"><div class="fts-master-youtube-wrap-close fts-yt-close-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '"></div>';
                                 echo '<h3><a href="' . esc_url( $user_name_href ) . '" target="_blank">' . esc_html( $channel_title ) . '</a></h3>';
@@ -592,10 +592,10 @@ class YoutubeFeed {
                                         'small'  => array(),
                                     )
                                 ) . '</div>';
-                                echo $this->feedFunctions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
+                                echo $this->feedFunctions->ftsShareOption( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
                                 echo $this->get_view_on_youtube_link( $youtube_video_url );
                                 // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
-                                if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
+                                if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty(  $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                                     $this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                                 }
                                 echo '</div>';
@@ -610,7 +610,7 @@ class YoutubeFeed {
                             // escaping the $href above because one option is html and one is url raw.
                             echo '<a href="' . $href . '" rel="' . esc_url( $iframe_embed ) . '" ' . esc_attr( $target ) . ' class="fts-yt-open' . esc_attr( $url . $iframe ) . '"></a>';
 
-                            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+                            if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
                                 echo '<div class="entriestitle fts-youtube-popup fts-facebook-popup"><div class="fts-master-youtube-wrap-close fts-yt-close-' . esc_attr( sanitize_text_field( wp_unslash( $_REQUEST['fts_dynamic_name'] ) ) ) . '"></div>';
                                 echo '<h3><a href="' . esc_url( $user_name_href ) . '" target="_blank">' . esc_html( $channel_title ) . '</a></h3>';
                                 echo '<div class="fts-youtube-date">' . esc_html( $date ) . '</div>';
@@ -629,11 +629,11 @@ class YoutubeFeed {
                                         'small'  => array(),
                                     )
                                 ) . '</div>';
-                                echo $this->feedFunctions->fts_share_option( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
+                                echo $this->feedFunctions->ftsShareOption( isset( $youtube_video_url ) ? $youtube_video_url : null, isset( $youtube_title ) ? $youtube_title : null );
                                 echo $this->get_view_on_youtube_link( $youtube_video_url );
 
                                 // The comments will only work if the user has entered an API Key, an Access Token does not have enough permissions greanted to view comments.
-                                if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty( $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
+                                if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' )  && isset( $saved_feed_options['youtube_comments_count'] ) && $saved_feed_options['youtube_comments_count'] !== '0' && !empty( $saved_feed_options[ 'youtube_custom_api_token' ] ) ) {
                                     $this->fts_youtube_commentThreads( $video_id, $youtube_api_key_or_token, $saved_feed_options['youtube_comments_count'] );
                                 }
                                 echo '</div>';
@@ -667,7 +667,7 @@ class YoutubeFeed {
                     $next_url = '';
                 }
 
-                if ( ! empty( $loadmore ) && $loadmore === 'yes' && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+                if ( ! empty( $loadmore ) && $loadmore === 'yes' && $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
                     $loadmore_count = isset( $vid_count ) ? $vid_count * 2 : '25';
                     // we check to see if the loadmore count number is set and if so pass that as the new count number when fetching the next set of pics/videos.
                     $_REQUEST['next_url'] = ! empty( $loadmore ) && $loadmore === 'yes' ? str_replace( 'maxResults=' . $vid_count, 'maxResults=' . $loadmore_count, $next_url ) : $next_url;
@@ -678,7 +678,7 @@ class YoutubeFeed {
                     <?php
                 }
                 // Make sure it's not ajaxing.
-                if ( ! isset( $_GET['load_more_ajaxing'] ) && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && ! empty( $loadmore ) && $loadmore === 'yes' ) {
+                if ( ! isset( $_GET['load_more_ajaxing'] ) && $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && ! empty( $loadmore ) && $loadmore === 'yes' ) {
                     $fts_dynamic_name       = sanitize_key( $_REQUEST['fts_dynamic_name'] );
                     $time                   = time();
                     $nonce                  = wp_create_nonce( $time . 'load-more-nonce' );
@@ -719,7 +719,7 @@ class YoutubeFeed {
 
                             jQuery.ajax({
                                 data: {
-                                    action: "my_fts_fb_load_more",
+                                    action: "myFtsFbLoadMore",
                                     next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ) ?>,
                                     fts_dynamic_name: fts_d_name,
                                     feed_name: feed_name,
@@ -819,7 +819,7 @@ class YoutubeFeed {
                 echo '<div id="output_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more-output"></div>';
                 echo '</div><!--END main wrap for thumbnails-->';
                 // END main wrap for thumbnails.
-                if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && isset( $loadmore_type ) && 'autoscroll' === $loadmore_type && 'yes' === $loadmore ) {
+                if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && isset( $loadmore_type ) && 'autoscroll' === $loadmore_type && 'yes' === $loadmore ) {
                     echo '<div id="loadMore_' . esc_attr( $fts_dynamic_name ) . '" class="fts-fb-load-more fts-fb-autoscroll-loader" style="' . esc_attr( $thumbs_wrap_color_final ) . '"></div>';
                 }
                 if ( ! empty( $saved_feed_options['youtube_thumbs_wrap_height'] ) || ! empty( $wrap ) ) {
@@ -836,7 +836,7 @@ class YoutubeFeed {
             // Make sure it's not ajaxing.
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
                 echo '<div class="fts-clear"></div>';
-                if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) && isset( $loadmore_type ) &&
+                if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) && isset( $loadmore_type ) &&
                     $loadmore_type === 'button' && $loadmore === 'yes' &&  $saved_feed_options['youtube_feed_type'] !== 'singleID' ) {
 
                     echo '<div class="fts-youtube-load-more-wrapper">';
@@ -857,13 +857,13 @@ class YoutubeFeed {
                 echo '<div class="youtube-social-btn-bottom">';
 
                 if ( $saved_feed_options['youtube_feed_type'] === 'username' && !empty( $saved_feed_options['youtube_name'] ) || $saved_feed_options['youtube_feed_type'] === 'userPlaylist'  && !empty( $saved_feed_options['youtube_name2'] ) ) {
-                    echo $this->feedFunctions->social_follow_button( 'youtube', $saved_feed_options['youtube_name'], $saved_feed_options );
+                    echo $this->feedFunctions->socialFollowButton( 'youtube', $saved_feed_options['youtube_name'], $saved_feed_options );
                 }
                 elseif (  $saved_feed_options['youtube_feed_type'] === 'channelID' && !empty( $saved_feed_options['youtube_channelID'] )  ) {
-                    echo $this->feedFunctions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID'], $saved_feed_options );
+                    echo $this->feedFunctions->socialFollowButton( 'youtube', $saved_feed_options['youtube_channelID'], $saved_feed_options );
                 }
                 elseif (  $saved_feed_options['youtube_feed_type'] === 'playlistID' && !empty( $saved_feed_options['youtube_channelID2'] ) ) {
-                    echo $this->feedFunctions->social_follow_button( 'youtube', $saved_feed_options['youtube_channelID2'], $saved_feed_options );
+                    echo $this->feedFunctions->socialFollowButton( 'youtube', $saved_feed_options['youtube_channelID2'], $saved_feed_options );
                 }
                 echo '</div>';
             }
@@ -938,16 +938,16 @@ class YoutubeFeed {
             }
 
             // YouTube Use Comments Cache!
-            if ( !empty($youtube_comments_cache_url) && $this->feedCache->fts_check_feed_cache_exists( $youtube_comments_cache_url ) !== false && ! isset( $_GET['load_more_ajaxing'] ) ) {
-                $comments = json_decode( $this->feedCache->fts_get_feed_cache( $youtube_comments_cache_url ) );
+            if ( !empty($youtube_comments_cache_url) && $this->feedCache->ftsCheckFeedCacheExists( $youtube_comments_cache_url ) !== false && ! isset( $_GET['load_more_ajaxing'] ) ) {
+                $comments = json_decode( $this->feedCache->ftsGetFeedCache( $youtube_comments_cache_url ) );
             } else {
                 // https://developers.google.com/youtube/v3/docs/comments/list.
                 $comments['items'] = 'https://www.googleapis.com/youtube/v3/commentThreads?' . $youtube_api_key_or_token . '&textFormat=plainText&part=snippet&videoId=' . $video_id . '&maxResults=' . $youtube_comments_count . '';
-                $comments_returned = $this->feedFunctions->fts_get_feed_json( $comments );
+                $comments_returned = $this->feedFunctions->ftsGetFeedJson( $comments );
                 $comments          = json_decode( $comments_returned['items'] );
 
                 if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                    $this->feedCache->fts_create_feed_cache( $youtube_comments_cache_url, $comments );
+                    $this->feedCache->ftsCreateFeedCache( $youtube_comments_cache_url, $comments );
                 }
             }
 
@@ -970,7 +970,7 @@ class YoutubeFeed {
                         echo esc_html( $comment_data->snippet->topLevelComment->snippet->authorDisplayName );
                         echo '</a>';
                         echo '</span> ';
-                        echo '<span class="fts-fb-comment-date">' . esc_html( $this->feedFunctions->fts_custom_date( $comment_data->snippet->topLevelComment->snippet->publishedAt, 'youtube' ) ) . '</span><br/>';
+                        echo '<span class="fts-fb-comment-date">' . esc_html( $this->feedFunctions->ftsCustomDate( $comment_data->snippet->topLevelComment->snippet->publishedAt, 'youtube' ) ) . '</span><br/>';
                         echo wp_kses(
                             $youtube_comment,
                             array(
@@ -1015,7 +1015,7 @@ class YoutubeFeed {
             // https://developers.google.com/youtube/v3/docs/comments/list.
             $api_url['items'] = 'https://www.googleapis.com/youtube/v3/videos?id=' . $video_id . '&' . $youtube_api_key_or_token . '&part=snippet';
 
-            $video = $this->feedFunctions->use_cache_check( $api_url, $youtube_single_video_cache_name, 'youtube_single' );
+            $video = $this->feedFunctions->useCacheCheck( $api_url, $youtube_single_video_cache_name, 'youtube_single' );
 
             $feed_data = json_decode( $video['items'] );
 
@@ -1024,7 +1024,7 @@ class YoutubeFeed {
                 $channel_title       = $video_data->snippet->channelTitle;
                 $youtube_title       = $this->fts_youtube_title( $video_data );
                 $youtube_description = $this->fts_youtube_tag_filter( $this->fts_youtube_description( $video_data ) );
-                $date                = $this->feedFunctions->fts_custom_date( $video_data->snippet->publishedAt, 'youtube' );
+                $date                = $this->feedFunctions->ftsCustomDate( $video_data->snippet->publishedAt, 'youtube' );
 
                 echo '<div class="entriestitle fts-youtube-popup fts-facebook-popup"  style="display: block !important;">';
                 echo '<h3><a href="' . esc_url( $user_name_href ) . '" target="_blank">' . esc_html( $channel_title ) . '</a></h3>';

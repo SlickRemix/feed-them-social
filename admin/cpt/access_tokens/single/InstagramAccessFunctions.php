@@ -71,7 +71,7 @@ class InstagramAccessFunctions {
         ), admin_url( 'post.php' ) );
 
         // Saved Feed Options!
-        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feedCptId );
+        $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feedCptId );
 
         $user_id_basic           = !empty( $saved_feed_options['fts_instagram_custom_id'] ) ? $saved_feed_options['fts_instagram_custom_id'] :  '';
         $access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
@@ -128,7 +128,7 @@ class InstagramAccessFunctions {
 
                         // I am passing the user id and expires in and saving too, this creates one less save function in the end.
                         // so instead I can just refresh the page instead of re-saving again which is not necessary.
-                        fts_encrypt_token_ajax( codeArray, 'basic', '#fts_instagram_custom_api_token', 'firstRequest');
+                        ftsEncryptTokenAjax( codeArray, 'basic', '#fts_instagram_custom_api_token', 'firstRequest');
                     }
 
                 }, 500);
@@ -173,7 +173,7 @@ class InstagramAccessFunctions {
 
                 if( ! isset( $data->meta->error_message ) && ! isset( $data->error_message ) && $instagram_generic_response !== $response || isset( $data->meta->error_message ) && 'This client has not been approved to access this resource.' === $data->meta->error_message ){
 
-                    if( $this->feedFunctions->get_feed_option( $feedCptId, 'feed_type' ) === 'combine-streams-feed-type' ){
+                    if( $this->feedFunctions->getFeedOption( $feedCptId, 'feed_type' ) === 'combine-streams-feed-type' ){
                         echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div class="fts-successful-api-token fts-special-working-wrap">',

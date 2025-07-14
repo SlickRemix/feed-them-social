@@ -121,7 +121,7 @@ class InstagramFeed {
      */
     public function instagram_custom_styles( $feed_post_id, $fts_instagram_slider ) {
 
-        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_post_id );
+        $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feed_post_id );
 
         // CSS options.
         $instagram_loadmore_background_color = $saved_feed_options['instagram_loadmore_background_color'] ?? '';
@@ -236,11 +236,11 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
             include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-            $fts_premium          = $this->feedFunctions->is_extension_active( 'feed_them_social_premium' );
-            $fts_instagram_slider = $this->feedFunctions->is_extension_active( 'feed_them_social_instagram_slider' );
+            $fts_premium          = $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' );
+            $fts_instagram_slider = $this->feedFunctions->isExtensionActive( 'feed_them_social_instagram_slider' );
 
             // Saved Feed Options!
-            $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_post_id );
+            $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feed_post_id );
 
             // Set Variables based on Instagram Feed Type.
             switch( $saved_feed_options['instagram_feed_type'] ){
@@ -328,7 +328,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
             // Make sure it's not ajaxing.
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feedFunctions->get_random_string(10 ) . '_' . $saved_feed_options['instagram_feed_type'] );
+                $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feedFunctions->getRandomString(10 ) . '_' . $saved_feed_options['instagram_feed_type'] );
                 // Create Dynamic Class Name.
                 $fts_dynamic_class_name = '';
                 if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
@@ -356,11 +356,11 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
 
                 $cache_hashtag_id_array = 'instagram_hashtag_id_cache_' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '_search' . $search . '_hash' . $hashtag . '';
 
-                if ( $this->feedCache->fts_check_feed_cache_exists( $cache_hashtag_id_array ) === false ) {
+                if ( $this->feedCache->ftsCheckFeedCacheExists( $cache_hashtag_id_array ) === false ) {
                     // This call is required because users enter a hashtag name, then we have to check the API to see if it exists and if it does return the ID number for that hashtag.
                     $instagram_hashtag_data_array['data'] = FTS_FACEBOOK_GRAPH_URL . 'ig_hashtag_search?user_id=' . $instagram_id . '&q=' . $hashtag . FTS_AND_ACCESS_TOKEN_EQUALS . $this->feedAccessToken;
 
-                    $hashtag_response = $this->feedFunctions->fts_get_feed_json( $instagram_hashtag_data_array );
+                    $hashtag_response = $this->feedFunctions->ftsGetFeedJson( $instagram_hashtag_data_array );
 
                     $hashtag_error_check = json_decode( $hashtag_response['data'] );
 
@@ -368,10 +368,10 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                         $hashtag_id = $ht->id;
                     }
 
-                    $this->feedCache->fts_create_feed_cache( $cache_hashtag_id_array, $hashtag_error_check );
+                    $this->feedCache->ftsCreateFeedCache( $cache_hashtag_id_array, $hashtag_error_check );
 
                 } else {
-                    $response            = $this->feedCache->fts_get_feed_cache( $cache_hashtag_id_array );
+                    $response            = $this->feedCache->ftsGetFeedCache( $cache_hashtag_id_array );
                     $hashtag_error_check = json_decode( $response );
 
                    foreach ( $hashtag_error_check->data as $ht ) {
@@ -404,9 +404,9 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                 }
 
                 // First we make sure the feed is not cached already before trying to run the Instagram API.
-                if ( $this->feedCache->fts_check_feed_cache_exists( $hash_final_cache ) === false ) {
+                if ( $this->feedCache->ftsCheckFeedCacheExists( $hash_final_cache ) === false ) {
                     // https://developers.facebook.com/docs/instagram/oembed#oembed-product
-                    $hashtag_response = $this->feedFunctions->fts_get_feed_json( $instagram_data_array );
+                    $hashtag_response = $this->feedFunctions->ftsGetFeedJson( $instagram_data_array );
 
                         $hashtag_error_check = json_decode( $hashtag_response['data'] );
 
@@ -417,7 +417,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                             if( $media->media_type === 'VIDEO' ){
                                 $permalink = $media->permalink;
                                 $instagram_business_data_array['data'] = FTS_FACEBOOK_GRAPH_URL . 'v9.0/instagram_oembed?url=' . $permalink . '&fields=thumbnail_url' . FTS_AND_ACCESS_TOKEN_EQUALS.$this->feedAccessToken;
-                                $instagram_business_media_response     = $this->feedFunctions->fts_get_feed_json( $instagram_business_data_array );
+                                $instagram_business_media_response     = $this->feedFunctions->ftsGetFeedJson( $instagram_business_data_array );
                                 $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
                                 $media->thumbnail_url = $instagram_business_media->thumbnail_url;
 
@@ -427,7 +427,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                                 if( $media->children->data[0]->media_type === 'VIDEO' ){
                                     $permalink_child = $media->children->data[0]->permalink;
                                     $instagram_business_data_array_child['data'] = FTS_FACEBOOK_GRAPH_URL . 'v9.0/instagram_oembed?url=' . $permalink_child . '&fields=thumbnail_url' . FTS_AND_ACCESS_TOKEN_EQUALS.$this->feedAccessToken;
-                                    $instagram_business_media_response_child     = $this->feedFunctions->fts_get_feed_json( $instagram_business_data_array_child );
+                                    $instagram_business_media_response_child     = $this->feedFunctions->ftsGetFeedJson( $instagram_business_data_array_child );
                                     $instagram_business_media_child             = json_decode( $instagram_business_media_response_child['data'] );
                                     $media->children->data[0]->thumbnail_url = $instagram_business_media_child->thumbnail_url;
                                 }
@@ -437,12 +437,12 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                         $insta_data = $hashtag_error_check;
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                          $this->feedCache->fts_create_feed_cache( $hash_final_cache, $insta_data );
+                          $this->feedCache->ftsCreateFeedCache( $hash_final_cache, $insta_data );
                     }
                 }
                 else {
 
-                    $insta_data = $this->feedCache->fts_get_feed_cache( $hash_final_cache );
+                    $insta_data = $this->feedCache->ftsGetFeedCache( $hash_final_cache );
 
                     $insta_data = json_decode( $insta_data );
 
@@ -466,9 +466,9 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                 $instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : FTS_FACEBOOK_GRAPH_URL . $instagram_id . '/media?limit=' . $saved_feed_options['instagram_pics_count'] . FTS_AND_ACCESS_TOKEN_EQUALS . $this->feedAccessToken;
 
                 // First we make sure the feed is not cached already before trying to run the Instagram API.
-                if ( $this->feedCache->fts_check_feed_cache_exists( $business_cache ) === false ) {
+                if ( $this->feedCache->ftsCheckFeedCacheExists( $business_cache ) === false ) {
 
-                    $instagram_business_response = $this->feedFunctions->fts_get_feed_json( $instagram_data_array );
+                    $instagram_business_response = $this->feedFunctions->ftsGetFeedJson( $instagram_data_array );
 
                     $instagram_business = json_decode( $instagram_business_response['data'] );
                     $instagram_business_user_info = json_decode( $instagram_business_response['user_info'] );
@@ -479,7 +479,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                     foreach ( $instagram_business->data as $media ) {
                         $media_id                              = $media->id;
                         $instagram_business_data_array['data'] = FTS_FACEBOOK_GRAPH_URL . $media_id . '?fields=caption,comments_count,like_count,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}' . FTS_AND_ACCESS_TOKEN_EQUALS . $this->feedAccessToken;
-                        $instagram_business_media_response     = $this->feedFunctions->fts_get_feed_json( $instagram_business_data_array );
+                        $instagram_business_media_response     = $this->feedFunctions->ftsGetFeedJson( $instagram_business_data_array );
                         $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
                         $instagram_business_output->data[]     = $instagram_business_media;
                     }
@@ -489,12 +489,12 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                     $insta_data = (object) array_merge( (array) $instagram_business_user_info, (array) $instagram_business, (array) $instagram_business_output );
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-                        $this->feedCache->fts_create_feed_cache( $business_cache, $insta_data );
+                        $this->feedCache->ftsCreateFeedCache( $business_cache, $insta_data );
                     }
                 }
 
                 else {
-                    $insta_data = $this->feedCache->fts_get_feed_cache( $business_cache );
+                    $insta_data = $this->feedCache->ftsGetFeedCache( $business_cache );
 
                     $insta_data = json_decode( $insta_data );
 
@@ -519,7 +519,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                     );
 
                     if( !empty( $instagram_id ) ) {
-                        $feed_data = $this->feedFunctions->use_cache_check( $api_requests, $basic_cache, 'instagram' );
+                        $feed_data = $this->feedFunctions->useCacheCheck( $api_requests, $basic_cache, 'instagram' );
                     }
 
                     // JSON Decode the Feed Data.
@@ -606,7 +606,7 @@ if ( isset( $saved_feed_options['instagram_profile_name'], $saved_feed_options['
         <?php
         if ( isset( $username ) && $saved_feed_options['instagram_show_follow_btn'] === 'yes' && $saved_feed_options['instagram_show_follow_btn_where'] === 'instagram-follow-above' ) {
             echo '<div class="fts-follow-header-wrap">';
-            echo $this->feedFunctions->social_follow_button( 'instagram', $username, $saved_feed_options );
+            echo $this->feedFunctions->socialFollowButton( 'instagram', $username, $saved_feed_options );
             echo '</div>';
         }
         ?>
@@ -686,7 +686,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     <?php
                 } elseif ( $saved_feed_options['instagram_show_follow_btn'] === 'yes' && $saved_feed_options['instagram_show_follow_btn_where'] === 'instagram-follow-above' && $saved_feed_options['instagram_feed_type'] !== 'hashtag' ) {
                     echo '<div class="instagram-social-btn-top">';
-                    echo $this->feedFunctions->social_follow_button( 'instagram', $username, $saved_feed_options );
+                    echo $this->feedFunctions->socialFollowButton( 'instagram', $username, $saved_feed_options );
                     echo '</div>';
                 }
 
@@ -749,7 +749,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     $fb_api_time = isset( $post_data->timestamp ) ? $post_data->timestamp : '';
                     $times       = isset( $post_data->created_time ) ? $post_data->created_time : $fb_api_time;
                     // call our function to get the date.
-                    $instagram_date = $this->feedFunctions->fts_custom_date( $times, $feed_type );
+                    $instagram_date = $this->feedFunctions->ftsCustomDate( $times, $feed_type );
 
                     if ( $saved_feed_options['instagram_feed_type'] === 'hashtag' || $saved_feed_options['instagram_feed_type'] === 'location' ) {
                         $username           = $post_data->user->username ?? '';
@@ -824,7 +824,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                 <?php
                                 if ( isset( $instagram_username ) && 'yes' === $saved_feed_options['instagram_show_follow_btn'] && 'instagram-follow-above' === $saved_feed_options['instagram_show_follow_btn_where'] && 'hashtag' !== $saved_feed_options['instagram_feed_type'] ) {
                                     echo '<div class="fts-follow-header-wrap">';
-                                    echo $this->feedFunctions->social_follow_button( 'instagram', $instagram_username, $saved_feed_options );
+                                    echo $this->feedFunctions->socialFollowButton( 'instagram', $instagram_username, $saved_feed_options );
                                     echo '</div>';
                                 }
                                 ?>
@@ -943,7 +943,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
 
                             <?php
                                 // this is already escaping in the function, re escaping will cause errors.
-                                echo $this->feedFunctions->fts_share_option( $this->fts_view_on_instagram_url( $post_data ), $this->fts_instagram_description( $post_data ) );
+                                echo $this->feedFunctions->ftsShareOption( $this->fts_view_on_instagram_url( $post_data ), $this->fts_instagram_description( $post_data ) );
 
                                 if ( $saved_feed_options['instagram_feed_type'] !== 'basic' && $saved_feed_options['instagram_hide_date_likes_comments'] === 'yes' ) {
                                     ?>
@@ -1022,7 +1022,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                     var fts_time = "<?php echo esc_js( $time ); ?>";
                                     jQuery.ajax({
                                         data: {
-                                            action: "my_fts_fb_load_more",
+                                            action: "myFtsFbLoadMore",
                                             next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
                                             fts_dynamic_name: fts_d_name,
                                             load_more_ajaxing: yes_ajax,
@@ -1128,7 +1128,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     };
                     jQuery('.fts-instagram-scrollable').isolatedScrollFacebookFTS();
                 </script>
-            <?php } //end $height !== 'auto' && empty( $height ) == NULL. ?>
+            <?php } //end $height !== 'auto' && empty( $height ) == null. ?>
             <?php
             if ( ! empty( $loadmore ) && $loadmore === 'autoscroll' || ! empty( $height ) ) {
                 print '</div>'; // closing height div for scrollable feeds.
@@ -1165,7 +1165,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                 // Social Button.
                 if ( isset( $username ) && $saved_feed_options['instagram_show_follow_btn'] === 'yes' && $saved_feed_options['instagram_show_follow_btn_where'] === 'instagram-follow-below' && $saved_feed_options['instagram_feed_type'] !== 'hashtag' ) {
                     echo '<div class="instagram-social-btn-bottom">';
-                    echo $this->feedFunctions->social_follow_button( 'instagram', $username, $saved_feed_options );
+                    echo $this->feedFunctions->socialFollowButton( 'instagram', $username, $saved_feed_options );
                     echo '</div>';
                 }
                 ?>

@@ -14,7 +14,7 @@
 namespace feedthemsocial\admin\cpt\options;
 
 // Exit if accessed directly!
-if ( !defined( 'ABSPATH' ) ) {
+if ( !\defined( 'ABSPATH' ) ) {
     exit;
 }
 
@@ -29,7 +29,7 @@ class FeedCPTOptions
      *
      * @var array
      */
-    public $all_options;
+    public $allOptions;
 
     /**
      * Facebook Additional Options.
@@ -37,7 +37,7 @@ class FeedCPTOptions
      * @since 4.0.0
      * @var array
      */
-    public $facebook_additional_options;
+    public $facebookAdditionalOptions;
 
     /**
      * Instagram Additional Options.
@@ -45,7 +45,7 @@ class FeedCPTOptions
      * @since 4.0.0
      * @var array
      */
-    public $instagram_additional_options;
+    public $instagramAdditionalOptions;
 
     /**
      * Twitter Additional Options.
@@ -53,7 +53,7 @@ class FeedCPTOptions
      * @since 4.0.0
      * @var array
      */
-    public $twitter_additional_options;
+    public $twitterAdditionalOptions;
 
     /**
      * YouTube Additional Options.
@@ -61,7 +61,7 @@ class FeedCPTOptions
      * @since 4.0.0
      * @var array
      */
-    public $youtube_additional_options;
+    public $youtubeAdditionalOptions;
 
     /**
      * Color Picker Class.
@@ -80,19 +80,19 @@ class FeedCPTOptions
     /**
      * FeedCPTOptions constructor.
      */
-    public function __construct ($facebook_additional_options, $instagram_additional_options, $twitter_additional_options, $youtube_additional_options)
+    public function __construct ($facebookAdditionalOptions, $instagramAdditionalOptions, $twitterAdditionalOptions, $youtubeAdditionalOptions)
     {
         // Facebook Additional Options.
-        $this->facebook_additional_options = $facebook_additional_options->get_all_options();
+        $this->facebookAdditionalOptions = $facebookAdditionalOptions->getAllOptions();
 
         // Instagram Additional Options.
-        $this->instagram_additional_options = $instagram_additional_options->get_all_options();
+        $this->instagramAdditionalOptions = $instagramAdditionalOptions->getAllOptions();
 
         // Twitter Additional Options.
-        $this->twitter_additional_options = $twitter_additional_options->get_all_options();
+        $this->twitterAdditionalOptions = $twitterAdditionalOptions->getAllOptions();
 
         // YouTube Additional Options.
-        $this->youtube_additional_options = $youtube_additional_options->get_all_options();
+        $this->youtubeAdditionalOptions = $youtubeAdditionalOptions->getAllOptions();
     }
 
     const DEFAULT_WIDTH_PLACEHOLDER = '310px ';
@@ -103,7 +103,7 @@ class FeedCPTOptions
      * @param array $args The unique arguments for the section.
      * @return array The structured settings array.
      */
-    private function generate_options_array (array $args): array
+    private function generateOptionsArray (array $args): array
     {
         // Set default values for all common keys
         $defaults = [
@@ -126,22 +126,22 @@ class FeedCPTOptions
      * @return array
      * @since 4.0.0
      */
-    public function get_all_token_options ()
+    public function getAllTokenOptions ()
     {
-        $this->twitter_token_options();
-        $this->facebook_token_options();
-        $this->instagram_token_options();
-        $this->instagram_business_token_options();
-        $this->youtube_token_options();
-        $this->combine_instagram_token_options();
-        $this->combine_instagram_token_select_options();
-        $this->combine_facebook_token_options();
-        $this->combine_twitter_token_select_options();
-        $this->combine_twitter_token_options();
-        $this->combine_youtube_token_select_options();
-        $this->combine_youtube_token_options();
+        $this->twitterTokenOptions();
+        $this->facebookTokenOptions();
+        $this->instagramTokenOptions();
+        $this->instagramBusinessTokenOptions();
+        $this->youtubeTokenOptions();
+        $this->combineInstagramTokenOptions();
+        $this->combineInstagramTokenSelectOptions();
+        $this->combineFacebookTokenOptions();
+        $this->combineTwitterTokenSelectOptions();
+        $this->combineTwitterTokenOptions();
+        $this->combineYoutubeTokenSelectOptions();
+        $this->combineYoutubeTokenOptions();
 
-        return $this->all_options;
+        return $this->allOptions;
     }
 
     /**
@@ -150,32 +150,32 @@ class FeedCPTOptions
      * @return array
      * @since 1.0.0
      */
-    public function get_all_options ($include_additional_options = false)
+    public function getAllOptions ($include_additional_options = false)
     {
-        $this->feed_type_options();
-        $this->twitter_token_options();
-        $this->facebook_token_options();
-        $this->instagram_token_options();
-        $this->instagram_business_token_options();
-        $this->youtube_token_options();
-        $this->combine_instagram_token_options();
-        $this->combine_instagram_token_select_options();
-        $this->combine_facebook_token_options();
-        $this->combine_twitter_token_select_options();
-        $this->combine_twitter_token_options();
-        $this->combine_youtube_token_select_options();
-        $this->combine_youtube_token_options();
-        $this->facebook_options();
-        $this->instagram_options();
-        $this->twitter_options();
-        $this->youtube_options();
-        $this->combine_options();
+        $this->feedTypeOptions();
+        $this->twitterTokenOptions();
+        $this->facebookTokenOptions();
+        $this->instagramTokenOptions();
+        $this->instagramBusinessTokenOptions();
+        $this->youtubeTokenOptions();
+        $this->combineInstagramTokenOptions();
+        $this->combineInstagramTokenSelectOptions();
+        $this->combineFacebookTokenOptions();
+        $this->combineTwitterTokenSelectOptions();
+        $this->combineTwitterTokenOptions();
+        $this->combineYoutubeTokenSelectOptions();
+        $this->combineYoutubeTokenOptions();
+        $this->facebookOptions();
+        $this->instagramOptions();
+        $this->twitterOptions();
+        $this->youtubeOptions();
+        $this->combineOptions();
 
         if ( $include_additional_options ) {
-            $this->all_options = array_merge( $this->all_options, $this->facebook_additional_options, $this->instagram_additional_options, $this->twitter_additional_options, $this->youtube_additional_options );
+            $this->allOptions = array_merge( $this->allOptions, $this->facebookAdditionalOptions, $this->instagramAdditionalOptions, $this->twitterAdditionalOptions, $this->youtubeAdditionalOptions );
         }
 
-        return $this->all_options;
+        return $this->allOptions;
     }
 
     /**
@@ -184,7 +184,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function view_decrypted_token ()
+    public function viewDecryptedToken ()
     {
         ob_start(); ?>
         <div class="fts-copy-decrypted-token fts-decrypted-token">
@@ -201,7 +201,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function feed_type_options ()
+    public function feedTypeOptions ()
     {
         $main_options = [
             [
@@ -261,13 +261,13 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['feed_type_options'] = $this->generate_options_array( [
+        $this->allOptions['feedTypeOptions'] = $this->generateOptionsArray( [
             'section_attr_key' => 'feed_type_',
             'section_wrap_id'  => 'fts-tab-content',
             'main_options'     => $main_options,
         ] );
 
-        return $this->all_options['feed_type_options'];
+        return $this->allOptions['feedTypeOptions'];
     }
 
     /**
@@ -276,7 +276,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function twitter_token_options ()
+    public function twitterTokenOptions ()
     {
         $main_options = [
             [
@@ -338,7 +338,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['twitter_token_options'] = $this->generate_options_array( [
+        $this->allOptions['twitterTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'twitter_token_',
             'section_title'      => esc_html__( 'TikTok Access Token', 'feed-them-social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_class' => 'fts-tab-content1-twitter fts-token-wrap',
@@ -347,7 +347,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['twitter_token_options'];
+        return $this->allOptions['twitterTokenOptions'];
     }
 
     /**
@@ -356,7 +356,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function facebook_token_options ()
+    public function facebookTokenOptions ()
     {
         $main_options = [
             [
@@ -379,14 +379,14 @@ class FeedCPTOptions
             [
                 'input_wrap_class' => 'fts-facebook-access-token',
                 'option_type'      => 'input',
-                'label'            => esc_html__( 'Access Token', 'feed-them-social' ) . $this->view_decrypted_token(),
+                'label'            => esc_html__( 'Access Token', 'feed-them-social' ) . $this->viewDecryptedToken(),
                 'type'             => 'text',
                 'id'               => 'fts_facebook_custom_api_token',
                 'name'             => 'fts_facebook_custom_api_token'
             ],
         ];
 
-        $this->all_options['facebook_token_options'] = $this->generate_options_array( [
+        $this->allOptions['facebookTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'facebook_token_',
             'section_title'      => esc_html__( 'Facebook Access Token', 'feed-them-social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_class' => 'fts-tab-content1-facebook fts-token-wrap',
@@ -395,7 +395,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['facebook_token_options'];
+        return $this->allOptions['facebookTokenOptions'];
     }
 
     /**
@@ -404,7 +404,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function instagram_token_options ()
+    public function instagramTokenOptions ()
     {
         $main_options = [
             [
@@ -419,7 +419,7 @@ class FeedCPTOptions
             [
                 'input_wrap_class' => 'fts-instagram-access-token',
                 'option_type'      => 'input',
-                'label'            => esc_html__( 'Access Token', 'feed-them-social' ) . $this->view_decrypted_token(),
+                'label'            => esc_html__( 'Access Token', 'feed-them-social' ) . $this->viewDecryptedToken(),
                 'type'             => 'text',
                 'id'               => 'fts_instagram_custom_api_token',
                 'name'             => 'fts_instagram_custom_api_token'
@@ -442,7 +442,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['instagram_token_options'] = $this->generate_options_array( [
+        $this->allOptions['instagramTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'instagram_token_',
             'section_title'      => esc_html__( 'Instagram Access Token', 'feed-them-social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_class' => 'fts-tab-content1-instagram fts-token-wrap',
@@ -451,7 +451,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['instagram_token_options'];
+        return $this->allOptions['instagramTokenOptions'];
     }
 
     /**
@@ -460,7 +460,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function instagram_business_token_options ()
+    public function instagramBusinessTokenOptions ()
     {
         $main_options = [
             [
@@ -491,14 +491,14 @@ class FeedCPTOptions
             [
                 'input_wrap_class' => 'fts-facebook-instagram-access-token',
                 'option_type'      => 'input',
-                'label'            => esc_html__( 'Access Token', 'feed-them-social' ) . $this->view_decrypted_token(),
+                'label'            => esc_html__( 'Access Token', 'feed-them-social' ) . $this->viewDecryptedToken(),
                 'type'             => 'text',
                 'id'               => 'fts_facebook_instagram_custom_api_token',
                 'name'             => 'fts_facebook_instagram_custom_api_token'
             ],
         ];
 
-        $this->all_options['instagram_business_token_options'] = $this->generate_options_array( [
+        $this->allOptions['instagramBusinessTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'facebook_instagram_token_',
             'section_title'      => esc_html__( 'Instagram Business Access Token', 'feed-them-social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_class' => 'fts-tab-content1-facebook-instagram fts-token-wrap',
@@ -507,7 +507,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['instagram_business_token_options'];
+        return $this->allOptions['instagramBusinessTokenOptions'];
     }
 
     /**
@@ -516,7 +516,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function youtube_token_options ()
+    public function youtubeTokenOptions ()
     {
         $main_options = [
             [
@@ -562,7 +562,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['youtube_token_options'] = $this->generate_options_array( [
+        $this->allOptions['youtubeTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'youtube_token_',
             'section_title'      => esc_html__( 'YouTube Access Token', 'feed-them-social' ) . '<span class="fts-valid-text"></span>',
             'section_wrap_class' => 'fts-tab-content1-youtube fts-token-wrap',
@@ -571,7 +571,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['youtube_token_options'];
+        return $this->allOptions['youtubeTokenOptions'];
     }
 
     /**
@@ -580,7 +580,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 1.0.0
      */
-    public function facebook_options ()
+    public function facebookOptions ()
     {
         $main_options = [
             // Feed Type,
@@ -1286,7 +1286,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['facebook'] = $this->generate_options_array( [
+        $this->allOptions['facebook'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'facebook_',
             'section_wrap_class' => 'fts-facebook_page-shortcode-form',
             'form_wrap_classes'  => 'fts-fb-page-shortcode-form',
@@ -1304,7 +1304,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['facebook'];
+        return $this->allOptions['facebook'];
     }
 
     /**
@@ -1313,7 +1313,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 1.0.0
      */
-    public function instagram_options ()
+    public function instagramOptions ()
     {
         $main_options = [
             // Feed Type
@@ -1752,7 +1752,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['instagram'] = $this->generate_options_array( [
+        $this->allOptions['instagram'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'instagram_',
             'section_wrap_class' => 'fts-instagram-shortcode-form',
             'form_wrap_classes'  => 'instagram-shortcode-form',
@@ -1761,7 +1761,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['instagram'];
+        return $this->allOptions['instagram'];
     }
 
     /**
@@ -1770,7 +1770,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 1.0.0
      */
-    public function twitter_options ()
+    public function twitterOptions ()
     {
         $limitforpremium = __( '<div class="fts-paid-extension-required"><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a></small></div>', 'feed-them-social' );
         $main_options = [
@@ -2052,7 +2052,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['twitter'] = $this->generate_options_array( [
+        $this->allOptions['twitter'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'twitter_',
             'section_wrap_class' => 'fts-twitter-shortcode-form',
             'form_wrap_classes'  => 'twitter-shortcode-form',
@@ -2066,7 +2066,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['twitter'];
+        return $this->allOptions['twitter'];
     }
 
     /**
@@ -2075,7 +2075,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 1.0.0
      */
-    public function youtube_options ()
+    public function youtubeOptions ()
     {
         $limitforpremium = __( '<div class="fts-paid-extension-required"><small>More than 6 Requires <a target="_blank" href="https://www.slickremix.com/downloads/feed-them-social-premium-extension/">Premium</a></small></div>', 'feed-them-social' );
         $main_options = [
@@ -2483,7 +2483,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['youtube'] = $this->generate_options_array( [
+        $this->allOptions['youtube'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'youtube_',
             'section_wrap_class' => 'fts-youtube-shortcode-form',
             'form_wrap_classes'  => 'youtube-shortcode-form',
@@ -2492,7 +2492,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['youtube'];
+        return $this->allOptions['youtube'];
     }
 
     /**
@@ -2501,7 +2501,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 1.0.0
      */
-    public function combine_options ()
+    public function combineOptions ()
     {
         $main_options = [
             // Total # of Posts
@@ -2671,7 +2671,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['combine'] = $this->generate_options_array( [
+        $this->allOptions['combine'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'combine_',
             'section_wrap_class' => 'fts-combine-streams-shortcode-form',
             'form_wrap_classes'  => 'combine-streams-shortcode-form',
@@ -2679,7 +2679,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['combine'];
+        return $this->allOptions['combine'];
     }
 
     /**
@@ -2688,7 +2688,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function combine_instagram_token_options ()
+    public function combineInstagramTokenOptions ()
     {
         $main_options = [
             // Combine Instagram
@@ -2707,7 +2707,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['combine_instagram_token_options'] = $this->generate_options_array( [
+        $this->allOptions['combineInstagramTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'combine_instagram_token_',
             'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'Instagram', 'feed-them-social' ) . '</span>',
             'section_wrap_class' => 'fts-combined-instagram-feed-type',
@@ -2715,7 +2715,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['combine_instagram_token_options'];
+        return $this->allOptions['combineInstagramTokenOptions'];
     }
 
     /**
@@ -2724,7 +2724,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function combine_instagram_token_select_options ()
+    public function combineInstagramTokenSelectOptions ()
     {
         $main_options = [
             // Instagram Type
@@ -2792,14 +2792,14 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['combine_instagram_token_select_options'] = $this->generate_options_array( [
+        $this->allOptions['combineInstagramTokenSelectOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'combine_instagram_token_select_',
             'section_wrap_class' => 'fts-tab-content1-combine fts-instagram-hashtag-combine',
             'form_wrap_id'       => 'fts-fb-page-form-combine-instagram-token-select',
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['combine_instagram_token_select_options'];
+        return $this->allOptions['combineInstagramTokenSelectOptions'];
     }
 
     /**
@@ -2808,7 +2808,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function combine_facebook_token_options ()
+    public function combineFacebookTokenOptions ()
     {
         $main_options = [
             // Combine Facebook
@@ -2826,7 +2826,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['combine_facebook_token_options'] = $this->generate_options_array( [
+        $this->allOptions['combineFacebookTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'combine_facebook_token_',
             'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'Facebook', 'feed-them-social' ) . '</span>',
             'section_wrap_class' => 'fts-combined-facebook-feed-type',
@@ -2834,7 +2834,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['combine_facebook_token_options'];
+        return $this->allOptions['combineFacebookTokenOptions'];
     }
 
     /**
@@ -2843,7 +2843,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function combine_twitter_token_select_options ()
+    public function combineTwitterTokenSelectOptions ()
     {
         $main_options = [
             // Combine Twitter
@@ -2864,7 +2864,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['combine_twitter_token_select_options'] = $this->generate_options_array( [
+        $this->allOptions['combineTwitterTokenSelectOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'combine_twitter_token_select_',
             'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'Twitter', 'feed-them-social' ) . '</span>',
             'section_wrap_class' => 'fts-combined-twitter-feed-type ',
@@ -2872,7 +2872,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-       // Commenting this out for now until we use it for TikTok return $this->all_options['combine_twitter_token_select_options'];
+       // Commenting this out for now until we use it for TikTok return $this->allOptions['combineTwitterTokenSelectOptions'];
     }
 
     /**
@@ -2881,7 +2881,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function combine_twitter_token_options ()
+    public function combineTwitterTokenOptions ()
     {
         $main_options = [
             // Feed Type Selection
@@ -2912,7 +2912,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['combine_twitter_token_options'] = $this->generate_options_array( [
+        $this->allOptions['combineTwitterTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'combine_twitter_token_',
             'section_wrap_id'    => 'fts-twitter-feed-type',
             'section_wrap_class' => 'fts-tab-content1-combine fts-twitter-combine',
@@ -2921,7 +2921,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-       // Remove until we adjust for tiktok return $this->all_options['combine_twitter_token_options'];
+       // Remove until we adjust for tiktok return $this->allOptions['combineTwitterTokenOptions'];
     }
 
     /**
@@ -2930,7 +2930,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function combine_youtube_token_select_options ()
+    public function combineYoutubeTokenSelectOptions ()
     {
         $main_options = [
             // Combine Youtube
@@ -2951,7 +2951,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['combine_youtube_token_select_options'] = $this->generate_options_array( [
+        $this->allOptions['combineYoutubeTokenSelectOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'combine_youtube_token_select_',
             'section_title'      => '<span class="fts-combined-h3-span">' . esc_html__( 'YouTube', 'feed-them-social' ) . '</span>',
             'section_wrap_class' => 'fts-combined-youtube-feed-type',
@@ -2960,7 +2960,7 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['combine_youtube_token_select_options'];
+        return $this->allOptions['combineYoutubeTokenSelectOptions'];
     }
 
     /**
@@ -2969,7 +2969,7 @@ class FeedCPTOptions
      * @return mixed
      * @since 4.0.0
      */
-    public function combine_youtube_token_options ()
+    public function combineYoutubeTokenOptions ()
     {
         $main_options = [
             // YouTube Type
@@ -3023,7 +3023,7 @@ class FeedCPTOptions
             ],
         ];
 
-        $this->all_options['combine_youtube_token_options'] = $this->generate_options_array( [
+        $this->allOptions['combineYoutubeTokenOptions'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'combine_youtube_token_',
             'section_wrap_class' => 'fts-tab-content1-combine fts-youtube-combine',
             'form_wrap_classes'  => 'fb-page-shortcode-form-combine',
@@ -3031,6 +3031,6 @@ class FeedCPTOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['combine_youtube_token_options'];
+        return $this->allOptions['combineYoutubeTokenOptions'];
     }
 }

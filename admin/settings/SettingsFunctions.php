@@ -45,10 +45,10 @@ class SettingsFunctions {
         add_filter( 'fts_get_settings', array( $this, 'fts_get_settings' ), 10, 1 );
 
         // Sanitize Text Field Filter
-        add_filter( 'fts_settings_sanitize_text', array( $this, 'fts_sanitize_text_field' ), 10, 1 );
+        add_filter( 'fts_settings_sanitize_text', array( $this, 'ftsSanitizeTextField' ), 10, 1 );
 
         // After Setting Output Filter
-        add_filter( 'fts_after_setting_output', array( $this, 'fts_add_setting_tooltip' ), 10, 2 );
+        add_filter( 'fts_after_setting_output', array( $this, 'ftsAddSettingTooltip' ), 10, 2 );
     }
 
 
@@ -177,9 +177,9 @@ class SettingsFunctions {
      * @param    string        $input    The field value
      * @return    string        $input    Sanitizied value
      */
-    public function fts_sanitize_text_field( $input ) {
+    public function ftsSanitizeTextField( $input ) {
         return trim( $input );
-    } // fts_sanitize_text_field
+    } // ftsSanitizeTextField
 
     /**
      * Sanitize HTML Class Names
@@ -188,18 +188,18 @@ class SettingsFunctions {
      * @param    string|array    $class    HTML Class Name(s)
      * @return    string            $class
      */
-    public function fts_sanitize_html_class( $class = '' ) {
+    public function ftsSanitizeHtmlClass( $class = '' ) {
 
-        if ( is_string( $class ) )    {
+        if ( \is_string( $class ) )    {
             $class = sanitize_html_class( $class );
-        } else if ( is_array( $class ) )    {
+        } else if ( \is_array( $class ) )    {
             $class = array_values( array_map( 'sanitize_html_class', $class ) );
             $class = implode( ' ', array_unique( $class ) );
         }
 
         return $class;
 
-    } // fts_sanitize_html_class
+    } // ftsSanitizeHtmlClass
 
     /**
      * Adds the tooltip after the setting field.
@@ -209,7 +209,7 @@ class SettingsFunctions {
      * @param    array        $args    Array containing tooltip title and description
      * @return    string        Filtered HTML output
      */
-    public function fts_add_setting_tooltip( $html, $args ) {
+    public function ftsAddSettingTooltip( $html, $args ) {
         // ! empty( $args['tooltip_title'] ) && ..... <strong>' . $args['tooltip_title'] . '</strong>:  not using html right now, need to find work around to allow it when we do.
         // https://stackoverflow.com/questions/15734105/jquery-ui-tooltip-does-not-support-html-content
         if ( ! empty( $args['tooltip_desc'] ) ) {
@@ -219,7 +219,7 @@ class SettingsFunctions {
         }
 
         return $html;
-    } // fts_add_setting_tooltip
+    } // ftsAddSettingTooltip
 
     /**
      * Header Callback
@@ -230,9 +230,9 @@ class SettingsFunctions {
      * @param    arr        $args    Arguments passed by the setting
      * @return    void
      */
-    public function fts_header_callback( $args ) {
+    public function ftsHeaderCallback( $args ) {
         echo apply_filters( 'fts_after_setting_output', '', $args );
-    } // fts_header_callback
+    } // ftsHeaderCallback
 
     /**
      * Checkbox Callback
@@ -244,26 +244,26 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public function fts_checkbox_callback( $args ) {
+    public function ftsCheckboxCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
-        if ( isset( $args['faux'] ) && true === $args['faux'] ) {
+        if ( isset( $args['faux'] ) && $args['faux'] === true ) {
             $name = '';
         } else {
-            $name = 'name="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"';
+            $name = 'name="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"';
         }
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         $readonly    = $args['readonly'] === true    ? 'disabled="disabled"' : '';
 
         $checked = ! empty( $fts_option ) ? checked( 1, $fts_option, false ) : '';
         $html  = '<input type="hidden"' . $name . ' value="-1" />';
-        $html .= '<input type="checkbox" ' . $readonly . ' id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"' . $name . ' value="1" ' . $checked . ' class="' . $class . '"/>';
-        $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
+        $html .= '<input type="checkbox" ' . $readonly . ' id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"' . $name . ' value="1" ' . $checked . ' class="' . $class . '"/>';
+        $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_checkbox_callback
+    } // ftsCheckboxCallback
 
     /**
      * Multicheck Callback
@@ -275,10 +275,10 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public function fts_multicheck_callback( $args ) {
+    public function ftsMulticheckCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         $html = '';
 
@@ -290,16 +290,16 @@ class SettingsFunctions {
                     $enabled = NULL;
                 }
 
-                $html .= '<input name="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . '][' . $this->fts_sanitize_key( $key ) . ']" id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . '][' . $this->fts_sanitize_key( $key ) . ']" class="' . $class . '" type="checkbox" value="' . esc_attr( $option ) . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';
+                $html .= '<input name="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . '][' . $this->ftsSanitizeKey( $key ) . ']" id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . '][' . $this->ftsSanitizeKey( $key ) . ']" class="' . $class . '" type="checkbox" value="' . esc_attr( $option ) . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';
 
-                $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . '][' . $this->fts_sanitize_key( $key ) . ']">' . wp_kses_post( $option ) . '</label><br/>';
+                $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . '][' . $this->ftsSanitizeKey( $key ) . ']">' . wp_kses_post( $option ) . '</label><br/>';
             }
 
             $html .= '<p class="description">' . $args['desc'] . '</p>';
         }
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_multicheck_callback
+    } // ftsMulticheckCallback
 
     /**
      * Radio Callback
@@ -311,12 +311,12 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public function fts_radio_callback( $args ) {
+    public function ftsRadioCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         $html = '';
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         foreach ( $args['options'] as $key => $option )    {
             $checked = false;
@@ -327,15 +327,15 @@ class SettingsFunctions {
                 $checked = true;
             }
 
-            $html .= '<input name="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . '][' . $this->fts_sanitize_key( $key ) . ']" class="' . $class . '" type="radio" value="' . $this->fts_sanitize_key( $key ) . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
+            $html .= '<input name="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']" id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . '][' . $this->ftsSanitizeKey( $key ) . ']" class="' . $class . '" type="radio" value="' . $this->ftsSanitizeKey( $key ) . '" ' . checked( true, $checked, false ) . '/>&nbsp;';
 
-            $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . '][' . $this->fts_sanitize_key( $key ) . ']">' . esc_html( $option ) . '</label><br/>';
+            $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . '][' . $this->ftsSanitizeKey( $key ) . ']">' . esc_html( $option ) . '</label><br/>';
         }
 
         $html .= '<p class="description">' . apply_filters( 'fts_after_setting_output', wp_kses_post( $args['desc'] ), $args ) . '</p>';
 
         echo $html;
-    } // fts_radio_callback
+    } // ftsRadioCallback
 
     /**
      * Text Callback
@@ -347,7 +347,7 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public function fts_text_callback( $args ) {
+    public function ftsTextCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option )    {
@@ -364,7 +364,7 @@ class SettingsFunctions {
             $name = 'name="fts_settings[' . esc_attr( $args['id'] ) . ']"';
         }
 
-        $class       = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class       = $this->ftsSanitizeHtmlClass( $args['field_class'] );
         $readonly    = $args['readonly'] === true    ? ' readonly="readonly"' : '';
         $placeholder = isset( $args['placeholder'] ) ? $args['placeholder']   : '';
         $size        = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
@@ -372,7 +372,7 @@ class SettingsFunctions {
         $html = \sprintf(
             '<input type="text" class="%s" id="fts_settings[%s]" %s value="%s" placeholder="%s"%s />',
             $class . ' ' . sanitize_html_class( $size ) . '-text',
-            $this->fts_sanitize_key( $args['id'] ),
+            $this->ftsSanitizeKey( $args['id'] ),
             $name,
             esc_attr( stripslashes( $value ) ),
             $placeholder,
@@ -381,12 +381,12 @@ class SettingsFunctions {
 
         $html .= \sprintf(
             '<label for="fts_settings[%s]"> %s</label>',
-            $this->fts_sanitize_key( $args['id'] ),
+            $this->ftsSanitizeKey( $args['id'] ),
             wp_kses_post( $args['desc'] )
         );
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_text_callback
+    } // ftsTextCallback
 
     /**
      * Number Callback
@@ -398,7 +398,7 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public function fts_number_callback( $args ) {
+    public function ftsNumberCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option ) {
@@ -415,18 +415,18 @@ class SettingsFunctions {
             $name = 'name="fts_settings[' . esc_attr( $args['id'] ) . ']"';
         }
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         $max  = isset( $args['max'] ) ? $args['max'] : 999999;
         $min  = isset( $args['min'] ) ? $args['min'] : 0;
         $step = isset( $args['step'] ) ? $args['step'] : 1;
 
         $size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-        $html = '<input type="number" step="' . esc_attr( $step ) . '" max="' . esc_attr( $max ) . '" min="' . esc_attr( $min ) . '" class="' . $class . ' ' . sanitize_html_class( $size ) . '-text" id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" ' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"/>';
-        $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
+        $html = '<input type="number" step="' . esc_attr( $step ) . '" max="' . esc_attr( $max ) . '" min="' . esc_attr( $min ) . '" class="' . $class . ' ' . sanitize_html_class( $size ) . '-text" id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']" ' . $name . ' value="' . esc_attr( stripslashes( $value ) ) . '"/>';
+        $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_number_callback
+    } // ftsNumberCallback
 
     /**
      * Textarea Callback
@@ -438,7 +438,7 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public function fts_textarea_callback( $args ) {
+    public function ftsTextareaCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option )    {
@@ -447,7 +447,7 @@ class SettingsFunctions {
             $value = isset( $args['std'] ) ? $args['std'] : '';
         }
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
         $cols  = isset( $args['cols'] ) && ! empty( absint( $args['cols'] ) ) ? absint( $args['cols'] ) : '50';
         $rows  = isset( $args['rows'] ) && ! empty( absint( $args['rows'] ) ) ? absint( $args['rows'] ) : '5';
 
@@ -456,18 +456,18 @@ class SettingsFunctions {
             $class,
             $cols,
             $rows,
-            $this->fts_sanitize_key( $args['id'] ),
+            $this->ftsSanitizeKey( $args['id'] ),
             esc_attr( $args['id'] ),
             esc_textarea( stripslashes( $value ) )
         );
         $html .= \sprintf(
             '<label for="fts_settings[%s]"> %s</label>',
-            $this->fts_sanitize_key( $args['id'] ),
+            $this->ftsSanitizeKey( $args['id'] ),
             wp_kses_post( $args['desc'] )
         );
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_textarea_callback
+    } // ftsTextareaCallback
 
     /**
      * Password Callback
@@ -479,7 +479,7 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public function fts_password_callback( $args ) {
+    public function ftsPasswordCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option )    {
@@ -488,14 +488,14 @@ class SettingsFunctions {
             $value = isset( $args['std'] ) ? $args['std'] : '';
         }
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         $size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-        $html = '<input type="password" class="' . $class . ' ' . sanitize_html_class( $size ) . '-text" id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" name="fts_settings[' . esc_attr( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';
-        $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
+        $html = '<input type="password" class="' . $class . ' ' . sanitize_html_class( $size ) . '-text" id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']" name="fts_settings[' . esc_attr( $args['id'] ) . ']" value="' . esc_attr( $value ) . '"/>';
+        $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_password_callback
+    } // ftsPasswordCallback
 
     /**
      * Missing Callback
@@ -506,12 +506,12 @@ class SettingsFunctions {
      * @param    arr        $args    Arguments passed by the setting
      * @return    void
      */
-    public function fts_missing_callback($args) {
+    public function ftsMissingCallback($args) {
         printf(
             __( 'The callback function used for the %s setting is missing.', 'feed-them-social' ),
             '<strong>' . esc_html( $args['id'] ) . '</strong>'
         );
-    } // fts_missing_callback
+    } // ftsMissingCallback
 
     /**
      * Select Callback
@@ -523,7 +523,7 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public  function fts_select_callback( $args ) {
+    public  function ftsSelectCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option )    {
@@ -546,7 +546,7 @@ class SettingsFunctions {
             $name_array = '';
         }
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         if ( isset( $args['select2'] ) ) {
             $class .= ' ftg-select2';
@@ -554,7 +554,7 @@ class SettingsFunctions {
 
         $readonly    = $args['readonly'] === true    ? 'disabled="disabled"' : '';
 
-            $html = '<select id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" ' . $readonly . ' name="fts_settings[' . esc_attr( $args['id'] ) . ']' . $name_array . '" class="' . $class . '"' . $multiple . ' data-placeholder="' . esc_html( $placeholder ) . '" />';
+            $html = '<select id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']" ' . $readonly . ' name="fts_settings[' . esc_attr( $args['id'] ) . ']' . $name_array . '" class="' . $class . '"' . $multiple . ' data-placeholder="' . esc_html( $placeholder ) . '" />';
             foreach ( $args['options'] as $option => $name ) {
                 if ( ! empty( $multiple ) && is_array( $value ) ) {
                     $selected = selected( true, in_array( $option, $value ), false );
@@ -566,10 +566,10 @@ class SettingsFunctions {
 
             $html .= '</select>';
 
-        $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
+        $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_select_callback
+    } // ftsSelectCallback
 
     /**
      * Color select Callback
@@ -581,7 +581,7 @@ class SettingsFunctions {
      * @global    $fts_options Array of all the FTG Options
      * @return    void
      */
-    public function fts_color_select_callback( $args ) {
+    public function ftsColorSelectCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option )    {
@@ -590,9 +590,9 @@ class SettingsFunctions {
             $value = isset( $args['std'] ) ? $args['std'] : '';
         }
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
-        $html = '<select id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" class="' . $class . '" name="fts_settings[' . esc_attr( $args['id'] ) . ']"/>';
+        $html = '<select id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']" class="' . $class . '" name="fts_settings[' . esc_attr( $args['id'] ) . ']"/>';
 
         foreach ( $args['options'] as $option => $color ) {
             $selected = selected( $option, $value, false );
@@ -600,10 +600,10 @@ class SettingsFunctions {
         }
 
         $html .= '</select>';
-        $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
+        $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_color_select_callback
+    } // ftsColorSelectCallback
 
     /**
      * Color picker Callback
@@ -614,7 +614,7 @@ class SettingsFunctions {
      * @param    array    $args    Arguments passed by the setting
      * @return    void
      */
-    public function fts_color_callback( $args ) {
+    public function ftsColorCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option ) {
@@ -625,22 +625,22 @@ class SettingsFunctions {
 
         $default     = isset( $args['std'] )         ? $args['std']         : '';
         $placeholder = isset( $args['placeholder'] ) ? $args['placeholder'] : '';
-        $class       = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class       = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         $html = \sprintf(
             '<input type="text" class="%s ftg-color-picker" id="fts_settings[%s]" name="fts_settings[%s]" value="%s" data-default-color="%s" placeholder="%s" />',
             $class,
-            $this->fts_sanitize_key( $args['id'] ),
+            $this->ftsSanitizeKey( $args['id'] ),
             esc_attr( $args['id'] ),
             esc_attr( $value ),
             esc_attr( $default ),
             esc_attr( $placeholder )
         );
 
-        $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
+        $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"> '  . wp_kses_post( $args['desc'] ) . '</label>';
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_color_callback
+    } // ftsColorCallback
 
     /**
      * Rich Editor Callback
@@ -652,7 +652,7 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @global    $wp_version        WordPress Version
      */
-    public function fts_rich_editor_callback( $args ) {
+    public function ftsRichEditorCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option )    {
@@ -667,7 +667,7 @@ class SettingsFunctions {
 
         $rows = isset( $args['size'] ) ? $args['size'] : 20;
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         ob_start();
         wp_editor(
@@ -681,10 +681,10 @@ class SettingsFunctions {
         );
         $html = ob_get_clean();
 
-        $html .= '<br/><label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
+        $html .= '<br/><label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_rich_editor_callback
+    } // ftsRichEditorCallback
 
     /**
      * Upload Callback
@@ -696,7 +696,7 @@ class SettingsFunctions {
      * @global    $fts_options    Array of all the FTG Options
      * @return    void
      */
-    public function fts_upload_callback( $args ) {
+    public function ftsUploadCallback( $args ) {
         $fts_option = $this->fts_get_option( $args['id'] );
 
         if ( $fts_option )    {
@@ -705,15 +705,15 @@ class SettingsFunctions {
             $value = isset($args['std']) ? $args['std'] : '';
         }
 
-        $class = $this->fts_sanitize_html_class( $args['field_class'] );
+        $class = $this->ftsSanitizeHtmlClass( $args['field_class'] );
 
         $size = ( isset( $args['size'] ) && ! is_null( $args['size'] ) ) ? $args['size'] : 'regular';
-        $html = '<input type="text" "' . $class . ' ' . sanitize_html_class( $size ) . '-text" id="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']" name="fts_settings[' . esc_attr( $args['id'] ) . ']" value="' . esc_attr( stripslashes( $value ) ) . '"/>';
+        $html = '<input type="text" "' . $class . ' ' . sanitize_html_class( $size ) . '-text" id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']" name="fts_settings[' . esc_attr( $args['id'] ) . ']" value="' . esc_attr( stripslashes( $value ) ) . '"/>';
         $html .= '<span>&nbsp;<input type="button" class="fts_settings_upload_button button-secondary" value="' . __( 'Upload File', 'feed_them_social' ) . '"/></span>';
-        $html .= '<label for="fts_settings[' . $this->fts_sanitize_key( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
+        $html .= '<label for="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . ']"> ' . wp_kses_post( $args['desc'] ) . '</label>';
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_upload_callback
+    } // ftsUploadCallback
 
     /**
      * Descriptive text callback.
@@ -724,11 +724,11 @@ class SettingsFunctions {
      * @param    arr        $args    Arguments passed by the setting
      * @return    void
      */
-    public function fts_descriptive_text_callback( $args ) {
+    public function ftsDescriptiveTextCallback( $args ) {
         $html = wp_kses_post( $args['desc'] );
 
         echo apply_filters( 'fts_after_setting_output', $html, $args );
-    } // fts_descriptive_text_callback
+    } // ftsDescriptiveTextCallback
 
     /**
      * Sanitizes a string key for FTG Settings
@@ -739,7 +739,7 @@ class SettingsFunctions {
      * @param    string        $key    String key
      * @return    string        Sanitized key
      */
-    public function fts_sanitize_key( $key ) {
+    public function ftsSanitizeKey( $key ) {
         $raw_key = $key;
         $key = preg_replace( '/[^a-zA-Z0-9_\-\.\:\/]/', '', $key );
 
@@ -750,8 +750,8 @@ class SettingsFunctions {
          * @param  string  $key     Sanitized key.
          * @param  string  $raw_key The key prior to sanitization.
          */
-        return apply_filters( 'fts_sanitize_key', $key, $raw_key );
-    } // fts_sanitize_key
+        return apply_filters( 'ftsSanitizeKey', $key, $raw_key );
+    } // ftsSanitizeKey
 
     /**
      * Get timezone options.
@@ -759,7 +759,7 @@ class SettingsFunctions {
      * @since    1.3.4
      * @return    array    Array of timezone options
      */
-    public function fts_get_timezone_setting_options()    {
+    public function ftsGetTimezoneSettingOptions()    {
 
         $timezones = array(
             'Pacific/Midway'                 => __( '(GMT-11:00) Midway Island, Samoa', 'feed_them_social' ),
@@ -860,7 +860,7 @@ class SettingsFunctions {
      * @since    1.3.4
      * @return    array    Array of date format options
      */
-    public function fts_get_date_format_setting_options()    {
+    public function ftsGetDateFormatSettingOptions()    {
 
         // Set your custom timezone string
         $timezone_set = $this->fts_get_option( 'timezone', 'America/Los_Angeles' );

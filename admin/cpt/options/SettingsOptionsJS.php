@@ -25,7 +25,7 @@ if ( ! \defined( 'ABSPATH' ) ) {
  */
 class SettingsOptionsJS {
 
-    public function facebook_js(){
+    public function facebookJs(){
 
         wp_enqueue_style( 'wp-color-picker' );
         wp_enqueue_script( 'wp-color-picker' );
@@ -277,7 +277,7 @@ class SettingsOptionsJS {
         <?php
     }
 
-    public function instagram_js(){
+    public function instagramJs(){
         ?>
         <script>
 
@@ -432,7 +432,7 @@ class SettingsOptionsJS {
         <?php
     }
 
-    public function twitter_js(){
+    public function twitterJs(){
         ?>
         <script>
             jQuery(document).ready(function () {
@@ -495,7 +495,7 @@ class SettingsOptionsJS {
         <?php
     }
 
-    public function youtube_js(){
+    public function youtubeJs(){
         ?>
         <script>
             jQuery(document).ready(function () {
@@ -633,13 +633,13 @@ class SettingsOptionsJS {
         <?php
     }
     //Combine JS
-    public function combine_js(){
+    public function combineJs(){
         ?>
         <script>
         // SRL 8-1-22 uncommenting for now, do not remove though.
          //   jQuery(document).ready(function () {
 
-              function combine_js(){
+              function combineJs(){
                 //COMBINE Grid Options
                 jQuery('#combine_grid_option').bind('change', function (e) {
                     if (jQuery('#combine_grid_option').val() == 'yes') {
@@ -817,7 +817,7 @@ class SettingsOptionsJS {
                 });
 
                 }
-              combine_js();
+              combineJs();
 
           //  });
         </script>

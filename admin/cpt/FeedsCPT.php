@@ -44,7 +44,7 @@ class FeedsCPT {
      *
      * @var string
      */
-    public $feed_cpt_id = '';
+    public $feedCptId = '';
 
     /**
      * Feed Functions Class
@@ -62,7 +62,7 @@ class FeedsCPT {
      *
      * @var array
      */
-    public $feed_cpt_options_array;
+    public $feedCptOptionsArray;
 
     /**
      * Feed CPT Access Token Options
@@ -71,7 +71,7 @@ class FeedsCPT {
      *
      * @var array
      */
-    public $feed_cpt_access_token_options;
+    public $feedCptAccessTokenOptions;
 
     /**
      * Setting Options JS
@@ -80,7 +80,7 @@ class FeedsCPT {
      *
      * @var object
      */
-    public $setting_options_js;
+    public $settingOptionsJs;
 
     /**
      * Access Token Options
@@ -89,7 +89,7 @@ class FeedsCPT {
      *
      * @var object
      */
-    public $access_token_options;
+    public $accessTokenOptions;
 
     /**
      * Options Functions
@@ -107,14 +107,14 @@ class FeedsCPT {
      *
      * @var string
      */
-    public $metabox_functions;
+    public $metaboxFunctions;
 
     /**
      * FeedsCPT constructor.
      *
      * @param object $feed_cpt_options All options.
      */
-    public function __construct( $settingsFunctions, $feedFunctions, $feed_cpt_options, $setting_options_js, $metabox_functions, $access_token_options, $optionsFunctions) {
+    public function __construct( $settingsFunctions, $feedFunctions, $feed_cpt_options, $settingOptionsJs, $metaboxFunctions, $accessTokenOptions, $optionsFunctions) {
 
         // Add Actions and Filters.
         $this->addActionsFilters();
@@ -125,16 +125,16 @@ class FeedsCPT {
         $this->feedFunctions = $feedFunctions;
 
         // Feed CPT Options Array.
-        $this->feed_cpt_options_array = $feed_cpt_options->get_all_options( true );
+        $this->feedCptOptionsArray = $feed_cpt_options->getAllOptions( true );
 
         // Feed CPT Access Token Options.
-        $this->feed_cpt_access_token_options = $feed_cpt_options->get_all_token_options();
+        $this->feedCptAccessTokenOptions = $feed_cpt_options->getAllTokenOptions();
 
         // Settings Options JS.
-        $this->setting_options_js = $setting_options_js;
+        $this->settingOptionsJs = $settingOptionsJs;
 
         // Metabox Functions.
-        $this->metabox_functions = $metabox_functions;
+        $this->metaboxFunctions = $metaboxFunctions;
 
         // If Premium add Functionality!
         if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
@@ -143,7 +143,7 @@ class FeedsCPT {
         }
 
         //Access Token Options.
-        $this->access_token_options = $access_token_options;
+        $this->accessTokenOptions = $accessTokenOptions;
 
         // Set Feed Functions object.
         $this->optionsFunctions = $optionsFunctions;
@@ -158,48 +158,48 @@ class FeedsCPT {
      */
     public function addActionsFilters() {
         // Register Feed CPT!
-        add_action( 'init', array( $this, 'fts_cpt' ) );
+        add_action( 'init', array( $this, 'ftsCpt' ) );
 
         // Add "Add New Feed" as Admin Sub Menu Item.
-        add_action( 'admin_menu', array($this, 'add_feed_sub_menu') );
+        add_action( 'admin_menu', array($this, 'addFeedSubMenu') );
 
         // Remove Default Add New Button from sidebar menu.
-        add_action( 'admin_menu', array($this, 'remove_default_add_new_button') );
+        add_action( 'admin_menu', array($this, 'removeDefaultAddNewButton') );
 
         // When adding new feed redirect to post edit page.
-        add_action( 'current_screen', array($this, 'redirect_to_new_feed' ) );
+        add_action( 'current_screen', array($this, 'redirectToNewFeed' ) );
 
         // Response Messages!
-        add_filter( 'post_updated_messages', array( $this, 'fts_updated_messages' ) );
+        add_filter( 'post_updated_messages', array( $this, 'ftsUpdatedMessages' ) );
 
         // Feed List function!
-        add_filter( 'manage_fts_posts_columns', array( $this, 'fts_set_custom_edit_columns' ) );
-        add_action( 'manage_fts_posts_custom_column', array( $this, 'fts_custom_edit_column' ), 10, 2 );
+        add_filter( 'manage_fts_posts_columns', array( $this, 'ftsSetCustomEditColumns' ) );
+        add_action( 'manage_fts_posts_custom_column', array( $this, 'ftsCustomEditColumn' ), 10, 2 );
 
         // Change Button Text!
-        add_filter( 'gettext', array( $this, 'set_feed_button_text' ), 20, 3 );
+        add_filter( 'gettext', array( $this, 'setFeedButtonText' ), 20, 3 );
 
         // Add Meta Boxes!
-        add_action( 'add_meta_boxes', array( $this, 'add_feed_metaboxes' ) );
+        add_action( 'add_meta_boxes', array( $this, 'addFeedMetaboxes' ) );
 
         // Rename Submenu Item to Feeds!
-        add_filter( 'attribute_escape', array( $this, 'fts_rename_submenu_name' ), 10, 2 );
+        add_filter( 'attribute_escape', array( $this, 'ftsRenameSubmenuName' ), 10, 2 );
 
         // Add Shortcode! Not being used atm.
         //add_shortcode( 'fts_list', array( $this, 'fts_display_list' ) );
 
         // Set Current Feed CPT ID.
-        add_action( 'current_screen', array( $this, 'current_feed_cpt_id' ) );
+        add_action( 'current_screen', array( $this, 'currentFeedCptId' ) );
 
-        add_action( 'admin_action_fts_duplicate_post_as_draft', array( $this, 'fts_duplicate_post_as_draft' ) );
-        add_filter( 'page_row_actions', array( $this, 'fts_duplicate_post_link' ), 10, 2 );
-        add_filter( 'fts_row_actions', array( $this, 'fts_duplicate_post_link' ), 10, 2 );
-        add_action( 'post_submitbox_start', array( $this, 'fts_duplicate_post_add_duplicate_post_button' ) );
+        add_action( 'admin_action_fts_duplicate_post_as_draft', array( $this, 'ftsDuplicatePostAsDraft' ) );
+        add_filter( 'page_row_actions', array( $this, 'ftsDuplicatePostLink' ), 10, 2 );
+        add_filter( 'fts_row_actions', array( $this, 'ftsDuplicatePostLink' ), 10, 2 );
+        add_action( 'post_submitbox_start', array( $this, 'ftsDuplicatePostAddDuplicatePostButton' ) );
 
         // Remove Edit Menu Links.
-        add_filter( 'page_row_actions', array( $this, 'remove_edit_menu_links' ), 10, 2 );
+        add_filter( 'page_row_actions', array( $this, 'removeEditMenuLinks' ), 10, 2 );
 
-        add_filter('body_class', [$this, 'add_custom_body_class_frontend']);
+        add_filter('body_class', [$this, 'addCustomBodyClassFrontend']);
     }
 
     /**
@@ -209,7 +209,7 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function fts_tab_premium_msg() {
+    public function ftsTabPremiumMsg() {
         echo \sprintf(
             esc_html__( '%1$sPlease purchase, install and activate %2$sFeed Them Social Premium%3$s for these additional awesome features!%4$s', 'feed-them-social' ),
             '<div class="ft-gallery-premium-mesg">',
@@ -226,7 +226,7 @@ class FeedsCPT {
      *
      * @since 4.2.0
      */
-    public function add_custom_body_class_admin($classes) {
+    public function addCustomBodyClassAdmin($classes) {
 
         if ( $this->isFeedThemPremiumActive() || $this->isFeedThemSocialInstagramSliderActive() ) {
             // This is used for the areas we want to hide the text and link for, More than 6 Requires Premium
@@ -248,7 +248,7 @@ class FeedsCPT {
      *
      * @since 4.2.0
      */
-    public function add_custom_body_class_frontend($classes) {
+    public function addCustomBodyClassFrontend($classes) {
 
         $powered_by = $this->settingsFunctions->fts_get_option( 'powered_by' );
         if ( $powered_by === '1' ) {
@@ -292,19 +292,19 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function current_feed_cpt_id() {
+    public function currentFeedCptId() {
         $current_screen = get_current_screen();
 
         $current_get  = stripslashes_deep( $_GET );
         $current_post = stripslashes_deep( $_POST );
 
         // Set Feed CPT ID using _Get or _Post
-        // Previous version that threw warning: $this->feed_cpt_id = (int) $current_get['post'] ?? $current_post['post'];
+        // Previous version that threw warning: $this->feedCptId = (int) $current_get['post'] ?? $current_post['post'];
         if ( $current_screen->post_type === 'fts' && $current_screen->base === 'post' && is_admin() && isset( $current_get['post'] ) ) {
 
             // Add Custom Body Class.
-            add_filter('admin_body_class', [$this, 'add_custom_body_class_admin']);
-            $this->feed_cpt_id = (int) $current_get['post'];
+            add_filter('admin_body_class', [$this, 'addCustomBodyClassAdmin']);
+            $this->feedCptId = (int) $current_get['post'];
         }
     }
 
@@ -315,7 +315,7 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function fts_cpt() {
+    public function ftsCpt() {
         $responses_cpt_args = array(
             'label'               => esc_html__( 'Feed Them Social', 'feed-them-social' ),
             'labels'              => array(
@@ -366,12 +366,12 @@ class FeedsCPT {
      * @return string
      * @since 1.0.0
      */
-    public function fts_rename_submenu_name( $safe_text, $text ) {
-        if ( 'Feeds' !== $text ) {
+    public function ftsRenameSubmenuName( $safe_text, $text ) {
+        if ( $text !== 'Feeds' ) {
             return $safe_text;
         }
         // We are on the main menu item now. The filter is not needed anymore.
-        remove_filter( 'attribute_escape', array( $this, 'fts_rename_submenu_name' ) );
+        remove_filter( 'attribute_escape', array( $this, 'ftsRenameSubmenuName' ) );
 
         return esc_html( 'FT Social', 'feed-them-social' );
     }
@@ -383,7 +383,7 @@ class FeedsCPT {
      *
      * @since 4.0.0
      */
-    public function remove_default_add_new_button() {
+    public function removeDefaultAddNewButton() {
         remove_submenu_page( 'edit.php?post_type=fts', 'post-new.php?post_type=fts' );
     }
 
@@ -394,14 +394,14 @@ class FeedsCPT {
      *
      * @since 4.0.0
      */
-    public function add_feed_sub_menu() {
+    public function addFeedSubMenu() {
         add_submenu_page(
             'edit.php?post_type=fts', // Main Menu Item.
             esc_html__( 'Add New Feed' , 'feed-them-social' ),
             esc_html__( 'Add New Feed' , 'feed-them-social' ),
             'manage_options',
             'create-new-feed',
-            array( $this, 'add_new_feed' ),
+            array( $this, 'addNewFeed' ),
             1 // Menu Position
         );
     }
@@ -413,7 +413,7 @@ class FeedsCPT {
      *
      * @since 4.0.0
      */
-    public function add_new_feed() {
+    public function addNewFeed() {
         wp_die( esc_html__( 'Oops, Could not create feed.', 'feed-them-social' ) );
     }
 
@@ -424,17 +424,17 @@ class FeedsCPT {
      *
      * @since 4.0.0
      */
-    public function redirect_to_new_feed() {
+    public function redirectToNewFeed() {
         $current_screen = get_current_screen();
         //Check if is create-new-feed-page or is FTS CPT "Add New" page.
-        if( isset( $current_screen->base ) && 'fts_page_create-new-feed' === $current_screen->base || 'post' === $current_screen->base && 'add' === $current_screen->action && 'fts' === $current_screen->post_type ){
+        if( isset( $current_screen->base ) && $current_screen->base === 'fts_page_create-new-feed' || $current_screen->base === 'post' && $current_screen->action === 'add' && $current_screen->post_type === 'fts' ){
             if( current_user_can( 'manage_options' ) ){
 
-                foreach( $this->feed_cpt_access_token_options as $access_token_option ){
+                foreach( $this->feedCptAccessTokenOptions as $access_token_option ){
                     // Options section is a group of options.
                     foreach ( $access_token_option as $option_section_key => $main_options ) {
                         // Only Load the main options key.
-                        if ( 'main_options' === $option_section_key ) {
+                        if ( $option_section_key === 'main_options' ) {
                             // Loop through the options array.
                             foreach ( $main_options as $option ) {
                                 if ( !empty( $option['name'] ) ) {
@@ -463,7 +463,7 @@ class FeedsCPT {
                 );
 
                 // Set Default Options for Post.
-                //$create_options_status = $this->optionsFunctions->create_initial_options_array( 'fts_feed_options_array', $this->feed_cpt_options_array, true, $new_post_id, true );
+                //$create_options_status = $this->optionsFunctions->create_initial_options_array( 'fts_feed_options_array', $this->feedCptOptionsArray, true, $new_post_id, true );
 
                 // Post was inserted. Redirect to new edit page!
                 if( $new_post_id ){
@@ -488,7 +488,7 @@ class FeedsCPT {
      * @return mixed
      * @since 1.0.0
      */
-    public function fts_updated_messages( $messages ) {
+    public function ftsUpdatedMessages( $messages ) {
         $messages['fts'] = array(
             0  => '', // Unused. Messages start at index 1.
             1  => esc_html__( 'Feed updated.', 'feed-them-social' ),
@@ -518,7 +518,7 @@ class FeedsCPT {
      * @return array
      * @since 1.0.0
      */
-    public function fts_set_custom_edit_columns( $columns ) {
+    public function ftsSetCustomEditColumns( $columns ) {
 
         $new = array();
 
@@ -547,7 +547,7 @@ class FeedsCPT {
      * @param $post_id
      * @since 1.0.0
      */
-    public function fts_custom_edit_column( $column, $post_id ) {
+    public function ftsCustomEditColumn( $column, $post_id ) {
 
         $post_id = (int) $post_id;
 
@@ -640,7 +640,7 @@ class FeedsCPT {
      * @return mixed
      * @since 1.0.0
      */
-    public function set_feed_button_text( $translated_text, $text, $domain ) {
+    public function setFeedButtonText( $translated_text, $text, $domain ) {
         $post_id          = isset( $_GET['post'] ) ? $_GET['post'] : '';
         $custom_post_type = get_post_type( $post_id );
         if ( ! empty( $post_id ) && 'fts_responses' === $custom_post_type ) {
@@ -672,24 +672,24 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function add_feed_metaboxes() {
+    public function addFeedMetaboxes() {
         global $post;
         // Check we are using Feed Them Social Custom Post type.
-        if ( 'fts' !== $post->post_type ) {
+        if ( $post->post_type !== 'fts' ) {
             return;
         }
 
         // Feed Settings Metabox.
-        add_meta_box( 'ft-galleries-upload-mb', esc_html__( 'Feed Them Social', 'feed_them_social' ), array( $this, 'fts_tab_menu_metabox' ), 'fts', 'normal', 'high', null );
+        add_meta_box( 'ft-galleries-upload-mb', esc_html__( 'Feed Them Social', 'feed_them_social' ), array( $this, 'ftsTabMenuMetabox' ), 'fts', 'normal', 'high', null );
 
         // Feed Shortcode Metabox.
-        add_meta_box( 'ft-galleries-shortcode-side-mb', esc_html__( 'Feed Shortcode', 'feed_them_social' ), array( $this, 'fts_shortcode_meta_box' ), 'fts', 'side', 'high', null );
+        add_meta_box( 'ft-galleries-shortcode-side-mb', esc_html__( 'Feed Shortcode', 'feed_them_social' ), array( $this, 'ftsShortcodeMetaBox' ), 'fts', 'side', 'high', null );
 
         // Covert Old Shortcode Metabox.
         // add_meta_box( 'ft-galleries-old-shortcode-side-mb', esc_html__( 'Convert Old Shortcode', 'feed_them_social' ), array( $this, 'fts_old_shortcode_meta_box' ), 'fts', 'side', 'high', null );
 
         // Export/Import feed options
-        add_meta_box( 'fts-import-export-feed-options-side-mb', esc_html__( 'Export/Import', 'feed_them_social' ), array( $this, 'fts_import_export_feed_options_meta_box' ), 'fts', 'side', 'low', null );
+        add_meta_box( 'fts-import-export-feed-options-side-mb', esc_html__( 'Export/Import', 'feed_them_social' ), array( $this, 'ftsImportExportFeedOptionsMetaBox' ), 'fts', 'side', 'low', null );
     }
 
     /**
@@ -700,13 +700,13 @@ class FeedsCPT {
      * @return array
      * @since 1.1.6
      */
-    public function metabox_tabs_list() {
+    public function metaboxTabsList() {
         $metabox_tabs_list = array(
             // Base of each tab! The array keys are the base name and the array value is a list of tab keys.
             'base_tabs' => array(
                 'post' => array( 'feed_setup', 'layout', 'colors', 'facebook_feed', 'instagram_feed', 'tiktok_feed', 'youtube_feed', 'combine_streams_feed' ),
             ),
-            // Tabs List! The cont_func item is relative the the Function name for that tabs content. The array Keys for each tab are also relative to classes and ID on wraps of display_metabox_content function.
+            // Tabs List! The cont_func item is relative the the Function name for that tabs content. The array Keys for each tab are also relative to classes and ID on wraps of displayMetaboxContent function.
             'tabs_list' => array(
                 // Images Tab!
                 'feed_setup'      => array(
@@ -715,56 +715,56 @@ class FeedsCPT {
                     'menu_a_class'       => 'account-tab-highlight',
                     'menu_aria_expanded' => 'true',
                     'cont_wrap_id'       => 'ftg-tab-content1',
-                    'cont_func'          => 'tab_feed_setup',
+                    'cont_func'          => 'tabFeedSetup',
                 ),
                 // Layout Tab!
                 'layout'      => array(
                     'menu_li_class' => 'tab2',
                     'menu_a_text'   => esc_html__( 'Layout', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content2',
-                    'cont_func'     => 'tab_layout_content',
+                    'cont_func'     => 'tabLayoutContent',
                 ),
                 // Colors Tab!
                 'colors'      => array(
                     'menu_li_class' => 'tab3',
                     'menu_a_text'   => esc_html__( 'Colors', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content3',
-                    'cont_func'     => 'tab_colors_content',
+                    'cont_func'     => 'tabColorsContent',
                 ),
                 // Instagram Feed Settings Tab!
                 'instagram_feed' => array(
                     'menu_li_class' => 'tab4',
                     'menu_a_text'   => esc_html__( 'Instagram', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content5',
-                    'cont_func'     => 'tab_instagram_feed',
+                    'cont_func'     => 'tabInstagramFeed',
                 ),
                 // Facebook Feed Settings Tab!
                 'facebook_feed'        => array(
                     'menu_li_class' => 'tab5',
                     'menu_a_text'   => esc_html__( 'Facebook', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content6',
-                    'cont_func'     => 'tab_facebook_feed',
+                    'cont_func'     => 'tabFacebookFeed',
                 ),
                 // Twitter Feed Settings Tab!
                 'tiktok_feed'   => array(
                     'menu_li_class' => 'tab6',
                     'menu_a_text'   => esc_html__( 'Twitter', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content7',
-                    'cont_func'     => 'tab_tiktok_feed',
+                    'cont_func'     => 'tabTiktokFeed',
                 ),
                 // YouTube Feed Settings Tab!
                 'youtube_feed'  => array(
                     'menu_li_class' => 'tab7',
                     'menu_a_text'   => esc_html__( 'Youtube', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content8',
-                    'cont_func'     => 'tab_youtube_feed',
+                    'cont_func'     => 'tabYoutubeFeed',
                 ),
                 // Combined Streams Feed Settings Tab!
                 'combine_streams_feed'        => array(
                     'menu_li_class' => 'tab8',
                     'menu_a_text'   => esc_html__( 'Combined', 'feed_them_social' ),
                     'cont_wrap_id'  => 'ftg-tab-content9',
-                    'cont_func'     => 'tab_combine_streams_feed',
+                    'cont_func'     => 'tabCombineStreamsFeed',
                 ),
             ),
         );
@@ -783,9 +783,9 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function fts_tab_menu_metabox( ) {
+    public function ftsTabMenuMetabox( ) {
 
-        $this->metabox_functions->display_metabox_content( $this, $this->metabox_tabs_list() );
+        $this->metaboxFunctions->displayMetaboxContent( $this, $this->metaboxTabsList() );
 
         if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
             ?>
@@ -810,19 +810,19 @@ class FeedsCPT {
      * @param $params
      * @since 1.1.6
      */
-    public function tab_feed_setup() {
+    public function tabFeedSetup() {
 
         // Get Feed Type.
-        $feed_type = $this->feedFunctions->get_feed_type( $this->feed_cpt_id );
+        $feed_type = $this->feedFunctions->get_feed_type( $this->feedCptId );
 
         // Feed Type Options Selector.
-        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['feed_type_options'], null, $this->feed_cpt_id );
+        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['feedTypeOptions'], null, $this->feedCptId );
 
         ?>
         <div class="fts-section-notice">
             <?php
             // Error Notice HTML. Happens in JS file.
-            $this->metabox_functions->error_notice_html(); ?>
+            $this->metaboxFunctions->errorNoticeHtml(); ?>
 
             <script>
                 jQuery('.metabox_submit').click(function (e) {
@@ -836,7 +836,7 @@ class FeedsCPT {
         <div class="fts-access-token">
             <?php
             // Get Access Token Options.
-            $this->access_token_options->getAccessTokenOptions( $feed_type, $this->feed_cpt_id );
+            $this->accessTokenOptions->getAccessTokenOptions( $feed_type, $this->feedCptId );
             ?>
         </div>
         <?php
@@ -849,12 +849,12 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function tab_layout_content() {
+    public function tabLayoutContent() {
         $layout = null;
-        if ( isset( $this->feed_cpt_options_array, $this->feed_cpt_options_array['layout'] ) ) {
-            $layout = $this->feed_cpt_options_array['layout'];
+        if ( isset( $this->feedCptOptionsArray, $this->feedCptOptionsArray['layout'] ) ) {
+            $layout = $this->feedCptOptionsArray['layout'];
         }
-        echo $this->metabox_functions->options_html_form( $layout, null, $this->feed_cpt_id );
+        echo $this->metaboxFunctions->optionsHtmlForm( $layout, null, $this->feedCptId );
     }
 
     /**
@@ -864,12 +864,12 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function tab_colors_content() {
+    public function tabColorsContent() {
         $layout = null;
-        if ( isset( $this->feed_cpt_options_array, $this->feed_cpt_options_array['colors'] ) ) {
-            $layout = $this->feed_cpt_options_array['colors'];
+        if ( isset( $this->feedCptOptionsArray, $this->feedCptOptionsArray['colors'] ) ) {
+            $layout = $this->feedCptOptionsArray['colors'];
         }
-        echo $this->metabox_functions->options_html_form( $layout, null, $this->feed_cpt_id );
+        echo $this->metaboxFunctions->optionsHtmlForm( $layout, null, $this->feedCptId );
     }
 
     /**
@@ -879,11 +879,11 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function tab_facebook_feed() {?>
+    public function tabFacebookFeed() {?>
         <div class="fts-cpt-main-options">
             <?php
 
-                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook'], null, $this->feed_cpt_id );
+                echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['facebook'], null, $this->feedCptId );
 
             ?>
 
@@ -893,35 +893,35 @@ class FeedsCPT {
         <div class="fts-cpt-extra-options">
             <?php
 
-            $facebook_additional_options = new FacebookAdditionalOptions();
+            $facebookAdditionalOptions = new FacebookAdditionalOptions();
 
-            $facebook_add_all_options = $facebook_additional_options->get_all_options();
+            $facebook_add_all_options = $facebookAdditionalOptions->getAllOptions();
 
             //Facebook Like Button or Box Options.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_like_button_box_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $facebook_add_all_options['facebook_like_button_box_options'], null, $this->feedCptId );
 
             //Facebook Style Options.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_style_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $facebook_add_all_options['facebook_style_options'], null, $this->feedCptId );
 
             //Facebook Language Options.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_languages_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $facebook_add_all_options['facebook_languages_options'], null, $this->feedCptId );
 
             //Facebook Reviews text and styles.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_reviews_text_styles'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $facebook_add_all_options['facebook_reviews_text_styles'], null, $this->feedCptId );
 
             //Facebook Reviews and Overall Ratings styles.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_reviews_overall_rating_styles'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $facebook_add_all_options['facebook_reviews_overall_rating_styles'], null, $this->feedCptId );
 
             //Facebook Grid Style Options.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_grid_style_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $facebook_add_all_options['facebook_grid_style_options'], null, $this->feedCptId );
 
             //Facebook Loadmore Options.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_load_more_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $facebook_add_all_options['facebook_load_more_options'], null, $this->feedCptId );
 
             //Facebook Error Messages.
-            echo $this->metabox_functions->options_html_form( $facebook_add_all_options['facebook_error_messages_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $facebook_add_all_options['facebook_error_messages_options'], null, $this->feedCptId );
 
-            $this->setting_options_js->facebook_js();
+            $this->settingOptionsJs->facebookJs();
             ?>
 
             <div class="clear"></div>
@@ -936,26 +936,26 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function tab_instagram_feed() { ?>
+    public function tabInstagramFeed() { ?>
         <div class="fts-cpt-main-options">
         <?php
-            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram'], null, $this->feed_cpt_id );
-            $this->setting_options_js->instagram_js();
+            echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['instagram'], null, $this->feedCptId );
+            $this->settingOptionsJs->instagramJs();
         ?>
         </div>
 
         <div class="fts-cpt-extra-options">
             <?php
-            $instagram_additional_options = new InstagramAdditionalOptions();
+            $instagramAdditionalOptions = new InstagramAdditionalOptions();
 
-            $instagram_add_all_options = $instagram_additional_options->get_all_options();
+            $instagram_add_all_options = $instagramAdditionalOptions->getAllOptions();
 
             // Instagram Follow Button Options.
-            echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_follow_btn_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $instagram_add_all_options['instagram_follow_btn_options'], null, $this->feedCptId );
             // Instagram Slider Navigation Colors
-            echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_slider_color_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $instagram_add_all_options['instagram_slider_color_options'], null, $this->feedCptId );
             // Instagram Load more button Options
-            echo $this->metabox_functions->options_html_form( $instagram_add_all_options['instagram_load_more_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $instagram_add_all_options['instagram_load_more_options'], null, $this->feedCptId );
            ?>
 
             <div class="clear"></div>
@@ -971,39 +971,39 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function tab_tiktok_feed() { ?>
+    public function tabTiktokFeed() { ?>
         <div class="fts-cpt-main-options">
             <?php
-            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['twitter'], null, $this->feedCptId );
 
             //JS for Twitter Options.
-            $this->setting_options_js->twitter_js();
+            $this->settingOptionsJs->twitterJs();
             ?>
             <div class="clear"></div>
         </div>
         <div class="fts-cpt-extra-options">
             <?php
-            $twitter_additional_options = new TwitterAdditionalOptions();
+            $twitterAdditionalOptions = new TwitterAdditionalOptions();
 
-            $twitter_add_all_options = $twitter_additional_options->get_all_options();
+            $twitter_add_all_options = $twitterAdditionalOptions->getAllOptions();
 
             // Twitter Follow Button Options
-            echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_follow_btn_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_follow_btn_options'], null, $this->feedCptId );
             // TikTok Language Options
-            echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_language_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_language_options'], null, $this->feedCptId );
             // Twitter Video Player Options
-            // echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_video_player_options'], null, $this->feed_cpt_id );
+            // echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_video_player_options'], null, $this->feedCptId );
             // Twitter Profile Photo Options
-            echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_profile_photo_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_profile_photo_options'], null, $this->feedCptId );
             // Twitter Style Options
-            echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_style_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_style_options'], null, $this->feedCptId );
 
             // FTS Premium ACTIVE
             if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
                 // Twitter Grid Styles
-                echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_grid_style_options'], null, $this->feed_cpt_id );
+                echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_grid_style_options'], null, $this->feedCptId );
                 // Twitter Load More Button Styles & Options
-                 echo $this->metabox_functions->options_html_form( $twitter_add_all_options['twitter_load_more_options'], null, $this->feed_cpt_id );
+                 echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_load_more_options'], null, $this->feedCptId );
             }?>
 
             <div class="clear"></div>
@@ -1020,28 +1020,28 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function tab_youtube_feed() { ?>
+    public function tabYoutubeFeed() { ?>
         <div class="fts-cpt-main-options">
         <?php
-            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['youtube'], null, $this->feedCptId );
 
-            $this->setting_options_js->youtube_js();
+            $this->settingOptionsJs->youtubeJs();
         ?>
             <div class="clear"></div>
         </div>
         <div class="fts-cpt-extra-options">
             <?php
-            $youtube_additional_options = new YoutubeAdditionalOptions();
+            $youtubeAdditionalOptions = new YoutubeAdditionalOptions();
 
-            $youtube_add_all_options = $youtube_additional_options->get_all_options();
+            $youtube_add_all_options = $youtubeAdditionalOptions->getAllOptions();
 
             //YouTube Follow Button Options.
-            echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->feed_cpt_id );
+            echo $this->metaboxFunctions->optionsHtmlForm( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->feedCptId );
 
             // FTS Premium ACTIVE
             if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
                 //YouTube Load More Options.
-                echo $this->metabox_functions->options_html_form( $youtube_add_all_options['youtube_load_more_options'], null, $this->feed_cpt_id );
+                echo $this->metaboxFunctions->optionsHtmlForm( $youtube_add_all_options['youtube_load_more_options'], null, $this->feedCptId );
             }?>
             <div class="clear"></div>
         </div>
@@ -1056,12 +1056,12 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function tab_combine_streams_feed() { ?>
+    public function tabCombineStreamsFeed() { ?>
 <div class="fts-cpt-main-options fts-cpt-main-options-combined">
     <?php
 
-        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine'], null, $this->feed_cpt_id );
-        $this->setting_options_js->combine_js();
+        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['combine'], null, $this->feedCptId );
+        $this->settingOptionsJs->combineJs();
 
     ?>
     <div class="clear"></div>
@@ -1079,7 +1079,7 @@ class FeedsCPT {
      * @param $object
      * @since 1.0.0
      */
-    public function fts_import_export_feed_options_meta_box() {
+    public function ftsImportExportFeedOptionsMetaBox() {
         ?>
         <div class="fts-import-export-tabs">
             <ul class="fts-import-export-tab-nav">
@@ -1124,7 +1124,7 @@ class FeedsCPT {
      * @param $object
      * @since 1.0.0
      */
-    public function fts_shortcode_meta_box() {
+    public function ftsShortcodeMetaBox() {
         ?>
         <div class="ft-gallery-meta-wrap">
             <?php
@@ -1150,9 +1150,9 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function fts_duplicate_post_as_draft() {
+    public function ftsDuplicatePostAsDraft() {
         global $wpdb;
-        if ( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] ) || ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'fts_duplicate_post_as_draft') ) ) {
+        if ( ! ( isset( $_GET['post'] ) || isset( $_POST['post'] ) || ( isset( $_REQUEST['action'] ) && $_REQUEST['action'] === 'ftsDuplicatePostAsDraft') ) ) {
             wp_die( esc_html__( 'No Feed to duplicate has been supplied!', 'feed_them_social' ) );
         }
 
@@ -1266,10 +1266,10 @@ class FeedsCPT {
      * @return mixed
      * @since 1.0.0
      */
-    public function fts_duplicate_post_link( $actions, $post ) {
+    public function ftsDuplicatePostLink( $actions, $post ) {
         // make sure we only show the duplicate gallery link on our pages
-        if ( current_user_can( 'edit_posts' ) && FEED_THEM_SOCIAL_POST_TYPE === $_GET['post_type'] ) {
-            $actions['duplicate'] = '<a id="ft-gallery-duplicate-action" href="' . esc_url( wp_nonce_url( 'admin.php?action=fts_duplicate_post_as_draft&post=' . $post->ID, basename( __FILE__ ), 'duplicate_nonce' ) ) . '" title="Duplicate this item" rel="permalink">' . esc_html__( 'Duplicate Feed', 'feed_them_social' ) . '</a>';
+        if ( current_user_can( 'edit_posts' ) && $_GET['post_type'] === FEED_THEM_SOCIAL_POST_TYPE ) {
+            $actions['duplicate'] = '<a id="ft-gallery-duplicate-action" href="' . esc_url( wp_nonce_url( 'admin.php?action=ftsDuplicatePostAsDraft&post=' . $post->ID, basename( __FILE__ ), 'duplicate_nonce' ) ) . '" title="Duplicate this item" rel="permalink">' . esc_html__( 'Duplicate Feed', 'feed_them_social' ) . '</a>';
         }
 
         return $actions;
@@ -1285,9 +1285,9 @@ class FeedsCPT {
      * @return mixed
      * @since 1.0.0
      */
-    public function remove_edit_menu_links( $actions, $post ) {
+    public function removeEditMenuLinks( $actions, $post ) {
         // make sure we only show the duplicate gallery link on our pages
-        if ( current_user_can( 'edit_posts' ) && FEED_THEM_SOCIAL_POST_TYPE === $_GET['post_type'] ) {
+        if ( current_user_can( 'edit_posts' ) && $_GET['post_type'] === FEED_THEM_SOCIAL_POST_TYPE ) {
             // Unset View Link.
             unset($actions['view']);
             // Unset Quick Edit Link.
@@ -1304,15 +1304,15 @@ class FeedsCPT {
      *
      * @since 1.0.0
      */
-    public function fts_duplicate_post_add_duplicate_post_button() {
+    public function ftsDuplicatePostAddDuplicatePostButton() {
         $current_screen = get_current_screen();
         $verify         = $_GET['post_type'] ?? '';
         // check to make sure we are not on a new fts post, because what is the point of duplicating a new one until we have published it?
-        if ( FEED_THEM_SOCIAL_POST_TYPE === $current_screen->post_type && FEED_THEM_SOCIAL_POST_TYPE !== $verify ) {
+        if ( $current_screen->post_type === FEED_THEM_SOCIAL_POST_TYPE && $verify !== FEED_THEM_SOCIAL_POST_TYPE ) {
             $id = $_GET['post'];
             ?>
             <div id="ft-gallery-duplicate-action">
-                <a href="<?php echo esc_url( wp_nonce_url( 'admin.php?action=fts_duplicate_post_as_draft&post=' . $id, basename( __FILE__ ), 'duplicate_nonce' ) ); ?>"
+                <a href="<?php echo esc_url( wp_nonce_url( 'admin.php?action=ftsDuplicatePostAsDraft&post=' . $id, basename( __FILE__ ), 'duplicate_nonce' ) ); ?>"
                    title="Duplicate this item"
                    rel="permalink"><?php esc_html_e( 'Duplicate Feed', 'feed_them_social' ); ?></a>
             </div>

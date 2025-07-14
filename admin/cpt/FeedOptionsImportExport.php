@@ -44,12 +44,12 @@ class FeedOptionsImportExport {
      *
      * @var object
      */
-    public $system_info;
+    public $systemInfo;
 
     /**
      * Feed Options Import Export constructor.
      */
-    public function __construct( $feedFunctions, $dataProtection, $system_info ) {
+    public function __construct( $feedFunctions, $dataProtection, $systemInfo ) {
         // Set Feed Functions object.
         $this->feedFunctions = $feedFunctions;
 
@@ -57,12 +57,12 @@ class FeedOptionsImportExport {
         $this->dataProtection = $dataProtection;
 
         // Set System info object.
-        $this->system_info = $system_info;
+        $this->systemInfo = $systemInfo;
 
         // Export Feed Options AJAX
-        add_action( 'wp_ajax_fts_export_feed_options_ajax', array( $this, 'fts_export_feed_options_ajax' ) );
+        add_action( 'wp_ajax_ftsExportFeedOptionsAjax', array( $this, 'ftsExportFeedOptionsAjax' ) );
         // Import Feed Options AJAX
-        add_action( 'wp_ajax_fts_import_feed_options_ajax', array( $this, 'fts_import_feed_options_ajax' ) );
+        add_action( 'wp_ajax_ftsImportFeedOptionsAjax', array( $this, 'ftsImportFeedOptionsAjax' ) );
     }
 
     /**
@@ -72,7 +72,7 @@ class FeedOptionsImportExport {
      *
      * @since 4.0.5
      */
-    public function fts_export_feed_options_ajax() {
+    public function ftsExportFeedOptionsAjax() {
 
         check_ajax_referer( 'fts_export_feed_options_nonce' );
 
@@ -103,7 +103,7 @@ class FeedOptionsImportExport {
         }
 
         $data = array(
-            'system_info' => $this->system_info->fts_system_info_support_ticket(),
+            'system_info' => $this->systemInfo->ftsSystemInfoSupportTicket(),
             'feed_options' => json_encode( $saved_feed_options )
         );
 
@@ -119,7 +119,7 @@ class FeedOptionsImportExport {
      *
      * @since 4.0.5
      */
-    public function fts_import_feed_options_ajax() {
+    public function ftsImportFeedOptionsAjax() {
 
         check_ajax_referer( 'fts_import_feed_options_nonce' );
 
@@ -137,7 +137,7 @@ class FeedOptionsImportExport {
 
         $saved_feed_options = json_decode( stripslashes( $_REQUEST['cpt_import'] ) , true );
 
-        if ( JSON_ERROR_NONE !== json_last_error() ) {
+        if ( json_last_error() !== JSON_ERROR_NONE ) {
             wp_send_json_error( esc_html__( 'Failed to decode json string: ' . json_last_error_msg(), 'feed-them-social' ), 400 );
         }
         // Settings Sanitization Array

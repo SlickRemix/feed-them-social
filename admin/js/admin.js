@@ -32,7 +32,6 @@ jQuery(document).ready(function ($) {
         }
     );
 
-
     jQuery("#fts-clear-cache").on('click', function () {
         console.log('Settings Click Clear Cache Function');
         jQuery('.fts-cache-messages').addClass( 'fts-cache-loading' ).css('display', 'inline-block' ).html( 'Please Wait... Clearing Cache' );

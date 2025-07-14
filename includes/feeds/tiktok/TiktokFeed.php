@@ -535,7 +535,7 @@ class TiktokFeed {
             else {
 
             // Decrypt Access Token? Turning this off for TikTok Feed because Tokens refresh every 24hrs.
-            // $decrypted_access_token = $this->feedAccessToken = $this->accessOptions->decrypt_access_token( $fts_tiktok_access_token );
+            // $decrypted_access_token = $this->feedAccessToken = $this->accessOptions->decryptAccessToken( $fts_tiktok_access_token );
             // $user_open_id = $saved_feed_options['fts_tiktok_user_id'];
 
             // if(  !isset( $_GET['load_more_ajaxing'] ) ) {

@@ -137,7 +137,7 @@ class FeedsCPT {
         $this->metaboxFunctions = $metaboxFunctions;
 
         // If Premium add Functionality!
-        if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+        if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
             //Premium Features here.
             // Not being used atm
         }
@@ -269,7 +269,7 @@ class FeedsCPT {
     private function isFeedThemPremiumActive() {
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        return $this->feedFunctions->is_extension_active( 'feed_them_social_premium' );
+        return $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' );
     }
 
     /**
@@ -282,7 +282,7 @@ class FeedsCPT {
     private function isFeedThemSocialInstagramSliderActive() {
         include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-        return $this->feedFunctions->is_extension_active( 'feed_them_social_instagram_slider' );
+        return $this->feedFunctions->isExtensionActive( 'feed_them_social_instagram_slider' );
     }
 
     /**
@@ -463,7 +463,7 @@ class FeedsCPT {
                 );
 
                 // Set Default Options for Post.
-                //$create_options_status = $this->optionsFunctions->create_initial_options_array( 'fts_feed_options_array', $this->feedCptOptionsArray, true, $new_post_id, true );
+                //$create_options_status = $this->optionsFunctions->createInitialOptionsArray( 'fts_feed_options_array', $this->feedCptOptionsArray, true, $new_post_id, true );
 
                 // Post was inserted. Redirect to new edit page!
                 if( $new_post_id ){
@@ -568,7 +568,7 @@ class FeedsCPT {
 
                 // Take the ID that we store in the fts_shortcode_location post meta key and return the page title and permalink
                 // so users can click to the page the shortcode is on and replace it or remove it.
-                $shortcode_location_id = $this->feedFunctions->get_feed_option( $post_id, 'fts_shortcode_location' );
+                $shortcode_location_id = $this->feedFunctions->getFeedOption( $post_id, 'fts_shortcode_location' );
                 $shortcode_location_id = json_decode( $shortcode_location_id );
 
                 // Check to see if the shortcode_location_id has been set with an ID and if so lets double check that content has a shortcode in it.
@@ -591,7 +591,7 @@ class FeedsCPT {
                             }
                             else {
                                 // If an ID is checked and not found the user must have removed the shortcode so we remove the id from the array and re-save it.
-                                $array_check = $this->feedFunctions->get_feed_option( $post_id, 'fts_shortcode_location' );
+                                $array_check = $this->feedFunctions->getFeedOption( $post_id, 'fts_shortcode_location' );
                                 $array_check_decode = json_decode( $array_check );
 
                                 // Check to see if the id exists in array and if not then update single option to omit that id from the array.
@@ -612,7 +612,7 @@ class FeedsCPT {
                                         echo __( 'Not Set', 'feed-them-social' );
                                     }
                                     // Update the fts_shortcode_location with our newly compiled array has at least one id, or we clear the field.
-                                    $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $post_id, false );
+                                    $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_shortcode_location', $encoded, true, $post_id, false );
                                 }
                             }
                         }
@@ -787,7 +787,7 @@ class FeedsCPT {
 
         $this->metaboxFunctions->displayMetaboxContent( $this, $this->metaboxTabsList() );
 
-        if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+        if ( ! $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
             ?>
             <script>
                 jQuery('#ftg_sorting_options, #ftg_free_download_size').attr('disabled', 'disabled');
@@ -813,7 +813,7 @@ class FeedsCPT {
     public function tabFeedSetup() {
 
         // Get Feed Type.
-        $feed_type = $this->feedFunctions->get_feed_type( $this->feedCptId );
+        $feed_type = $this->feedFunctions->getFeedType( $this->feedCptId );
 
         // Feed Type Options Selector.
         echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['feedTypeOptions'], null, $this->feedCptId );
@@ -999,7 +999,7 @@ class FeedsCPT {
             echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_style_options'], null, $this->feedCptId );
 
             // FTS Premium ACTIVE
-            if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+            if ( ! $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
                 // Twitter Grid Styles
                 echo $this->metaboxFunctions->optionsHtmlForm( $twitter_add_all_options['twitter_grid_style_options'], null, $this->feedCptId );
                 // Twitter Load More Button Styles & Options
@@ -1039,7 +1039,7 @@ class FeedsCPT {
             echo $this->metaboxFunctions->optionsHtmlForm( $youtube_add_all_options['youtube_follow_btn_options'], null, $this->feedCptId );
 
             // FTS Premium ACTIVE
-            if ( ! $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+            if ( ! $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
                 //YouTube Load More Options.
                 echo $this->metaboxFunctions->optionsHtmlForm( $youtube_add_all_options['youtube_load_more_options'], null, $this->feedCptId );
             }?>

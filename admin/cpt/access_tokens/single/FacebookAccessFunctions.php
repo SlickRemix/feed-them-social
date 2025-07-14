@@ -117,7 +117,7 @@ class FacebookAccessFunctions {
                     // Encrypt: Facebook Business
                     if( jQuery('#fts_facebook_custom_api_token').length !== 0 && jQuery('#fts_facebook_custom_api_token').val().trim() !== '' ) {
                         console.log('Facebook Business: Token set, now encrypting.');
-                        fts_encrypt_token_ajax( codeArray, 'fbBusiness', '#fts_facebook_custom_api_token', 'firstRequest');
+                        ftsEncryptTokenAjax( codeArray, 'fbBusiness', '#fts_facebook_custom_api_token', 'firstRequest');
                     }
                     else {
                         jQuery( '.fts-token-wrap .feed-them-social-admin-input-label, .fts-token-wrap input, .fts-decrypted-view' ).toggle();
@@ -139,9 +139,9 @@ class FacebookAccessFunctions {
         </div>
 
         <?php
-        $page_id                = $this->feedFunctions->get_feed_option( $feedCptId, 'fts_facebook_custom_api_token_user_id' );
-        $access_token           = $this->feedFunctions->get_feed_option( $feedCptId, 'fts_facebook_custom_api_token' );
-        $fb_name                = $this->feedFunctions->get_feed_option( $feedCptId, 'fts_facebook_custom_api_token_user_name' );
+        $page_id                = $this->feedFunctions->getFeedOption( $feedCptId, 'fts_facebook_custom_api_token_user_id' );
+        $access_token           = $this->feedFunctions->getFeedOption( $feedCptId, 'fts_facebook_custom_api_token' );
+        $fb_name                = $this->feedFunctions->getFeedOption( $feedCptId, 'fts_facebook_custom_api_token_user_name' );
         $decrypted_access_token = false !== $this->dataProtection->decrypt( $access_token ) ? $this->dataProtection->decrypt( $access_token ) : $access_token;
 
         if ( ! empty( $decrypted_access_token ) ) {
@@ -151,7 +151,7 @@ class FacebookAccessFunctions {
             );
 
             // Check to see what the response is.
-            $response = $this->feedFunctions->fts_get_feed_json( $test_app_token_url );
+            $response = $this->feedFunctions->ftsGetFeedJson( $test_app_token_url );
             $data = json_decode( $response['app_token_id'] );
         }
         ?>
@@ -170,7 +170,7 @@ class FacebookAccessFunctions {
                         echo '<h4><a href="' . esc_url( 'https://www.facebook.com/' . $page_id ) . '" target="_blank"><span class="fts-fb-icon"></span>' . esc_html( $fb_name ) . '</a></h4>';
                     }
 
-                    if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feedCptId, 'feed_type' ) ){
+                    if( 'combine-streams-feed-type' === $this->feedFunctions->getFeedOption( $feedCptId, 'feed_type' ) ){
                         echo \sprintf(
                             esc_html__( '%1$sCreate Combined Feed%2$s', 'feed-them-social' ),
                             '<a class="fts-facebook-combine-successful-api-token fts-success-token-content fts-combine-successful-api-token" href="#combine_streams_feed">',

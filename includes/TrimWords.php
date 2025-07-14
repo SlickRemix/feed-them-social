@@ -20,7 +20,7 @@ class TrimWords {
      * @param string $ellipsis The ellipsis string.
      * @return string
      */
-    public static function fts_custom_trim_words($html, $limit, $ellipsis = null): string
+    public static function ftsCustomTrimWords($html, $limit, $ellipsis = null): string
     {
 
         if($limit <= 0 || $limit >= self::countWords(strip_tags($html))) {
@@ -68,14 +68,14 @@ class TrimWords {
     private static function removeProceedingNodes(\DOMNode $domNode, \DOMNode $topNode) {
         $nextNode = $domNode->nextSibling;
 
-        if($nextNode !== NULL) {
+        if($nextNode !== null) {
             self::removeProceedingNodes($nextNode, $topNode);
             $domNode->parentNode->removeChild($nextNode);
         } else {
             //scan upwards till we find a sibling
             $curNode = $domNode->parentNode;
             while($curNode !== $topNode) {
-                if($curNode->nextSibling !== NULL) {
+                if($curNode->nextSibling !== null) {
                     $curNode = $curNode->nextSibling;
                     self::removeProceedingNodes($curNode, $topNode);
                     $curNode->parentNode->removeChild($curNode);
@@ -95,7 +95,7 @@ class TrimWords {
     private static function insertEllipsis(\DOMNode $domNode, $ellipsis) {
         $avoid = array('a', 'strong', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'); //html tags to avoid appending the ellipsis to
 
-        if( \in_array( $domNode->parentNode->nodeName, $avoid, true ) && $domNode->parentNode->parentNode !== NULL) {
+        if( \in_array( $domNode->parentNode->nodeName, $avoid, true ) && $domNode->parentNode->parentNode !== null) {
             // Append as text node to parent instead
             $textNode = new \DOMText($ellipsis);
 

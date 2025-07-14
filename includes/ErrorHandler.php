@@ -48,7 +48,7 @@ class ErrorHandler {
      * @since 1.9.6
      */
     public function __construct() {
-        add_action( 'admin_init', array( $this, 'fts_plugin_version_check' ) );
+        add_action( 'admin_init', array( $this, 'ftsPluginVersionCheck' ) );
     }
 
     /**
@@ -59,7 +59,7 @@ class ErrorHandler {
      * @return array
      * @since 1.9.6
      */
-    public function fts_versions_needed() {
+    public function ftsVersionsNeeded() {
         $fts_versions_needed = array(
             'feed-them-premium/feed-them-premium.php' => array(
                 'clean_name'     => __( 'Feed Them Premium', 'feed-them-social' ),
@@ -93,7 +93,7 @@ class ErrorHandler {
      * @throws \Exception Don't let old plugins activate.
      * @since 1.9.6
      */
-    public function fts_plugin_version_check() {
+    public function ftsPluginVersionCheck() {
         // return error if no data retrieved!
         try {
             $update_msg = __( 'Please update ALL Premium Extensions for Feed Them Social because they will no longer work with this version of Feed Them Social. We have made some Major Changes to the Core of the plugin to help with plugin conflicts. Please update your extensions from your <a href="https://www.slickremix.com/my-account" target="_blank">My Account</a> page on our website if you are not receiving notifications for updates on the premium extensions. Thanks again for using our plugin!', 'feed-them-social' );
@@ -104,7 +104,7 @@ class ErrorHandler {
                 require_once ABSPATH . '/wp-admin/includes/plugin.php';
             }
 
-            $fts_versions_needed = $this->fts_versions_needed();
+            $fts_versions_needed = $this->ftsVersionsNeeded();
 
             foreach ( $fts_versions_needed as $single_plugin => $plugin_info ) {
 
@@ -150,7 +150,7 @@ class ErrorHandler {
      * @throws \Exception Don't let old plugins activate.
      * @since 1.9.6
      */
-    public function facebook_error_check( $saved_feed_options, $feed_data ) {
+    public function facebookErrorCheck( $saved_feed_options, $feed_data ) {
         // return error if no data retreived!
         try {
             if ( ! isset( $feed_data->data ) || empty( $feed_data->data ) ) {
@@ -223,7 +223,7 @@ class ErrorHandler {
      * @throws \Exception Don't let old plugins activate.
      * @since 1.9.6
      */
-    public function youtube_error_check( $feed_data ) {
+    public function youtubeErrorCheck( $feed_data ) {
 
         // return error if no data retrieved!
         try {
@@ -262,7 +262,7 @@ class ErrorHandler {
      * @throws \Exception Don't let old plugins activate.
      * @since 1.9.6
      */
-    public function instagram_error_check ( $feed_data ) {
+    public function instagramErrorCheck ( $feed_data ) {
         try {
             if ( !isset( $feed_data->data ) || empty( $feed_data->data ) ) {
 

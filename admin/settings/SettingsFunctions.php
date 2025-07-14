@@ -287,7 +287,7 @@ class SettingsFunctions {
                 if ( isset( $fts_option[ $key ] ) )    {
                     $enabled = $option;
                 } else    {
-                    $enabled = NULL;
+                    $enabled = null;
                 }
 
                 $html .= '<input name="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . '][' . $this->ftsSanitizeKey( $key ) . ']" id="fts_settings[' . $this->ftsSanitizeKey( $args['id'] ) . '][' . $this->ftsSanitizeKey( $key ) . ']" class="' . $class . '" type="checkbox" value="' . esc_attr( $option ) . '" ' . checked( $option, $enabled, false ) . '/>&nbsp;';

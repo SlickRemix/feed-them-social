@@ -20,16 +20,16 @@ if ( ! \defined( 'ABSPATH' ) ) {
  */
 class OptionsFunctions {
 
-    public $post_type_name;
+    public $postTypeName;
 
     /**
      * Settings Function constructor.
      */
-    public function __construct( $post_type_name ){
+    public function __construct( $postTypeName ){
         $this->addActionsFilters();
 
         // Post Type Name.
-        $this->post_type_name = $post_type_name;
+        $this->postTypeName = $postTypeName;
     }
 
     /**
@@ -41,7 +41,7 @@ class OptionsFunctions {
      */
     public function addActionsFilters() {
         // Update Options Filter
-        add_filter( 'fts_update_single_option', array( $this, 'update_single_option' ), 10, 2 );
+        add_filter( 'fts_update_single_option', array( $this, 'updateSingleOption' ), 10, 2 );
 
         // Get Options Array Filter
         add_filter( 'fts_get_options_array', array( $this, 'get_options_array' ), 10, 1 );
@@ -52,11 +52,11 @@ class OptionsFunctions {
      *
      * Check if the current user can edit posts.
      *
-     * @TODO Replace manage_options checks with this check_user_perms function.
+     * @TODO Replace manage_options checks with this checkUserPerms function.
      *
      * @since    4.0.2
      */
-    public function check_user_perms() {
+    public function checkUserPerms() {
         // Can Current User Manage Options? If not Die!
         if ( ! current_user_can( 'edit_posts' ) ) {
             wp_die( 'Unauthorized User: Unable to save Feeds!' );
@@ -70,12 +70,10 @@ class OptionsFunctions {
      *
      * @return boolean
      */
-    public function check_cpt_exists( $cpt_id ) {
-
-        $cpt_status = is_string( get_post_status( $cpt_id ) );
+    public function checkCptExists( $cpt_id ) {
 
         // Make sure CPT is an ID and then return status of post existing.
-        return $cpt_status;
+        return \is_string( get_post_status( $cpt_id ) );
     }
 
     /**
@@ -85,11 +83,11 @@ class OptionsFunctions {
      *
      * @return
      */
-    public function delete_options_array( $array_option_name, $is_cpt, $cpt_id ) {
+    public function deleteOptionsArray( $array_option_name, $is_cpt, $cpt_id ) {
         // If CPT use get_post_meta.
         if( $is_cpt ){
             // Check if CPT ID is set check to see if it actually exists.
-            $cpt_exists = $this->check_cpt_exists( $cpt_id );
+            $cpt_exists = $this->checkCptExists( $cpt_id );
 
             // If CPT ID exists Delete post meta
             if( $cpt_exists ){
@@ -112,7 +110,7 @@ class OptionsFunctions {
      * @since    3.0.0
      * @return    mixed
      */
-    public function get_single_option( $array_option_name, $option_name = '', $default = false, $is_cpt = false, $cpt_id = false ) {
+    public function getSingleOption( $array_option_name, $option_name = '', $default = false, $is_cpt = false, $cpt_id = false ) {
         $options = get_option( $array_option_name );
 
         $value = ! empty( $options[ $option_name ] ) ? $options[ $option_name ] : $default;
@@ -132,12 +130,13 @@ class OptionsFunctions {
      * @param    string            $option_name    The Key to update
      * @param    string|bool|int   $value  The value to set the key to
      */
-    public function update_single_option( $array_option_name, $option_name = '', $value = false, $is_cpt = false, $cpt_id = false, $cron_job = false ) {
+    public function updateSingleOption( $array_option_name, $option_name = '', $value = false, $is_cpt = false, $cpt_id = false, $cron_job = false ): bool
+    {
 
         // Can Current User Manage Options? If not Die!
         // If a cron job is running don't check user perms.
         if( $cron_job !== true) {
-            $this->check_user_perms();
+            $this->checkUserPerms();
         }
 
         // If no Option Name, exit!
@@ -146,13 +145,13 @@ class OptionsFunctions {
         }
 
         // Return Saved options if there are any.
-        $saved_options_array = $this->get_saved_options_array( $array_option_name, $is_cpt, $cpt_id);
+        $saved_options_array = $this->getSavedOptionsArray( $array_option_name, $is_cpt, $cpt_id);
 
         //Update Saved Options.
         if( $saved_options_array ){
             // Delete Option if no value is set.
             if ( isset( $saved_options_array[ $option_name ] ) && empty( $value ) ) {
-                $this->unset_array_option( $saved_options_array, $option_name );
+                $this->unsetArrayOption( $saved_options_array, $option_name );
                 return false;
             }
 
@@ -160,7 +159,7 @@ class OptionsFunctions {
             $saved_options_array[ $option_name ] = is_array( $value ) ? $value : sanitize_text_field( $value );
 
             // Save Options Array based on CPT or Page
-            $this->save_options_array( $array_option_name, $saved_options_array, $is_cpt, $cpt_id);
+            $this->saveOptionsArray( $array_option_name, $saved_options_array, $is_cpt, $cpt_id);
         }
         // Saved Array doesn't exist. Nothing to delete.
         return false;
@@ -174,9 +173,9 @@ class OptionsFunctions {
      * @since    1.0
      * @param    string        $option_name    The option to delete.
      */
-    public function delete_single_option( $array_option_name, $option_name = '', $is_cpt = false, $cpt_id = false ) {
+    public function deleteSingleOption( $array_option_name, $option_name = '', $is_cpt = false, $cpt_id = false ) {
         // Can Current User Manage Options? If not Die!
-        $this->check_user_perms();
+        $this->checkUserPerms();
 
         // If no Array Option Name or option name isset, exit.
         if ( $array_option_name || empty( $option_name ) ){
@@ -184,15 +183,15 @@ class OptionsFunctions {
         }
         
         // Get saved options array if it exists.
-        $saved_options_array = $this->get_saved_options_array( $array_option_name, $is_cpt, $cpt_id );
+        $saved_options_array = $this->getSavedOptionsArray( $array_option_name, $is_cpt, $cpt_id );
 
         // Saved array must exist to delete an option.
         if($saved_options_array){
             // Unset Option to ensure only new option value is saved.
-            $this->unset_array_option( $saved_options_array, $option_name);
+            $this->unsetArrayOption( $saved_options_array, $option_name);
 
             // Save Options Array based on CPT or Page
-            $this->save_options_array( $array_option_name, $saved_options_array, $is_cpt, $cpt_id);
+            $this->saveOptionsArray( $array_option_name, $saved_options_array, $is_cpt, $cpt_id);
         }
         // Saved Array doesn't exist. Nothing to delete.
         return false;
@@ -201,14 +200,14 @@ class OptionsFunctions {
     /**
      * Unset Array Option
      *
-     * Unsets Option from array. (To delete an option from a saved options array use delete_single_option.)
+     * Unsets Option from array. (To delete an option from a saved options array use deleteSingleOption.)
      *
      * @since    3.0.0
      * @param    array    $options_array    The options array.
      * @param    string    $option_name    The option to delete.
      * @return    array    True if updated, false if not.
      */
-    public function unset_array_option( $options_array, $option_name ) {
+    public function unsetArrayOption( $options_array, $option_name ) {
         // Unset Option.
         if( isset( $options_array[ $option_name ] ) ) {
             unset( $options_array[ $option_name ] );
@@ -225,11 +224,11 @@ class OptionsFunctions {
      * @since    3.0.0
      * @return    array | boolean Saved Options Array or false.
      */
-    public function get_saved_options_array( $array_option_name, $is_cpt = false, $cpt_id = false ) {
+    public function getSavedOptionsArray( $array_option_name, $is_cpt = false, $cpt_id = false ) {
         // If CPT use get_post_meta.
         if( $is_cpt ){
             // If CPT ID is set check to see if it actually exists.
-            $cpt_exists = $this->check_cpt_exists( $cpt_id );
+            $cpt_exists = $this->checkCptExists( $cpt_id );
 
             // If CPT ID is set and exists use get_post_meta. Otherwise, use get_option.
             $saved_options_array = $cpt_exists ? get_post_meta( $cpt_id, $array_option_name, true ) : false;
@@ -251,13 +250,13 @@ class OptionsFunctions {
      * @since    3.0.0
      * @return    array | boolean Updated Saved Options Array.
      */
-    public function set_options_in_array( $defaultOptionsArray, $set_default = true, $set_empty = false ) {
+    public function setOptionsInArray( $defaultOptionsArray, $set_default = true, $set_empty = false ) {
         // Go through default options array. (Usually set in an options file)
         foreach ( $defaultOptionsArray as $option_section ) {
             // Options section is a group of options.
             foreach ( $option_section as $option_section_key => $main_options ) {
                 // Only Load the main options key.
-                if ( 'main_options' === $option_section_key ) {
+                if ( $option_section_key === 'main_options' ) {
                     // Loop through the options array.
                     foreach ( $main_options as $option ) {
                         // Option name.
@@ -266,7 +265,7 @@ class OptionsFunctions {
                         $option_type = $option['option_type'] ?? '';
 
                         // Set Default options!
-                        if( true === $set_default ){
+                        if( $set_default === true ){
                             // Option Default Value.
                             $option_default_value = $option['default_value'] ?? '';
 
@@ -279,7 +278,7 @@ class OptionsFunctions {
                         // Set Inputted values for each option.
                         else{
                             // Is the option type a checkbox? If so, set boolean strings.
-                            if ( 'checkbox' === $option_type ) {
+                            if ( $option_type === 'checkbox' ) {
                                 $inputted_value = isset( $_POST[ $option_name ] ) && 'false' !== $_POST[ $option_name ] ? 'true' : 'false';
                             } else {
                                 $inputted_value = isset( $_POST[ $option_name ] ) && ! empty( $option_name ) ? wp_unslash( $_POST[ $option_name ] ) : false;
@@ -307,15 +306,15 @@ class OptionsFunctions {
      *
      * @since    3.0.0
      */
-    public function update_options_array( $array_option_name, $defaultOptionsArray, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
+    public function updateOptionsArray( $array_option_name, $defaultOptionsArray, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
         // Can Current User Manage Options? If not Die!
-        $this->check_user_perms();
+        $this->checkUserPerms();
 
         // Save Options Array based on CPT or Page
-        $save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $defaultOptionsArray, $set_empty ), $is_cpt, $cpt_id);
+        $save_status = $this->saveOptionsArray( $array_option_name, $this->setOptionsInArray( $defaultOptionsArray, $set_empty ), $is_cpt, $cpt_id);
 
         //Return Save Status.
-        return false !== $save_status ? $save_status : false;
+        return $save_status !== false ? $save_status : false;
     }
 
     /**
@@ -325,13 +324,13 @@ class OptionsFunctions {
      *
      * @return array | boolean
      */
-    public function create_initial_options_array( $array_option_name, $defaultOptionsArray, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
+    public function createInitialOptionsArray( $array_option_name, $defaultOptionsArray, $is_cpt = false, $cpt_id = false, $set_empty = false ) {
 
         // Save Options Array based on CPT or Page
-        $save_status = $this->save_options_array( $array_option_name, $this->set_options_in_array( $defaultOptionsArray,true, $set_empty ), $is_cpt, $cpt_id);
+        $save_status = $this->saveOptionsArray( $array_option_name, $this->setOptionsInArray( $defaultOptionsArray,true, $set_empty ), $is_cpt, $cpt_id);
 
         //Return Save Status.
-        return false !== $save_status ? $save_status : false;
+        return $save_status !== false ? $save_status : false;
     }
 
     /**
@@ -342,7 +341,7 @@ class OptionsFunctions {
      * @since    3.0.0
      * @return    array | boolean Saved Options Array or false.
      */
-    public function save_options_array( $array_option_name, $array_to_save, $is_cpt = false, $cpt_id = false ) {
+    public function saveOptionsArray( $array_option_name, $array_to_save, $is_cpt = false, $cpt_id = false ) {
         // Check if array option name set.
         if( $array_option_name ){
              // If CPT use get_post_meta.
@@ -351,7 +350,7 @@ class OptionsFunctions {
                     // Update the CPT Options Array.
                     $update_status = update_post_meta( $cpt_id, $array_option_name, $array_to_save );
 
-                    return true === $update_status ? $array_to_save : false;
+                    return $update_status === true ? $array_to_save : false;
                 }
                 // $array_to_save is empty.
                 return false;
@@ -386,7 +385,7 @@ class OptionsFunctions {
      * @param string $nonce_name The post ID.
      * @since 1.0.0
      */
-    public function set_nonce( string $nonce_name ) {
+    public function setNonce( string $nonce_name ) {
         // Return Nonce Field.
         echo wp_nonce_field( basename( __FILE__ ), $nonce_name );
     }
@@ -401,7 +400,7 @@ class OptionsFunctions {
      * @return array | string
      * @since 1.0.0
      */
-    public function verify_nonce( string $nonce_name ) {
+    public function verifyNonce( string $nonce_name ) {
         // Check Nonce!
         if ( ! isset( $_POST[ $nonce_name ] ) || ! wp_verify_nonce( $_POST[ $nonce_name ], basename( __FILE__ ) ) ) {
             // Kill it if we can't verify it!

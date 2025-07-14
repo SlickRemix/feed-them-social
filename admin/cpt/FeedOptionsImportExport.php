@@ -81,7 +81,7 @@ class FeedOptionsImportExport {
         }
 
         $cpt_id = (int) $_REQUEST['cpt_id'];
-        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( esc_html( $cpt_id ) );
+        $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( esc_html( $cpt_id ) );
 
         // If Instagram token decrypt.
         if ( isset($saved_feed_options['fts_instagram_custom_api_token']) ) {

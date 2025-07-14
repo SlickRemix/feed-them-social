@@ -149,7 +149,7 @@ class MetaboxFunctions {
      *
      * @var object
      */
-    public $prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
+    public $premExtensionList = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
     /**
      * Metabox Functions constructor.
@@ -296,7 +296,7 @@ class MetaboxFunctions {
             wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
 
             // Register Premium Styles & Scripts.
-            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) || $this->feedFunctions->is_extension_active( 'feed_them_social_combined_streams' ) ) {
+            if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) || $this->feedFunctions->isExtensionActive( 'feed_them_social_combined_streams' ) ) {
 
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );
@@ -308,12 +308,12 @@ class MetaboxFunctions {
             }
 
             // Register Feed Them Carousel Scripts.
-            if ( $this->feedFunctions->is_extension_active( 'feed_them_carousel_premium' ) && $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
+            if ( $this->feedFunctions->isExtensionActive( 'feed_them_carousel_premium' ) && $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) ) {
                 wp_enqueue_script( 'fts-feeds', plugins_url( 'feed-them-carousel-premium/feeds/js/jquery.cycle2.js' ), array(), FTS_CURRENT_VERSION, false );
             }
 
             // Register Feed Them Instagram Slider Scripts.
-            if ( $this->feedFunctions->is_extension_active( 'feed_them_social_instagram_slider' ) ) {
+            if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_instagram_slider' ) ) {
 
                 wp_enqueue_style( 'fts-popup', plugins_url( 'feed-them-social/includes/feeds/css/magnific-popup.min.css' ), array(), FTS_CURRENT_VERSION, false );
                 wp_enqueue_script( 'fts-popup-js', plugins_url( 'feed-them-social/includes/feeds/js/magnific-popup.min.js' ), array(), FTS_CURRENT_VERSION, false );
@@ -668,10 +668,10 @@ class MetaboxFunctions {
         $is_cpt = $this->isPage == true ? false : true;
 
         // Get Old Settings Array if set.
-        $saved_options = $this->optionsFunctions->get_saved_options_array( $this->arrayOptionsName, $is_cpt, $current_post_id);
+        $saved_options = $this->optionsFunctions->getSavedOptionsArray( $this->arrayOptionsName, $is_cpt, $current_post_id);
 
         // Is an extension required for this section?
-        $section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->prem_extension_list[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? true : false;
+        $section_required_prem_plugin = ! isset( $section_info['required_prem_plugin'] ) || isset( $section_info['required_prem_plugin'] ) && is_plugin_active( $this->premExtensionList[ $section_info['required_prem_plugin'] ]['plugin_url'] ) ? true : false;
 
         $section_wrap_id = !empty( $section_info['section_wrap_id'] ) ? $section_info['section_wrap_id'] : '';
         $section_wrap_class = !empty( $section_info['section_wrap_class'] ) ? $section_info['section_wrap_class'] : '';
@@ -844,7 +844,7 @@ class MetaboxFunctions {
                                     isset( $multiple ) ? $multiple : ''
                                 );
 
-                                $lang_options_array = json_decode( $this->feedFunctions->xml_json_parse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
+                                $lang_options_array = json_decode( $this->feedFunctions->xmlJsonParse( 'https://raw.githubusercontent.com/pennersr/django-allauth/master/allauth/socialaccount/providers/facebook/data/FacebookLocales.xml' ) );
 
 
                                 if ( !empty( $lang_options_array->locale ) ) {
@@ -893,18 +893,18 @@ class MetaboxFunctions {
                         foreach ( $option['req_extensions'] as $req_extension ) {
 
                             // For testing.
-                            // $output .= print_r( $this->prem_extension_list[$req_extension] );
+                            // $output .= print_r( $this->premExtensionList[$req_extension] );
 
                             if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_premium' &&
                                 'feed_them_social_facebook_reviews' === $option['req_extensions'][1] ) {
 
                                 $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
-                                    $this->prem_extension_list[$req_extension]['purchase_url'],
+                                    $this->premExtensionList[$req_extension]['purchase_url'],
                                     $this->getPremiumRequiredMessage()
                                 );
                                 $output .= 'or';
                                 $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
-                                    $this->prem_extension_list[$option['req_extensions'][1]]['purchase_url'],
+                                    $this->premExtensionList[$option['req_extensions'][1]]['purchase_url'],
                                     'Reviews Required'
                                 );
                                 break;
@@ -913,7 +913,7 @@ class MetaboxFunctions {
                             if ( isset( $option['req_extensions'][0], $option['req_extensions'][1] ) && $option['req_extensions'][0] === 'feed_them_social_tiktok_premium' ) {
 
                                 $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
-                                    $this->prem_extension_list[$req_extension]['purchase_url'],
+                                    $this->premExtensionList[$req_extension]['purchase_url'],
                                     'TikTok ' . $this->getPremiumRequiredMessage()
                                 );
                                 break;
@@ -923,18 +923,18 @@ class MetaboxFunctions {
                                 'feed_them_social_instagram_slider' === $option['req_extensions'][1] ) {
 
                                 $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
-                                    $this->prem_extension_list[$req_extension]['purchase_url'],
+                                    $this->premExtensionList[$req_extension]['purchase_url'],
                                     $this->getPremiumRequiredMessage()
                                 );
                                 $output .= 'or';
                                 $output .= \sprintf( '<a class="feed-them-social-req-extension" href="%s">%s</a>',
-                                    $this->prem_extension_list[$option['req_extensions'][1]]['purchase_url'],
+                                    $this->premExtensionList[$option['req_extensions'][1]]['purchase_url'],
                                     'Instagram Slider Required'
                                 );
                                 break;
                             }
 
-                            switch ($this->prem_extension_list[$req_extension]['title']) {
+                            switch ($this->premExtensionList[$req_extension]['title']) {
                                 case 'Feed Them Social Premium':
                                     $title_change = $this->getPremiumRequiredMessage();
                                     break;
@@ -958,7 +958,7 @@ class MetaboxFunctions {
                             }
 
                             $output .= \sprintf( '<a class="feed-them-social-req-extension" target="_blank" href="%s">%s</a>',
-                                $this->prem_extension_list[$req_extension]['purchase_url'],
+                                $this->premExtensionList[$req_extension]['purchase_url'],
                                 $title_change
                             );
 
@@ -1079,7 +1079,7 @@ class MetaboxFunctions {
             // All Required Extensions
             foreach( $required_extensions as $extension_name){
                 // Check this specific Extension is Active.
-                if( is_plugin_active( $this->prem_extension_list[$extension_name]['plugin_url'] )){
+                if( is_plugin_active( $this->premExtensionList[$extension_name]['plugin_url'] )){
                     //Required Extension is active return true!
                     $active_extensions++;
                 }
@@ -1112,7 +1112,7 @@ class MetaboxFunctions {
         }
 
         // Check if User can Manage Options.
-        $this->optionsFunctions->check_user_perms();
+        $this->optionsFunctions->checkUserPerms();
 
         // Verify Nonce by set nonce name.
         if ( !wp_verify_nonce( $_POST[ $this->metaboxNonceName ], basename( __FILE__ ) ) ) {
@@ -1120,13 +1120,13 @@ class MetaboxFunctions {
         }
 
         // Testing
-        // Use this to delete an option $this->optionsFunctions->delete_options_array( $this->arrayOptionsName, true, $cpt_id);
-        // Use this to update an option $this->optionsFunctions->update_single_option( $this->arrayOptionsName, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
+        // Use this to delete an option $this->optionsFunctions->deleteOptionsArray( $this->arrayOptionsName, true, $cpt_id);
+        // Use this to update an option $this->optionsFunctions->updateSingleOption( $this->arrayOptionsName, 'feed_type', 'instagram-feed-type', true, $cpt_id, false );
         DebugLog::log( 'MetaboxFunctions', 'Testing Metabox Post', $_POST );
 
         //Merge Additional Options.
         // Save/Update the Options array using the Array Option Name and Default Options Array.
-        return $this->optionsFunctions->update_options_array( $this->arrayOptionsName, $this->defaultOptionsArray, true, $cpt_id );
+        return $this->optionsFunctions->updateOptionsArray( $this->arrayOptionsName, $this->defaultOptionsArray, true, $cpt_id );
     }
 
     /**

@@ -35,7 +35,7 @@ class UpdaterCheckInit {
      *
      * @var array
      */
-    public $updater_options_info = array();
+    public $updaterOptionsInfo = array();
 
     /**
      * Premium Plugin List
@@ -44,7 +44,7 @@ class UpdaterCheckInit {
      *
      * @var array
      */
-    public $prem_plugins_list = array();
+    public $premPluginsList = array();
 
     /**
      * Feed Functions
@@ -62,7 +62,7 @@ class UpdaterCheckInit {
      *
      * @var array
      */
-    public $prem_extension_list;
+    public $premExtensionList;
 
     /**
      * UpdaterCheckInit constructor.
@@ -77,9 +77,9 @@ class UpdaterCheckInit {
         $this->feedFunctions = $feedFunctions;
 
         // Premium Extension List.
-        $this->prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
+        $this->premExtensionList = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
-        $this->updater_options_info = array(
+        $this->updaterOptionsInfo = array(
             //Plugins
             'author' => 'slickremix',
             //Store URL is where the premium plugins are located.
@@ -95,12 +95,12 @@ class UpdaterCheckInit {
         );
 
         //Create License Page for main plugin.
-        new UpdaterLicensePage($this->updater_options_info, $this->feedFunctions);
+        new UpdaterLicensePage($this->updaterOptionsInfo, $this->feedFunctions);
 
-        add_action('plugins_loaded', array($this, 'remove_old_updater_actions'), 0);
+        add_action('plugins_loaded', array($this, 'removeOldUpdaterActions'), 0);
 
         //Run Update Check Class
-        add_action('plugins_loaded', array($this, 'plugin_updater_check_init'), 11, 1);
+        add_action('plugins_loaded', array($this, 'pluginUpdaterCheckInit'), 11, 1);
     }
 
     /**
@@ -111,7 +111,7 @@ class UpdaterCheckInit {
      * @param array $settings_array the settings array!
      * @since 1.6.5
      */
-    public function update_old_license_keys_check( $settings_array ) {
+    public function updateOldLicenseKeysCheck( $settings_array ) {
         $option_update_needed = false;
 
         //If Setting array is not set then set to array
@@ -148,7 +148,7 @@ class UpdaterCheckInit {
 
         // Re-save Settings array with new options!
         if ( $option_update_needed === true ) {
-            update_option( $this->updater_options_info['setting_option_name'], $settings_array );
+            update_option( $this->updaterOptionsInfo['setting_option_name'], $settings_array );
         }
     }
 
@@ -159,7 +159,7 @@ class UpdaterCheckInit {
      *
      * @since 1.5.6
      */
-    public function remove_old_updater_actions() {
+    public function removeOldUpdaterActions() {
         // Remove Old Updater Actions!
         foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $plugin_key => $prem_plugin ) {
             if ( has_action( 'plugins_loaded', $plugin_key . '_plugin_updater' ) ) {
@@ -168,12 +168,12 @@ class UpdaterCheckInit {
         }
 
         //License Key Array Option
-        $settings_array = get_option($this->updater_options_info['setting_option_name']);
+        $settings_array = get_option($this->updaterOptionsInfo['setting_option_name']);
 
         //If Settings array isn't set see if old licence keys exist
         if (!$settings_array) {
             //Backwards Compatibility with old 'Sample Plugin' (only Use if Necessary)
-            $this->update_old_license_keys_check($settings_array);
+            $this->updateOldLicenseKeysCheck($settings_array);
         }
     }
 
@@ -184,16 +184,16 @@ class UpdaterCheckInit {
      *
      * @since 1.5.6
      */
-    public function plugin_updater_check_init() {
+    public function pluginUpdaterCheckInit() {
 
         $installed_plugins = get_plugins();
 
-        // Simple Checks print_r($this->updater_options_info['store_url']) and also print_r($this->updater_options_info)
-        foreach ( $this->prem_extension_list as $plugin_identifier => $plugin_info) {
+        // Simple Checks print_r($this->updaterOptionsInfo['store_url']) and also print_r($this->updaterOptionsInfo)
+        foreach ( $this->premExtensionList as $plugin_identifier => $plugin_info) {
 
             if (isset($plugin_info['plugin_url']) && !empty($plugin_info['plugin_url']) && is_plugin_active($plugin_info['plugin_url'])) {
 
-                $settings_array = get_option($this->updater_options_info['setting_option_name']);
+                $settings_array = get_option($this->updaterOptionsInfo['setting_option_name']);
 
                 $license = $settings_array[$plugin_identifier]['license_key'] ?? '';
                 $status = $settings_array[$plugin_identifier]['license_status'] ?? '';
@@ -204,11 +204,11 @@ class UpdaterCheckInit {
                     'license' => trim($license),                                            // License key (used get_option above to retrieve from DB)
                     'status' => $status,                                                    // License key Status (used get_option above to retrieve from DB)
                     'item_name' => $plugin_info['title'],                                   // Name of this plugin
-                    'author' => $this->updater_options_info['author']                       // Author of this plugin
+                    'author' => $this->updaterOptionsInfo['author']                       // Author of this plugin
                 );
 
                 // setup the updater
-                new UpdaterCheckClass($this->updater_options_info['store_url'], $plugin_info['plugin_url'], $plugin_identifier, $plugin_info['title'], $plugin_details);
+                new UpdaterCheckClass($this->updaterOptionsInfo['store_url'], $plugin_info['plugin_url'], $plugin_identifier, $plugin_info['title'], $plugin_details);
             }
         }
     }

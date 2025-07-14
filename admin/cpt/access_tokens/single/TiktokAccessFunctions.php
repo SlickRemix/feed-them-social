@@ -72,7 +72,7 @@ class TiktokAccessFunctions {
         ), admin_url( 'post.php' ) );
 
 
-        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feedCptId );
+        $saved_feed_options = $this->feedFunctions->getSavedFeedOptions( $feedCptId );
 
         $access_token       = !empty( $saved_feed_options['fts_tiktok_access_token'] ) ? $saved_feed_options['fts_tiktok_access_token'] : '';
         // Tokens expire every 24 hours. Hence expires_in from tiktok array is 86400 seconds.
@@ -95,7 +95,7 @@ class TiktokAccessFunctions {
 
                         if (jQuery('#fts_tiktok_access_token').length !== 0) {
                             // Not actually encrypting token but other processes need to run so this function must stay intact.
-                            fts_encrypt_token_ajax(codeArray, 'tiktok', '#fts_tiktok_access_token', 'firstRequest');
+                            ftsEncryptTokenAjax(codeArray, 'tiktok', '#fts_tiktok_access_token', 'firstRequest');
                         }
 
                         alert('TikTok Access Token Revoked Successfully!');
@@ -182,7 +182,7 @@ class TiktokAccessFunctions {
                             if (jQuery('#fts_tiktok_access_token').length !== 0) {
                                 console.log('TikTok: Token set, now encrypting.');
                                 // Not actually encrypting token but other processes need to run so this function must stay intact.
-                                fts_encrypt_token_ajax(codeArray, 'tiktok', '#fts_tiktok_access_token', 'firstRequest');
+                                ftsEncryptTokenAjax(codeArray, 'tiktok', '#fts_tiktok_access_token', 'firstRequest');
                             }
                         }
 
@@ -255,7 +255,7 @@ class TiktokAccessFunctions {
                 }
                 else {
 
-                    if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feedCptId, 'feed_type' ) ){
+                    if( 'combine-streams-feed-type' === $this->feedFunctions->getFeedOption( $feedCptId, 'feed_type' ) ){
                         echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div id="fts-combined-twitter-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',

@@ -77,7 +77,7 @@ class FeedFunctions {
      *
      * @var object
      */
-    public $prem_extension_list = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
+    public $premExtensionList = FEED_THEM_SOCIAL_PREM_EXTENSION_LIST;
 
     /**
      * Seconds.
@@ -112,14 +112,14 @@ class FeedFunctions {
         // Widget Code.
         add_filter( 'widget_text', 'do_shortcode' );
 
-        add_action( 'wp_ajax_fts_encrypt_token_ajax', array( $this, 'fts_encrypt_token_ajax' ) );
-        add_action( 'wp_ajax_fts_decrypt_token_ajax', array( $this, 'fts_decrypt_token_ajax' ) );
-        add_action( 'wp_ajax_fts_refresh_feed_ajax', array( $this, 'fts_refresh_feed_ajax' ) );
+        add_action( 'wp_ajax_ftsEncryptTokenAjax', array( $this, 'ftsEncryptTokenAjax' ) );
+        add_action( 'wp_ajax_ftsDecryptTokenAjax', array( $this, 'ftsDecryptTokenAjax' ) );
+        add_action( 'wp_ajax_ftsRefreshFeedAjax', array( $this, 'ftsRefreshFeedAjax' ) );
 
-        if ( is_admin() || $this->is_extension_active( 'feed_them_social_premium' ) || $this->is_extension_active( 'feed_them_social_facebook_reviews' ) ) {
+        if ( is_admin() || $this->isExtensionActive( 'feed_them_social_premium' ) || $this->isExtensionActive( 'feed_them_social_facebook_reviews' ) ) {
             // Load More Options.
-            add_action( 'wp_ajax_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
-            add_action( 'wp_ajax_nopriv_my_fts_fb_load_more', array( $this, 'my_fts_fb_load_more' ) );
+            add_action( 'wp_ajax_myFtsFbLoadMore', array( $this, 'myFtsFbLoadMore' ) );
+            add_action( 'wp_ajax_nopriv_myFtsFbLoadMore', array( $this, 'myFtsFbLoadMore' ) );
         }
     }
 
@@ -136,19 +136,19 @@ class FeedFunctions {
         $display_admin_bar = $this->settingsFunctions->fts_get_option( 'fts_show_admin_bar' );
         if ( $display_admin_bar === '1' ) {
             // FTS Admin Bar!
-            add_action( 'wp_before_admin_bar_render', array( $this, 'fts_admin_bar_menu' ), 999 );
+            add_action( 'wp_before_admin_bar_render', array( $this, 'ftsAdminBarMenu' ), 999 );
         }
 
         if ( is_admin() ) {
             // THIS GIVES US SOME OPTIONS FOR STYLING THE ADMIN AREA!
-            add_action( 'admin_enqueue_scripts', array( $this, 'feed_them_admin_css' ) );
+            add_action( 'admin_enqueue_scripts', array( $this, 'feedThemAdminCss' ) );
             // Main Settings Page!
             if ( isset( $_GET['page'] ) && $_GET['page'] === 'feed-them-settings-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-facebook-feed-styles-submenu-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-twitter-feed-styles-submenu-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-instagram-feed-styles-submenu-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-pinterest-feed-styles-submenu-page' || isset( $_GET['page'] ) && $_GET['page'] === 'fts-youtube-feed-styles-submenu-page' ) {
-                add_action( 'admin_enqueue_scripts', array( $this, 'feed_them_settings' ) );
+                add_action( 'admin_enqueue_scripts', array( $this, 'feedThemSettings' ) );
             }
             // System Info Page!
             if ( isset( $_GET['page'] ) && $_GET['page'] === 'fts-system-info-submenu-page' ) {
-                add_action( 'admin_enqueue_scripts', array( $this, 'feed_them_system_info_css' ) );
+                add_action( 'admin_enqueue_scripts', array( $this, 'feedThemSystemInfoCss' ) );
             }
         }
     }
@@ -160,7 +160,7 @@ class FeedFunctions {
      *
      * @since 1.9.6
      */
-    public function fts_admin_bar_menu() {
+    public function ftsAdminBarMenu() {
         global $wp_admin_bar;
 
         if ( ! is_super_admin() || ! is_admin_bar_showing() ) {
@@ -193,7 +193,7 @@ class FeedFunctions {
                 'title'  => \sprintf(
                     __( 'Set Cache Time %1$s%2$s%3$s', 'feed-them-social' ),
                     '(',
-                    $this->feedCache->fts_cachetime_amount( $fts_cachetime ),
+                    $this->feedCache->ftsCachetimeAmount( $fts_cachetime ),
                     ')'
                 ),
                 'href'   => admin_url( 'edit.php?post_type=fts&page=fts-settings-page' ),
@@ -243,7 +243,7 @@ class FeedFunctions {
      *
      * @return boolean
      */
-    public function is_extension_active( $check_extension_key ) {
+    public function isExtensionActive( $check_extension_key ) {
         foreach ( FEED_THEM_SOCIAL_PREM_EXTENSION_LIST as $extension_key => $extension_info ) {
             if ( $extension_key === $check_extension_key) {
                 if( is_plugin_active( $extension_info['plugin_url']) ){
@@ -263,9 +263,9 @@ class FeedFunctions {
      *
      * @return array | boolean
      */
-    public function get_saved_feed_options( $feed_post_id ) {
+    public function getSavedFeedOptions( $feed_post_id ) {
         // Get saved Options if possible.
-        return $this->optionsFunctions->get_saved_options_array( 'fts_feed_options_array', true, $feed_post_id);
+        return $this->optionsFunctions->getSavedOptionsArray( 'fts_feed_options_array', true, $feed_post_id);
     }
 
     /**
@@ -277,9 +277,9 @@ class FeedFunctions {
      * @param $option_name string name of Option in the Options array.
      * @return array | boolean
      */
-    public function get_feed_option( $feed_post_id, $option_name ) {
+    public function getFeedOption( $feed_post_id, $option_name ) {
         // Get Feed Options.
-        $saved_feed_options = $this->get_saved_feed_options( $feed_post_id );
+        $saved_feed_options = $this->getSavedFeedOptions( $feed_post_id );
 
         return $saved_feed_options[ $option_name ] ?? false;
     }
@@ -291,9 +291,9 @@ class FeedFunctions {
      *
      * @param $feedCptId string
      */
-    public function get_feed_type( $feedCptId ){
+    public function getFeedType( $feedCptId ){
         // Get Feed Type from Saved Options Array.
-        return $this->get_feed_option( $feedCptId, 'feed_type' );
+        return $this->getFeedOption( $feedCptId, 'feed_type' );
     }
 
     /**
@@ -305,7 +305,7 @@ class FeedFunctions {
      * @return array
      * @since 1.9.6
      */
-    public function fts_get_feed_json( $request_feed_data ) {
+    public function ftsGetFeedJson( $request_feed_data ) {
 
         $data = array();
 
@@ -330,7 +330,7 @@ class FeedFunctions {
                 }
             }
             // Fetch Multiple Requests!
-            $responses = $this->get_response( $multi_request_data, true);
+            $responses = $this->getResponse( $multi_request_data, true);
             $data = array();
             foreach ( $responses as $key => $response ) {
                 $data[ $key ] = $response->body;
@@ -341,11 +341,11 @@ class FeedFunctions {
                 // Check if headers are included in the single request
                 if (isset($request_feed_data['url'])) {
 
-                    $single_response = $this->get_response( $request_feed_data, false);
+                    $single_response = $this->getResponse( $request_feed_data, false);
                     $data = array('data' => $single_response->body);
                 } else {
                     foreach ( $request_feed_data as $key => $url ) {
-                        $single_response = $this->get_response( $url, false);
+                        $single_response = $this->getResponse( $url, false);
                         $data = array();
                         $data[ $key ] = $single_response->body;
                     }
@@ -353,7 +353,7 @@ class FeedFunctions {
             } else {
                 // Make Single request from just url!
                 if ( ! empty( $request_feed_data ) ) {
-                    $single_response = $this->get_response( $request_feed_data, false );
+                    $single_response = $this->getResponse( $request_feed_data, false );
                     $data['data'] = $single_response->body;
                 }
             }
@@ -374,7 +374,7 @@ class FeedFunctions {
      * @return array
      * @since 4.0.9
      */
-    public function get_response( $request_feed_data, $multiple = false ) {
+    public function getResponse( $request_feed_data, $multiple = false ) {
 
         // Log the request data for debugging
         DebugLog::log( 'FeedFunctions', 'Get Response Data', $request_feed_data );
@@ -439,7 +439,7 @@ class FeedFunctions {
      * @return string
      * @since 4.0.0
      */
-    public function get_feed_dynamic_class_name() {
+    public function getFeedDynamicClassName() {
 
         $feed_dynamic_class_name = '';
         if ( isset( $_REQUEST['fts_dynamic_name'] ) ) {
@@ -458,7 +458,7 @@ class FeedFunctions {
      * @return string
      * @since 1.9.6
      */
-    public function fts_ago( $timestamp ) {
+    public function ftsAgo( $timestamp ) {
         // not setting isset'ing anything because you have to save the settings page to even enable this feature
         $fts_language_second = $this->settingsFunctions->fts_get_option( 'fts_language_second' );
         if ( empty( $fts_language_second ) ) {
@@ -566,7 +566,7 @@ class FeedFunctions {
      * @return string
      * @since 1.9.6
      */
-    public function fts_custom_date( $created_time, $feed_type ) {
+    public function ftsCustomDate( $created_time, $feed_type ) {
 
         $fts_custom_date         = $this->settingsFunctions->fts_get_option( 'custom_date' );
         $fts_custom_time         = $this->settingsFunctions->fts_get_option( 'custom_time' );
@@ -592,18 +592,18 @@ class FeedFunctions {
             $fts_twitter_offset_time_final = $fts_twitter_offset_time === '1' ? strtotime( $created_time ) - 3 * 3600 : strtotime( $created_time );
 
             if ( 'one-day-ago' === $custom_date_check ) {
-                $u_time = $this->fts_ago( $created_time );
+                $u_time = $this->ftsAgo( $created_time );
             } else {
-                $u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, $fts_twitter_offset_time_final, $fts_timezone ) : $this->fts_ago( $created_time );
+                $u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, $fts_twitter_offset_time_final, $fts_timezone ) : $this->ftsAgo( $created_time );
             }
         }
 
         // Instagram date time.
         if ( 'instagram' === $feed_type ) {
             if ( 'one-day-ago' === $custom_date_check ) {
-                $u_time = $this->fts_ago( $created_time );
+                $u_time = $this->ftsAgo( $created_time );
             } else {
-                $u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, strtotime( $created_time ), null ) : $this->fts_ago( $created_time );
+                $u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, strtotime( $created_time ), null ) : $this->ftsAgo( $created_time );
             }
         }
 
@@ -611,18 +611,18 @@ class FeedFunctions {
         if ( 'facebook' === $feed_type ) {
 
             if ( 'one-day-ago' === $custom_date_check ) {
-                $u_time = $this->fts_ago( $created_time );
+                $u_time = $this->ftsAgo( $created_time );
             } else {
-                $u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, $created_time, $fts_timezone ) : $this->fts_ago( $created_time );
+                $u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, $created_time, $fts_timezone ) : $this->ftsAgo( $created_time );
             }
         }
 
         // YouTube date time.
         if ( 'youtube' === $feed_type ) {
             if ( 'one-day-ago' === $custom_date_check ) {
-                $u_time = $this->fts_ago( $created_time );
+                $u_time = $this->ftsAgo( $created_time );
             } else {
-                $u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, strtotime( $created_time ), null ) : $this->fts_ago( $created_time );
+                $u_time = ! empty( $custom_date_check ) ? wp_date( $custom_date_check, strtotime( $created_time ), null ) : $this->ftsAgo( $created_time );
             }
         }
 
@@ -637,7 +637,7 @@ class FeedFunctions {
      *
      * @since 1.9.6
      */
-    public function fts_custom_head_css() {
+    public function ftsCustomHeadCss() {
 
         if ( empty( $this->settingsFunctions->fts_get_option( 'use_custom_css' ) !== '1' ) ) {
             return;
@@ -654,7 +654,7 @@ class FeedFunctions {
      *
      * @since 1.9.6
      */
-    public function feed_them_admin_css() {
+    public function feedThemAdminCss() {
         wp_register_style( 'feed_them_admin', plugins_url( 'admin/css/admin.min.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION );
         wp_enqueue_style( 'feed_them_admin' );
     }
@@ -666,7 +666,7 @@ class FeedFunctions {
      *
      * @since 1.9.6
      */
-    public function feed_them_system_info_css() {
+    public function feedThemSystemInfoCss() {
         wp_register_style( 'fts-settings-admin-css', plugins_url( 'admin/css/admin-settings.min.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION );
         wp_enqueue_style( 'fts-settings-admin-css' );
     }
@@ -678,7 +678,7 @@ class FeedFunctions {
      *
      * @since 1.9.6
      */
-    public function feed_them_settings() {
+    public function feedThemSettings() {
 
         wp_register_style( 'feed_them_settings_css', plugins_url( 'admin/css/settings-page.min.css', dirname( __FILE__ ) ), array(), FTS_CURRENT_VERSION, false );
         wp_enqueue_style( 'feed_them_settings_css' );
@@ -692,7 +692,7 @@ class FeedFunctions {
      *
      * @since 1.9.6
      */
-    public function my_fts_ajaxurl() {
+    public function myFtsAjaxurl() {
         wp_enqueue_script( 'jquery' );
     }
 
@@ -704,7 +704,7 @@ class FeedFunctions {
      * @since 1.9.6
      * @updated 2.1.4 (fts_fb_page_token)
      */
-    public function my_fts_fb_load_more() {
+    public function myFtsFbLoadMore() {
 
         // Check security token is set.
         if ( ! isset( $_REQUEST['fts_security'], $_REQUEST['fts_time'], $_REQUEST['feed_name'], $_REQUEST['feed_id'] ) ) {
@@ -782,11 +782,11 @@ class FeedFunctions {
      *
      * @since 4.3.2
      */
-    public function fts_instagram_refresh_token( $feedCptId ) {
+    public function ftsInstagramRefreshToken( $feedCptId ) {
 
         // https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login
         // refresh token!
-        $check_token =  $this->get_feed_option( $feedCptId, 'fts_instagram_custom_api_token' );
+        $check_token =  $this->getFeedOption( $feedCptId, 'fts_instagram_custom_api_token' );
 
         $check_basic_token_value = $this->dataProtection->decrypt( $check_token ) !== false ? $this->dataProtection->decrypt( $check_token ) : $check_token;
         $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token' . FTS_AND_ACCESS_TOKEN_EQUALS . $check_basic_token_value );
@@ -824,8 +824,8 @@ class FeedFunctions {
             // We add * 1000 to convert to milliseconds because that is how we display it in the feed options for the user in the Token area.
             $start_of_time_final = $start_of_time !== false ? sanitize_key( $start_of_time * 1000 ) : '';
 
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $access_token, true, $feedCptId, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $start_of_time_final, true, $feedCptId, true );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $access_token, true, $feedCptId, true );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $start_of_time_final, true, $feedCptId, true );
 
             DebugLog::log( 'FeedFunctions', 'Updated Instagram Business Basic Token for feed', $feedCptId );
 
@@ -842,9 +842,9 @@ class FeedFunctions {
      *
      * @since 4.3.2
      */
-    public function fts_youtube_refresh_token( $feedCptId ) {
+    public function ftsYoutubeRefreshToken( $feedCptId ) {
 
-        $check_refresh_token =  $this->get_feed_option( $feedCptId, 'youtube_custom_refresh_token' );
+        $check_refresh_token =  $this->getFeedOption( $feedCptId, 'youtube_custom_refresh_token' );
         $check_refresh_token_value = $this->dataProtection->decrypt( $check_refresh_token ) !== false ? $this->dataProtection->decrypt( $check_refresh_token ) : $check_refresh_token;
 
         // In case we need to assist with debugging we add the
@@ -858,7 +858,7 @@ class FeedFunctions {
                 'cpd_id'              => $feedCptId,
                 'server'            => $server . $script_uri,
                 'fts_refresh_token' => $check_refresh_token_value,
-                'expires_in'        => $this->get_feed_option( $feedCptId, 'youtube_custom_token_exp_time' ),
+                'expires_in'        => $this->getFeedOption( $feedCptId, 'youtube_custom_token_exp_time' ),
                 'fts_oauth_nonce'   => wp_create_nonce( 'fts_oauth_youtube' ),
             )
         );
@@ -908,10 +908,10 @@ class FeedFunctions {
             // We add * 1000 to convert to milliseconds because that is how we display it in the feed options for the user in the Token area.
             $start_of_time_final = $start_of_time !== false ? sanitize_key( $start_of_time * 1000 ) : '';
 
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token, true, $feedCptId, true );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token, true, $feedCptId, true );
             // 10-25-24: Need to implement a refresh token time to get a new one so the user does not have to keep re-authenticating.
-            // $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $refresh_token, true, $feedCptId, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $start_of_time_final, true, $feedCptId, true );
+            // $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'youtube_custom_refresh_token', $refresh_token, true, $feedCptId, true );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $start_of_time_final, true, $feedCptId, true );
 
             return false;
         }
@@ -927,7 +927,7 @@ class FeedFunctions {
      *
      * @since 4.2.1
      */
-    public function fts_tiktok_refresh_token( $feedCptId ) {
+    public function ftsTiktokRefreshToken( $feedCptId ) {
 
         // In case we need to assist with debugging we add the
         // cpt id, server and script uri to the post data.
@@ -939,8 +939,8 @@ class FeedFunctions {
                 'feed_them_social'  => 'yes',
                 'cpd_id'              => $feedCptId,
                 'server'            => $server . $script_uri,
-                'fts_refresh_token' => $this->get_feed_option( $feedCptId, 'fts_tiktok_refresh_token' ),
-                'expires_in'        => $this->get_feed_option( $feedCptId, 'fts_tiktok_refresh_expires_in' ),
+                'fts_refresh_token' => $this->getFeedOption( $feedCptId, 'fts_tiktok_refresh_token' ),
+                'expires_in'        => $this->getFeedOption( $feedCptId, 'fts_tiktok_refresh_expires_in' ),
                 'fts_oauth_nonce'   => wp_create_nonce( 'fts_oauth_tiktok' ),
             )
         );
@@ -1012,10 +1012,10 @@ class FeedFunctions {
             // We add * 1000 to convert to milliseconds because that is how we display it in the feed options for the user in the Token area.
             $start_of_time_final = $start_of_time !== false ? sanitize_key( $start_of_time * 1000 ) : '';
 
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', $start_of_time_final, true, $feedCptId, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', $access_token, true, $feedCptId, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $refresh_expires_in, true, $feedCptId, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $refresh_token, true, $feedCptId, true );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', $start_of_time_final, true, $feedCptId, true );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_access_token', $access_token, true, $feedCptId, true );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $refresh_expires_in, true, $feedCptId, true );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $refresh_token, true, $feedCptId, true );
 
             DebugLog::log( 'TikTokFeedFunctions', 'Updated TikTok Token for feed', $feedCptId );
 
@@ -1033,7 +1033,7 @@ class FeedFunctions {
      * @return string
      * @since 1.9.6
      */
-    public function get_random_string( $length = 10 ) {
+    public function getRandomString( $length = 10 ) {
         $characters        = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $characters_length = \strlen( $characters );
         $random_string     = '';
@@ -1053,7 +1053,7 @@ class FeedFunctions {
      * @param null   $saved_feed_options shortcode attribute.
      * @since 1.9.6
      */
-    public function social_follow_button( $feed, $user_id, $saved_feed_options = null ) {
+    public function socialFollowButton( $feed, $user_id, $saved_feed_options = null ) {
 
         // Return Social follow button based on Feed Type.
         switch ( $feed ) {
@@ -1139,7 +1139,7 @@ class FeedFunctions {
      * @param string $description description field for some of the social networks.
      * @since
      */
-    public function fts_share_option( $fb_link, $description ) {
+    public function ftsShareOption( $fb_link, $description ) {
 
         $hide_share = $this->settingsFunctions->fts_get_option( 'hide_sharing' ) ?? '';
 
@@ -1173,7 +1173,7 @@ class FeedFunctions {
      *
      * @since 2.9.7.2
      */
-    public function fts_encrypt_token_ajax() {
+    public function ftsEncryptTokenAjax() {
 
         check_ajax_referer( 'fts_encrypt_token' );
 
@@ -1186,48 +1186,48 @@ class FeedFunctions {
 
         // Now the encrypted version is saved to the DB.
         if( $_REQUEST['token_type'] === 'basic' ){
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $encrypt, true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_id', $access_token['user_id'], true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $access_token['expires_in'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $encrypt, true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_instagram_custom_id', $access_token['user_id'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $access_token['expires_in'], true, $cpt_id, false );
 
             $cron_job = new CronJobs( null, $this->optionsFunctions, null, null );
             $cron_job->ftsSetCronJob( $cpt_id, 'instagram_business_basic', false );
 
         }
         elseif ( $_REQUEST['token_type'] === 'business' ) {
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token', $encrypt, true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_user_id', $access_token['user_id'], true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_user_name', $access_token['instagram_user_name'], true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_fb_user_name', $access_token['facebook_user_name'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token', $encrypt, true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_user_id', $access_token['user_id'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_user_name', $access_token['instagram_user_name'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_facebook_instagram_custom_api_token_fb_user_name', $access_token['facebook_user_name'], true, $cpt_id, false );
         }
         elseif( $_REQUEST['token_type'] === 'fbBusiness' ){
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token', $encrypt, true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_id', $access_token['user_id'], true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_name', $access_token['facebook_user_name'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_facebook_custom_api_token', $encrypt, true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_id', $access_token['user_id'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_facebook_custom_api_token_user_name', $access_token['facebook_user_name'], true, $cpt_id, false );
         }
         elseif( $_REQUEST['token_type'] === 'tiktok' ){
 
             if( isset($access_token['revoke_token']) && $access_token['revoke_token'] === 'yes' ){
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_user_id', ' ', true, $cpt_id, false );
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', ' ', true, $cpt_id, false );
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_expires_in', ' ', true, $cpt_id, false );
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', ' ', true, $cpt_id, false );
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', ' ', true, $cpt_id, false );
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', ' ', true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_user_id', ' ', true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_access_token', ' ', true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_expires_in', ' ', true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', ' ', true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_refresh_token', ' ', true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', ' ', true, $cpt_id, false );
 
                 $cron_job = new CronJobs( null, $this->optionsFunctions, null, null );
                 $cron_job->ftsSetCronJob( $cpt_id, 'tiktok', true );
             }
             else {
                 // atm we are not encrypting tiktok tokens.
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_user_id', $access_token['user_id'], true, $cpt_id, false );
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', $access_token['token'], true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_user_id', $access_token['user_id'], true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_access_token', $access_token['token'], true, $cpt_id, false );
                 // The expiration time is 24hrs from the time the token is created (86400) That is the value the expires_in returns from TikTok.
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_expires_in', $access_token['expires_in'], true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_expires_in', $access_token['expires_in'], true, $cpt_id, false );
                 // we are adding time() to the expires_in so we can check if the token is expired. The expiration time is 24hrs from the time the token is created.
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', time() * 1000, true, $cpt_id, false );
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $access_token['refresh_token'], true, $cpt_id, false );
-                $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $access_token['refresh_expires_in'], true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', time() * 1000, true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $access_token['refresh_token'], true, $cpt_id, false );
+                $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $access_token['refresh_expires_in'], true, $cpt_id, false );
 
                 // Once the token is saved we need to check if it is expired and if it is we need to refresh it.
                 // We create a cron job that will refresh the token every 24hrs.
@@ -1239,11 +1239,11 @@ class FeedFunctions {
 
         }
         elseif( $_REQUEST['token_type'] === 'youtube' ){
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token['token'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token['token'], true, $cpt_id, false );
             // Encrypting the refresh token because it lasts longer than 1 Hour.
             $encrypt_refresh_token = $this->dataProtection->encrypt( $access_token['refresh_token'] );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $encrypt_refresh_token, true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $access_token['exp_time'], true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'youtube_custom_refresh_token', $encrypt_refresh_token, true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $access_token['exp_time'], true, $cpt_id, false );
 
             $cron_job = new CronJobs( null, $this->optionsFunctions, null, null );
             $cron_job->ftsSetCronJob( $cpt_id, 'youtube', false );
@@ -1269,7 +1269,7 @@ class FeedFunctions {
      *
      * @since 4.0
      */
-    public function fts_refresh_feed_ajax() {
+    public function ftsRefreshFeedAjax() {
 
         check_ajax_referer( 'fts_refresh_feed_nonce' );
 
@@ -1293,7 +1293,7 @@ class FeedFunctions {
      *
      * @since 2.9.7.2
      */
-    public function fts_decrypt_token_ajax() {
+    public function ftsDecryptTokenAjax() {
 
         check_ajax_referer( 'fts_decrypt_token' );
 
@@ -1318,30 +1318,28 @@ class FeedFunctions {
      * @throws \Exception Throw Exception if all fails.
      * @since
      */
-    public function use_cache_check( $api_url, $cache_name, $feed_type ) {
-        if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-            if ( $this->feedCache->fts_check_feed_cache_exists( $cache_name ) === true ) {
-                $response = $this->feedCache->fts_get_feed_cache( $cache_name );
-                return $response;
-            }
+    public function useCacheCheck( $api_url, $cache_name, $feed_type ) {
+        if ( !isset( $_GET['load_more_ajaxing'] ) && $this->feedCache->ftsCheckFeedCacheExists( $cache_name ) === true ) {
+            $response = $this->feedCache->ftsGetFeedCache( $cache_name );
+            return $response;
         }
 
         $fts_error_check = new ErrorHandler();
         // Error Check.
         if( $feed_type === 'youtube' ){
-            $response = $this->fts_get_feed_json( $api_url );
+            $response = $this->ftsGetFeedJson( $api_url );
             $feed_data = json_decode( $response['data'] );
-            $fts_error_check_complete = $fts_error_check->youtube_error_check( $feed_data );
+            $fts_error_check_complete = $fts_error_check->youtubeErrorCheck( $feed_data );
         }
 
         if( $feed_type === 'youtube_single' ){
-            $response = $this->fts_get_feed_json( $api_url );
+            $response = $this->ftsGetFeedJson( $api_url );
             $feed_data = json_decode( $response['items'] );
-            $fts_error_check_complete = $fts_error_check->youtube_error_check( $feed_data );
+            $fts_error_check_complete = $fts_error_check->youtubeErrorCheck( $feed_data );
         }
 
         if( $feed_type === 'instagram' ){
-            $instagram_basic_response = $this->fts_get_feed_json( $api_url );
+            $instagram_basic_response = $this->ftsGetFeedJson( $api_url );
             $instagram_basic = json_decode( $instagram_basic_response['data']);
             $instagram_basic_user = json_decode( $instagram_basic_response['user_info'] );
 
@@ -1363,7 +1361,7 @@ class FeedFunctions {
 
                     $media_id = $media->id;
                     $instagram_basic_data_array['data'] = 'https://graph.instagram.com/' . $media_id . '?fields=caption,id,media_url,media_type,permalink,thumbnail_url,timestamp,username,children{media_url}' . FTS_AND_ACCESS_TOKEN_EQUALS . $access_token;
-                    $instagram_basic_media_response = $this->fts_get_feed_json( $instagram_basic_data_array );
+                    $instagram_basic_media_response = $this->ftsGetFeedJson( $instagram_basic_data_array );
                     $instagram_basic_media = json_decode( $instagram_basic_media_response['data'] );
                     $instagram_basic_output->data[] = $instagram_basic_media;
                 }
@@ -1371,7 +1369,7 @@ class FeedFunctions {
 
             $feed_data = (object) array_merge( (array) $instagram_basic_user, (array) $instagram_basic, (array) $instagram_basic_output );
             $response = json_encode( $feed_data );
-            $fts_error_check_complete = $fts_error_check->instagram_error_check( $instagram_basic );
+            $fts_error_check_complete = $fts_error_check->instagramErrorCheck( $instagram_basic );
         }
 
         // Check the response print_r( $fts_error_check_complete ) or response print_r( $response );
@@ -1385,7 +1383,7 @@ class FeedFunctions {
         if ( \is_array( $fts_error_check_complete ) && $fts_error_check_complete[0] === true ) {
 
             // If old Cache exists use it instead of showing an error.
-            if ( $this->feedCache->fts_check_feed_cache_exists( $cache_name, true ) === true ) {
+            if ( $this->feedCache->ftsCheckFeedCacheExists( $cache_name, true ) === true ) {
 
                 // If Current user is Admin and Cache exists for use, then still show Admin the error for debugging purposes.
                 if ( current_user_can( 'administrator' ) ) {
@@ -1404,7 +1402,7 @@ class FeedFunctions {
                 }
 
                 // Return Cache because it exists in Database. Better than showing nothing right?
-                return $this->feedCache->fts_get_feed_cache( $cache_name, true );
+                return $this->feedCache->ftsGetFeedCache( $cache_name, true );
             }
 
             // If User is Admin and no old cache is saved in database for use.
@@ -1415,15 +1413,15 @@ class FeedFunctions {
 
         // Finally if nothing else, check if there is a response and if so create the cache.
         if( ($feed_type === 'youtube_single') && !empty( $response['data'] ) ) {
-            $this->feedCache->fts_create_feed_cache( $cache_name, $response );
+            $this->feedCache->ftsCreateFeedCache( $cache_name, $response );
         }
 
         if( ($feed_type === 'youtube') && !empty( $response['data'] ) ) {
-            $this->feedCache->fts_create_feed_cache( $cache_name, $response );
+            $this->feedCache->ftsCreateFeedCache( $cache_name, $response );
         }
 
         if( ($feed_type === 'instagram') && !empty( $instagram_basic->data ) ) {
-            $this->feedCache->fts_create_feed_cache( $cache_name, $response );
+            $this->feedCache->ftsCreateFeedCache( $cache_name, $response );
         }
 
         return $response;
@@ -1436,12 +1434,12 @@ class FeedFunctions {
      * @return mixed
      * @since 1.9.6
      */
-    public function xml_json_parse( $url ) {
+    public function xmlJsonParse( $url ) {
 
         DebugLog::log( 'FeedFunctions', 'xml_json_parse', $url );
 
         $url_to_get['xml_url']      = $url;
-        $file_contents_returned = $this->fts_get_feed_json( $url_to_get );
+        $file_contents_returned = $this->ftsGetFeedJson( $url_to_get );
         $file_contents          = $file_contents_returned['xml_url'];
         $file_contents          = str_replace( array( "\n", "\r", "\t" ), '', $file_contents );
         $file_contents          = trim( str_replace( '"', "'", $file_contents ) );

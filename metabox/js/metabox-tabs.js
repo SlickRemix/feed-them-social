@@ -180,7 +180,7 @@ function refresh_feed_ajax(should_we_empty_cache) {
 
     jQuery.ajax({
         data: {
-            action: 'fts_refresh_feed_ajax',
+            action: 'ftsRefreshFeedAjax',
             cpt_id: cpt_id,
             _wpnonce: ftg_mb_tabs.ajaxRefreshFeedNonce
         },
@@ -591,7 +591,7 @@ jQuery(document).ready(function ($) {
     }
 });
 
-function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
+function ftsEncryptTokenAjax( access_token, token_type , id, firstRequest ) {
 
     console.log( 'access_token: ' + JSON.stringify(access_token) );
     console.log( 'token_type: ' + token_type );
@@ -600,7 +600,7 @@ function fts_encrypt_token_ajax( access_token, token_type , id, firstRequest ) {
 
     jQuery.ajax({
         data: {
-            action: 'fts_encrypt_token_ajax',
+            action: 'ftsEncryptTokenAjax',
             cpt_id: cpt_id,
             access_token: JSON.stringify( access_token ),
             token_type: token_type,
@@ -680,19 +680,19 @@ function fts_show_decrypt_token_text(){
             const encrypted_token = jQuery(this).parent().parent().find('input').attr('value');
             const id              = jQuery(this).parent().parent().find('input').attr('id');
             // Decrypt the token for debugging.
-            fts_decrypt_token_ajax( encrypted_token, id );
+            ftsDecryptTokenAjax( encrypted_token, id );
         }
     });
 }
 
-function fts_decrypt_token_ajax( encrypted_token, id ) {
+function ftsDecryptTokenAjax( encrypted_token, id ) {
 
     console.log( 'access_token: ' + encrypted_token );
     console.log( 'id: ' + id );
 
     jQuery.ajax({
         data: {
-            action: 'fts_decrypt_token_ajax',
+            action: 'ftsDecryptTokenAjax',
             encrypted_token: encrypted_token,
             _wpnonce: ftg_mb_tabs.ajaxDecryptNonce
         },

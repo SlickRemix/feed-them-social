@@ -268,7 +268,7 @@ class SettingsPage {
                             'id'            => 'fts_cache_time',
                             'name'          => __( 'Cache Time', 'feed-them-social' ),
                             'type'          => 'select',
-                            'options'       => $this->feedCache->fts_get_cache_options(),
+                            'options'       => $this->feedCache->ftsGetCacheOptions(),
                             'std'           => '',
                             'field_class'   => 'fts_cache_time',
                             'tooltip_class' => 'fts-cache-time-tooltip',

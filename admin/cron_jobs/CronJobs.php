@@ -145,7 +145,7 @@ class CronJobs {
     public function clearCacheTask() {
         // Debug: Log task execution
         DebugLog::log( 'cronJobs', 'Running clearCacheTask', true );
-        $this->feedCache->feed_them_clear_cache();
+        $this->feedCache->feedThemClearCache();
     }
 
     /**
@@ -196,7 +196,7 @@ class CronJobs {
             }
 
             // Store the event hook name in the feed options
-            $this->optionsFunctions->update_single_option('fts_feed_options_array', "{$feed_name}_scheduled_event", $event_hook, true, $cpt_id, false);
+            $this->optionsFunctions->updateSingleOption('fts_feed_options_array', "{$feed_name}_scheduled_event", $event_hook, true, $cpt_id, false);
         }
 
     }
@@ -206,13 +206,13 @@ class CronJobs {
      */
     public function ftsRefreshTokenTask($cpt_id, $feed_name ) {
         if ($feed_name === 'instagram_business_basic') {
-            $this->feedFunctions->fts_instagram_refresh_token($cpt_id);
+            $this->feedFunctions->ftsInstagramRefreshToken($cpt_id);
         }
         elseif ($feed_name === 'tiktok') {
-            $this->feedFunctions->fts_tiktok_refresh_token($cpt_id);
+            $this->feedFunctions->ftsTiktokRefreshToken($cpt_id);
         }
         elseif ($feed_name === 'youtube') {
-            $this->feedFunctions->fts_youtube_refresh_token($cpt_id);
+            $this->feedFunctions->ftsYoutubeRefreshToken($cpt_id);
         }
     }
 
@@ -229,21 +229,21 @@ class CronJobs {
         $posts = get_posts($args);
         foreach ($posts as $feedCptId) {
 
-            $instagram_hook = $this->feedFunctions->get_feed_option($feedCptId, 'instagram_business_basic_scheduled_event');
+            $instagram_hook = $this->feedFunctions->getFeedOption($feedCptId, 'instagram_business_basic_scheduled_event');
             if (!empty($instagram_hook)) {
                 add_action($instagram_hook, function() use ($feedCptId) {
                     $this->ftsRefreshTokenTask($feedCptId, 'instagram_business_basic');
                 });
             }
 
-            $tiktok_hook = $this->feedFunctions->get_feed_option($feedCptId, 'tiktok_scheduled_event');
+            $tiktok_hook = $this->feedFunctions->getFeedOption($feedCptId, 'tiktok_scheduled_event');
             if (!empty($tiktok_hook)) {
                 add_action($tiktok_hook, function() use ($feedCptId) {
                     $this->ftsRefreshTokenTask($feedCptId, 'tiktok');
                 });
             }
 
-            $youtube_hook = $this->feedFunctions->get_feed_option($feedCptId, 'youtube_scheduled_event');
+            $youtube_hook = $this->feedFunctions->getFeedOption($feedCptId, 'youtube_scheduled_event');
             if (!empty($youtube_hook)) {
                 add_action($youtube_hook, function() use ($feedCptId) {
                     $this->ftsRefreshTokenTask($feedCptId, 'youtube');

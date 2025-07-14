@@ -474,7 +474,7 @@ class AccessTokenOptions {
     private function ftsFetchFbDataAndDecode() {
         // Make sure it's not ajaxing!
         if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
-            $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feedFunctions->get_random_string() );
+            $_REQUEST['fts_dynamic_name'] = sanitize_key( $this->feedFunctions->getRandomString() );
         } //End make sure it's not ajaxing!
 
         if ( ! isset( $_GET['locations'] ) ) {
@@ -620,7 +620,7 @@ class AccessTokenOptions {
                                 console.log(button);
                                 jQuery.ajax({
                                     data: {
-                                        action: "my_fts_fb_load_more",
+                                        action: "myFtsFbLoadMore",
                                         next_location_url: nextURL_location_<?php echo sanitize_key( $facebook_page_id ); ?>,
                                         fts_dynamic_name: "<?php echo esc_js( $facebook_page_id ); ?>",
                                         rebuilt_shortcode: "<?php echo esc_js( $build_shortcode ); ?>",
@@ -719,7 +719,7 @@ class AccessTokenOptions {
                     var fts_reviews_feed = "<?php echo esc_js( $reviews_token ); ?>";
                     jQuery.ajax({
                         data: {
-                            action: "my_fts_fb_load_more",
+                            action: "myFtsFbLoadMore",
                             next_url: nextURL_<?php echo sanitize_key( $fts_dynamic_name ); ?>,
                             fts_dynamic_name: fts_d_name,
                             rebuilt_shortcode: build_shortcode,
@@ -803,7 +803,7 @@ class AccessTokenOptions {
         if( $combined === 'false' ) {
             // This check is in place because the combine tab can also load the access token options, however we don't want to
             // save the feed_type in this case because we want to remain on the combine tab.
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'feed_type', $feed_type, true, $cpt_id, false );
         }
 
         if( $combined === 'basic' || $combined === 'business' ) {
@@ -813,8 +813,8 @@ class AccessTokenOptions {
             // These 2 options are to save the combine instagram type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_instagram_type', $combined, true, $cpt_id, false );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_instagram', 'yes', true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'combine_instagram_type', $combined, true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'combine_instagram', 'yes', true, $cpt_id, false );
 
         }
 
@@ -822,21 +822,21 @@ class AccessTokenOptions {
             // This option is to save the combine facebook type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_facebook', 'yes', true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'combine_facebook', 'yes', true, $cpt_id, false );
         }
 
         if( $combined === 'combined-twitter' ) {
             // This option is to save the combine twitter type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_twitter', 'yes', true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'combine_twitter', 'yes', true, $cpt_id, false );
         }
 
         if( $combined === 'combined-youtube' ) {
             // This option is to save the combine youtube type if a user clicks on one of the tabs. The reason we need to do this is so
             // when the user clicks on the get access token button the user is taken away from the site to get the token on, fb, instagram etc.
             // then returned to the users previously selected combine instagram tab with the option selected to yes.
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id, false );
+            $this->optionsFunctions->updateSingleOption( 'fts_feed_options_array', 'combine_youtube', 'yes', true, $cpt_id, false );
         }
 
         $this->getAccessTokenOptions( $feed_type, $cpt_id );

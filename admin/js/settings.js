@@ -21,4 +21,4 @@ jQuery( function() {
     if( jQuery('body').hasClass( 'fts_page_fts-settings-page' ) ){
         jQuery( document ).tooltip();
     }
-} );
+});

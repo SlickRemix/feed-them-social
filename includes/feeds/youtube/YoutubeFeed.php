@@ -124,12 +124,12 @@ class YoutubeFeed {
             // this relies on our approved app from google.
             // we are only using readme option from google now so we cannot get comments this way.
             // that's fine though since we only allow to show comments in the premium version.
-            //$youtube_api_key_or_token = FTS_ACCESS_TOKEN_EQUALS . $this->accessOptions->decrypt_access_token( $youtube_access_token );
+            //$youtube_api_key_or_token = FTS_ACCESS_TOKEN_EQUALS . $this->accessOptions->decryptAccessToken( $youtube_access_token );
             $youtube_api_key_or_token = FTS_ACCESS_TOKEN_EQUALS . $youtube_access_token;
         } else {
             // you must create your own youtube app now to get this.
             // this is also the method required to show comments as well now.
-            //$youtube_api_key_or_token = 'key=' . $this->accessOptions->decrypt_access_token( $youtube_api_key );
+            //$youtube_api_key_or_token = 'key=' . $this->accessOptions->decryptAccessToken( $youtube_api_key );
             $youtube_api_key_or_token = 'key=' . $youtube_api_key;
         }
 

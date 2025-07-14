@@ -47,7 +47,7 @@ class AccessTokenOptions {
      *
      * @var array
      */
-    public $feed_cpt_options_array;
+    public $feedCptOptionsArray;
 
     /**
      * Data Protection
@@ -74,7 +74,7 @@ class AccessTokenOptions {
      *
      * @var object
      */
-    public $metabox_functions;
+    public $metaboxFunctions;
 
     /**
      * And Limit 500.
@@ -90,7 +90,7 @@ class AccessTokenOptions {
      *
      * @since 1.9.6
      */
-    public function __construct( $feedFunctions, $feed_cpt_options, $metabox_functions, $dataProtection, $optionsFunctions ) {
+    public function __construct( $feedFunctions, $feed_cpt_options, $metaboxFunctions, $dataProtection, $optionsFunctions ) {
 
         // Options Functions Class.
         $this->optionsFunctions = $optionsFunctions;
@@ -102,12 +102,12 @@ class AccessTokenOptions {
         $this->dataProtection = $dataProtection;
 
         // Metabox Functions.
-        $this->metabox_functions = $metabox_functions;
+        $this->metaboxFunctions = $metaboxFunctions;
 
         // Feed CPT Options Array.
-        $this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
+        $this->feedCptOptionsArray = $feed_cpt_options->getAllOptions();
 
-        add_action( 'wp_ajax_fts_access_token_type_ajax', array( $this, 'fts_access_token_type_ajax' ) );
+        add_action( 'wp_ajax_ftsAccessTokenTypeAjax', array( $this, 'ftsAccessTokenTypeAjax' ) );
 
         // Facebook & Instagram get Access Token.
         add_shortcode( 'fts_fb_page_token', array( $this, 'ftsFbPageTokenFunc' ) );
@@ -120,7 +120,7 @@ class AccessTokenOptions {
      *
      * @since 4.0.0
      */
-    public function decrypt_access_token( $encrypted_token ) {
+    public function decryptAccessToken( $encrypted_token ) {
         // Was an encrypted token given?
         if( $encrypted_token ){
             // Decrypt the token.
@@ -137,7 +137,7 @@ class AccessTokenOptions {
      *
      * @since 4.0.0
      */
-    public function getAccessTokenOptions( $feed_type, $feed_cpt_id ) {?>
+    public function getAccessTokenOptions( $feed_type, $feedCptId ) {?>
 
         <?php
         if($feed_type){
@@ -148,14 +148,14 @@ class AccessTokenOptions {
                     $facebook_access_functions = new FacebookAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                     // Load Facebook Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
+                    echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['facebookTokenOptions'], null, $feedCptId );
 
                     ?>
 
                     <div class="facebook-access-token-placeholder">
                         <?php
                             // Get Access button for Facebook.
-                            $facebook_access_functions->getAccessTokenButton( $feed_cpt_id );
+                            $facebook_access_functions->getAccessTokenButton( $feedCptId );
                         ?>
                     </div>
 
@@ -168,25 +168,25 @@ class AccessTokenOptions {
                     $instagram_access_functions = new InstagramAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                     // Load Instagram Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
+                    echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['instagramTokenOptions'], null, $feedCptId );
 
                     // Load the options.
-                    $instagram_access_functions->getAccessTokenButton( $feed_cpt_id );
+                    $instagram_access_functions->getAccessTokenButton( $feedCptId );
 
                     break;
 
                 case 'instagram-business-feed-type':
                     // Instagram Business Access Functions.
-                    $InstagramBusinessAccessFunctions = new InstagramBusinessAccessFunctions( $this->feedFunctions, $this->dataProtection );
+                    $instagramBusinessAccessFunctions = new InstagramBusinessAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                     // Load Instagram Business Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+                    echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['instagramBusinessTokenOptions'], null, $feedCptId );
                     ?>
 
                     <div class="instagram-facebook-access-token-placeholder">
                         <?php
                             // Load the options.
-                            $InstagramBusinessAccessFunctions->getAccessTokenButton( $feed_cpt_id );
+                            $instagramBusinessAccessFunctions->getAccessTokenButton( $feedCptId );
                         ?>
                     </div>
 
@@ -198,10 +198,10 @@ class AccessTokenOptions {
                     $twitter_access_functions = new TiktokAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                     // Load Twitter Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
+                    echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['twitterTokenOptions'], null, $feedCptId );
 
                     // Load the options.
-                    $twitter_access_functions->getAccessTokenButton( $feed_cpt_id );
+                    $twitter_access_functions->getAccessTokenButton( $feedCptId );
 
                     break;
 
@@ -210,10 +210,10 @@ class AccessTokenOptions {
                     $youtube_access_functions = new YoutubeAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                     // Load YouTube Token Option Fields.
-                    echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
+                    echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['youtubeTokenOptions'], null, $feedCptId );
 
                     // Load the options.
-                    $youtube_access_functions->getAccessTokenButton( $feed_cpt_id );
+                    $youtube_access_functions->getAccessTokenButton( $feedCptId );
 
                     break;
 
@@ -222,7 +222,7 @@ class AccessTokenOptions {
                 <div class="combine-streams-feed-wrap">
                     <?php
                         // Load Combine Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_options'], null, $feed_cpt_id );
+                        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['combineInstagramTokenOptions'], null, $feedCptId );
 
                         ?>
                     <div class="fts-clear"></div>
@@ -233,10 +233,10 @@ class AccessTokenOptions {
                                 $instagram_access_functions = new InstagramAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                                 // Load Instagram Token Option Fields.
-                                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_token_options'], null, $feed_cpt_id );
+                                echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['instagramTokenOptions'], null, $feedCptId );
 
                                 // Load the options.
-                                $instagram_access_functions->getAccessTokenButton( $feed_cpt_id );
+                                $instagram_access_functions->getAccessTokenButton( $feedCptId );
                                 ?>
                             </div>
 
@@ -244,22 +244,22 @@ class AccessTokenOptions {
                             <?php
 
                                 // Instagram Business Access Functions.
-                                $InstagramBusinessAccessFunctions = new InstagramBusinessAccessFunctions( $this->feedFunctions, $this->dataProtection );
+                                $instagramBusinessAccessFunctions = new InstagramBusinessAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                                 // Load Instagram Business Token Option Fields.
-                                echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['instagram_business_token_options'], null, $feed_cpt_id );
+                                echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['instagramBusinessTokenOptions'], null, $feedCptId );
 
                                 // Load the options.
-                                $InstagramBusinessAccessFunctions->getAccessTokenButton( $feed_cpt_id );
+                                $instagramBusinessAccessFunctions->getAccessTokenButton( $feedCptId );
                             ?>
                             </div>
                         </div>
                     <?php
                         // Load Combine Instagram Token Select Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_instagram_token_select_options'], null, $feed_cpt_id );
+                        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['combineInstagramTokenSelectOptions'], null, $feedCptId );
 
                         // Load Combine Facebook Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_facebook_token_options'], null, $feed_cpt_id );
+                        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['combineFacebookTokenOptions'], null, $feedCptId );
 
                     ?>
                         <div class="combine-facebook-access-token-placeholder">
@@ -268,17 +268,17 @@ class AccessTokenOptions {
                         $facebook_access_functions = new FacebookAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                         // Load Facebook Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['facebook_token_options'], null, $feed_cpt_id );
+                        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['facebookTokenOptions'], null, $feedCptId );
 
                         // Get Access button for Facebook.
-                        $facebook_access_functions->getAccessTokenButton( $feed_cpt_id );
+                        $facebook_access_functions->getAccessTokenButton( $feedCptId );
 
                                 ?>
                      </div>
 
                         <?php
                         // Load Combine Twitter Token Select Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_twitter_token_select_options'], null, $feed_cpt_id );
+                        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['combineTwitterTokenSelectOptions'], null, $feedCptId );
 
                         ?>
 
@@ -288,21 +288,21 @@ class AccessTokenOptions {
                             $twitter_access_functions = new TiktokAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                             // Load Twitter Token Option Fields.
-                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['twitter_token_options'], null, $feed_cpt_id );
+                            echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['twitterTokenOptions'], null, $feedCptId );
 
                             // Get Access button for Facebook.
-                            $twitter_access_functions->getAccessTokenButton( $feed_cpt_id );
+                            $twitter_access_functions->getAccessTokenButton( $feedCptId );
 
                             ?>
                         </div>
                         <?php
 
                         // Load Combine Twitter Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_twitter_token_options'], null, $feed_cpt_id );
+                        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['combineTwitterTokenOptions'], null, $feedCptId );
 
 
                         // Load Combine YouTube Token Select Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_select_options'], null, $feed_cpt_id );
+                        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['combineYoutubeTokenSelectOptions'], null, $feedCptId );
 
                         ?>
 
@@ -312,17 +312,17 @@ class AccessTokenOptions {
                             $youtube_access_functions = new YoutubeAccessFunctions( $this->feedFunctions, $this->dataProtection );
 
                             // Load YouTube Token Option Fields.
-                            echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['youtube_token_options'], null, $feed_cpt_id );
+                            echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['youtubeTokenOptions'], null, $feedCptId );
 
                             // Get Access button for youtube.
-                            $youtube_access_functions->getAccessTokenButton( $feed_cpt_id );
+                            $youtube_access_functions->getAccessTokenButton( $feedCptId );
 
                             ?>
                         </div>
                         <?php
 
                         // Load Combine YouTube Token Option Fields.
-                        echo $this->metabox_functions->options_html_form( $this->feed_cpt_options_array['combine_youtube_token_options'], null, $feed_cpt_id );
+                        echo $this->metaboxFunctions->optionsHtmlForm( $this->feedCptOptionsArray['combineYoutubeTokenOptions'], null, $feedCptId );
                       ?>
                 </div>
                     <div class="fts-clear"></div>
@@ -792,7 +792,7 @@ class AccessTokenOptions {
      *
      * @since 2.9.7.2
      */
-    public function fts_access_token_type_ajax() {
+    public function ftsAccessTokenTypeAjax() {
 
         check_ajax_referer( 'fts_update_access_token' );
 

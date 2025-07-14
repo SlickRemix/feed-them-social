@@ -28,15 +28,15 @@ class InstagramAdditionalOptions {
      *
      * @var array
      */
-    public $all_options;
+    public $allOptions;
 
     /**
      * Instagram_Add_Options constructor.
      */
     public function __construct() {
-        $this->follow_btn_options();
-        $this->load_more_options();
-        $this->slider_color_options();
+        $this->followBtnOptions();
+        $this->loadMoreOptions();
+        $this->sliderColorOptions();
     }
 
     /**
@@ -47,8 +47,8 @@ class InstagramAdditionalOptions {
      * @return array
      * @since 4.3.9
      */
-    public function get_all_options() {
-        return $this->all_options;
+    public function getAllOptions() {
+        return $this->allOptions;
     }
 
     /**
@@ -57,7 +57,7 @@ class InstagramAdditionalOptions {
      * @param array $args The unique arguments for the section.
      * @return array The structured settings array.
      */
-    private function generate_options_array(array $args): array
+    private function generateOptionsArray(array $args): array
     {
         // Set default values for all common keys
         $defaults = [
@@ -83,7 +83,7 @@ class InstagramAdditionalOptions {
      * @return mixed
      * @since 4.3.1
      */
-    public function slider_color_options() {
+    public function sliderColorOptions() {
         $main_options = [
             // Slider Controls Arrow Color
             [
@@ -146,13 +146,13 @@ class InstagramAdditionalOptions {
             ],
         ];
 
-        $this->all_options['instagram_slider_color_options'] = $this->generate_options_array([
+        $this->allOptions['instagram_slider_color_options'] = $this->generateOptionsArray([
             'section_attr_key'   => 'instagram_slider_color_options_',
             'section_title'      => esc_html__( 'Slider Navigation', 'feed-them-social' ),
             'main_options'       => $main_options,
         ]);
 
-        return $this->all_options['instagram_slider_color_options'];
+        return $this->allOptions['instagram_slider_color_options'];
     }
 
     /**
@@ -163,7 +163,7 @@ class InstagramAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function follow_btn_options() {
+    public function followBtnOptions() {
         $main_options = [
             // Show Follow Button.
             [
@@ -195,12 +195,12 @@ class InstagramAdditionalOptions {
             ],
         ];
 
-        $this->all_options['instagram_follow_btn_options'] = $this->generate_options_array([
+        $this->allOptions['instagram_follow_btn_options'] = $this->generateOptionsArray([
             'section_attr_key' => 'instagram_follow_btn_options_',
             'main_options'     => $main_options,
         ]);
 
-        return $this->all_options['instagram_follow_btn_options'];
+        return $this->allOptions['instagram_follow_btn_options'];
     }
 
     /**
@@ -211,7 +211,7 @@ class InstagramAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function load_more_options() {
+    public function loadMoreOptions() {
         $main_options = [
             // Load More Button Color
             [
@@ -263,12 +263,12 @@ class InstagramAdditionalOptions {
             ],
         ];
 
-        $this->all_options['instagram_load_more_options'] = $this->generate_options_array([
+        $this->allOptions['instagram_load_more_options'] = $this->generateOptionsArray([
             'section_attr_key' => 'instagram_load_more_options',
             'section_title'    => esc_html__( 'Load More Button', 'feed-them-social' ),
             'main_options'     => $main_options,
         ]);
 
-        return $this->all_options['instagram_load_more_options'];
+        return $this->allOptions['instagram_load_more_options'];
     }
 }

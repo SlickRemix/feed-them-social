@@ -61,18 +61,18 @@ class TiktokAccessFunctions {
     /**
      *  Get Access Token Button
      *
-     * @param $feed_cpt_id integer Feed CPT ID
+     * @param $feedCptId integer Feed CPT ID
      * @since 4.0.0
      */
-    public function getAccessTokenButton( $feed_cpt_id ) {
+    public function getAccessTokenButton( $feedCptId ) {
 
         $post_url = add_query_arg( array(
-            'post' => $feed_cpt_id,
+            'post' => $feedCptId,
             'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_tiktok' )
         ), admin_url( 'post.php' ) );
 
 
-        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_cpt_id );
+        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feedCptId );
 
         $access_token       = !empty( $saved_feed_options['fts_tiktok_access_token'] ) ? $saved_feed_options['fts_tiktok_access_token'] : '';
         // Tokens expire every 24 hours. Hence expires_in from tiktok array is 86400 seconds.
@@ -255,7 +255,7 @@ class TiktokAccessFunctions {
                 }
                 else {
 
-                    if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) ){
+                    if( 'combine-streams-feed-type' === $this->feedFunctions->get_feed_option( $feedCptId, 'feed_type' ) ){
                         echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div id="fts-combined-twitter-success" class="fts-successful-api-token fts-special-working-wrap" style="display: none">',

@@ -380,7 +380,7 @@ class FacebookFeed {
 
         // Decrypt Access Token.
         $fts_facebook_custom_api_token = !empty( $saved_feed_options['fts_facebook_custom_api_token'] ) ? $saved_feed_options['fts_facebook_custom_api_token'] : '';
-        $this->feedAccessToken = $this->accessOptions->decrypt_access_token( $fts_facebook_custom_api_token );
+        $this->feedAccessToken = $this->accessOptions->decryptAccessToken( $fts_facebook_custom_api_token );
 
         $load_popup_scripts = false;
         if ( $this->feedFunctions->is_extension_active( 'feed_them_social_premium' ) ) {
@@ -1517,9 +1517,9 @@ style="margin:' . ( isset( $saved_feed_options['slider_margin'] ) && $saved_feed
                     // Don't run these if it's a review feed otherwise you will get an error response from facebook.
                     if ( $saved_feed_options['facebook_page_feed_type'] !== 'reviews' ) {
                         // Set Likes URL in post array.
-                        $fb_post_array[$post_data_key . '_likes'] = FTS_FACEBOOK_GRAPH_URL . $post_data_key . '/reactions?summary=1' . FTS_AND_ACCESS_TOKEN_EQUALS . $this->accessOptions->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
+                        $fb_post_array[$post_data_key . '_likes'] = FTS_FACEBOOK_GRAPH_URL . $post_data_key . '/reactions?summary=1' . FTS_AND_ACCESS_TOKEN_EQUALS . $this->accessOptions->decryptAccessToken($saved_feed_options['fts_facebook_custom_api_token']);
                         // Set Comments URL in post array.
-                        $fb_post_array[$post_data_key . '_comments'] = FTS_FACEBOOK_GRAPH_URL . $post_data_key . '/comments?summary=1' . FTS_AND_ACCESS_TOKEN_EQUALS . $this->accessOptions->decrypt_access_token($saved_feed_options['fts_facebook_custom_api_token']);
+                        $fb_post_array[$post_data_key . '_comments'] = FTS_FACEBOOK_GRAPH_URL . $post_data_key . '/comments?summary=1' . FTS_AND_ACCESS_TOKEN_EQUALS . $this->accessOptions->decryptAccessToken($saved_feed_options['fts_facebook_custom_api_token']);
                     }
 
                     // Video.

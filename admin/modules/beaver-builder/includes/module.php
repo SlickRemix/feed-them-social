@@ -89,7 +89,7 @@ class FtsBeaverBuilderModule extends \FLBuilderModule {
                     'action_section' => array(
                         'title' => __('Actions', 'feed-them-social'),
                         'fields' => array(
-                            'add_new_feed' => array(
+                            'addNewFeed' => array(
                                 'type'    => 'html',
                                 'label'   => '<button onclick="ftsEditBB()" id="fts-bb-edit-new-feed" class="fts-beaver-builder-link">'.__( 'Edit Feeds', 'feed-them-social' ).'</button> <button onclick="ftsNewBB()" id="fts-bb-create-new-feed" class="fts-beaver-builder-link" >'.__( 'Create New Feed', 'feed-them-social' ).'</button>',
                                 'class'   => 'fts-new-feed-btn',

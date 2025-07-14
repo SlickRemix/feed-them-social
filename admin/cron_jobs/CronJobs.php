@@ -227,26 +227,26 @@ class CronJobs {
             'fields'      => 'ids'
         ];
         $posts = get_posts($args);
-        foreach ($posts as $feed_cpt_id) {
+        foreach ($posts as $feedCptId) {
 
-            $instagram_hook = $this->feedFunctions->get_feed_option($feed_cpt_id, 'instagram_business_basic_scheduled_event');
+            $instagram_hook = $this->feedFunctions->get_feed_option($feedCptId, 'instagram_business_basic_scheduled_event');
             if (!empty($instagram_hook)) {
-                add_action($instagram_hook, function() use ($feed_cpt_id) {
-                    $this->ftsRefreshTokenTask($feed_cpt_id, 'instagram_business_basic');
+                add_action($instagram_hook, function() use ($feedCptId) {
+                    $this->ftsRefreshTokenTask($feedCptId, 'instagram_business_basic');
                 });
             }
 
-            $tiktok_hook = $this->feedFunctions->get_feed_option($feed_cpt_id, 'tiktok_scheduled_event');
+            $tiktok_hook = $this->feedFunctions->get_feed_option($feedCptId, 'tiktok_scheduled_event');
             if (!empty($tiktok_hook)) {
-                add_action($tiktok_hook, function() use ($feed_cpt_id) {
-                    $this->ftsRefreshTokenTask($feed_cpt_id, 'tiktok');
+                add_action($tiktok_hook, function() use ($feedCptId) {
+                    $this->ftsRefreshTokenTask($feedCptId, 'tiktok');
                 });
             }
 
-            $youtube_hook = $this->feedFunctions->get_feed_option($feed_cpt_id, 'youtube_scheduled_event');
+            $youtube_hook = $this->feedFunctions->get_feed_option($feedCptId, 'youtube_scheduled_event');
             if (!empty($youtube_hook)) {
-                add_action($youtube_hook, function() use ($feed_cpt_id) {
-                    $this->ftsRefreshTokenTask($feed_cpt_id, 'youtube');
+                add_action($youtube_hook, function() use ($feedCptId) {
+                    $this->ftsRefreshTokenTask($feedCptId, 'youtube');
                 });
             }
         }

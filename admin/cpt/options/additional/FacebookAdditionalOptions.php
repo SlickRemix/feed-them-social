@@ -29,21 +29,21 @@ class FacebookAdditionalOptions
      *
      * @var array
      */
-    public $all_options;
+    public $allOptions;
 
     /**
      * Facebook_Add_Options constructor.
      */
     public function __construct ()
     {
-        $this->like_button_box_options();
-        $this->global_facebook_style_options();
-        $this->language_options();
-        $this->reviews_text_styles();
-        $this->reviews_overall_rating_styles();
-        $this->global_facebook_grid_style_options();
-        $this->error_messages_options();
-        $this->load_more_options();
+        $this->likeButtonBoxOptions();
+        $this->globalFacebookStyleOptions();
+        $this->languageOptions();
+        $this->reviewsTextStyles();
+        $this->reviewsOverallRatingStyles();
+        $this->globalFacebookGridStyleOptions();
+        $this->errorMessagesOptions();
+        $this->loadMoreOptions();
     }
 
     /**
@@ -52,7 +52,7 @@ class FacebookAdditionalOptions
      * @return mixed
      * @since 4.3.9
      */
-    public function like_button_box_options ()
+    public function likeButtonBoxOptions ()
     {
         $main_options = [
             // Show Follow Button.
@@ -98,7 +98,7 @@ class FacebookAdditionalOptions
             ],
         ];
 
-        $this->all_options['facebook_like_button_box_options'] = $this->generate_options_array( [
+        $this->allOptions['facebook_like_button_box_options'] = $this->generateOptionsArray( [
             'section_attr_key'  => 'facebook_like_button_box_options_',
             'premium_msg_boxes' => [
                 'album_videos' => ['req_plugin' => 'feed_them_social_premium', 'msg' => ''],
@@ -107,7 +107,7 @@ class FacebookAdditionalOptions
             'main_options'      => $main_options,
         ] );
 
-        return $this->all_options['facebook_like_button_box_options'];
+        return $this->allOptions['facebook_like_button_box_options'];
     }
 
     /**
@@ -116,7 +116,7 @@ class FacebookAdditionalOptions
      * @param array $args The unique arguments for the section.
      * @return array The structured settings array.
      */
-    private function generate_options_array (array $args): array
+    private function generateOptionsArray (array $args): array
     {
         // Set default values for all common keys
         $defaults = [
@@ -140,7 +140,7 @@ class FacebookAdditionalOptions
      * @return mixed
      * @since 4.3.9
      */
-    public function global_facebook_style_options ()
+    public function globalFacebookStyleOptions ()
     {
         $main_options = [
             // Page Title Tag.
@@ -334,7 +334,7 @@ class FacebookAdditionalOptions
             ],
         ];
 
-        $this->all_options['facebook_style_options'] = $this->generate_options_array( [
+        $this->allOptions['facebook_style_options'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'facebook_style_options_',
             'section_wrap_class' => 'fts-tab-content  fts-fb-styles',
             'premium_msg_boxes'  => [
@@ -344,7 +344,7 @@ class FacebookAdditionalOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['facebook_style_options'];
+        return $this->allOptions['facebook_style_options'];
     }
 
     /**
@@ -353,7 +353,7 @@ class FacebookAdditionalOptions
      * @return mixed
      * @since 4.3.9
      */
-    public function language_options ()
+    public function languageOptions ()
     {
         $main_options = [
             // Language For Facebook Feeds.
@@ -404,7 +404,7 @@ class FacebookAdditionalOptions
             ],
         ];
 
-        $this->all_options['facebook_languages_options'] = $this->generate_options_array( [
+        $this->allOptions['facebook_languages_options'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'facebook_languages_options_',
             'section_title'      => esc_html__( 'Language Options', 'feed-them-social' ),
             'section_wrap_class' => 'fts-tab-content  fts-fb-language-options',
@@ -415,7 +415,7 @@ class FacebookAdditionalOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['facebook_languages_options'];
+        return $this->allOptions['facebook_languages_options'];
     }
 
     /**
@@ -424,7 +424,7 @@ class FacebookAdditionalOptions
      * @return mixed
      * @since 4.3.9
      */
-    public function reviews_text_styles ()
+    public function reviewsTextStyles ()
     {
         $main_options = [
             // Stars Background Color
@@ -492,14 +492,14 @@ class FacebookAdditionalOptions
             ],
         ];
 
-        $this->all_options['facebook_reviews_text_styles'] = $this->generate_options_array( [
+        $this->allOptions['facebook_reviews_text_styles'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'facebook_reviews_text_styles_',
             'section_title'      => esc_html__( 'Facebook Reviews', 'feed-them-social' ),
             'section_wrap_class' => 'fts-tab-content fts-fb-reviews-styles',
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['facebook_reviews_text_styles'];
+        return $this->allOptions['facebook_reviews_text_styles'];
     }
 
     /**
@@ -508,7 +508,7 @@ class FacebookAdditionalOptions
      * @return mixed
      * @since 4.3.9
      */
-    public function reviews_overall_rating_styles ()
+    public function reviewsOverallRatingStyles ()
     {
         $main_options = [
             // Hide Overall Rating Background & Border.
@@ -600,7 +600,7 @@ class FacebookAdditionalOptions
             ],
         ];
 
-        $this->all_options['facebook_reviews_overall_rating_styles'] = $this->generate_options_array( [
+        $this->allOptions['facebook_reviews_overall_rating_styles'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'facebook_reviews_overall_rating_styles_',
             'section_title'      => esc_html__( 'Overall Rating', 'feed-them-social' ),
             'section_wrap_class' => 'fts-tab-content  fts-fb-reviews-styles',
@@ -611,7 +611,7 @@ class FacebookAdditionalOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['facebook_reviews_overall_rating_styles'];
+        return $this->allOptions['facebook_reviews_overall_rating_styles'];
     }
 
     /**
@@ -620,7 +620,7 @@ class FacebookAdditionalOptions
      * @return mixed
      * @since 4.3.9
      */
-    public function global_facebook_grid_style_options ()
+    public function globalFacebookGridStyleOptions ()
     {
         $main_options = [
             // Feed Background Color.
@@ -649,7 +649,7 @@ class FacebookAdditionalOptions
             ],
         ];
 
-        $this->all_options['facebook_grid_style_options'] = $this->generate_options_array( [
+        $this->allOptions['facebook_grid_style_options'] = $this->generateOptionsArray( [
             'section_attr_key'   => 'facebook_grid_style_options_',
             'section_title'      => esc_html__( 'Grid Format', 'feed-them-social' ),
             'section_wrap_class' => 'fts-tab-content fts-fb-grid-styles',
@@ -659,7 +659,7 @@ class FacebookAdditionalOptions
             'main_options'       => $main_options,
         ] );
 
-        return $this->all_options['facebook_grid_style_options'];
+        return $this->allOptions['facebook_grid_style_options'];
     }
 
     /**
@@ -668,7 +668,7 @@ class FacebookAdditionalOptions
      * @return mixed
      * @since 4.3.9
      */
-    public function error_messages_options ()
+    public function errorMessagesOptions ()
     {
         $main_options = [
             // Hide Error Handler Message.
@@ -694,7 +694,7 @@ class FacebookAdditionalOptions
             ],
         ];
 
-        $this->all_options['facebook_error_messages_options'] = $this->generate_options_array( [
+        $this->allOptions['facebook_error_messages_options'] = $this->generateOptionsArray( [
             'section_attr_key'  => 'facebook_error_messages_options_',
             'section_title'     => esc_html__( 'Facebook Error Messages', 'feed-them-social' ),
             'premium_msg_boxes' => [
@@ -704,7 +704,7 @@ class FacebookAdditionalOptions
             'main_options'      => $main_options,
         ] );
 
-        return $this->all_options['facebook_error_messages_options'];
+        return $this->allOptions['facebook_error_messages_options'];
     }
 
     /**
@@ -713,7 +713,7 @@ class FacebookAdditionalOptions
      * @return mixed
      * @since 4.3.9
      */
-    public function load_more_options ()
+    public function loadMoreOptions ()
     {
         $main_options = [
             // Button Color
@@ -801,14 +801,14 @@ class FacebookAdditionalOptions
             ],
         ];
 
-        $this->all_options['facebook_load_more_options'] = $this->generate_options_array( [
+        $this->allOptions['facebook_load_more_options'] = $this->generateOptionsArray( [
             'section_attr_key' => 'facebook_load_more_options_',
             'section_title'    => esc_html__( 'Load More Button', 'feed-them-social' ),
             'section_wrap_id'  => 'fts-tab-content1',
             'main_options'     => $main_options,
         ] );
 
-        return $this->all_options['facebook_load_more_options'];
+        return $this->allOptions['facebook_load_more_options'];
     }
 
     /**
@@ -819,8 +819,8 @@ class FacebookAdditionalOptions
      * @return array
      * @since 4.3.9
      */
-    public function get_all_options ()
+    public function getAllOptions ()
     {
-        return $this->all_options;
+        return $this->allOptions;
     }
 }

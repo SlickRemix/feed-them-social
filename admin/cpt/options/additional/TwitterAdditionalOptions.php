@@ -28,19 +28,19 @@ class TwitterAdditionalOptions {
      *
      * @var array
      */
-    public $all_options;
+    public $allOptions;
 
     /**
      * Twitter_Add_Options constructor.
      */
     public function __construct() {
-        $this->follow_btn_options();
-        $this->language_options();
-        $this->video_player_options();
-        $this->profile_photo_options();
-        $this->style_options();
-        $this->grid_style_options();
-        $this->load_more_options();
+        $this->followBtnOptions();
+        $this->languageOptions();
+        $this->videoPlayerOptions();
+        $this->profilePhotoOptions();
+        $this->styleOptions();
+        $this->gridStyleOptions();
+        $this->loadMoreOptions();
     }
 
     /**
@@ -51,8 +51,8 @@ class TwitterAdditionalOptions {
      * @return array
      * @since 4.3.9
      */
-    public function get_all_options() {
-        return $this->all_options;
+    public function getAllOptions() {
+        return $this->allOptions;
     }
 
     /**
@@ -61,7 +61,7 @@ class TwitterAdditionalOptions {
      * @param array $args The unique arguments for the section.
      * @return array The structured settings array.
      */
-    private function generate_options_array( array $args ): array {
+    private function generateOptionsArray( array $args ): array {
         // Set default values for all common keys.
         $defaults = [
             'section_attr_key'   => '',
@@ -84,7 +84,7 @@ class TwitterAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function follow_btn_options() {
+    public function followBtnOptions() {
         $main_options = [
             // Show Stats Bar
             [
@@ -199,14 +199,14 @@ class TwitterAdditionalOptions {
             ],
         ];
 
-        $this->all_options['twitter_follow_btn_options'] = $this->generate_options_array(
+        $this->allOptions['twitter_follow_btn_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key' => 'twitter_follow_btn_options_',
                 'main_options'     => $main_options,
             ]
         );
 
-        return $this->all_options['twitter_follow_btn_options'];
+        return $this->allOptions['twitter_follow_btn_options'];
     }
 
     /**
@@ -215,7 +215,7 @@ class TwitterAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function language_options() {
+    public function languageOptions() {
         $main_options = [
             // Follow on TikTok Text.
             [
@@ -242,14 +242,14 @@ class TwitterAdditionalOptions {
             ],
         ];
 
-        $this->all_options['twitter_language_options'] = $this->generate_options_array(
+        $this->allOptions['twitter_language_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key' => 'twitter_language_options_',
                 'main_options'     => $main_options,
             ]
         );
 
-        return $this->all_options['twitter_language_options'];
+        return $this->allOptions['twitter_language_options'];
     }
 
     /**
@@ -258,7 +258,7 @@ class TwitterAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function video_player_options() {
+    public function videoPlayerOptions() {
         $main_options = [
             // Show Follow Button.
             [
@@ -277,14 +277,14 @@ class TwitterAdditionalOptions {
             ],
         ];
 
-        $this->all_options['twitter_video_player_options'] = $this->generate_options_array(
+        $this->allOptions['twitter_video_player_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key' => 'twitter_video_player_options_',
                 'main_options'     => $main_options,
             ]
         );
 
-        return $this->all_options['twitter_video_player_options'];
+        return $this->allOptions['twitter_video_player_options'];
     }
 
     /**
@@ -293,7 +293,7 @@ class TwitterAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function profile_photo_options() {
+    public function profilePhotoOptions() {
         $main_options = [
             // Hide Profile Photo.
             [
@@ -312,7 +312,7 @@ class TwitterAdditionalOptions {
             ],
         ];
 
-        $this->all_options['twitter_profile_photo_options'] = $this->generate_options_array(
+        $this->allOptions['twitter_profile_photo_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key'  => 'twitter_profile_photo_options_',
                 'form_wrap_classes' => 'twitter-page-shortcode-form',
@@ -321,7 +321,7 @@ class TwitterAdditionalOptions {
             ]
         );
 
-        return $this->all_options['twitter_profile_photo_options'];
+        return $this->allOptions['twitter_profile_photo_options'];
     }
 
     /**
@@ -330,7 +330,7 @@ class TwitterAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function style_options() {
+    public function styleOptions() {
         $main_options = [
             // Feed Description Text Size
             [
@@ -433,7 +433,7 @@ class TwitterAdditionalOptions {
             ],
         ];
 
-        $this->all_options['twitter_style_options'] = $this->generate_options_array(
+        $this->allOptions['twitter_style_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key' => 'twitter_style_options_',
                 'section_title'    => esc_html__( 'Styles and Options', 'feed-them-social' ),
@@ -441,7 +441,7 @@ class TwitterAdditionalOptions {
             ]
         );
 
-        return $this->all_options['twitter_style_options'];
+        return $this->allOptions['twitter_style_options'];
     }
 
     /**
@@ -450,7 +450,7 @@ class TwitterAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function grid_style_options() {
+    public function gridStyleOptions() {
         $main_options = [
             // Posts Background Color
             [
@@ -478,7 +478,7 @@ class TwitterAdditionalOptions {
             ],
         ];
 
-        $this->all_options['twitter_grid_style_options'] = $this->generate_options_array(
+        $this->allOptions['twitter_grid_style_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key' => 'twitter_grid_style_options_',
                 'section_title'    => esc_html__( 'Grid Styles', 'feed-them-social' ),
@@ -486,7 +486,7 @@ class TwitterAdditionalOptions {
             ]
         );
 
-        return $this->all_options['twitter_grid_style_options'];
+        return $this->allOptions['twitter_grid_style_options'];
     }
 
     /**
@@ -495,7 +495,7 @@ class TwitterAdditionalOptions {
      * @return mixed
      * @since 4.3.9
      */
-    public function load_more_options() {
+    public function loadMoreOptions() {
         $main_options = [
             // Button Color
             [
@@ -547,7 +547,7 @@ class TwitterAdditionalOptions {
             ],
         ];
 
-        $this->all_options['twitter_load_more_options'] = $this->generate_options_array(
+        $this->allOptions['twitter_load_more_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key' => 'twitter_grid_style_options_',
                 'section_title'    => esc_html__( 'Load More Button', 'feed-them-social' ),
@@ -555,6 +555,6 @@ class TwitterAdditionalOptions {
             ]
         );
 
-        return $this->all_options['twitter_load_more_options'];
+        return $this->allOptions['twitter_load_more_options'];
     }
 }

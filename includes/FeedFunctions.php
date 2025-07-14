@@ -50,7 +50,7 @@ class FeedFunctions {
      *
      * @var array
      */
-    public $feed_cpt_options_array = array();
+    public $feedCptOptionsArray = array();
 
     /**
      * Feed Cache.
@@ -101,7 +101,7 @@ class FeedFunctions {
         $this->optionsFunctions = $optionsFunctions;
 
         // Feed Settings array.
-        $this->feed_cpt_options_array = $feed_cpt_options->get_all_options();
+        $this->feedCptOptionsArray = $feed_cpt_options->getAllOptions();
 
         // Set Feed Cache object.
         $this->feedCache = $feedCache;
@@ -289,11 +289,11 @@ class FeedFunctions {
      *
      * Get the feed type from option using in the feed's CPT id.
      *
-     * @param $feed_cpt_id string
+     * @param $feedCptId string
      */
-    public function get_feed_type( $feed_cpt_id ){
+    public function get_feed_type( $feedCptId ){
         // Get Feed Type from Saved Options Array.
-        return $this->get_feed_option( $feed_cpt_id, 'feed_type' );
+        return $this->get_feed_option( $feedCptId, 'feed_type' );
     }
 
     /**
@@ -782,11 +782,11 @@ class FeedFunctions {
      *
      * @since 4.3.2
      */
-    public function fts_instagram_refresh_token( $feed_cpt_id ) {
+    public function fts_instagram_refresh_token( $feedCptId ) {
 
         // https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login
         // refresh token!
-        $check_token =  $this->get_feed_option( $feed_cpt_id, 'fts_instagram_custom_api_token' );
+        $check_token =  $this->get_feed_option( $feedCptId, 'fts_instagram_custom_api_token' );
 
         $check_basic_token_value = $this->dataProtection->decrypt( $check_token ) !== false ? $this->dataProtection->decrypt( $check_token ) : $check_token;
         $oauth2token_url  = esc_url_raw( 'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token' . FTS_AND_ACCESS_TOKEN_EQUALS . $check_basic_token_value );
@@ -824,17 +824,17 @@ class FeedFunctions {
             // We add * 1000 to convert to milliseconds because that is how we display it in the feed options for the user in the Token area.
             $start_of_time_final = $start_of_time !== false ? sanitize_key( $start_of_time * 1000 ) : '';
 
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $access_token, true, $feed_cpt_id, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $start_of_time_final, true, $feed_cpt_id, true );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token', $access_token, true, $feedCptId, true );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_instagram_custom_api_token_expires_in', $start_of_time_final, true, $feedCptId, true );
 
-            DebugLog::log( 'FeedFunctions', 'Updated Instagram Business Basic Token for feed', $feed_cpt_id );
+            DebugLog::log( 'FeedFunctions', 'Updated Instagram Business Basic Token for feed', $feedCptId );
 
             return false;
         }
 
         // Return if no access token queried from refresh token.
         // Make sure this does not cause error on front end feed if cached already.
-        DebugLog::log( 'FeedFunctions', 'No Token returned from Instagram', $feed_cpt_id );
+        DebugLog::log( 'FeedFunctions', 'No Token returned from Instagram', $feedCptId );
     }
 
     /**
@@ -842,9 +842,9 @@ class FeedFunctions {
      *
      * @since 4.3.2
      */
-    public function fts_youtube_refresh_token( $feed_cpt_id ) {
+    public function fts_youtube_refresh_token( $feedCptId ) {
 
-        $check_refresh_token =  $this->get_feed_option( $feed_cpt_id, 'youtube_custom_refresh_token' );
+        $check_refresh_token =  $this->get_feed_option( $feedCptId, 'youtube_custom_refresh_token' );
         $check_refresh_token_value = $this->dataProtection->decrypt( $check_refresh_token ) !== false ? $this->dataProtection->decrypt( $check_refresh_token ) : $check_refresh_token;
 
         // In case we need to assist with debugging we add the
@@ -855,10 +855,10 @@ class FeedFunctions {
         $postdata = http_build_query(
             array(
                 'feed_them_social'  => 'yes',
-                'cpd_id'              => $feed_cpt_id,
+                'cpd_id'              => $feedCptId,
                 'server'            => $server . $script_uri,
                 'fts_refresh_token' => $check_refresh_token_value,
-                'expires_in'        => $this->get_feed_option( $feed_cpt_id, 'youtube_custom_token_exp_time' ),
+                'expires_in'        => $this->get_feed_option( $feedCptId, 'youtube_custom_token_exp_time' ),
                 'fts_oauth_nonce'   => wp_create_nonce( 'fts_oauth_youtube' ),
             )
         );
@@ -889,7 +889,7 @@ class FeedFunctions {
         $post_id = $response->fts_cpt_id ?? null;
 
         // Check if nonce is valid and cross check the post id.
-        if ( ! isset( $nonce ) || wp_verify_nonce( $nonce, 'fts_oauth_youtube' ) !== 1 && $post_id === $feed_cpt_id ) {
+        if ( ! isset( $nonce ) || wp_verify_nonce( $nonce, 'fts_oauth_youtube' ) !== 1 && $post_id === $feedCptId ) {
 
             DebugLog::log( 'FeedFunctions', 'Invalid YouTube oauth nonce', true );
 
@@ -908,10 +908,10 @@ class FeedFunctions {
             // We add * 1000 to convert to milliseconds because that is how we display it in the feed options for the user in the Token area.
             $start_of_time_final = $start_of_time !== false ? sanitize_key( $start_of_time * 1000 ) : '';
 
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token, true, $feed_cpt_id, true );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_access_token', $access_token, true, $feedCptId, true );
             // 10-25-24: Need to implement a refresh token time to get a new one so the user does not have to keep re-authenticating.
-            // $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $refresh_token, true, $feed_cpt_id, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $start_of_time_final, true, $feed_cpt_id, true );
+            // $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_refresh_token', $refresh_token, true, $feedCptId, true );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'youtube_custom_token_exp_time', $start_of_time_final, true, $feedCptId, true );
 
             return false;
         }
@@ -927,7 +927,7 @@ class FeedFunctions {
      *
      * @since 4.2.1
      */
-    public function fts_tiktok_refresh_token( $feed_cpt_id ) {
+    public function fts_tiktok_refresh_token( $feedCptId ) {
 
         // In case we need to assist with debugging we add the
         // cpt id, server and script uri to the post data.
@@ -937,10 +937,10 @@ class FeedFunctions {
         $postdata = http_build_query(
             array(
                 'feed_them_social'  => 'yes',
-                'cpd_id'              => $feed_cpt_id,
+                'cpd_id'              => $feedCptId,
                 'server'            => $server . $script_uri,
-                'fts_refresh_token' => $this->get_feed_option( $feed_cpt_id, 'fts_tiktok_refresh_token' ),
-                'expires_in'        => $this->get_feed_option( $feed_cpt_id, 'fts_tiktok_refresh_expires_in' ),
+                'fts_refresh_token' => $this->get_feed_option( $feedCptId, 'fts_tiktok_refresh_token' ),
+                'expires_in'        => $this->get_feed_option( $feedCptId, 'fts_tiktok_refresh_expires_in' ),
                 'fts_oauth_nonce'   => wp_create_nonce( 'fts_oauth_tiktok' ),
             )
         );
@@ -972,7 +972,7 @@ class FeedFunctions {
         $post_id = $response->fts_cpt_id ?? null;
 
         // Check if nonce is valid and cross check the post id.
-        if ( ! isset( $nonce ) || wp_verify_nonce( $nonce, 'fts_oauth_tiktok' ) !== 1 && $post_id === $feed_cpt_id ) {
+        if ( ! isset( $nonce ) || wp_verify_nonce( $nonce, 'fts_oauth_tiktok' ) !== 1 && $post_id === $feedCptId ) {
             DebugLog::log( 'FeedFunctions', 'Invalid TikTok oauth nonce for refresh token', true );
             wp_die( __( 'Invalid TikTok oauth nonce', 'feed-them-social' ) );
         }
@@ -996,7 +996,7 @@ class FeedFunctions {
 
         // Debugging: Print the values
         DebugLog::log( 'TikTokFeedFunctions', 'Nonce', $nonce );
-        DebugLog::log( 'TikTokFeedFunctions', 'Post ID', $feed_cpt_id );
+        DebugLog::log( 'TikTokFeedFunctions', 'Post ID', $feedCptId );
         DebugLog::log( 'TikTokFeedFunctions', 'expires_in', $expires_in );
         DebugLog::log( 'TikTokFeedFunctions', 'access_token', $access_token );
         DebugLog::log( 'TikTokFeedFunctions', 'refresh_expires_in', $refresh_expires_in );
@@ -1012,16 +1012,16 @@ class FeedFunctions {
             // We add * 1000 to convert to milliseconds because that is how we display it in the feed options for the user in the Token area.
             $start_of_time_final = $start_of_time !== false ? sanitize_key( $start_of_time * 1000 ) : '';
 
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', $start_of_time_final, true, $feed_cpt_id, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', $access_token, true, $feed_cpt_id, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $refresh_expires_in, true, $feed_cpt_id, true );
-            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $refresh_token, true, $feed_cpt_id, true );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_saved_time_expires_in', $start_of_time_final, true, $feedCptId, true );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_access_token', $access_token, true, $feedCptId, true );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_expires_in', $refresh_expires_in, true, $feedCptId, true );
+            $this->optionsFunctions->update_single_option( 'fts_feed_options_array', 'fts_tiktok_refresh_token', $refresh_token, true, $feedCptId, true );
 
-            DebugLog::log( 'TikTokFeedFunctions', 'Updated TikTok Token for feed', $feed_cpt_id );
+            DebugLog::log( 'TikTokFeedFunctions', 'Updated TikTok Token for feed', $feedCptId );
 
             return false;
         }
-        DebugLog::log( 'TikTokFeedFunctions', 'No Token returned from TikTok', $feed_cpt_id );
+        DebugLog::log( 'TikTokFeedFunctions', 'No Token returned from TikTok', $feedCptId );
     }
 
     /**

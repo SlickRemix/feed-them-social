@@ -46,7 +46,7 @@ class SettingsPage {
      *
      * @var array
      */
-    public $all_settings;
+    public $allSettings;
 
     /**
      * Settings constructor.
@@ -59,7 +59,7 @@ class SettingsPage {
         $this->feedCache = $feedCache;
 
         // Get All Settings.
-        $this->all_settings = $this->settingsFunctions->fts_get_settings();
+        $this->allSettings = $this->settingsFunctions->fts_get_settings();
 
         // Add Actions and Filters.
         $this->addActionsFilters();
@@ -75,19 +75,19 @@ class SettingsPage {
     public function addActionsFilters() {
 
         // Notices
-        add_action( 'admin_init', array( $this, 'show_notices' ) );
+        add_action( 'admin_init', array( $this, 'showNotices' ) );
 
         // Add the settings menu page
-        add_action( 'admin_menu', array( $this, 'add_submenu_page' ) );
+        add_action( 'admin_menu', array( $this, 'addSubmenuPage' ) );
 
         // Register Settings
-        add_action( 'admin_init', array( $this, 'register_settings' ) );
+        add_action( 'admin_init', array( $this, 'registerSettings' ) );
 
         // Additional date format fieldsmsp_local_user_allowed
-        add_filter( 'fts_after_setting_output', array( $this, 'date_translate_fields' ), 10, 2 );
+        add_filter( 'fts_after_setting_output', array( $this, 'dateTranslateFields' ), 10, 2 );
 
         // Additional date format fieldsmsp_local_user_allowed
-        add_filter( 'fts_after_setting_output', array( $this, 'custom_date_time_fields' ), 10, 2 );
+        add_filter( 'fts_after_setting_output', array( $this, 'customDateTimeFields' ), 10, 2 );
 
     }
 
@@ -98,7 +98,7 @@ class SettingsPage {
      *
      * @since 1.0.0
      */
-    public function add_submenu_page() {
+    public function addSubmenuPage() {
 
         global $pagenow, $typenow;
 
@@ -109,7 +109,7 @@ class SettingsPage {
             esc_html__( 'Settings', 'feed-them-social' ),
             'manage_options',
             'fts-settings-page',
-            array( $this, 'display_settings_page' ), 3
+            array( $this, 'displaySettingsPage' ), 3
         );
 
         if( 'fts' === $typenow && 'edit.php' === $pagenow ) {
@@ -136,7 +136,7 @@ class SettingsPage {
      * @since   1.0.0
      * @return  void
      */
-    public function show_notices() {
+    public function showNotices() {
         $notices = array(
             'updated' => array(),
             'error'   => array(),
@@ -170,18 +170,18 @@ class SettingsPage {
      * @since    1.0
      * @return    void
      */
-    public function register_settings() {
+    public function registerSettings() {
 
-        if ( false == get_option( 'fts_settings' ) ) {
+        if ( get_option( 'fts_settings' ) == false ) {
             add_option( 'fts_settings' );
         }
 
-        foreach ( $this->get_registered_settings() as $tab => $sections ) {
+        foreach ( $this->getRegisteredSettings() as $tab => $sections ) {
             foreach ( $sections as $section => $settings) {
 
                 // Check for backwards compatibility
-                $section_tabs = $this->get_settings_tab_sections( $tab );
-                if ( ! is_array( $section_tabs ) || ! array_key_exists( $section, $section_tabs ) ) {
+                $section_tabs = $this->getSettingsTabSections( $tab );
+                if ( ! \is_array( $section_tabs ) || ! \array_key_exists( $section, $section_tabs ) ) {
                     $section = 'main';
                     $settings = $sections;
                 }
@@ -224,7 +224,7 @@ class SettingsPage {
                     add_settings_field(
                         'fts_settings[' . $args['id'] . ']',
                         $args['name'],
-                        method_exists( $this->settingsFunctions, 'fts_' . $args['type'] . '_callback' ) ? array( $this->settingsFunctions, 'fts_' . $args['type'] . '_callback') : array( $this->settingsFunctions, 'fts_missing_callback'),
+                        method_exists( $this->settingsFunctions, 'fts' . ucfirst( $args['type'] ) . 'Callback' ) ? array( $this->settingsFunctions, 'fts' . ucfirst( $args['type'] ) . 'Callback' ) : array( $this->settingsFunctions, 'ftsMissingCallback' ),
                         'fts_settings_' . $tab . '_' . $section,
                         'fts_settings_' . $tab . '_' . $section,
                         $args
@@ -235,9 +235,9 @@ class SettingsPage {
         }
 
         // Creates our settings in the options table.
-        register_setting( 'fts_settings', 'fts_settings', array( 'sanitize_callback' => array( $this, 'settings_sanitize' ) ) );
+        register_setting( 'fts_settings', 'fts_settings', array( 'sanitize_callback' => array( $this, 'settingsSanitize' ) ) );
 
-    } // register_settings
+    } // registerSettings
 
     /**
      * Retrieve the array of plugin settings.
@@ -245,7 +245,7 @@ class SettingsPage {
      * @since    1.3.4
      * @return    array    Array of plugin settings to register
      */
-    public function get_registered_settings() {
+    public function getRegisteredSettings() {
 
         global $fts_options;
 
@@ -312,7 +312,7 @@ class SettingsPage {
                                 'id'      => 'timezone',
                                 'name'    => __( 'TimeZone', 'feed-them-gallery' ),
                                 'type'    => 'select',
-                                'options' => $this->settingsFunctions->fts_get_timezone_setting_options(),
+                                'options' => $this->settingsFunctions->ftsGetTimezoneSettingOptions(),
                                 'std'     => 'America/Los_Angeles',
                                 'tooltip_desc'    => __( 'This option is only for Facebook and TikTok. Choose the TimeZone that is correct for your location. This will make sure the social media feed time is correct.', 'feed-them-social' ),
 
@@ -321,7 +321,7 @@ class SettingsPage {
                             'id'            => 'date_time_format',
                             'name'          => __( 'Format', 'feed-them-social' ),
                             'type'          => 'select',
-                            'options'       => $this->settingsFunctions->fts_get_date_format_setting_options(),
+                            'options'       => $this->settingsFunctions->ftsGetDateFormatSettingOptions(),
                             'std'           => 'l, F jS, Y \a\t g:ia',
                             'field_class'   => 'fts_date_time_format',
                             'tooltip_desc'    => __( 'Select the date and time format you would like to see on your social feed. The 1 Day Ago option is set by default. You can hide the date and time when creating a feed if you prefer.', 'feed-them-social' )
@@ -430,7 +430,7 @@ class SettingsPage {
         );
 
         return apply_filters( 'fts_registered_settings', $fts_settings );
-    } // get_registered_settings
+    } // getRegisteredSettings
 
 
     /**
@@ -439,9 +439,9 @@ class SettingsPage {
      * @since    1.3.4
      * @return    array        $tabs
      */
-    public function get_settings_tabs() {
+    public function getSettingsTabs() {
 
-        $settings = $this->get_registered_settings();
+        $settings = $this->getRegisteredSettings();
 
         $tabs                     = array();
         $tabs['general']          = __( 'General', 'feed-them-social' );
@@ -463,7 +463,7 @@ class SettingsPage {
         }
 
         return apply_filters( 'fts_settings_tabs', $tabs );
-    } // get_settings_tabs
+    } // getSettingsTabs
 
     /**
      * Retrieve settings tabs
@@ -471,10 +471,10 @@ class SettingsPage {
      * @since    1.3.4
      * @return    array        $section
      */
-    public function get_settings_tab_sections( $tab = false ) {
+    public function getSettingsTabSections( $tab = false ) {
 
         $tabs     = false;
-        $sections = $this->get_registered_settings_sections();
+        $sections = $this->getRegisteredSettingsSections();
 
         if( $tab && ! empty( $sections[ $tab ] ) ) {
             $tabs = $sections[ $tab ];
@@ -483,7 +483,7 @@ class SettingsPage {
         }
 
         return $tabs;
-    } // get_settings_tab_sections
+    } // getSettingsTabSections
 
     /**
      * Get the settings sections for each tab
@@ -492,7 +492,7 @@ class SettingsPage {
      * @since    1.3.4
      * @return    array        Array of tabs and sections
      */
-    public function get_registered_settings_sections() {
+    public function getRegisteredSettingsSections() {
 
         static $sections = false;
 
@@ -526,9 +526,9 @@ class SettingsPage {
      * @param    array    $input    The value inputted in the field.
      * @return    array    $input    Sanitizied value.
      */
-    public function settings_sanitize( $input = array()) {
+    public function settingsSanitize( $input = array()) {
 
-        $all_settings = $this->all_settings;
+        $allSettings = $this->allSettings;
 
         if ( empty( $_POST['_wp_http_referer'] ) ) {
             return $input;
@@ -536,7 +536,7 @@ class SettingsPage {
 
         parse_str( $_POST['_wp_http_referer'], $referrer );
 
-        $settings = $this->get_registered_settings();
+        $settings = $this->getRegisteredSettings();
 
         $tab      = isset( $referrer['tab'] ) ? $referrer['tab'] : 'general';
         $section  = isset( $referrer['section'] ) ? $referrer['section'] : 'main';
@@ -586,18 +586,18 @@ class SettingsPage {
                     $key = $value['id'];
                 }
 
-                if ( empty( $input[ $key ] ) && isset( $all_settings[ $key ] ) ) {
-                    unset( $all_settings[ $key ] );
+                if ( empty( $input[ $key ] ) && isset( $allSettings[ $key ] ) ) {
+                    unset( $allSettings[ $key ] );
                 }
             }
         }
 
-        DebugLog::log( 'SettingsPage', 'Print All Settings', $all_settings );
+        DebugLog::log( 'SettingsPage', 'Print All Settings', $allSettings );
 
         // Is $fts_options an array? Show it successfully updated!
-        if( \is_array($all_settings)){
+        if( \is_array($allSettings)){
             // Merge our new settings with the existing
-            $output = array_merge( $all_settings, $input );
+            $output = array_merge( $allSettings, $input );
             add_settings_error( 'fts-notices', 'settings_updated', __( 'Settings Updated.', 'feed-them-social' ), 'updated' );
 
             // Set new cron job for clearing cache.
@@ -612,7 +612,7 @@ class SettingsPage {
         // Show error message for Settings not saving because something is wrong.
         add_settings_error( 'fts-notices', 'settings_updated', __( 'Oops, Settings did not update.', 'feed-them-social' ), 'error' );
 
-    } // settings_sanitize
+    } // settingsSanitize
 
     /**
      * Settings Page
@@ -621,7 +621,7 @@ class SettingsPage {
      *
      * @since   1.3.4
      */
-    public function display_settings_page()  {
+    public function displaySettingsPage()  {
         if ( ! current_user_can( 'manage_options' ) )    {
             wp_die(
                 '<h1>' . __( 'Cheatin&#8217; uh?', 'feed-them-social' ) . '</h1>' .
@@ -633,32 +633,32 @@ class SettingsPage {
         wp_enqueue_style( 'wp-color-picker' );
         wp_enqueue_script( 'wp-color-picker' );
 
-        $settings_tabs = $this->get_settings_tabs();
+        $settings_tabs = $this->getSettingsTabs();
         $settings_tabs = empty( $settings_tabs ) ? array() : $settings_tabs;
         $active_tab    = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'general';
         $active_tab    = \array_key_exists( $active_tab, $settings_tabs ) ? $active_tab : 'general';
-        $sections      = $this->get_settings_tab_sections( $active_tab );
+        $sections      = $this->getSettingsTabSections( $active_tab );
         $key           = 'main';
 
         if ( \is_array( $sections ) ) {
             $key = key( $sections );
         }
 
-        $registered_sections = $this->get_settings_tab_sections( $active_tab );
+        $registered_sections = $this->getSettingsTabSections( $active_tab );
         $section             = isset( $_GET['section'] ) && ! empty( $registered_sections ) && array_key_exists( $_GET['section'], $registered_sections ) ? sanitize_text_field( $_GET['section'] ) : $key;
 
         // Unset 'main' if it's empty and default to the first non-empty if it's the chosen section
-        $all_settings = $this->get_registered_settings();
+        $allSettings = $this->getRegisteredSettings();
 
         // Let's verify we have a 'main' section to show
         $has_main_settings = true;
-        if ( empty( $all_settings[ $active_tab ]['main'] ) )    {
+        if ( empty( $allSettings[ $active_tab ]['main'] ) )    {
             $has_main_settings = false;
         }
 
         // Check for old non-sectioned settings
         if ( ! $has_main_settings )    {
-            foreach( $all_settings[ $active_tab ] as $sid => $stitle )    {
+            foreach( $allSettings[ $active_tab ] as $sid => $stitle )    {
                 if ( \is_string( $sid ) && \is_array( $sections ) && \array_key_exists( $sid, $sections ) )    {
                     continue;
                 } else    {
@@ -674,7 +674,7 @@ class SettingsPage {
 
             if ( $section === 'main' ) {
                 foreach ( $sections as $section_key => $section_title ) {
-                    if ( ! empty( $all_settings[ $active_tab ][ $section_key ] ) ) {
+                    if ( ! empty( $allSettings[ $active_tab ][ $section_key ] ) ) {
                         $section  = $section_key;
                         $override = true;
                         break;
@@ -701,7 +701,7 @@ class SettingsPage {
             <h1 class="wp-heading-inline"><?php _e( 'Settings', 'feed-them-social' ); ?></h1>
             <h1 class="nav-tab-wrapper">
                 <?php
-                foreach( $this->get_settings_tabs() as $tab_id => $tab_name ) {
+                foreach( $this->getSettingsTabs() as $tab_id => $tab_name ) {
 
                     $tab_url = add_query_arg( array(
                         'post_type'        => 'fts',
@@ -804,7 +804,7 @@ class SettingsPage {
      * @param    array    $args    Array of arguments passed to setting
      * @return    string    HTML output
      */
-    public function date_translate_fields( $html, $args )    {
+    public function dateTranslateFields( $html, $args )    {
         if ( $args['id'] === 'date_time_format' )    {
             ob_start();
 
@@ -817,11 +817,11 @@ class SettingsPage {
             </tr>
 
             <?php
-            foreach( $this->get_translation_fields() as $field => $value ) : ?>
+            foreach( $this->getTranslationFields() as $field => $value ) : ?>
                 <tr class="custom_time_ago_wrap fts-<?php echo str_replace( 'language_', '', esc_html( $field ) ); ?>"<?php echo $style; ?>>
                     <th scope="row"><?php echo str_replace( 'language_', '', esc_html( $field ) ); ?></th>
                     <td>
-                        <?php $this->settingsFunctions->fts_text_callback( array(
+                        <?php $this->settingsFunctions->ftsTextCallback( array(
                             'id'          => $field,
                             'std'         => $value,
                             'readonly'    => 'false',
@@ -837,7 +837,7 @@ class SettingsPage {
         }
 
         return $html;
-    } // date_translate_fields
+    } // dateTranslateFields
 
     /**
      * Adds the custom date/time fields to the image date setting field.
@@ -847,7 +847,7 @@ class SettingsPage {
      * @param    array    $args    Array of arguments passed to setting
      * @return    string    HTML output
      */
-    public function custom_date_time_fields( $html, $args )    {
+    public function customDateTimeFields( $html, $args )    {
         if ( $args['id'] === 'date_time_format' )    {
             ob_start();
 
@@ -857,7 +857,7 @@ class SettingsPage {
                 <tr class="custom_date_time_wrap"<?php echo $style; ?>>
                     <th scope="row"><?php echo esc_html__( 'Custom Date', 'feed-them-social' ); ?></th>
                     <td>
-                        <?php $this->settingsFunctions->fts_text_callback( array(
+                        <?php $this->settingsFunctions->ftsTextCallback( array(
                             'id'          => 'custom_date',
                             'std'         => '',
                             'readonly'    => 'false',
@@ -871,7 +871,7 @@ class SettingsPage {
                 <tr class="custom_date_time_wrap"<?php echo $style; ?>>
                     <th scope="row"><?php echo esc_html__( 'Custom Time', 'feed-them-social' ); ?></th>
                     <td>
-                        <?php $this->settingsFunctions->fts_text_callback( array(
+                        <?php $this->settingsFunctions->ftsTextCallback( array(
                             'id'          => 'custom_time',
                             'std'         => '',
                             'readonly'    => 'false',
@@ -898,7 +898,7 @@ class SettingsPage {
         }
 
         return $html;
-    } // custom_date_time_fields
+    } // customDateTimeFields
 
     /**
      * Retrieve the translation fields.
@@ -906,7 +906,7 @@ class SettingsPage {
      * @since    1.3.4
      * @return    array    Array of fields and defaults
      */
-    public function get_translation_fields()    {
+    public function getTranslationFields()    {
         $fields = array(
             'language_second'  => $this->settingsFunctions->fts_get_option( 'language_second', __( 'second', 'feed-them-social' ) ),
             'language_seconds' => $this->settingsFunctions->fts_get_option( 'language_seconds', __( 'seconds', 'feed-them-social' ) ),
@@ -926,7 +926,7 @@ class SettingsPage {
         );
 
         return $fields;
-    } // get_translation_fields
+    } // getTranslationFields
 
     /**
      * Adds the translation fields to the image date setting field.
@@ -936,8 +936,8 @@ class SettingsPage {
      * @param    array    $args    Array of arguments passed to setting
      * @return    string    HTML output
      */
-    public function custom_date_fields( $html, $args )    {
-        if ( 'date_time_format' == $args['id'] )    {
+    public function customDateFields( $html, $args )    {
+        if ( 'date_time_format' === $args['id'] )    {
             ob_start();
 
             $style = $this->settingsFunctions->fts_get_option( 'date_time_format' ) !== 'fts-custom-date' ? ' style="display: none;"' : '';
@@ -949,11 +949,11 @@ class SettingsPage {
             </tr>
 
             <?php
-            foreach( $this->get_translation_fields() as $field => $value ) : ?>
+            foreach( $this->getTranslationFields() as $field => $value ) : ?>
                 <tr class="custom_date_time_wrap">
                     <th scope="row"><?php echo str_replace( 'language_', '', esc_html( $field ) ); ?></th>
                     <td>
-                        <?php $this->settingsFunctions->fts_text_callback( array(
+                        <?php $this->settingsFunctions->ftsTextCallback( array(
                             'id'          => $field,
                             'std'         => $value,
                             'readonly'    => 'false',
@@ -969,6 +969,6 @@ class SettingsPage {
         }
 
         return $html;
-    } // date_translate_fields
+    } // dateTranslateFields
 
 }//end class

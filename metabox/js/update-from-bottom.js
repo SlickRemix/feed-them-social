@@ -69,7 +69,7 @@ function fts_social_icons_wrap_click() {
                 jQuery(this).addClass('fts-social-icon-wrap-active');
 
                 // Load up the proper access token inputs.
-                fts_access_token_type_ajax(fts_type, cpt_id, false);
+                ftsAccessTokenTypeAjax(fts_type, cpt_id, false);
 
             }
 
@@ -93,7 +93,7 @@ function fts_combine_social_icons_wrap_click() {
         jQuery(this).addClass( 'fts-social-icon-wrap-active' );
 
         // Load up the proper access token inputs.
-        fts_access_token_type_ajax( fts_type, cpt_id, fts_type_value );
+        ftsAccessTokenTypeAjax( fts_type, cpt_id, fts_type_value );
 
         return false;
     });
@@ -149,7 +149,7 @@ function combine_instagram_token_js() {
                     const cpt_id = url.searchParams.get('post');
 
                     // Load up the proper access token inputs.
-                    fts_access_token_type_ajax('instagram-feed-type', cpt_id, 'basic');
+                    ftsAccessTokenTypeAjax('instagram-feed-type', cpt_id, 'basic');
                 }
 
             }, 10);
@@ -188,7 +188,7 @@ function combine_facebook_token_js() {
                 const cpt_id = url.searchParams.get('post');
 
                 // Load up the proper access token inputs.
-                fts_access_token_type_ajax('facebook-feed-type', cpt_id, 'combined-facebook');
+                ftsAccessTokenTypeAjax('facebook-feed-type', cpt_id, 'combined-facebook');
             }
             jQuery('.combine-facebook-wrap, .combine-facebook-access-token-placeholder').show();
         }
@@ -225,7 +225,7 @@ function combine_twitter_token_js() {
                 const cpt_id = url.searchParams.get('post');
 
                 // Load up the proper access token inputs.
-                fts_access_token_type_ajax('twitter-feed-type', cpt_id, 'combined-twitter');
+                ftsAccessTokenTypeAjax('twitter-feed-type', cpt_id, 'combined-twitter');
             }
 
             jQuery('.combine-twitter-wrap, .combine-twitter-access-token-placeholder').show();
@@ -263,7 +263,7 @@ function combine_youtube_token_js() {
                 const cpt_id = url.searchParams.get('post');
 
                 // Load up the proper access token inputs.
-                fts_access_token_type_ajax('youtube-feed-type', cpt_id, 'combined-youtube');
+                ftsAccessTokenTypeAjax('youtube-feed-type', cpt_id, 'combined-youtube');
             }
 
             jQuery('.combine-youtube-wrap, .combine-youtube-access-token-placeholder').show();
@@ -277,13 +277,13 @@ function combine_youtube_token_js() {
 
 // This is used to load up the proper access token button and inputs
 // when a social tab is clicked on the first tab which is Feed Setup.
-function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
+function ftsAccessTokenTypeAjax( feed_type, cpt_id, combined ) {
 
     const combined_check = false !== combined ? combined : false;
 
     jQuery.ajax({
         data: {
-            action: 'fts_access_token_type_ajax',
+            action: 'ftsAccessTokenTypeAjax',
             cpt_id: cpt_id,
             feed_combined: combined_check,
             feed_type: feed_type,
@@ -356,7 +356,7 @@ function fts_access_token_type_ajax( feed_type, cpt_id, combined ) {
                 combine_facebook_token_js();
                 combine_twitter_token_js();
                 combine_youtube_token_js();
-                combine_js();
+                combineJs();
             }
             else {
                 jQuery('.fts-instagram-basic-business-wrap').remove();
@@ -487,7 +487,7 @@ function fts_check_valid() {
                     jQuery( '.tab5 a .fts-click-cover' ).show();
                 }
 
-                if ( 'instagram-feed-type' == ftsGlobalValue || 'instagram-business-feed-type' == ftsGlobalValue ) {
+                if ( 'instagram-feed-type' === ftsGlobalValue || 'instagram-business-feed-type' === ftsGlobalValue ) {
                     jQuery( '.tab4' ).addClass( 'fts-instagram-waiting-color' );
                     jQuery( '.tab4 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab4 a .fts-click-cover' ).hide();
@@ -499,7 +499,7 @@ function fts_check_valid() {
                     jQuery( '.tab4 a .fts-click-cover' ).show();
                 }
 
-                if ( 'twitter-feed-type' == ftsGlobalValue ) {
+                if ( 'twitter-feed-type' === ftsGlobalValue ) {
                     jQuery( '.tab6' ).addClass( 'fts-twitter-waiting-color' );
                     jQuery( '.tab6 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab6 a .fts-click-cover' ).hide();
@@ -511,7 +511,7 @@ function fts_check_valid() {
                     jQuery( '.tab6 a .fts-click-cover' ).show();
                 }
 
-                if ( 'youtube-feed-type' == ftsGlobalValue ) {
+                if ( 'youtube-feed-type' === ftsGlobalValue ) {
                     jQuery( '.tab7' ).addClass( 'fts-youtube-waiting-color' );
                     jQuery( '.tab7 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab7 a .fts-click-cover' ).hide();
@@ -523,7 +523,7 @@ function fts_check_valid() {
                     jQuery( '.tab7 a .fts-click-cover' ).show();
 
                 }
-                if ( 'combine-streams-feed-type' == ftsGlobalValue ) {
+                if ( 'combine-streams-feed-type' === ftsGlobalValue ) {
                     jQuery( '.tab8' ).addClass( 'fts-combine-waiting-color' );
                     jQuery( '.tab8 a' ).css( { 'pointer-events' : 'all' } );
                     jQuery( '.tab8 a .fts-click-cover' ).hide();
@@ -689,7 +689,7 @@ function fts_check_valid() {
 
             jQuery.ajax({
                 data: {
-                    action: "fts_import_feed_options_ajax",
+                    action: "ftsImportFeedOptionsAjax",
                     cpt_id: cpt_id,
                     cpt_import: cpt_import_val,
                     _wpnonce: ftg_mb_tabs.ajaxImportFeedOptionsNonce
@@ -728,7 +728,7 @@ function import_export_ajax_content( buttonClick ) {
 
     jQuery.ajax({
         data: {
-            action: "fts_export_feed_options_ajax",
+            action: "ftsExportFeedOptionsAjax",
             cpt_id: cpt_id,
             _wpnonce: ftg_mb_tabs.ajaxExportFeedOptionsNonce
         },

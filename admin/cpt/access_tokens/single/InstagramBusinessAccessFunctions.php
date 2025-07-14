@@ -63,10 +63,10 @@ class InstagramBusinessAccessFunctions {
      *
      * @since 4.0.0
      */
-    public function getAccessTokenButton( $feed_cpt_id ) {
+    public function getAccessTokenButton( $feedCptId ) {
 
         $post_url = add_query_arg( array(
-            'post' => $feed_cpt_id,
+            'post' => $feedCptId,
             'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_instagram_business' )
         ), admin_url( 'post.php' ) );
 
@@ -153,7 +153,7 @@ class InstagramBusinessAccessFunctions {
 
             <?php
                 // Saved Feed Options!
-                $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_cpt_id );
+                $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feedCptId );
 
                 $page_id            = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token_user_id'] : '';
                 $access_token       = !empty( $saved_feed_options['fts_facebook_instagram_custom_api_token'] ) ? $saved_feed_options['fts_facebook_instagram_custom_api_token'] : '';
@@ -179,7 +179,7 @@ class InstagramBusinessAccessFunctions {
 
                          if ( isset( $data->data->is_valid ) || $data->error->message === '(#100) You must provide an app access token, or a user access token that is an owner or developer of the app' ) {
 
-                             if( $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) === 'combine-streams-feed-type' ){
+                             if( $this->feedFunctions->get_feed_option( $feedCptId, 'feed_type' ) === 'combine-streams-feed-type' ){
                                  echo \sprintf(
                                      esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                                      '<div class="fts-successful-api-token fts-special-working-wrap">',

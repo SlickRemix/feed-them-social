@@ -63,15 +63,15 @@ class InstagramAccessFunctions {
      *
      * @since 4.0.0
      */
-    public function getAccessTokenButton( $feed_cpt_id ) {
+    public function getAccessTokenButton( $feedCptId ) {
 
         $post_url = add_query_arg( array(
-            'post' => $feed_cpt_id,
+            'post' => $feedCptId,
             'fts_oauth_nonce' => wp_create_nonce( 'fts_oauth_instagram' )
         ), admin_url( 'post.php' ) );
 
         // Saved Feed Options!
-        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feed_cpt_id );
+        $saved_feed_options = $this->feedFunctions->get_saved_feed_options( $feedCptId );
 
         $user_id_basic           = !empty( $saved_feed_options['fts_instagram_custom_id'] ) ? $saved_feed_options['fts_instagram_custom_id'] :  '';
         $access_token            = !empty( $saved_feed_options['fts_instagram_custom_api_token'] ) ? $saved_feed_options['fts_instagram_custom_api_token'] : '';
@@ -173,7 +173,7 @@ class InstagramAccessFunctions {
 
                 if( ! isset( $data->meta->error_message ) && ! isset( $data->error_message ) && $instagram_generic_response !== $response || isset( $data->meta->error_message ) && 'This client has not been approved to access this resource.' === $data->meta->error_message ){
 
-                    if( $this->feedFunctions->get_feed_option( $feed_cpt_id, 'feed_type' ) === 'combine-streams-feed-type' ){
+                    if( $this->feedFunctions->get_feed_option( $feedCptId, 'feed_type' ) === 'combine-streams-feed-type' ){
                         echo \sprintf(
                             esc_html__( '%1$s%2$sCreate Combined Feed%3$s', 'feed-them-social' ),
                             '<div class="fts-successful-api-token fts-special-working-wrap">',

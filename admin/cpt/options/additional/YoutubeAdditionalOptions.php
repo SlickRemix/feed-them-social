@@ -28,14 +28,14 @@ class YoutubeAdditionalOptions {
      *
      * @var array
      */
-    public $all_options;
+    public $allOptions;
 
     /**
      * Youtube_Add_Options constructor.
      */
     public function __construct() {
-        $this->follow_btn_options();
-        $this->load_more_options();
+        $this->followBtnOptions();
+        $this->loadMoreOptions();
     }
 
     /**
@@ -46,8 +46,8 @@ class YoutubeAdditionalOptions {
      * @return array
      * @since 1.0.0
      */
-    public function get_all_options() {
-        return $this->all_options;
+    public function getAllOptions() {
+        return $this->allOptions;
     }
 
     /**
@@ -56,7 +56,7 @@ class YoutubeAdditionalOptions {
      * @param array $args The unique arguments for the section.
      * @return array The structured settings array.
      */
-    private function generate_options_array( array $args ): array {
+    private function generateOptionsArray( array $args ): array {
         // Set default values for all common keys.
         $defaults = [
             'section_attr_key'   => '',
@@ -79,7 +79,7 @@ class YoutubeAdditionalOptions {
      * @return mixed
      * @since 1.0.0
      */
-    public function follow_btn_options() {
+    public function followBtnOptions() {
         $main_options = [
             // Show Follow Button.
             [
@@ -122,14 +122,14 @@ class YoutubeAdditionalOptions {
             ],
         ];
 
-        $this->all_options['youtube_follow_btn_options'] = $this->generate_options_array(
+        $this->allOptions['youtube_follow_btn_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key' => 'youtube_follow_btn_options_',
                 'main_options'     => $main_options,
             ]
         );
 
-        return $this->all_options['youtube_follow_btn_options'];
+        return $this->allOptions['youtube_follow_btn_options'];
     }
 
     /**
@@ -138,7 +138,7 @@ class YoutubeAdditionalOptions {
      * @return mixed
      * @since 1.0.0
      */
-    public function load_more_options() {
+    public function loadMoreOptions() {
         $main_options = [
             // Load More Button Color
             [
@@ -190,7 +190,7 @@ class YoutubeAdditionalOptions {
             ],
         ];
 
-        $this->all_options['youtube_load_more_options'] = $this->generate_options_array(
+        $this->allOptions['youtube_load_more_options'] = $this->generateOptionsArray(
             [
                 'section_attr_key' => 'youtube_load_more_options_',
                 'section_title'    => esc_html__( 'Load More Button', 'feed-them-social' ),
@@ -198,6 +198,6 @@ class YoutubeAdditionalOptions {
             ]
         );
 
-        return $this->all_options['youtube_load_more_options'];
+        return $this->allOptions['youtube_load_more_options'];
     }
 }

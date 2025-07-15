@@ -209,7 +209,7 @@ class UpdaterLicensePage {
 
         ?>
         <tr class="fts-license-wrap">
-            <th scope="row" valign="top">
+            <th scope="row">
                 <?php echo esc_html( $pluginName ); ?>
             </th>
             <td>
@@ -364,7 +364,7 @@ class UpdaterLicensePage {
         ?>
 
         <tr class="fts-license-wrap">
-            <th scope="row" valign="top"><?php echo esc_html( $this->pluginTitle ); ?></th>
+            <th scope="row"><?php echo esc_html( $this->pluginTitle ); ?></th>
             <td>
                 <div class="fts-no-license-overlay">
                     <div class="fts-no-license-button-wrap"

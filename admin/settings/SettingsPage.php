@@ -112,7 +112,7 @@ class SettingsPage {
             array( $this, 'displaySettingsPage' ), 3
         );
 
-        if( 'fts' === $typenow && 'edit.php' === $pagenow ) {
+        if( $typenow === 'fts' && $pagenow === 'edit.php' ) {
             wp_register_style( 'fts_settings', plugins_url( 'feed-them-social/admin/css/jquery-ui-fresh.min.css' ), array(), FEED_THEM_SOCIAL_VERSION );
             wp_enqueue_style( 'fts_settings' );
 
@@ -130,12 +130,6 @@ class SettingsPage {
      * @since   1.0.0
      * @return  void
      */
-    /**
-     * Displays plugin notices, including updated settings.
-     *
-     * @since   1.0.0
-     * @return  void
-     */
     public function showNotices() {
         $notices = array(
             'updated' => array(),
@@ -145,14 +139,14 @@ class SettingsPage {
         $notices = apply_filters('fts_admin_notices', $notices);
 
         // Add success notices.
-        if (count($notices['updated']) > 0) {
+        if ( \count($notices['updated']) > 0) {
             foreach ($notices['updated'] as $notice => $message) {
                 add_settings_error('fts-notices', $notice, $message, 'updated');
             }
         }
 
         // Add error notices.
-        if (count($notices['error']) > 0) {
+        if ( \count($notices['error']) > 0) {
             foreach ($notices['error'] as $notice => $message) {
                 add_settings_error('fts-notices', $notice, $message, 'error');
             }
@@ -172,7 +166,7 @@ class SettingsPage {
      */
     public function registerSettings() {
 
-        if ( get_option( 'fts_settings' ) == false ) {
+        if ( ! get_option( 'fts_settings' ) ) {
             add_option( 'fts_settings' );
         }
 
@@ -478,7 +472,8 @@ class SettingsPage {
 
         if( $tab && ! empty( $sections[ $tab ] ) ) {
             $tabs = $sections[ $tab ];
-        } else if ( $tab ) {
+        }
+        elseif ( $tab ) {
             $tabs = false;
         }
 
@@ -657,11 +652,9 @@ class SettingsPage {
         }
 
         // Check for old non-sectioned settings
-        if ( ! $has_main_settings )    {
-            foreach( $allSettings[ $active_tab ] as $sid => $stitle )    {
-                if ( \is_string( $sid ) && \is_array( $sections ) && \array_key_exists( $sid, $sections ) )    {
-                    continue;
-                } else    {
+        if ( ! $has_main_settings ) {
+            foreach ( $allSettings[ $active_tab ] as $sid => $stitle ) {
+                if ( ! ( \is_string( $sid ) && \is_array( $sections ) && \array_key_exists( $sid, $sections ) ) ) {
                     $has_main_settings = true;
                     break;
                 }
@@ -907,7 +900,7 @@ class SettingsPage {
      * @return    array    Array of fields and defaults
      */
     public function getTranslationFields()    {
-        $fields = array(
+        return array(
             'language_second'  => $this->settingsFunctions->fts_get_option( 'language_second', __( 'second', 'feed-them-social' ) ),
             'language_seconds' => $this->settingsFunctions->fts_get_option( 'language_seconds', __( 'seconds', 'feed-them-social' ) ),
             'language_minute'  => $this->settingsFunctions->fts_get_option( 'language_minute', __( 'minute', 'feed-them-social' ) ),
@@ -924,8 +917,6 @@ class SettingsPage {
             'language_years'   => $this->settingsFunctions->fts_get_option( 'language_years', __( 'years', 'feed-them-social' ) ),
             'language_ago'     => $this->settingsFunctions->fts_get_option( 'language_ago', __( 'ago', 'feed-them-social' ) ),
         );
-
-        return $fields;
     } // getTranslationFields
 
     /**

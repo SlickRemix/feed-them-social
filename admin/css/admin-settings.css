@@ -184,14 +184,6 @@
     -o-transition-timing-function: ease
 }
 
-.side-sup-settings-admin-submit-btn {
-    background-color: #CD1723 !important;
-    border: none !important;
-    color: #fff !important;
-    font-weight: 700;
-    cursor: pointer !important
-}
-
 .side-sup-settings-admin-slick-logo {
     background: url(../images/footer-logo.png) left no-repeat;
     width: 108px;
@@ -299,6 +291,11 @@
 }
 
 .side-sup-settings-admin-submit-btn {
+    background-color: #CD1723 !important;
+    border: none !important;
+    color: #fff !important;
+    font-weight: 700;
+    cursor: pointer !important;
     padding: 10px 40px;
     margin-top: 30px;
     -webkit-transition: all .3s ease-in-out;

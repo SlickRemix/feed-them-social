@@ -210,6 +210,10 @@
 
 .feed-them-social-admin-input-label {
     font-size: 13px;
+    min-width: 140px;
+    font-weight: 500;
+    margin-top: 0;
+    color: #101010;
 }
 
 .feed-them_page_fts-facebook-feed-styles-submenu-page .feed-them-social-admin-input-label,.feed-them_page_fts-instagram-feed-styles-submenu-page .feed-them-social-admin-input-label,.feed-them_page_fts-twitter-feed-styles-submenu-page .feed-them-social-admin-input-label {
@@ -2001,7 +2005,8 @@ ol.fts-instructions-list li::marker {
 }
 .combine-streams-feed-wrap .fts-token-wrap {
     float:left;
-    padding-top: 30px;
+    width: 100% !important;
+    padding-top: 0;
 }
 
 #poststuff #ft-galleries-upload-mb .inside,.fts_page_template_settings_page .inside {
@@ -2067,12 +2072,6 @@ ol.fts-instructions-list li::marker {
 
 #ftg-tab-content1 .feed-them-social-admin-input-label {
     float: left;
-}
-
-.feed-them-social-admin-input-label {
-    min-width: 140px;
-    font-weight: 500;
-    margin-top: 0;
 }
 
 .fb-page-grid-option-border-bottom {
@@ -2155,10 +2154,7 @@ h3.sectioned-options-title {
 
 .ft-gallery-file-name {
     max-width: 500px;
-    padding-top: 4px
-}
-
-.ft-gallery-file-name {
+    padding-top: 4px;
     width: 40%;
     display: inline-block;
     margin-right: 55px
@@ -2359,9 +2355,6 @@ svg.fts-info-icon:hover {
 }
 #feed_setup .feed-them-social-admin-input-label {
     margin-left: 35px;
-}
-.feed-them-social-admin-input-label {
-    color: #101010;
 }
 
 .fts-decrypted-token {
@@ -2859,8 +2852,11 @@ button.fts-admin-button-no-work, a.fts-tiktok-revoke-token {
 
 .fts-token-wrap h3 {
     font-weight: 700!important;
-    color: #434343!important
+    color: #434343!important;
+    margin-left: 15px;
+    padding-bottom: 10px;
 }
+
 .combine-streams-feed-wrap .fts-token-wrap h3 {
     margin-left:15px;
     margin-bottom:0
@@ -2923,11 +2919,6 @@ img.instagram-feed-type-image-tab {
 .combine_facebook_name .fts-active-success-token {
     padding-top: 0!important;
     margin-top: 0!important
-}
-
-.fts-token-wrap h3 {
-    margin-left: 15px;
-    padding-bottom: 10px;
 }
 
 .fts-combine-streams-shortcode-form .fts-facebook-get-access-token,.fts-combine-streams-shortcode-form .fts-instagram-get-access-token {
@@ -3132,11 +3123,6 @@ img.instagram-feed-type-image-tab {
 
 .tab-options-content {
     width: 100%;
-}
-
-.combine-streams-feed-wrap .fts-token-wrap {
-    width: 100%!important;
-    padding-top: 0;
 }
 
 .combine-streams-feed-wrap {

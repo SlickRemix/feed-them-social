@@ -11,6 +11,9 @@ a:focus {
 }
 
 .buy-extensions-btn {
+    margin-top: 0;
+    right: 0;
+    top: 0;
     padding: 10px 25px 11px;
     background-color: #CE1212 !important;
     border: none !important;
@@ -54,6 +57,7 @@ a:focus {
 }
 
 .side-sup-settings-admin-wrap {
+    max-width: 975px;
     min-height: 379px;
     background-color: #222;
     padding: 25px 28px 70px;
@@ -179,6 +183,7 @@ a:focus {
 }
 
 .side-sup-settings-admin-input {
+    border: 1px solid #eee !important;
     width: 100%;
     padding: 10px;
     margin-left: -1px;
@@ -192,14 +197,6 @@ a:focus {
     -o-transition-duration: 400ms;
     -o-transition-property: width, background;
     -o-transition-timing-function: ease
-}
-
-.side-sup-settings-admin-submit-btn {
-    font-size: 13px;
-    background-color: #CD1723 !important;
-    border: none !important;
-    color: #fff !important;
-    cursor: pointer !important
 }
 
 .side-sup-settings-icon-wrap {
@@ -318,7 +315,11 @@ a:focus {
 }
 
 .side-sup-settings-id-answer {
-    margin-top: 10px
+    padding: 0 !important;
+    display: none;
+    margin: 0 !important;
+    font-weight: 700;
+    border-top: 0 solid #ccc !important;
 }
 
 .side-sup-settings-id-answer h4 {
@@ -383,6 +384,13 @@ a:focus {
 }
 
 .side-sup-settings-admin-submit-btn {
+    font-size: 13px;
+    background-color: #CD1723 !important;
+    border: none !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    margin-top: 0;
+    margin-bottom: 10px;
     padding: 10px 35px;
     float: left;
     -webkit-transition: all .3s ease-in-out;
@@ -500,10 +508,6 @@ a.side-sup-debug-report {
     }
 }
 
-.side-sup-settings-admin-input {
-    border: 1px solid #eee !important
-}
-
 .side-sup-float-wrap-2column .side-sup-settings-admin-input-wrap {
     width: 46% !important;
     float: left;
@@ -617,6 +621,8 @@ a.side-sup-debug-report {
 }
 
 .side-sup-settings-toggle {
+    height: 17px;
+    width: 17px;
     right: 12px;
     text-decoration: none;
     display: block;
@@ -757,26 +763,6 @@ span.view-all-articles {
     transition: all .3s ease-in-out
 }
 
-.side-sup-settings-toggle {
-    height: 17px;
-    width: 17px
-}
-
-.side-sup-settings-admin-submit-btn {
-    margin-top: 0;
-    margin-bottom: 10px
-}
-
-.side-sup-settings-admin-wrap {
-    max-width: 975px
-}
-
-.buy-extensions-btn {
-    margin-top: 0;
-    right: 0;
-    top: 0
-}
-
 #side-sup-main-wrapper-width-input {
     min-width: 205px
 }
@@ -854,14 +840,6 @@ textarea#side-sup-main-wrapper-css-input, textarea#side-sup-main-wrapper-custom-
     display: none;
     color: #FFF;
     margin-bottom: 5px
-}
-
-.side-sup-settings-id-answer {
-    padding: 0 !important;
-    display: none;
-    margin: 0 !important;
-    font-weight: 700;
-    border-top: 0 solid #ccc !important
 }
 
 a:active, a:hover {

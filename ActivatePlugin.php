@@ -186,7 +186,7 @@ class ActivatePlugin {
         $our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
 
         // Check if $options is an array or object and process accordingly.
-        if ( is_array( $options ) ) {
+        if ( \is_array( $options ) ) {
             // Handle plugin installation.
             if ( isset( $options['action'], $options['type'], $options['plugin'] ) &&
                 $options['action'] === 'install' &&

@@ -59,7 +59,8 @@ class ErrorHandler {
      * @return array
      * @since 1.9.6
      */
-    public function ftsVersionsNeeded() {
+    public function ftsVersionsNeeded(): array
+    {
         return array(
             'feed-them-premium/feed-them-premium.php' => array(
                 'clean_name'     => 'Feed Them Premium',

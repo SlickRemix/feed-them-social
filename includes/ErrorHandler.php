@@ -59,30 +59,26 @@ class ErrorHandler {
      * @return array
      * @since 1.9.6
      */
-    public function ftsVersionsNeeded() {
-        $fts_versions_needed = array(
+    public function ftsVersionsNeeded(): array
+    {
+        return array(
             'feed-them-premium/feed-them-premium.php' => array(
-                'clean_name'     => __( 'Feed Them Premium', 'feed-them-social' ),
+                'clean_name'     => 'Feed Them Premium',
                 'version_needed' => '1.5.3',
             ),
-            'fts-bar/fts-bar.php'                     => array(
-                'clean_name'     => __( 'FTS Bar', 'feed-them-social' ),
-                'version_needed' => '1.0.8',
-            ),
             'feed-them-social-facebook-reviews/feed-them-social-facebook-reviews.php' => array(
-                'clean_name'     => __( 'Feed Them Social Facebook Reviews', 'feed-them-social' ),
+                'clean_name'     => 'Feed Them Social Facebook Reviews',
                 'version_needed' => '1.0.0',
             ),
             'feed-them-carousel-premium/feed-them-carousel-premium.php' => array(
-                'clean_name'     => __( 'Feed Them Carousel Premium', 'feed-them-social' ),
+                'clean_name'     => 'Feed Them Carousel Premium',
                 'version_needed' => '1.0.0',
             ),
             'feed-them-social-combined-streams/feed-them-social-combined-streams.php' => array(
-                'clean_name'     => __( 'Feed Them Social Combined Streams', 'feed-them-social' ),
-                'version_needed' => '2.0.6',
+                'clean_name'     => 'Feed Them Social Combined Streams',
+                'version_needed' => '2.0.5',
             ),
         );
-        return $fts_versions_needed;
     }
 
     /**
@@ -100,7 +96,7 @@ class ErrorHandler {
 
             $plugins = get_plugins();
 
-            if ( ! function_exists( 'is_plugin_active' ) || ! function_exists( 'deactivate_plugins' ) ) {
+            if ( ! \function_exists( 'is_plugin_active' ) || ! \function_exists( 'deactivate_plugins' ) ) {
                 require_once ABSPATH . '/wp-admin/includes/plugin.php';
             }
 
@@ -113,8 +109,14 @@ class ErrorHandler {
                     if ( $plugins[ $single_plugin ]['Version'] < $fts_versions_needed[ $single_plugin ]['version_needed'] && is_plugin_active( $single_plugin ) ) {
                         deactivate_plugins( $single_plugin );
 
+                        // Custom message for Combined Streams plugin
+                        if ( $single_plugin === 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) {
+                            $combined_streams_msg = 'Your <strong>Feed Them Social Combined Streams</strong> plugin version is 2.0.5 or less and needs to be upgraded to version 2.0.6 or higher. Please update your extension from your <a href="https://www.slickremix.com/my-account/" target="_blank">My Account</a> page on our website.';
+                            throw new \Exception( '<div class="error notice"><p>' . $combined_streams_msg . '</p></div>' );
+                        }
+
                         // Don't Let Old Plugins Activate!
-                        throw new \Exception( '<div class="fts-update-message fts_old_plugins_message">' . $update_msg . '</div>' );
+                        throw new \Exception( '<div class="error notice"><p>' . $update_msg . '</p></div>' );
                     }
                 }
             }
@@ -131,6 +133,10 @@ class ErrorHandler {
                             ),
                             'div' => array(
                                 'class' => array(),
+                            ),
+                            'p' => array(
+                            ),
+                            'strong' => array(
                             ),
                         )
                     );

@@ -123,7 +123,7 @@ class SystemInfo {
 
         foreach ($crons as $timestamp => $cron_hooks) {
             if (isset($cron_hooks[$cron_job_name])) {
-                $next_run_time = date_i18n('m-d-Y g:i A', $timestamp); // Format the timestamp in 12-hour format
+                $next_run_time = wp_date('m-d-Y g:i A', $timestamp); // Format the timestamp in 12-hour format
                 return 'The cron job ' . esc_html($cron_job_name) . ' is scheduled. Next run time: ' . esc_html($next_run_time);
             }
         }

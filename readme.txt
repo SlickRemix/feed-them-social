@@ -4,7 +4,7 @@ Donate link: https://www.slickremix.com/
 Tags: Instagram, Facebook, TikTok, YouTube, Social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.8.1
+Tested up to: 6.8.2
 Stable tag: 4.3.9
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -124,11 +124,14 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.3.9 Tuesday, July 1st, 2025 =
+= Version 4.3.9 Wednesday, September 9th, 2025 =
+  * Refactor files to use PSR-4 autoloading standard.
+  * Refactor Classes and File Names to use PascalCase and functions to be camelCase.
+  * Fix: Settings > General > When deleting cache the cache time option was reset on settings page.
+  * Fix: System Info > Cron Job Cache time reported was incorrect.
   * Remove: Twitter Code.
   * Remove: Convert Legacy Shortcode option.
-  * Fix: When deleting cache the cache time option was reset on settings page.
-  * Refactor
+  * Works with WordPress version 6.8.2
 
 = Version 4.3.8 Wednesday, May 14th, 2025 =
   * Fix: Warning message for _load_textdomain_just_in_time()

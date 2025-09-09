@@ -76,14 +76,15 @@ class LoadPlugin {
      * @since 1.9.6
      */
     public function __construct() {
-        // Set up actions and filters first.
-        $this->addActionsFilters();
 
         // Setup constants.
         $this->setupConstants('7.0.0');
 
         // Misc Includes.
         $this->includes();
+
+        $activate_plugin = new ActivatePlugin();
+        $activate_plugin->addActionsFilters();
 
         // Load plugin components on init, AFTER WordPress is fully loaded.
         add_action('init', array($this, 'loadPluginComponents'), 5);
@@ -110,9 +111,6 @@ class LoadPlugin {
      */
     public function loadPluginComponents() {
         // All these 'new' statements will now automatically trigger the autoloader.
-        $activate_plugin = new ActivatePlugin();
-        $activate_plugin->addActionsFilters();
-
         $dataProtection = new DataProtection();
         $optionsFunctions = new OptionsFunctions( FEED_THEM_SOCIAL_POST_TYPE );
         $settingsFunctions = new SettingsFunctions();

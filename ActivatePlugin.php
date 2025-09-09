@@ -12,6 +12,10 @@
  */
 namespace feedthemsocial;
 
+use feedthemsocial\includes\DebugLog;
+use feedthemsocial\admin\cron_jobs\CronJobs;
+use feedthemsocial\includes\ErrorHandler;
+
 // Exit if accessed directly!
 if ( ! \defined( 'ABSPATH' ) ) {
     exit;
@@ -30,6 +34,27 @@ class ActivatePlugin {
     public function __construct() {
         //Pre-Activate Plugin Checks.
         $this->preActivatePluginChecks();
+    }
+
+    /**
+     * Pre-Activate Plugin Checks
+     *
+     * Before plugin activates do checks. Deactivate plugin if checks fail to prevent taking down a site.
+     *
+     * @since 1.0.0
+     */
+    public function preActivatePluginChecks() {
+        if ( ! \function_exists( 'is_plugin_active' ) ) {
+            require_once ABSPATH . '/wp-admin/includes/plugin.php';
+        }
+
+        // If PHP version is too low, deactivate the plugin and show a notice
+        if (version_compare(PHP_VERSION, FEED_THEM_SOCIAL_MIN_PHP, '<')) {
+            deactivate_plugins('feed-them-social/feed-them-social.php');
+            add_action('admin_notices', array($this, 'failedPhpVersionNotice'));
+        }
+        // Uncomment this to test. PHP Version check.
+        // add_action( 'admin_notices', array( $this, 'failedPhpVersionNotice' ) );
     }
 
     /**
@@ -58,9 +83,6 @@ class ActivatePlugin {
         // Add filters for feedback/Rate link on plugin install page.
         add_filter( 'plugin_row_meta', array( $this, 'leaveFeedbackLink' ), 10, 2 );
 
-        // Plugin Activation Function.
-        register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'pluginActivation' ) );
-
         // Set Plugin Timezone.
         add_action( 'admin_init', array( $this, 'setPluginReviewOption' ) );
 
@@ -74,28 +96,12 @@ class ActivatePlugin {
         // Set Review Status.
         $this->setReviewStatus( $review_option, $review_transient );
 
-    }
+        // Hook into extension activations to run version checks
+        $this->addExtensionActivationHooks();
 
-    /**
-     * Pre-Activate Plugin Checks
-     *
-     * Before plugin activates do checks. Deactivate plugin if checks fail to prevent taking down a site.
-     *
-     * @since 1.0.0
-     */
-    public function preActivatePluginChecks() {
-        if ( ! \function_exists( 'is_plugin_active' ) ) {
-            require_once ABSPATH . '/wp-admin/includes/plugin.php';
-        }
+        // Plugin Activation Function.
+        register_activation_hook( plugin_dir_path( __FILE__ ) . 'feed-them-social.php', array( $this, 'pluginActivation' ) );
 
-        // If PHP version is too low, deactivate the plugin and show a notice
-        if (version_compare(PHP_VERSION, FEED_THEM_SOCIAL_MIN_PHP, '<')) {
-            deactivate_plugins('feed-them-social/feed-them-social.php');
-            add_action('admin_notices', array($this, 'failedPhpVersionNotice'));
-        }
-
-        // Uncomment this to test. PHP Version check.
-        // add_action( 'admin_notices', array( $this, 'failedPhpVersionNotice' ) );
     }
 
     /**
@@ -181,7 +187,7 @@ class ActivatePlugin {
      * @param array $options Array The options.
      * @since 1.0.0
      */
-    public function upgradeCompleted( $options ) {
+    public function upgradeCompleted( $upgrader_object, $options ) {
         // The path to our plugin's main file.
         $our_plugin = FEED_THEM_SOCIAL_PLUGIN_BASENAME;
 
@@ -246,6 +252,9 @@ class ActivatePlugin {
 
         // Set/Update new cron job for clearing cache.
         $this->setCronJob();
+
+        // Run plugin version checks during upgrade
+        $this->runPluginVersionCheck();
     }
 
     /**
@@ -318,6 +327,9 @@ class ActivatePlugin {
 
         // Set/Update new cron job for clearing cache.
         $this->setCronJob();
+
+        // Run plugin version checks during activation
+        $this->runPluginVersionCheck();
     }
 
 
@@ -485,4 +497,90 @@ class ActivatePlugin {
 
         DebugLog::log( 'ActivatePlugin', 'Setting Cron Job from activate-plugin.php.', true );
     }
+
+    /**
+     * Add Extension Activation Hooks
+     *
+     * Hook into the activation of each FTS extension to run version checks.
+     * This ensures that when any extension is activated, we check compatibility
+     * with the current core plugin version.
+     *
+     * @since 4.3.9
+     */
+    public function addExtensionActivationHooks() {
+        // Get the list of extensions we need to monitor
+        $error_handler = new ErrorHandler();
+        $extensions = $error_handler->ftsVersionsNeeded();
+
+        // Hook into each extension's activation
+        foreach ( $extensions as $plugin_path => $plugin_info ) {
+            add_action( 'activate_' . $plugin_path, array( $this, 'runPluginVersionCheck' ) );
+        }
+
+        // Also hook into general plugin activation to catch any FTS extensions
+        add_action( 'activated_plugin', array( $this, 'checkActivatedPlugin' ) );
+
+        // Hook into auto-updates to run version checks when extensions are auto-updated
+        add_action( 'automatic_updates_complete', array( $this, 'checkAutoUpdatedPlugins' ) );
+    }
+
+    /**
+     * Check Activated Plugin
+     *
+     * Check if the activated plugin is an FTS extension and run version check if so.
+     *
+     * @param string $plugin The plugin that was activated.
+     * @since 4.3.9
+     */
+    public function checkActivatedPlugin( $plugin ) {
+        // Get the list of extensions we need to monitor
+        $error_handler = new ErrorHandler();
+        $extensions = array_keys( $error_handler->ftsVersionsNeeded() );
+
+        // If the activated plugin is one of our extensions, run version check
+        if ( \in_array( $plugin, $extensions, true ) ) {
+            DebugLog::log( 'ActivatePlugin', 'FTS Extension activated: ' . $plugin . '. Running version check.', true );
+            $this->runPluginVersionCheck();
+        }
+    }
+
+    /**
+     * Check Auto Updated Plugins
+     *
+     * Check if any FTS extensions were auto-updated and run version checks.
+     *
+     * @param array $update_results The results of the automatic updates.
+     * @since 4.3.9
+     */
+    public function checkAutoUpdatedPlugins( $update_results ) {
+        if ( ! empty( $results['plugin'] ) && is_array( $results['plugin'] ) ) {
+            $error_handler = new ErrorHandler();
+            $extensions = array_keys( $error_handler->ftsVersionsNeeded() );
+
+            foreach ( $results['plugin'] as $result ) {
+                if ( ! empty( $result->item->plugin ) && \in_array( $result->item->plugin, $extensions, true ) ) {
+                    DebugLog::log( 'ActivatePlugin', 'FTS Extension auto-updated: ' . $result->item->plugin . '. Will run version check.', true );
+                    // An extension was updated, run the check.
+                    $this->runPluginVersionCheck();
+                    // We only need to run it once, even if multiple extensions were updated.
+                    return;
+                }
+            }
+        }
+    }
+
+    /**
+     * Run Plugin Version Check
+     *
+     * Run plugin version checks during activation and upgrade processes.
+     * This ensures that incompatible plugin versions are detected and handled
+     * immediately when the plugin is activated or upgraded.
+     *
+     * @since 4.3.9
+     */
+    public function runPluginVersionCheck() {
+        $error_handler = new ErrorHandler();
+        $error_handler->ftsPluginVersionCheck();
+    }
+
 }

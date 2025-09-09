@@ -124,7 +124,8 @@ class CronJobs {
         if (!isset($schedules['fts_cache_clear'])) {
             // Cache clear interval
             // Production: Must be active.
-            $cache_time = $this->settingsFunctions->fts_get_option('fts_cache_time');
+            $fts_settings = get_option('fts_settings');
+            $cache_time = $fts_settings['fts_cache_time'] ?? null;
             // Testing: Set cache clear interval to 60 seconds.
             // $cache_time = '60';
             $cache_interval = is_numeric($cache_time) && $cache_time > 0 ? (int)$cache_time : 86400; // Default to 1 Day if not set.

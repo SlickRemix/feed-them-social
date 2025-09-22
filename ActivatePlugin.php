@@ -553,11 +553,11 @@ class ActivatePlugin {
      * @since 4.3.9
      */
     public function checkAutoUpdatedPlugins( $update_results ) {
-        if ( ! empty( $results['plugin'] ) && is_array( $results['plugin'] ) ) {
+        if ( ! empty( $update_results['plugin'] ) && \is_array( $update_results['plugin'] ) ) {
             $error_handler = new ErrorHandler();
             $extensions = array_keys( $error_handler->ftsVersionsNeeded() );
 
-            foreach ( $results['plugin'] as $result ) {
+            foreach ( $update_results['plugin'] as $result ) {
                 if ( ! empty( $result->item->plugin ) && \in_array( $result->item->plugin, $extensions, true ) ) {
                     DebugLog::log( 'ActivatePlugin', 'FTS Extension auto-updated: ' . $result->item->plugin . '. Will run version check.', true );
                     // An extension was updated, run the check.

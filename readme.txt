@@ -125,8 +125,8 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.3.9 Monday, September 22nd, 2025 =
-  * Refactor files to use PSR-4 autoloading standard.
-  * Refactor Classes and File Names to use PascalCase and functions to be camelCase.
+  * Refactor: Use PSR-4 autoloading standard.
+  * Refactor: Classes and File Names to use PascalCase and functions to be camelCase.
   * Fix: Settings > General > When deleting cache the cache time option was reset on settings page.
   * Fix: System Info > Cron Job Cache time reported was incorrect.
   * Fix: License Updater > Update notifications and version update description not showing.

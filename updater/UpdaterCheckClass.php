@@ -228,20 +228,19 @@ class UpdaterCheckClass {
         remove_filter( 'pre_set_site_transient_update_plugins', array( $this, 'checkUpdate' ), 10 );
 
         $update_cache = get_site_transient( 'update_plugins' );
-        $update_cache = is_object( $update_cache ) ? $update_cache : new \stdClass();
+        $update_cache = \is_object( $update_cache ) ? $update_cache : new \stdClass();
 
         // Check if the update cache needs to be populated.
         if ( empty( $update_cache->response[ $this->name ] ) ) {
-            // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
-            $cache_key    = md5( 'edd_plugin_' . sanitize_key( $this->name ) . '_version_info' );
+            $cache_key    = md5( 'edd_plugin_' . sanitize_key( $this->name ) . '_version_info' ); // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
             $version_info = get_transient( $cache_key );
 
-            if ( false === $version_info ) {
+            if ( $version_info === false ) {
                 $version_info = $this->apiRequest( 'plugin_latest_version', array( 'slug' => $this->slug ) );
                 set_transient( $cache_key, $version_info, 3600 );
             }
 
-            if ( is_object( $version_info ) && version_compare( $this->version, $version_info->new_version, '<' ) ) {
+            if ( \is_object( $version_info ) && version_compare( $this->version, $version_info->new_version, '<' ) ) {
                 $update_cache->response[ $this->name ] = $version_info;
             }
 
@@ -306,8 +305,7 @@ class UpdaterCheckClass {
      */
     public function pluginsApiFilter($_data, $_action = '', $_args = null) {
 
-        // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
-        delete_site_transient('edd_api_request_' . substr(md5(serialize('feed-them-premium')), 0, 15));
+        delete_site_transient('edd_api_request_' . substr(md5(serialize('feed-them-premium')), 0, 15)); // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
 
         if ( $_action !== 'plugin_information' ) {
             return $_data;
@@ -326,8 +324,7 @@ class UpdaterCheckClass {
             )
         );
 
-        // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
-        $cache_key = 'edd_api_request_' . substr(md5(serialize($this->slug)), 0, 15);
+        $cache_key = 'edd_api_request_' . substr(md5(serialize($this->slug)), 0, 15); // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
 
         //Get the transient where we store the api request for this plugin for 24 hours
         $edd_api_request_transient = get_site_transient($cache_key);
@@ -539,12 +536,11 @@ class UpdaterCheckClass {
         }
 
         $data       = $edd_plugin_data[ $_REQUEST['slug'] ];
-        // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
-        $cache_key  = md5( 'edd_plugin_' . sanitize_key( $_REQUEST['plugin'] ) . '_version_info' );
+        $cache_key  = md5( 'edd_plugin_' . sanitize_key( $_REQUEST['plugin'] ) . '_version_info' ); // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
         $version_info = get_transient( $cache_key );
 
         // If version info is not in the cache, fetch it from the API.
-        if ( false === $version_info ) {
+        if ( $version_info === false ) {
             $api_params = array(
                 'edd_action' => 'get_version',
                 'item_name'  => $data['item_name'] ?? false,

@@ -68,8 +68,6 @@ class UpdaterCheckInit {
      * UpdaterCheckInit constructor.
      */
     public function __construct( $feedFunctions ) {
-        // Debug logging - remove after testing
-        error_log("FTS UpdaterCheckInit: Constructor called");
         // New Updater! - This is the URL our updater / license checker pings. This should be the URL of the site with EDD installed!
         if ( ! \function_exists( 'is_plugin_active' ) ) {
             require_once ABSPATH . '/wp-admin/includes/plugin.php';
@@ -190,16 +188,11 @@ class UpdaterCheckInit {
     public function pluginUpdaterCheckInit() {
 
         $installed_plugins = get_plugins();
-        
-        // Debug logging - remove after testing
-        error_log("FTS pluginUpdaterCheckInit: Starting check for " . count($this->premExtensionList) . " premium extensions");
 
         // Simple Checks print_r($this->updaterOptionsInfo['store_url']) and also print_r($this->updaterOptionsInfo)
         foreach ( $this->premExtensionList as $plugin_identifier => $plugin_info) {
             
-            error_log("FTS pluginUpdaterCheckInit: Checking plugin " . $plugin_identifier . " with URL: " . ($plugin_info['plugin_url'] ?? 'NOT SET'));
             $is_active = isset($plugin_info['plugin_url']) && !empty($plugin_info['plugin_url']) && is_plugin_active($plugin_info['plugin_url']);
-            error_log("FTS pluginUpdaterCheckInit: Plugin " . $plugin_identifier . " is " . ($is_active ? 'ACTIVE' : 'INACTIVE'));
 
             if ($is_active) {
 
@@ -217,9 +210,6 @@ class UpdaterCheckInit {
                     'author' => $this->updaterOptionsInfo['author']                       // Author of this plugin
                 );
 
-                // Debug logging - remove after testing
-                error_log("FTS UpdaterCheckInit: Creating UpdaterCheckClass for plugin: " . $plugin_info['title'] . " (ID: " . $plugin_identifier . ", Version: " . $plugin_details['version'] . ")");
-                
                 // setup the updater
                 new UpdaterCheckClass($this->updaterOptionsInfo['store_url'], $plugin_info['plugin_url'], $plugin_identifier, $plugin_info['title'], $plugin_details);
             }

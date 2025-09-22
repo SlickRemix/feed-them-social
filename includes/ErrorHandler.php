@@ -104,20 +104,18 @@ class ErrorHandler {
 
             foreach ( $fts_versions_needed as $single_plugin => $plugin_info ) {
 
-                if ( isset( $plugins[ $single_plugin ] ) ) {
-                    // Check Version Compatibility if Extensions are not a new enough version deactivate them and throw errors!
-                    if ( $plugins[ $single_plugin ]['Version'] < $fts_versions_needed[ $single_plugin ]['version_needed'] && is_plugin_active( $single_plugin ) ) {
-                        deactivate_plugins( $single_plugin );
+                // Check Version Compatibility if Extensions are not a new enough version deactivate them and throw errors!
+                if ( isset( $plugins[$single_plugin] ) && $plugins[$single_plugin]['Version'] < $fts_versions_needed[$single_plugin]['version_needed'] && is_plugin_active( $single_plugin ) ) {
+                    deactivate_plugins( $single_plugin );
 
-                        // Custom message for Combined Streams plugin
-                        if ( $single_plugin === 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) {
-                            $combined_streams_msg = 'Your <strong>Feed Them Social Combined Streams</strong> plugin version is 2.0.4 or less and needs to be upgraded to version 2.0.5 or higher. Please update your extension from your <a href="https://www.slickremix.com/my-account/" target="_blank">My Account</a> page on our website.';
-                            throw new \Exception( '<div class="error notice"><p>' . $combined_streams_msg . '</p></div>' );
-                        }
-
-                        // Don't Let Old Plugins Activate!
-                        throw new \Exception( '<div class="error notice"><p>' . $update_msg . '</p></div>' );
+                    // Custom message for Combined Streams plugin
+                    if ( $single_plugin === 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) {
+                        $combined_streams_msg = 'Your <strong>Feed Them Social Combined Streams</strong> plugin version is 2.0.4 or less and needs to be upgraded to version 2.0.5 or higher. Please update your the extension from the plugins page or download the latest version from your <a href="https://www.slickremix.com/my-account/" target="_blank">My Account</a> page on our website.';
+                        throw new \Exception( '<div class="error notice"><p>' . $combined_streams_msg . '</p></div>' );
                     }
+
+                    // Don't Let Old Plugins Activate!
+                    throw new \Exception( '<div class="error notice"><p>' . $update_msg . '</p></div>' );
                 }
             }
         } catch ( \Exception $e ) {

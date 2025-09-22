@@ -13,7 +13,7 @@
 namespace feedthemsocial\updater;
 
 // uncomment this line for testing
- set_site_transient( 'update_plugins', null );
+// set_site_transient( 'update_plugins', null );
 // Exit if accessed directly!
 if ( ! \defined( 'ABSPATH' ) ) {
     exit;
@@ -97,10 +97,11 @@ class UpdaterCheckInit {
         //Create License Page for main plugin.
         new UpdaterLicensePage($this->updaterOptionsInfo, $this->feedFunctions);
 
-        add_action('plugins_loaded', array($this, 'removeOldUpdaterActions'), 0);
+        // Remove old updater actions first
+        $this->removeOldUpdaterActions();
 
-        //Run Update Check Class
-        add_action('plugins_loaded', array($this, 'pluginUpdaterCheckInit'), 11, 1);
+        // Initialize the plugin updater directly instead of hooking to plugins_loaded
+        $this->pluginUpdaterCheckInit();
     }
 
     /**
@@ -190,8 +191,10 @@ class UpdaterCheckInit {
 
         // Simple Checks print_r($this->updaterOptionsInfo['store_url']) and also print_r($this->updaterOptionsInfo)
         foreach ( $this->premExtensionList as $plugin_identifier => $plugin_info) {
+            
+            $is_active = isset($plugin_info['plugin_url']) && !empty($plugin_info['plugin_url']) && is_plugin_active($plugin_info['plugin_url']);
 
-            if (isset($plugin_info['plugin_url']) && !empty($plugin_info['plugin_url']) && is_plugin_active($plugin_info['plugin_url'])) {
+            if ($is_active) {
 
                 $settings_array = get_option($this->updaterOptionsInfo['setting_option_name']);
 

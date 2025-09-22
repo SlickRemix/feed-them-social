@@ -111,7 +111,7 @@ class ErrorHandler {
 
                         // Custom message for Combined Streams plugin
                         if ( $single_plugin === 'feed-them-social-combined-streams/feed-them-social-combined-streams.php' ) {
-                            $combined_streams_msg = 'Your <strong>Feed Them Social Combined Streams</strong> plugin version is 2.0.5 or less and needs to be upgraded to version 2.0.6 or higher. Please update your extension from your <a href="https://www.slickremix.com/my-account/" target="_blank">My Account</a> page on our website.';
+                            $combined_streams_msg = 'Your <strong>Feed Them Social Combined Streams</strong> plugin version is 2.0.4 or less and needs to be upgraded to version 2.0.5 or higher. Please update your extension from your <a href="https://www.slickremix.com/my-account/" target="_blank">My Account</a> page on our website.';
                             throw new \Exception( '<div class="error notice"><p>' . $combined_streams_msg . '</p></div>' );
                         }
 

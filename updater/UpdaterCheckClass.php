@@ -293,7 +293,6 @@ class UpdaterCheckClass {
         echo '</div></td></tr>';
     }
 
-
     /**
      * Updates information on the "View version x.x details" page with custom data.
      *
@@ -306,16 +305,14 @@ class UpdaterCheckClass {
      */
     public function pluginsApiFilter($_data, $_action = '', $_args = null) {
 
+        delete_site_transient('edd_api_request_' . substr(md5(serialize('feed-them-premium')), 0, 15));
+
         if ( $_action !== 'plugin_information' ) {
-
             return $_data;
-
         }
 
-        if (!isset($_args->slug) || ($_args->slug != $this->slug)) {
-
+        if (!isset($_args->slug) || ($_args->slug !== $this->slug)) {
             return $_data;
-
         }
 
         $to_send = array(
@@ -335,15 +332,108 @@ class UpdaterCheckClass {
         //If we have no transient-saved value, run the API, set a fresh transient with the API value, and return that value too right now.
         if (empty($edd_api_request_transient)) {
 
-            $api_response = $this->apiRequest('plugin_information', $to_send);
+            $api_response = $this->apiRequest('plugin_latest_version', $to_send);
 
             //Expires in 1 day
             set_site_transient($cache_key, $api_response, DAY_IN_SECONDS);
 
-            if ( $api_response !== false ) {
+            if ( $api_response !== false && \is_object($api_response) ) {
                 $_data = $api_response;
             }
+        } else {
+            $_data = $edd_api_request_transient;
+        }
 
+        // Ensure all required WordPress plugin information fields are present
+        if (is_object($_data)) {
+
+            // Add missing contributor information - keep as stdClass with array values
+            if (!isset($_data->contributors)) {
+                $_data->contributors = new \stdClass();
+                $_data->contributors->slickremix = array(
+                    'profile' => 'https://profiles.wordpress.org/slickremix',
+                    'avatar' => 'https://secure.gravatar.com/avatar/yourgravatarhash?s=96&d=monsterid&r=g',
+                    'display_name' => 'SlickRemix'
+                );
+            } else {
+                // If contributors exist but are in wrong format, convert them properly
+                if (is_object($_data->contributors)) {
+                    $contributors = new \stdClass();
+                    foreach ($_data->contributors as $username => $details) {
+                        // Ensure each contributor is an array
+                        if (is_object($details)) {
+                            $contributors->$username = (array) $details;
+                        } else {
+                            $contributors->$username = $details;
+                        }
+                    }
+                    $_data->contributors = $contributors;
+                }
+            }
+
+            // Ensure author information is present
+            if (!isset($_data->author)) {
+                $_data->author = '<a href="https://www.slickremix.com/">SlickRemix</a>';
+            }
+
+            // Add homepage if missing
+            if (!isset($_data->homepage)) {
+                $_data->homepage = 'https://www.slickremix.com/';
+            }
+
+            // Add WordPress compatibility info if missing
+            if (!isset($_data->requires)) {
+                $_data->requires = '4.5.0';
+            }
+
+            if (!isset($_data->tested)) {
+                $_data->tested = '6.8.2';
+            }
+
+            // Ensure plugin name is set
+            if (!isset($_data->name)) {
+                $_data->name = $this->pluginName;
+            }
+
+            // Add plugin slug if missing
+            if (!isset($_data->slug)) {
+                $_data->slug = $this->slug;
+            }
+
+            // Ensure version information is properly formatted
+            if (isset($_data->new_version)) {
+                // Clean version number (remove any V prefix)
+                $_data->new_version = ltrim($_data->new_version, 'Vv ');
+            }
+
+            // Ensure sections is always an array
+            if (!isset($_data->sections)) {
+                $_data->sections = array();
+            }
+
+            // Handle sections properly - ensure it's always an array
+            if (isset($_data->sections)) {
+                if (is_string($_data->sections)) {
+                    $_data->sections = maybe_unserialize($_data->sections);
+                } elseif (is_object($_data->sections)) {
+                    $_data->sections = (array) $_data->sections;
+                }
+
+                // Final check to ensure sections is an array
+                if (!is_array($_data->sections)) {
+                    $_data->sections = array();
+                }
+            }
+
+            // Add basic changelog if missing
+            if (!isset($_data->sections['changelog']) && isset($_data->new_version)) {
+                $_data->sections['changelog'] = '<h4>Version ' . $_data->new_version . '</h4><ul><li>Latest version available for download.</li></ul>';
+            }
+
+            // Add basic description if missing
+            if (!isset($_data->sections['description'])) {
+                $_data->sections['description'] = '<p>Premium extension for Feed Them Social plugin.</p>';
+            }
         }
 
         return $_data;

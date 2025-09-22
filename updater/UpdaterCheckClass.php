@@ -228,19 +228,19 @@ class UpdaterCheckClass {
         remove_filter( 'pre_set_site_transient_update_plugins', array( $this, 'checkUpdate' ), 10 );
 
         $update_cache = get_site_transient( 'update_plugins' );
-        $update_cache = is_object( $update_cache ) ? $update_cache : new \stdClass();
+        $update_cache = \is_object( $update_cache ) ? $update_cache : new \stdClass();
 
         // Check if the update cache needs to be populated.
         if ( empty( $update_cache->response[ $this->name ] ) ) {
             $cache_key    = md5( 'edd_plugin_' . sanitize_key( $this->name ) . '_version_info' ); // NOSONAR php:S4790 - MD5 used for cache key generation, not cryptographic security
             $version_info = get_transient( $cache_key );
 
-            if ( false === $version_info ) {
+            if ( $version_info === false ) {
                 $version_info = $this->apiRequest( 'plugin_latest_version', array( 'slug' => $this->slug ) );
                 set_transient( $cache_key, $version_info, 3600 );
             }
 
-            if ( is_object( $version_info ) && version_compare( $this->version, $version_info->new_version, '<' ) ) {
+            if ( \is_object( $version_info ) && version_compare( $this->version, $version_info->new_version, '<' ) ) {
                 $update_cache->response[ $this->name ] = $version_info;
             }
 
@@ -540,7 +540,7 @@ class UpdaterCheckClass {
         $version_info = get_transient( $cache_key );
 
         // If version info is not in the cache, fetch it from the API.
-        if ( false === $version_info ) {
+        if ( $version_info === false ) {
             $api_params = array(
                 'edd_action' => 'get_version',
                 'item_name'  => $data['item_name'] ?? false,

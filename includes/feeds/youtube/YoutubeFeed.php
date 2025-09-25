@@ -361,8 +361,8 @@ class YoutubeFeed {
                 }
                 echo '</div>';
             }
-            // This first line was added to fix the bug that happens when using the popular DIVI theme.
-            $ssl = is_ssl() ? 'https' : 'http';
+
+            $youtubeDomain = 'https://www.youtube.com';
 
             if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
 
@@ -564,7 +564,7 @@ class YoutubeFeed {
 
                         if ( ! empty( $saved_feed_options['youtube_name'] ) || ! empty( $saved_feed_options['youtube_playlistID'] ) ) { // https://www.youtube.com/watch?v=g9ArG6H_z0Q.
 
-                            $youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
+                            $youtube_video_url = $youtubeDomain . '/watch?v=' . $video_id;
 
                             $href         = isset( $thumbs_play_iframe ) && $thumbs_play_iframe === 'yes' ? 'javascript:;' : esc_url( $youtube_video_url );
                             $iframe_embed = $this->buildYoutubeIframeUrl( $video_id, true );
@@ -602,7 +602,7 @@ class YoutubeFeed {
                             }
                         } else {
 
-                            $youtube_video_url = $ssl . '://www.youtube.com/watch?v=' . $video_id;
+                            $youtube_video_url =  $youtubeDomain . '/watch?v=' . $video_id;
 
                             $href         = isset( $thumbs_play_iframe ) && $thumbs_play_iframe === 'yes' ? esc_html( 'javascript:;' ) : esc_url( $youtube_video_url );
                             $iframe_embed = $this->buildYoutubeIframeUrl( $video_id, true );
@@ -952,7 +952,6 @@ class YoutubeFeed {
             }
 
             if ( isset($comments->pageInfo->totalResults) && $comments->pageInfo->totalResults !== 0 && !empty($comments->items) ) {
-                $output = '';
                 echo '<div class="fts-fb-comments-content">';
                 foreach ( $comments->items as $comment_data ) {
                     $message = $comment_data->snippet->topLevelComment->snippet->textDisplay;
@@ -1132,7 +1131,6 @@ class YoutubeFeed {
      * @since 4.3.9
      */
     private function buildYoutubeIframeUrl( string $video_id, bool $autoplay = false ): string {
-        $ssl = is_ssl() ? 'https' : 'http';
         $params = [
             'wmode'      => 'transparent',
             'HD'         => '0',
@@ -1147,7 +1145,7 @@ class YoutubeFeed {
             $params['wmode'] = 'opaque';
         }
 
-        return esc_url( $ssl . '://www.youtube.com/embed/' . $video_id . '?' . http_build_query( $params ) );
+        return esc_url( 'https://www.youtube.com/embed/' . $video_id . '?' . http_build_query( $params ) );
     }
 
     /**

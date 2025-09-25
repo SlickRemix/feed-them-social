@@ -5,6 +5,16 @@ if ( ! \defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Include the DebugLog class
+// During plugin uninstallation, WordPress only loads the uninstall.php file
+// directly - it doesn't load the main plugin file or any of its dependencies.
+// This means any classes or functions defined in other plugin files won't be
+// available unless explicitly included.
+require_once __DIR__ . '/includes/DebugLog.php'; // NOSONAR
+
+// Add use statement for the namespace
+use feedthemsocial\includes\DebugLog;
+
 /**
  * Uninstall Feed Them Social.
  *
@@ -12,7 +22,7 @@ if ( ! \defined( 'ABSPATH' ) ) {
  *
  * @package     Feed Them Social
  * @subpackage  Uninstall
- * @copyright   Copyright (c) 2024, SlickRemix
+ * @copyright   Copyright (c) 2025, SlickRemix
  * @license     http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since       4.0
  *
@@ -28,12 +38,12 @@ if ( is_multisite() )   {
 
     foreach ( $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" ) as $blog_id )  {
         switch_to_blog( $blog_id );
-        fts_uninstall();
+        ftsUninstall();
         restore_current_blog();
     }
 
 } else  {
-    fts_uninstall();
+    ftsUninstall();
 }
 
 /**
@@ -44,7 +54,7 @@ if ( is_multisite() )   {
  *
  * @since   4.3.4
  */
-function fts_uninstall()    {
+function ftsUninstall()    {
     $fts_settings = get_option( 'fts_settings' );
 
     if ( isset( $fts_settings['remove_on_uninstall'] ) && $fts_settings['remove_on_uninstall'] === '-1' ) {
@@ -58,7 +68,7 @@ function fts_uninstall()    {
 
     foreach( $fts_all_options as $fts_all_option )    {
         delete_option( $fts_all_option );
-        DebugLog::log( 'uninstall', 'Run fts_uninstall: deleted option', $fts_all_option );
+        DebugLog::log( 'uninstall', 'Run ftsUninstall: deleted option', $fts_all_option );
     }
 
     // Remove custom post types
@@ -74,7 +84,7 @@ function fts_uninstall()    {
 
         foreach ($posts as $post) {
             wp_delete_post($post->ID, true); // Delete permanently
-            DebugLog::log( 'uninstall', 'fts_uninstall: deleted custom post type: ' . $post_type . ' with ID: ' . $post->ID, true );
+            DebugLog::log( 'uninstall', 'ftsUninstall: deleted custom post type: ' . $post_type . ' with ID: ' . $post->ID, true );
         }
     }
 
@@ -91,7 +101,7 @@ function fts_uninstall()    {
                         // Remove all instances of this hook
                         unset($crons[$timestamp][$hook]);
 
-                        DebugLog::log( 'uninstall', 'fts_uninstall: fully removed cron job: ' . $hook . ' from timestamp: ' . $timestamp, true );
+                        DebugLog::log( 'uninstall', 'ftsUninstall: fully removed cron job: ' . $hook . ' from timestamp: ' . $timestamp, true );
                     }
                 }
             }
@@ -100,4 +110,4 @@ function fts_uninstall()    {
         _set_cron_array($crons);
     }
 
-} // fts_uninstall
+} // ftsUninstall

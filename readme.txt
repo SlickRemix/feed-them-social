@@ -125,7 +125,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.4.0 Thursday, September 25th, 2025 =
-  * Fix: Uninstall files was causing issue not allowing plugin to be deleted from plugins page.
+  * Fix: The uninstall file was causing issue not allowing plugin to be deleted from Plugins page.
   * Fix: YouTube Feed > remove http from url types
 
 = Version 4.3.9 Monday, September 22nd, 2025 =

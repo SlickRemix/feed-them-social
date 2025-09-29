@@ -1,6 +1,6 @@
 // Grab the url so we can do stuff.
-const url_string = window.location.href;
-let fts_url = new URL( url_string );
+const fts_url_string = window.location.href;
+let fts_url = new URL( fts_url_string );
 let cpt_id = fts_url.searchParams.get("post");
 let feed_type = fts_url.searchParams.get("feed_type");
 

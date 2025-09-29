@@ -128,7 +128,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
   * Fix: The uninstall file was causing issue not allowing plugin to be deleted from Plugins page.
   * Fix: YouTube Feed > remove http from url types
   * Fix: Instagram Feed > rename let url to fts_url to prevent conflicts.
-  * Fix: YouTube Feed > remove http from url types.
+  * Adjust: Admin menu icon to be inline svg instead of psueduo element.
 
 = Version 4.3.9 Monday, September 22nd, 2025 =
   * Refactor: Use PSR-4 autoloading standard.

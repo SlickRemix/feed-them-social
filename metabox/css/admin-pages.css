@@ -2232,7 +2232,9 @@ body.fts_page_ft-gallery-sidebar-builder-page .ui-icon {
     content: "\e600";
     font-size: .9em !important;
     margin-right: 5px;
-    color: #23282e
+    color: #23282e;
+    top:1px;
+    position:relative;
 }
 
 .fts_page_ft-gallery-settings-page #wpfooter {

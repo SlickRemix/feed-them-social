@@ -124,7 +124,7 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
-= Version 4.4.0 Thursday, September 25th, 2025 =
+= Version 4.4.0 Monday, September 29th, 2025 =
   * Fix: The uninstall file was causing issue not allowing plugin to be deleted from Plugins page.
   * Fix: YouTube Feed > remove http from url types
 

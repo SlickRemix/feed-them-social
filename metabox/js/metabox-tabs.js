@@ -1,8 +1,8 @@
 // Grab the url so we can do stuff.
-const url_string = window.location.href;
-let url = new URL( url_string );
-let cpt_id = url.searchParams.get("post");
-let feed_type = url.searchParams.get("feed_type");
+const fts_url_string = window.location.href;
+let fts_url = new URL( fts_url_string );
+let cpt_id = fts_url.searchParams.get("post");
+let feed_type = fts_url.searchParams.get("feed_type");
 
 jQuery(document).ready(ftg_admin_gallery_tabs);
 
@@ -344,10 +344,10 @@ function checkAnyFormFieldEdited() {
 jQuery(document).ready(function ($) {
 
     $('.fts-responsive-options').each(function() {
-    $(this).append('<div class="fts-clear"></div>\n' +
-        '                    <div class="fts-responsive-options-wrap fts-responsive-click">\n' +
-        '                        <span class="fts-responsive-desktop fts-responsive-tab-active" data-target=".responsive-columns-desktop-wrap"></span><span class="fts-responsive-tablet" data-target=".responsive-columns-tablet-wrap"></span><span class="fts-responsive-mobile" data-target=".responsive-columns-mobile-wrap"></span>\n' +
-        '                    </div>');
+        $(this).append('<div class="fts-clear"></div>\n' +
+            '                    <div class="fts-responsive-options-wrap fts-responsive-click">\n' +
+            '                        <span class="fts-responsive-desktop fts-responsive-tab-active" data-target=".responsive-columns-desktop-wrap"></span><span class="fts-responsive-tablet" data-target=".responsive-columns-tablet-wrap"></span><span class="fts-responsive-mobile" data-target=".responsive-columns-mobile-wrap"></span>\n' +
+            '                    </div>');
     });
 
     // This is for the responsive options tabs

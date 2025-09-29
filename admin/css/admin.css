@@ -22,17 +22,10 @@
     display: none
 }
 
-#adminmenu #menu-posts-fts div.wp-menu-image:before, .feed_them_social-choose-gallery span:before {
+#adminmenu #menu-posts-fts div.wp-menu-image:before {
     font-family: SlickRemix, monospace  !important;
     content: "\e600";
-    line-height: 1.2em;
-    font-size: 1.2em !important
-}
-
-@media only screen and (max-width: 782px) {
-    #adminmenu #menu-posts-fts div.wp-menu-image:before {
-        line-height: normal !important
-    }
+    transform: scale(.8);
 }
 
 .sss_old_plugins_message {
@@ -76,12 +69,6 @@
     .post-type-fts #gallery_thumb, .post-type-fts_albums #gallery_thumb {
         width: 90px
     }
-}
-
-.feed_them_social-choose-gallery span:before {
-    position: relative;
-    top: 2px;
-    color: #dc3131
 }
 
 .media-frame-content .ft-gallery-editor .attachment {

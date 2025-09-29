@@ -296,10 +296,8 @@ class FeedsCPT {
         $current_screen = get_current_screen();
 
         $current_get  = stripslashes_deep( $_GET );
-        $current_post = stripslashes_deep( $_POST );
 
         // Set Feed CPT ID using _Get or _Post
-        // Previous version that threw warning: $this->feedCptId = (int) $current_get['post'] ?? $current_post['post'];
         if ( $current_screen->post_type === 'fts' && $current_screen->base === 'post' && is_admin() && isset( $current_get['post'] ) ) {
 
             // Add Custom Body Class.
@@ -562,7 +560,7 @@ class FeedsCPT {
             // Display the Shortcode Location.
             case 'shortcode_location':
 
-                // Todo: We need to make a few more exceptions and checks.
+                // Notes:
                 // 1. What if the shortcode is added to a widget not on a page or post?
                 // 2. What about page builders. Might have to add condition and options for users to check a custom post type in a list that will apply to the checks below.
 
@@ -640,7 +638,7 @@ class FeedsCPT {
      * @return mixed
      * @since 1.0.0
      */
-    public function setFeedButtonText( $translated_text, $text, $domain ) {
+    public function setFeedButtonText( $translated_text ) {
         $post_id          = isset( $_GET['post'] ) ? $_GET['post'] : '';
         $custom_post_type = get_post_type( $post_id );
         if ( ! empty( $post_id ) && 'fts_responses' === $custom_post_type ) {
@@ -701,7 +699,7 @@ class FeedsCPT {
      * @since 1.1.6
      */
     public function metaboxTabsList() {
-        $metabox_tabs_list = array(
+        return array(
             // Base of each tab! The array keys are the base name and the array value is a list of tab keys.
             'base_tabs' => array(
                 'post' => array( 'feed_setup', 'layout', 'colors', 'facebook_feed', 'instagram_feed', 'tiktok_feed', 'youtube_feed', 'combine_streams_feed' ),
@@ -768,12 +766,6 @@ class FeedsCPT {
                 ),
             ),
         );
-
-
-
-
-
-        return $metabox_tabs_list;
     }
 
     /**
@@ -1298,7 +1290,7 @@ class FeedsCPT {
      * @return mixed
      * @since 1.0.0
      */
-    public function removeEditMenuLinks( $actions, $post ) {
+    public function removeEditMenuLinks( $actions ) {
         // make sure we only show the duplicate gallery link on our pages
         if ( current_user_can( 'edit_posts' ) && $_GET['post_type'] === FEED_THEM_SOCIAL_POST_TYPE ) {
             // Unset View Link.

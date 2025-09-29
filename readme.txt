@@ -127,8 +127,8 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 = Version 4.4.0 Monday, September 29th, 2025 =
   * Fix: The uninstall file was causing issue not allowing plugin to be deleted from Plugins page.
   * Fix: YouTube Feed > remove http from url types
-  * Fix: Instagram Feed > rename let url to fts_url to prevent conflicts.
-  * Adjust: Admin menu icon to be inline svg instead of psueduo element.
+  * Fix: Instagram Feed > rename let url to fts_url to prevent conflicts with some installs.
+  * Fix: Admin menu icon to be perfectly vertically aligned.
 
 = Version 4.3.9 Monday, September 22nd, 2025 =
   * Refactor: Use PSR-4 autoloading standard.

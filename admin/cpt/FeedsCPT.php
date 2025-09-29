@@ -314,11 +314,6 @@ class FeedsCPT {
      * @since 1.0.0
      */
     public function ftsCpt() {
-        // Define your SVG icon as a data URI or file path
-        $svg_path = 'M497.050 511.023l38.231 247.692-295.142 200.308-14.973 0.311-220.457-337.283v-51.36l95.656-112.472zM615.32 509.445l-30.589 243.116 338.793 127.334 183.581-264.108-8.419-98.699-120.936-47.028zM495.406 385.377l43.874-291.099-179.382-153.191-183.247-2.333-169.474 347.302 107.985 146.705zM618.83 386.555l-34.099-276.082 235.874-149.992 70.953 11.196 186.868 292.299-38.964 184.025-418.699-62.067z';
-        $svg_string = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1111 1024"><path fill="currentColor" transform="scale(1,-1) translate(0, -960)" d="' . $svg_path . '"/></svg>';
-        $menu_icon_svg = 'data:image/svg+xml;base64,' . base64_encode($svg_string);
-
         $responses_cpt_args = array(
             'label'               => esc_html__( 'Feed Them Social', 'feed-them-social' ),
             'labels'              => array(
@@ -351,7 +346,7 @@ class FeedsCPT {
             'hierarchical'        => true,
             'query_var'           => 'fts',
 
-            'menu_icon'           => $menu_icon_svg, // Add your SVG here instead of empty string
+            'menu_icon'           => '',
             'supports'            => array( 'title', 'revisions' ),
             'order'               => 'DESC',
             // Set the available taxonomies here
@@ -565,7 +560,7 @@ class FeedsCPT {
             // Display the Shortcode Location.
             case 'shortcode_location':
 
-                // Todo: We need to make a few more exceptions and checks.
+                // Notes:
                 // 1. What if the shortcode is added to a widget not on a page or post?
                 // 2. What about page builders. Might have to add condition and options for users to check a custom post type in a list that will apply to the checks below.
 

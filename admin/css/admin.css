@@ -22,17 +22,10 @@
     display: none
 }
 
-.feed_them_social-choose-gallery span:before {
+#adminmenu #menu-posts-fts div.wp-menu-image:before {
     font-family: SlickRemix, monospace  !important;
     content: "\e600";
-    line-height: 1.2em;
-    font-size: 1.2em !important;
-}
-
-@media only screen and (max-width: 960px) {
-    .auto-fold #adminmenu .menu-icon-fts div.wp-menu-image.svg {
-        top:1px
-    }
+    transform: scale(.8);
 }
 
 .sss_old_plugins_message {

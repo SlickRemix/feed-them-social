@@ -575,14 +575,15 @@ class FacebookFeedPostTypes {
             case 'photo':
                 if ( ! empty( $fb_link ) ) {
                     echo '<div class="fts-likes-shares-etc-wrap">';
-                    echo $this->feedFunctions->ftsShareOption( $fb_link, $description );
+                    echo '<div class="fts-fb-likes-shares-etc-content">';
                     echo '<a href="' . esc_url( $fb_link ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
                 } else {
                     // exception for videos.
-                    $single_video_id = self::FACEBOOK_URL . $fb_post_id;
+                    // single video link
+                    $fb_link = self::FACEBOOK_URL . $fb_post_id;
                     echo '<div class="fts-likes-shares-etc-wrap">';
-                    echo $this->feedFunctions->ftsShareOption( $single_video_id, $description );
-                    echo '<a href="' . esc_url( $single_video_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
+                    echo '<div class="fts-fb-likes-shares-etc-content">';
+                    echo '<a href="' . esc_url( $fb_link ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
                 }
                 if ( $saved_feed_options['facebook_page_feed_type'] === 'album_photos' && $saved_feed_options['facebook_hide_date_likes_comments'] === 'yes' ) {
 
@@ -619,7 +620,16 @@ class FacebookFeedPostTypes {
                             )
                         );
                 }
-            echo '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span></a></div>';
+                echo '</a>';
+
+                echo '<div class="fts-shares-view-on-fb-wrap">';
+                echo '<a href="' . esc_url( $fb_link ) . '" target="_blank" rel="noreferrer" class="fts-view-on-facebook-url fts-jal-fb-see-more">';
+                    echo '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span>';
+                echo '</a>';
+                echo $this->feedFunctions->ftsShareOption( $fb_link, $description );
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
 
             break;
             case 'app':
@@ -654,7 +664,7 @@ class FacebookFeedPostTypes {
 
                 echo '<div class="fts-likes-shares-etc-wrap fts-albums-single-image">';
                 echo '<div class="fts-albums-hide-main-album-link-in-popup">';
-                echo $this->feedFunctions->ftsShareOption( $fb_link, $description );
+                echo '<div class="fts-fb-likes-shares-etc-content">';
                 echo '<a href="' . esc_url( $new_album_url ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
                 if ( $saved_feed_options['facebook_page_feed_type'] === 'albums' && $saved_feed_options['facebook_hide_date_likes_comments'] === 'yes' ) {
                 } else {
@@ -675,7 +685,18 @@ class FacebookFeedPostTypes {
                             )
                         );
                 }
-                echo '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span></a></div></div>';
+
+            echo '</a>';
+
+                echo '<div class="fts-shares-view-on-fb-wrap">';
+                echo '<a href="' . esc_url( $new_album_url ) . '" target="_blank" rel="noreferrer" class="fts-view-on-facebook-url fts-jal-fb-see-more">';
+                echo '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span>';
+                echo '</a>';
+                echo $this->feedFunctions->ftsShareOption( $post_single_id, $description );
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
                 break;
             // SRL added case '': to account for posts with descriptions that have no video or photos and were possible made from status_type => mobile_status_update
             case '':
@@ -693,8 +714,8 @@ class FacebookFeedPostTypes {
                 else {
                     $post_single_id = self::FACEBOOK_URL . $fb_post_user_id . '_' . $fb_post_id;
                     echo '<div class="fts-likes-shares-etc-wrap">';
-                    echo $this->feedFunctions->ftsShareOption( $post_single_id, $description );
-                    echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-jal-fb-see-more">';
+                    echo '<div class="fts-fb-likes-shares-etc-content">';
+                    echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-view-on-facebook-url fts-jal-fb-see-more">';
 
                     echo '' . wp_kses(
                             '<span class="fts-count-wrap fts-likes-wrap">' . $likes . '</span><span class="fts-count-wrap fts-comments-wrap">' . $comments . '</span><span class="fts-count-wrap fts-shares-wrap">' . $shares . '</span>',
@@ -710,7 +731,16 @@ class FacebookFeedPostTypes {
                                     'class' => array(),
                                 ),
                             )
-                        ) . '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span></a></div>';
+                        );
+                    echo '</a>';
+                    echo '<div class="fts-shares-view-on-fb-wrap">';
+                    echo '<a href="' . esc_url( $post_single_id ) . '" target="_blank" rel="noreferrer" class="fts-view-on-facebook-url fts-jal-fb-see-more">';
+                    echo '<span class="fts-view-on-facebook">' . esc_html( $saved_feed_options['facebook_view_on_facebook'] ) . '</span>';
+                    echo '</a>';
+                    echo $this->feedFunctions->ftsShareOption( $post_single_id, $description );
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
                 }
                 break;
         }

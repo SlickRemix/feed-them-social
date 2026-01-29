@@ -1,11 +1,11 @@
 === Feed Them Social - Social Media Feeds, Video, and Photo Galleries ===
-Contributors: slickremix
+Contributors: slickremix, spencerlabadie
 Donate link: https://www.slickremix.com/
 Tags: instagram, facebook, tikTok, youtube, social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.8.2
-Stable tag: 4.4.0
+Tested up to: 6.9
+Stable tag: 4.4.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,11 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.4.1 Thursday, January 29th, 2026 =
+  * New: Adjust like, comment, and share icon position for Facebook Feed.
+  * Fix: Facebook Feed > Grid Spaces Between Posts option value
+  * Works with WordPress version 6.9
+
 = Version 4.4.0 Monday, September 29th, 2025 =
   * Fix: The uninstall file was causing issue not allowing plugin to be deleted from Plugins page.
   * Fix: YouTube Feed > remove http from url types

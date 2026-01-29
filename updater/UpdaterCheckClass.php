@@ -387,7 +387,7 @@ class UpdaterCheckClass {
             }
 
             if (!isset($_data->tested)) {
-                $_data->tested = '6.8.2';
+                $_data->tested = '6.9';
             }
 
             // Ensure plugin name is set

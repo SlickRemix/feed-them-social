@@ -3192,7 +3192,7 @@ a.fts-twitter-at-name {
     font-size: 12px;
     text-align: left;
 }
-
+.fts-tiktok-popup.fts-facebook-popup a.fts-jal-fb-see-more,
 .fts-master-youtube-wrap .fts-facebook-popup a.fts-jal-fb-see-more,
 .fts-facebook-popup.fts-youtube-popup a.fts-jal-fb-see-more {
     font-size: 12px;
@@ -3205,6 +3205,7 @@ a.fts-twitter-at-name {
     width: 100% !important;
     text-decoration:none;
 }
+.fts-tiktok-popup.fts-facebook-popup a.ft-gallery-link-popup,
 .fts-youtube-popup.fts-facebook-popup a.ft-gallery-link-popup,
 .fts-master-youtube-wrap .fts-facebook-popup a.ft-gallery-link-popup {
     font-size: 12px;
@@ -3216,11 +3217,11 @@ a.fts-twitter-at-name {
     background: 0 0;
     float: left;
 }
-
 .fts-popup-second-half .fts-share-wrap,
+.fts-tiktok-popup .fts-popup-second-half .fts-share-wrap,
 .fts-youtube-popup .fts-popup-second-half .fts-share-wrap,
 .fts-master-youtube-wrap .youtube-comments-wrap .fts-share-wrap {
-    margin: 15px 0 -58px 0;
+    margin: 15px 0 -64px 0;
 }
 
 .fts-facebook-popup a.fts-view-on-instagram-link {

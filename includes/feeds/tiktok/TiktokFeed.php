@@ -797,13 +797,13 @@ class TiktokFeed {
                         
                         if ( isset( $grid ) && $grid === 'yes' ) {
                         // Start Grid format where there is a new div wrapper ?>
-                <div id="<?php echo esc_attr( $feed_container_id ); ?>" class="fts-slicker-twitter-posts masonry js-masonry <?php echo esc_attr( $fts_dynamic_class_name );
-                    if ( isset( $popup ) && $popup === 'yes' ) {?> popup-gallery-tiktok<?php } ?>" style='margin:0 auto' data-masonry-options='{"itemSelector": ".fts-tweeter-wrap", "isFitWidth": true, "transitionDuration": 0 }'>
+                        <div class="<?php echo esc_attr( $feed_container_id ); ?> fts-slicker-twitter-posts masonry js-masonry <?php echo esc_attr( $fts_dynamic_class_name );
+                            if ( isset( $popup ) && $popup === 'yes' ) {?> popup-gallery-tiktok<?php } ?>" style='margin:0 auto' data-masonry-options='{"itemSelector": ".fts-tweeter-wrap", "isFitWidth": true, "transitionDuration": 0 }'>
                         <?php }
 
                         // Start of Classic feed wrapper
                         elseif (isset( $type ) && $type === 'classic' && isset( $grid ) && $grid !== 'yes') {  ?>
-                        <div id="<?php echo esc_attr( $feed_container_id ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div <?php
+                        <div class="<?php echo esc_attr( $feed_container_id ); ?> <?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div <?php
                                     if ( ! empty( $twitter_height ) && $twitter_height !== 'auto' ) {
                                         ?>fts-twitter-scrollable<?php
                                     }

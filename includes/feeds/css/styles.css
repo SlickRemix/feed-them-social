@@ -3216,7 +3216,9 @@ a.fts-twitter-at-name {
     background: 0 0;
     float: left;
 }
+
 .fts-popup-second-half .fts-share-wrap,
+.fts-youtube-popup .fts-popup-second-half .fts-share-wrap,
 .fts-master-youtube-wrap .youtube-comments-wrap .fts-share-wrap {
     margin: 15px 0 -58px 0;
 }

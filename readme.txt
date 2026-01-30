@@ -127,6 +127,8 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 = Version 4.4.1 Thursday, January 29th, 2026 =
   * New: Adjust like, comment, and share icon position for Facebook Feed.
   * Fix: Facebook Feed > Grid Spaces Between Posts option value
+  * Fix: Prevented CSS minifier from converting Unicode escape sequences (hex codes) into literal UTF-8 characters by switching to Clean-CSS with --compatibility ie8
+  * Refactor: TikTok Feed > Repeating id and Yoda conditions
   * Works with WordPress version 6.9
 
 = Version 4.4.0 Monday, September 29th, 2025 =

@@ -2686,7 +2686,6 @@ span.fts-toke-not-set {
     margin-bottom: -32px;
     font-weight: 400
 }
-
 .fts-instagram-down-arrow {
     position: relative;
     display: inline-block;
@@ -2710,7 +2709,8 @@ span.fts-toke-not-set {
     margin-left: 0;
     margin-right: 10px
 }
+
 .fts_page_fts-system-info-submenu-page .error.notice {
     margin-left:0;
-    margin-top:20px;
+    margin-top:20px
 }

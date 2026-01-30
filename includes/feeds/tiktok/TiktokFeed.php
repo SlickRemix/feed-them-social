@@ -197,7 +197,7 @@ class TiktokFeed {
      */
     public function likeCount( $post_data ) {
         // Retweet count.
-        $like_count = isset( $post_data->likeCount ) && '0' !== $post_data->likeCount ? $post_data->likeCount : '';
+        $like_count = isset( $post_data->likeCount ) && $post_data->likeCount !== '0' ? $post_data->likeCount : '';
 
         if( $like_count !== 0) {
             return '<span class="fts-tiktok-like-count">' . esc_html( $like_count ) . '</span>';
@@ -213,7 +213,7 @@ class TiktokFeed {
      */
     public function viewCount( $post_data ) {
         // Favorite count.
-        $view_count = isset( $post_data->viewCount ) && '0' !== $post_data->viewCount ? $post_data->viewCount : '';
+        $view_count = isset( $post_data->viewCount ) && $post_data->viewCount !== '0' ? $post_data->viewCount : '';
 
         if( $view_count !== 0) {
             return '<span class="fts-tiktok-views-count">' . esc_html( $view_count ) . '</span>';
@@ -792,16 +792,19 @@ class TiktokFeed {
                             <?php
                         }
 
+                        // Build a single feed container ID to avoid repetition
+                        $feed_container_id = 'tiktok-feed-' . sanitize_key( $fts_dynamic_class_name );
+                        
                         if ( isset( $grid ) && $grid === 'yes' ) {
                         // Start Grid format where there is a new div wrapper ?>
-                <div id="tiktok-feed-<?php echo esc_attr( $fts_dynamic_class_name ); ?>" class="fts-slicker-twitter-posts masonry js-masonry <?php echo esc_attr( $fts_dynamic_class_name );
-                    if ( isset( $popup ) && 'yes' === $popup ) {?> popup-gallery-tiktok<?php } ?>" style='margin:0 auto' data-masonry-options='{"itemSelector": ".fts-tweeter-wrap", "isFitWidth": true, "transitionDuration": 0 }'>
+                <div id="<?php echo esc_attr( $feed_container_id ); ?>" class="fts-slicker-twitter-posts masonry js-masonry <?php echo esc_attr( $fts_dynamic_class_name );
+                    if ( isset( $popup ) && $popup === 'yes' ) {?> popup-gallery-tiktok<?php } ?>" style='margin:0 auto' data-masonry-options='{"itemSelector": ".fts-tweeter-wrap", "isFitWidth": true, "transitionDuration": 0 }'>
                         <?php }
 
                         // Start of Classic feed wrapper
                         elseif (isset( $type ) && $type === 'classic' && isset( $grid ) && $grid !== 'yes') {  ?>
-                        <div id="tiktok-feed-<?php echo esc_attr( $fts_dynamic_class_name ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div <?php
-                                    if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
+                        <div id="<?php echo esc_attr( $feed_container_id ); ?>" class="<?php echo esc_attr( $fts_dynamic_class_name ); ?> fts-twitter-div <?php
+                                    if ( ! empty( $twitter_height ) && $twitter_height !== 'auto' ) {
                                         ?>fts-twitter-scrollable<?php
                                     }
                                     if ( isset( $popup ) && $popup === 'yes' ) {?> popup-gallery-tiktok<?php } ?>"
@@ -811,8 +814,8 @@ class TiktokFeed {
 
                         // Start of Responsive feed wrapper
                         elseif  (isset( $type ) && $type === 'responsive' && isset( $grid ) && $grid !== 'yes') { ?>
-                        <div id="tiktok-feed-<?php echo esc_attr( $fts_dynamic_class_name ); ?>" data-ftsi-columns="<?php echo esc_attr( $tiktok_columns ); ?>" data-ftsi-columns-tablet="<?php echo esc_attr( $tiktok_columns_tablet ); ?>" data-ftsi-columns-mobile="<?php echo esc_attr( $tiktok_columns_mobile ); ?>" data-ftsi-height="<?php echo esc_attr( $tiktok_image_height ); ?>" data-ftsi-margin="<?php echo esc_attr( $tiktok_space_between_photos ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['tiktok_page_width'] ) ? esc_attr( $saved_feed_options['tiktok_page_width']  ) : ''; ?>" class="fts-twitter-div <?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
-                            if ( ! empty( $twitter_height ) && 'auto' !== $twitter_height ) {
+                        <div id="<?php echo esc_attr( $feed_container_id ); ?>" data-ftsi-columns="<?php echo esc_attr( $tiktok_columns ); ?>" data-ftsi-columns-tablet="<?php echo esc_attr( $tiktok_columns_tablet ); ?>" data-ftsi-columns-mobile="<?php echo esc_attr( $tiktok_columns_mobile ); ?>" data-ftsi-height="<?php echo esc_attr( $tiktok_image_height ); ?>" data-ftsi-margin="<?php echo esc_attr( $tiktok_space_between_photos ); ?>" data-ftsi-width="<?php echo isset( $saved_feed_options['tiktok_page_width'] ) ? esc_attr( $saved_feed_options['tiktok_page_width']  ) : ''; ?>" class="fts-twitter-div <?php echo 'fts-instagram-inline-block-centered ' . esc_attr( $fts_dynamic_class_name );
+                            if ( ! empty( $twitter_height ) && $twitter_height !== 'auto' ) {
                                 ?> fts-twitter-scrollable<?php
                             }
                             if ( isset( $popup ) && $popup === 'yes' ) { echo ' popup-gallery-tiktok'; }else {  echo ' no-popup-gallery-tiktok'; }?>"
@@ -1078,7 +1081,7 @@ class TiktokFeed {
             <script>
                 jQuery(document).ready(function () {
                     <?php
-                    if ( 'autoscroll' === $loadmore_style && 'yes' === $loadmore ) { // Scroll function to LOADMORE if = autoscroll in shortcode.
+                    if ( $loadmore_style === 'autoscroll' && $loadmore === 'yes' ) { // Scroll function to LOADMORE if = autoscroll in shortcode.
                         ?>
                     jQuery(".<?php echo esc_js( $fts_dynamic_class_name ); ?>").bind("scroll", function () {
                         if (jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight) {
@@ -1113,7 +1116,7 @@ class TiktokFeed {
                                     url: "<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>",
                                     success: function (data) {
                                         console.log('Well Done and got this from sever: ' + data);
-                                        <?php if ( 'autoscroll' === $loadmore_style && 'yes' === $loadmore ) { ?>
+                                        <?php if ( $loadmore_style === 'autoscroll' && $loadmore === 'yes' ) { ?>
                                             jQuery('#output_<?php echo esc_js( $fts_dynamic_name ); ?>').append(data).filter('#output_<?php echo esc_js( $fts_dynamic_name ); ?>').html();
                                         <?php }
                                         else { ?>
@@ -1143,7 +1146,7 @@ class TiktokFeed {
                                         // Reload our image sizing function so the images show up proper
                                         slickremixImageResizing();
                                     <?php
-                                    if ( isset( $grid ) && 'yes' === $grid ) {?>
+                                    if ( isset( $grid ) && $grid === 'yes' ) {?>
                                         jQuery(".fts-slicker-twitter-posts").masonry("reloadItems");
 
                                         setTimeout(function () {
@@ -1156,13 +1159,13 @@ class TiktokFeed {
                                 return false;
                                         <?php
                                         // string $loadmore_style is at top of this js script. exception for scroll option closing tag.
-                                        if ( 'autoscroll' === $loadmore_style && 'yes' === $loadmore ) {
+                                        if ( $loadmore_style === 'autoscroll' && $loadmore === 'yes' ) {
                                             ?>
                             }; // end of scroll ajax load.
                                     <?php } ?>
                         }
                     ) // end of form.submit
-                    <?php if ( isset( $grid ) && 'yes' === $grid ) { ?>
+                    <?php if ( isset( $grid ) && $grid === 'yes' ) { ?>
                         // We run this otherwise the videos that load in posts will overlap other posts.
                         setTimeout(function () {
                             jQuery(".fts-slicker-twitter-posts").masonry("layout");

@@ -251,7 +251,7 @@ class MetaboxFunctions {
             // Enqueue Admin Page CSS.
             wp_enqueue_style( 'slick-admin-page' );
             // Register Metabox CSS.
-            wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.css' ), array(), FTS_CURRENT_VERSION );
+            wp_register_style( 'slick-metabox', plugins_url( 'feed-them-social/metabox/css/metabox.min.css' ), array(), FTS_CURRENT_VERSION );
             // Enqueue Metabox CSS.
             wp_enqueue_style( 'slick-metabox' );
         }
@@ -293,7 +293,7 @@ class MetaboxFunctions {
             wp_enqueue_script( 'slick-metabox-tabs' );
 
             // Shortcode preview specific scripts
-            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.min.css' ), false, FTS_CURRENT_VERSION );
+            wp_register_style( 'fts-feed-styles', plugins_url( 'feed-them-social/includes/feeds/css/styles.css' ), false, FTS_CURRENT_VERSION );
 
             // Register Premium Styles & Scripts.
             if ( $this->feedFunctions->isExtensionActive( 'feed_them_social_premium' ) || $this->feedFunctions->isExtensionActive( 'feed_them_social_combined_streams' ) ) {

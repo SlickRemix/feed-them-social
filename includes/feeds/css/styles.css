@@ -3193,6 +3193,34 @@ a.fts-twitter-at-name {
     text-align: left;
 }
 
+.fts-master-youtube-wrap .fts-facebook-popup a.fts-jal-fb-see-more,
+.fts-facebook-popup.fts-youtube-popup a.fts-jal-fb-see-more {
+    font-size: 12px;
+    text-align: right;
+    margin-top: 16px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 13px 20px 11px 40px;
+    background: #f6f7f9;
+    width: 100% !important;
+    text-decoration:none;
+}
+.fts-youtube-popup.fts-facebook-popup a.ft-gallery-link-popup,
+.fts-master-youtube-wrap .fts-facebook-popup a.ft-gallery-link-popup {
+    font-size: 12px;
+    text-align: left;
+    margin-top: 15px;
+    border-top: 0 solid #eee;
+    border-bottom: 0 solid #eee;
+    padding: 14px 20px 10px;
+    background: 0 0;
+    float: left;
+}
+.fts-popup-second-half .fts-share-wrap,
+.fts-master-youtube-wrap .youtube-comments-wrap .fts-share-wrap {
+    margin: 15px 0 -58px 0;
+}
+
 .fts-facebook-popup a.fts-view-on-instagram-link {
     text-align: left;
     margin-top: 15px;

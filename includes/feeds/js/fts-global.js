@@ -54,13 +54,14 @@ jQuery(document).ready(ftsShare);
 function ftsInstaGenerateVideoThumbs() {
     try {
         const MAX_CONCURRENT = 3;
-        const nodes = Array.prototype.slice.call(document.querySelectorAll('.slicker-instagram-placeholder[data-ig-hashtag][data-video-url]:not([data-thumb-done])'));
+        const nodes = Array.prototype.slice.call(document.querySelectorAll('.fts-instagram-inline-block-centered[data-ig-hashtag] .slicker-instagram-placeholder[data-video-url]:not([data-thumb-done]), .fts-instagram-slider[data-ig-hashtag] .slicker-instagram-placeholder[data-video-url]:not([data-thumb-done])'));
         if (!nodes.length) return;
         let index = 0;
         let active = 0;
 
         const pump = () => {
-            while (active < MAX_CONCURRENT && index < nodes.length) {
+            const slots = Math.max(0, Math.min(MAX_CONCURRENT - active, nodes.length - index));
+            for (let i = 0; i < slots; i++) {
                 process(nodes[index++]);
             }
         };

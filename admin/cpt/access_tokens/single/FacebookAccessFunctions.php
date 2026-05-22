@@ -92,8 +92,8 @@ class FacebookAccessFunctions {
                 jQuery('.combine-facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder div.fts-token-save, .facebook-access-token-placeholder .fts-token-manual-save, .combine-facebook-access-token-placeholder .fts-token-manual-save').click( function (e) {
                     e.preventDefault();
 
-                    let myString = jQuery('#fts_facebook_custom_api_token').val();
-                    let length = myString.length;
+                    let myString = jQuery('#fts_facebook_custom_api_token').val() || '';
+                    let length = typeof myString === 'string' ? myString.length : 0;
                     if(length > 300) {
                         alert('<?php echo esc_html__('You must add a valid Facebook Access Token to use the Save Token Manual feature. If there is already a value in the field, please remove it, update the page and try again.', 'feed-them-social'); ?>');
                         if(!jQuery('.fts-admin-token-settings-open').length ) {

@@ -320,7 +320,7 @@ class FeedFunctions {
 
             // Build Multiple Feed request data.
             foreach ( $request_feed_data as $key => $single_request_data ) {
-                if (is_array($single_request_data) && isset($single_request_data['url'])) {
+                if ( \is_array($single_request_data) && isset($single_request_data['url'])) {
                     // Handling single request with headers
                     $multi_request_data[ $key ] = $single_request_data;
                 } else {
@@ -337,7 +337,7 @@ class FeedFunctions {
             }
         } else {
             // Make Single Requests from array with 1 key!
-            if ( is_array( $request_feed_data ) ) {
+            if ( \is_array( $request_feed_data ) ) {
                 // Check if headers are included in the single request
                 if (isset($request_feed_data['url'])) {
 

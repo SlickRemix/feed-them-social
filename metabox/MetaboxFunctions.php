@@ -761,14 +761,14 @@ class MetaboxFunctions {
                             case 'fts_tiktok_access_token':
                             case 'youtube_custom_api_token':
                             case 'youtube_custom_access_token':
-                                $check_encrypted = false !== $this->dataProtection->decrypt( $final_value ) ? 'encrypted' : $final_value;
+                                $check_encrypted = $this->dataProtection->decrypt( $final_value ) !== false ? 'encrypted' : $final_value;
                                 break;
                             default:
                                 break;
                         }
 
                         // Check if field needs to be set to 'disabled'.
-                        $disabled = false !== $required_extension_needed ? ' disabled="disabled"' : '';
+                        $disabled = $required_extension_needed !== false ? ' disabled="disabled"' : '';
 
                         // Build Fields for output based on Option Type.
                         switch ($option['option_type']) {
@@ -781,10 +781,10 @@ class MetaboxFunctions {
                                     $option_name,
                                     $option_id,
                                     isset( $option['class'] ) ? ' ' . $option['class'] : '',
-                                    isset( $option['placeholder'] ) ? $option['placeholder'] : '',
+                                    $option['placeholder'] ?? '',
                                     $final_value,
-                                    $check_encrypted ? ' data-token="' . $check_encrypted : '',
-                                    isset( $option['autocomplete'] ) ? ' autocomplete="' . ' ' . $option['autocomplete'] : '',
+                                    $check_encrypted ? ' data-token="' . $check_encrypted . '"' : '',
+                                    isset( $option['autocomplete'] ) ? ' autocomplete="' . ' ' . $option['autocomplete'] . '"' : '',
                                     $disabled
                                 );
                                 break;
@@ -794,7 +794,7 @@ class MetaboxFunctions {
                             case 'select_multi':
                                 $multiple = '';
                                 // Set Multi Select Array.
-                                if ( 'select_multi' == $option['option_type'] ) {
+                                if ( $option['option_type'] === 'select_multi' ) {
                                     $multiple = ' multiple';
                                     $option_name = $option_name . '[]';
                                 }

@@ -26,6 +26,11 @@ jQuery(document).ready(function($) {
             itemSelector: ".fts-masonry-option"
         })
     }
+
+    // Run video thumbnail extraction on ready
+    if (typeof ftsInstaGenerateVideoThumbs === 'function') {
+        ftsInstaGenerateVideoThumbs();
+    }
 });
 
 if (!jQuery.trim(jQuery('.fts-jal-fb-group-display').html()).length) {
@@ -44,6 +49,91 @@ function ftsShare(){
 }
 // return our share function after page has loaded to speed things up. Plus this way we can recall it in the loadmore areas of each feed instead of duplicating all the js.
 jQuery(document).ready(ftsShare);
+
+// Video thumbnail extraction via Canvas for Instagram video posts
+function ftsInstaGenerateVideoThumbs() {
+    try {
+        const MAX_CONCURRENT = 3;
+        const nodes = Array.prototype.slice.call(document.querySelectorAll('.slicker-instagram-placeholder[data-ig-hashtag][data-video-url]:not([data-thumb-done])'));
+        if (!nodes.length) return;
+        let index = 0;
+        let active = 0;
+
+        const pump = () => {
+            while (active < MAX_CONCURRENT && index < nodes.length) {
+                process(nodes[index++]);
+            }
+        };
+
+        const process = (el) => {
+            const src = el.getAttribute('data-video-url');
+            if (!src) { el.setAttribute('data-thumb-done','1'); return pump(); }
+            active++;
+            const video = document.createElement('video');
+            video.crossOrigin = 'anonymous';
+            video.muted = true;
+            video.playsInline = true;
+            video.preload = 'metadata';
+
+            let cleaned = false;
+            const canvas = document.createElement('canvas');
+            canvas.style.display = 'none';
+            document.body.appendChild(canvas);
+
+            const cleanup = () => {
+                if (cleaned) return;
+                cleaned = true;
+                try { video.pause(); } catch(e){}
+                video.removeAttribute('src');
+                video.load();
+                video.remove();
+                canvas.remove();
+                el.setAttribute('data-thumb-done','1');
+                active--;
+                pump();
+            };
+
+            const onSeeked = () => {
+                try {
+                    const w = video.videoWidth || 320;
+                    const h = video.videoHeight || 320;
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, w, h);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    if (dataUrl) {
+                        el.style.backgroundImage = 'url("' + dataUrl + '")';
+                    }
+                } catch (e) {
+                    // ignore
+                }
+                cleanup();
+            };
+
+            video.addEventListener('error', cleanup, { once: true });
+            video.addEventListener('loadeddata', function() {
+                try { video.currentTime = 0.001; } catch(e) { onSeeked(); }
+            }, { once: true });
+            video.addEventListener('seeked', onSeeked, { once: true });
+
+            // Start loading
+            video.src = src;
+            video.load();
+        };
+
+        pump();
+    } catch (e) {
+        // fail silently to not break other scripts
+    }
+}
+
+// Also run after full load just in case assets shift around
+window.addEventListener('load', function(){
+    if (typeof ftsInstaGenerateVideoThumbs === 'function') {
+        ftsInstaGenerateVideoThumbs();
+    }
+});
 
 // https://www.w3schools.com/js/js_comparisons.asp
 // >	greater than   x > 8	true

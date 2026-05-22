@@ -394,7 +394,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                 $hash_final_cache = 'instagram_final_cache_' . $instagram_id . '_num' . $saved_feed_options['instagram_pics_count'] . '_search' . $search . '_hash' . $hashtag . '';
 
                 // The below needs to be cached and the hashtag ID above merged with like how we did below on line 493
-                if ( $search === 'recent-media' || '' === $search ) {
+                if ( $search === 'recent-media' || $search === '' ) {
                     // Now that we have the Instagram ID we can do a search for the endpoint 'Recent Media'.
                     $instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : FTS_FACEBOOK_GRAPH_URL . $hashtag_id . '/recent_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,comments_count,permalink,like_count,media_type,id,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . FTS_AND_ACCESS_TOKEN_EQUALS . $this->feedAccessToken;
 
@@ -403,37 +403,13 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                     $instagram_data_array['data'] = isset( $_REQUEST['next_url'] ) ? esc_url_raw( $_REQUEST['next_url'] ) : FTS_FACEBOOK_GRAPH_URL . $hashtag_id . '/top_media?user_id=' . $instagram_id . '&fields=timestamp,media_url,caption,id,comments_count,permalink,like_count,media_type,children{media_url,media_type,permalink}&limit=' . $saved_feed_options['instagram_pics_count'] . FTS_AND_ACCESS_TOKEN_EQUALS . $this->feedAccessToken;
                 }
 
+
                 // First we make sure the feed is not cached already before trying to run the Instagram API.
                 if ( $this->feedCache->ftsCheckFeedCacheExists( $hash_final_cache ) === false ) {
-                    // https://developers.facebook.com/docs/instagram/oembed#oembed-product
                     $hashtag_response = $this->feedFunctions->ftsGetFeedJson( $instagram_data_array );
 
                         $hashtag_error_check = json_decode( $hashtag_response['data'] );
 
-                        foreach ( $hashtag_error_check->data as $media ) {
-                            // Instagram hashtag data returned from the facebook API does not contain a thumbnail_url for videos.
-                            // We have to use the instagram_oembed feature to grab the thumbnail_url for a video
-                            // so we can display it in the feed for carousel album posts that contain a video. All posts including hashtag video posts link back to Instagram for that user as well.
-                            if( $media->media_type === 'VIDEO' ){
-                                $permalink = $media->permalink;
-                                $instagram_business_data_array['data'] = FTS_FACEBOOK_GRAPH_URL . 'v9.0/instagram_oembed?url=' . $permalink . '&fields=thumbnail_url' . FTS_AND_ACCESS_TOKEN_EQUALS.$this->feedAccessToken;
-                                $instagram_business_media_response     = $this->feedFunctions->ftsGetFeedJson( $instagram_business_data_array );
-                                $instagram_business_media              = json_decode( $instagram_business_media_response['data'] );
-                                $media->thumbnail_url = $instagram_business_media->thumbnail_url;
-
-                             }
-
-                            if( $media->media_type === 'CAROUSEL_ALBUM' ){
-                                if( $media->children->data[0]->media_type === 'VIDEO' ){
-                                    $permalink_child = $media->children->data[0]->permalink;
-                                    $instagram_business_data_array_child['data'] = FTS_FACEBOOK_GRAPH_URL . 'v9.0/instagram_oembed?url=' . $permalink_child . '&fields=thumbnail_url' . FTS_AND_ACCESS_TOKEN_EQUALS.$this->feedAccessToken;
-                                    $instagram_business_media_response_child     = $this->feedFunctions->ftsGetFeedJson( $instagram_business_data_array_child );
-                                    $instagram_business_media_child             = json_decode( $instagram_business_media_response_child['data'] );
-                                    $media->children->data[0]->thumbnail_url = $instagram_business_media_child->thumbnail_url;
-                                }
-                             }
-                        }
-                        unset($media); // unset the reference
                         $insta_data = $hashtag_error_check;
 
                     if ( ! isset( $_GET['load_more_ajaxing'] ) ) {
@@ -746,8 +722,8 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     // Create Instagram Variables
                     // tied to date function.
                     $feed_type   = 'instagram';
-                    $fb_api_time = isset( $post_data->timestamp ) ? $post_data->timestamp : '';
-                    $times       = isset( $post_data->created_time ) ? $post_data->created_time : $fb_api_time;
+                    $fb_api_time = $post_data->timestamp ?? '';
+                    $times       = $post_data->created_time ?? $fb_api_time;
                     // call our function to get the date.
                     $instagram_date = $this->feedFunctions->ftsCustomDate( $times, $feed_type );
 
@@ -770,7 +746,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     $instagram_thumb_url                 = $post_data->images->thumbnail->url ?? '';
                     $instagram_lowrez_url                = $post_data->images->standard_resolution->url ?? '';
                     $instagram_video_standard_resolution = $post_data->videos->standard_resolution->url ?? '';
-                    $instagram_slider_option             =  $saved_feed_options['instagram_slider'] ?? '';
+                    $instagram_slider_option             = $saved_feed_options['instagram_slider'] ?? '';
 
                     if ( isset( $_SERVER['HTTPS'] ) ) {
                         $instagram_thumb_url  = str_replace( 'http://', 'https://', $instagram_thumb_url );
@@ -780,17 +756,23 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                     if( $fts_instagram_slider && $instagram_slider_option === 'yes'){ ?>
                         <div class="fts-instagram-slider-wrap">
                     <?php } ?>
-                            <div class="slicker-instagram-placeholder fts-instagram-wrapper" style="background-image:url('<?php echo esc_url( $this->ftsInstagramImageLink( $post_data ) ); ?>')">
+                            <?php
+                            $fts_image_link = $this->ftsInstagramImageLink( $post_data );
+                            $fts_video_link = $this->ftsInstagramVideoLink( $post_data );
+                            $is_video_post = ! empty( $fts_video_link ) && strpos( $fts_video_link, 'mp4' ) !== false;
+                            $is_hashtag_feed = isset( $saved_feed_options['instagram_feed_type'] ) && $saved_feed_options['instagram_feed_type'] === 'hashtag';
+                            ?>
+                            <div class="slicker-instagram-placeholder fts-instagram-wrapper"<?php if ( $is_hashtag_feed && $is_video_post ) { ?> data-ig-hashtag="1" data-video-url="<?php echo esc_url( $fts_video_link ); ?>"<?php } ?> style="background-image:url('<?php echo esc_url( $fts_image_link ); ?>')">
                         <?php
                         if ( $fts_premium && isset( $popup ) && $popup === 'yes' || $fts_instagram_slider && isset( $popup ) && $popup === 'yes' ) {
                             ?>
                         <div class="fts-instagram-popup-profile-wrap">
-                            <div class="fts-profile-pic"><?php $user_type = isset( $saved_feed_options['instagram_feed_type'] ) && 'hashtag' === $saved_feed_options['instagram_feed_type'] ? 'explore/tags/' . $hashtag : $username; ?>
+                            <div class="fts-profile-pic"><?php $user_type = isset( $saved_feed_options['instagram_feed_type'] ) && $saved_feed_options['instagram_feed_type'] === 'hashtag' ? 'explore/tags/' . $hashtag : $username; ?>
                                 <a href="https://www.instagram.com/<?php echo esc_html( $user_type ); ?>" target="_blank" rel="noreferrer">
                             <?php
                             if ( !empty($profile_picture) ) {
                                 ?>
-                                <img src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>"/>
+                                <img src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?> alt="<?php echo esc_attr( $username ); ?>"/>
                                 <?php
                             } else {
                                 ?>
@@ -822,7 +804,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                 </div>
 
                                 <?php
-                                if ( isset( $instagram_username ) && 'yes' === $saved_feed_options['instagram_show_follow_btn'] && 'instagram-follow-above' === $saved_feed_options['instagram_show_follow_btn_where'] && 'hashtag' !== $saved_feed_options['instagram_feed_type'] ) {
+                                if ( isset( $instagram_username ) && $saved_feed_options['instagram_show_follow_btn'] === 'yes' && $saved_feed_options['instagram_show_follow_btn_where'] === 'instagram-follow-above' && $saved_feed_options['instagram_feed_type'] !== 'hashtag' ) {
                                     echo '<div class="fts-follow-header-wrap">';
                                     echo $this->feedFunctions->socialFollowButton( 'instagram', $instagram_username, $saved_feed_options );
                                     echo '</div>';
@@ -838,18 +820,18 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                         }
 
                         // We need to check the type now because hashtag feeds from facebooks API use all caps now.
-                        $data_type_image    = isset( $post_data->type ) && 'image' === $post_data->type ? 'image' : 'IMAGE';
-                        $data_type_video    = isset( $post_data->type ) && 'video' === $post_data->type ? 'video' : 'VIDEO';
-                        $data_type_carousel = isset( $post_data->type ) && 'carousel' === $post_data->type ? 'carousel' : 'CAROUSEL_ALBUM';
+                        $data_type_image    = isset( $post_data->type ) && $post_data->type === 'image' ? 'image' : 'IMAGE';
+                        $data_type_video    = isset( $post_data->type ) && $post_data->type === 'video' ? 'video' : 'VIDEO';
+                        $data_type_carousel = isset( $post_data->type ) && $post_data->type === 'carousel' ? 'carousel' : 'CAROUSEL_ALBUM';
                         $data_type_hashtag  = $post_data->media_type ?? '';
-                        $data_type          = isset( $post_data->type ) ? $post_data->type : $data_type_hashtag;
+                        $data_type          = $post_data->type ?? $data_type_hashtag;
 
                         // Check to see if a video is the first child if children are present
-                        $instagram_basic_api_child_url = isset( $post_data->children->data[0]->media_url ) ? $post_data->children->data[0]->media_url : '';
+                        $instagram_basic_api_child_url = $post_data->children->data[0]->media_url ?? '';
                         $instagram_api_child_url       = isset( $post_data->carousel_media ) ? $post_data->carousel_media[0]->videos->standard_resolution->url : $instagram_basic_api_child_url;
                         // $child url is the fb/instagram api
                         $child_url       = isset( $post_data->children ) ? $post_data->children->data[0]->media_url : $instagram_api_child_url;
-                        $data_type_child = ! empty( $child_url ) && false !== strpos( $child_url, 'mp4' ) ? 'VIDEO' : '';
+                        $data_type_child = ! empty( $child_url ) && strpos( $child_url, 'mp4' ) !== false ? 'VIDEO' : '';
 
                         ?>
                     <a href='<?php
@@ -875,7 +857,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                         $fts_child = isset( $post_data->children ) || isset( $post_data->carousel_media ) ? 'fts-child-media ' : '';
                         ?>' title='<?php print esc_attr( $instagram_caption_a_title ); ?>' target="_blank" rel="noreferrer" class='<?php print $fts_child; ?>fts-instagram-link-target fts-slicker-backg
                         <?php
-                        if ( $data_type_video === $data_type && isset( $popup ) && $popup === 'yes' && ! empty( $this->ftsInstagramVideoLink( $post_data ) ) || ! empty( $data_type_child ) && 'VIDEO' === $data_type_child && isset( $popup ) && $popup === 'yes' && ! empty( $this->ftsInstagramVideoLink( $post_data ) ) ) {
+                        if ( $data_type_video === $data_type && isset( $popup ) && $popup === 'yes' && ! empty( $this->ftsInstagramVideoLink( $post_data ) ) || ! empty( $data_type_child ) && $data_type_child === 'VIDEO' && isset( $popup ) && $popup === 'yes' && ! empty( $this->ftsInstagramVideoLink( $post_data ) ) ) {
                             ?>fts-instagram-video-link<?php
                         } else {
                             ?> fts-instagram-img-link<?php
@@ -1074,6 +1056,9 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                                                 outputSRmargin(document.querySelector('#margin').value)
                                             } // Reload our margin for the demo
                                             slickremixImageResizing(); // Reload our imagesizing function so the images show up proper
+                                            if (typeof ftsInstaGenerateVideoThumbs === 'function') {
+                                                ftsInstaGenerateVideoThumbs();
+                                            }
                                         }
                                     }); // end of ajax()
                                      return false;

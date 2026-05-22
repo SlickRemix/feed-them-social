@@ -4848,7 +4848,7 @@ a.fts-facebook-thumbs-wrap {
 }
 
 .slicker-instagram-placeholder a:focus {
-    outline: auto!important
+    outline: none !important
 }
 
 .fts-instagram-icon:before {

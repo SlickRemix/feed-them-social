@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: instagram, facebook, tikTok, youtube, social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 6.9
-Stable tag: 4.4.1
+Tested up to: 7.0
+Stable tag: 4.4.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,11 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.4.2 Friday, May 22nd, 2026 =
+  * Fix: unclosed quote for wp_kses tag for access token input.
+  * Fix: check for typeof myString and length for custom Facebook access token.
+  * Works with WordPress version 7.0
+
 = Version 4.4.1 Thursday, January 29th, 2026 =
   * New: Adjust like, comment, and share icon position for Facebook Feed.
   * Fix: Facebook Feed > Grid Spaces Between Posts option value

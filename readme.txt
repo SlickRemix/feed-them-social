@@ -125,8 +125,10 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 
 == Changelog ==
 = Version 4.4.2 Friday, May 22nd, 2026 =
+  * Fix: Instagram Hashtag Feed > images for videos not appearing
   * Fix: unclosed quote for wp_kses tag for access token input.
   * Fix: check for typeof myString and length for custom Facebook access token.
+  * Misc: Adjust a few styles to work with WordPress 7.0
   * Works with WordPress version 7.0
 
 = Version 4.4.1 Thursday, January 29th, 2026 =

@@ -283,6 +283,7 @@ function fts_show_hide_shortcode_feed( feed ) {
     slickremixImageResizingFacebook2();
     slickremixImageResizingFacebook3();
     slickremixImageResizingYouTube();
+    ftsInstaGenerateVideoThumbs();
 
     if( jQuery.isFunction(jQuery.fn.slickInstagramPopUpFunction) ){
         jQuery.fn.slickInstagramPopUpFunction();
@@ -494,6 +495,8 @@ jQuery(document).ready(function ($) {
         slickremixImageResizingFacebook2();
         slickremixImageResizingFacebook3();
         slickremixImageResizingYouTube();
+        ftsInstaGenerateVideoThumbs();
+        alert('test');
 
         if( jQuery.isFunction(jQuery.fn.slickInstagramPopUpFunction) ){
             jQuery.fn.slickInstagramPopUpFunction();

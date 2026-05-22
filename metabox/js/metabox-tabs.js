@@ -496,7 +496,6 @@ jQuery(document).ready(function ($) {
         slickremixImageResizingFacebook3();
         slickremixImageResizingYouTube();
         ftsInstaGenerateVideoThumbs();
-        alert('test');
 
         if( jQuery.isFunction(jQuery.fn.slickInstagramPopUpFunction) ){
             jQuery.fn.slickInstagramPopUpFunction();

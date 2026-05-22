@@ -1168,7 +1168,7 @@ class MetaboxFunctions {
                 width: 30.5%;
                 max-width: 350px;
                 padding: 14px;
-                min-height: 220px;
+                min-height: 245px;
                 position: relative;
                 box-sizing: border-box
             }

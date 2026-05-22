@@ -160,9 +160,11 @@
     text-decoration: underline
 }
 
-.fts_page_ft-gallery-license-page .edd-upgrade-license-btn {
+.fts_page_fts-license-page .edd-upgrade-license-btn {
     display: inline-block !important;
-    margin-left: 5px !important
+    margin-left: 5px !important;
+    top:1px !important;
+    position: relative;
 }
 
 .fts-no-license-overlay {
@@ -188,16 +190,16 @@
 
 .fts-no-license-overlay a {
     padding: 9px 15px;
-    background: #0073aa;
+    background: #1a77f2;
     color: #fff;
     text-decoration: none;
-    border-radius: 3px;
+    border-radius: 2px;
     font-size: 14px;
     display: inline-block
 }
 
 .fts-no-license-overlay a:hover {
-    background: rgba(0, 115, 170, .88)
+    background: rgb(3 99 226);
 }
 
 .ft-gallery-license-master-form .form-table tr {

@@ -4,8 +4,8 @@ Donate link: https://www.slickremix.com/
 Tags: instagram, facebook, tikTok, youtube, social
 Requires at least: 5.4
 Requires PHP: 7.0
-Tested up to: 7.0
-Stable tag: 4.4.2
+Tested up to: 7.1
+Stable tag: 4.4.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -124,6 +124,12 @@ Log into WordPress dashboard then click **Plugins** > **Add new** > Then under t
 16. Add the shortcode you generated from the settings page to any post, page, or text widget.
 
 == Changelog ==
+= Version 4.4.3 Friday, September 4th, 2026 =
+  * Fix: Instagram Feed > Remove likes_count in favor of like_count
+  * Fix: Instagram Basic Feed > Reel videos not playing inline for Combined Streams or failing to load video in popup for Premium feeds. Fallback to media_url instead if available. The reason the media_url is not returning in some cases is because of privacy rights do to music. Big Thanks to [EQSTLab](https://github.com/EQSTLab) for pointing this out.
+  * Security Patch: Missing Object-Level Authorization in `ftsEncryptTokenAjax()` Allows Low-Privilege Users to Hijack Arbitrary Feed Access Tokens (IDOR)
+  * Works with WordPress version 7.1
+
 = Version 4.4.2 Friday, May 22nd, 2026 =
   * Fix: Instagram Hashtag Feed > images for videos not appearing
   * Fix: unclosed quote for wp_kses tag for access token input.

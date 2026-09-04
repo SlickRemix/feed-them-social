@@ -340,7 +340,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
                 $_REQUEST['next_url'] = str_replace( FTS_ACCESS_TOKEN_XXX, FTS_ACCESS_TOKEN_EQUALS . $this->feedAccessToken, $_REQUEST['next_url'] );
             }
             // URL to get Feeds.
-             $debug = 'false';
+            $debug = 'false';
             if ( $saved_feed_options['instagram_feed_type'] === 'hashtag' ) {
                 // cheezballs = 17843830210018045
                 // sleepytime = 17841401899184039
@@ -548,7 +548,7 @@ if ( ! empty( $instagram_slider_dots_color  ) ) { ?>
             // ->pagination->next_url.
             if ( current_user_can( 'administrator' ) && $debug === 'true' ) {
                 echo '<pre>';
-                print_r( $response );
+                print_r( $insta_data );
                 echo '</pre>';
             }
 
@@ -772,7 +772,7 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
                             <?php
                             if ( !empty($profile_picture) ) {
                                 ?>
-                                <img src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?> alt="<?php echo esc_attr( $username ); ?>"/>
+                                <img src="<?php echo esc_url( $profile_picture ); ?>" title="<?php echo esc_attr( $username ); ?>" alt="<?php echo esc_attr( $username ); ?>"/>
                                 <?php
                             } else {
                                 ?>
@@ -1182,23 +1182,18 @@ if ( isset( $saved_feed_options['instagram_profile_description'], $saved_feed_op
      * @since 1.9.6
      */
     public function ftsInstagramLikesCount( $post_data ) {
-        // These need to be in this order to keep the different counts straight since I used either $instagram_likes or $instagram_comments throughout.
-        $hastag_likes    = isset( $post_data->like_count ) ? $post_data->like_count : '';
-        $instagram_likes = isset( $post_data->likes->count ) ? $post_data->likes->count : $hastag_likes;
-        // here we add a , for all numbers below 9,999.
-        if ( isset( $instagram_likes ) && $instagram_likes <= 9999 ) {
-            $instagram_likes = number_format( (float) $instagram_likes );
-        }
-        // here we convert the number for the like count like 1,200,000 to 1.2m if the number goes into the millions.
-        if ( isset( $instagram_likes ) && $instagram_likes >= 1000000 ) {
-            $instagram_likes = round( ( $instagram_likes / 1000000 ), 1 ) . 'm';
-        }
-        // here we convert the number for the like count like 10,500 to 10.5k if the number goes in the 10 thousands.
-        if ( isset( $instagram_likes ) && $instagram_likes >= 10000 ) {
-            $instagram_likes = round( ( $instagram_likes / 1000 ), 1 ) . 'k';
+        // Cast immediately to an integer/float so we are always doing math, not string comparisons
+        $instagram_likes = (float) ($post_data->like_count ?? 0);
+
+        // 1. Check for millions first
+        if ( $instagram_likes >= 1000000 ) {
+            return round( ( $instagram_likes / 1000000 ), 1 ) . 'm';
         }
 
-        return $instagram_likes;
+        if ( $instagram_likes >= 10000 ) {
+            return round( ( $instagram_likes / 1000 ), 1 ) . 'k';
+        }
+        return number_format( $instagram_likes );
     }
 
     /**

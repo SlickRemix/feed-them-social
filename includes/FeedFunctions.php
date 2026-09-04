@@ -1177,6 +1177,11 @@ class FeedFunctions {
 
         check_ajax_referer( 'fts_encrypt_token' );
 
+        $cpt_id = (int) $_REQUEST['cpt_id'];
+        if ( ! current_user_can( 'edit_post', $cpt_id ) ) {
+            wp_send_json_error( esc_html__( 'Forbidden', 'feed-them-social' ), 403 );
+        }
+
         $access_token = json_decode( wp_unslash( $_REQUEST['access_token'] ) , true );
         $encrypt      = $this->dataProtection->encrypt( $access_token['token'] );
 
